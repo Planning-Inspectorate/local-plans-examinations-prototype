@@ -1,0 +1,64 @@
+// Back office header styles
+
+.back-office-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f3f2f1;
+    border-bottom: 10px solid #13a19b;
+    margin-bottom: 0;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    width: 100%;
+    position: relative;
+}
+
+
+.back-office-header__logo-group {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    max-width: 960px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+
+.back-office-header__logo-wrapper {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+
+
+.back-office-header__logo {
+    height: 40px;
+    min-width: 44px;
+    /*margin-left: 16px;*/
+    margin-top: 0;
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+    float: none;
+    /*border-left: 2px solid #008670;*/
+}
+
+
+.back-office-header__service-nav {
+    background-color: #f3f2f1;
+    border-bottom: 1px solid #B1B4B6;
+}
+
+
+.back-office-header__service-nav .govuk-service-navigation__item {
+    margin-right: 2rem;
+}
+
+
+.back-office-header__service-nav .govuk-service-navigation__link {
+    color: #0b0c0c;
+    font-weight: 600;
+    text-decoration: underline;
+    font-size: 1rem;
+}

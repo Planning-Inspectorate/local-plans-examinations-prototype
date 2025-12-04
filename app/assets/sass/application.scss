@@ -1,0 +1,43 @@
+// Override GOV.UK footer background and border
+.govuk-footer {
+    background-color: #f3f2f1 !important;
+    border-top: 4px solid #13a19b !important;
+}
+// Make main content area full width without overflow
+.govuk-main-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+}
+//
+// For guidance on how to add CSS and SCSS see:
+// https://prototype-kit.service.gov.uk/docs/adding-css-javascript-and-images
+//
+
+// Add extra styles here
+
+// Override GOV.UK service navigation border and background
+.govuk-service-navigation {
+    border-bottom-width: 1px !important;
+    border-bottom-style: solid !important;
+    border-bottom-color: #b1b4b6 !important;
+    background-color: #f3f2f1 !important;
+}
+
+// Set the background of the entire page, gutters, and back button to white
+html, body {
+    background-color: #fff !important;
+}
+.govuk-main-wrapper {
+    background-color: #fff !important;
+}
+.govuk-back-link {
+    background-color: #fff !important;
+}
+
+// Additions for the font and the Planning Inspectorate header
+
+@import "settings";                 // font changes are here
+
+@import "PINS-header--internal";    // this imports the styles for the planning inspectorate header
+@import "back-office-header";       // this imports the styles for the back office header

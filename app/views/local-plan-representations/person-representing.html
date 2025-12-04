@@ -1,0 +1,39 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Content page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <form method="post" action="/local-plan-representations/person-representing">
+      <h1 class="govuk-heading-l">What is the name of the person you are representing?</h1>
+
+  <div class="govuk-form-group">
+    <label class="govuk-label" for="person-first-name">First name</label>
+    <input class="govuk-input govuk-input--width-20" id="person-first-name" name="person-first-name" type="text" autocomplete="given-name">
+  </div>
+
+  <div class="govuk-form-group">
+    <label class="govuk-label" for="person-last-name">Last name</label>
+    <input class="govuk-input govuk-input--width-20" id="person-last-name" name="person-last-name" type="text" autocomplete="family-name">
+  </div>
+
+  {{ govukButton({
+    text: "Continue"
+  }) }}
+</form>
+
+  </div>
+</div>
+{% endblock %}

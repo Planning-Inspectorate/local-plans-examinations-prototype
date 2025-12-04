@@ -1,0 +1,44 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-l">Declaration</h1>
+
+      <p class="govuk-body">
+        By submitting this representation, you confirm that the information you have provided is accurate to the best of your knowledge and that you understand it will be made publicly available.
+      </p>
+
+      <form action="/local-plan-representations/declaration" method="post">
+        {{ govukCheckboxes({
+          name: "declaration-agreement",
+          items: [
+            {
+              value: "Agree",
+              text: "I understand and agree to the declaration above"
+            }
+          ]
+        }) }}
+
+        <button type="submit" class="govuk-button" data-module="govuk-button">
+          Submit representation
+        </button>
+      </form>
+
+    </div>
+  </div>
+{% endblock %}
+</main>
+

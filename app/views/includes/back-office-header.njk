@@ -1,0 +1,32 @@
+
+<header class="back-office-header" role="banner" style="background-color: #f3f2f1;">
+  <div class="back-office-header__logo-group">
+    <div class="back-office-header__logo-wrapper">
+      <a href="/" title="Home">
+        <img class="back-office-header__logo" src="/public/Planning-Inspectorate-logo-landscape.png" alt="Planning Inspectorate logo">
+      </a>
+    </div>
+    <!-- department name 
+		    <span class="pins-internal-header-logo__text govuk-!-margin-left-2 govuk-!-margin-top-1">
+          Planning Inspectorate
+        </span>
+      </a>
+    </div> -->
+
+    <!-- service name
+    <div class="pins-internal-service-name">
+      <a href="/" class="pins-internal-service-name__link">
+        Local Plans
+      </a>
+    </div>-->
+  </div>
+</header>
+<nav class="back-office-header__service-nav">
+  {{ govukServiceNavigation({
+    serviceName: "Local plans back office",
+    serviceUrl: "/flows/back-office/create/lpa/index",
+    navigation: [
+      { text: "Sign out", href: "/flows/back-office/create/lpa/index" }
+    ]
+  }) }}
+</nav>

@@ -1,0 +1,8 @@
+{
+  "serviceName": "Local Plans",
+  "plugins": {
+    "govuk-frontend": {
+      "rebrand": true
+    }
+  }
+}

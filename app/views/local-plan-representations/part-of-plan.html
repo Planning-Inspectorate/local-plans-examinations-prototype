@@ -1,0 +1,73 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+<form action="/local-plan-representations/plan-part" method="post">
+  <fieldset class="govuk-fieldset">
+  
+  <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+  
+    <h1 class="govuk-fieldset__heading">
+      What part of the plan are you commenting on?
+    </h1>
+  
+  </legend>
+ 
+  <div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {{ govukInput({
+      label: {
+        text: "Paragraph (optional)"
+      },
+      id: "paragraph",
+      name: "paragraph"
+    }) }}
+
+    {{ govukInput({
+      label: {
+        text: "Policy (optional)"
+      },
+      id: "policy",
+      name: "policy"
+    }) }}
+
+    {{ govukInput({
+      label: {
+        text: "Policy map (optional)"
+      },
+      id: "policy-map",
+      name: "policy-map"
+    }) }}
+
+  </div>
+</div>
+  
+
+<button type="Submit" class="govuk-button" data-module="govuk-button" data-cy="button-submit-and-continue">
+  Continue
+</button>
+
+			</form>
+		</div>
+	</div>
+
+        </main>
+      </div>
+
+{% endblock %}

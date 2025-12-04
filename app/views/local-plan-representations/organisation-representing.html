@@ -1,0 +1,46 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form action="/local-plan-representations/organisation-representing" method="POST" novalidate="">
+        
+
+
+<div class="govuk-form-group">
+  <h1 class="govuk-label-wrapper">
+    <label class="govuk-label govuk-label--l" for="organisation-representing">
+      What is the name of the organisation you work for?
+    </label>
+  </h1>
+
+
+  <input class="govuk-input" id="organisation-representing" name="organisation-representing" type="text" autocomplete="name">
+
+</div>
+
+
+        
+  
+    
+  
+
+<button type="Submit" class="govuk-button" data-module="govuk-button" data-cy="button-submit-and-continue">
+  Continue
+</button>
+
+      </form>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Content page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form action="/local-plan-representations/who-are-you-representing" method="POST" novalidate="">
+        
+
+
+
+{{ govukRadios({
+  name: "examination-submitting-for",
+  fieldset: {
+    legend: {
+      text: "Who are you making the submission for?",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--l"
+    }
+  },
+  items: [
+    { value: "myself", text: "Myself" },
+    { value: "another", text: "Another person" },
+    { value: "organisation", text: "An organisation or charity" }
+  ]
+}) }}
+
+
+
+        
+  
+    
+
+{{ govukButton({
+  text: "Continue"
+}) }}
+
+
+      </form>
+    </div>
+  </div>
+
+        </main>
+      </div>
+
+{% endblock %}

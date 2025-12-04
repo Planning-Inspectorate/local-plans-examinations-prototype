@@ -1,0 +1,57 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+
+ <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+<form action="/local-plan-representations/add-another-comment" method="post">
+
+{{ govukRadios({
+  name: "add-another-comment",
+  fieldset: {
+    legend: {
+      text: "Do you want comment on another part of the plan?",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--l"
+    }
+  },
+  items: [
+    {
+      value: "Yes",
+      text: "Yes"
+    },
+    {
+      value: "No",
+      text: "No"
+    }
+  ]
+}) }}
+
+<button type="submit" class="govuk-button" data-module="govuk-button" data-govuk-button-init="">
+  Continue
+</button>
+
+      </form>
+
+    </div>
+  </div>
+
+
+        </main>
+{% endblock %}
+
+
+
+        

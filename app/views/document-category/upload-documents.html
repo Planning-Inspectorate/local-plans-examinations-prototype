@@ -1,0 +1,254 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">Upload your documents</h1>
+    <p>Choose a single document or multiple documents to upload.</p>
+    <p>Each document must be a PDF, DOC, DOCX, PPT, PPTX, XLS, XLSX, MSG, JPG, JPEG, MPEG, MP3, MP4, MOV, PNG, TIF, or TIFF.</p>
+    <p>The total size of your uploaded documents must be smaller than 1GB.</p>
+
+    <div class="govuk-form-group">
+      <!-- Hidden until at least one file is added -->
+      <h2 class="govuk-heading-m" id="documents-added-heading" style="display:none;">Documents added</h2>
+
+      <!-- Uploaded files appear here -->
+      <div id="uploaded-files"></div>
+    </div>
+
+    <label class="govuk-heading-m" for="file-upload-1">Upload documents</label>
+
+    <!-- Blue 'Uploading…' banner (hidden by default) -->
+    <div class="govuk-notification-banner govuk-notification-banner--info" role="status" id="uploading-banner" style="display:none;">
+      <div class="govuk-notification-banner__header">
+        <h2 class="govuk-notification-banner__title">Uploading…</h2>
+      </div>
+      <div class="govuk-notification-banner__content">
+        <p class="govuk-body">Please wait while we upload your document.</p>
+      </div>
+    </div>
+
+    <!-- Drop zone + input -->
+    <form class="form" 
+          action="/document-category/upload-documents" 
+          method="post" 
+          enctype="multipart/form-data"
+          data-module="govuk-form"
+          onsubmit="console.log('Form submitting with:', document.getElementById('file-upload-1').files)">
+      <div class="govuk-drop-zone" data-module="govuk-file-upload">
+        <input class="govuk-file-upload" 
+               id="file-upload-1" 
+               name="upload-documents" 
+               type="file" 
+               multiple 
+               required
+               accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.msg,.jpg,.jpeg,.mp3,.mp4,.mov,.png,.tif,.tiff" />
+      </div>
+
+    <!-- Live region for screen readers -->
+    <div class="govuk-visually-hidden" aria-live="polite" id="upload-live-region"></div>
+
+    <style>
+      .app-file-row {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 6px 0;
+      }
+      .app-file-row__left {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        align-items: baseline;
+      }
+      .app-file-row__name { word-break: break-word; }
+      .app-file-divider { margin: 6px 0 0 0; }
+    </style>
+
+    <script>
+      (function () {
+        var input   = document.getElementById('file-upload-1');
+        var banner  = document.getElementById('uploading-banner');
+        var live    = document.getElementById('upload-live-region');
+        var list    = document.getElementById('uploaded-files');
+        var heading = document.getElementById('documents-added-heading');
+
+        var fileCount = 0;
+
+        function showUploading() {
+          banner.style.display = '';
+          if (live) live.textContent = 'Uploading…';
+        }
+
+        function hideUploading() {
+          banner.style.display = 'none';
+          if (live) live.textContent = 'Upload complete.';
+        }
+
+        function showMeta() { heading.style.display = ''; }
+        function hideMeta() { heading.style.display = 'none'; }
+        function updateEmptyState() {
+          if (fileCount > 0) { showMeta(); } else { hideMeta(); }
+        }
+
+        function formatBytes(bytes) {
+          if (!(bytes >= 0)) return '';
+          var units = ['bytes', 'KB', 'MB', 'GB'];
+          var i = Math.floor(Math.log(bytes) / Math.log(1024));
+          i = Math.max(0, Math.min(i, units.length - 1));
+          var value = bytes / Math.pow(1024, i);
+          var dp = i <= 1 ? 0 : 1;
+          return (i === 0 ? bytes : value.toFixed(dp)) + ' ' + units[i];
+        }
+
+        // Render one uploaded file row: bold text (NO LINK) + size + Remove
+        function renderFileRow(file) {
+          var fileName = file?.name ?? String(file);
+          var fileSize = (typeof file?.size === 'number') ? formatBytes(file.size) : '';
+
+          var row = document.createElement('div');
+          row.className = 'app-file-row';
+
+          var left = document.createElement('div');
+          left.className = 'app-file-row__left';
+
+          // Filename as plain text (no anchor)
+          var nameEl = document.createElement('span');
+          nameEl.className = 'govuk-body app-file-row__name';
+          nameEl.textContent = fileName;
+
+          var sizeEl = document.createElement('span');
+          sizeEl.className = 'govuk-body';
+          sizeEl.textContent = fileSize ? ' (' + fileSize + ')' : '';
+
+          left.appendChild(nameEl);
+          left.appendChild(sizeEl);
+
+          var remove = document.createElement('a');
+          remove.href = '#';
+          remove.className = 'govuk-link govuk-link--no-visited-state govuk-body';
+          remove.textContent = 'Remove';
+          remove.setAttribute('aria-label', 'Remove ' + fileName);
+          remove.addEventListener('click', function (e) {
+            e.preventDefault();
+            var dividerEl = row.nextElementSibling;
+            if (dividerEl && dividerEl.classList.contains('govuk-section-break')) dividerEl.remove();
+            row.remove();
+            fileCount = Math.max(0, fileCount - 1);
+            if (live) live.textContent = fileName + ' removed.';
+            updateEmptyState();
+          });
+
+          row.appendChild(left);
+          row.appendChild(remove);
+
+          list.prepend(row);
+
+          var perRowDivider = document.createElement('hr');
+          perRowDivider.className = 'govuk-section-break govuk-section-break--visible app-file-divider';
+          list.insertBefore(perRowDivider, row.nextSibling);
+
+          fileCount += 1;
+          updateEmptyState();
+        }
+
+        // Input picker
+        input.addEventListener('change', function (e) {
+          var files = Array.from(e.target.files || []);
+          if (!files.length) return;
+
+          console.log('Files selected:', files.map(f => ({name: f.name, size: f.size})));
+
+          showUploading();
+          window.setTimeout(function () {
+            files.forEach(function (f) { renderFileRow(f); });
+            hideUploading();
+          }, 600);
+        });
+
+        // Drag & drop
+        var dropZone = input.closest('.govuk-drop-zone');
+        if (dropZone) {
+          ['dragenter','dragover'].forEach(function (ev) {
+            dropZone.addEventListener(ev, function (e) {
+              e.preventDefault(); e.stopPropagation();
+            });
+          });
+          dropZone.addEventListener('drop', function (e) {
+            e.preventDefault(); e.stopPropagation();
+            if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length) {
+              showUploading();
+              var files = Array.from(e.dataTransfer.files);
+              window.setTimeout(function () {
+                files.forEach(function (f) { renderFileRow(f); });
+                hideUploading();
+              }, 600);
+            }
+          });
+        }
+
+        hideMeta();
+      })();
+    </script>
+
+      <br>
+      <div class="govuk-form-group">
+        <button class="govuk-button" data-module="govuk-button" type="submit">
+          Continue
+        </button>
+        
+        <!-- Debug info -->
+        <div class="govuk-details" data-module="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
+              Debug: Form Information
+            </span>
+          </summary>
+          <div class="govuk-details__text">
+            <dl class="govuk-summary-list">
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Form Action</dt>
+                <dd class="govuk-summary-list__value">/document-category/upload-documents</dd>
+              </div>
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Form Method</dt>
+                <dd class="govuk-summary-list__value">POST</dd>
+              </div>
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Form Enctype</dt>
+                <dd class="govuk-summary-list__value">multipart/form-data</dd>
+              </div>
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">File Input Name</dt>
+                <dd class="govuk-summary-list__value">upload-documents</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
+
+
+
+
+
+

@@ -1,0 +1,51 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+          
+<div class="govuk-grid-row">    
+<div class="govuk-grid-column-two-thirds">
+
+      <div class="govuk-panel govuk-panel--confirmation">
+        <h1 class="govuk-panel__title">
+          Comment submitted
+        </h1>
+        <div class="govuk-panel__body">
+          Representation reference <br><strong>122741</strong>
+        </div>
+      </div>
+
+      <p class="govuk-body">If you entered your email address, we’ve sent you a confirmation email.</p>
+
+      <h2 class="govuk-heading-m">
+        What happens next
+      </h2>
+
+      <p class="govuk-body">
+        If your comment includes sensitive information we may redact or reject it.
+      </p>
+
+      <p class="govuk-body">
+        The inspector will review all the evidence. We will contact you by email (define what happens next).
+      </p>
+
+      <p class="govuk-body">
+        <a href="#" class="govuk-link--no-visited-state">
+          What do you think of this service?
+        </a>
+      </p>
+
+    </div>
+  </div>
+</main>
+{% endblock %}

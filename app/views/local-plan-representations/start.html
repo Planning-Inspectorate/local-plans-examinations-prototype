@@ -1,0 +1,60 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Comment on the Local Plan – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-third">
+      <nav class="govuk-!-margin-bottom-6">
+        <h2 class="govuk-heading-s">Related documents</h2>
+        <ul class="govuk-list govuk-list--bullet">
+          <li>Local Plan document</a></li>
+          <li>Policies map</a></li>
+          <li>Sustainability appraisal</a></li>
+          <li>Statement of community involvement</a></li>
+          <li>Evidence base index</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">Comment on the Local Plan</h1>
+
+      <p class="govuk-body">
+        You can use this service to make a formal representation on the Local Plan under Regulation 19 of the Town and Country Planning (Local Planning) (England) Regulations 2012.
+      </p>
+
+      <p class="govuk-body">
+        Representations must relate to the legal compliance or soundness of the plan. You can also comment on whether the plan complies with the duty to cooperate.
+      </p>
+
+      <p class="govuk-body">
+        Your representation will be submitted to the Planning Inspectorate and may be published. Please do not include personal or sensitive information unless necessary.
+      </p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>Comment on specific paragraphs, policies or map references</li>
+        <li>Upload supporting documents</li>
+        <li>Request to participate in examination hearings</li>
+      </ul>
+
+      <p class="govuk-body">
+        The deadline for submitting representations is <strong>[insert date]</strong>.
+      </p>
+
+      {{ govukButton({
+        text: "Start now",
+        href: "/local-plan-representations/who-are-you-representing.html"
+      }) }}
+    </div>
+  </div>
+{% endblock %}
+``

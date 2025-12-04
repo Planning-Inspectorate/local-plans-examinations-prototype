@@ -1,0 +1,428 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+          
+  <div class="govuk-grid-row">
+    <div class="div class="govuk-grid-column-full>
+      <h1 class="govuk-heading-l">
+         Check your answers
+      </h1>
+
+      <form action="/local-plan-representations/answers" method="post">
+        <div class="pins-panel">
+          
+
+
+  
+<dl class="govuk-summary-list">
+
+  
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Submission on behalf of
+    </dt>
+    <dd class="govuk-summary-list__value">
+      {{ data['examination-submitting-for'] }}
+    </dd>
+    
+    <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/local-plan-representations/who-are-you-representing.html">Change</a>
+      
+    </dd>
+    
+  </div>
+  
+{# Myself #}
+  
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Name
+    </dt>
+    <dd class="govuk-summary-list__value">
+      {{ data['interested-first-name'] }} {{ data['interested-last-name'] }}<br>
+    </dd>
+    
+    <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/local-plan-representations/name.html">Change</a>
+      
+    </dd>
+    
+  </div>
+  
+
+  
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Email
+    </dt>
+    <dd class="govuk-summary-list__value">
+      {{ data['email-address'] }}
+    </dd>
+    
+    <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/local-plan-representations/email-address">Change</a>
+      
+    </dd>
+    
+  </div>
+
+  
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Address
+    </dt>
+    <dd class="govuk-summary-list__value">
+      {{ data['address-line-1'] }}
+      {{ data['address-line-2'] }}
+      {{ data['town'] }}
+      {{ data['county'] }}
+      {{ data['postcode'] }}
+      
+    </dd>
+    <dd class="govuk-summary-list__actions">
+    <a class="govuk-link" href="/local-plan-representations/address"> Change</a> </dd>
+   </div> 
+  
+  
+{# Another person #}
+
+   <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Acting as an agent on behalf of a client
+    </dt>
+    <dd class="govuk-summary-list__value">
+      {{ data['agent-person'] }}
+    </dd>
+    
+    <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/local-plan-representations/agent-person.html">Change</a>     
+    </dd>
+    </div>
+   
+    
+    <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Email address
+    </dt>
+    <dd class="govuk-summary-list__value">
+      {{ data['email-rep-person'] }}
+    </dd>    
+    <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/local-plan-representations/email-rep-person.html">Change</a>
+    </dd> 
+    </div>
+    
+    <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Email address
+    </dt>
+    <dd class="govuk-summary-list__value">
+      {{ data['email-rep-not-agent-person'] }}  
+    </dd>    
+    <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/local-plan-representations/email-rep-not-agent-person.html">Change</a>
+    </dd> 
+    </div>  
+  
+    <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Name of person you are representing
+    </dt>
+    <dd class="govuk-summary-list__value">
+       {{ data['person-first-name'] }} {{ data['person-last-name'] }}<br>
+    </dd>
+    
+    <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/local-plan-representations/person-representing.html">Change</a>
+      
+    </dd>
+    </div>
+
+  {# Organisation #}
+
+    <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Acting as an agent on behalf of a client
+    </dt>
+    <dd class="govuk-summary-list__value">
+      {{ data['agent-check'] }}
+    </dd>
+    <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/local-plan-representations/agent.html">Change</a>
+    </dd>
+    </div>  
+
+    <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Name of organisation you work for
+    </dt>
+    <dd class="govuk-summary-list__value">
+      {{ data['name-of-organisation'] }}
+    </dd>
+    
+    <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/local-plan-representations/name-of-organisation.html">Change</a>
+    </dd>
+    </div>  
+
+    <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Email address
+    </dt>
+    <dd class="govuk-summary-list__value">
+      {{ data['email-rep-organisation'] }}
+    </dd>   
+    <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/local-plan-representations/email-rep-organisation.html">Change</a>
+    </dd> 
+    </div>
+
+    <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Email address
+    </dt>
+    <dd class="govuk-summary-list__value">
+      {{ data['email-rep-not-agent-organisation'] }}
+    </dd>   
+    <dd class="govuk-summary-list__actions">  
+            <a class="govuk-link" href="/local-plan-representations/email-rep-not-agent-organisation.html">Change</a>
+    </dd> 
+    </div>
+
+    <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Name of organisation or charity you are representing
+    </dt>
+    <dd class="govuk-summary-list__value">
+       {{ data['organisation-representing'] }}
+    </dd> 
+    <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/local-plan-representations/organisation-representing.html">Change</a>
+    </dd>
+    </div>
+
+  
+  {# Plan comments #}
+
+  <div class="govuk-summary-list__row">
+  <dt class="govuk-summary-list__key">
+    Part of the plan being referred to
+  </dt>
+  <dd class="govuk-summary-list__value">
+    {% if data['paragraph'] %}
+      <strong>Paragraph:</strong> {{ data['paragraph'] }}<br>
+    {% endif %}
+    {% if data['policy'] %}
+      <strong>Policy:</strong> {{ data['policy'] }}<br>
+    {% endif %}
+    {% if data['policy-map'] %}
+      <strong>Policy map:</strong> {{ data['policy-map'] }}
+    {% endif %}
+  </dd>
+  <dd class="govuk-summary-list__actions">
+    <a class="govuk-link" href="/local-plan-representations/part-of-plan"> Change</a> </dd>
+</div>
+
+  
+  
+
+  
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Local Plan is sound
+    </dt>
+    <dd class="govuk-summary-list__value">
+      {{ data['soundness']}}
+    </dd>
+    
+    <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/local-plan-representations/soundness.html">Change</a>
+      
+    </dd>
+    
+  </div>
+  
+
+    <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+   Local Plan is legally compliant
+    </dt>
+    <dd class="govuk-summary-list__value">
+      {{ data['legally-compliant']}}
+    </dd>
+    
+    <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/local-plan-representations/legally-compliant.html">Change</a>
+      
+    </dd>
+
+    
+    
+  </div>
+
+    <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Local Plan complies with Duty to Co-operate
+    </dt>
+    <dd class="govuk-summary-list__value">
+      {{ data['duty-to-cooperate']}}
+    </dd>
+    
+    <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/local-plan-representations/duty-to-cooperate.html">Change</a>
+      
+    </dd>
+    
+  </div>
+  
+ 
+<div class="govuk-summary-list__row">
+  <dt class="govuk-summary-list__key">Comments</dt>
+  <dd class="govuk-summary-list__value">{{ data['comment'] }}</dd>
+  <dd class="govuk-summary-list__actions">
+    <a class="govuk-link" href="/local-plan-representations/add-your-comment">Change</a>
+  </dd>
+</div>
+
+  
+
+  
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Documents to support your comment
+    </dt>
+    <dd class="govuk-summary-list__value">
+     {{ data['wants-to-upload-documents']}}
+    </dd>
+    
+    <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/local-plan-representations/upload-files-to-support-comment">Change</a>
+      
+    </dd>
+    
+  </div>
+  
+
+  
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Supporting documents
+    </dt>
+    <dd class="govuk-summary-list__value">
+      
+    </dd>
+    
+    <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/document-category/upload-documents">Change</a>
+      
+    </dd>
+    
+  </div>
+  
+
+    <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      What changes would make this part of the plan legally compliant and sound?
+    </dt>
+    <dd class="govuk-summary-list__value">
+        {{ data['comments-mod'] }}
+    </dd>
+    
+    <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/local-plan-exminations/modifications.html">Change</a>
+      
+    </dd>
+    
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Documents to support your comment
+    </dt>
+    <dd class="govuk-summary-list__value">
+       {{ data['wants-to-upload-documents2']}}
+    </dd>
+    
+    <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/local-plan-representations/upload-files-to-support-comment">Change</a>
+      
+    </dd>
+    
+  </div>
+
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Supporting documents
+    </dt>
+    <dd class="govuk-summary-list__value">
+      
+    </dd>
+    
+    <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/document-category/documents-upload">Change</a>
+      
+    </dd>
+    
+  </div>
+
+  
+    <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Do you want to take part in the hearing sessions for this suggested change?
+    <dd class="govuk-summary-list__value">
+      {{ data['hearing']}}
+    </dd>
+    
+    <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/local-plan-representations/hearings.html">Change</a>
+      
+    </dd>
+    
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+    Why do you want to take part in the hearing sessions for this suggested change?
+    </dt>
+    <dd class="govuk-summary-list__value">
+        {{ data['comment-hearing'] }}
+    </dd>
+    
+    <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/local-plan-representations/hearing-participation-comment.html">Change</a>
+      
+    </dd>
+    
+  </div>
+</dl>
+
+
+          
+  
+    
+  
+
+<button type="submit" class="govuk-button" data-module="govuk-button" data-govuk-button-init="">
+  Submit comments
+</button>
+
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+
+        </main>
+{% endblock %}

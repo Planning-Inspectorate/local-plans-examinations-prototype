@@ -1,0 +1,28 @@
+{% from "govuk/components/tabs/macro.njk" import govukTabs %}
+
+{% set codeHtml %}
+    <pre class="code-snippet"><code>{% raw -%}{{ caseStatus (caseStatus = "validation")}}{% endraw %}
+</pre>
+
+{% endset -%}
+
+
+<!-- Nunjucks to display some tabs -->
+{{ govukTabs({
+    items: [
+        {
+            label: "Example",
+            id: "example",
+            panel: {
+              html: exampleHtml
+        }
+        },
+          {
+            label: "Nunjucks",
+            id: "nunjucks",
+            panel: {
+              html: codeHtml
+            }
+         }
+    ]
+}) }}</code>

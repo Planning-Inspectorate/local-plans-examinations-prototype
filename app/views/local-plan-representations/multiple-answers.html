@@ -1,0 +1,253 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Check all your comments – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+          
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <h1 class="govuk-heading-l">
+         Check all your comments
+      </h1>
+
+      <form action="/local-plan-representations/declaration" method="post">
+        <!-- Personal Details Panel -->
+        <div class="pins-panel">
+          <h2 class="govuk-heading-m">Your details</h2>
+          <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Submission on behalf of
+              </dt>
+              <dd class="govuk-summary-list__value">
+                {{ data['examination-submitting-for'] }}
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/local-plan-representations/who-are-you-representing">Change</a>
+              </dd>
+            </div>
+
+            {% if data['interested-first-name'] or data['interested-last-name'] %}
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Name
+              </dt>
+              <dd class="govuk-summary-list__value">
+                {{ data['interested-first-name'] }} {{ data['interested-last-name'] }}
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/local-plan-representations/name">Change</a>
+              </dd>
+            </div>
+            {% endif %}
+
+            {% if data['email-address'] %}
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Email
+              </dt>
+              <dd class="govuk-summary-list__value">
+                {{ data['email-address'] }}
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/local-plan-representations/email-address">Change</a>
+              </dd>
+            </div>
+            {% endif %}
+
+            {% if data['address-line-1'] or data['postcode'] %}
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Address
+              </dt>
+              <dd class="govuk-summary-list__value">
+                {{ data['address-line-1'] }}<br>
+                {% if data['address-line-2'] %}{{ data['address-line-2'] }}<br>{% endif %}
+                {% if data['town'] %}{{ data['town'] }}<br>{% endif %}
+                {% if data['county'] %}{{ data['county'] }}<br>{% endif %}
+                {{ data['postcode'] }}
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/local-plan-representations/address">Change</a>
+              </dd>
+            </div>
+            {% endif %}
+          </dl>
+        </div>
+
+        <!-- Multiple Comments Section -->
+        {% for index in range(0, data['number-of-comments']) %}
+        <div class="pins-panel">
+          <h2 class="govuk-heading-m">Comment {{ index + 1 }}</h2>
+          <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Part of the plan being referred to
+              </dt>
+              <dd class="govuk-summary-list__value">
+                {% if data['paragraph-' + index] %}<strong>Paragraph:</strong> {{ data['paragraph-' + index] }}<br>{% endif %}
+                {% if data['policy-' + index] %}<strong>Policy:</strong> {{ data['policy-' + index] }}<br>{% endif %}
+                {% if data['policy-map-' + index] %}<strong>Policy map:</strong> {{ data['policy-map-' + index] }}{% endif %}
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/local-plan-representations/part-of-plan?comment={{ index }}">Change</a>
+              </dd>
+            </div>
+
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Local Plan is sound
+              </dt>
+              <dd class="govuk-summary-list__value">
+                {{ data['soundness-' + index] }}
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/local-plan-representations/soundness?comment={{ index }}">Change</a>
+              </dd>
+            </div>
+
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Local Plan is legally compliant
+              </dt>
+              <dd class="govuk-summary-list__value">
+                {{ data['legally-compliant-' + index] }}
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/local-plan-representations/legally-compliant?comment={{ index }}">Change</a>
+              </dd>
+            </div>
+
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Local Plan complies with Duty to Co-operate
+              </dt>
+              <dd class="govuk-summary-list__value">
+                {{ data['duty-to-cooperate-' + index] }}
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/local-plan-representations/duty-to-cooperate?comment={{ index }}">Change</a>
+              </dd>
+            </div>
+
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Comments
+              </dt>
+              <dd class="govuk-summary-list__value">
+                {{ data['comment-' + index] }}
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/local-plan-representations/add-your-comment?comment={{ index }}">Change</a>
+              </dd>
+            </div>
+
+            {% if data['upload-documents-' + index] and data['upload-documents-' + index].length > 0 %}
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Documents supporting your comment
+              </dt>
+              <dd class="govuk-summary-list__value">
+                <ul class="govuk-list govuk-list--bullet">
+                  {% for file in data['upload-documents-' + index] %}
+                    <li>
+                      {{ file.name }}
+                      {% if file.size %}
+                        ({{ file.size }})
+                      {% endif %}
+                    </li>
+                  {% endfor %}
+                </ul>
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/document-category/upload-documents?comment={{ index }}">Change</a>
+              </dd>
+            </div>
+            {% endif %}
+
+            {% if data['comments-mod-' + index] %}
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Changes to make this part of the plan legally compliant and sound
+              </dt>
+              <dd class="govuk-summary-list__value">
+                {{ data['comments-mod-' + index] }}
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/local-plan-representations/modifications?comment={{ index }}">Change</a>
+              </dd>
+            </div>
+            {% endif %}
+
+            {% if data['upload-documents-mod-' + index] and data['upload-documents-mod-' + index].length > 0 %}
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Documents supporting your suggested changes
+              </dt>
+              <dd class="govuk-summary-list__value">
+                <ul class="govuk-list govuk-list--bullet">
+                  {% for file in data['upload-documents-mod-' + index] %}
+                    <li>
+                      {{ file.name }}
+                      {% if file.size %}
+                        ({{ file.size }})
+                      {% endif %}
+                    </li>
+                  {% endfor %}
+                </ul>
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/local-plan-representations/mod-document-category/upload-documents?comment={{ index }}">Change</a>
+              </dd>
+            </div>
+            {% endif %}
+
+            {% if data['hearing-' + index] %}
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Participate in hearing sessions
+              </dt>
+              <dd class="govuk-summary-list__value">
+                {{ data['hearing-' + index] }}
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/local-plan-representations/hearings?comment={{ index }}">Change</a>
+              </dd>
+            </div>
+
+            {% if data['hearing-' + index] == 'Yes' and data['comment-hearing-' + index] %}
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Reason for participating in hearing sessions
+              </dt>
+              <dd class="govuk-summary-list__value">
+                {{ data['comment-hearing-' + index] }}
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/local-plan-representations/hearing-participation-comment?comment={{ index }}">Change</a>
+              </dd>
+            </div>
+            {% endif %}
+            {% endif %}
+          </dl>
+        </div>
+        {% endfor %}
+
+        <button type="submit" class="govuk-button" data-module="govuk-button">
+          Submit all comments
+        </button>
+
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

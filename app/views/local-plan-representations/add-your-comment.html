@@ -1,0 +1,141 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Content page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">
+        What do you want to say about this Local Plan?
+      </h1>
+
+      <form action="/local-plan-representations/comment" method="post">
+
+        <p class="govuk-body">
+          Tell us why you do, or do not, support this Local Plan. Your comment should:
+        </p>
+
+        <ul class="govuk-list govuk-list--bullet">
+          <li>
+            be simple and concise
+          </li>
+          <li>
+            be based on facts related to the plan
+          </li>
+          <li>
+            mention relevant planning policies
+          </li>
+        </ul>
+{# Commenting out until I get clarification on this
+        <p class="govuk-body">
+          Do not include any sensitive information. We will reject your comment and you might miss the deadline to resubmit.
+        </p>
+
+        <details class="govuk-details" data-module="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
+              What is sensitive information?
+            </span>
+          </summary>
+          <div class="govuk-details__text">
+
+            <p class="govuk-body">
+              Sensitive information refers to:
+            </p>
+
+            <ul class="govuk-list govuk-list--bullet">
+              <li>
+                comments from children
+              </li>
+              <li>
+                information relating to children
+              </li>
+              <li>
+                information relating to health
+              </li>
+              <li>
+                information relating to crime
+              </li>
+            </ul>
+
+            <p class="govuk-body">
+              It also includes any information relating to an individual’s:
+            </p>
+
+            <ul class="govuk-list govuk-list--bullet">
+              <li>
+                race
+              </li>
+              <li>
+                ethnic origin
+              </li>
+              <li>
+                politics
+              </li>
+              <li>
+                religion
+              </li>
+              <li>
+                trade union membership
+              </li>
+              <li>
+                genetics
+              </li>
+              <li>
+                physical characteristics
+              </li>
+              <li>
+                sex life
+              </li>
+              <li>
+                sexual orientation
+              </li>
+            </ul>
+
+          </div>
+        </details>
+#}
+        
+
+
+<div class="govuk-form-group">
+  <label class="govuk-label govuk-label--m" for="comment">
+    Your comments
+  </label>
+
+
+
+  <textarea class="govuk-textarea" id="comment" name="comment" rows="8"></textarea>
+
+</div>
+
+
+        
+  
+    
+  
+
+<button type="submit" class="govuk-button" data-module="govuk-button" data-govuk-button-init="">
+  Continue
+</button>
+
+
+      </form>
+
+    </div>
+  </div>
+
+
+        </main>
+{% endblock %}
