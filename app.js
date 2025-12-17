@@ -9,6 +9,11 @@ app.use('/assets', express.static(govukAssetsPath));
 // Example: serve static files from your app/assets directory
 app.use('/public', express.static(path.join(__dirname, 'app/assets')));
 
+
+// Register LPA routes
+const lpaRoutes = require('./app/lpaRoutes');
+app.use('/', lpaRoutes);
+
 // Example: set up a simple route
 app.get('/', (req, res) => {
   res.send('Prototype Home. Add your routes and views!');

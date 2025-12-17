@@ -1,0 +1,86 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+<!-- // Error summary -->
+
+    <!-- <div class="govuk-error-summary" data-module="govuk-error-summary">
+      <div role="alert">
+        <h2 class="govuk-error-summary__title">
+          There is a problem
+        </h2>
+        <div class="govuk-error-summary__body">
+          <ul class="govuk-list govuk-error-summary__list">
+            <li>
+              <a href="#">Error summary</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div> -->
+
+
+
+
+<!-- // Error message-->
+<!-- <div class="govuk-form-group govuk-form-group--error">
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+        What is your application reference number?
+    </legend>
+    <p id="email-address-error" class="govuk-error-message">
+        <span class="govuk-visually-hidden">Error:</span> Error message
+    </p>
+    <input class="govuk-input govuk-input--width-10 govuk-input--error" id="event-name" name="email" type="text">
+</div> -->
+
+<!-- // Happy path -->
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+        Application reference number
+    </h1>
+    <p class="govuk-body">
+    You can find this in the email inviting you to sign in to this service. For example, ENXXXXXX.
+    </p>
+    <p class="govuk-body">
+    If you don't have a reference number, you can <a href="https://local-plans.planninginspectorate.gov.uk/contact" class="govuk-link">contact us</a>.
+    </p>
+    <form action="/form-handler" method="post" novalidate>
+        <div class="govuk-form-group">
+        <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+            What is your application reference number?
+            </legend>
+            <input class="govuk-input govuk-input--width-10" id="postcode" name="postcode" type="text" autocomplete="postal-code">
+        </div>
+        <button type="submit" class="govuk-button" data-module="govuk-button">
+        Continue
+        </button>
+    </form>
+    </div>
+</div>
+
+
+
+
+
+    
+{% endblock %}
+  {% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}
+  

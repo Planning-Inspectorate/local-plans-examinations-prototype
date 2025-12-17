@@ -1,0 +1,74 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form method="post" action="/application/documents/123456/delete/confirm">
+
+        <h1 class="govuk-heading-l">
+          Are you sure you want to delete this document?
+        </h1>
+
+        <p class="govuk-body">
+          <strong>Document:</strong> ApplicationCoverLetter1.pdf
+        </p>
+
+        <p class="govuk-body">
+          This document has been used in the following parts of your application:
+        </p>
+
+        <ul class="govuk-list govuk-list--bullet">
+          <li>
+            Land rights information - 'Which documents relate to the statement of reasons?'
+          </li>
+          <li>
+            Habitat Regulations Assessment information - 'Which documents relate to the European or Ramsar sites?'
+          </li>
+        </ul>
+        
+
+        <!-- <div class="govuk-warning-text">
+          <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+          <strong class="govuk-warning-text__text">
+            If you delete it:
+          </strong>
+        </div> -->
+
+        <h2 class="govuk-heading-m">
+          If you delete it:
+        </h2>
+        <ul class="govuk-list govuk-list--bullet">
+          <li>These answers will no longer have a document attached.</li>
+          <li>You may need to update those sections before submitting.</li>
+        </ul>
+
+        <div class="govuk-button-group govuk-!-margin-top-6">
+          <button class="govuk-button govuk-button--warning" data-module="govuk-button" type="submit">
+            Yes, delete this document
+          </button>
+
+          <a class="govuk-link" href="/application/documents">
+            Cancel
+          </a>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+{% endblock %}
+

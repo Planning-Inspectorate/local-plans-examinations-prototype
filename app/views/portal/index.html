@@ -1,0 +1,87 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Portal index – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <!-- {% include "govuk-prototype-kit/includes/homepage-top.njk" %} -->
+    
+    <h1 class="govuk-heading-m">
+      Accessing the service:
+    </h1>
+
+    <!-- {% include "govuk-prototype-kit/includes/homepage-bottom.njk" %} -->
+    
+    <ul>
+      <li><a href="/portal/service-invite.html">Service invite (email template)</a> </li>
+      <li><a href="/portal/sign-in.html">Sign in</a> </li>
+      <li><a href="/portal/application-reference-v2.html">Do you have an application reference number</a> </li>
+      <li><a href="/portal/code-email.html">Code email (email template)</a> </li>
+      <li><a href="/portal/enter-code.html">Enter code</a> </li>
+      <li><a href="/portal/request-new-code.html">Request a new code</a> </li>
+      <li><a href="/portal/enter-code-success.html">Enter code with success banner</a> </li>
+      <li><a href="/portal/no-access.html">No access</a> </li>
+    </ul>
+
+    <h2 class="govuk-heading-m">
+      Inside the service:
+    </h2>
+
+    <p>
+      <a href="/tasklist.html">Landing page (tasklist)</a>
+    </p>
+    
+    <h1 class="govuk-heading-m">
+      Document upload:
+    </h1>
+    <p>
+      <a href="/document-category.html">Document category homepage empty</a> <br>
+      <a href="/document-category/upload-documents.html">Upload documents</a> <br>
+      <a href="/document-category/document-type.html">Document type</a> <br>
+      <a href="/document-category/apfp-v2.html">APFP Regulation (Version 2)</a> <br>
+      <a href="/document-category/certification.html">Certification</a> <br>
+      <a href="/document-category/confirm-document-upload">Confirm document upload</a> <br>
+      <a href="/document-category/with-documents.html">Document category homepage with documents</a> <br>
+    </p>
+
+    <h1 class="govuk-heading-m">
+      Application form:
+    </h1>
+    <p>
+      <a href="/application-form/01a-organisation.html">Applicant organisation</a> <br>
+      <a href="/application-form/01b-contact-name.html">Applicant contact name</a> <br>
+    </p>
+
+    <h1 class="govuk-heading-m">
+      Archived
+    </h1>
+    <p>
+      <a href="/reference-number.html">Enter reference number</a> <br>
+      <a href="/email-address.html">Enter email address</a> <br>
+      <a href="/application-reference.html">Enter application reference</a> <br>
+      <a href="/document-category/apfp-v1.html">APFP Regulation (Version 1)</a> <br>
+      <a href="/sign-in-v1.html">Sign in (Version 1)</a> <br>
+      <a href="/sign-in-v2.html">Sign in (Version 2)</a> <br>
+      <a href="/sign-in-v3.html">Sign in (Version 3)</a> <br>
+      <a href="/sign-in-v4.html">Sign in (Version 4)</a> <br>
+    </p>
+  </div>
+</div>
+
+{% endblock %}
+  {% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}
+  

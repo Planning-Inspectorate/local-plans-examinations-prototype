@@ -1,0 +1,117 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<!-- Happy path -->
+
+<div class="govuk-width-container">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <form action="/sign-in-v5" method="post" novalidate>
+          <div class="govuk-form-group">
+            <fieldset class="govuk-fieldset">
+              <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                <h1 class="govuk-fieldset__heading">
+                  Do you have an application reference number?
+                </h1>
+              </legend>
+              <div id="dob-hint" class="govuk-hint">
+                For example, EN012345.
+              </div>
+              <div class="govuk-radios" data-module="govuk-radios">
+                <div class="govuk-radios__item">
+                  <input class="govuk-radios__input" id="whereDoYouLive" name="whereDoYouLive" type="radio" value="england">
+                  <label class="govuk-label govuk-radios__label" for="whereDoYouLive">
+                    Yes
+                  </label>
+                </div>
+                <div class="govuk-radios__item">
+                  <input class="govuk-radios__input" id="whereDoYouLive-2" name="whereDoYouLive" type="radio" value="scotland">
+                  <label class="govuk-label govuk-radios__label" for="whereDoYouLive-2">
+                    No
+                  </label>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+            <button type="submit" class="govuk-button" data-module="govuk-button">
+              Continue
+            </button>
+        </form>
+      </div>
+    </div>
+</div>
+
+<!-- Errors -->
+<!-- <div class="govuk-error-summary" data-module="govuk-error-summary">
+      <div role="alert">
+        <h2 class="govuk-error-summary__title">
+          There is a problem
+        </h2>
+        <div class="govuk-error-summary__body">
+          <ul class="govuk-list govuk-error-summary__list">
+            <li>
+              <a href="#">Error summary</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+<div class="govuk-form-group govuk-form-group--error">
+  <div class="govuk-grid-column-two-thirds">
+  <fieldset class="govuk-fieldset" aria-describedby="whereDoYouLive-error">
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+      <h1 class="govuk-fieldset__heading">
+        Do you have an application reference number?
+      </h1>
+    </legend>
+    <div id="dob-hint" class="govuk-hint">
+        For example, EN012345.
+    </div>
+    <p id="whereDoYouLive-error" class="govuk-error-message">
+      <span class="govuk-visually-hidden">Error:</span> Error message
+    </p>
+    <div class="govuk-radios" data-module="govuk-radios">
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="whereDoYouLive" name="whereDoYouLive" type="radio" value="england">
+        <label class="govuk-label govuk-radios__label" for="whereDoYouLive">
+          Yes
+        </label>
+      </div>
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="whereDoYouLive-2" name="whereDoYouLive" type="radio" value="scotland">
+        <label class="govuk-label govuk-radios__label" for="whereDoYouLive-2">
+          No
+        </label>
+      </div>
+    </div>
+  </fieldset>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <form class="form" action="/sign-in-v5" method="post">
+      {{ govukButton({
+        text: "Continue"
+      }) }}
+    </form>
+  </div>
+</div> -->
+{% endblock %}
+  {% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}
+  

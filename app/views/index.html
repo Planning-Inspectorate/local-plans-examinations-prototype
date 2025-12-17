@@ -16,8 +16,8 @@
         </a>
       </li>
       <li class="govuk-tabs__list-item">
-        <a class="govuk-tabs__tab" href="#front-office">
-          Front Office
+        <a class="govuk-tabs__tab" href="#portal">
+          Portal
         </a>
       </li>
     
@@ -104,39 +104,82 @@
             <li><a href="../Fees/index">Fees and forecasting</a></li>
           </ul>
         </li>-->
-        <li><a href="/flows/back-office/create/lpa/0-case-officer-name">Create case</a>
+        <li><a href="/flows/back-office/create/lpa/0-case-officer-name">Create case (add case officer)</a>
           <ol>
             <li><a href="/flows/back-office/create/lpa/1-plan-title">Plan title</a></li>
             <li><a href="/flows/back-office/create/lpa/2-plan-type">Plan type</a></li>
             <li><a href="/flows/back-office/create/lpa/3-select-LPA">Lead LPA</a></li>
+            <li><a href="/flows/back-office/create/lpa/3a-LPA-region">LPA region</a></li>
             <li><a href="/flows/back-office/create/lpa/4-lead-contact-name">Lead contact name</a></li>
             <li><a href="/flows/back-office/create/lpa/5-lead-email-address">Lead email address</a></li>
             <li><a href="/flows/back-office/create/lpa/6-lead-phone-number">Lead phone number</a></li>
             <li><a href="/flows/back-office/create/lpa/7-add-secondary">Add secondary LPA</a></li>
             <li><a href="/flows/back-office/create/lpa/8-secondary-LPA">Secondary LPA</a></li>
+            <li><a href="/flows/back-office/create/lpa/9-secondary-LPA-contact-name">Secondary LPA contact name</a></li>
+            <li><a href="/flows/back-office/create/lpa/10-secondary-LPA-email-address">Secondary LPA email address</a></li>     
+            <li><a href="/flows/back-office/create/lpa/11-secondary-LPA-phone-number">Secondary LPA phone number</a></li>
+            <li><a href="/flows/back-office/create/lpa/contact-name">Additional contact name</a></li>
+            <li><a href="/flows/back-office/create/lpa/contact-email-address">Additional contact email address</a></li>
+            <li><a href="/flows/back-office/create/lpa/contact-phone-number">Additional contact phone number</a></li>
             <li><a href="/flows/back-office/create/lpa/check-answers">Check answers</a></li>
+            <li><a href="/flows/back-office/create/lpa/confirmation">Confirmation</a></li>
           </ol>
         </li>
       </ul>
     </div>
-    <div class="govuk-tabs__panel" id="front-office">
-      <p>Add links here for FO prototypes </p>
-      <!--<ul>
-        <li><a href="/FrontOffice/search">Search projects</a></li>
-        <ul>
-          <li><a href="/FrontOffice/searchMapViewFullscreen">Project map view</a></li>
+    <div class="govuk-tabs__panel" id="portal">
+      <p>Accessing the service:</p>
+      <ul>
+      <li><a href="/portal/service-invite.html">Service invite (email template)</a> </li>
+      <li><a href="/portal/sign-in.html">Sign in</a> </li>
+      <li><a href="/portal/application-reference-v2.html">Do you have an application reference number</a> </li>
+      <li><a href="/portal/code-email.html">Code email (email template)</a> </li>
+      <li><a href="/portal/enter-code.html">Enter code</a> </li>
+      <li><a href="/portal/request-new-code.html">Request a new code</a> </li>
+      <li><a href="/portal/enter-code-success.html">Enter code with success banner</a> </li>
+      <li><a href="/portal/no-access.html">No access</a> </li>
+    </p>
+      </ul>
+      <p>Inside the service:</p>
+      <ul>
+        <li>
+      <a href="/tasklist.html">Landing page (tasklist)</a>
+        </li>
         </ul>
-        <li><a href="/FrontOffice/Project_info">View project</a></li>
-        <ul>
-          <li><a href="/FrontOffice/Project_info">Project info</a></li>
-          <li><a href="/FrontOffice/Project_documents">Project documents</a></li>
-          <li><a>Relevant representations</a></li>
-          <li><a href="/FrontOffice/Project_examTimetable">Exam timetable</a></li>
-          <li><a href="/FrontOffice/Project_updates">Get updates</a></li>
-          <li><a href="/FrontOffice/Project_s51">Project section 51</a></li>
-          <li><a href="/FrontOffice/Project_haveYourSay">Have your say</a></li>
-        </ul>
-      </ul>-->
+    
+    <p>Document upload:</p>
+    <ul>
+      <li><a href="/portal/document-category.html">Document category homepage empty</a></li>
+      <li><a href="/portal/document-category/upload-documents.html">Upload documents</a></li>
+      <li><a href="/portal/document-category/document-type.html">Document type</a></li>
+      <li><a href="/portal/document-category/apfp-v2.html">APFP Regulation (Version 2)</a></li>
+      <li><a href="/portal/document-category/certification.html">Certification</a></li>
+      <li><a href="/portal/document-category/confirm-document-upload">Confirm document upload</a></li>
+      <li><a href="/document-category/with-documents.html">Document category homepage with documents</a></li>
+    </ul>
+
+    <!--<h1 class="govuk-heading-m">
+      Application form:
+    </h1>
+    <p>
+      <a href="/application-form/01a-organisation.html">Applicant organisation</a> <br>
+      <a href="/application-form/01b-contact-name.html">Applicant contact name</a> <br>
+    </p>  
+    -->
+    <!--<h1 class="govuk-heading-m">
+      Archived
+    </h1>
+    <p>
+      <a href="/reference-number.html">Enter reference number</a> <br>
+      <a href="/email-address.html">Enter email address</a> <br>
+      <a href="/application-reference.html">Enter application reference</a> <br>
+      <a href="/document-category/apfp-v1.html">APFP Regulation (Version 1)</a> <br>
+      <a href="/sign-in-v1.html">Sign in (Version 1)</a> <br>
+      <a href="/sign-in-v2.html">Sign in (Version 2)</a> <br>
+      <a href="/sign-in-v3.html">Sign in (Version 3)</a> <br>
+      <a href="/sign-in-v4.html">Sign in (Version 4)</a> <br>
+    </p>-->
+
     </div>
     <div class="govuk-tabs__panel" id="archive">
       <p>Add links here for archived prototypes

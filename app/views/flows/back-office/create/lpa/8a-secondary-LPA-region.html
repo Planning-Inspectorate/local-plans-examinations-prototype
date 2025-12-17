@@ -10,19 +10,15 @@
 
 {% block content %}
 
-
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <form action="/flows/back-office/create/lpa/0-case-officer-name" method="POST" novalidate="">
-      <input type="hidden" name="_csrf" value="">
-
-      <div class="govuk-form-group">
-        <h1 class="govuk-label-wrapper">
-          <label class="govuk-label govuk-label--l" for="caseOfficer">
-            Case officer
-          </label>
-        </h1>
-        <div>
+      <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form method="post" action="/flows/back-office/create/lpa/8a-secondary-LPA-region">
+        <div class="govuk-form-group">
+          <h1 class="govuk-label-wrapper">
+            <label class="govuk-label govuk-label--l" for="lpa">
+              Region
+            </label>
+          </h1>
           <div class="autocomplete__wrapper">
             <div class="autocomplete__status"
               style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; margin-bottom: -1px; margin-right: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;">
@@ -34,30 +30,31 @@
             <span id="lpaId__assistiveHint" style="display: none;">When autocomplete results are available use up and
               down arrows to review and enter to select. Touch device users, explore by touch or with swipe
               gestures.</span>
-
-            <select class="govuk-select" id="caseOfficer" name="caseOfficer" data-module="autocomplete" data-autoselect=""
+            <select class="govuk-select" id="lpa" name="lpa" data-module="autocomplete" data-autoselect=""
               data-display-menu="" data-min-length="" data-show-all-values="" data-show-no-options-found="">
               <option value="" selected disabled>Select an option</option>
-              <option value="Case officer 1">Case officer 1</option>
-              <option value="Case officer 2">Case officer 2</option>
-              <option value="Case officer 3">Case officer 3</option>
-              <option value="Case officer 4">Case officer 4</option>
-              <option value="Case officer 5">Case officer 5</option>
-              <option value="Case officer 6">Case officer 6</option>
-              <option value="Case officer 7">Case officer 7</option>
-              <option value="Case officer 8">Case officer 8</option>
+              <option value="East of England">East of England</option>
+              <option value="East Midlands">East Midlands
+              </option>
+              <option value="London">London</option>
+              <option value="North East">North East</option>
+              <option value="North West">North West</option>
+              <option value="South East">South East</option>
+              <option value="South West">South West</option>
+              <option value="West Midlands">West Midlands</option>
+              <option value="Yorkshire and the Humber">Yorkshire and the Humber
+              </option>
             </select>
           </div>
-        </div>
-      </div>
-      <div class="govuk-form-group">
+    </div>
+
+       <div class="govuk-form-group">
         {{ govukButton({
           text: "Continue"
         }) }}
       </div>
-
       </form>
-
+    </div>
 
 
       {% endblock %}

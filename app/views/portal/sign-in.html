@@ -1,0 +1,134 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+<!-- // Error summary -->
+
+    <!-- <div class="govuk-error-summary" data-module="govuk-error-summary">
+      <div role="alert">
+        <h2 class="govuk-error-summary__title">
+          There is a problem
+        </h2>
+        <div class="govuk-error-summary__body">
+          <ul class="govuk-list govuk-error-summary__list">
+            <li>
+              <a href="#">Error summary</a>
+            </li>
+            <li>
+              <a href="#">Error summary</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div> -->
+
+    
+
+<!-- // Error message -->
+
+    <!-- <div class="govuk-width-container">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        
+        <h1 class="govuk-label-wrapper">
+          <h1 class="govuk-label-wrapper">
+          <label class="govuk-label govuk-label--l" for="event-name">
+            Sign-in
+          </label>
+        </h1>
+    
+        <div class="govuk-form-group govuk-form-group--error">
+        <form action="/form-handler" method="post" novalidate>
+          <div class="govuk-form-group">
+            <label class="govuk-label govuk-label--m" for="email-address">
+              Email address
+            </label>
+            <p id="email-address-error" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> Error message
+            </p>
+            <input class="govuk-input govuk-!-width-two-thirds govuk-input--error" id="event-name" name="email" type="text">
+        </div>
+          </div>
+        <div class="govuk-form-group govuk-form-group--error">
+            <label class="govuk-label govuk-label--m" for="passport-number">
+              Application reference number
+            </label>
+            <div id="passport-number-hint" class="govuk-hint">
+              You can find this in the email inviting you to sign in to this service. For example, EN012345.
+            </div>
+            <p id="email-address-error" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> Error message
+            </p>
+            <input class="govuk-input govuk-!-width-two-thirds govuk-input--error" id="event-name" name="email" type="text">
+        </div>
+        </form>
+        
+        <form class="form" action="/enter-code" method="post">
+            <div class="govuk-form-group">
+                {{ govukButton({
+                text: "Continue"
+                }) }}
+            </div>
+        </form>
+      </div>
+    </div>
+    </div> -->
+
+
+<!-- // Happy path -->
+<div class="govuk-width-container">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-label-wrapper">
+          <h1 class="govuk-label-wrapper">
+          <label class="govuk-label govuk-label--l" for="event-name">
+            Sign-in
+          </label>
+        </h1>
+        <form action="/form-handler" method="post" novalidate>
+          <div class="govuk-form-group">
+            <label class="govuk-label govuk-label--m" for="passport-number">
+              Email address
+            </label>
+            <input class="govuk-input govuk-!-width-two-thirds" id="event-name" name="email" type="text">
+          </div>
+          <div class="govuk-form-group">
+            <label class="govuk-label govuk-label--m" for="passport-number">
+              Application reference number
+            </label>
+            <div id="passport-number-hint" class="govuk-hint">
+              You can find this in the email inviting you to sign in to this service. For example, EN012345.
+            </div>
+            <input class="govuk-input govuk-input--width-10" id="event-name" name="email" type="text">
+          </div>
+        </form>
+        <form class="form" action="/enter-code" method="post">
+            <div class="govuk-form-group">
+                {{ govukButton({
+                text: "Continue"
+                }) }}
+            </div>
+        </form>
+      </div>
+    </div>
+</div>
+
+    
+{% endblock %}
+  {% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}
+  

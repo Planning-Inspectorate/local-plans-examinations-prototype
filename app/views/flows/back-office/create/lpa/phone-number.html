@@ -16,18 +16,18 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    <form method="post" action="/flows/back-office/create/lpa/5-lead-email-address">
+    <form method="post" action="/flows/back-office/create/lpa/phone-number">
+      <h1 class="govuk-heading-l">Contact phone number</h1>
      
+ {% from "govuk/components/input/macro.njk" import govukInput %}
 
 {{ govukInput({
-  label: {
-    text: "Lead contact email address",
-    classes: "govuk-label--l"
-  },
-  id: "lead-email-address",
-  name: "lead-email-address",
-  type: "email",
-  classes: "govuk-!-width-two-thirds"
+  
+  id: "phone-number",
+  name: "phone-number",
+  type: "tel",
+  autocomplete: "tel",
+  classes: "govuk-input--width-20"
 }) }}
 
   {{ govukButton({

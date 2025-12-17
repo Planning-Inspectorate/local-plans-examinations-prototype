@@ -1,0 +1,61 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Content page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+
+
+        <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-l">You do not have access to this service</h1>
+            <p class="govuk-body">
+            If you think you should have access, you can contact us by the following options:
+            </p>
+            <p class="govuk-body">
+            Email: <a href="#" class="govuk-link">enquiries@planninginspectorate.gov.uk</a> 
+            </p>
+            <p class="govuk-body">
+            If you are contacting us about a specific project, put the project name in the subject line. At busy times we may not be able to respond immediately. 
+            </p>
+            <p class="govuk-body">
+            Telephone customer services: <a href="#" class="govuk-link">0303 444 5000</a> 
+            </p>
+            <p class="govuk-body">
+            Open Monday to Friday: 9am to 4pm. <br> Closed on weekends and bank holidays. 
+            </p>
+            <p class="govuk-body">
+            Further information about contacting the Planning Inspectorate customer services can be viewed on <a href="https://www.gov.uk/government/organisations/planning-inspectorate">GOV.UK.</a>
+            </p>
+        </div>
+        </div>
+    </main>
+</div>
+
+<!-- <div class="govuk-width-container">
+    <main class="govuk-main-wrapper govuk-main-wrapper--l" id="main-content" role="main">
+        <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-l">You do not have access to this service</h1>
+            <p class="govuk-body">
+            If you think you should have access, contact: <a href="#" class="govuk-link">NIEnquiries@planninginspectorate.gov.uk</a>. 
+            </p>
+        </div>
+        </div>
+    </main> -->
+</div>
+
+{% endblock %}
+  {% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}
+  

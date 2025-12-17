@@ -12,7 +12,7 @@
      
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <form class="form" action="/flows/back-office/create/lpa/3-select-LPA" method="post">
+      <form class="form" action="/flows/back-office/create/lpa/2-plan-type" method="post">
       
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
@@ -26,41 +26,25 @@
     }
   },
   items: [
-    {
-      value: "area-action-plan",
-      text: "Area Action Plan"
-    },
      {
       value: "cil",
-      text: "Community Infrastructure Levy"
+      text: "Community Infrastructure Levy (CIL)"
     }, 
-    {
-      value: "development-management-plan",
-      text: "Development Management Plan"
-    }, 
-    {
-      value: "gypsy-and-traveller",
-      text: "Gypsy & Traveller"
-    },
     {
       value: "local-plan",
       text: "Local Plan"
-    },
-    {
-      value: "local-plan-review",
-      text: "Local Plan Review"
     },
     {
       value: "minerals-and-waste",
       text: "Minerals and Waste"
     },
     {
-      value: "site-allocation-plan",
-      text: "Site Allocation Plan"
-    },
-    {
       value: "spatial-development-strategies",
       text: "Spatial Development Strategies"
+    },
+    {
+      value: "supplementary-plan",
+      text: "Supplementary Plan"
     },
     {
       value: "other",

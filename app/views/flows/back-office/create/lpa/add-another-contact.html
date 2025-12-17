@@ -11,26 +11,27 @@
 {% endblock %}
 
 {% block content %}
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <form method="post" action="/flows/back-office/create/lpa/7-add-secondary">
+    <form method="post" action="/flows/back-office/create/lpa/add-another-contact">
       <div class="govuk-form-group">
         <fieldset class="govuk-fieldset">
           <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
             <h1 class="govuk-fieldset__heading">
-              Is there a secondary Local Planning Authority?
+              Do you want to add another contact?
             </h1>
           </legend>
           <div class="govuk-radios" data-module="govuk-radios">
             <div class="govuk-radios__item">
-              <input class="govuk-radios__input" id="hasSecondaryLPA" name="hasSecondaryLPA" type="radio" value="yes">
-              <label class="govuk-label govuk-radios__label" for="hasSecondaryLPA">
+              <input class="govuk-radios__input" id="addAnotherContact" name="addAnotherContact" type="radio" value="yes">
+              <label class="govuk-label govuk-radios__label" for="addAnotherContact">
                 Yes
               </label>
             </div>
             <div class="govuk-radios__item">
-              <input class="govuk-radios__input" id="hasSecondaryLPA-2" name="hasSecondaryLPA" type="radio" value="no">
-              <label class="govuk-label govuk-radios__label" for="hasSecondaryLPA-2">
+              <input class="govuk-radios__input" id="addAnotherContact-2" name="addAnotherContact" type="radio" value="no">
+              <label class="govuk-label govuk-radios__label" for="addAnotherContact-2">
                 No
               </label>
             </div>

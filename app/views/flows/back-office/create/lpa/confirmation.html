@@ -16,24 +16,15 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    <form method="post" action="/flows/back-office/create/lpa/5-lead-email-address">
-     
-
-{{ govukInput({
-  label: {
-    text: "Lead contact email address",
-    classes: "govuk-label--l"
-  },
-  id: "lead-email-address",
-  name: "lead-email-address",
-  type: "email",
-  classes: "govuk-!-width-two-thirds"
-}) }}
-
-  {{ govukButton({
-    text: "Continue"
-  }) }}
-</form>
+     {{ govukPanel({
+        titleText: "New case has been created",
+        html: "The case reference number<br><strong>PLAN/000001</strong>"
+      }) }}
+      <p>
+        <a href="/flows/back-office/create/lpa/index">
+          Go back to back office homepage
+        </a>
+      </p>
 
   </div>
 </div>

@@ -1,0 +1,133 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+<!-- // Error summary -->
+
+    <!-- <div class="govuk-error-summary" data-module="govuk-error-summary">
+      <div role="alert">
+        <h2 class="govuk-error-summary__title">
+          There is a problem
+        </h2>
+        <div class="govuk-error-summary__body">
+          <ul class="govuk-list govuk-error-summary__list">
+            <li>
+              <a href="#">Error summary</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div> -->
+
+<!-- // Error message -->
+<!-- <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div class="govuk-form-group govuk-form-group--error">
+        <h1 class="govuk-label-wrapper">
+            <label class="govuk-label govuk-label--l" for="event-name">
+            What is your application reference number?
+            </label>
+        </h1>
+        <div id="event-name-hint" class="govuk-hint">
+            You can find this in the email inviting you to sign in to this service. For example, ENXXXXXX.
+        </div>
+        <p id="email-address-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Error message
+        </p>
+        <input class="govuk-input govuk-!-width-two-thirds govuk-input--error" id="two-thirds" name="twoThirds" type="text">
+        </div>
+        {% from "govuk/components/details/macro.njk" import govukDetails %}
+
+            <details class="govuk-details">
+                <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">
+                    Can't find your reference number?
+                </span>
+                </summary>
+                <div class="govuk-details__text">
+                <p class="govuk-body">
+                    You can contact our customer support team.
+                </p>
+                <p class="govuk-body">
+                    
+                    Telephone: 0303 444 5000 <br>
+                    Monday to Friday, 9am to midday (except public holidays) <br>
+                    <a href="https://www.gov.uk/call-charges">Find out about call charges.</a>
+                </p>
+                </div>
+            </details>
+        <form class="form" action="/email-address" method="post">
+                {{ govukButton({
+                text: "Continue"
+                }) }}
+        </form>
+    </div>
+</div> -->
+
+<!-- // Happy path -->
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <form class="form" action="/enter-code" method="post">
+            <div class="govuk-form-group">
+                <h1 class="govuk-label-wrapper">
+                <label class="govuk-label govuk-label--l" for="event-name">
+                    What is your application reference number?
+                </label>
+                </h1>
+                <div id="event-name-hint" class="govuk-hint">
+                    You can find this in the email inviting you to sign in to this service. For example, ENXXXXXX.
+                </div>
+                <input class="govuk-input govuk-!-width-two-thirds" id="event-name" name="email" type="text">
+            </div>
+            {% from "govuk/components/details/macro.njk" import govukDetails %}
+
+            <details class="govuk-details">
+                <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">
+                    Can't find your reference number?
+                </span>
+                </summary>
+                <div class="govuk-details__text">
+                <p class="govuk-body">
+                    You can contact our customer support team.
+                </p>
+                <p class="govuk-body">
+                    
+                    Telephone: 0303 444 5000 <br>
+                    Monday to Friday, 9am to midday (except public holidays) <br>
+                    <a href="https://www.gov.uk/call-charges">Find out about call charges.</a>
+                </p>
+                </div>
+            </details>
+
+            <form class="form" action="/email-address" method="post">
+                {{ govukButton({
+                text: "Continue"
+                }) }}
+            </form>
+        </form>
+        
+    </div>
+</div>
+
+
+
+    
+{% endblock %}
+  {% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}
+  

@@ -16,6 +16,8 @@
 
 // Add extra styles here
 
+
+
 // Override GOV.UK service navigation border and background
 .govuk-service-navigation {
     border-bottom-width: 1px !important;
@@ -41,3 +43,5 @@ html, body {
 
 @import "PINS-header--internal";    // this imports the styles for the planning inspectorate header
 @import "back-office-header";       // this imports the styles for the back office header
+
+$govuk-suppressed-warnings: ("legacy-organisation-colours");

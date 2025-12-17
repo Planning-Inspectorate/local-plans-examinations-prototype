@@ -13,31 +13,32 @@
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <div class="govuk-form-group">
-      <h1 class="govuk-label-wrapper">
-        <label class="govuk-label govuk-label--l" for="lpa">
-          Select the secondary local planning authority for this plan
-        </label>
-      </h1>
-      <div class="autocomplete__wrapper">
-            <div class="autocomplete__status"
-              style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; margin-bottom: -1px; margin-right: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;">
-              <div id="lpaId__status--A" role="status" aria-atomic="true" aria-live="polite"></div>
-              <div id="lpaId__status--B" role="status" aria-atomic="true" aria-live="polite"></div>
-            </div>
-            <ul aria-labelledby="lpaId" id="lpaId__listbox" role="listbox"
-              class="autocomplete__menu autocomplete__menu--inline autocomplete__menu--hidden"></ul>
-            <span id="lpaId__assistiveHint" style="display: none;">When autocomplete results are available use up and
-              down arrows to review and enter to select. Touch device users, explore by touch or with swipe
-              gestures.</span>
-            <select class="govuk-select" id="lpa" name="lpa" data-module="autocomplete" data-autoselect=""
-              data-display-menu="" data-min-length="" data-show-all-values="" data-show-no-options-found="">
-              <option value="" selected disabled>Select an option</option>
-              <option value="Adur District Council">Adur District Council</option>
-              <option value="Barking and Dagenham London Borough Council">Barking and Dagenham London Borough Council</option>
-              <option value="Barnet London Borough Council">Barnet London Borough Council</option>
-              <option value="Bath and North East Somerset Council">Bath and North East Somerset Council</option>
-              <option value="Bedford Borough Council">Bedford Borough Council</option>
+    <form method="post" action="/flows/back-office/create/lpa/8-secondary-LPA">
+      <div class="govuk-form-group">
+        <h1 class="govuk-label-wrapper">
+          <label class="govuk-label govuk-label--l" for="lpa">
+            Secondary local planning authority
+          </label>
+        </h1>
+        <div class="autocomplete__wrapper">
+          <div class="autocomplete__status"
+            style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; margin-bottom: -1px; margin-right: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;">
+            <div id="lpaId__status--A" role="status" aria-atomic="true" aria-live="polite"></div>
+            <div id="lpaId__status--B" role="status" aria-atomic="true" aria-live="polite"></div>
+          </div>
+          <ul aria-labelledby="lpaId" id="lpaId__listbox" role="listbox"
+            class="autocomplete__menu autocomplete__menu--inline autocomplete__menu--hidden"></ul>
+          <span id="lpaId__assistiveHint" style="display: none;">When autocomplete results are available use up and
+            down arrows to review and enter to select. Touch device users, explore by touch or with swipe
+            gestures.</span>
+          <select class="govuk-select" id="lpa" name="lpa" data-module="autocomplete" data-autoselect=""
+            data-display-menu="" data-min-length="" data-show-all-values="" data-show-no-options-found="">
+            <option value="" selected disabled>Select an option</option>
+            <option value="Adur District Council">Adur District Council</option>
+            <option value="Barking and Dagenham London Borough Council">Barking and Dagenham London Borough Council</option>
+            <option value="Barnet London Borough Council">Barnet London Borough Council</option>
+            <option value="Bath and North East Somerset Council">Bath and North East Somerset Council</option>
+            <option value="Bedford Borough Council">Bedford Borough Council</option>
               <option value="Birmingham City Council">Birmingham City Council</option>
               <option value="Blackpool Council">Blackpool Council</option>
               <option value="Bolton Council">Bolton Council</option>
@@ -196,15 +197,17 @@
           </div>
     </div>
 
-    <a href="check-answers.html" type="submit" class="govuk-button" data-module="govuk-button">
-      Save
-    </a>
-    <a href="" type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button">
-      Remove and save
-    </a>
-
+     <div class="govuk-form-group">
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+        </div>
+      </form>
+    </div>
   </div>
-</div>
 
 
+{% endblock %}
+{% block footer %}
+  {% include "includes/footer.njk" %}
 {% endblock %}
