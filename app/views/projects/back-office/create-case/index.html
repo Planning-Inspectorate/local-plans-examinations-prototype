@@ -1,0 +1,140 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<h1 class="govuk-heading-l">
+    All local plan cases
+</h1>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-half">
+       <!--- <div class="bo-panel">
+            <h2 class="govuk-label-wrapper govuk-heading-m">
+                <label class="govuk-label govuk-label--m" for="event-name">
+                    Search new cases
+                </label>
+            </h2>
+            <div id="event-name-hint" class="govuk-hint">
+                Enter keywords, case reference or case title
+            </div>-->
+
+            <!-- Wrap the input and button inside a flex container
+            <div class="search-container">
+                <input class="govuk-input govuk-!-width-two-thirds" id="event-name" name="event-name" type="text"
+                    aria-describedby="event-name-hint">
+                <a class="govuk-button govuk-!-margin-bottom-0" data-module="govuk-button" href="search.html?">
+                    Search
+                </a>
+            </div>
+        </div> -->
+    </div>
+    <div class="govuk-grid-column-one-half">
+        <div class="bo-panel">
+            <form autocomplete="off" class="form" action="/projects/back-office/create-case/0-case-officer-name"
+                method="post">
+                <button class="reset govuk-button govuk-button--secondary govuk-!-margin-bottom-0 govuk-!-margin-top-0"
+                    data-module="govuk-button">
+                    Create a new case
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+    <div class="govuk-grid-column-full-width project">
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--invisible">
+
+        <!--<h2 class="govuk-heading-m">
+            All cases
+        </h2>-->
+
+        <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
+            <div class="govuk-accordion__section">
+                <div class="govuk-accordion__section-header">
+                    <h2 class="govuk-accordion__section-heading">
+                        <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
+                            Community Infrastructure Levy (CIL)
+                        </span>
+                    </h2>
+                </div>
+                <div id="accordion-default-content-1" class="govuk-accordion__section-content">
+                    <p class="govuk-body">This is the content for Writing well for the web.</p>
+                </div>
+            </div>
+            <div class="govuk-accordion__section">
+                <div class="govuk-accordion__section-header">
+                    <h2 class="govuk-accordion__section-heading">
+                        <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
+                            Local Plan
+                        </span>
+                    </h2>
+                </div>
+                <div id="accordion-default-content-1" class="govuk-accordion__section-content">
+                    <p class="govuk-body">This is the content for Writing well for the web.</p>
+                </div>
+            </div>
+            <div class="govuk-accordion__section">
+                <div class="govuk-accordion__section-header">
+                    <h2 class="govuk-accordion__section-heading">
+                        <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
+                            Minerals and Waste
+                        </span>
+                    </h2>
+                </div>
+                <div id="accordion-default-content-1" class="govuk-accordion__section-content">
+                    <p class="govuk-body">This is the content for Writing well for the web.</p>
+                </div>
+            </div>
+            <div class="govuk-accordion__section">
+                <div class="govuk-accordion__section-header">
+                    <h2 class="govuk-accordion__section-heading">
+                        <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
+                            Spatial Development Strategies
+                        </span>
+                    </h2>
+                </div>
+                <div id="accordion-default-content-1" class="govuk-accordion__section-content">
+                    <p class="govuk-body">This is the content for Writing well for the web.</p>
+                </div>
+            </div>
+            <div class="govuk-accordion__section">
+                <div class="govuk-accordion__section-header">
+                    <h2 class="govuk-accordion__section-heading">
+                        <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
+                            Supplementary Plan
+                        </span>
+                    </h2>
+                </div>
+                <div id="accordion-default-content-1" class="govuk-accordion__section-content">
+                    <p class="govuk-body">This is the content for Writing well for the web.</p>
+                </div>
+            </div>
+            <div class="govuk-accordion__section">
+                <div class="govuk-accordion__section-header">
+                    <h2 class="govuk-accordion__section-heading">
+                        <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
+                            Other
+                        </span>
+                    </h2>
+                </div>
+                <div id="accordion-default-content-1" class="govuk-accordion__section-content">
+                    <p class="govuk-body">This is the content for Writing well for the web.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

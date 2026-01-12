@@ -1,0 +1,149 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+  Content page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+    
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">Enter key dates of the project</h1>
+        <form class="form" method="post" action="/projects/back-office/create-case/key-dates-cil">
+            <fieldset class="govuk-fieldset govuk-!-margin-bottom-2" role="group" aria-describedby="passport-issued-hint">
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Notice of Intention Date</legend>
+                <div id="passport-issued-hint" class="govuk-hint">For example, 27 3 2007</div>
+                <div class="govuk-date-input" id="notice-of-intention-date">
+                    <div class="govuk-date-input__item">
+                        <div class="govuk-form-group">
+                            <label class="govuk-label govuk-date-input__label" for="notice-of-intention-date-day">Day</label>
+                            <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="notice-of-intention-date-day" name="notice-of-intention-date-day" type="text" inputmode="numeric">
+                        </div>
+                    </div>
+                    <div class="govuk-date-input__item">
+                        <div class="govuk-form-group">
+                            <label class="govuk-label govuk-date-input__label" for="notice-of-intention-date-month">Month</label>
+                            <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="notice-of-intention-date-month" name="notice-of-intention-date-month" type="text" inputmode="numeric">
+                        </div>
+                    </div>
+                    <div class="govuk-date-input__item">
+                        <div class="govuk-form-group">
+                            <label class="govuk-label govuk-date-input__label" for="notice-of-intention-date-year">Year</label>
+                            <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="notice-of-intention-date-year" name="notice-of-intention-date-year" type="text" inputmode="numeric">
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset class="govuk-fieldset govuk-!-margin-bottom-2" role="group" aria-describedby="gateway-1-hint">
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Gateway 1 estimated date</legend>
+                <div id="gateway-1-hint" class="govuk-hint">Hint text if required</div>
+                <div class="govuk-date-input" id="gateway-1-date">
+                    <div class="govuk-date-input__item">
+                        <div class="govuk-form-group">
+                            <label class="govuk-label govuk-date-input__label" for="gateway-1-date-day">Day</label>
+                            <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="gateway-1-date-day" name="gateway-1-date-day" type="text" inputmode="numeric">
+                        </div>
+                    </div>
+                    <div class="govuk-date-input__item">
+                        <div class="govuk-form-group">
+                            <label class="govuk-label govuk-date-input__label" for="gateway-1-date-month">Month</label>
+                            <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="gateway-1-date-month" name="gateway-1-date-month" type="text" inputmode="numeric">
+                        </div>
+                    </div>
+                    <div class="govuk-date-input__item">
+                        <div class="govuk-form-group">
+                            <label class="govuk-label govuk-date-input__label" for="gateway-1-date-year">Year</label>
+                            <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="gateway-1-date-year" name="gateway-1-date-year" type="text" inputmode="numeric">
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset class="govuk-fieldset govuk-!-margin-bottom-2" role="group" aria-describedby="gateway-2-hint">
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Gateway 2 estimated date</legend>
+                <div id="gateway-2-hint" class="govuk-hint">Hint text if required</div>
+                <div class="govuk-date-input" id="gateway-2-date">
+                    <div class="govuk-date-input__item">
+                        <div class="govuk-form-group">
+                            <label class="govuk-label govuk-date-input__label" for="gateway-2-date-day">Day</label>
+                            <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="gateway-2-date-day" name="gateway-2-date-day" type="text" inputmode="numeric">
+                        </div>
+                    </div>
+                    <div class="govuk-date-input__item">
+                        <div class="govuk-form-group">
+                            <label class="govuk-label govuk-date-input__label" for="gateway-2-date-month">Month</label>
+                            <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="gateway-2-date-month" name="gateway-2-date-month" type="text" inputmode="numeric">
+                        </div>
+                    </div>
+                    <div class="govuk-date-input__item">
+                        <div class="govuk-form-group">
+                            <label class="govuk-label govuk-date-input__label" for="gateway-2-date-year">Year</label>
+                            <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="gateway-2-date-year" name="gateway-2-date-year" type="text" inputmode="numeric">
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset class="govuk-fieldset govuk-!-margin-bottom-2" role="group" aria-describedby="gateway-3-hint">
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Gateway 3 estimated date</legend>
+                <div id="gateway-3-hint" class="govuk-hint">Hint text if required</div>
+                <div class="govuk-date-input" id="gateway-3-date">
+                    <div class="govuk-date-input__item">
+                        <div class="govuk-form-group">
+                            <label class="govuk-label govuk-date-input__label" for="gateway-3-date-day">Day</label>
+                            <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="gateway-3-date-day" name="gateway-3-date-day" type="text" inputmode="numeric">
+                        </div>
+                    </div>
+                    <div class="govuk-date-input__item">
+                        <div class="govuk-form-group">
+                            <label class="govuk-label govuk-date-input__label" for="gateway-3-date-month">Month</label>
+                            <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="gateway-3-date-month" name="gateway-3-date-month" type="text" inputmode="numeric">
+                        </div>
+                    </div>
+                    <div class="govuk-date-input__item">
+                        <div class="govuk-form-group">
+                            <label class="govuk-label govuk-date-input__label" for="gateway-3-date-year">Year</label>
+                            <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="gateway-3-date-year" name="gateway-3-date-year" type="text" inputmode="numeric">
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset class="govuk-fieldset govuk-!-margin-bottom-2" role="group" aria-describedby="submission-hint">
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Submission for examination date</legend>
+                <div id="submission-hint" class="govuk-hint">Hint text if required</div>
+                <div class="govuk-date-input" id="submission-date">
+                    <div class="govuk-date-input__item">
+                        <div class="govuk-form-group">
+                            <label class="govuk-label govuk-date-input__label" for="submission-date-day">Day</label>
+                            <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="submission-date-day" name="submission-date-day" type="text" inputmode="numeric">
+                        </div>
+                    </div>
+                    <div class="govuk-date-input__item">
+                        <div class="govuk-form-group">
+                            <label class="govuk-label govuk-date-input__label" for="submission-date-month">Month</label>
+                            <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="submission-date-month" name="submission-date-month" type="text" inputmode="numeric">
+                        </div>
+                    </div>
+                    <div class="govuk-date-input__item">
+                        <div class="govuk-form-group">
+                            <label class="govuk-label govuk-date-input__label" for="submission-date-year">Year</label>
+                            <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="submission-date-year" name="submission-date-year" type="text" inputmode="numeric">
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <button type="submit" class="govuk-button" data-module="govuk-button" data-govuk-button-init="">Continue</button>
+        </form>
+    </div>
+</div>
+        </div>
+    </div>
+{% endblock %}
+ {% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

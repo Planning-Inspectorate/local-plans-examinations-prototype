@@ -1,0 +1,57 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+<span class="govuk-caption-l">Your documents</span>
+<h1 class="govuk-heading-l">Application form related information</h1>
+<h2 class="govuk-heading-m">Documents uploaded</h2>
+<p>This category contains 0 document(s).</p>
+<form class="form" action="/projects/portal/document-category/document-type" method="post">
+    <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+    Upload documents
+    </button>
+</form>
+
+
+<!-- <div class="govuk-form-group">
+  <fieldset class="govuk-fieldset">
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+      Have you completed this section?
+    </legend>
+    <div class="govuk-radios" data-module="govuk-radios">
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="haveYouCompletedThisSection" name="haveYouCompletedThisSection" type="radio" value="yes">
+        <label class="govuk-label govuk-radios__label" for="haveYouCompletedThisSection">
+          Yes, I’ve completed this section
+        </label>
+      </div>
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="haveYouCompletedThisSection-2" name="haveYouCompletedThisSection" type="radio" value="no">
+        <label class="govuk-label govuk-radios__label" for="haveYouCompletedThisSection-2">
+          No, I’ll come back to it later
+        </label>
+      </div>
+    </div>
+  </fieldset>
+</div>
+<button type="submit" class="govuk-button" data-module="govuk-button">
+  Continue
+</button> -->
+{% endblock %}
+  {% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}
+  

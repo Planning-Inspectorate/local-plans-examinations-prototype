@@ -1,0 +1,87 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+<span class="govuk-caption-l">Your documents</span>
+<h1 class="govuk-heading-l">Application form related information</h1>
+
+<table class="govuk-table govuk-table--small-text-until-tablet">
+  <caption class="govuk-table__caption govuk-table__caption--m">Documents uploaded</caption>
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">Document</th>
+      <th scope="col" class="govuk-table__header">Size</th>
+      <th scope="col" class="govuk-table__header">Remove</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    {% if session['portal-upload-documents'] and session['portal-upload-documents'].length > 0 %}
+      {% for file in session['portal-upload-documents'] %}
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">
+            <a class="govuk-link" href="/uploads/{{ file.name }}" target="_blank" rel="noopener">
+              {{ file.name }}
+            </a>
+          </th>
+          <td class="govuk-table__cell">{{ file.size }}</td>
+          <td class="govuk-table__cell">
+            <a class="govuk-link" href="/projects/portal/document-category/with-documents/remove?name={{ file.name }}">Remove<span class="govuk-visually-hidden"> {{ file.name }}</span></a>
+          </td>
+        </tr>
+      {% endfor %}
+    {% else %}
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell" colspan="3">No documents uploaded.</td>
+      </tr>
+    {% endif %}
+  </tbody>
+</table>
+
+<form class="form" action="/projects/portal/document-category/upload-documents" method="post">
+  <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+    Upload documents
+  </button>
+</form>
+
+<div class="govuk-form-group">
+  <fieldset class="govuk-fieldset">
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+      Have you completed this section?
+    </legend>
+    <div class="govuk-radios" data-module="govuk-radios">
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="haveYouCompletedThisSection" name="haveYouCompletedThisSection" type="radio" value="yes">
+        <label class="govuk-label govuk-radios__label" for="haveYouCompletedThisSection">
+          Yes, I’ve completed this section
+        </label>
+      </div>
+      <div class="govuk-radios__item">
+        <input class="govuk-radios__input" id="haveYouCompletedThisSection-2" name="haveYouCompletedThisSection" type="radio" value="no">
+        <label class="govuk-label govuk-radios__label" for="haveYouCompletedThisSection-2">
+          No, I’ll come back to it later
+        </label>
+      </div>
+    </div>
+  </fieldset>
+</div>
+
+<form class="form" action="/projects/portal/tasklist" method="post">
+  <div class="govuk-form-group">
+    {{ govukButton({ text: "Continue" }) }}
+  </div>
+</form>
+
+{% endblock %}

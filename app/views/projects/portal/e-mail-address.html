@@ -1,0 +1,42 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="form" action="/projects/portal/enter-code-success" method="get">
+      <div class="govuk-form-group">
+        <h1 class="govuk-label-wrapper">
+          <label class="govuk-label govuk-label--l" for="event-name">
+            What is your email address?
+          </label>
+        </h1>
+        <input class="govuk-input govuk-!-width-two-thirds" id="event-name" name="e-mail-address" type="text">
+      </div>
+
+      <div class="govuk-form-group">
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+      </div>
+
+      </form>
+    </div>
+</div>
+
+    
+{% endblock %}
+  {% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

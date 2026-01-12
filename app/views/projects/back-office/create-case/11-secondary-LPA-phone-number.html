@@ -1,0 +1,43 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+  Content page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <form method="post" action="/projects/back-office/create-case/11-secondary-LPA-phone-number">
+      <h1 class="govuk-heading-l">Contact phone number</h1>
+     
+ {% from "govuk/components/input/macro.njk" import govukInput %}
+
+{{ govukInput({
+  
+  id: "phone-number",
+  name: "phone-number",
+  type: "tel",
+  autocomplete: "tel",
+  classes: "govuk-input--width-20"
+}) }}
+
+  {{ govukButton({
+    text: "Continue"
+  }) }}
+</form>
+
+  </div>
+</div>
+{% endblock %}  
+ {% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

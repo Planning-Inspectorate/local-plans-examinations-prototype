@@ -1,0 +1,34 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+  Content page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+     {{ govukPanel({
+        titleText: "New case has been created",
+        html: "The case reference number<br><strong>PLAN/000001</strong>"
+      }) }}
+      <p>
+        <a href="/projects/back-office/create-case/index">
+          Go back to back office homepage
+        </a>
+      </p>
+
+  </div>
+</div>
+{% endblock %}  
+ {% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}
