@@ -1,0 +1,77 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+  {% if isEdit %}Edit case officer{% else %}Case officer{% endif %} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <form action="/projects/back-office/create-case-v2/0-case-officer-name" method="POST" novalidate="">
+      <input type="hidden" name="_csrf" value="">
+      <input type="hidden" name="isEdit" value="{{ isEdit }}">
+
+      <div class="govuk-form-group">
+        <h1 class="govuk-label-wrapper">
+          <label class="govuk-label govuk-label--l" for="caseOfficer">
+            {% if isEdit %}Edit case officer{% else %}Case officer{% endif %}
+          </label>
+        </h1>
+        <div>
+          <div class="autocomplete__wrapper">
+            <div class="autocomplete__status"
+              style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; margin-bottom: -1px; margin-right: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;">
+              <div id="lpaId__status--A" role="status" aria-atomic="true" aria-live="polite"></div>
+              <div id="lpaId__status--B" role="status" aria-atomic="true" aria-live="polite"></div>
+            </div>
+            <ul aria-labelledby="lpaId" id="lpaId__listbox" role="listbox"
+              class="autocomplete__menu autocomplete__menu--inline autocomplete__menu--hidden"></ul>
+            <span id="lpaId__assistiveHint" style="display: none;">When autocomplete results are available use up and
+              down arrows to review and enter to select. Touch device users, explore by touch or with swipe
+              gestures.</span>
+
+            <select class="govuk-select" id="caseOfficer" name="caseOfficer" data-module="autocomplete" data-autoselect=""
+              data-display-menu="" data-min-length="" data-show-all-values="" data-show-no-options-found="">
+              <option value="" {% if not caseOfficer %}selected{% endif %} disabled>Select an option</option>
+              <option value="Case officer 1" {% if caseOfficer == "Case officer 1" %}selected{% endif %}>Case officer 1</option>
+              <option value="Case officer 2" {% if caseOfficer == "Case officer 2" %}selected{% endif %}>Case officer 2</option>
+              <option value="Case officer 3" {% if caseOfficer == "Case officer 3" %}selected{% endif %}>Case officer 3</option>
+              <option value="Case officer 4" {% if caseOfficer == "Case officer 4" %}selected{% endif %}>Case officer 4</option>
+              <option value="Case officer 5" {% if caseOfficer == "Case officer 5" %}selected{% endif %}>Case officer 5</option>
+              <option value="Case officer 6" {% if caseOfficer == "Case officer 6" %}selected{% endif %}>Case officer 6</option>
+              <option value="Case officer 7" {% if caseOfficer == "Case officer 7" %}selected{% endif %}>Case officer 7</option>
+              <option value="Case officer 8" {% if caseOfficer == "Case officer 8" %}selected{% endif %}>Case officer 8</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="govuk-button-group">
+        {{ govukButton({
+          text: "Save and continue"
+        }) }}
+        
+        {% if isEdit %}
+        {{ govukButton({
+          text: "Cancel",
+          classes: "govuk-button--secondary",
+          href: "/projects/back-office/create-case-v2/check-answers"
+        }) }}
+        {% endif %}
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}
+

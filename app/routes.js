@@ -23,6 +23,7 @@ const upload = multer({ dest: 'uploads/' });
 // Mount feature routers that export an Express Router object
 router.use('/', require('./routes/portal'));
 router.use('/', require('./routes/create-case'));
+router.use('/', require('./routes/create-case-v2'));
 router.use('/', require('./routes/reps'));
 
 // If you have other feature routers that also export Router objects,

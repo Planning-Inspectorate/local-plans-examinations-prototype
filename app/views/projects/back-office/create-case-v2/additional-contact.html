@@ -1,0 +1,83 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+  {% if editIndex !== '' %}Edit contact details{% else %}Additional contact{% endif %} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">
+        {% if editIndex !== '' %}Edit contact details{% else %}Additional contact{% endif %}
+      </h1>
+
+      <form method="post">
+        <input type="hidden" name="editIndex" value="{{ editIndex }}">
+        <input type="hidden" name="fromCheckAnswers" value="{{ fromCheckAnswers }}">
+        
+        <fieldset class="govuk-fieldset">
+          <div class="govuk-form-group">
+            <label class="govuk-label" for="firstName">
+              First name
+            </label>
+            <input class="govuk-input" id="additional-contact-first-name" name="firstName" type="text" autocomplete="given-name" value="{{ contact.firstName | default('') }}">
+          </div>
+          <div class="govuk-form-group">
+            <label class="govuk-label" for="additional-contact-last-name">
+              Last name
+            </label>
+            <input class="govuk-input" id="additional-contact-last-name" name="lastName" type="text" autocomplete="family-name" value="{{ contact.lastName | default('') }}">
+          </div>
+          <div class="govuk-form-group">
+            <label class="govuk-label" for="additional-contact-email">
+              Email address
+            </label>
+            <input class="govuk-input" id="additional-contact-email" name="email" type="email" autocomplete="email" value="{{ contact.email | default('') }}">
+          </div>
+          <div class="govuk-form-group">
+            <label class="govuk-label" for="additional-contact-phone">
+              Phone number (optional)
+            </label>
+            <input class="govuk-input govuk-!-width-one-half" id="additional-contact-phone" name="phone" type="text" autocomplete="tel" value="{{ contact.phone | default('') }}">
+          </div>
+        </fieldset>
+        <div class="govuk-form-group">
+          <label class="govuk-label" for="contact-organisation">
+            Select the organisation for this contact
+          </label>
+          <div class="govuk-radios" data-module="govuk-radios">
+            {% for lpa in lpas %}
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="lpa-{{ loop.index }}" name="contactOrganisation" type="radio" value="{{ lpa }}"
+                  {% if contact.organisation == lpa %}checked{% endif %}>
+                <label class="govuk-label govuk-radios__label" for="lpa-{{ loop.index }}">
+                  {{ lpa }}
+                </label>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="govuk-button-group">
+          {{ govukButton({
+            text: "Save and continue"
+          }) }}
+          
+          {% if editIndex !== '' or fromCheckAnswers %}
+          {{ govukButton({
+            text: "Cancel",
+            classes: "govuk-button--secondary",
+            href: "/projects/back-office/create-case-v2/check-answers"
+          }) }}
+          {% endif %}
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

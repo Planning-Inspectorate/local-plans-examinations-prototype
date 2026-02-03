@@ -1,0 +1,88 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+  {% if isEdit %}Edit plan type{% else %}Plan type{% endif %} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+     
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="form" action="/projects/back-office/create-case-v2/2-plan-type" method="post">
+      
+      <input type="hidden" name="isEdit" value="{{ isEdit }}">
+
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% set textHtml %}
+{{ govukInput({
+  id: "other-plan-type",
+  name: "otherPlanType",
+  type: "text",
+  autocomplete: "off",
+  classes: "govuk-!-width-one-third",
+  label: {
+    text: "Plan type"
+  }
+}) }}
+{% endset -%}
+{{ govukRadios({
+  name: "plan-type",
+  fieldset: {
+    legend: {
+      text: "Plan type" if not isEdit else "Edit plan type",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--l"
+    }
+  },
+  items: [
+    {
+      value: "local-plan",
+      text: "Local Plan",
+      checked: planType == "local-plan"
+    },
+    {
+      value: "supplementary-plan",
+      text: "Supplementary Plan",
+      checked: planType == "supplementary-plan"
+    },
+    {
+      value: "other",
+      text: "Other",
+      checked: planType == "other",
+      conditional: {
+        html: textHtml
+      }
+    }
+  ]
+}) }}
+
+      <div class="govuk-button-group">
+        {{ govukButton({
+          text: "Save and continue"
+        }) }}
+        
+        {% if isEdit %}
+        {{ govukButton({
+          text: "Cancel",
+          classes: "govuk-button--secondary",
+          href: "/projects/back-office/create-case-v2/check-answers"
+        }) }}
+        {% endif %}
+      </div>
+
+      </form>
+    </div>
+</div>
+
+{% endblock %}
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}
+

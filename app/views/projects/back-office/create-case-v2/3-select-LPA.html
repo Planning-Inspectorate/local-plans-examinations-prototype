@@ -1,8 +1,6 @@
 {% extends "layouts/back-office.html" %}
 
-{% block pageTitle %}
-  Comment on the Local Plan – {{ serviceName }} – GOV.UK Prototype Kit
-{% endblock %}
+
 {% block beforeContent %}
   {{ govukBackLink({
   text: "Back",
@@ -11,26 +9,27 @@
 {% endblock %}
 
 {% block content %}
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <form method="post" action="/projects/back-office/create-case/8-secondary-LPA">
-      <div class="govuk-form-group">
-        <h1 class="govuk-label-wrapper">
-          <label class="govuk-label govuk-label--l" for="lpa">
-            Secondary local planning authority
-          </label>
-        </h1>
-        <div class="autocomplete__wrapper">
-          <div class="autocomplete__status"
-            style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; margin-bottom: -1px; margin-right: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;">
-            <div id="lpaId__status--A" role="status" aria-atomic="true" aria-live="polite"></div>
-            <div id="lpaId__status--B" role="status" aria-atomic="true" aria-live="polite"></div>
-          </div>
-          <ul aria-labelledby="lpaId" id="lpaId__listbox" role="listbox"
-            class="autocomplete__menu autocomplete__menu--inline autocomplete__menu--hidden"></ul>
-          <span id="lpaId__assistiveHint" style="display: none;">When autocomplete results are available use up and
-            down arrows to review and enter to select. Touch device users, explore by touch or with swipe
-            gestures.</span>
+
+      <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form method="post" action="/projects/back-office/create-case-v2/3-select-LPA">
+        <div class="govuk-form-group">
+          <h1 class="govuk-label-wrapper">
+            <label class="govuk-label govuk-label--l" for="lpa">
+              Select the local planning authority for this plan
+            </label>
+          </h1>
+          <div class="autocomplete__wrapper">
+            <div class="autocomplete__status"
+              style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; margin-bottom: -1px; margin-right: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;">
+              <div id="lpaId__status--A" role="status" aria-atomic="true" aria-live="polite"></div>
+              <div id="lpaId__status--B" role="status" aria-atomic="true" aria-live="polite"></div>
+            </div>
+            <ul aria-labelledby="lpaId" id="lpaId__listbox" role="listbox"
+              class="autocomplete__menu autocomplete__menu--inline autocomplete__menu--hidden"></ul>
+            <span id="lpaId__assistiveHint" style="display: none;">When autocomplete results are available use up and
+              down arrows to review and enter to select. Touch device users, explore by touch or with swipe
+              gestures.</span>
             <select class="govuk-select" id="lpa" name="lpa" data-module="autocomplete" data-autoselect=""
               data-display-menu="" data-min-length="" data-show-all-values="" data-show-no-options-found="">
               <option value="" selected disabled>Select an option</option>
@@ -457,17 +456,17 @@
           </div>
     </div>
 
-     <div class="govuk-form-group">
+       <div class="govuk-form-group">
         {{ govukButton({
           text: "Continue"
         }) }}
-        </div>
-      </form>
-    </div>
+      </div>
+    </form>
   </div>
 
 
-{% endblock %}
-{% block footer %}
+      {% endblock %}
+      {% block footer %}
   {% include "includes/footer.njk" %}
 {% endblock %}
+  
