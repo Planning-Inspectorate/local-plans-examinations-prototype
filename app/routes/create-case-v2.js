@@ -388,7 +388,7 @@ router.post('/projects/back-office/create-case-v2/check-answers', (req, res) => 
     gateway2Date: req.session.gateway2Date,
     gateway3Date: req.session.gateway3Date,
     submissionDate: req.session.submissionDate,
-    status: 'Draft',
+    status: 'Submitted',
     createdDate: new Date().toISOString()
   };
   
