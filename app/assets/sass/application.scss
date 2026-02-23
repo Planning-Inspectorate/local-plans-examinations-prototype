@@ -25,6 +25,44 @@
     border-bottom-color: #b1b4b6 !important;
     background-color: #f3f2f1 !important;
 }
+.govuk-service-navigation__service-name {
+    font-weight: bold !important;
+    margin-right: 30px;
+    color: #000;
+    text-decoration: none;
+}
+.govuk-service-navigation__item--active .govuk-service-navigation__link {
+    text-decoration: underline;
+    border-bottom: 4px solid #000;
+    }
+    
+.govuk-service-navigation__link {
+    color: #000 !important;
+    border-bottom: 4px solid transparent !important;
+    transition: color 0.2s, border-bottom-color 0.2s !important;
+    }
+.govuk-service-navigation__link:hover {
+    color: #003078 !important;
+    text-decoration: none !important;
+    border-bottom-color: #000 !important;
+}
+
+// GOV.UK Service Navigation List
+.govuk-service-navigation__list {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+   // Adjust this value for more or less space between links
+  align-items: center;
+}
+
+// Ensure service name link is bold even if other rules apply
+.govuk-service-navigation__service-name,
+.govuk-service-navigation__service-name .govuk-service-navigation__link,
+.govuk-service-navigation__service-name.govuk-service-navigation__link {
+  font-weight: bold !important;
+}
 
 // Set the background of the entire page, gutters, and back button to white
 html, body {

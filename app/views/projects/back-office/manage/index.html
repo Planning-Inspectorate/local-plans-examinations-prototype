@@ -1,0 +1,86 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+    
+{% block content %}
+
+  <div class="app-filter-layout">
+    <div class="app-filter-layout__filter">
+      {% include "includes/filter-panel.njk" %}
+    </div>
+    <div class="app-filter-layout__content">
+
+      {% include "includes/search-form.njk" %}
+
+      <div class="app-action-bar">
+        <div class="app-action-bar__filter"></div>
+      </div>
+
+      {% if cases and cases.length > 0 %}
+        <h2 class="govuk-heading-m">All cases ({{ cases.length }})</h2>
+        <table class="govuk-table">
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header">Case reference</th>
+              <th scope="col" class="govuk-table__header">Plan title</th>
+              <th scope="col" class="govuk-table__header">Plan type</th>
+              <th scope="col" class="govuk-table__header">Case officer</th>
+              <th scope="col" class="govuk-table__header">Status</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+            {% for case in cases %}
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell">
+                <a href="#" class="govuk-link">{{ case.caseRef }}</a>
+              </td>
+              <td class="govuk-table__cell">{{ case.planTitle or '-' }}</td>
+              <td class="govuk-table__cell">{{ case.planType or '-' }}</td>
+              <td class="govuk-table__cell">{{ case.caseOfficer or '-' }}</td>
+              <td class="govuk-table__cell">
+                <strong class="govuk-tag govuk-tag--blue">{{ case.status }}</strong>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p class="govuk-body">No cases have been created yet.</p>
+      {% endif %}
+
+      {% include "includes/pagination.njk" %}
+
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  {{super()}}
+  <script>
+    new AppFrontend.FilterToggleButton({
+      bigModeMediaQuery: '(min-width: 48.063em)',
+      startHidden: false,
+      toggleButton: {
+        container: $('.app-action-bar__filter'),
+        showText: 'Show filter',
+        hideText: 'Hide filter',
+        classes: 'govuk-button--secondary govuk-!-margin-bottom-3'
+      },
+      closeButton: {
+        container: $('.app-filter__header-action'),
+        text: 'Close'
+      },
+      filter: {
+        container: $('.app-filter-layout__filter')
+      }
+    })
+  </script>
+{% endblock %}

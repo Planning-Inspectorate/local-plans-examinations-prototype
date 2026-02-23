@@ -33,6 +33,30 @@
                 <a class="govuk-link" href="/projects/back-office/create-case-v2/2-plan-type?edit=true">Edit<span class="govuk-visually-hidden"> Change the plan type</span></a>
               </dd>
             </div>
+            {% if lpas and lpas.length > 0 %}
+              {% for lpa in lpas %}
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key">LPA {{ loop.index }}</dt>
+                  <dd class="govuk-summary-list__value">{{ lpa }}</dd>
+                  <dd class="govuk-summary-list__actions">
+                    <a class="govuk-link" href="/projects/back-office/create-case-v2/3-select-LPA?edit=true&index={{ loop.index0 }}">Edit<span class="govuk-visually-hidden"> Change LPA {{ loop.index }}</span></a>
+                  </dd>
+                </div>
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key">Region for LPA {{ loop.index }}</dt>
+                  <dd class="govuk-summary-list__value">{{ lpaRegions and lpaRegions[lpa] or '-' }}</dd>
+                  <dd class="govuk-summary-list__actions">
+                    <a class="govuk-link" href="/projects/back-office/create-case-v2/LPA-region?edit=true&index={{ loop.index0 }}">Edit<span class="govuk-visually-hidden"> Change region for LPA {{ loop.index }}</span></a>
+                  </dd>
+                </div>
+              {% endfor %}
+            {% else %}
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">LPA(s)</dt>
+                <dd class="govuk-summary-list__value">-</dd>
+                <dd class="govuk-summary-list__actions"></dd>
+              </div>
+            {% endif %}
             <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">Case officer</dt>
               <dd class="govuk-summary-list__value">{{ caseOfficer or '-' }}</dd>

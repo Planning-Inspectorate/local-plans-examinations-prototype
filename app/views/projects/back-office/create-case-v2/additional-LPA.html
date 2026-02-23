@@ -34,30 +34,9 @@
             <select class="govuk-select" id="lpa" name="lpa" data-module="autocomplete" data-autoselect=""
               data-display-menu="" data-min-length="" data-show-all-values="" data-show-no-options-found="">
               <option value="" selected disabled>Select an option</option>
-              <option value="Adur District Council">Adur District Council</option>
-              <option value="Allerdale Borough Council">Allerdale Borough Council</option>
-              <option value="Alnwick District Council">Alnwick District Council</option>
-              <option value="Amber Valley Borough Council">Amber Valley Borough Council</option>
-              <option value="Arun District Council">Arun District Council</option>
-              <option value="Ashfield District Council">Ashfield District Council</option>
-              <option value="Ashford Borough Council">Ashford Borough Council</option>
-              <option value="Babergh District Council">Babergh District Council</option>
-              <option value="Barnsley Metropolitan Borough Council">Barnsley Metropolitan Borough Council</option>
-              <option value="Barrow-in- Furness Borough Council">Barrow-in- Furness Borough Council</option>
-              <option value="Basildon Borough Council">Basildon Borough Council</option>
-              <option value="Basingstoke and Deane Borough Council">Basingstoke and Deane Borough Council</option>
-              <option value="Bassetlaw District Council">Bassetlaw District Council</option>
-              <option value="Bath and North East Somerset Council">Bath and North East Somerset Council</option>
-              <option value="Bedford Borough Council">Bedford Borough Council</option>
-              <option value="Bedfordshire County Council">Bedfordshire County Council</option>
-              <option value="Berwick-Upon-Tweed Borough Council">Berwick-Upon-Tweed Borough Council</option>
-              <option value="Birmingham City Council">Birmingham City Council</option>
-              <option value="Blaby District Council">Blaby District Council</option>
-              <option value="Black Country Urban Development Corporation">Black Country Urban Development Corporation</option>
-              <option value="Blackburn with Darwen Borough Council">Blackburn with Darwen Borough Council</option>
-              <option value="Blackpool Council">Blackpool Council</option>
-              <option value="Blyth Valley Borough Council">Blyth Valley Borough Council</option>
-              <option value="Bolsover District Council">Bolsover District Council</option>
+              {% for lpa in lpaList %}
+                <option value="{{ lpa }}">{{ lpa }}</option>
+              {% endfor %}
               <option value="Bolton Metropolitan Borough Council">Bolton Metropolitan Borough Council</option>
               <option value="Borough of Poole Council">Borough of Poole Council</option>
               <option value="Boston Borough Council">Boston Borough Council</option>
@@ -458,9 +437,15 @@
     </div>
 
      <div class="govuk-form-group">
+         {% if isEdit %}
+        {{ govukButton({
+          text: "Save and continue"
+        }) }}
+        {% else %}
         {{ govukButton({
           text: "Continue"
         }) }}
+        {% endif %}
         </div>
       </form>
     </div>

@@ -1,4 +1,3 @@
-
 <header class="back-office-header" role="banner" style="background-color: #f3f2f1;">
   <div class="back-office-header__logo-group">
     <div class="back-office-header__logo-wrapper">
@@ -6,29 +5,33 @@
         <img class="back-office-header__logo" src="/public/Planning-Inspectorate-logo-landscape.png" alt="Planning Inspectorate logo">
       </a>
     </div>
-    <!-- department name 
-		    <span class="pins-internal-header-logo__text govuk-!-margin-left-2 govuk-!-margin-top-1">
-          Planning Inspectorate
-        </span>
-      </a>
-    </div> -->
-
-    <!-- service name
-    <div class="pins-internal-service-name">
-      <a href="/" class="pins-internal-service-name__link">
-        Local Plans
-      </a>
-    </div>-->
   </div>
 </header>
-<nav class="back-office-header__service-nav">
-  {{ govukServiceNavigation({
-    serviceName: "Local plans back office",
-    serviceUrl: "/projects/back-office/create-case-v2/index",
-    navigation: [
-      { text: "Create a case", href: "/projects/back-office/create-case-v2/0-case-officer-name"},
-      { text: "Assigned to me", href: "/projects/back-office/create-case-v2/index"},
-      { text: "Sign out", href: "/projects/back-office/create-case-v2/index" }
-    ]
-  }) }}
-</nav>
+<section aria-label="Service information" class="govuk-service-navigation" data-module="govuk-service-navigation">
+  <div class="govuk-width-container">
+    <div class="govuk-service-navigation__container">
+      <span class="govuk-service-navigation__service-name">
+        <a href="/projects/back-office/create-case-v2/index" class="govuk-service-navigation__link">Plans Examination back office</a>
+      </span>
+      <nav aria-label="Menu" class="govuk-service-navigation__wrapper">
+        <ul class="govuk-service-navigation__list" id="navigation">
+          <li class="govuk-service-navigation__item">
+            <a class="govuk-service-navigation__link" href="/projects/back-office/create-case-v2/0-case-officer-name">
+              Create a case
+            </a>
+          </li>
+          <li class="govuk-service-navigation__item">
+            <a class="govuk-service-navigation__link" href="/projects/back-office/create-case-v2/index-assigned">
+              Assigned to me
+            </a>
+          </li>
+          <li class="govuk-service-navigation__item">
+            <a class="govuk-service-navigation__link" href="/projects/back-office/create-case-v2/index">
+              Sign out
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</section>

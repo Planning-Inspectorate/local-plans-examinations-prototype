@@ -1,0 +1,81 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+Assigned to me – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+{% set myCaseOfficer = "Jane Smith" %}
+        {% set assignedCases = [
+          {
+            caseRef: 'PLAN/000001',
+            planTitle: 'Central City Local Plan',
+            planType: 'Local Plan',
+            caseOfficer: 'Jane Smith',
+            status: 'Submitted'
+          },
+          {
+            caseRef: 'PLAN/000004',
+            planTitle: 'West End Local Plan',
+            planType: 'Local Plan',
+            caseOfficer: 'Jane Smith',
+            status: 'Submitted'
+          },
+          {
+            caseRef: 'PLAN/000011',
+            planTitle: 'Harbour Local Plan',
+            planType: 'Local Plan',
+            caseOfficer: 'Jane Smith',
+            status: 'In progress'
+          }
+        ] %}
+
+        {% if assignedCases and assignedCases.length > 0 %}
+<h1 class="govuk-heading-l">
+     Assigned to {{ myCaseOfficer }} ({{ assignedCases.length }})
+</h1>
+
+<div class="govuk-grid-column-full-width project">
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--invisible">
+
+    
+
+        <table class="govuk-table">
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header">Case reference</th>
+              <th scope="col" class="govuk-table__header">Plan title</th>
+              <th scope="col" class="govuk-table__header">Plan type</th>
+              <th scope="col" class="govuk-table__header">Case officer</th>
+              <th scope="col" class="govuk-table__header">Status</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+            {% for case in assignedCases %}
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell">
+                <a href="#" class="govuk-link">{{ case.caseRef }}</a>
+              </td>
+              <td class="govuk-table__cell">{{ case.planTitle or '-' }}</td>
+              <td class="govuk-table__cell">{{ case.planType or '-' }}</td>
+              <td class="govuk-table__cell">{{ case.caseOfficer or '-' }}</td>
+              <td class="govuk-table__cell">
+                <strong class="govuk-tag govuk-tag--blue">{{ case.status }}</strong>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <p class="govuk-body">No plans are currently assigned to you.</p>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

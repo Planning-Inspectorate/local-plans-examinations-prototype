@@ -30,76 +30,13 @@
             <span id="lpaId__assistiveHint" style="display: none;">When autocomplete results are available use up and
               down arrows to review and enter to select. Touch device users, explore by touch or with swipe
               gestures.</span>
+            <input type="hidden" name="index" value="{{ index }}">
             <select class="govuk-select" id="lpa" name="lpa" data-module="autocomplete" data-autoselect=""
               data-display-menu="" data-min-length="" data-show-all-values="" data-show-no-options-found="">
-              <option value="" selected disabled>Select an option</option>
-              <option value="Adur District Council">Adur District Council</option>
-              <option value="Allerdale Borough Council">Allerdale Borough Council</option>
-              <option value="Alnwick District Council">Alnwick District Council</option>
-              <option value="Amber Valley Borough Council">Amber Valley Borough Council</option>
-              <option value="Arun District Council">Arun District Council</option>
-              <option value="Ashfield District Council">Ashfield District Council</option>
-              <option value="Ashford Borough Council">Ashford Borough Council</option>
-              <option value="Babergh District Council">Babergh District Council</option>
-              <option value="Barnsley Metropolitan Borough Council">Barnsley Metropolitan Borough Council</option>
-              <option value="Barrow-in- Furness Borough Council">Barrow-in- Furness Borough Council</option>
-              <option value="Basildon Borough Council">Basildon Borough Council</option>
-              <option value="Basingstoke and Deane Borough Council">Basingstoke and Deane Borough Council</option>
-              <option value="Bassetlaw District Council">Bassetlaw District Council</option>
-              <option value="Bath and North East Somerset Council">Bath and North East Somerset Council</option>
-              <option value="Bedford Borough Council">Bedford Borough Council</option>
-              <option value="Bedfordshire County Council">Bedfordshire County Council</option>
-              <option value="Berwick-Upon-Tweed Borough Council">Berwick-Upon-Tweed Borough Council</option>
-              <option value="Birmingham City Council">Birmingham City Council</option>
-              <option value="Blaby District Council">Blaby District Council</option>
-              <option value="Black Country Urban Development Corporation">Black Country Urban Development Corporation</option>
-              <option value="Blackburn with Darwen Borough Council">Blackburn with Darwen Borough Council</option>
-              <option value="Blackpool Council">Blackpool Council</option>
-              <option value="Blyth Valley Borough Council">Blyth Valley Borough Council</option>
-              <option value="Bolsover District Council">Bolsover District Council</option>
-              <option value="Bolton Metropolitan Borough Council">Bolton Metropolitan Borough Council</option>
-              <option value="Borough of Poole Council">Borough of Poole Council</option>
-              <option value="Boston Borough Council">Boston Borough Council</option>
-              <option value="Bournemouth Borough Council">Bournemouth Borough Council</option>
-              <option value="Bournemouth Christchurch and Poole Council">Bournemouth Christchurch and Poole Council</option>
-              <option value="Bracknell Forest Borough Council">Bracknell Forest Borough Council</option>
-              <option value="Braintree District Council">Braintree District Council</option>
-              <option value="Breckland Council">Breckland Council</option>
-              <option value="Brentwood Borough Council">Brentwood Borough Council</option>
-              <option value="Bridgnorth District Council">Bridgnorth District Council</option>
-              <option value="Brighton & Hove City Council">Brighton & Hove City Council</option>
-              <option value="Bristol City Council">Bristol City Council</option>
-              <option value="Bristol Urban District Council">Bristol Urban District Council</option>
-              <option value="Broadland District Council">Broadland District Council</option>
-              <option value="Broads Authority">Broads Authority</option>
-              <option value="Bromsgrove District Council">Bromsgrove District Council</option>
-              <option value="Broxbourne Borough Council">Broxbourne Borough Council</option>
-              <option value="Broxtowe Borough Council">Broxtowe Borough Council</option>
-              <option value="Buckinghamshire Council - East Area (Chiltern)">Buckinghamshire Council - East Area (Chiltern)</option>
-              <option value="Buckinghamshire Council - Minerals and Waste (County wide)">Buckinghamshire Council - Minerals and Waste (County wide)</option>
-              <option value="Buckinghamshire Council - North Area (Aylesbury)">Buckinghamshire Council - North Area (Aylesbury)</option>
-              <option value="Buckinghamshire Council - South Area (South Bucks)">Buckinghamshire Council - South Area (South Bucks)</option>
-              <option value="Buckinghamshire Council - West Area (Wycombe)">Buckinghamshire Council - West Area (Wycombe)</option>
-              <option value="Burnley Borough Council">Burnley Borough Council</option>
-              <option value="Bury Metropolitan Borough Council">Bury Metropolitan Borough Council</option>
-              <option value="Calderdale Metropolitan Borough Council">Calderdale Metropolitan Borough Council</option>
-              <option value="Cambridge City Council">Cambridge City Council</option>
-              <option value="Cambridgeshire County Council">Cambridgeshire County Council</option>
-              <option value="Cannock Chase District Council">Cannock Chase District Council</option>
-              <option value="Canterbury City Council">Canterbury City Council</option>
-              <option value="Caradon District Council">Caradon District Council</option>
-              <option value="Carlisle City Council">Carlisle City Council</option>
-              <option value="Carrick District Council">Carrick District Council</option>
-              <option value="Castle Morpeth Borough Council">Castle Morpeth Borough Council</option>
-              <option value="Castle Point Borough Council">Castle Point Borough Council</option>
-              <option value="Central Bedfordshire Council">Central Bedfordshire Council</option>
-              <option value="Central Manchester Urban Development Corporation">Central Manchester Urban Development Corporation</option>
-              <option value="Charnwood Borough Council">Charnwood Borough Council</option>
-              <option value="Chelmsford City Council">Chelmsford City Council</option>
-              <option value="Cheltenham Borough Council">Cheltenham Borough Council</option>
-              <option value="Cherwell District Council">Cherwell District Council</option>
-              <option value="Cheshire County Council">Cheshire County Council</option>
-              <option value="Cheshire East Council">Cheshire East Council</option>
+              <option value="" disabled {% if not selectedLPA %}selected{% endif %}>Select an option</option>
+              {% for lpa in lpaList %}
+                <option value="{{ lpa }}" {% if selectedLPA == lpa %}selected{% endif %}>{{ lpa }}</option>
+              {% endfor %}
               <option value="Cheshire West and Chester Council">Cheshire West and Chester Council</option>
               <option value="Chester-le-Street District Council">Chester-le-Street District Council</option>
               <option value="Chesterfield Borough Council">Chesterfield Borough Council</option>
@@ -457,9 +394,12 @@
     </div>
 
        <div class="govuk-form-group">
-        {{ govukButton({
-          text: "Continue"
-        }) }}
+         {% if isEdit %}
+        <button type="submit" class="govuk-button" data-module="govuk-button" name="isEdit" value="true">Save and continue</button>
+        <a class="govuk-button govuk-button--secondary" href="/projects/back-office/create-case-v2/check-answers">Cancel</a>
+        {% else %}
+        <button type="submit" class="govuk-button" data-module="govuk-button">Continue</button>
+        {% endif %}
       </div>
     </form>
   </div>

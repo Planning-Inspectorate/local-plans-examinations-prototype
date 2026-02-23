@@ -1,10 +1,126 @@
 const express = require('express');
 const router = express.Router();
 
+// ...existing code...
+
+const REGION_OPTIONS = [
+  "East of England",
+  "East Midlands",
+  "London",
+  "North East",
+  "North West",
+  "South East",
+  "South West",
+  "West Midlands",
+  "Yorkshire and the Humber"
+];
+
+// Edit LPA region page
+router.get('/projects/back-office/create-case-v2/LPA-region', (req, res) => {
+  const isEdit = req.query.edit === 'true';
+  const index = req.query.index ? parseInt(req.query.index, 10) : 0;
+  const lpas = req.session.lpas || [];
+  const lpa = lpas[index];
+  const lpaRegions = req.session.lpaRegions || {};
+  res.render('projects/back-office/create-case-v2/LPA-region', {
+    region: lpaRegions[lpa] || '',
+    regionOptions: REGION_OPTIONS,
+    isEdit,
+    lpa,
+    index
+  });
+});
+
+router.post('/projects/back-office/create-case-v2/LPA-region', (req, res) => {
+  if (req.body.action === 'cancel') {
+    return res.redirect('/projects/back-office/create-case-v2/check-answers');
+  }
+  const index = req.body.index ? parseInt(req.body.index, 10) : 0;
+  const lpas = req.session.lpas || [];
+  const lpa = lpas[index];
+  if (!req.session.lpaRegions) req.session.lpaRegions = {};
+  req.session.lpaRegions[lpa] = req.body.region;
+  res.redirect('/projects/back-office/create-case-v2/check-answers');
+});
+
 // Start page
 router.get('/projects/back-office/create-case-v2/index', (req, res) => {
+  if (!req.session.cases || req.session.cases.length === 0) {
+    req.session.cases = [
+      {
+        caseRef: 'PLAN/000001',
+        planTitle: 'Central City Local Plan',
+        planType: 'Local Plan',
+        caseOfficer: 'Jane Smith',
+        status: 'Submitted'
+      },
+      {
+        caseRef: 'PLAN/000002',
+        planTitle: 'North District Local Plan',
+        planType: 'Local Plan',
+        caseOfficer: 'John Doe',
+        status: 'In progress'
+      },
+      {
+        caseRef: 'PLAN/000003',
+        planTitle: 'Southside Local Plan',
+        planType: 'Local Plan',
+        caseOfficer: 'Alex Johnson',
+        status: 'Submitted'
+      },
+      {
+        caseRef: 'PLAN/000004',
+        planTitle: 'West End Local Plan',
+        planType: 'Local Plan',
+        caseOfficer: 'Emily Carter',
+        status: 'Submitted'
+      },
+      {
+        caseRef: 'PLAN/000005',
+        planTitle: 'East Borough Local Plan',
+        planType: 'Local Plan',
+        caseOfficer: 'Michael Brown',
+        status: 'In progress'
+      },
+      {
+        caseRef: 'PLAN/000006',
+        planTitle: 'Riverside Local Plan',
+        planType: 'Local Plan',
+        caseOfficer: 'Sophie Green',
+        status: 'Submitted'
+      },
+      {
+        caseRef: 'PLAN/000007',
+        planTitle: 'Hilltop Local Plan',
+        planType: 'Local Plan',
+        caseOfficer: 'Chris White',
+        status: 'Submitted'
+      },
+      {
+        caseRef: 'PLAN/000008',
+        planTitle: 'Market Town Local Plan',
+        planType: 'Local Plan',
+        caseOfficer: 'Rachel Black',
+        status: 'In progress'
+      },
+      {
+        caseRef: 'PLAN/000009',
+        planTitle: 'Greenfield Local Plan',
+        planType: 'Local Plan',
+        caseOfficer: 'Tom Harris',
+        status: 'Submitted'
+      },
+      {
+        caseRef: 'PLAN/000010',
+        planTitle: 'Seaside Local Plan',
+        planType: 'Local Plan',
+        caseOfficer: 'Anna Lee',
+        status: 'In progress'
+      }
+    ];
+  }
   res.render('projects/back-office/create-case-v2/index', {
-    cases: req.session.cases || []
+    cases: req.session.cases
   });
 });
 
@@ -91,13 +207,51 @@ router.post('/projects/back-office/create-case-v2/2-plan-type', (req, res) => {
 
 // Select LPA page
 router.get('/projects/back-office/create-case-v2/3-select-LPA', (req, res) => {
-  res.render('/projects/back-office/create-case-v2/3-select-LPA', {
-    selectedLPA: req.session.lpas ? req.session.lpas[0] : undefined
+  const path = require('path');
+  const fs = require('fs');
+  const lpaListPath = path.join(__dirname, '../data/lpa-list.json');
+  let lpaList = [];
+  try {
+    lpaList = JSON.parse(fs.readFileSync(lpaListPath, 'utf8'));
+  } catch (e) {
+    lpaList = [];
+  }
+  const isEdit = req.query.edit === 'true';
+  const index = req.query.index ? parseInt(req.query.index, 10) : 0;
+  let selectedLPA = undefined;
+  if (req.session.lpas && req.session.lpas.length > index) {
+    selectedLPA = req.session.lpas[index];
+  }
+  res.render('projects/back-office/create-case-v2/3-select-LPA', {
+    lpaList,
+    selectedLPA,
+    isEdit,
+    index
   });
 });
 
 router.post('/projects/back-office/create-case-v2/3-select-LPA', (req, res) => {
-  req.session.lpas = [req.body.lpa]; // Start array with first LPA
+  const index = req.body.index ? parseInt(req.body.index, 10) : 0;
+  if (!req.session.lpas) req.session.lpas = [];
+  req.session.lpas[index] = req.body.lpa;
+
+  // Load the LPA to region mapping
+  const path = require('path');
+  const fs = require('fs');
+  const mappingPath = path.join(__dirname, '../data/lpa-to-region-simple.json');
+  let lpaToRegion = {};
+  try {
+    lpaToRegion = JSON.parse(fs.readFileSync(mappingPath, 'utf8'));
+  } catch (e) {
+    lpaToRegion = {};
+  }
+  if (!req.session.lpaRegions) req.session.lpaRegions = {};
+  req.session.lpaRegions[req.body.lpa] = lpaToRegion[req.body.lpa] || '';
+
+  // If editing, return to check-answers, else continue as normal
+  if (req.body.isEdit === 'true') {
+    return res.redirect('/projects/back-office/create-case-v2/check-answers');
+  }
   res.redirect('/projects/back-office/create-case-v2/add-additional-lpa');
 });
 
@@ -119,7 +273,16 @@ router.post('/projects/back-office/create-case-v2/add-additional-lpa', (req, res
 
 // Additional LPA page
 router.get('/projects/back-office/create-case-v2/additional-LPA', (req, res) => {
-  res.render('projects/back-office/create-case-v2/additional-LPA');
+  const path = require('path');
+  const fs = require('fs');
+  const lpaListPath = path.join(__dirname, '../data/lpa-list.json');
+  let lpaList = [];
+  try {
+    lpaList = JSON.parse(fs.readFileSync(lpaListPath, 'utf8'));
+  } catch (e) {
+    lpaList = [];
+  }
+  res.render('projects/back-office/create-case-v2/additional-LPA', { lpaList });
 });
 
 router.post('/projects/back-office/create-case-v2/additional-LPA', (req, res) => {
@@ -358,6 +521,7 @@ router.get('/projects/back-office/create-case-v2/check-answers', (req, res) => {
     planTitle: req.session.planTitle,
     planType: req.session.planType,
     lpas: req.session.lpas,
+    lpaRegions: req.session.lpaRegions || {},
     caseOfficer: req.session.caseOfficer,
     noticeOfIntentionDate: req.session.noticeOfIntentionDate,
     gateway1Date: req.session.gateway1Date,

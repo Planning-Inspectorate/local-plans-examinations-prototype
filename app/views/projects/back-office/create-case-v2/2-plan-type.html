@@ -48,11 +48,6 @@
       checked: planType == "local-plan"
     },
     {
-      value: "supplementary-plan",
-      text: "Supplementary Plan",
-      checked: planType == "supplementary-plan"
-    },
-    {
       value: "other",
       text: "Other",
       checked: planType == "other",
@@ -64,9 +59,15 @@
 }) }}
 
       <div class="govuk-button-group">
+         {% if isEdit %}
         {{ govukButton({
           text: "Save and continue"
         }) }}
+        {% else %}
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+        {% endif %}
         
         {% if isEdit %}
         {{ govukButton({
