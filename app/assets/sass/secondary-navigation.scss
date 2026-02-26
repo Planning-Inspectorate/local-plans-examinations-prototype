@@ -1,0 +1,48 @@
+// Styles for the secondary navigation on the manage page
+.x-govuk-secondary-navigation {
+  background: #fff;
+  border-bottom: 1px solid #b1b4b6;
+  margin-bottom: 32px;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 0;
+  padding-right: 0;
+  z-index: 1;
+}
+
+.x-govuk-secondary-navigation__list {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.x-govuk-secondary-navigation__list-item {
+  margin-right: 32px;
+}
+
+.x-govuk-secondary-navigation__list-item:last-child {
+  margin-right: 0;
+}
+
+.x-govuk-secondary-navigation__link {
+  display: block;
+  padding: 16px 0 12px 0;
+  color: #1d70b8;
+  text-decoration: none;
+  border-bottom: 4px solid transparent;
+  transition: border-bottom-color 0.2s, color 0.2s;
+}
+
+.x-govuk-secondary-navigation__list-item--current .x-govuk-secondary-navigation__link,
+.x-govuk-secondary-navigation__link[aria-current="page"] {
+  color: #0b0c0c;
+  border-bottom: 4px solid #1d70b8;
+  font-weight: bold;
+}
+
+.x-govuk-secondary-navigation__link:hover {
+  color: #003078;
+  border-bottom: 4px solid #003078;
+}

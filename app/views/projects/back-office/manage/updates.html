@@ -1,0 +1,208 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+  <span class="govuk-caption-l">PLAN/000001</span>
+	<h1 class="govuk-heading-l">Central City Local Plan</h1>
+	{{govukTag({
+      text: "New",
+      classes: "govuk-tag--turquoise"
+    })}}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <nav class="x-govuk-secondary-navigation app-secondary-nav govuk-!-margin-top-6 govuk-!-margin-bottom-6" aria-label="Secondary menu">
+        <ul class="x-govuk-secondary-navigation__list">
+    <li class="x-govuk-secondary-navigation__list-item x-govuk-secondary-navigation__list-item">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/index.html">
+        Overview
+      </a>
+    </li>
+    <li class="x-govuk-secondary-navigation__list-item ">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/timetable.html">
+        Timetable
+      </a>
+    </li>  
+    <li class="x-govuk-secondary-navigation__list-item ">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/gateway-2.html">
+        Gateway 2
+      </a>
+    </li>
+    <li class="x-govuk-secondary-navigation__list-item ">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/gateway-3.html">
+        Gateway 3
+      </a>
+    </li>
+    <li class="x-govuk-secondary-navigation__list-item ">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/examination.html">
+        Examination
+      </a>
+    </li>
+    <li class="x-govuk-secondary-navigation__list-item ">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/documents.html">
+        Documents
+      </a>
+    </li>
+    <li class="x-govuk-secondary-navigation__list-item x-govuk-secondary-navigation__list-item--current">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/updates.html" aria-current="page">
+        Updates
+      </a>
+    </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  
+      <form method="post" action="">
+
+      <h2 class="govuk-heading-m">Updates</h2>
+             <table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header" style="width: 23%">Date</th>
+      <th scope="col" class="govuk-table__header">Details</th>
+      <th scope="col" class="govuk-table__header" style="width: 20%">User</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">28 May 2025, 2pm</td>
+      <td class="govuk-table__cell">
+        
+        Email sent to appellant
+        
+        {{ govukDetails({
+          classes: 'govuk-!-margin-top-1 govuk-!-margin-bottom-1',
+          summaryText: "View email",
+          html: emailHtml
+        }) }}
+
+      </td>
+      <td class="govuk-table__cell">Rachel Harvey</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">28 May 2025, 2pm</td>
+      <td class="govuk-table__cell">Statements and IP comments shared</td>
+      <td class="govuk-table__cell">Rachel Harvey</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">28 May 2025, 2pm</td>
+      <td class="govuk-table__cell">The case has progressed to <strong class="govuk-tag govuk-tag--green">Final comments</strong></td>
+      <td class="govuk-table__cell">Rachel Harvey</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">28 May 2025, 2pm</td>
+      <td class="govuk-table__cell">Comment status updated to invalid</td>
+      <td class="govuk-table__cell">Rachel Harvey</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">16 May 2025, 2pm</td>
+      <td class="govuk-table__cell">Document <a class="govuk-link" href="#">Drawings 1.pdf</a> uploaded (version 1)</td>
+      <td class="govuk-table__cell">Daisy Gibbs</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">14 May 2025, 3pm</td>
+      <td class="govuk-table__cell">Document <a class="govuk-link" href="#">Screenshot 2025-04-30 at 13.06.20.png</a> uploaded (version 1)</td>
+      <td class="govuk-table__cell">Rachel Harvey</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">14 May 2025, 3pm</td>
+      <td class="govuk-table__cell">Document carrrots and beans.pdf has been renamed as <a class="govuk-link" href="#">carrrots and beans f.pdf</a></td>
+      <td class="govuk-table__cell">Rachel Harvey</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">14 May 2025, 3pm</td>
+      <td class="govuk-table__cell">Document 6409d6f7-d678-447b-b0e9-552230da6412_Carrots.pdf has been renamed as carrrots and beans.pdf</td>
+      <td class="govuk-table__cell">Rachel Harvey</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">14 May 2025, 2:57pm</td>
+      <td class="govuk-table__cell">Document 6409d6f7-d678-447b-b0e9-552230da6412_Carrots.pdf uploaded (version 1)</td>
+      <td class="govuk-table__cell">Rachel Harvey</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">14 May 2025, 12pm</td>
+      <td class="govuk-table__cell">The case timeline was updated</td>
+      <td class="govuk-table__cell">Adam Silver</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">14 May 2025, 12:30pm</td>
+      <td class="govuk-table__cell">The case timeline was updated</td>
+      <td class="govuk-table__cell">Adam Silver</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">14 May 2025, 1pm</td>
+      <td class="govuk-table__cell">Document <a class="govuk-link" href="/appeals-service/appeal-details/15268/appellant-case/manage-documents/617222/53259790-7da2-4345-ae38-da4f797553c3">Drawings 2.pdf</a> uploaded (version 1)</td>
+      <td class="govuk-table__cell">System</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">14 May 2025, 1pm</td>
+      <td class="govuk-table__cell">Document <a class="govuk-link" href="/appeals-service/appeal-details/15268/appellant-case/manage-documents/617222/a5c8a367-022b-4666-b11e-d109523d5df0">Drawings 1.pdf</a> uploaded (version 1)</td>
+      <td class="govuk-table__cell">System</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">14 May 2025, 1pm</td>
+      <td class="govuk-table__cell">Document <a class="govuk-link" href="/appeals-service/appeal-details/15268/appellant-case/manage-documents/617222/c08dc229-302e-403e-8d8f-03f02c0ba970">Plans.docx</a> uploaded (version 1)</td>
+      <td class="govuk-table__cell">System</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">14 May 2025, 1pm</td>
+      <td class="govuk-table__cell">Document <a class="govuk-link" href="/appeals-service/appeal-details/15268/costs/appellant/application/manage-documents/617249/643b4694-3431-413d-94bb-4f4c67e5ad42">Screening Direction.pdf</a> uploaded (version 1)</td>
+      <td class="govuk-table__cell">System</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">14 May 2025, 1pm</td>
+      <td class="govuk-table__cell">Document <a class="govuk-link" href="/appeals-service/appeal-details/15268/costs/appellant/application/manage-documents/617249/e98ef517-5504-4166-9538-3332aaf25455">Appeal Statement.docx</a> uploaded (version 1)</td>
+      <td class="govuk-table__cell">System</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">13 May 2025, 1pm</td>
+      <td class="govuk-table__cell">A listed building was added</td>
+      <td class="govuk-table__cell">Oliver Rose</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">13 May 2025, 1pm</td>
+      <td class="govuk-table__cell">The case officer Adam Silver was added to the team</td>
+      <td class="govuk-table__cell">Adam Silver</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">12 May 2025, 2pm</td>
+      <td class="govuk-table__cell">The InterestedParty’s address details were updated</td>
+      <td class="govuk-table__cell">Rachel Harvey</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">12 May 2025, 8am</td>
+      <td class="govuk-table__cell">LPA questionnaire updated</td>
+      <td class="govuk-table__cell">Adam Blythe</td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">12 May 2025, 8am</td>
+      <td class="govuk-table__cell">LPA questionnaire updated</td>
+      <td class="govuk-table__cell">Adam Blythe</td>
+    </tr>
+  </tbody>
+</table>
+
+    </div>
+  </div>
+
+
+
+{% endblock %}
+
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

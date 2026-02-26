@@ -13,62 +13,77 @@ GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
 {% block content %}
 
 
-<div class="govuk-grid-row">
+  <style>
+    .side-nav {
+      padding-right: 20px;
+    }
+
+    .side-nav ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+
+    .side-nav li {
+      margin-bottom: 5px;
+    }
+
+    .side-nav a {
+      display: block;
+      padding: 10px 15px;
+      text-decoration: none;
+      color: #1d70b8;
+      border-left: 5px solid transparent;
+    }
+
+    .side-nav a:hover {
+      background-color: #f3f2f1;
+    }
+
+    .side-nav a.selected {
+      background-color: #f3f2f1;
+      font-weight: bold;
+      border-left: 5px solid #1d70b8;
+      color: #0b0c0c;
+    }
+    .grey-box {
+    background-color: #f3f2f1;
+    padding: 20px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+  </style>
+   <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-  <span class="govuk-caption-l">PLAN/000001</span>
-	<h1 class="govuk-heading-l">Central City Local Plan</h1>
-	{{govukTag({
+    <div class="grey-box">
+  <span class="govuk-caption-xl">PLAN/000001</span>
+  <h1 class="govuk-heading-xl">Central City Local Plan</h1>
+  {{govukTag({
       text: "New",
       classes: "govuk-tag--turquoise"
     })}}
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-      <nav class="x-govuk-secondary-navigation app-secondary-nav govuk-!-margin-top-6 govuk-!-margin-bottom-6" aria-label="Secondary menu">
-        <ul class="x-govuk-secondary-navigation__list">
-    <li class="x-govuk-secondary-navigation__list-item x-govuk-secondary-navigation__list-item--current">
-      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/index.html" aria-current="page">
-        Overview
-      </a>
-    </li>
-    <li class="x-govuk-secondary-navigation__list-item ">
-      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/timetable.html">
-        Timetable
-      </a>
-    </li>  
-    <li class="x-govuk-secondary-navigation__list-item ">
-      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/gateway-2.html">
-        Gateway 2
-      </a>
-    </li>
-    <li class="x-govuk-secondary-navigation__list-item ">
-      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/gateway-3.html">
-        Gateway 3
-      </a>
-    </li>
-    <li class="x-govuk-secondary-navigation__list-item ">
-      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/examination.html">
-        Examination
-      </a>
-    </li>
-    <li class="x-govuk-secondary-navigation__list-item ">
-      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/documents.html">
-        Documents
-      </a>
-    </li>
-    <li class="x-govuk-secondary-navigation__list-item ">
-      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/updates.html">
-        Updates
-      </a>
-    </li>
-        </ul>
-      </nav>
-    </div>
+  
+</div>
+
+  <div class="govuk-grid-column-one-quarter">
+    <nav class="side-nav">
+      <ul class="govuk-list">
+        <li><a href="/projects/back-office/manage/index-side.html" class="selected">Overview</a></li>
+        <li><a href="/projects/back-office/manage/timetable-side.html">Timetable</a></li>
+        <li><a href="">Gateway 2</a></li>
+        <li><a href="">Gateway 3</a></li>
+        <li><a href="">Examination</a></li>
+        <li><a href="">Documents</a></li>
+        <li><a href="/projects/back-office/manage/updates-side.html">Updates</a></li>
+      </ul>
+    </nav>
   </div>
 
+  <div class="govuk-grid-column-three-quarters">
+
+    <h2 class="govuk-heading-m">Overview</h2>
   
       <form method="post" action="/projects/back-office/create-case-v2/check-answers">
-
-      <h2 class="govuk-heading-m">Overview</h2>
       <dl class="govuk-summary-list">
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Plan title</dt>

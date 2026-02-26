@@ -72,7 +72,7 @@ router.get('/projects/back-office/create-case-v2/index', (req, res) => {
         caseRef: 'PLAN/000004',
         planTitle: 'West End Local Plan',
         planType: 'Local Plan',
-        caseOfficer: 'Emily Carter',
+        caseOfficer: 'Jane Smith',
         status: 'Submitted'
       },
       {

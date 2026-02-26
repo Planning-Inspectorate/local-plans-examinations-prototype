@@ -1,3 +1,13 @@
+// Custom widths for timetable summary list
+.govuk-summary-list-timetable .govuk-summary-list__key {
+    width: 55%;
+}
+.govuk-summary-list-timetable .govuk-summary-list__value {
+    width: 25%;
+}
+.govuk-summary-list-timetable .govuk-summary-list__actions {
+    width: 20%;
+}
 // Override GOV.UK footer background and border
 .govuk-footer {
     background-color: #f3f2f1 !important;
@@ -5,6 +15,8 @@
 }
 // Make main content area full width without overflow
 .govuk-main-wrapper {
+@import 'secondary-navigation';
+
     width: 100% !important;
     max-width: 100% !important;
     box-sizing: border-box;
@@ -67,6 +79,7 @@
 // Set the background of the entire page, gutters, and back button to white
 html, body {
     background-color: #fff !important;
+    overflow-x: hidden;
 }
 .govuk-main-wrapper {
     background-color: #fff !important;
@@ -74,6 +87,7 @@ html, body {
 .govuk-back-link {
     background-color: #fff !important;
 }
+
 
 // Additions for the font and the Planning Inspectorate header
 
