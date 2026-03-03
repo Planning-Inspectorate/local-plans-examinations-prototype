@@ -52,70 +52,70 @@ router.get('/projects/back-office/create-case-v2/index', (req, res) => {
         planTitle: 'Central City Local Plan',
         planType: 'Local Plan',
         caseOfficer: 'Jane Smith',
-        status: 'Submitted'
+        status: 'Draft'
       },
       {
         caseRef: 'PLAN/000002',
         planTitle: 'North District Local Plan',
         planType: 'Local Plan',
         caseOfficer: 'John Doe',
-        status: 'In progress'
+        status: 'Draft'
       },
       {
         caseRef: 'PLAN/000003',
         planTitle: 'Southside Local Plan',
         planType: 'Local Plan',
         caseOfficer: 'Alex Johnson',
-        status: 'Submitted'
+        status: 'Draft'
       },
       {
         caseRef: 'PLAN/000004',
         planTitle: 'West End Local Plan',
         planType: 'Local Plan',
         caseOfficer: 'Jane Smith',
-        status: 'Submitted'
+        status: 'Draft'
       },
       {
         caseRef: 'PLAN/000005',
         planTitle: 'East Borough Local Plan',
         planType: 'Local Plan',
         caseOfficer: 'Michael Brown',
-        status: 'In progress'
+        status: 'Draft'
       },
       {
         caseRef: 'PLAN/000006',
         planTitle: 'Riverside Local Plan',
         planType: 'Local Plan',
         caseOfficer: 'Sophie Green',
-        status: 'Submitted'
+        status: 'Draft'
       },
       {
         caseRef: 'PLAN/000007',
         planTitle: 'Hilltop Local Plan',
         planType: 'Local Plan',
         caseOfficer: 'Chris White',
-        status: 'Submitted'
+        status: 'Draft'
       },
       {
         caseRef: 'PLAN/000008',
         planTitle: 'Market Town Local Plan',
         planType: 'Local Plan',
         caseOfficer: 'Rachel Black',
-        status: 'In progress'
+        status: 'Draft'
       },
       {
         caseRef: 'PLAN/000009',
         planTitle: 'Greenfield Local Plan',
         planType: 'Local Plan',
         caseOfficer: 'Tom Harris',
-        status: 'Submitted'
+        status: 'Draft'
       },
       {
         caseRef: 'PLAN/000010',
         planTitle: 'Seaside Local Plan',
         planType: 'Local Plan',
         caseOfficer: 'Anna Lee',
-        status: 'In progress'
+        status: 'Draft'
       }
     ];
   }

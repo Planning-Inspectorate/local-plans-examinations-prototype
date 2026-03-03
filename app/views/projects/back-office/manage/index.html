@@ -100,7 +100,7 @@ GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Case officer</dt>
-          <dd class="govuk-summary-list__value">Alex Johnson</dd>
+          <dd class="govuk-summary-list__value">Jane Smith</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> Change the case officer</span></a>
           </dd>
@@ -185,6 +185,15 @@ GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
       </dl>
       </dl>
       </form>
+      <div class="govuk-!-margin-top-6">
+        <form method="get" action="/projects/back-office/manage/delete-case-confirmation.html">
+          <button type="submit" class="govuk-button govuk-button--warning">
+            Delete this case
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
     </div>
   </div>
 {% endblock %}

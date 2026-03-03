@@ -115,7 +115,7 @@ GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Case officer</dt>
-          <dd class="govuk-summary-list__value">Alex Johnson</dd>
+          <dd class="govuk-summary-list__value">Jane Smith</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> Change the case officer</span></a>
           </dd>
@@ -160,7 +160,7 @@ GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
         </div>
       </dl>
       </dl>
-      <h2 class="govuk-heading-m">Dates</h2>
+      <h2 class="govuk-heading-m">Key dates</h2>
       <dl class="govuk-summary-list">
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Notice of Intention date</dt>
@@ -200,6 +200,13 @@ GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
       </dl>
       </dl>
       </form>
+      <div class="govuk-!-margin-top-6">
+        <form method="get" action="/projects/back-office/manage/delete-case-confirmation.html">
+          <button type="submit" class="govuk-button govuk-button--warning">
+            Delete this case
+          </button>
+        </form>
+      </div>
     </div>
   </div>
 {% endblock %}

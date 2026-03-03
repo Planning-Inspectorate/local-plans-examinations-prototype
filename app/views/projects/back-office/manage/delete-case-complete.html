@@ -1,0 +1,28 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+Case deleted – GOV.UK Prototype Kit
+{% endblock %}
+
+
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+     {{ govukPanel({
+        titleText: "Case deleted",
+        html: "The case has been marked as deleted. It will no longer appear in the system, but remains available for audit purposes."
+      }) }}
+      <p>
+        <a href="/projects/back-office/create-case-v2/index.html">
+          Go back to back office homepage
+        </a>
+      </p>
+
+  </div>
+</div>
+{% endblock %}  
+ {% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

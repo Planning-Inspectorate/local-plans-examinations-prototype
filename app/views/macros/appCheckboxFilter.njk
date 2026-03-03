@@ -1,0 +1,24 @@
+{# Fallback macro for appCheckboxFilter - renders a basic checkbox group #}
+{% macro appCheckboxFilter(params) %}
+  <fieldset class="govuk-fieldset">
+    {% if params.fieldset and params.fieldset.legend %}
+      <legend class="govuk-fieldset__legend {{ params.fieldset.legend.classes or '' }}">{{ params.fieldset.legend.text }}</legend>
+    {% endif %}
+    {% set itemCount = params.items | length %}
+    {% set showSearch = itemCount > 8 %} {# Adjust threshold as needed #}
+    {% if showSearch %}
+      <input type="search" class="app-filter-search govuk-input govuk-!-margin-bottom-2" placeholder="Search..." onkeyup="filterCheckboxes(this)">
+      <div class="app-list-filter__container app-list-filter__container--max">
+        <div class="govuk-checkboxes {{ params.classes or '' }} app-list-filter__container-inner">
+    {% else %}
+      <div class="govuk-checkboxes {{ params.classes or '' }}">
+    {% endif %}
+      {% for item in params.items %}
+        <div class="govuk-checkboxes__item">
+          <input class="govuk-checkboxes__input" id="{{ params.idPrefix }}-{{ loop.index }}" name="{{ params.name }}" type="checkbox" value="{{ item.value }}" {% if params.selectedItems and item.value in params.selectedItems %}checked{% endif %}>
+          <label class="govuk-label govuk-checkboxes__label" for="{{ params.idPrefix }}-{{ loop.index }}">{{ item.text }}</label>
+        </div>
+      {% endfor %}
+    </div>
+  </fieldset>
+{% endmacro %}

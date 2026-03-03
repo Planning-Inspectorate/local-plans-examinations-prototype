@@ -1,0 +1,230 @@
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "macros/appCheckboxFilter.njk" import appCheckboxFilter %}
+{% set filterOptionsHtml %}
+
+  {{ appCheckboxFilter({
+    idPrefix: "filters[lpas]",
+    name: "filters[lpas]",
+    classes: "lpa-filter govuk-checkboxes--small",
+    attributes: {
+      id: 'lpa-filter'
+    },
+    fieldset: {
+      legend: {
+        text: "Case officer",
+        classes: "govuk-fieldset__legend--s"
+      }
+    },
+    maxHeight: true,
+    values: data.filters.lpas,
+    selectedItems: selectedLPAItems,
+    items: [
+      { value: 'Unassigned', text: 'Unassigned' },
+      { text: "Abi", value: "Abi" },
+      { text: "Louie", value: "Louie" },
+      { text: "Matt", value: "Matt" },
+      { text: "Nabiha", value: "Nabiha" },
+      { text: "Rebecca", value: "Rebecca" }
+    ]
+  }) }}
+
+  {{ appCheckboxFilter({
+    idPrefix: "filters[inspectors]",
+    name: "filters[inspectors]",
+    classes: "inspector-filter govuk-checkboxes--small",
+    attributes: {
+      id: 'inspector-filter'
+    },
+    fieldset: {
+      legend: {
+        text: "Inspector",
+        classes: "govuk-fieldset__legend--s"
+      }
+    },
+    maxHeight: true,
+    values: data.filters.inspectors,
+    selectedItems: selectedInspectorItems,
+    items: [
+      { value: 'Unassigned', text: 'Unassigned' },
+      { text: "Thanos", value: "Thanos" },
+      { text: "Loki", value: "Loki" },
+      { text: "Green Goblin", value: "Green Goblin" },
+      { text: "Doctor Doom", value: "Doctor Doom" },
+      { text: "Magneto", value: "Magneto" },
+      { text: "Red Skull", value: "Red Skull" },
+      { text: "Ultron", value: "Ultron" },
+      { text: "Kingpin", value: "Kingpin" },
+      { text: "Hela", value: "Hela" },
+      { text: "Killmonger", value: "Killmonger" },
+      { text: "Mystique", value: "Mystique" },
+      { text: "Venom", value: "Venom" },
+      { text: "Carnage", value: "Carnage" },
+      { text: "Bullseye", value: "Bullseye" },
+      { text: "Mysterio", value: "Mysterio" },
+      { text: "Vulture", value: "Vulture" },
+      { text: "Abomination", value: "Abomination" },
+      { text: "Taskmaster", value: "Taskmaster" },
+      { text: "Dormammu", value: "Dormammu" },
+      { text: "The Mandarin", value: "The Mandarin" }
+    ]
+  }) }}
+
+  
+
+  {# 
+  {{ govukCheckboxes({
+    idPrefix: "filters[types]",
+    name: "filters[types]",
+    classes: "govuk-checkboxes--small",
+    fieldset: {
+      legend: {
+        text: "Type",
+        classes: "govuk-fieldset__legend--s"
+      }
+    },
+    items: typeItems,
+    values: data.filters.types
+  }) }}
+#}
+  {{ govukCheckboxes({
+    idPrefix: "filters[procedures]",
+    name: "filters[procedures]",
+    classes: "govuk-checkboxes--small",
+    fieldset: {
+      legend: {
+        text: "Procedure",
+        classes: "govuk-fieldset__legend--s"
+      }
+    },
+    items: [
+      { value: 'Written representations', text: 'Written representations' },
+      { value: 'Hearing', text: 'Hearing' },
+      { value: 'Inquiry', text: 'Inquiry' }
+    ],
+    values: data.filters.procedures
+  }) if 1==2 }}
+{#
+  {{ govukCheckboxes({
+    idPrefix: "filters[linkedAppealTypes]",
+    name: "filters[linkedAppealTypes]",
+    classes: "govuk-checkboxes--small",
+    fieldset: {
+      legend: {
+        text: "Linked appeal type",
+        classes: "govuk-fieldset__legend--s"
+      }
+    },
+    values: data.filters.linkedAppealTypes
+  }) }}
+#}
+  {{ govukCheckboxes({
+    idPrefix: "filters[siteVisit]",
+    name: "filters[siteVisit]",
+    classes: "govuk-checkboxes--small",
+    fieldset: {
+      legend: {
+        text: "Site visit",
+        classes: "govuk-fieldset__legend--s"
+      }
+    },
+    items: [
+      { value: 'Site visit set up', text: 'Site visit set up' },
+      { value: 'Site visit not set up', text: 'Site visit not set up' }
+    ],
+    values: data.filters.siteVisit
+  }) if 1==2 }}
+
+  {{ govukCheckboxes({
+    idPrefix: "filters[planningObligation]",
+    name: "filters[planningObligation]",
+    classes: "govuk-checkboxes--small",
+    fieldset: {
+      legend: {
+        text: "Planning obligation",
+        classes: "govuk-fieldset__legend--s"
+      }
+    },
+    items: [
+      { value: 'Has planning obligation', text: 'Has planning obligation' },
+      { value: 'Does not have planning obligation', text: 'Does not have planning obligation' }
+    ],
+    values: data.filters.planningObligation
+  }) if 1==2 }}
+
+
+  {{ appCheckboxFilter({
+    idPrefix: "filters[statuses]",
+    name: "filters[statuses]",
+    classes: "status-filter govuk-checkboxes--small",
+    attributes: {
+      id: 'status-filter'
+    },
+    fieldset: {
+      legend: {
+        text: "Status",
+        classes: "govuk-fieldset__legend--s"
+      }
+    },
+    maxHeight: true,
+    values: data.filters.statuses,
+    selectedItems: selectedStatusItems,
+    items: [ { value: 'Ready to assign case officer', text: 'Ready to assign case officer' },
+      { value: 'Ready to validate', text: 'Ready to validate' },
+      { value: 'Ready to start', text: 'Ready to start' },
+      { value: 'LPAQ', text: 'LPAQ' },
+      { value: 'Statements and IP comments', text: 'Statements and IP comments' },
+      { value: 'Final comments', text: 'Final comments' },
+      { value: 'Site visit ready to set up', text: 'Site visit ready to set up' },
+      { value: 'Awaiting site visit', text: 'Awaiting site visit' },
+      { value: 'Hearing ready to set up', text: 'Hearing ready to set up' },
+      { value: 'Awaiting hearing', text: 'Awaiting hearing' },
+      { value: 'Proof of evidence and witnesses', text: 'Proof of evidence and witnesses' },
+      { value: 'Inquiry ready to set up', text: 'Inquiry ready to set up' },
+      { value: 'Awaiting inquiry', text: 'Awaiting inquiry' },
+      { value: "Decision ready to issue", text: 'Decision ready to issue' },
+      { value: "Decision issued", text: 'Decision issued' },
+      { value: "Awaiting transfer", text: 'Awaiting transfer' },
+      { value: "Transferred", text: 'Transferred' },
+      { value: "Withdrawn", text: 'Withdrawn' }]
+  }) }}
+
+{% endset %}
+
+<div class="app-filter">
+  <div class="app-filter__header">
+    <div class="app-filter__header-title">
+      <h2 class="govuk-heading-m">Filter</h2>
+    </div>
+    <div class="app-filter__header-action">
+
+    </div>
+  </div>
+  <div class="app-filter__content">
+    {% if selectedFilters.categories.length %}
+      <div class="app-filter__selected">
+        <div class="app-filter__selected-heading">
+          <div class="app-filter__heading-title">
+            <h2 class="govuk-heading-m govuk-!-margin-bottom-1">Selected filters</h2>
+            <p class="govuk-body"><a class="govuk-link govuk-link--no-visited-state" href="/main/your-appeals/clear-filters">Clear filters</a></p>
+          </div>
+        </div>
+        {% for category in selectedFilters.categories %}
+          <h3 class="govuk-heading-s govuk-!-margin-bottom-0">{{ category.heading.text }}</h3>
+          <ul class="app-filter-tags">
+            {% for item in category.items %}
+              <li><a class="app-filter__tag" href="{{item.href}}"><span class="govuk-visually-hidden">Remove this filter</span> {{item.text}}</a></li>
+            {% endfor %}
+          </ul>
+        {% endfor %}
+      </div>
+    {% endif %}
+    <div class="app-filter__options">
+      <form method="get" novalidate>
+        <button class="govuk-button" data-module="govuk-button">
+          Apply filters
+        </button>
+        {{filterOptionsHtml | safe}}
+      </form>
+    </div>
+  </div>
+</div>
