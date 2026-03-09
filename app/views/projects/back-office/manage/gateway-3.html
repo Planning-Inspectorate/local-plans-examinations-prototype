@@ -35,6 +35,12 @@ GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
         Timetable
       </a>
     </li>  
+    
+    <li class="x-govuk-secondary-navigation__list-item ">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/gateway-1.html">
+        Gateway 1
+      </a>
+    </li>
     <li class="x-govuk-secondary-navigation__list-item ">
       <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/gateway-2.html">
         Gateway 2
@@ -66,128 +72,40 @@ GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
   </div>
 
   <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-grid-column-full">
       <form method="post" action="">
 
       <h2 class="govuk-heading-m">Gateway 3</h2>
-      <dl class="govuk-summary-list">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Plan title</dt>
-          <dd class="govuk-summary-list__value">Central City Local Plan</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> Change the plan title</span></a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Plan type</dt>
-          <dd class="govuk-summary-list__value">Core Strategy</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> Change the plan type</span></a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">LPA 1</dt>
-          <dd class="govuk-summary-list__value">Central City Council</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> Change LPA 1</span></a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Region for LPA 1</dt>
-          <dd class="govuk-summary-list__value">Midlands</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> Change region for LPA 1</span></a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Case officer</dt>
-          <dd class="govuk-summary-list__value">Alex Johnson</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> Change the case officer</span></a>
-          </dd>
-        </div>
-          </dl>
-      </dl>
-
-
-      <h2 class="govuk-heading-m">Contacts</h2>
-      <dl class="govuk-summary-list">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Main contact</dt>
-          <dd class="govuk-summary-list__value">
-            Jamie Lee<br>
-            jamie.lee@example.com<br>
-            07700 900123<br>
-            Central City Council
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <ul class="govuk-summary-list__actions-list">
-              <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> main contact</span></a>
-              </li>
-            </ul>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Contact 2</dt>
-          <dd class="govuk-summary-list__value">
-            Morgan Smith<br>
-            morgan.smith@example.com<br>
-            07700 900456<br>
-            Central City Council
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <ul class="govuk-summary-list__actions-list">
-              <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> contact 2</span></a>
-              </li>
-            </ul>
-          </dd>
-        </div>
-      </dl>
-      </dl>
-      <h2 class="govuk-heading-m">Dates</h2>
-      <dl class="govuk-summary-list">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Notice of Intention date</dt>
-          <dd class="govuk-summary-list__value">12 March 2026</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> Notice of Intention date</span></a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Gateway 1 estimated date</dt>
-          <dd class="govuk-summary-list__value">28 March 2026</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> Gateway 1 Estimated Date</span></a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Gateway 2 estimated date</dt>
-          <dd class="govuk-summary-list__value">15 April 2026</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> Gateway 2 Estimated Date</span></a>
-          </dd>
-        </div>
+      <dl class="govuk-summary-list govuk-summary-list-timetable">
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Gateway 3 estimated date</dt>
           <dd class="govuk-summary-list__value">2 May 2026</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden">Gateway 3 Estimated Date</span></a>
+            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden">Gateway 3 estimated date</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Submission for examination date</dt>
-          <dd class="govuk-summary-list__value">20 May 2026</dd>
+          <dt class="govuk-summary-list__key">Gateway 3 actual date</dt>
+          <dd class="govuk-summary-list__value">-</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden">Submission for Examination date</span></a>
+            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> Gateway 3 actual date</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Gateway 3 assessor date of appointment</dt>
+          <dd class="govuk-summary-list__value">-</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> Gateway 3 assessor date of appointment</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Gateway 3 completion date</dt>
+          <dd class="govuk-summary-list__value">-</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> Gateway 3 completion date</span></a>
           </dd>
         </div>
       </dl>
-      </dl>
-      </form>
-    </div>
-  </div>
 {% endblock %}
 {% block footer %}
   {% include "includes/footer.njk" %}

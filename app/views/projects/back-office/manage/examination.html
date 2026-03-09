@@ -35,6 +35,12 @@ GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
         Timetable
       </a>
     </li>  
+    
+    <li class="x-govuk-secondary-navigation__list-item ">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/gateway-1.html">
+        Gateway 1
+      </a>
+    </li>
     <li class="x-govuk-secondary-navigation__list-item ">
       <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/gateway-2.html">
         Gateway 2
@@ -66,128 +72,160 @@ GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
   </div>
 
   <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-grid-column-full">
       <form method="post" action="">
 
       <h2 class="govuk-heading-m">Examination</h2>
-      <dl class="govuk-summary-list">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Plan title</dt>
-          <dd class="govuk-summary-list__value">Central City Local Plan</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> Change the plan title</span></a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Plan type</dt>
-          <dd class="govuk-summary-list__value">Core Strategy</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> Change the plan type</span></a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">LPA 1</dt>
-          <dd class="govuk-summary-list__value">Central City Council</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> Change LPA 1</span></a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Region for LPA 1</dt>
-          <dd class="govuk-summary-list__value">Midlands</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> Change region for LPA 1</span></a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Case officer</dt>
-          <dd class="govuk-summary-list__value">Alex Johnson</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> Change the case officer</span></a>
-          </dd>
-        </div>
-          </dl>
-      </dl>
-
-
-      <h2 class="govuk-heading-m">Contacts</h2>
-      <dl class="govuk-summary-list">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Main contact</dt>
-          <dd class="govuk-summary-list__value">
-            Jamie Lee<br>
-            jamie.lee@example.com<br>
-            07700 900123<br>
-            Central City Council
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <ul class="govuk-summary-list__actions-list">
-              <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> main contact</span></a>
-              </li>
-            </ul>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Contact 2</dt>
-          <dd class="govuk-summary-list__value">
-            Morgan Smith<br>
-            morgan.smith@example.com<br>
-            07700 900456<br>
-            Central City Council
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <ul class="govuk-summary-list__actions-list">
-              <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> contact 2</span></a>
-              </li>
-            </ul>
-          </dd>
-        </div>
-      </dl>
-      </dl>
-      <h2 class="govuk-heading-m">Dates</h2>
-      <dl class="govuk-summary-list">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Notice of Intention date</dt>
-          <dd class="govuk-summary-list__value">12 March 2026</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> Notice of Intention date</span></a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Gateway 1 estimated date</dt>
-          <dd class="govuk-summary-list__value">28 March 2026</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> Gateway 1 Estimated Date</span></a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Gateway 2 estimated date</dt>
-          <dd class="govuk-summary-list__value">15 April 2026</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> Gateway 2 Estimated Date</span></a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Gateway 3 estimated date</dt>
-          <dd class="govuk-summary-list__value">2 May 2026</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden">Gateway 3 Estimated Date</span></a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Submission for examination date</dt>
+      <dl class="govuk-summary-list govuk-summary-list-timetable">
+         <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Estimated submission date</dt>
           <dd class="govuk-summary-list__value">20 May 2026</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden">Submission for Examination date</span></a>
+            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden">Estimated Submission Date</span></a>
           </dd>
         </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Actual submission date</dt>
+          <dd class="govuk-summary-list__value">-</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden">Actual Submission Date</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Examining Inspector date of appointment</dt>
+          <dd class="govuk-summary-list__value">-</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden">Examining Inspector Date of Appointment</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Hearing start date</dt>
+          <dd class="govuk-summary-list__value">-</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden">Hearing Start Date</span></a>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Further hearing dates</dt>
+          <dd class="govuk-summary-list__value">-</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden">Further Hearing Dates</span></a>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Hearing close date</dt>
+          <dd class="govuk-summary-list__value">-</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden">Hearing Close Date</span></a>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Letter sent to MHCLG date</dt>
+          <dd class="govuk-summary-list__value">-</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden">Letter Sent to MHCLG Date</span></a>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Letter issue date</dt>
+          <dd class="govuk-summary-list__value">-</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden">Letter Issue Date</span></a>
+        </div>
+        </dl>
+         <h2 class="govuk-heading-m">QA</h2>
+         <dl class="govuk-summary-list govuk-summary-list-timetable">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">QA date</dt>
+          <dd class="govuk-summary-list__value">-</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden">QA Date</span></a>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Sent to panel date</dt>
+          <dd class="govuk-summary-list__value">-</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden">Sent to Panel Date</span></a>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">QA panel response sent to Inspector</dt>
+          <dd class="govuk-summary-list__value">-</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden">QA Panel Response Sent to Inspector</span></a>
+        </div>
+        </dl>
+            <h2 class="govuk-heading-m">Fact Check</h2>
+            <dl class="govuk-summary-list govuk-summary-list-timetable">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Fact Check date received from Inspector</dt>
+          <dd class="govuk-summary-list__value">-</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden">Fact Check Date Received from Inspector</span></a>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Fact Check due date</dt>
+          <dd class="govuk-summary-list__value">-</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden">Fact Check Due Date</span></a>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Fact Check actual date</dt>
+          <dd class="govuk-summary-list__value">-</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden">Fact Check Actual Date</span></a>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Fact Check received back from LPA</dt>
+          <dd class="govuk-summary-list__value">-</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden">Fact Check Received Back from LPA</span></a>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Final report issue date</dt>
+          <dd class="govuk-summary-list__value">-</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden">Final Report Issue Date</span></a>
+        </div>
+        </dl>
+        <h2 class="govuk-heading-m">Important dates for this plan</h2>
+        <dl class="govuk-summary-list govuk-summary-list-timetable">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Plan pause date</dt>
+          <dd class="govuk-summary-list__value">-</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden">Plan Pause Date</span></a>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Plan pause end date</dt>
+          <dd class="govuk-summary-list__value">-</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden">Plan Pause End Date</span></a>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Withdrawn date</dt>
+          <dd class="govuk-summary-list__value">-</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden">Withdrawn Date</span></a>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Sound / unsound date</dt>
+          <dd class="govuk-summary-list__value">-</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden">Sound / Unsound Date</span></a>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Adoption date</dt>
+          <dd class="govuk-summary-list__value">-</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden">Adoption Date</span></a>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Approved for CIL date</dt>
+          <dd class="govuk-summary-list__value">-</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden">Approved for CIL Date</span></a>
+        </div>
       </dl>
-      </dl>
-      </form>
+
     </div>
   </div>
+
 {% endblock %}
 {% block footer %}
   {% include "includes/footer.njk" %}

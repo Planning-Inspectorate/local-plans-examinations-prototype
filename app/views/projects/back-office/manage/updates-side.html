@@ -71,10 +71,11 @@ GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
       <ul class="govuk-list">
         <li><a href="/projects/back-office/manage/index-side.html" >Overview</a></li>
         <li><a href="/projects/back-office/manage/timetable-side.html">Timetable</a></li>
-        <li><a href="">Gateway 2</a></li>
-        <li><a href="">Gateway 3</a></li>
-        <li><a href="">Examination</a></li>
-        <li><a href="">Documents</a></li>
+        <li><a href="/projects/back-office/manage/gateway-1-side.html">Gateway 1</a></li>
+        <li><a href="/projects/back-office/manage/gateway-2-side.html">Gateway 2</a></li>
+        <li><a href="/projects/back-office/manage/gateway-3-side.html">Gateway 3</a></li>
+        <li><a href="/projects/back-office/manage/examination-side.html">Examination</a></li>
+        <li><a href="/projects/back-office/manage/documents-side.html">Documents</a></li>
         <li><a href="/projects/back-office/manage/updates-side.html" class="selected">Updates</a></li>
       </ul>
     </nav>
@@ -84,132 +85,238 @@ GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
 
   
       <form method="post" action="">
-
-      <h2 class="govuk-heading-m">Updates</h2>
-             <table class="govuk-table">
+<table class="govuk-table">
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
-      <th scope="col" class="govuk-table__header" style="width: 23%">Date</th>
-      <th scope="col" class="govuk-table__header">Details</th>
-      <th scope="col" class="govuk-table__header" style="width: 20%">User</th>
+      <th scope="col" class="govuk-table__header">Date</th>
+      <th scope="col" class="govuk-table__header">Event</th>
+      <th scope="col" class="govuk-table__header">User</th>
     </tr>
   </thead>
-  <tbody class="govuk-table__body">
-    <tr class="govuk-table__row">
-      <td class="govuk-table__cell">28 May 2025, 2pm</td>
-      <td class="govuk-table__cell">
-        
-        Email sent to appellant
-        
-        {{ govukDetails({
-          classes: 'govuk-!-margin-top-1 govuk-!-margin-bottom-1',
-          summaryText: "View email",
-          html: emailHtml
-        }) }}
 
-      </td>
-      <td class="govuk-table__cell">Rachel Harvey</td>
-    </tr>
+  <tbody class="govuk-table__body">
+
     <tr class="govuk-table__row">
-      <td class="govuk-table__cell">28 May 2025, 2pm</td>
-      <td class="govuk-table__cell">Statements and IP comments shared</td>
-      <td class="govuk-table__cell">Rachel Harvey</td>
+      <td class="govuk-table__cell">18 Jul 2028, 11:02</td>
+      <td class="govuk-table__cell">Approved for CIL date recorded: 18 Jul 2028</td>
+      <td class="govuk-table__cell">Case officer</td>
     </tr>
+
     <tr class="govuk-table__row">
-      <td class="govuk-table__cell">28 May 2025, 2pm</td>
-      <td class="govuk-table__cell">The case has progressed to <strong class="govuk-tag govuk-tag--green">Final comments</strong></td>
-      <td class="govuk-table__cell">Rachel Harvey</td>
+      <td class="govuk-table__cell">27 Jun 2028, 09:20</td>
+      <td class="govuk-table__cell">Adoption date recorded: 27 Jun 2028</td>
+      <td class="govuk-table__cell">Case officer</td>
     </tr>
+
     <tr class="govuk-table__row">
-      <td class="govuk-table__cell">28 May 2025, 2pm</td>
-      <td class="govuk-table__cell">Comment status updated to invalid</td>
-      <td class="govuk-table__cell">Rachel Harvey</td>
+      <td class="govuk-table__cell">29 Mar 2028, 10:05</td>
+      <td class="govuk-table__cell">Soundness outcome date recorded: 29 Mar 2028</td>
+      <td class="govuk-table__cell">Case officer</td>
     </tr>
+
     <tr class="govuk-table__row">
-      <td class="govuk-table__cell">16 May 2025, 2pm</td>
-      <td class="govuk-table__cell">Document <a class="govuk-link" href="#">Drawings 1.pdf</a> uploaded (version 1)</td>
-      <td class="govuk-table__cell">Daisy Gibbs</td>
+      <td class="govuk-table__cell">29 Mar 2028, 09:50</td>
+      <td class="govuk-table__cell">Soundness outcome recorded: Sound</td>
+      <td class="govuk-table__cell">Examining Inspector</td>
     </tr>
+
     <tr class="govuk-table__row">
-      <td class="govuk-table__cell">14 May 2025, 3pm</td>
-      <td class="govuk-table__cell">Document <a class="govuk-link" href="#">Screenshot 2025-04-30 at 13.06.20.png</a> uploaded (version 1)</td>
-      <td class="govuk-table__cell">Rachel Harvey</td>
+      <td class="govuk-table__cell">13 Mar 2028, 14:40</td>
+      <td class="govuk-table__cell">Final report issued</td>
+      <td class="govuk-table__cell">Examining Inspector</td>
     </tr>
+
     <tr class="govuk-table__row">
-      <td class="govuk-table__cell">14 May 2025, 3pm</td>
-      <td class="govuk-table__cell">Document carrrots and beans.pdf has been renamed as <a class="govuk-link" href="#">carrrots and beans f.pdf</a></td>
-      <td class="govuk-table__cell">Rachel Harvey</td>
+      <td class="govuk-table__cell">27 Feb 2028, 16:05</td>
+      <td class="govuk-table__cell">Fact check received back from LPA</td>
+      <td class="govuk-table__cell">Case officer</td>
     </tr>
+
     <tr class="govuk-table__row">
-      <td class="govuk-table__cell">14 May 2025, 3pm</td>
-      <td class="govuk-table__cell">Document 6409d6f7-d678-447b-b0e9-552230da6412_Carrots.pdf has been renamed as carrrots and beans.pdf</td>
-      <td class="govuk-table__cell">Rachel Harvey</td>
+      <td class="govuk-table__cell">16 Feb 2028, 09:12</td>
+      <td class="govuk-table__cell">Fact check sent to LPA</td>
+      <td class="govuk-table__cell">Case officer</td>
     </tr>
+
     <tr class="govuk-table__row">
-      <td class="govuk-table__cell">14 May 2025, 2:57pm</td>
-      <td class="govuk-table__cell">Document 6409d6f7-d678-447b-b0e9-552230da6412_Carrots.pdf uploaded (version 1)</td>
-      <td class="govuk-table__cell">Rachel Harvey</td>
+      <td class="govuk-table__cell">14 Feb 2028, 15:28</td>
+      <td class="govuk-table__cell">Fact check received from Inspector</td>
+      <td class="govuk-table__cell">Examining Inspector</td>
     </tr>
+
     <tr class="govuk-table__row">
-      <td class="govuk-table__cell">14 May 2025, 12pm</td>
-      <td class="govuk-table__cell">The case timeline was updated</td>
-      <td class="govuk-table__cell">Adam Silver</td>
+      <td class="govuk-table__cell">02 Feb 2028, 13:15</td>
+      <td class="govuk-table__cell">QA panel response sent to Inspector</td>
+      <td class="govuk-table__cell">Case officer</td>
     </tr>
+
     <tr class="govuk-table__row">
-      <td class="govuk-table__cell">14 May 2025, 12:30pm</td>
-      <td class="govuk-table__cell">The case timeline was updated</td>
-      <td class="govuk-table__cell">Adam Silver</td>
+      <td class="govuk-table__cell">29 Jan 2028, 10:22</td>
+      <td class="govuk-table__cell">Sent to QA panel</td>
+      <td class="govuk-table__cell">Case officer</td>
     </tr>
+
     <tr class="govuk-table__row">
-      <td class="govuk-table__cell">14 May 2025, 1pm</td>
-      <td class="govuk-table__cell">Document <a class="govuk-link" href="/appeals-service/appeal-details/15268/appellant-case/manage-documents/617222/53259790-7da2-4345-ae38-da4f797553c3">Drawings 2.pdf</a> uploaded (version 1)</td>
-      <td class="govuk-table__cell">System</td>
+      <td class="govuk-table__cell">22 Jan 2028, 09:00</td>
+      <td class="govuk-table__cell">QA date recorded: 22 Jan 2028</td>
+      <td class="govuk-table__cell">Case officer</td>
     </tr>
+
     <tr class="govuk-table__row">
-      <td class="govuk-table__cell">14 May 2025, 1pm</td>
-      <td class="govuk-table__cell">Document <a class="govuk-link" href="/appeals-service/appeal-details/15268/appellant-case/manage-documents/617222/a5c8a367-022b-4666-b11e-d109523d5df0">Drawings 1.pdf</a> uploaded (version 1)</td>
-      <td class="govuk-table__cell">System</td>
+      <td class="govuk-table__cell">08 Dec 2027, 16:45</td>
+      <td class="govuk-table__cell">Plan pause ended: 08 Dec 2027</td>
+      <td class="govuk-table__cell">Case officer</td>
     </tr>
+
     <tr class="govuk-table__row">
-      <td class="govuk-table__cell">14 May 2025, 1pm</td>
-      <td class="govuk-table__cell">Document <a class="govuk-link" href="/appeals-service/appeal-details/15268/appellant-case/manage-documents/617222/c08dc229-302e-403e-8d8f-03f02c0ba970">Plans.docx</a> uploaded (version 1)</td>
-      <td class="govuk-table__cell">System</td>
+      <td class="govuk-table__cell">20 Nov 2027, 11:35</td>
+      <td class="govuk-table__cell">Plan pause date recorded: 20 Nov 2027</td>
+      <td class="govuk-table__cell">Case officer</td>
     </tr>
+
     <tr class="govuk-table__row">
-      <td class="govuk-table__cell">14 May 2025, 1pm</td>
-      <td class="govuk-table__cell">Document <a class="govuk-link" href="/appeals-service/appeal-details/15268/costs/appellant/application/manage-documents/617249/643b4694-3431-413d-94bb-4f4c67e5ad42">Screening Direction.pdf</a> uploaded (version 1)</td>
-      <td class="govuk-table__cell">System</td>
+      <td class="govuk-table__cell">06 Nov 2027, 15:58</td>
+      <td class="govuk-table__cell">Hearing close date recorded: 06 Nov 2027</td>
+      <td class="govuk-table__cell">Programme Officer</td>
     </tr>
+
     <tr class="govuk-table__row">
-      <td class="govuk-table__cell">14 May 2025, 1pm</td>
-      <td class="govuk-table__cell">Document <a class="govuk-link" href="/appeals-service/appeal-details/15268/costs/appellant/application/manage-documents/617249/e98ef517-5504-4166-9538-3332aaf25455">Appeal Statement.docx</a> uploaded (version 1)</td>
-      <td class="govuk-table__cell">System</td>
+      <td class="govuk-table__cell">27 Oct 2027, 09:00</td>
+      <td class="govuk-table__cell">Further hearing date added: 27 Oct 2027</td>
+      <td class="govuk-table__cell">Programme Officer</td>
     </tr>
+
     <tr class="govuk-table__row">
-      <td class="govuk-table__cell">13 May 2025, 1pm</td>
-      <td class="govuk-table__cell">A listed building was added</td>
-      <td class="govuk-table__cell">Oliver Rose</td>
+      <td class="govuk-table__cell">18 Oct 2027, 09:00</td>
+      <td class="govuk-table__cell">Further hearing date added: 18 Oct 2027</td>
+      <td class="govuk-table__cell">Programme Officer</td>
     </tr>
+
     <tr class="govuk-table__row">
-      <td class="govuk-table__cell">13 May 2025, 1pm</td>
-      <td class="govuk-table__cell">The case officer Adam Silver was added to the team</td>
-      <td class="govuk-table__cell">Adam Silver</td>
+      <td class="govuk-table__cell">10 Oct 2027, 09:30</td>
+      <td class="govuk-table__cell">Hearing start date recorded: 10 Oct 2027</td>
+      <td class="govuk-table__cell">Programme Officer</td>
     </tr>
+
     <tr class="govuk-table__row">
-      <td class="govuk-table__cell">12 May 2025, 2pm</td>
-      <td class="govuk-table__cell">The InterestedParty’s address details were updated</td>
-      <td class="govuk-table__cell">Rachel Harvey</td>
+      <td class="govuk-table__cell">07 Sep 2027, 11:20</td>
+      <td class="govuk-table__cell">Examination website link updated</td>
+      <td class="govuk-table__cell">Case officer</td>
     </tr>
+
     <tr class="govuk-table__row">
-      <td class="govuk-table__cell">12 May 2025, 8am</td>
-      <td class="govuk-table__cell">LPA questionnaire updated</td>
-      <td class="govuk-table__cell">Adam Blythe</td>
+      <td class="govuk-table__cell">12 Jul 2027, 10:05</td>
+      <td class="govuk-table__cell">Examining Inspector date of appointment recorded: 12 Jul 2027</td>
+      <td class="govuk-table__cell">Case officer</td>
     </tr>
+
     <tr class="govuk-table__row">
-      <td class="govuk-table__cell">12 May 2025, 8am</td>
-      <td class="govuk-table__cell">LPA questionnaire updated</td>
-      <td class="govuk-table__cell">Adam Blythe</td>
+      <td class="govuk-table__cell">12 Jul 2027, 09:55</td>
+      <td class="govuk-table__cell">Examining Inspector assigned: Rebecca Ward</td>
+      <td class="govuk-table__cell">Case officer</td>
     </tr>
+
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">02 Mar 2027, 15:22</td>
+      <td class="govuk-table__cell">GW3 Assessor date of appointment recorded: 02 Mar 2027</td>
+      <td class="govuk-table__cell">Case officer</td>
+    </tr>
+
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">02 Mar 2027, 15:20</td>
+      <td class="govuk-table__cell">GW3 Assessor assigned: Mark Reynolds</td>
+      <td class="govuk-table__cell">Case officer</td>
+    </tr>
+
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">23 Feb 2027, 09:40</td>
+      <td class="govuk-table__cell">Programme Officer email updated to po@northshire.gov.uk</td>
+      <td class="govuk-table__cell">Case officer</td>
+    </tr>
+
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">23 Feb 2027, 09:35</td>
+      <td class="govuk-table__cell">Programme Officer recorded: John Carter</td>
+      <td class="govuk-table__cell">Case officer</td>
+    </tr>
+
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">19 Jan 2027, 14:45</td>
+      <td class="govuk-table__cell">GW2 report published by LPA date recorded: 19 Jan 2027</td>
+      <td class="govuk-table__cell">Case officer</td>
+    </tr>
+
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">12 Jan 2027, 10:05</td>
+      <td class="govuk-table__cell">GW2 report issued date recorded: 12 Jan 2027</td>
+      <td class="govuk-table__cell">GW2 Assessor</td>
+    </tr>
+
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">21 Nov 2026, 14:00</td>
+      <td class="govuk-table__cell">GW2 workshop venue updated to Civic Hall</td>
+      <td class="govuk-table__cell">Case officer</td>
+    </tr>
+
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">21 Nov 2026, 09:30</td>
+      <td class="govuk-table__cell">GW2 workshop date updated to 21 Nov 2026</td>
+      <td class="govuk-table__cell">Case officer</td>
+    </tr>
+
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">05 Oct 2026, 13:10</td>
+      <td class="govuk-table__cell">GW2 valid date recorded: 05 Oct 2026</td>
+      <td class="govuk-table__cell">GW2 Assessor</td>
+    </tr>
+
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">08 Sep 2026, 11:05</td>
+      <td class="govuk-table__cell">GW2 Assessor date of appointment recorded: 08 Sep 2026</td>
+      <td class="govuk-table__cell">Case officer</td>
+    </tr>
+
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">08 Sep 2026, 11:00</td>
+      <td class="govuk-table__cell">GW2 Assessor assigned: Sarah Jones</td>
+      <td class="govuk-table__cell">Case officer</td>
+    </tr>
+
+<tr class="govuk-table__row"><td class="govuk-table__cell">19 Aug 2026, 09:40</td><td class="govuk-table__cell">Live DSA? set to Yes</td><td class="govuk-table__cell">Case officer</td></tr>
+
+    <!-- GATEWAY 1 -->
+    <tr class="govuk-table__row"><td class="govuk-table__cell">29 Apr 2026, 10:12</td><td class="govuk-table__cell">SLA received (Gateway 1)</td><td class="govuk-table__cell">Case officer</td></tr>
+    <tr class="govuk-table__row"><td class="govuk-table__cell">15 Apr 2026, 09:40</td><td class="govuk-table__cell">SLA sent to LPA (Gateway 1)</td><td class="govuk-table__cell">Case officer</td></tr>
+    <tr class="govuk-table__row"><td class="govuk-table__cell">04 Apr 2026, 15:05</td><td class="govuk-table__cell">GW1 self-assessment completion recorded</td><td class="govuk-table__cell">Case officer</td></tr>
+    <tr class="govuk-table__row"><td class="govuk-table__cell">04 Apr 2026, 11:30</td><td class="govuk-table__cell">GW1 evidence reviewed: in progress</td><td class="govuk-table__cell">Case officer</td></tr>
+    <tr class="govuk-table__row"><td class="govuk-table__cell">18 Mar 2026, 10:28</td><td class="govuk-table__cell">GW1 guidance link shared with LPA</td><td class="govuk-table__cell">Case officer</td></tr>
+
+    <!-- PRE‑GATEWAY 1 DATA CLEANUP -->
+    <tr class="govuk-table__row"><td class="govuk-table__cell">12 Mar 2026, 16:10</td><td class="govuk-table__cell">Contact name updated to “Policy and Delivery Team”</td><td class="govuk-table__cell">Case officer</td></tr>
+    <tr class="govuk-table__row"><td class="govuk-table__cell">12 Mar 2026, 11:55</td><td class="govuk-table__cell">Secondary contact added: policyteam@northshire.gov.uk</td><td class="govuk-table__cell">Case officer</td></tr>
+    <tr class="govuk-table__row"><td class="govuk-table__cell">12 Mar 2026, 11:32</td><td class="govuk-table__cell">Primary contact added: planning.policy@northshire.gov.uk</td><td class="govuk-table__cell">Case officer</td></tr>
+
+    <tr class="govuk-table__row"><td class="govuk-table__cell">07 Mar 2026, 10:18</td><td class="govuk-table__cell">Region updated to South West (override)</td><td class="govuk-table__cell">Case officer</td></tr>
+    <tr class="govuk-table__row"><td class="govuk-table__cell">07 Mar 2026, 10:15</td><td class="govuk-table__cell">Region auto-populated: South West</td><td class="govuk-table__cell">System</td></tr>
+
+    <tr class="govuk-table__row"><td class="govuk-table__cell">29 Feb 2026, 09:05</td><td class="govuk-table__cell">LPA updated to Northshire District Council (Lead)</td><td class="govuk-table__cell">Case officer</td></tr>
+    <tr class="govuk-table__row"><td class="govuk-table__cell">29 Feb 2026, 09:00</td><td class="govuk-table__cell">Joint authority added: East Northshire Borough Council</td><td class="govuk-table__cell">Case officer</td></tr>
+
+    <tr class="govuk-table__row"><td class="govuk-table__cell">26 Feb 2026, 14:35</td><td class="govuk-table__cell">Case officer assigned: Emma Turner</td><td class="govuk-table__cell">Admin</td></tr>
+
+    <tr class="govuk-table__row"><td class="govuk-table__cell">25 Feb 2026, 16:20</td><td class="govuk-table__cell">Estimated submission for examination recorded as Jul 2028</td><td class="govuk-table__cell">Case officer</td></tr>
+    <tr class="govuk-table__row"><td class="govuk-table__cell">25 Feb 2026, 16:15</td><td class="govuk-table__cell">GW3 estimated date recorded as Jan 2027</td><td class="govuk-table__cell">Case officer</td></tr>
+    <tr class="govuk-table__row"><td class="govuk-table__cell">25 Feb 2026, 16:10</td><td class="govuk-table__cell">GW2 estimated date recorded as Sep 2026</td><td class="govuk-table__cell">Case officer</td></tr>
+    <tr class="govuk-table__row"><td class="govuk-table__cell">25 Feb 2026, 16:05</td><td class="govuk-table__cell">GW1 estimated date recorded as Apr 2026</td><td class="govuk-table__cell">Case officer</td></tr>
+    <tr class="govuk-table__row"><td class="govuk-table__cell">25 Feb 2026, 16:00</td><td class="govuk-table__cell">Estimated Notice of Intention recorded as Mar 2026</td><td class="govuk-table__cell">Case officer</td></tr>
+
+    <tr class="govuk-table__row"><td class="govuk-table__cell">21 Feb 2026, 10:20</td><td class="govuk-table__cell">Case reference generated: PLAN/000001</td><td class="govuk-table__cell">System</td></tr>
+
+    <!-- INITIAL CREATION -->
+    <tr class="govuk-table__row"><td class="govuk-table__cell">12 Feb 2026, 10:07</td><td class="govuk-table__cell">Plan type set to Local Plan</td><td class="govuk-table__cell">Case officer</td></tr>
+    <tr class="govuk-table__row"><td class="govuk-table__cell">12 Feb 2026, 10:05</td><td class="govuk-table__cell">Plan title set to “Northshire Local Plan”</td><td class="govuk-table__cell">Case officer</td></tr>
+    <tr class="govuk-table__row"><td class="govuk-table__cell">12 Feb 2026, 10:02</td><td class="govuk-table__cell">Case created</td><td class="govuk-table__cell">System</td></tr>
+
   </tbody>
 </table>
 
