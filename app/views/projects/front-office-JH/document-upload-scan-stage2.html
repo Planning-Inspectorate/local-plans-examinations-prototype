@@ -1,0 +1,103 @@
+
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+
+{% set html %}
+  <h3 class="govuk-notification-banner__heading">
+    The documents have been deleted.
+  </h3>
+  <p class="govuk-body">If the files did not pass the security check, you can try to <a class="govuk-notification-banner__link" href="document-upload"> upload them again.</a></p>
+{% endset %}
+
+{{ govukNotificationBanner({
+  html: html,
+  type: "success"
+}) }}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <span class="govuk-caption-l">Your documents</span>
+  <h1 class="govuk-heading-l">Local plan timetable</h1>
+  </div>
+</div>
+
+<table class="govuk-table govuk-table--small-text-until-tablet">
+  <caption class="govuk-table__caption govuk-table__caption--m">Documents uploaded</caption>
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">Document</th>
+      <th scope="col" class="govuk-table__header">Document type</th>
+      <!-- <th scope="col" class="govuk-table__header">Date uploaded</th> -->
+      <th scope="col" class="govuk-table__header">Virus check status</th>
+      <th scope="col" class="govuk-table__header">Remove</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    
+
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header">
+        <a class="govuk-link" href="/uploads/LocalPlanTimetable2.pdf" target="_blank" rel="noopener">
+          LocalPlanTimetable1.pdf
+        </a>
+      </th>
+      <td class="govuk-table__cell">Local Plan Timetable</td>
+      <!-- <td class="govuk-table__cell">5(2)(b)</td>
+      <td class="govuk-table__cell">Certified</td> -->
+      <!-- <td class="govuk-table__cell">13/10/2025 11:30</td> -->
+      <td class="govuk-table__cell">
+        <p class="govuk-grid-column-full govuk-tag govuk-tag--green"><b>Passed</b></p>
+      </td>
+      <td class="govuk-table__cell">
+        <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> LocalPlanTimetable1.pdf</span></a>
+      </td>
+    </tr>
+
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header">
+        <a class="govuk-link" href="/uploads/LocalPlanTimetable2.pdf" target="_blank" rel="noopener">
+          LocalPlanTimetable2.pdf
+        </a>
+      </th>
+      <td class="govuk-table__cell">Local Plan Timetable</td>
+      <!-- <td class="govuk-table__cell">5(2)(b)</td>
+      <td class="govuk-table__cell">Certified</td> -->
+      <!-- <td class="govuk-table__cell">13/10/2025 11:30</td> -->
+      <td class="govuk-table__cell">
+        <p class="govuk-grid-column-full govuk-tag govuk-tag--green"><b>Passed</b></p>
+      </td>
+      <td class="govuk-table__cell">
+        <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> LocalPlanTimetable2.pdf</span></a>
+      </td>
+    </tr>
+
+    </tbody>
+</table>
+<form class="form" action="/projects/front-office-jh/document-summary" method="post">
+    
+  {% from "govuk/components/button/macro.njk" import govukButton %}
+
+  {{ govukButton({
+    text: "Continue",
+    disabled: false
+  }) }}
+
+    </form>
+  </div>
+</div>
+
+
+{% endblock %}

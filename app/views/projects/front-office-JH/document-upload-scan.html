@@ -1,0 +1,155 @@
+
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <span class="govuk-caption-l">Your documents</span>
+  <h1 class="govuk-heading-l">Local plan timetable</h1>
+  </div>
+</div>
+
+
+
+<table class="govuk-table govuk-table--small-text-until-tablet">
+  <caption class="govuk-table__caption govuk-table__caption--m">Documents uploaded</caption>
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">Document</th>
+      <th scope="col" class="govuk-table__header">Document type</th>
+      <!-- <th scope="col" class="govuk-table__header">Date uploaded</th> -->
+      <th scope="col" class="govuk-table__header">Virus check status</th>
+      <th scope="col" class="govuk-table__header">Remove</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    
+
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header">
+        <a class="govuk-link" href="/uploads/ApplicationCoverLetter2.pdf" target="_blank" rel="noopener">
+          ApplicationCoverLetter1.pdf
+        </a>
+      </th>
+      <td class="govuk-table__cell">Application Cover Letter</td>
+      <!-- <td class="govuk-table__cell">5(2)(b)</td>
+      <td class="govuk-table__cell">Certified</td> -->
+      <!-- <td class="govuk-table__cell">13/10/2025 11:30</td> -->
+      <td class="govuk-table__cell">
+        <p class="govuk-grid-column-full govuk-tag govuk-tag--green"><b>Passed</b></p>
+      </td>
+      <td class="govuk-table__cell">
+        <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> ApplicationCoverLetter1.pdf</span></a>
+      </td>
+    </tr>
+
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header">
+        <a class="govuk-link" href="/uploads/ApplicationCoverLetter1.pdf" target="_blank" rel="noopener">
+          ApplicationCoverLetter2.pdf
+        </a>
+      </th>
+
+      <td class="govuk-table__cell">Application Cover Letter</td>
+      <!-- <td class="govuk-table__cell">5(2)(b)</td> -->
+      <!-- <td class="govuk-table__cell">Certified</td> -->
+      <td class="govuk-table__cell">
+        <strong class="govuk-tag govuk-tag--yellow">Scanning for viruses</strong>
+      </td>
+      <!-- <td class="govuk-table__cell">13/10/2025 11:30</td> -->
+      <!-- <td class="govuk-table__cell">
+        <strong class="govuk-tag govuk-tag--yellow"><b>Scanning for viruses</b></strong>
+      </td> -->
+      <td class="govuk-table__cell">
+       <span class="govuk-visually-hidden"> ApplicationCoverLetter2.pdf</span>
+      </td>
+    </tr>
+
+    </tbody>
+</table>
+
+<table class="govuk-table govuk-table--small-text-until-tablet">
+  <caption class="govuk-table__caption govuk-table__caption--m">You must remove these documents</caption>
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">Document</th>
+      <th scope="col" class="govuk-table__header">Document type</th>
+      <!-- <th scope="col" class="govuk-table__header">APFP regulation</th>
+      <th scope="col" class="govuk-table__header">Certification</th>
+      <th scope="col" class="govuk-table__header">Date uploaded</th> -->
+      <th scope="col" class="govuk-table__header">Virus check status</th>
+      <th scope="col" class="govuk-table__header">Remove</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header">
+        <span class="govuk-body">ApplicationCoverLetter3.pdf</span>
+      </th>
+      <td class="govuk-table__cell">Application Cover Letter</td>
+      <!-- <td class="govuk-table__cell">5(2)(b)</td>
+      <td class="govuk-table__cell">Certified</td> -->
+      <td class="govuk-table__cell">
+        <strong class="govuk-tag govuk-tag--red">
+          Virus detected 
+        </strong>
+      </td>
+      <td class="govuk-table__cell">
+        <a class="govuk-link" href="/projects/front-office-jh/document-upload-scan-stage2">Remove<span class="govuk-visually-hidden"> ApplicationCoverLetter2.pdf</span></a>
+      </td>
+    </tr>
+    </tbody>
+    </table>
+
+
+  </tbody>
+</table>
+
+<!-- {% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
+
+
+<div class="govuk-grid-row govuk-!-margin-top-5">
+  <div class="govuk-grid-column-two-thirds">
+    <h3 class="govuk-heading-m">Document type: Gateway 2 Covering Letter</h3>
+
+    <div class="govuk-grid-row govuk-!-margin-top-5">
+  <div class="<div class="govuk-grid-column-two-thirds">
+{{ govukFileUpload({
+  id: "file-upload-1",
+  name: "fileUpload1",
+  label: {
+    text: " "
+  },
+  javascript: true
+}) }}
+  </div>
+</div> -->
+
+<form class="form" action="/projects/front-office-jh/document-summary" method="post">
+    
+  {% from "govuk/components/button/macro.njk" import govukButton %}
+
+  {{ govukButton({
+    text: "Disabled button",
+    disabled: true
+  }) }}
+
+    </form>
+  </div>
+</div>
+
+{% endblock %}

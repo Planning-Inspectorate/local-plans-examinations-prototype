@@ -1,0 +1,96 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+{% from "govuk/components/input/macro.njk" import govukInput %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <span class="govuk-caption-l">Your documents</span>
+    <h1 class="govuk-heading-l">Local plan timetable</h1>
+    </div>
+  </div>
+<div class="govuk-grid-row">
+   
+        <div class="govuk-grid-column-three-quarters">
+            
+          
+            <div class="govuk-!-padding-top-6">
+            <h2 class="govuk-heading-m">Check your documents: </h2>
+           </div>
+
+                <dl class="govuk-summary-list">
+                    
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                        Document type: 
+                                        </dt>
+                                        <dd class="govuk-summary-list__value">
+                                            Local Plan Timetable
+                                                
+                                        </dd>
+                                        <dd class="govuk-summary-list__actions">
+                                         
+                                        </dd>
+                                    </div>
+                    <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                Document(s) added
+                                </dt>
+                                <dd class="govuk-summary-list__value">
+                                      
+                                        <ul class="govuk-list ">
+                                        <li><a href="#" target="_blank" rel="noopener noreferrer">ApplicationCoverLetter1.pdf</a></li>
+                                        <li><a href="#" target="_blank" rel="noopener noreferrer" title="Preview">ApplicationCoverLetter2.pdf</a></li>
+                                        </ul>
+                                </dd>
+                                <dd class="govuk-summary-list__actions">
+                                <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> name</span>
+                                </a>
+                                </dd>
+                            </div>
+                                <div class="govuk-summary-list__row">
+                                <dt class="govuk-summary-list__key">
+                                Document notes
+                                </dt>
+                                <dd class="govuk-summary-list__value">
+                                Notes about the document which may be relevant to the application. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                </dd>           
+                                <dd class="govuk-summary-list__actions">
+                                 <a class="govuk-link" href="document-summary">Change<span class="govuk-visually-hidden">name</span></a>
+                                 </dd>
+                                
+                                 </div>
+                                </div>
+                 </dl>              
+                            
+            </div>
+            
+            <div class="govuk-grid-row">
+               <div class="govuk-grid-column-two-thirds">
+             <form class="form" action="/projects/front-office-jh/application-details" method="post">
+             <div class="govuk-form-group">
+                 {{ govukButton({
+                 text: "Confirm upload"
+                 }) }}
+             </div>
+             </form>
+         </div>
+         
+     </main>
+     </div>    
+     </div>
+ </div>
+        </div>
+
+{% endblock %}
