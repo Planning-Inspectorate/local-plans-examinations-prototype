@@ -21,19 +21,19 @@
 <p>This category contains 0 document(s).</p>
  -->
  <span class="govuk-caption-l">Your documents</span>
- <h1 class="govuk-heading-l">Cover letter</h1>
+ <h1 class="govuk-heading-l">Document name/category</h1>
  
- <p>&nbsp;</p>
+
 
 <div class="govuk-grid-row ">
   <div class="govuk-grid-column-two-thirds">
-
+   <p class="<p class="govuk-body"> This page shows the supporting information and files added for this section. If you need to make any changes, select ‘Change’ next to the relevant section.</p>
 <!-- Summary text table -->
  <table class="govuk-table govuk-table--small-text-until-tablet">
-  <caption class="govuk-table__caption govuk-table__caption--m">Summary/Notes - need to decide on a title</caption>
+  <caption class="govuk-table__caption govuk-table__caption--m">Supporting information</caption>
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
-      <th scope="col" class="govuk-table__header">Your notes</th>
+      <th scope="col" class="govuk-table__header"> </th>
       <th scope="col" class="govuk-table__header"> </th>
     </tr>
   </thead>
@@ -48,7 +48,7 @@
 
 <!-- Documents table -->
 <table class="govuk-table govuk-table--small-text-until-tablet">
-  <caption class="govuk-table__caption govuk-table__caption--m">Documents uploaded</caption>
+  <caption class="govuk-table__caption govuk-table__caption--m">Uploaded documents</caption>
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
       <th scope="col" class="govuk-table__header">Document</th>
@@ -83,11 +83,17 @@
     </tr>
     </tbody>
 </table>
+<form class="form" action="/projects/front-office-jh/document-upload" method="post">
+{{ govukButton({
+  text: "Upload more documents"
+}) }}
+</form>
  
 <!-- Submit guidance -->
   <div class="govuk-!-padding-top-5">
-    <h3 class="govuk-heading-m">Have you completed this section?</h3>
-    <p class="govuk-body">You can only mark this section as complete when all your documents have been uploaded .  If you need to make any changes, select ‘Change’ next to the relevant section.</p>
+    <h3 class="govuk-heading-m">Have you uploaded all files for this section?</h3>
+    <p class="govuk-body">Mark this section as complete when you have uploaded all the files for it.
+      You can return later to upload or replace files if needed.</p>
     {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
     {{ govukRadios({
@@ -95,11 +101,11 @@
       items: [
         {
           value: "true",
-          text: "Yes, I've finished this section"
+          text: "Yes, I have finished uploading all files for this section"
         },
         {
           value: "false",
-          text: "No, I'll come back later "
+          text: "No, I'll upload more later"
         }
       
       ]

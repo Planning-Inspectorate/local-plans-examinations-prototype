@@ -17,40 +17,35 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <span class="govuk-caption-l">Your documents</span>
-  <h1 class="govuk-heading-l">Upload: Local plan timetable</h1>
+  <h1 class="govuk-heading-l">Upload: document/section name</h1>
   </div>
 </div>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
   
-    <p class="govuk-body">Choose a single document or multiple documents to upload.</p>
-     <p class="govuk-body">Each document must be a PDF, DOC, DOCX, PPT, PPTX, XLS, XLSX, MSG, JPG, JPEG, MPEG, MP3, MP4, MOV, PNG, TIF, or TIFF.</p>
-     <p class="govuk-body">The total size of your uploaded documents must be smaller than 1GB.</p>
+    <p class="govuk-body">You can upload one file or multiple files.</p>
+     <p class="govuk-body">Accepted file types: PDF, DOC, DOCX, PPT, PPTX, XLS, XLSX, MSG, JPG, JPEG, MPEG, MP3, MP4, MOV, PNG, TIF or TIFF./p>
+     <p class="govuk-body">The total size of each files must be less than 1GB.</p>
 
 </div>
 </div>
-
-
-{% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
-
 
 <div class="govuk-grid-row govuk-!-margin-top-5">
   <div class="govuk-grid-column-two-thirds">
-    <h3 class="govuk-heading-m">Document type: Local plan timetable</h3>
+    {{ govukFileUpload({
+      id: "file-upload-1",
+      name: "fileUpload1",
+      label: {
+        text: "Upload a file"
+      }
+    }) }}
 
-    <div class="govuk-grid-row govuk-!-margin-top-5">
-  <div class="<div class="govuk-grid-column-two-thirds">
-{{ govukFileUpload({
-  id: "file-upload-1",
-  name: "fileUpload1",
-  label: {
-    text: " "
-  },
-  javascript: true
-}) }}
   </div>
 </div>
+
+<div class="govuk-grid-row govuk-!-margin-top-5">
+  <div class="govuk-grid-column-two-thirds">
 
 <form class="form" action="/projects/front-office-jh/document-upload-scan" method="post">
     

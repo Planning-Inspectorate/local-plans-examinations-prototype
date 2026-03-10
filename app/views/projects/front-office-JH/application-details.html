@@ -41,7 +41,7 @@
 
 
 {% block content %}
-  <h1 class="govuk-heading-l">Application reference number PLAN/12345</h1>
+  <h1 class="govuk-heading-l">Application reference: PLAN/12345</h1>
 
 
 <div class="govuk-grid-row">
@@ -67,6 +67,7 @@
   <h2 class="govuk-tabs__title">
     Documents
   </h2>
+
   <ul class="govuk-tabs__list">
     <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
       <a class="govuk-tabs__tab" href="#documents">
@@ -88,6 +89,7 @@
   </ul>
   <div class="govuk-tabs__panel" id="documents">
     <h3 class="govuk-heading-m ">Procedural documents</h3>
+    <p class="govuk-body">These documents describe how the local plan will be prepared and assessed.</p>
     {{ govukTaskList({
       idPrefix: "application-documents",
       items: [
@@ -156,7 +158,48 @@
 
     <div class="govuk-!-margin-top-4">&nbsp;</div>
     <h3 class="govuk-heading-m">Consultation documents</h3>
-   
+    <p class="govuk-body">These documents show how consultation has been carried out and what feedback was received.</p>
+     {{ govukTaskList({
+      idPrefix: "application-documents",
+      items: [
+        {
+          title: {
+            text: "Consultation statement"
+          },
+          href: "#",
+          status: {
+            tag: {
+              text: "Incomplete",
+              classes: "govuk-tag--blue"
+            }
+          }
+        },
+        {
+          title: {
+            text: "Consultation summary for scoping consultation"
+          },
+          href: "#",
+          status: {
+            tag: {
+              text: "Incomplete",
+              classes: "govuk-tag--blue"
+            }
+          }
+        },
+        {
+          title: {
+            text: "Consultation summary for proposed local plan content and evidence documents"
+          },
+          href: "#",
+          status: {
+            tag: {
+              text: "Incomplete",
+              classes: "govuk-tag--blue"
+            }
+          }
+        }
+      ]
+    }) }}
     {{ govukTaskList({
       idPrefix: "application-documents",
       items: [
