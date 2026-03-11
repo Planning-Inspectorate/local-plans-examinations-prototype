@@ -1,0 +1,46 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+  {% if isEdit %}Edit region{% else %}Region{% endif %} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <form class="form" action="/projects/back-office/manage/overview/LPA-region" method="post">
+      <input type="hidden" name="isEdit" value="{{ isEdit }}">
+      <div class="govuk-form-group">
+        <label class="govuk-label govuk-label--l" for="lpa-region">{{ "Region" if not isEdit else "Change region" }}</label>
+        <select class="govuk-select govuk-!-width-two-thirds" id="lpa-region" name="lpa-region">
+          <option value="" disabled {% if not lpaRegion %}selected{% endif %}>Select a region</option>
+          {% for region in allRegions %}
+            <option value="{{ region }}" {% if lpaRegion == region %}selected{% endif %}>{{ region }}</option>
+          {% endfor %}
+          {% if lpaRegion and lpaRegion not in allRegions %}
+            <option value="{{ lpaRegion }}" selected>{{ lpaRegion }}</option>
+          {% endif %}
+        </select>
+      </div>
+      <div class="govuk-button-group">
+        {% if isEdit %}
+          {{ govukButton({ text: "Save and continue" }) }}
+          <a href="/projects/back-office/manage/index.html" class="govuk-button govuk-button--secondary" role="button">Cancel</a>
+        {% else %}
+          {{ govukButton({ text: "Continue" }) }}
+        {% endif %}
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}
+

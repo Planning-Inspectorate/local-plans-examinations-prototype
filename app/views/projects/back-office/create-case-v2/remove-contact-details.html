@@ -31,13 +31,15 @@
 <form method="post" action="/projects/back-office/create-case-v2/remove-contact-details-page">
   <input type="hidden" name="editIndex" value="{{ editIndex }}">
   <input type="hidden" name="isMain" value="{{ isMain }}">
-  {{ govukButton({
-    text: "Remove contact",
-    classes: "govuk-button--warning"
-  }) }}
-  <a href="/projects/back-office/create-case-v2/check-contact-details" class="govuk-button govuk-button--secondary">
-    Cancel
-  </a>
+  <div class="govuk-button-group">
+    {{ govukButton({
+      text: "Remove contact",
+      classes: "govuk-button--warning"
+    }) }}
+    <a href="/projects/back-office/create-case-v2/check-contact-details" class="govuk-button govuk-button--secondary">
+      Cancel
+    </a>
+  </div>
 </form>
 {% endblock %}
 
