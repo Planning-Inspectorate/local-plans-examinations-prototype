@@ -1,0 +1,639 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+<!-- <span class="govuk-caption-l">Your documents</span>
+<h1 class="govuk-heading-l">Cover letter</h1>
+<h2 class="govuk-heading-m">Documents uploaded</h2>
+<p>This category contains 0 document(s).</p>
+ -->
+ <span class="govuk-caption-l">Your application</span>
+ <h1 class="govuk-heading-l">Review</h1>
+ 
+
+
+<div class="govuk-grid-row ">
+  <div class="govuk-grid-column-two-thirds">
+   <p class="govuk-body"> Check that all required files are included and that the information is correct before submitting your application.</p>
+
+
+   <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
+    <!-- Section 1 - Procudural docs -->
+    <div class="govuk-accordion__section">
+      <div class="govuk-accordion__section-header">
+        <h2 class="govuk-accordion__section-heading">
+            
+          <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
+            Procedural documents
+          </span>
+        </h2>
+        <div class="govuk-accordion__section-summary govuk-body" id="accordion-with-summary-sections-summary-1">
+            How the local plan will be prepared and assessed.
+          </div>
+      </div>
+
+      <div id="accordion-default-content-1" class="govuk-accordion__section-content">
+     
+          <table class="govuk-table govuk-table--small-text-until-tablet">
+            
+            <thead class="govuk-table__head">
+              <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header govuk-!width-two-thirds">Gateway 2 covering letter</th>
+                <th scope="col" class="govuk-table__header"> </th>
+                <th scope="col" class="govuk-table__header"> </th>
+              </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+              
+          
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">
+                  <a class="govuk-link" href="/uploads/Application file name.pdg2.pdf" target="_blank" rel="noopener">
+                    Application file name.pdf
+                  </a>
+                </th>
+                <td class="govuk-table__cell">
+                  <a class="govuk-link" href="#"> Delete</a>
+                </td>
+                <td class="govuk-table__cell">
+                  <a class="govuk-link" href="#"> Change</a>
+                </td>
+              </tr>
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">
+                  <a class="govuk-link" href="/uploads/Application file name.pdg2.pdf" target="_blank" rel="noopener">
+                    Application file name.pdf
+                  </a>
+                </th>
+                <td class="govuk-table__cell">
+                  <a class="govuk-link" href="#"> Delete</a>
+                </td>
+                <td class="govuk-table__cell">
+                  <a class="govuk-link" href="#"> Change</a>
+                </td>
+              </tr>
+              </tbody>
+          </table>
+          <table class="govuk-table govuk-table--small-text-until-tablet">
+            
+            <thead class="govuk-table__head">
+              <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header govuk-!width-two-thirds">Local plan timetable</th>
+                <th scope="col" class="govuk-table__header"> </th>
+                <th scope="col" class="govuk-table__header"> </th>
+              </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+              
+          
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">
+                  <a class="govuk-link" href="/uploads/Application file name.pdg2.pdf" target="_blank" rel="noopener">
+                    Application file name.pdf
+                  </a>
+                </th>
+                <td class="govuk-table__cell">
+                  <a class="govuk-link" href="#"> Delete</a>
+                </td>
+                <td class="govuk-table__cell">
+                  <a class="govuk-link" href="#"> Change</a>
+                </td>
+              </tr>
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">
+                  <a class="govuk-link" href="/uploads/Application file name.pdg2.pdf" target="_blank" rel="noopener">
+                    Application file name.pdf
+                  </a>
+                </th>
+                <td class="govuk-table__cell">
+                  <a class="govuk-link" href="#"> Delete</a>
+                </td>
+                <td class="govuk-table__cell">
+                  <a class="govuk-link" href="#"> Change</a>
+                </td>
+              </tr>
+              </tbody>
+          </table>
+          <table class="govuk-table govuk-table--small-text-until-tablet">
+            
+            <thead class="govuk-table__head">
+              <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header govuk-!width-two-thirds">Project initiation document</th>
+                <th scope="col" class="govuk-table__header"> </th>
+                <th scope="col" class="govuk-table__header"> </th>
+              </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+              
+          
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">
+                  <a class="govuk-link" href="/uploads/Application file name.pdg2.pdf" target="_blank" rel="noopener">
+                    Application file name.pdf
+                  </a>
+                </th>
+                <td class="govuk-table__cell">
+                  <a class="govuk-link" href="#"> Delete</a>
+                </td>
+                <td class="govuk-table__cell">
+                  <a class="govuk-link" href="#"> Change</a>
+                </td>
+              </tr>
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">
+                  <a class="govuk-link" href="/uploads/Application file name.pdg2.pdf" target="_blank" rel="noopener">
+                    Application file name.pdf
+                  </a>
+                </th>
+                <td class="govuk-table__cell">
+                  <a class="govuk-link" href="#"> Delete</a>
+                </td>
+                <td class="govuk-table__cell">
+                  <a class="govuk-link" href="#"> Change</a>
+                </td>
+              </tr>
+              </tbody>
+          </table>
+          <table class="govuk-table govuk-table--small-text-until-tablet">
+            
+            <thead class="govuk-table__head">
+              <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header govuk-!width-two-thirds">Draft statement of compliance</th>
+                <th scope="col" class="govuk-table__header"> </th>
+                <th scope="col" class="govuk-table__header"> </th>
+              </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+              
+          
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">
+                  <a class="govuk-link" href="/uploads/Application file name.pdg2.pdf" target="_blank" rel="noopener">
+                    Application file name.pdf
+                  </a>
+                </th>
+                <td class="govuk-table__cell">
+                  <a class="govuk-link" href="#"> Delete</a>
+                </td>
+                <td class="govuk-table__cell">
+                  <a class="govuk-link" href="#"> Change</a>
+                </td>
+              </tr>
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">
+                  <a class="govuk-link" href="/uploads/Application file name.pdg2.pdf" target="_blank" rel="noopener">
+                    Application file name.pdf
+                  </a>
+                </th>
+                <td class="govuk-table__cell">
+                  <a class="govuk-link" href="#"> Delete</a>
+                </td>
+                <td class="govuk-table__cell">
+                  <a class="govuk-link" href="#"> Change</a>
+                </td>
+              </tr>
+              </tbody>
+          </table>
+          <table class="govuk-table govuk-table--small-text-until-tablet">
+            
+            <thead class="govuk-table__head">
+              <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header govuk-!width-two-thirds">Draft statement of soundness</th>
+                <th scope="col" class="govuk-table__header"> </th>
+                <th scope="col" class="govuk-table__header"> </th>
+              </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+              
+          
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">
+                  <a class="govuk-link" href="/uploads/Application file name.pdg2.pdf" target="_blank" rel="noopener">
+                    Application file name.pdf
+                  </a>
+                </th>
+                <td class="govuk-table__cell">
+                  <a class="govuk-link" href="#"> Delete</a>
+                </td>
+                <td class="govuk-table__cell">
+                  <a class="govuk-link" href="#"> Change</a>
+                </td>
+              </tr>
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">
+                  <a class="govuk-link" href="/uploads/Application file name.pdg2.pdf" target="_blank" rel="noopener">
+                    Application file name.pdf
+                  </a>
+                </th>
+                <td class="govuk-table__cell">
+                  <a class="govuk-link" href="#"> Delete</a>
+                </td>
+                <td class="govuk-table__cell">
+                  <a class="govuk-link" href="#"> Change</a>
+                </td>
+              </tr>
+              </tbody>
+          </table>
+      </div>
+    </div>
+    <div class="govuk-accordion__section">
+        <div class="govuk-accordion__section-header">
+          <h2 class="govuk-accordion__section-heading">
+            <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
+              Consultation documents
+            </span>
+          </h2>
+          <div class="govuk-accordion__section-summary govuk-body" id="accordion-with-summary-sections-summary-1">
+            How consultation has been carried out and what feedback was received.
+          </div>
+        </div>
+       
+        <div id="accordion-default-content-1" class="govuk-accordion__section-content">
+       
+            <table class="govuk-table govuk-table--small-text-until-tablet">
+              
+              <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                  <th scope="col" class="govuk-table__header govuk-!-width-two-thirds">Consultation statement</th>
+                  <th scope="col" class="govuk-table__header"> </th>
+                  <th scope="col" class="govuk-table__header"> </th>
+                </tr>
+              </thead>
+              <tbody class="govuk-table__body">
+                
+            
+                <tr class="govuk-table__row">
+                  <th scope="row" class="govuk-table__header">
+                    <a class="govuk-link" href="/uploads/Application file name.pdg2.pdf" target="_blank" rel="noopener">
+                      Application file name.pdf
+                    </a>
+                  </th>
+                  <td class="govuk-table__cell govuk-!-text-align-right ">
+                    <a class="govuk-link" href="#"> Delete</a>
+                  <td class="govuk-table__cell govuk-!-text-align-right ">
+                    <a class="govuk-link" href="#"> Change</a>
+                  </td>
+                </tr>
+                <tr class="govuk-table__row">
+                  <th scope="row" class="govuk-table__header">
+                    <a class="govuk-link" href="/uploads/Application file name.pdg2.pdf" target="_blank" rel="noopener">
+                      Application file name.pdf
+                    </a>
+                  </th>
+                
+                  <td class="govuk-table__cell govuk-!-text-align-right ">
+                    <a class="govuk-link" href="#"> Delete</a>
+                  <td class="govuk-table__cell govuk-!-text-align-right ">
+                    <a class="govuk-link" href="#"> Change</a>
+                  </td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="govuk-table govuk-table--small-text-until-tablet">
+              
+              <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                  <th scope="col" class="govuk-table__header govuk-!-width-two-thirds">Consultation summary for scoping consultation</th>
+                  <th scope="col" class="govuk-table__header"> </th>
+                  <th scope="col" class="govuk-table__header"> </th>
+                </tr>
+              </thead>
+              <tbody class="govuk-table__body">
+                
+            
+                <tr class="govuk-table__row">
+                  <th scope="row" class="govuk-table__header">
+                    <a class="govuk-link" href="/uploads/Application file name.pdg2.pdf" target="_blank" rel="noopener">
+                      Application file name.pdf
+                    </a>
+                  </th>
+                  
+                  
+                 <td class="govuk-table__cell govuk-!-text-align-right ">
+                    <a class="govuk-link" href="#"> Delete</a>
+                  <td class="govuk-table__cell govuk-!-text-align-right ">
+                    <a class="govuk-link" href="#"> Change</a>
+                  </td>
+                </tr>
+                <tr class="govuk-table__row">
+                  <th scope="row" class="govuk-table__header">
+                    <a class="govuk-link" href="/uploads/Application file name.pdg2.pdf" target="_blank" rel="noopener">
+                      Application file name.pdf
+                    </a>
+                  </th>
+                  
+                  
+                 <td class="govuk-table__cell govuk-!-text-align-right ">
+                    <a class="govuk-link" href="#"> Delete</a>
+                  <td class="govuk-table__cell govuk-!-text-align-right ">
+                    <a class="govuk-link" href="#"> Change</a>
+                  </td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="govuk-table govuk-table--small-text-until-tablet">
+              
+              <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                  <th scope="col" class="govuk-table__header govuk-!-width-two-thirds">Consultation summary for proposed local plan content and evidence documents</th>
+                  <th scope="col" class="govuk-table__header"> </th>
+                  <th scope="col" class="govuk-table__header"> </th>
+                </tr>
+              </thead>
+              <tbody class="govuk-table__body">
+                
+            
+                <tr class="govuk-table__row">
+                  <th scope="row" class="govuk-table__header">
+                    <a class="govuk-link" href="/uploads/Application file name.pdg2.pdf" target="_blank" rel="noopener">
+                      Application file name.pdf
+                    </a>
+                  </th>
+                  
+                  
+                 <td class="govuk-table__cell govuk-!-text-align-right ">
+                    <a class="govuk-link" href="#"> Delete</a>
+                  <td class="govuk-table__cell govuk-!-text-align-right ">
+                    <a class="govuk-link" href="#"> Change</a>
+                  </td>
+                </tr>
+                <tr class="govuk-table__row">
+                  <th scope="row" class="govuk-table__header">
+                    <a class="govuk-link" href="/uploads/Application file name.pdg2.pdf" target="_blank" rel="noopener">
+                      Application file name.pdf
+                    </a>
+                  </th>
+                  
+                  
+                 <td class="govuk-table__cell govuk-!-text-align-right ">
+                    <a class="govuk-link" href="#"> Delete</a>
+                  <td class="govuk-table__cell govuk-!-text-align-right ">
+                    <a class="govuk-link" href="#"> Change</a>
+                  </td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="govuk-table govuk-table--small-text-until-tablet">
+              
+              <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                  <th scope="col" class="govuk-table__header govuk-!-width-two-thirds">Consulation summary of feedback to scoping consultation</th>
+                  <th scope="col" class="govuk-table__header"> </th>
+                  <th scope="col" class="govuk-table__header"> </th>
+                </tr>
+              </thead>
+              <tbody class="govuk-table__body">
+                
+            
+                <tr class="govuk-table__row">
+                  <th scope="row" class="govuk-table__header">
+                    <a class="govuk-link" href="/uploads/Application file name.pdg2.pdf" target="_blank" rel="noopener">
+                      Application file name.pdf
+                    </a>
+                  </th>
+                  
+                  
+                 <td class="govuk-table__cell govuk-!-text-align-right ">
+                    <a class="govuk-link" href="#"> Delete</a>
+                  <td class="govuk-table__cell govuk-!-text-align-right ">
+                    <a class="govuk-link" href="#"> Change</a>
+                  </td>
+                </tr>
+                <tr class="govuk-table__row">
+                  <th scope="row" class="govuk-table__header">
+                    <a class="govuk-link" href="/uploads/Application file name.pdg2.pdf" target="_blank" rel="noopener">
+                      Application file name.pdf
+                    </a>
+                  </th>
+                  
+                  
+                 <td class="govuk-table__cell govuk-!-text-align-right ">
+                    <a class="govuk-link" href="#"> Delete</a>
+                  <td class="govuk-table__cell govuk-!-text-align-right ">
+                    <a class="govuk-link" href="#"> Change</a>
+                  </td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="govuk-table govuk-table--small-text-until-tablet">
+              <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                  <th scope="col" class="govuk-table__header govuk-!-width-two-thirds">Consultation on proposed local plan content and evidence documents</th>
+                  <th scope="col" class="govuk-table__header"> </th>
+                </tr>
+              </thead>
+              <tbody class="govuk-table__body">
+                <tr class="govuk-table__row">
+                  <th scope="row" class="govuk-table__header">
+                    <a class="govuk-link" href="/uploads/Application file name.pdg2.pdf" target="_blank" rel="noopener">
+                      Application file name.pdf
+                    </a>
+                  </th>
+                  
+                  
+                 <td class="govuk-table__cell govuk-!-text-align-right ">
+                    <a class="govuk-link" href="#"> Delete</a>
+                  <td class="govuk-table__cell govuk-!-text-align-right ">
+                    <a class="govuk-link" href="#"> Change</a>
+                  </td>
+                </tr>
+                <tr class="govuk-table__row">
+                  <th scope="row" class="govuk-table__header">
+                    <a class="govuk-link" href="/uploads/Application file name.pdg2.pdf" target="_blank" rel="noopener">
+                      Application file name.pdf
+                    </a>
+                  </th>
+                  
+                  
+                 <td class="govuk-table__cell govuk-!-text-align-right ">
+                    <a class="govuk-link" href="#"> Delete</a>
+                  <td class="govuk-table__cell govuk-!-text-align-right ">
+                    <a class="govuk-link" href="#"> Change</a>
+                  </td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="govuk-table govuk-table--small-text-until-tablet">
+                <thead class="govuk-table__head">
+                  <tr class="govuk-table__row">
+                    <th scope="col" class="govuk-table__header govuk-!-width-two-thirds">Notice of intention to commence local plan preparation</th>
+                    <th scope="col" class="govuk-table__header"> </th>
+                    <th scope="col" class="govuk-table__header"> </th>
+                  </tr>
+                </thead>
+                <tbody class="govuk-table__body">
+                  <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">
+                      <a class="govuk-link" href="/uploads/Application file name.pdg2.pdf" target="_blank" rel="noopener">
+                        Application file name.pdf
+                      </a>
+                    </th>
+                    
+                    <td class="govuk-table__cell govuk-!-text-align-right ">
+                    <a class="govuk-link" href="#"> Delete</a>
+                  <td class="govuk-table__cell govuk-!-text-align-right ">
+                    <a class="govuk-link" href="#"> Change</a>
+                  </td>
+                  </tr>
+                  <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">
+                      <a class="govuk-link" href="/uploads/Application file name.pdg2.pdf" target="_blank" rel="noopener">
+                        Application file name.pdf
+                      </a>
+                    </th>
+                    
+                    <td class="govuk-table__cell govuk-!-text-align-right ">
+                    <a class="govuk-link" href="#"> Delete</a>
+                  <td class="govuk-table__cell govuk-!-text-align-right ">
+                    <a class="govuk-link" href="#"> Change</a>
+                  </td>
+                  </tr>
+                  </tbody>
+              </table>
+              <table class="govuk-table govuk-table--small-text-until-tablet">
+                <thead class="govuk-table__head">
+                  <tr class="govuk-table__row">
+                    <th scope="col" class="govuk-table__header govuk-!-width-two-thirds">Scoping consultation documents</th>
+                    <th scope="col" class="govuk-table__header">  </th>
+                    <th scope="col" class="govuk-table__header"> </th>
+                  </tr>
+                </thead>
+                <tbody class="govuk-table__body">
+                  <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">
+                      <a class="govuk-link" href="/uploads/Application file name.pdg2.pdf" target="_blank" rel="noopener">
+                        Application file name.pdf
+                      </a>
+                    </th>
+                    
+                    <td class="govuk-table__cell govuk-!-text-align-right ">
+                    <a class="govuk-link" href="#"> Delete</a>
+                  <td class="govuk-table__cell govuk-!-text-align-right ">
+                    <a class="govuk-link" href="#"> Change</a>
+                  </td>
+                  </tr>
+                  <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">
+                      <a class="govuk-link" href="/uploads/Application file name.pdg2.pdf" target="_blank" rel="noopener">
+                        Application file name.pdf
+                      </a>
+                    </th>
+                    
+                    <td class="govuk-table__cell govuk-!-text-align-right ">
+                        <a class="govuk-link" href="#"> Delete</a>
+                      <td class="govuk-table__cell govuk-!-text-align-right ">
+                        <a class="govuk-link" href="#"> Change</a>
+                      </td>
+                  </tr>
+                  </tbody>
+              </table>
+              <table class="govuk-table govuk-table--small-text-until-tablet">
+                <thead class="govuk-table__head">
+                  <tr class="govuk-table__row">
+                    <th scope="col" class="govuk-table__header govuk-!-width-two-thirds">Gateway 1 - self assessment of readiness</th>
+                    <th scope="col" class="govuk-table__header"> </th>
+                    <th scope="col" class="govuk-table__header"> </th>
+                  </tr>
+                </thead>
+                <tbody class="govuk-table__body">
+                  <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">
+                      <a class="govuk-link" href="/uploads/Application file name.pdg2.pdf" target="_blank" rel="noopener">
+                        Application file name.pdf
+                      </a>
+                    </th>
+                    
+                    <td class="govuk-table__cell govuk-!-text-align-right ">
+                    <a class="govuk-link" href="#"> Delete</a>
+                  <td class="govuk-table__cell govuk-!-text-align-right ">
+                    <a class="govuk-link" href="#"> Change</a>
+                  </td>
+                  </tr>
+                  <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">
+                      <a class="govuk-link" href="/uploads/Application file name.pdg2.pdf" target="_blank" rel="noopener">
+                        Application file name.pdf
+                      </a>
+                    </th>
+                    
+                    <td class="govuk-table__cell govuk-!-text-align-right ">
+                    <a class="govuk-link" href="#"> Delete</a>
+                  <td class="govuk-table__cell govuk-!-text-align-right ">
+                    <a class="govuk-link" href="#"> Change</a>
+                  </td>
+                  </tr>
+                  </tbody>
+              </table>
+              <table class="govuk-table govuk-table--small-text-until-tablet">
+                <thead class="govuk-table__head">
+                  <tr class="govuk-table__row">
+                    <th scope="col" class="govuk-table__header govuk-!-width-one-thirds">Consultation summary for the above</th>
+                    <th scope="col" class="govuk-table__header"> </th>
+                    <th scope="col" class="govuk-table__header"> </th>
+                  </tr>
+                </thead>
+                <tbody class="govuk-table__body">
+                  <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">
+                      <a class="govuk-link" href="/uploads/Application file name.pdg2.pdf" target="_blank" rel="noopener">
+                        Application file name.pdf
+                      </a>
+                    </th>
+                    
+                    <td class="govuk-table__cell govuk-!-text-align-right ">
+                    <a class="govuk-link" href="#"> Delete</a>
+                  <td class="govuk-table__cell govuk-!-text-align-right ">
+                    <a class="govuk-link" href="#"> Change</a>
+                  </td>
+                  </tr>
+                  <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header">
+                      <a class="govuk-link" href="/uploads/Application file name.pdg2.pdf" target="_blank" rel="noopener">
+                        Application file name.pdf
+                      </a>
+                    </th>
+                    
+                    <td class="govuk-table__cell govuk-!-text-align-right ">
+                    <a class="govuk-link" href="#"> Delete</a>
+                  <td class="govuk-table__cell govuk-!-text-align-right ">
+                    <a class="govuk-link" href="#"> Change</a>
+                  </td>
+                  </tr>
+                  </tbody>
+              </table>
+        </div>
+      </div>
+    
+  </div>
+
+
+
+<!-- Continue button -->
+<form class="form" action="/projects/front-office/application-declaration" method="post">
+    
+      <button type="submit" class="govuk-button" data-module="govuk-button">
+        Submit application
+      </button>
+    </form>
+  </div>
+</div>
+
+</div>
+{% endblock %}
+  {% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}
+  

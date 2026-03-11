@@ -1,0 +1,73 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+<!-- <span class="govuk-caption-l">Your documents</span>
+<h1 class="govuk-heading-l">Cover letter</h1>
+<h2 class="govuk-heading-m">Documents uploaded</h2>
+<p>This category contains 0 document(s).</p>
+ -->
+ <span class="govuk-caption-l">Your application</span>
+ <h1 class="govuk-heading-l">Review</h1>
+
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form action="/confirmation" method="post" novalidate>
+        <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+              <h1 class="govuk-fieldset__heading">
+                Declaration
+              </h1>
+            </legend>
+            <div class="govuk-inset-text">
+              Your declaration will be linked to the email address you used to sign in. This helps us identify who submitted the application. We will take your typed name as your signature.
+            </div>
+            <p>
+              By submitting this application, I confirm that:
+            </p>
+            <ul class="govuk-list govuk-list--bullet">
+              <li>
+                to the best of my knowledge, the information given in this application and enclosed maps, plans and other documents are true
+              </li>
+              <li>
+                I have read and agree to The Planning Inspectorate's <a href="https://www.gov.uk/government/publications/planning-inspectorate-privacy-notices/customer-privacy-notice" class="govuk-link" target="_blank" rel="noopener noreferrer">privacy notice (opens in new tab)<span class="govuk-visually-hidden"> (opens in a new tab)</span></a>
+              </li>
+            </ul>
+            
+            
+
+            <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="waste" name="waste" type="checkbox" value="carcasses">
+              <label class="govuk-label govuk-checkboxes__label" for="waste">
+                I confirm that I understand and accept this declaration.
+              </label>
+            </div>
+          </fieldset>
+        </div>
+        <button type="submit" class="govuk-button" data-module="govuk-button">
+          Confirm and submit
+        </button>
+      </form>
+    </div>
+  </div>
+
+  {% endblock %}
+  {% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

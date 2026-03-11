@@ -291,10 +291,22 @@
     
   </div>
 </div>
-    
+<p> </p>
+<div class="govuk-grid-row "> 
+<div class="govuk-grid-column-two-thirds"> 
+ <p class="govuk-body">Review the documents you have uploaded and make sure all required sections are complete.</p>
 
+ <p>
+  Select <strong>Review and submit application</strong> to check your application before submitting. </p>
+<form class="form" action="/projects/front-office/application-review" method="post">    
+  {{ govukButton({
+    text: "Review and submit application"
+  }) }}
+</form>
+</div>
+</div>
+</div>  
 
-   </div>
 {% endblock %}
 
   {% block footer %}
