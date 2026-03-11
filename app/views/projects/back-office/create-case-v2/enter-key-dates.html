@@ -15,7 +15,7 @@
     
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-l">{% if isEdit %}Edit key dates of the local plan timetable{% else %}Enter key dates of the local plan timetable{% endif %}</h1>
+        <h1 class="govuk-heading-l">{% if isEdit %}Enter key dates of the local plan timetable{% else %}Enter key dates of the local plan timetable{% endif %}</h1>
         <form class="form" method="post" action="/projects/back-office/create-case-v2/enter-key-dates">
             <input type="hidden" name="isEdit" value="{{ isEdit }}">
             

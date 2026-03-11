@@ -15,55 +15,46 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-l">
-        {% if isEdit %}Main contact{% else %}Main contact{% endif %}
+        {% if isEdit %}Change main contact{% else %}Main contact{% endif %}
       </h1>
 
-      <form method="post" action="/projects/back-office/create-case-v2/main-contact">
+      <h2 class="govuk-heading-m">Who is the main contact for this plan?</h2>
+
+      <p class="govuk-body">
+        <strong>LPA:</strong> {{ lpaName }}
+      </p>
+
+      <form method="post" action="/projects/back-office/manage/overview/main-contact">
         <input type="hidden" name="isEdit" value="{{ isEdit }}">
+        <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
+        <input type="hidden" name="contactOrganisation" value="{{ lpaName }}">
         
         <fieldset class="govuk-fieldset">
           <div class="govuk-form-group">
             <label class="govuk-label" for="main-contact-first-name">
               First name
             </label>
-            <input class="govuk-input" id="main-contact-first-name" name="mainContactFirstName" type="text" autocomplete="given-name" value="{{ mainContact.firstName | default('') }}">
+            <input class="govuk-input" id="main-contact-first-name" name="main-contact-first-name" type="text" autocomplete="given-name" value="{{ mainContact.firstName }}">
           </div>
           <div class="govuk-form-group">
             <label class="govuk-label" for="main-contact-last-name">
               Last name
             </label>
-            <input class="govuk-input" id="main-contact-last-name" name="mainContactLastName" type="text" autocomplete="family-name" value="{{ mainContact.lastName | default('') }}">
+            <input class="govuk-input" id="main-contact-last-name" name="main-contact-last-name" type="text" autocomplete="family-name" value="{{ mainContact.lastName }}">
           </div>
           <div class="govuk-form-group">
             <label class="govuk-label" for="main-contact-email">
               Email address
             </label>
-            <input class="govuk-input" id="main-contact-email" name="mainContactEmail" type="email" autocomplete="email" value="{{ mainContact.email | default('') }}">
+            <input class="govuk-input" id="main-contact-email" name="main-contact-email" type="email" autocomplete="email" value="{{ mainContact.email }}">
           </div>
           <div class="govuk-form-group">
             <label class="govuk-label" for="main-contact-phone">
               Phone number (optional)
             </label>
-            <input class="govuk-input govuk-!-width-one-half" id="main-contact-phone" name="mainContactPhone" type="text" value="{{ mainContact.phone | default('') }}">
+            <input class="govuk-input govuk-!-width-one-half" id="main-contact-phone" name="main-contact-phone" type="text" value="{{ mainContact.phone }}">
           </div>
         </fieldset>
-        
-        <div class="govuk-form-group">
-          <label class="govuk-label" for="contact-organisation">
-            Select the organisation for this contact
-          </label>
-          <div class="govuk-radios" data-module="govuk-radios">
-            {% for lpa in lpas %}
-              <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="lpa-{{ loop.index }}" name="contactOrganisation" type="radio" value="{{ lpa }}"
-                  {% if mainContact.organisation == lpa %}checked{% endif %}>
-                <label class="govuk-label govuk-radios__label" for="lpa-{{ loop.index }}">
-                  {{ lpa }}
-                </label>
-              </div>
-            {% endfor %}
-          </div>
-        </div>
         
         <div class="govuk-button-group">
            {% if isEdit %}
@@ -72,19 +63,22 @@
             }) }}
             {% else %}
             {{ govukButton({
-              text: "Continue"
+              text: "Save and continue"
             }) }}
             {% endif %}
-          
           {% if isEdit %}
           {{ govukButton({
             text: "Cancel",
             classes: "govuk-button--secondary",
-            href: "/projects/back-office/create-case-v2/check-answers"
+            href: "/projects/back-office/manage/index.html"
+        
           }) }}
           {% endif %}
         </div>
       </form>
     </div>
   </div>
+{% endblock %}
+{% block footer %}
+  {% include "includes/footer.njk" %}
 {% endblock %}

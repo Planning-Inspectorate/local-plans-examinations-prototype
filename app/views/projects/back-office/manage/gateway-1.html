@@ -75,40 +75,40 @@ GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
       <form method="post" action="">
 
       <h2 class="govuk-heading-m">Gateway 1</h2>
-      <dl class="govuk-summary-list">
+      <dl class="govuk-summary-list govuk-summary-list-timetable">
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Gateway 1 estimated date</dt>
-          <dd class="govuk-summary-list__value">28 March 2026</dd>
+          <dd class="govuk-summary-list__value">{{ gateway1EstimatedDate }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> Gateway 1 Estimated Date</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/GW1/gateway-1-estimated.html?returnUrl=/projects/back-office/manage/gateway-1.html">Change<span class="govuk-visually-hidden"> Gateway 1 Estimated Date</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Gateway 1 actual date</dt>
-          <dd class="govuk-summary-list__value">-</dd>
+          <dd class="govuk-summary-list__value">{{ gateway1ActualDate }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> Gateway 1 Actual Date</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/GW1/gateway-1-actual.html?returnUrl=/projects/back-office/manage/gateway-1.html">Change<span class="govuk-visually-hidden"> Gateway 1 Actual Date</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">SLA sent date</dt>
-          <dd class="govuk-summary-list__value">-</dd>
+          <dd class="govuk-summary-list__value">{{ gateway1SlaSentDate }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> SLA Sent Date</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/GW1/gateway-1-sla-sent.html?returnUrl=/projects/back-office/manage/gateway-1.html">Change<span class="govuk-visually-hidden"> SLA Sent Date</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">SLA received date</dt>
-          <dd class="govuk-summary-list__value">-</dd>
+          <dd class="govuk-summary-list__value">{{ gateway1SlaReceivedDate }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> SLA Received Date</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/GW1/gateway-1-sla-received.html?returnUrl=/projects/back-office/manage/gateway-1.html">Change<span class="govuk-visually-hidden"> SLA Received Date</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">DSA check</dt>
-          <dd class="govuk-summary-list__value">-</dd>
+          <dt class="govuk-summary-list__key">Digital Sharing Agreement (DSA) check</dt>
+          <dd class="govuk-summary-list__value">{{ gateway1DsaCheck }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> DSA Check</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/GW1/gateway-1-dsa-check.html?returnUrl=/projects/back-office/manage/gateway-1.html">Change<span class="govuk-visually-hidden"> DSA Check</span></a>
           </dd>
         </div>
         </dl>

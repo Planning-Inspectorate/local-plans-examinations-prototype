@@ -15,7 +15,7 @@
      
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <form class="form" action="/projects/back-office/create-case-v2/1-plan-title" method="post">
+      <form class="form" action="/projects/back-office/manage/overview/plan-title" method="post">
       
       <input type="hidden" name="isEdit" value="{{ isEdit }}">
 
@@ -31,25 +31,18 @@
   value: planTitle
 }) }}
 
-      <div class="govuk-button-group">
-         {% if isEdit %}
-        {{ govukButton({
-          text: "Save and continue"
-        }) }}
-        {% else %}
-        {{ govukButton({
-          text: "Continue"
-        }) }}
-        {% endif %}
-        
-        {% if isEdit %}
-        {{ govukButton({
-          text: "Cancel",
-          classes: "govuk-button--secondary",
-          href: "/projects/back-office/create-case-v2/check-answers"
-        }) }}
-        {% endif %}
-      </div>
+  <div class="govuk-button-group">
+    {% if isEdit %}
+      {{ govukButton({
+        text: "Save and continue"
+      }) }}
+      <a href="/projects/back-office/manage/index.html" class="govuk-button govuk-button--secondary" role="button">Cancel</a>
+    {% else %}
+      {{ govukButton({
+        text: "Continue"
+      }) }}
+    {% endif %}
+  </div>
 
       </form>
     </div>

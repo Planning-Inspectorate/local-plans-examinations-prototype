@@ -1,0 +1,45 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+  {% if isEdit %}Edit plan type{% else %}Plan type{% endif %} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <form class="form" action="/projects/back-office/manage/overview/plan-type" method="post">
+      <input type="hidden" name="isEdit" value="{{ isEdit }}">
+      {{ govukInput({
+        label: {
+          text: "Plan type" if not isEdit else "Change plan type",
+          classes: "govuk-label--l"
+        },
+        id: "plan-type",
+        name: "plan-type",
+        type: "text",
+        classes: "govuk-!-width-two-thirds",
+        value: planType
+      }) }}
+      <div class="govuk-button-group">
+        {% if isEdit %}
+          {{ govukButton({ text: "Save and continue" }) }}
+          <a href="/projects/back-office/manage/index.html" class="govuk-button govuk-button--secondary" role="button">Cancel</a>
+        {% else %}
+          {{ govukButton({ text: "Continue" }) }}
+        {% endif %}
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}
+

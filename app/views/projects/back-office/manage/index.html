@@ -71,43 +71,43 @@ GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
   </div>
 
   
-      <form method="post" action="/projects/back-office/create-case-v2/check-answers">
+      <form method="post" action="/projects/back-office/manage/index.html">
 
       <h2 class="govuk-heading-m">Overview</h2>
-      <dl class="govuk-summary-list">
+      <dl class="govuk-summary-list govuk-summary-list-timetable">
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Plan title</dt>
-          <dd class="govuk-summary-list__value">Central City Local Plan</dd>
+          <dd class="govuk-summary-list__value">{{ planTitle or 'Central City Local Plan' }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> Change the plan title</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/overview/plan-title?returnUrl=/projects/back-office/manage/index.html">Change<span class="govuk-visually-hidden"> Change the plan title</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Plan type</dt>
-          <dd class="govuk-summary-list__value">Local plan</dd>
+          <dd class="govuk-summary-list__value">{{ planType or 'Local plan' }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> Change the plan type</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/overview/plan-type">Change<span class="govuk-visually-hidden"> Change the plan type</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">LPA 1</dt>
-          <dd class="govuk-summary-list__value">Central City Council</dd>
+          <dt class="govuk-summary-list__key">Local Planning Authority</dt>
+          <dd class="govuk-summary-list__value">{{ lpaName or 'Central City Council' }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> Change LPA 1</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/overview/select-LPA">Change<span class="govuk-visually-hidden"> Change LPA 1</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Region for LPA 1</dt>
-          <dd class="govuk-summary-list__value">Midlands</dd>
+          <dt class="govuk-summary-list__key">Region</dt>
+          <dd class="govuk-summary-list__value">{{ lpaRegion or 'Midlands' }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> Change region for LPA 1</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/overview/LPA-region">Change<span class="govuk-visually-hidden"> Change region for LPA 1</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Case officer</dt>
-          <dd class="govuk-summary-list__value">Jane Smith</dd>
+          <dd class="govuk-summary-list__value">{{ caseOfficer or 'Jane Smith' }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> Change the case officer</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/overview/case-officer-name">Change<span class="govuk-visually-hidden"> Change the case officer</span></a>
           </dd>
         </div>
           </dl>
@@ -115,19 +115,19 @@ GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
 
 
       <h2 class="govuk-heading-m">Contacts</h2>
-      <dl class="govuk-summary-list">
+      <dl class="govuk-summary-list govuk-summary-list-timetable">
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Main contact</dt>
           <dd class="govuk-summary-list__value">
-            Jamie Lee<br>
-            jamie.lee@example.com<br>
-            07700 900123<br>
-            Central City Council
+            {{ mainContactName or 'Jamie Lee' }}<br>
+            {{ mainContactEmail or 'jamie.lee@example.com' }}<br>
+            {{ mainContactPhone or '07700 900123' }}<br>
+            {{ mainContactOrg or 'Central City Council' }}
           </dd>
           <dd class="govuk-summary-list__actions">
             <ul class="govuk-summary-list__actions-list">
               <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> main contact</span></a>
+                <a class="govuk-link" href="/projects/back-office/manage/overview/main-contact">Change<span class="govuk-visually-hidden"> main contact</span></a>
               </li>
             </ul>
           </dd>
@@ -135,15 +135,15 @@ GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Contact 2</dt>
           <dd class="govuk-summary-list__value">
-            Morgan Smith<br>
-            morgan.smith@example.com<br>
-            07700 900456<br>
-            Central City Council
+            {{ contact2Name or 'Morgan Smith' }}<br>
+            {{ contact2Email or 'morgan.smith@example.com' }}<br>
+            {{ contact2Phone or '07700 900456' }}<br>
+            {{ contact2Org or 'Central City Council' }}
           </dd>
           <dd class="govuk-summary-list__actions">
             <ul class="govuk-summary-list__actions-list">
               <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> contact 2</span></a>
+                <a class="govuk-link" href="/projects/back-office/manage/overview/additional-contact">Change<span class="govuk-visually-hidden"> contact 2</span></a>
               </li>
             </ul>
           </dd>
@@ -151,12 +151,12 @@ GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Programme Officer</dt>
           <dd class="govuk-summary-list__value">
-            -<br>
+            {{ programmeOfficer or '-' }}<br>
           </dd>
           <dd class="govuk-summary-list__actions">
             <ul class="govuk-summary-list__actions-list">
               <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> Programme Officer</span></a>
+                <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> Programme Officer</span></a>
               </li>
             </ul>
           </dd>
@@ -164,38 +164,33 @@ GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Examination website</dt>
           <dd class="govuk-summary-list__value">
-            -<br>
+            {{ examinationWebsite or '-' }}<br>
           </dd>
           <dd class="govuk-summary-list__actions">
             <ul class="govuk-summary-list__actions-list">
               <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> Examination website</span></a>
+                <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> Examination website</span></a>
               </li>
             </ul>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Assessor Gateway 2</dt>
-          <dd class="govuk-summary-list__value">
-            -<br>
-          </dd>
+          <dd class="govuk-summary-list__value">{{ gateway2AssessorName or '-' }}</dd>
           <dd class="govuk-summary-list__actions">
-            <ul class="govuk-summary-list__actions-list">
-              <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> Assessor Gateway 2</span></a>
-              </li>
-            </ul>
+            <a class="govuk-link" href="/projects/back-office/manage/GW2/gateway-2-assessor-name.html?returnUrl=/projects/back-office/manage/index.html">Change<span class="govuk-visually-hidden"> Gateway 2 Assessor Name</span></a>
           </dd>
+      
         </div>
        <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Assessor Gateway 3</dt>
           <dd class="govuk-summary-list__value">
-            -<br>
+            {{ assessorGateway3 or '-' }}<br>
           </dd>
           <dd class="govuk-summary-list__actions">
             <ul class="govuk-summary-list__actions-list">
               <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> Assessor Gateway 3</span></a>
+                <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> Assessor Gateway 3</span></a>
               </li>
             </ul>
           </dd>
@@ -203,12 +198,12 @@ GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
           <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Examining inspector(s)</dt>
           <dd class="govuk-summary-list__value">
-            -<br>
+            {{ examiningInspectors or '-' }}<br>
           </dd>
           <dd class="govuk-summary-list__actions">
             <ul class="govuk-summary-list__actions-list">
               <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> Examining inspector(s)</span></a>
+                <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> Examining inspector(s)</span></a>
               </li>
             </ul>
           </dd>
@@ -216,12 +211,12 @@ GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">QA inspector(s)</dt>
           <dd class="govuk-summary-list__value">
-            -<br>
+            {{ qaInspectors or '-' }}<br>
           </dd>
           <dd class="govuk-summary-list__actions">
             <ul class="govuk-summary-list__actions-list">
               <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="#">Edit<span class="govuk-visually-hidden"> QA inspector(s)</span></a>
+                <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> QA inspector(s)</span></a>
               </li>
             </ul>
           </dd>
@@ -232,7 +227,7 @@ GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
       <div class="govuk-!-margin-top-6">
         <form method="get" action="/projects/back-office/manage/delete-case-confirmation.html">
           <button type="submit" class="govuk-button govuk-button--warning">
-            Delete this case
+            Delete case
           </button>
         </form>
       </div>
