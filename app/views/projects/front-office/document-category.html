@@ -1,0 +1,129 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+<!-- <span class="govuk-caption-l">Your documents</span>
+<h1 class="govuk-heading-l">Cover letter</h1>
+<h2 class="govuk-heading-m">Documents uploaded</h2>
+<p>This category contains 0 document(s).</p>
+ -->
+ <span class="govuk-caption-l">Your documents</span>
+ <h1 class="govuk-heading-l">Document name/category</h1>
+ 
+
+
+<div class="govuk-grid-row ">
+  <div class="govuk-grid-column-two-thirds">
+   <p class="<p class="govuk-body"> This page shows the supporting information and files added for this section. If you need to make any changes, select ‘Change’ next to the relevant section.</p>
+<!-- Summary text table -->
+ <table class="govuk-table govuk-table--small-text-until-tablet">
+  <caption class="govuk-table__caption govuk-table__caption--m">Supporting information</caption>
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header"> </th>
+      <th scope="col" class="govuk-table__header"> </th>
+    </tr>
+  </thead>
+  <tr class="govuk-table__row">
+    <td class="govuk-table__cell">If we include a Notes/Document Summary text, it will go here. LPA can enter any details they think will be needed for the application.</td>
+    <td class="govuk-table__cell">
+      <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> ApplicationCoverLetter1.pdf</span></a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<!-- Documents table -->
+<table class="govuk-table govuk-table--small-text-until-tablet">
+  <caption class="govuk-table__caption govuk-table__caption--m">Uploaded documents</caption>
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">Document</th>
+      <th scope="col" class="govuk-table__header">Date uploaded</th>
+      <th scope="col" class="govuk-table__header">Change</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    
+
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header">
+        <a class="govuk-link" href="/uploads/ApplicationCoverLetter2.pdf" target="_blank" rel="noopener">
+          ApplicationCoverLetter1.pdf
+        </a>
+      </th>
+      <td class="govuk-table__cell">13/10/2025 11:30</td>
+      <td class="govuk-table__cell">
+        <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> ApplicationCoverLetter1.pdf</span></a>
+      </td>
+    </tr>
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header">
+        <a class="govuk-link" href="/uploads/ApplicationCoverLetter2.pdf" target="_blank" rel="noopener">
+          ApplicationCoverLetter1.pdf
+        </a>
+      </th>
+      <td class="govuk-table__cell">13/10/2025 11:30</td>
+      <td class="govuk-table__cell">
+        <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> ApplicationCoverLetter1.pdf</span></a>
+      </td>
+    </tr>
+    </tbody>
+</table>
+<form class="form" action="/projects/front-office/document-upload" method="post">
+{{ govukButton({
+  text: "Upload more documents"
+}) }}
+</form>
+ 
+<!-- Submit guidance -->
+  <div class="govuk-!-padding-top-5">
+    <h3 class="govuk-heading-m">Have you uploaded all files for this section?</h3>
+    <p class="govuk-body">Mark this section as complete when you have uploaded all the files for it.
+      You can return later to upload or replace files if needed.</p>
+    {% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+    {{ govukRadios({
+      
+      items: [
+        {
+          value: "true",
+          text: "Yes, I have finished uploading all files for this section"
+        },
+        {
+          value: "false",
+          text: "No, I'll upload more later"
+        }
+      
+      ]
+    }) }}
+
+<!-- Continue button -->
+<form class="form" action="/projects/front-office/application-details" method="post">
+    
+      <button type="submit" class="govuk-button" data-module="govuk-button">
+        Save and continue
+      </button>
+    </form>
+  </div>
+</div>
+
+</div>
+{% endblock %}
+  {% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}
+  

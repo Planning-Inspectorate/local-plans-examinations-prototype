@@ -1,0 +1,104 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Question page template – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <!-- // Happy path -->
+  <div class="govuk-grid-row">
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+{{ govukInput({
+  label: {
+    text: "Enter the One Time Password (OTP)",
+     classes: " govuk-label--l",
+    isPageHeading: true
+  },
+  classes: "govuk-input--width-10",
+  hint:{
+    text: "Enter the code which was emailed to a.body@email.co.uk.",
+    id: "cbos-reference-number-hint"
+  }
+}) }}
+
+          <form class="form" action="/projects/front-office/application-details" method="post">
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+        
+      </form>
+      <p class="govuk-body">
+       It may take a few minutes to arrive, if you don't receive the email:
+      </p>
+      <ul class="govuk-list govuk-list--bullet">
+        
+          <li>
+            Check the email address is correct.
+          </li>
+          <li>Check your spam or junk folder.</li>
+         
+        </ul>
+     
+        
+        
+      </p>
+
+      <p class="govuk-body">
+        If everything looks correct, but you still haven't received the email we can <a href="login-request-new-code">request a new code.</a>
+      </p>
+    
+    </div>
+ 
+
+<details class="govuk-details">
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">
+      If you're still having problems
+    </span>
+  </summary>
+  <div class="govuk-details__text">
+    You can contact our customer support team.</p><p class="govuk-body">Telephone: 0303 444 5000 <br> Monday to Friday, 9am to midday (except public holidays) <br><a href="https://www.gov.uk/call-charges">Find out about call charges.</a></p>
+  </div>
+</details>
+
+  <!-- // Error -->
+   
+  
+  <!-- <div class="govuk-grid-row govuk-form-group--error">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-l">
+        Enter the code we sent to your email address
+      </h1>
+
+      <p class="govuk-body">Find this in the email we sent you. The email may take a few minutes to arrive. <br>
+      <br> Be aware that this code will expire 30 minutes after we send it.
+      </p>
+
+      <p id="enter-code-error" class="govuk-error-message">
+        <span class="govuk-visually-hidden">Error:</span> Error message
+      </p>
+
+      <div class="govuk-form-group">
+        <input class="govuk-input govuk-input--width-5 govuk-input--error" id="width-5" name="width5" type="text">
+      </div>
+    </div>
+  </div>  -->
+
+
+
+{% endblock %}
+  {% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}
+  

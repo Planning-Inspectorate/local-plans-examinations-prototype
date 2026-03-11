@@ -1,0 +1,74 @@
+{% extends "layouts/main.html" %}
+{%- from "govuk/components/tag/macro.njk" import govukTag -%}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/task-list/macro.njk" import govukTaskList %}
+
+
+{% block pageTitle %}
+  Portal index – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+
+
+{% block beforeContent %}
+{% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
+
+{{ govukServiceNavigation({
+  classes: "govuk-grid-column-full",
+  navigation: [
+    {
+      href: "application-details",
+      text: "Application details"
+    },  
+    {
+      href: "account-settings",
+      text: "Acccount settings",
+      active: true
+    },
+    {
+      href: "#",
+      text: "Manage users"
+    },
+    {
+      href: "#",
+      text: "This menu should be included in the header."
+    }
+  ]
+}) }}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) 
+}}
+
+{% endblock %}
+
+
+
+
+
+{% block content %}
+  <h1 class="govuk-heading-l">Account settings</h1>
+
+
+<div class="govuk-grid-row">
+<div class="govuk-grid-column-one-half govuk-body">
+  <h2 class="govuk-heading-m">Change your details</h2>
+   <p class="govuk-body">Your details</p>
+
+   <task-list>
+     <task-list-item>
+       <a href="/projects/front-office/login-email">Change email address</a> <br>
+       <a href="/projects/front-office/login-email">Change password</a>
+     </task-list-item>
+   </task-list>
+    
+
+
+   </div>
+{% endblock %}
+
+  {% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}
+  
