@@ -40,9 +40,9 @@ router.get('/projects/back-office/manage/index.html', (req, res) => {
     gateway2AssessorAppointmentDate: req.session.gateway2AssessorAppointmentDate || '-',
     gateway2ReportIssuedDate: req.session.gateway2ReportIssuedDate || '-',
     gateway2ReportPublishedDate: req.session.gateway2ReportPublishedDate || '-',
-    programmeOfficer: req.session.programmeOfficer || '-',
+    gateway3AssessorName: req.session.gateway3AssessorName || '-',
+    gateway3PoContact: req.session.gateway3PoContact || {},
     examinationWebsite: req.session.examinationWebsite || '-',
-    assessorGateway3: req.session.assessorGateway3 || '-',
     examiningInspectors: req.session.examiningInspectors || '-'
   });
 });
@@ -546,6 +546,10 @@ router.get('/projects/back-office/manage/timetable.html', (req, res) => {
     gateway2AssessorAppointmentDate: req.session.gateway2AssessorAppointmentDate || '-',
     gateway2ReportIssuedDate: req.session.gateway2ReportIssuedDate || '-',
     gateway2ReportPublishedDate: req.session.gateway2ReportPublishedDate || '-',
+    gateway3EstimatedDate: req.session.gateway3EstimatedDate || '-',
+    gateway3ActualDate: req.session.gateway3ActualDate || '-',
+    gateway3AssessorAppointmentDate: req.session.gateway3AssessorAppointmentDate || '-',
+    gateway3CompletionDate: req.session.gateway3CompletionDate || '-',
     returnUrl: req.query.returnUrl || '/projects/back-office/manage/timetable.html'
   });
 });
@@ -763,5 +767,110 @@ router.get('/projects/back-office/manage/index-filter', (req, res) => {
   });
 });
 
+// --- Gateway 3 Routes ---
+router.get('/projects/back-office/manage/gateway-3.html', (req, res) => {
+  res.render('projects/back-office/manage/gateway-3', {
+    gateway3EstimatedDate: req.session.gateway3EstimatedDate || '-',
+    gateway3ActualDate: req.session.gateway3ActualDate || '-',
+    gateway3AssessorAppointmentDate: req.session.gateway3AssessorAppointmentDate || '-',
+    gateway3CompletionDate: req.session.gateway3CompletionDate || '-',
+    gateway3AssessorName: req.session.gateway3AssessorName || '-',
+    gateway3PoContact: req.session.gateway3PoContact || {}
+  });
+});
+
+// Gateway 3 GET handlers for edit pages
+router.get('/projects/back-office/manage/GW3/gateway-3-assessor-name.html', (req, res) => {
+  res.render('projects/back-office/manage/GW3/gateway-3-assessor-name', {
+    gateway3AssessorName: req.session.gateway3AssessorName || '',
+    returnUrl: req.query.returnUrl || '/projects/back-office/manage/gateway-3.html'
+  });
+});
+
+router.get('/projects/back-office/manage/GW3/gateway-3-po-details.html', (req, res) => {
+  res.render('projects/back-office/manage/GW3/gateway-3-po-details', {
+    contact: req.session.gateway3PoContact || {},
+    returnUrl: req.query.returnUrl || '/projects/back-office/manage/gateway-3.html'
+  });
+});
+
+// Gateway 3 POST handlers for text fields
+router.post('/projects/back-office/manage/GW3/gateway-3-assessor-name', (req, res) => {
+  const { 'gateway-3-assessor-name': value, returnUrl } = req.body;
+  req.session.gateway3AssessorName = value && value.trim() !== '' ? value : '-';
+  res.redirect(returnUrl || '/projects/back-office/manage/gateway-3.html');
+});
+
+router.post('/projects/back-office/manage/GW3/gateway-3-po-details', (req, res) => {
+  const { firstName, lastName, email, phone, returnUrl } = req.body;
+  req.session.gateway3PoContact = {
+    firstName: firstName && firstName.trim() !== '' ? firstName : '',
+    lastName: lastName && lastName.trim() !== '' ? lastName : '',
+    email: email && email.trim() !== '' ? email : '',
+    phone: phone && phone.trim() !== '' ? phone : ''
+  };
+  res.redirect(returnUrl || '/projects/back-office/manage/gateway-3.html');
+});
+
+// --- Gateway 3 Date Edit Handlers ---
+const gw3DateFields = [
+  { key: 'EstimatedDate', file: 'gateway-3-estimated' },
+  { key: 'ActualDate', file: 'gateway-3-actual' },
+  { key: 'AssessorAppointmentDate', file: 'gateway-3-assessor-appointment' },
+  { key: 'CompletionDate', file: 'gateway-3-completion-date' }
+];
+
+gw3DateFields.forEach(({ key, file }) => {
+  // GET handler
+  router.get(`/projects/back-office/manage/GW3/${file}.html`, (req, res) => {
+    let day = '', month = '', year = '';
+    const sessionKey = `gateway3${key}`;
+    if (req.session[sessionKey] && req.session[sessionKey] !== '-') {
+      const parts = req.session[sessionKey].includes('/')
+        ? req.session[sessionKey].split('/')
+        : req.session[sessionKey].split(' ');
+      day = parts[0] || '';
+      month = parts[1] || '';
+      year = parts[2] || '';
+      // Convert month name to number if needed
+      const monthMap = {
+        'January': '01', 'February': '02', 'March': '03', 'April': '04', 'May': '05', 'June': '06',
+        'July': '07', 'August': '08', 'September': '09', 'October': '10', 'November': '11', 'December': '12'
+      };
+      if (monthMap[month]) month = monthMap[month];
+      else if (month.length === 1) month = '0' + month;
+    }
+    const noticeOfIntentionDate = `${day}/${month}/${year}`;
+    const returnUrl = req.query.returnUrl || '/projects/back-office/manage/gateway-3.html';
+    res.render(`projects/back-office/manage/GW3/${file}.html`, {
+      noticeOfIntentionDate,
+      returnUrl
+    });
+  });
+  // POST handler
+  router.post(`/projects/back-office/manage/GW3/${file}`, (req, res) => {
+    const { 'notice-of-intention-date-day': day, 'notice-of-intention-date-month': month, 'notice-of-intention-date-year': year, returnUrl } = req.body;
+    const sessionKey = `gateway3${key}`;
+    // Get previous values if present
+    let prevDay = '', prevMonth = '', prevYear = '';
+    if (req.session[sessionKey] && req.session[sessionKey] !== '-') {
+      const prevParts = req.session[sessionKey].split(' ');
+      if (prevParts.length === 3) {
+        prevDay = prevParts[0];
+        prevMonth = prevParts[1];
+        prevYear = prevParts[2];
+      }
+    }
+    // Use new value if provided, otherwise previous value
+    const newDay = day && day.trim() !== '' ? day.padStart(2, '0') : prevDay;
+    const months = [ '', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ];
+    let newMonth = month && month.trim() !== '' ? (months[parseInt(month, 10)] || month) : prevMonth;
+    const newYear = year && year.trim() !== '' ? year : prevYear;
+    if (newDay && newMonth && newYear) {
+      req.session[sessionKey] = `${newDay} ${newMonth} ${newYear}`;
+    }
+    res.redirect(returnUrl || '/projects/back-office/manage/gateway-3.html');
+  });
+});
 
 module.exports = router;
