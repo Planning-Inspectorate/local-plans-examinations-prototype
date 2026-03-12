@@ -151,12 +151,18 @@ GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Programme Officer</dt>
           <dd class="govuk-summary-list__value">
-            {{ programmeOfficer or '-' }}<br>
+            {% if gateway3PoContact.firstName or gateway3PoContact.lastName %}
+              {{ gateway3PoContact.firstName }} {{ gateway3PoContact.lastName }}<br>
+              {% if gateway3PoContact.email %}{{ gateway3PoContact.email }}<br>{% endif %}
+              {% if gateway3PoContact.phone %}{{ gateway3PoContact.phone }}{% endif %}
+            {% else %}
+              -
+            {% endif %}<br>
           </dd>
           <dd class="govuk-summary-list__actions">
             <ul class="govuk-summary-list__actions-list">
               <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> Programme Officer</span></a>
+                <a class="govuk-link" href="/projects/back-office/manage/GW3/gateway-3-po-details.html?returnUrl=/projects/back-office/manage/index.html">Change<span class="govuk-visually-hidden"> Programme Officer</span></a>
               </li>
             </ul>
           </dd>
@@ -185,12 +191,12 @@ GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
        <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Assessor Gateway 3</dt>
           <dd class="govuk-summary-list__value">
-            {{ assessorGateway3 or '-' }}<br>
+            {{ gateway3AssessorName or '-' }}<br>
           </dd>
           <dd class="govuk-summary-list__actions">
             <ul class="govuk-summary-list__actions-list">
               <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> Assessor Gateway 3</span></a>
+                <a class="govuk-link" href="/projects/back-office/manage/GW3/gateway-3-assessor-name.html?returnUrl=/projects/back-office/manage/index.html">Change<span class="govuk-visually-hidden"> Assessor Gateway 3</span></a>
               </li>
             </ul>
           </dd>
