@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-  Comment on the Local Plan – {{ serviceName }} – GOV.UK Prototype Kit
+  Check your answers – {{ serviceName }} 
 {% endblock %}
 {% block beforeContent %}
   {{ govukBackLink({
@@ -11,7 +11,7 @@
 {% endblock %}
 {% block content %}
   <form method="post" action="/projects/back-office/create-case-v2/check-answers">
-
+<h1 class="govuk-heading-l">Check your answers</h1> 
       <!-- Overview summary card -->
       <div class="govuk-summary-card" id="overview">
         <div class="govuk-summary-card__title-wrapper">
@@ -98,7 +98,7 @@
             {% if contacts %}
               {% for contact in contacts %}
                 <div class="govuk-summary-list__row">
-                  <dt class="govuk-summary-list__key">Contact {{ loop.index0 + 2 }}</dt>
+                  <dt class="govuk-summary-list__key">Additional contact</dt>
                   <dd class="govuk-summary-list__value">
                     {{ contact.firstName }} {{ contact.lastName }}<br>
                     {{ contact.email }}<br>

@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-  {% if isEdit %}Edit key dates{% else %}Enter key dates{% endif %} – {{ serviceName }}
+Does the LPA have a Digital Sharing Agreement (DSA)? – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -15,7 +15,7 @@
     
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-            <h1 class="govuk-heading-l">Is a Digital Sharing Agreement (DSA) in place?</h1>
+            <h1 class="govuk-heading-l">Does the LPA have a Digital Sharing Agreement (DSA)?</h1>
             <form class="form" method="post" action="/projects/back-office/manage/GW1/gateway-1-dsa-check">
                 <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
                 {{ govukRadios({

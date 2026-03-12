@@ -2,7 +2,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-	Change Gateway 2 report published date – {{ serviceName }}
+	When did the LPA publish the Gateway 2 report? – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -15,7 +15,7 @@
 {% block content %}
 	<div class="govuk-grid-row">
 		<div class="govuk-grid-column-two-thirds">
-			<h1 class="govuk-heading-l">Gateway 2 report published date</h1>
+			<h1 class="govuk-heading-l">When did the LPA publish the Gateway 2 report?</h1>
 			<form class="form" method="post" action="/projects/back-office/manage/GW2/gateway-2-report-published">
 				<input type="hidden" name="isEdit" value="{{ isEdit }}">
 				<input type="hidden" name="returnUrl" value="{{ returnUrl }}">

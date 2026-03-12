@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-  {% if isEdit %}Edit key dates{% else %}Enter key dates{% endif %} – {{ serviceName }}
+  Enter dates for key stages of the local plan – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -15,7 +15,7 @@
     
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-l">{% if isEdit %}Enter key dates of the local plan timetable{% else %}Enter key dates of the local plan timetable{% endif %}</h1>
+        <h1 class="govuk-heading-l">{% if isEdit %}Enter dates for key stages of the local plan{% else %}Enter dates for key stages of the local plan{% endif %}</h1>
         <form class="form" method="post" action="/projects/back-office/create-case-v2/enter-key-dates">
             <input type="hidden" name="isEdit" value="{{ isEdit }}">
             

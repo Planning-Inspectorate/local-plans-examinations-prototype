@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-  {% if isEdit %}Edit key dates{% else %}Enter key dates{% endif %} – {{ serviceName }}
+  When was the SLA sent? – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -15,7 +15,7 @@
     
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-            <h1 class="govuk-heading-l">When was the SLA sent to the LPA?</h1>
+            <h1 class="govuk-heading-l">When was the SLA sent?</h1>
             <form class="form" method="post" action="/projects/back-office/manage/GW1/gateway-1-sla-sent">
                 <input type="hidden" name="isEdit" value="{{ isEdit }}">
                 <input type="hidden" name="returnUrl" value="{{ returnUrl }}">

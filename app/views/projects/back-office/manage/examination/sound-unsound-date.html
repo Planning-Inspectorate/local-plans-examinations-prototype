@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-	Sound / unsound date – {{ serviceName }}
+	When was the plan confirmed as sound or unsound? – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -14,7 +14,7 @@
 {% block content %}
 	<div class="govuk-grid-row">
 		<div class="govuk-grid-column-two-thirds">
-			<h1 class="govuk-heading-l">Sound / unsound date</h1>
+			<h1 class="govuk-heading-l">When was the plan confirmed as sound or unsound?</h1>
 			<form class="form" method="post" action="/projects/back-office/manage/examination/sound-unsound-date">
 				<input type="hidden" name="isEdit" value="{{ isEdit }}">
 				<input type="hidden" name="returnUrl" value="{{ returnUrl }}">

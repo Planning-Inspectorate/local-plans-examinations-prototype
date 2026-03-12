@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-  {% if isEdit %}Edit plan type{% else %}Plan type{% endif %} – {{ serviceName }}
+  What is the plan type? – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -16,17 +16,31 @@
   <div class="govuk-grid-column-two-thirds">
     <form class="form" action="/projects/back-office/manage/overview/plan-type" method="post">
       <input type="hidden" name="isEdit" value="{{ isEdit }}">
-      {{ govukInput({
-        label: {
-          text: "Plan type" if not isEdit else "Change plan type",
-          classes: "govuk-label--l"
-        },
-        id: "plan-type",
-        name: "plan-type",
-        type: "text",
-        classes: "govuk-!-width-two-thirds",
-        value: planType
-      }) }}
+      {{ govukRadios({
+  name: "plan-type",
+  fieldset: {
+    legend: {
+      text: "What is the plan type?" if not isEdit else "What is the plan type?",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--l"
+    }
+  },
+  items: [
+    {
+      value: "local-plan",
+      text: "Local Plan",
+      checked: planType == "local-plan"
+    },
+    {
+      value: "other",
+      text: "Other",
+      checked: planType == "other",
+      conditional: {
+        html: textHtml
+      }
+    }
+  ]
+}) }}
       <div class="govuk-button-group">
         {% if isEdit %}
           {{ govukButton({ text: "Save and continue" }) }}

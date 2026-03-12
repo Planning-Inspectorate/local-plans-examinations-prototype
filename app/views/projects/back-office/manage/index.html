@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
+Plan overview – {{ serviceName }}
 {% endblock %}
 {% block beforeContent %}
   {{ govukBackLink({
@@ -133,7 +133,7 @@ GOV.UK page template – {{ serviceName }} – GOV.UK Prototype Kit
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Contact 2</dt>
+          <dt class="govuk-summary-list__key">Additional contact</dt>
           <dd class="govuk-summary-list__value">
             {{ contact2Name or 'Morgan Smith' }}<br>
             {{ contact2Email or 'morgan.smith@example.com' }}<br>

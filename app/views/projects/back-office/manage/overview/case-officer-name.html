@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-  {% if isEdit %}Edit case officer{% else %}Case officer{% endif %} – {{ serviceName }}
+  Who is the case officer? – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -17,7 +17,7 @@
     <form class="form" action="/projects/back-office/manage/overview/case-officer-name" method="post">
       <input type="hidden" name="isEdit" value="{{ isEdit }}">
       <div class="govuk-form-group">
-        <label class="govuk-label govuk-label--l" for="case-officer-name">{{ "Case officer" if not isEdit else "Change case officer" }}</label>
+        <label class="govuk-label govuk-label--l" for="case-officer-name">{{ "Who is the case officer?" if not isEdit else "Who is the case officer?" }}</label>
         <select class="govuk-select govuk-!-width-two-thirds" id="case-officer-name" name="case-officer-name">
           <option value="" disabled {% if not caseOfficer %}selected{% endif %}>Select a case officer</option>
           {% for officer in caseOfficers %}

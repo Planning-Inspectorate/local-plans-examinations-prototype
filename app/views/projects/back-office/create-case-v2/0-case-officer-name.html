@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-  {% if isEdit %}Edit case officer{% else %}Case officer{% endif %} – {{ serviceName }}
+  {% if isEdit %}Who is the case officer?{% else %}Who is the case officer?{% endif %} – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -22,7 +22,7 @@
       <div class="govuk-form-group">
         <h1 class="govuk-label-wrapper">
           <label class="govuk-label govuk-label--l" for="caseOfficer">
-            {% if isEdit %}Case officer{% else %}Case officer{% endif %}
+            {% if isEdit %}Who is the case officer?{% else %}Who is the case officer?{% endif %}
           </label>
         </h1>
         <div>

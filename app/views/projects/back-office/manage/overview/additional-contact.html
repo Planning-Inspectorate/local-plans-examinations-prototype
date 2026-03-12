@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-  {% if editIndex !== '' %}Edit contact details{% else %}Additional contact{% endif %} – {{ serviceName }}
+ Additional contact details – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -15,7 +15,7 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-l">
-        {% if editIndex !== '' %}Change contact details{% else %}Additional contact{% endif %}
+        Additional contact details
       </h1>
 
       <form method="post">

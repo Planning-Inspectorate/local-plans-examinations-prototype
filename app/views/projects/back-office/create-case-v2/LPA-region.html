@@ -1,5 +1,8 @@
 {% extends "layouts/back-office.html" %}
 
+{% block pageTitle %}
+ What is the region of the Local Planning Authority? – {{ serviceName }}
+{% endblock %}
 
 {% block beforeContent %}
   {{ govukBackLink({
@@ -13,16 +16,11 @@
       <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <form method="post" action="/projects/back-office/create-case-v2/LPA-region">
-        {% if lpa %}
-          <div class="govuk-form-group">
-            <label class="govuk-label govuk-label--m">Region for {{ lpa }}</label>
-          </div>
-          <input type="hidden" name="index" value="{{ index }}">
-        {% endif %}
+       
         <div class="govuk-form-group">
           <h1 class="govuk-label-wrapper">
             <label class="govuk-label govuk-label--l" for="region">
-              Region
+              {% if isEdit %}What is the region of the Local Planning Authority?{% else %}What is the region of the Local Planning Authority?{% endif %}
             </label>
           </h1>
           <div class="autocomplete__wrapper">
@@ -45,7 +43,7 @@
           </div>
     </div>
 
-      <div class="govuk-form-group">
+      <div class="govuk-button-group">
         <button class="govuk-button" data-module="govuk-button" type="submit">Save and continue</button>
         <button class="govuk-button govuk-button--secondary" name="action" value="cancel" formnovalidate type="submit">Cancel</button>
       </div>

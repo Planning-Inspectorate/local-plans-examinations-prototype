@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-	Fact Check due date – {{ serviceName }}
+When is the Fact Check expected to be sent to the LPA? – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -14,14 +14,14 @@
 {% block content %}
 	<div class="govuk-grid-row">
 		<div class="govuk-grid-column-two-thirds">
-			<h1 class="govuk-heading-l">Fact Check due date</h1>
+			<h1 class="govuk-heading-l">When is the Fact Check expected to be sent to the LPA?</h1>
 			<form class="form" method="post" action="/projects/back-office/manage/examination/fact-check-due-date">
 				<input type="hidden" name="isEdit" value="{{ isEdit }}">
 				<input type="hidden" name="returnUrl" value="{{ returnUrl }}">
 				{% set dateParts = factCheckDueDate.split('/') if factCheckDueDate else ['', '', ''] %}
 				<fieldset class="govuk-fieldset govuk-!-margin-bottom-2" role="group" aria-describedby="fact-check-due-date-hint">
 					<legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-						<span class="govuk-visually-hidden">Fact check due date</span>
+						<span class="govuk-visually-hidden">When is the Fact Check expected to be sent to the LPA?</span>
 					</legend>
 					<div class="govuk-date-input" id="fact-check-due-date">
 						<div class="govuk-date-input__item">

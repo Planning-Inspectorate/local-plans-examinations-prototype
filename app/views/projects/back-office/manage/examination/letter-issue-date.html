@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-	Letter issue date – {{ serviceName }}
+	When was the letter sent to the LPA? – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -14,14 +14,14 @@
 {% block content %}
 	<div class="govuk-grid-row">
 		<div class="govuk-grid-column-two-thirds">
-			<h1 class="govuk-heading-l">Letter issue date</h1>
+			<h1 class="govuk-heading-l">When was the letter sent to the LPA?</h1>
 			<form class="form" method="post" action="/projects/back-office/manage/examination/letter-issue-date">
 				<input type="hidden" name="isEdit" value="{{ isEdit }}">
 				<input type="hidden" name="returnUrl" value="{{ returnUrl }}">
 				{% set dateParts = letterIssueDate.split('/') if letterIssueDate else ['', '', ''] %}
 				<fieldset class="govuk-fieldset govuk-!-margin-bottom-2" role="group" aria-describedby="letter-issue-date-hint">
 					<legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-						<span class="govuk-visually-hidden">Letter issue date</span>
+						<span class="govuk-visually-hidden">When was the letter sent to the LPA?</span>
 					</legend>
 					<div class="govuk-date-input" id="letter-issue-date">
 						<div class="govuk-date-input__item">

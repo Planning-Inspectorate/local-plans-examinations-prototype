@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-  {% if isEdit %}Edit contact 2{% else %}Contact 2{% endif %} – {{ serviceName }}
+Additional contact details – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -19,7 +19,7 @@
       <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
       {{ govukInput({
         label: {
-          text: "Contact 2 first name" if not isEdit else "Change contact 2 first name",
+          text: "Additional contact details",
           classes: "govuk-label--l"
         },
         id: "contact-2-first-name",
@@ -61,6 +61,22 @@
         classes: "govuk-!-width-two-thirds",
         value: contact2Phone
       }) }}
+      <div class="govuk-form-group">
+          <label class="govuk-label" for="contact-organisation">
+            Select the organisation for this contact
+          </label>
+          <div class="govuk-radios" data-module="govuk-radios">
+            {% for lpa in lpas %}
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="lpa-{{ loop.index }}" name="contactOrganisation" type="radio" value="{{ lpa }}"
+                  {% if contact.organisation == lpa %}checked{% endif %}>
+                <label class="govuk-label govuk-radios__label" for="lpa-{{ loop.index }}">
+                  {{ lpa }}
+                </label>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
       <div class="govuk-button-group">
         {% if isEdit %}
           {{ govukButton({ text: "Save and continue", type: "submit" }) }}

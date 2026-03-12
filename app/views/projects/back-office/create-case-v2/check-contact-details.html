@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-  Check applicant contact details – {{ serviceName }} – GOV.UK Prototype Kit
+  Check contact details – {{ serviceName }} 
 {% endblock %}
 
 {% block beforeContent %}
@@ -44,7 +44,7 @@
     {% for contact in contacts %}
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key" style="width: 15%;">
-          Contact {{ loop.index0 + 2 }}
+          Additional contact
         </dt>
         <dd class="govuk-summary-list__value" style="width: 35%;">
           {{ contact.firstName }} {{ contact.lastName }}<br>

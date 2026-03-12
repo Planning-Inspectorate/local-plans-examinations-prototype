@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-	Fact Check actual date – {{ serviceName }}
+	When was the Fact Check actually sent to the LPA? – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -14,14 +14,14 @@
 {% block content %}
 	<div class="govuk-grid-row">
 		<div class="govuk-grid-column-two-thirds">
-			<h1 class="govuk-heading-l">Fact Check actual date</h1>
+			<h1 class="govuk-heading-l">When was the Fact Check actually sent to the LPA?</h1>
 			<form class="form" method="post" action="/projects/back-office/manage/examination/fact-check-actual-date">
 				<input type="hidden" name="isEdit" value="{{ isEdit }}">
 				<input type="hidden" name="returnUrl" value="{{ returnUrl }}">
 				{% set dateParts = factCheckActualDate.split('/') if factCheckActualDate else ['', '', ''] %}
 				<fieldset class="govuk-fieldset govuk-!-margin-bottom-2" role="group" aria-describedby="fact-check-actual-date-hint">
 					<legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-						<span class="govuk-visually-hidden">Fact check actual date</span>
+						<span class="govuk-visually-hidden">When was the Fact Check actually sent to the LPA?</span>
 					</legend>
 					<div class="govuk-date-input" id="fact-check-actual-date">
 						<div class="govuk-date-input__item">

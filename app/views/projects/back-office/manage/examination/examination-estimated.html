@@ -2,7 +2,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-	Examination estimated date – {{ serviceName }}
+	When is the estimated examination date? – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -15,14 +15,14 @@
 {% block content %}
 	<div class="govuk-grid-row">
 		<div class="govuk-grid-column-two-thirds">
-			<h1 class="govuk-heading-l">Examination estimated date</h1>
+			<h1 class="govuk-heading-l">When is the estimated examination date?</h1>
 			<form class="form" method="post" action="/projects/back-office/manage/examination/examination-estimated">
 				<input type="hidden" name="isEdit" value="{{ isEdit }}">
 				<input type="hidden" name="returnUrl" value="{{ returnUrl }}">
 				{% set dateParts = noticeOfIntentionDate.split('/') if noticeOfIntentionDate else ['', '', ''] %}
 				<fieldset class="govuk-fieldset govuk-!-margin-bottom-2" role="group" aria-describedby="examination-estimated-date-hint">
 					<legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-						<span class="govuk-visually-hidden">Examination estimated date</span>
+						<span class="govuk-visually-hidden">When is the estimated Examination date?</span>
 					</legend>
 					<div class="govuk-date-input" id="examination-estimated-date">
 						<div class="govuk-date-input__item">

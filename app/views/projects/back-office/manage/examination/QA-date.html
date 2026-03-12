@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-	QA date – {{ serviceName }}
+	When was the report submitted for Quality Assurance? – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -14,14 +14,14 @@
 {% block content %}
 	<div class="govuk-grid-row">
 		<div class="govuk-grid-column-two-thirds">
-			<h1 class="govuk-heading-l">QA date</h1>
+			<h1 class="govuk-heading-l">When was the report submitted for Quality Assurance?</h1>
 			<form class="form" method="post" action="/projects/back-office/manage/examination/qa-date">
 				<input type="hidden" name="isEdit" value="{{ isEdit }}">
 				<input type="hidden" name="returnUrl" value="{{ returnUrl }}">
 				{% set dateParts = qaDate.split('/') if qaDate else ['', '', ''] %}
 				<fieldset class="govuk-fieldset govuk-!-margin-bottom-2" role="group" aria-describedby="qa-date-hint">
 					<legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-						<span class="govuk-visually-hidden">QA date</span>
+						<span class="govuk-visually-hidden">When was the report submitted for Quality Assurance?</span>
 					</legend>
 					<div class="govuk-date-input" id="qa-date">
 						<div class="govuk-date-input__item">

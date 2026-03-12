@@ -2,7 +2,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-	QA assessor names – {{ serviceName }}
+	Who are the Quality Assurance Inspectors? – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -15,7 +15,7 @@
 {% block content %}
 	<div class="govuk-grid-row">
 		<div class="govuk-grid-column-two-thirds">
-			<h1 class="govuk-heading-l">QA assessor names</h1>
+			<h1 class="govuk-heading-l">Who are the Quality Assurance Inspectors?</h1>
 			<form class="form" method="post" action="/projects/back-office/manage/examination/qa-assessor-names">
 				<input type="hidden" name="isEdit" value="{{ isEdit }}">
 				<input type="hidden" name="returnUrl" value="{{ returnUrl }}">

@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-  {% if isEdit %}Edit plan type{% else %}Plan type{% endif %} – {{ serviceName }}
+  {% if isEdit %}What is the plan type?{% else %}What is the plan type?{% endif %} – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -28,7 +28,7 @@
   autocomplete: "off",
   classes: "govuk-!-width-one-third",
   label: {
-    text: "Plan type"
+    text: "What is the plan type?"
   }
 }) }}
 {% endset -%}
@@ -36,7 +36,7 @@
   name: "plan-type",
   fieldset: {
     legend: {
-      text: "Plan type" if not isEdit else "Plan type",
+      text: "What is the plan type?" if not isEdit else "What is the plan type?",
       isPageHeading: true,
       classes: "govuk-fieldset__legend--l"
     }

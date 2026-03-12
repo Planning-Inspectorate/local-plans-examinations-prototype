@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-  {% if isEdit %}Edit plan title{% else %}Plan title{% endif %} – {{ serviceName }}
+  What is the plan title? – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -21,7 +21,7 @@
 
 {{ govukInput({
   label: {
-    text: "Plan title" if not isEdit else "Plan title",
+    text: "What is the plan title?" if not isEdit else "What is the plan title?",
     classes: "govuk-label--l"
   },
   id: "plan-title",

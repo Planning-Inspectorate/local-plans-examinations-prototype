@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-  {% if isEdit %}Edit main contact{% else %}Main contact{% endif %} – {{ serviceName }}
+ What are the main contact details for the Local Planning Authority? – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -15,7 +15,7 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-l">
-        {% if isEdit %}Main contact{% else %}Main contact{% endif %}
+        {% if isEdit %}What are the main contact details for the Local Planning Authority?{% else %}What are the main contact details for the Local Planning Authority?{% endif %}
       </h1>
 
       <form method="post" action="/projects/back-office/create-case-v2/main-contact">

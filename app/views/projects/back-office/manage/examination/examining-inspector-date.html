@@ -2,7 +2,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-	Examination inspector(s) appointment date – {{ serviceName }}
+	When was the examining Inspector appointed? – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -15,8 +15,7 @@
 {% block content %}
 	<div class="govuk-grid-row">
 		<div class="govuk-grid-column-two-thirds">
-			<h1 class="govuk-heading-l">
-                Examination inspector(s) appointment date</h1>
+			<h1 class="govuk-heading-l">When was the examining Inspector appointed?</h1>
 			<form class="form" method="post" action="/projects/back-office/manage/examination/examining-inspector-date">
 				<input type="hidden" name="isEdit" value="{{ isEdit }}">
 				<input type="hidden" name="returnUrl" value="{{ returnUrl }}">

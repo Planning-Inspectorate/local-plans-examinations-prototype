@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-  {% if isEdit %}Edit main contact{% else %}Main contact{% endif %} – {{ serviceName }}
+  What are the main contact details for the Local Planning Authority? – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -15,14 +15,9 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-l">
-        {% if isEdit %}Change main contact{% else %}Main contact{% endif %}
+       What are the main contact details for the Local Planning Authority?
       </h1>
 
-      <h2 class="govuk-heading-m">Who is the main contact for this plan?</h2>
-
-      <p class="govuk-body">
-        <strong>LPA:</strong> {{ lpaName }}
-      </p>
 
       <form method="post" action="/projects/back-office/manage/overview/main-contact">
         <input type="hidden" name="isEdit" value="{{ isEdit }}">
@@ -55,6 +50,22 @@
             <input class="govuk-input govuk-!-width-one-half" id="main-contact-phone" name="main-contact-phone" type="text" value="{{ mainContact.phone }}">
           </div>
         </fieldset>
+        <div class="govuk-form-group">
+          <label class="govuk-label" for="contact-organisation">
+            Select the organisation for this contact
+          </label>
+          <div class="govuk-radios" data-module="govuk-radios">
+            {% for lpa in lpas %}
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="lpa-{{ loop.index }}" name="contactOrganisation" type="radio" value="{{ lpa }}"
+                  {% if mainContact.organisation == lpa %}checked{% endif %}>
+                <label class="govuk-label govuk-radios__label" for="lpa-{{ loop.index }}">
+                  {{ lpa }}
+                </label>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
         
         <div class="govuk-button-group">
            {% if isEdit %}

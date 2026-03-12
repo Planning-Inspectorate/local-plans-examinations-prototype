@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-  {% if isEdit %}Edit region{% else %}Region{% endif %} – {{ serviceName }}
+  What is the region of the Local Planning Authority? – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -17,7 +17,7 @@
     <form class="form" action="/projects/back-office/manage/overview/LPA-region" method="post">
       <input type="hidden" name="isEdit" value="{{ isEdit }}">
       <div class="govuk-form-group">
-        <label class="govuk-label govuk-label--l" for="lpa-region">{{ "Region" if not isEdit else "Change region" }}</label>
+        <label class="govuk-label govuk-label--l" for="lpa-region">{{ "What is the region of the Local Planning Authority?" if not isEdit else "What is the region of the Local Planning Authority?" }}</label>
         <select class="govuk-select govuk-!-width-two-thirds" id="lpa-region" name="lpa-region">
           <option value="" disabled {% if not lpaRegion %}selected{% endif %}>Select a region</option>
           {% for region in allRegions %}

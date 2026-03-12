@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-	Fact Check received from Inspector date – {{ serviceName }}
+	When did the Inspector issue the Fact Check? – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -14,7 +14,7 @@
 {% block content %}
 	<div class="govuk-grid-row">
 		<div class="govuk-grid-column-two-thirds">
-			<h1 class="govuk-heading-l">Fact Check received from Inspector date</h1>
+			<h1 class="govuk-heading-l">When did the Inspector issue the Fact Check?</h1>
 			<form class="form" method="post" action="/projects/back-office/manage/examination/fact-check-received-from-inspector">
 				<input type="hidden" name="isEdit" value="{{ isEdit }}">
 				<input type="hidden" name="returnUrl" value="{{ returnUrl }}">
