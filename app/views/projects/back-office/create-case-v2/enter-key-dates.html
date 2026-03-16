@@ -15,14 +15,14 @@
     
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-l">{% if isEdit %}Enter dates for key stages of the local plan{% else %}Enter dates for key stages of the local plan{% endif %}</h1>
+        <h1 class="govuk-heading-l">{% if isEdit %}Enter the dates for key stages of the local plan{% else %}Enter dates for key stages of the local plan{% endif %}</h1>
         <form class="form" method="post" action="/projects/back-office/create-case-v2/enter-key-dates">
             <input type="hidden" name="isEdit" value="{{ isEdit }}">
             
             {% set noticeOfIntentionParts = noticeOfIntentionDate.split('/') if noticeOfIntentionDate else ['', '', ''] %}
-            <fieldset class="govuk-fieldset govuk-!-margin-bottom-2" role="group" aria-describedby="passport-issued-hint">
-                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Published Notice of Intention to commence plan making</legend>
-                <div id="passport-issued-hint" class="govuk-hint">For example, 27 3 2007</div>
+            <fieldset class="govuk-fieldset govuk-!-margin-bottom-2" role="group" aria-describedby="notice-of-intention-date-hint">
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Date the Notice of Intention to Commence Plan Making was published</legend>
+                <div id="notice-of-intention-date-hint" class="govuk-hint">For example, 27 3 2007</div>
                 <div class="govuk-date-input" id="notice-of-intention-date">
                     <div class="govuk-date-input__item">
                         <div class="govuk-form-group">
