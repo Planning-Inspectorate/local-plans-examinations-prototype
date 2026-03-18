@@ -16,6 +16,8 @@
   <div class="govuk-grid-column-two-thirds">
     <form class="form" action="/projects/back-office/manage/overview/LPA-region" method="post">
       <input type="hidden" name="isEdit" value="{{ isEdit }}">
+      <input type="hidden" name="index" value="{{ index }}">
+      <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
       <div class="govuk-form-group">
         <label class="govuk-label govuk-label--l" for="lpa-region">{{ "What is the region of the Local Planning Authority?" if not isEdit else "What is the region of the Local Planning Authority?" }}</label>
         <select class="govuk-select govuk-!-width-two-thirds" id="lpa-region" name="lpa-region">

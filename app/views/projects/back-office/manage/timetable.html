@@ -15,8 +15,8 @@ Plan timetable – {{ serviceName }}
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-  <span class="govuk-caption-l">PLAN/000001</span>
-	<h1 class="govuk-heading-l">Central City Local Plan</h1>
+  <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
+	<h1 class="govuk-heading-l">{{ planTitle or '-' }}</h1>
 	{{govukTag({
       text: "New",
       classes: "govuk-tag--turquoise"
@@ -166,10 +166,10 @@ Plan timetable – {{ serviceName }}
         <h2 class="govuk-heading-m">Gateway 3</h2>
       <dl class="govuk-summary-list govuk-summary-list-timetable">
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Gateway 3 estimated date</dt>
+          <dt class="govuk-summary-list__key">Estimated submission date for examination</dt>
           <dd class="govuk-summary-list__value">{{ gateway3EstimatedDate or '-' }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/GW3/gateway-3-estimated.html?returnUrl=/projects/back-office/manage/timetable.html">Change<span class="govuk-visually-hidden">Gateway 3 Estimated Date</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/GW3/gateway-3-estimated.html?returnUrl=/projects/back-office/manage/timetable.html">Change<span class="govuk-visually-hidden">Estimated Submission Date for Examination</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
@@ -198,23 +198,23 @@ Plan timetable – {{ serviceName }}
       <dl class="govuk-summary-list govuk-summary-list-timetable">
          <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Estimated submission date</dt>
-          <dd class="govuk-summary-list__value">20 May 2026</dd>
+          <dd class="govuk-summary-list__value">{{ examinationEstimatedDate or '-' }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/examination/estimated-submission-date.html?returnUrl=/projects/back-office/manage/timetable.html">Change<span class="govuk-visually-hidden">Estimated Submission Date</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/examination/examination-estimated.html?returnUrl=/projects/back-office/manage/timetable.html">Change<span class="govuk-visually-hidden">Estimated Submission Date</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Actual submission date</dt>
-          <dd class="govuk-summary-list__value">-</dd>
+          <dd class="govuk-summary-list__value">{{ examinationActualDate or '-' }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/examination/actual-submission-date.html?returnUrl=/projects/back-office/manage/timetable.html">Change<span class="govuk-visually-hidden">Actual Submission Date</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/examination/examination-actual.html?returnUrl=/projects/back-office/manage/timetable.html">Change<span class="govuk-visually-hidden">Actual Submission Date</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Examining Inspector date of appointment</dt>
-          <dd class="govuk-summary-list__value">-</dd>
+          <dt class="govuk-summary-list__key">Examining Inspector appointment date</dt>
+          <dd class="govuk-summary-list__value">{{ examiningInspectorAppointmentDate or '-' }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/examination/examining-inspector-appointment.html?returnUrl=/projects/back-office/manage/timetable.html">Change<span class="govuk-visually-hidden">Examining Inspector Date of Appointment</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/examination/examining-inspector-date.html?returnUrl=/projects/back-office/manage/timetable.html">Change<span class="govuk-visually-hidden">Examining Inspector Appointment Date</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">

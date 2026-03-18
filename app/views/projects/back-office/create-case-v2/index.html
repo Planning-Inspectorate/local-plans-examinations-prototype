@@ -73,7 +73,7 @@ All cases – {{ serviceName }}
         {% for case in cases %}
         <tr class="govuk-table__row">
           <td class="govuk-table__cell">
-            <a href="/projects/back-office/manage/index-side" class="govuk-link">{{ case.caseRef }}</a>
+            <a href="/projects/back-office/create-case-v2/load-case?caseRef={{ case.caseRef }}" class="govuk-link">{{ case.caseRef }}</a>
           </td>
           <td class="govuk-table__cell">{{ case.planTitle or '-' }}</td>
           <td class="govuk-table__cell">{{ case.planType or '-' }}</td>

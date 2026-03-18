@@ -120,8 +120,8 @@ Docuements – {{ serviceName }}
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-  <span class="govuk-caption-l">PLAN/000001</span>
-	<h1 class="govuk-heading-l">Central City Local Plan</h1>
+  <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
+	<h1 class="govuk-heading-l">{{ planTitle or '-' }}</h1>
 	{{govukTag({
       text: "New",
       classes: "govuk-tag--turquoise"
@@ -176,7 +176,7 @@ Docuements – {{ serviceName }}
     </div>
   </div>
 <div class="govuk-grid-column-one-third" style="padding-left: 0px;">
-<h2 class="govuk-heading-m">Filter</h2>
+<!--<h2 class="govuk-heading-m">Filter</h2>
     <p class="govuk-link govuk-body-s">Show all sections</p>
 
     <dl class="govuk-summary-list">
@@ -541,7 +541,7 @@ Docuements – {{ serviceName }}
     </nav>
   </div>
 </div>
-    
+-->
 {% endblock %}
 {% block footer %}
   {% include "includes/footer.njk" %}

@@ -18,9 +18,11 @@
         Additional contact details
       </h1>
 
-      <form method="post">
+      <form method="post" action="/projects/back-office/manage/overview/additional-contact">
         <input type="hidden" name="editIndex" value="{{ editIndex }}">
         <input type="hidden" name="fromCheckAnswers" value="{{ fromCheckAnswers }}">
+        <input type="hidden" name="contactIndex" value="{{ contactIndex }}">
+        <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
         
         <fieldset class="govuk-fieldset">
           <div class="govuk-form-group">
@@ -48,22 +50,6 @@
             <input class="govuk-input govuk-!-width-one-half" id="additional-contact-phone" name="phone" type="text" autocomplete="tel" value="{{ contact.phone | default('') }}">
           </div>
         </fieldset>
-        <div class="govuk-form-group">
-          <label class="govuk-label" for="contact-organisation">
-            Select the organisation for this contact
-          </label>
-          <div class="govuk-radios" data-module="govuk-radios">
-            {% for lpa in lpas %}
-              <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="lpa-{{ loop.index }}" name="contactOrganisation" type="radio" value="{{ lpa }}"
-                  {% if contact.organisation == lpa %}checked{% endif %}>
-                <label class="govuk-label govuk-radios__label" for="lpa-{{ loop.index }}">
-                  {{ lpa }}
-                </label>
-              </div>
-            {% endfor %}
-          </div>
-        </div>
         <div class="govuk-button-group">
            {% if isEdit %}
         {{ govukButton({

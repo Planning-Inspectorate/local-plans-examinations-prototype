@@ -15,8 +15,8 @@ Gateway 1 overview – {{ serviceName }}
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-  <span class="govuk-caption-l">PLAN/000001</span>
-	<h1 class="govuk-heading-l">Central City Local Plan</h1>
+  <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
+	<h1 class="govuk-heading-l">{{ planTitle or '-' }}</h1>
 	{{govukTag({
       text: "New",
       classes: "govuk-tag--turquoise"
@@ -76,6 +76,13 @@ Gateway 1 overview – {{ serviceName }}
 
       <h2 class="govuk-heading-m">Gateway 1</h2>
       <dl class="govuk-summary-list govuk-summary-list-timetable">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Notice of Intention publish date</dt>
+          <dd class="govuk-summary-list__value">{{ noticeOfIntentionDate }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/change-notice-date.html?returnUrl=/projects/back-office/manage/gateway-1.html">Change<span class="govuk-visually-hidden"> Notice of Intention date</span></a>
+          </dd>
+        </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Gateway 1 estimated date</dt>
           <dd class="govuk-summary-list__value">{{ gateway1EstimatedDate }}</dd>

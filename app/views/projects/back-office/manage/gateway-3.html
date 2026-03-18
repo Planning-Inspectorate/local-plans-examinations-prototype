@@ -15,8 +15,8 @@ Gateway 3 overview – {{ serviceName }}
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-  <span class="govuk-caption-l">PLAN/000001</span>
-	<h1 class="govuk-heading-l">Central City Local Plan</h1>
+  <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
+	<h1 class="govuk-heading-l">{{ planTitle or '-' }}</h1>
 	{{govukTag({
       text: "New",
       classes: "govuk-tag--turquoise"

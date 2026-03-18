@@ -97,6 +97,7 @@
 
             {% if contacts %}
               {% for contact in contacts %}
+                {% if contact.firstName or contact.lastName or contact.email %}
                 <div class="govuk-summary-list__row">
                   <dt class="govuk-summary-list__key">Additional contact</dt>
                   <dd class="govuk-summary-list__value">
@@ -113,6 +114,7 @@
                     </ul>
                   </dd>
                 </div>
+                {% endif %}
               {% endfor %}
             {% endif %}
           </dl>
