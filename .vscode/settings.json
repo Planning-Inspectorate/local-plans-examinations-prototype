@@ -1,0 +1,8 @@
+{
+	"prettier.tabWidth": 3,
+	"prettier.useTabs": true,
+	"prettier.bracketSpacing": false,
+	"prettier.bracketSameLine": true,
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.formatOnType": true
+}

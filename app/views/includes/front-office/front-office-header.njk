@@ -1,0 +1,29 @@
+
+{% block header %}
+  {% include "includes/PINS-header--internal.html" %}
+{% endblock %}
+
+
+
+{{ govukServiceNavigation({
+  classes: "govuk-grid-column-full",
+  navigation: [
+    {
+      href: "application-details",
+      text: "Application details",
+      active: true
+    },  
+    {
+      href: "account-settings",
+      text: "Acccount settings"
+    },
+    {
+      href: "manage-users",
+      text: "Manage users"
+    },
+    {
+      href: "#",
+      text: "This menu should be included in the header."
+    }
+  ]
+}) }}

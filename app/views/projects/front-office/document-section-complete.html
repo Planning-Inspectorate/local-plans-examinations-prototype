@@ -1,7 +1,16 @@
-{% extends "layouts/main.html" %} {% block pageTitle %} Question page template –
-{{ serviceName }} – GOV.UK Prototype Kit {% endblock %} {% block beforeContent
-%} {{ govukBackLink({ text: "Back", href: "javascript:window.history.back()" })
-}} {% endblock %} {% block content %} {% from "govuk/components/input/macro.njk"
+{% extends "layouts/front-office.html" %}
+{% block pageTitle %} Question page template –
+{{ serviceName }} – GOV.UK Prototype Kit 
+{% endblock %} 
+
+{% block beforeContent %} 
+
+{{ govukBackLink({ text: "Back", href: "javascript:window.history.back()" })
+}} 
+
+{% endblock %} 
+
+{% block content %} {% from "govuk/components/input/macro.njk"
 import govukInput %}
 
 <span class="govuk-caption-l">Your documents</span>

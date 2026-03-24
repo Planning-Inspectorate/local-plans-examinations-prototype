@@ -1,5 +1,5 @@
 
-{% extends "layouts/main.html" %}
+{% extends "layouts/front-office.html" %}
 
 {% block pageTitle %}
   Question page template – {{ serviceName }} – GOV.UK Prototype Kit
@@ -86,7 +86,7 @@
 
     </tbody>
 </table>
-<form class="form" action="/projects/front-office/document-summary" method="post">
+<form class="form" action="/projects/front-office/document-upload-confirm" method="post">
     
   {% from "govuk/components/button/macro.njk" import govukButton %}
 
