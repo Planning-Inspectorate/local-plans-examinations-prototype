@@ -203,6 +203,7 @@ Plan overview – {{ serviceName }}
       </form>
       <div class="govuk-!-margin-top-6">
         <form method="get" action="/projects/back-office/manage/delete-case-confirmation.html">
+          <input type="hidden" name="caseRef" value="{{ caseRef }}">
           <button type="submit" class="govuk-button govuk-button--warning">
             Delete case
           </button>

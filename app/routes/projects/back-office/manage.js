@@ -1,5 +1,18 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+
+// Helper function to format planType for display
+function formatPlanType(planType) {
+  if (!planType) return '';
+  const planTypeMap = {
+    'local-plan': 'Local Plan',
+    'Local Plan': 'Local Plan'
+  };
+  return planTypeMap[planType] || planType;
+}
 
 // Index overview page GET (display all case data)
 router.get('/projects/back-office/manage/index.html', (req, res) => {
@@ -57,7 +70,7 @@ router.get('/projects/back-office/manage/index.html', (req, res) => {
   res.render('projects/back-office/manage/index', {
     caseRef: req.session.currentCaseRef || '',
     planTitle: req.session.planTitle || '',
-    planType: req.session.planType || '',
+    planType: formatPlanType(req.session.planType) || '',
     lpas: req.session.lpas || [],
     lpaName: lpaName,
     lpaRegion: lpaRegion,
@@ -623,13 +636,63 @@ router.post('/projects/back-office/manage/GW1/gateway-1-dsa-check', (req, res) =
 
 // Show delete confirmation page
 router.get('/projects/back-office/manage/delete-case-confirmation.html', (req, res) => {
-  res.render('projects/back-office/manage/delete-case-confirmation');
+  const caseRef = req.query.caseRef || '';
+  
+  // Build case object from session data
+  const caseToDelete = {
+    caseRef: caseRef,
+    planTitle: req.session.planTitle || '-',
+    planType: req.session.planType || '-',
+    lpaName: (req.session.lpas && req.session.lpas.length > 0) ? req.session.lpas[0] : '-',
+    caseOfficer: req.session.caseOfficer || '-'
+  };
+  
+  res.render('projects/back-office/manage/delete-case-confirmation', {
+    caseRef: caseToDelete.caseRef,
+    planTitle: caseToDelete.planTitle,
+    planType: formatPlanType(caseToDelete.planType),
+    lpaName: caseToDelete.lpaName,
+    caseOfficer: caseToDelete.caseOfficer
+  });
 });
 
 // Handle delete POST and show complete page
 router.post('/projects/back-office/manage/delete-case-complete.html', (req, res) => {
-  // Here you would implement soft delete logic, e.g. mark as deleted in DB or session
-  res.render('projects/back-office/manage/delete-case-complete');
+  const { caseRef } = req.body;
+  
+  // Clear all case data from session (soft delete)
+  if (caseRef) {
+    delete req.session.currentCaseRef;
+    delete req.session.planTitle;
+    delete req.session.planType;
+    delete req.session.lpas;
+    delete req.session.lpaName;
+    delete req.session.lpaRegion;
+    delete req.session.lpaRegions;
+    delete req.session.caseOfficer;
+    delete req.session.mainContact;
+    delete req.session.contacts;
+    delete req.session.gateway1EstimatedDate;
+    delete req.session.gateway2EstimatedDate;
+    delete req.session.gateway3EstimatedDate;
+    delete req.session.noticeOfIntentionDate;
+    delete req.session.submissionDate;
+    // Clear all gateway 2 data
+    delete req.session.gateway2AssessorName;
+    delete req.session.gateway2PlanStatus;
+    delete req.session.gateway2Grade;
+    delete req.session.gateway2ActualDate;
+    delete req.session.gateway2ValidDate;
+    delete req.session.gateway2WorkshopDate;
+    delete req.session.gateway2WorkshopVenue;
+    delete req.session.gateway2AssessorAppointmentDate;
+    delete req.session.gateway2ReportIssuedDate;
+    delete req.session.gateway2ReportPublishedDate;
+  }
+  
+  res.render('projects/back-office/manage/delete-case-complete', {
+    caseRef: caseRef
+  });
 });
 
 // Handle Gateway 1 Actual Date POST
@@ -1826,7 +1889,7 @@ router.get('/projects/back-office/manage/updates.html', (req, res) => {
 // Hearing date ranges GET
 router.get('/projects/back-office/manage/examination/hearing-date-ranges.html', (req, res) => {
   // Initialize blocks array from session or create one with a single empty block
-  let blocks = req.session.hearingDateRanges || [
+  let blocks = (req.session.data && req.session.data.hearingDateRanges) || [
     { start: { day: '', month: '', year: '' }, end: { day: '', month: '', year: '' } }
   ];
   
@@ -1874,6 +1937,10 @@ router.get('/projects/back-office/manage/examination/hearing-date-ranges.html', 
 
 // Hearing date ranges POST
 router.post('/projects/back-office/manage/examination/hearing-date-ranges.html', (req, res) => {
+  console.log('=== hearing-date-ranges POST route hit ===');
+  console.log('Full session data:', JSON.stringify(req.session.data, null, 2));
+  console.log('Body:', JSON.stringify(req.body, null, 2));
+  
   const { blocks, addAnother, returnUrl } = req.body;
   
   console.log('POST hearing-date-ranges - blocks received:', JSON.stringify(blocks, null, 2));
@@ -1929,7 +1996,8 @@ router.post('/projects/back-office/manage/examination/hearing-date-ranges.html',
   // If user clicked "Add another set of dates", re-render with additional block
   if (addAnother === 'true') {
     console.log('User clicked Add Another - re-rendering');
-    req.session.hearingDateRanges = hearingBlocks;
+    if (!req.session.data) req.session.data = {};
+    req.session.data.hearingDateRanges = hearingBlocks;
     
     // Convert to form display format
     const blocksForForm = hearingBlocks.map(block => ({
@@ -1953,17 +2021,255 @@ router.post('/projects/back-office/manage/examination/hearing-date-ranges.html',
   
   // Otherwise, save and redirect
   console.log('User clicked Save - saving and redirecting');
-  req.session.hearingDateRanges = hearingBlocks;
+  if (!req.session.data) req.session.data = {};
+  req.session.data.hearingDateRanges = hearingBlocks;
   res.redirect(returnUrl || '/projects/back-office/manage/examination.html');
 });
 
 // Helper function to convert month name to number
 function getMonthNumber(monthName) {
   const monthMap = {
-    'January': '01', 'February': '02', 'March': '03', 'April': '04', 'May': '05', 'June': '06',
-    'July': '07', 'August': '08', 'September': '09', 'October': '10', 'November': '11', 'December': '12'
+    'January': '01', 'February': '02', 'March': '03', 'April': '04', 'May': '05',
+    'June': '06', 'July': '07', 'August': '08', 'September': '09', 'October': '10',
+    'November': '11', 'December': '12'
   };
   return monthMap[monthName] || monthName;
 }
+
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const uploadDir = path.join(__dirname, '../../../uploads');
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + '-' + file.originalname);
+  }
+});
+
+const upload = multer({ storage });
+
+// Handle file upload - store actual file size in session for persistence
+router.post('/projects/back-office/manage/ajax-upload', upload.single('documents'), (req, res) => {
+  if (!req.file) {
+    return res.json({
+      error: { message: 'No file uploaded' }
+    });
+  }
+
+  // Initialize session data structures if needed
+  if (!req.session.data) {
+    req.session.data = {};
+  }
+  if (!req.session.data.fileSizeMap) {
+    req.session.data.fileSizeMap = {};
+  }
+  
+  // Store the actual file size from multer in session
+  const fileSize = req.file.size;
+  req.session.data.fileSizeMap[req.file.originalname] = fileSize;
+  
+  // Persist session before responding
+  req.session.save((err) => {
+    if (err) {
+      return res.json({
+        error: { message: 'Failed to save file information' }
+      });
+    }
+
+    res.json({
+      success: {
+        messageHtml: req.file.originalname + ' uploaded successfully',
+        messageText: req.file.originalname + ' uploaded successfully'
+      },
+      file: {
+        filename: req.file.filename,
+        originalname: req.file.originalname,
+        size: fileSize
+      }
+    });
+  });
+});
+
+// Handle file deletion
+router.post('/projects/back-office/manage/ajax-delete', (req, res) => {
+  const fileToDelete = req.body.delete;
+  
+  if (!fileToDelete) {
+    return res.json({
+      error: {
+        message: 'No file specified for deletion'
+      }
+    });
+  }
+
+  res.json({
+    success: {
+      message: 'File deleted successfully'
+    }
+  });
+});
+
+// Clear all uploaded documents
+router.get('/projects/back-office/manage/documents/clear-uploads', (req, res) => {
+  // Clear fileData from session.data (GOV.UK Prototype Kit format)
+  if (req.session.data) {
+    req.session.data.fileData = '';
+  }
+  // Also clear the file size map
+  req.session.data.fileSizeMap = {};
+  
+  req.session.save((err) => {
+    if (err) console.error('Session save error:', err);
+    else console.log('Uploaded documents cleared');
+  });
+  res.redirect('/projects/back-office/manage/documents/upload-bo');
+});
+
+// Upload documents page GET
+router.get('/projects/back-office/manage/documents/upload-bo', (req, res) => {
+  // Parse fileData from session.data (GOV.UK Prototype Kit format)
+  let uploadedDocuments = [];
+  if (req.session.data && req.session.data.fileData) {
+    try {
+      const fileData = typeof req.session.data.fileData === 'string' 
+        ? JSON.parse(req.session.data.fileData) 
+        : req.session.data.fileData;
+      
+   
+if (Array.isArray(fileData)) {
+  uploadedDocuments = fileData.map(file => {
+    let size = 0;
+
+    // Correct key for multer/GOV.UK Prototype Kit uploads
+    const filename = file.name;
+
+    if (req.session.data.fileSizeMap && req.session.data.fileSizeMap[filename]) {
+      size = req.session.data.fileSizeMap[filename];
+    }
+
+    return {
+            originalname: file.name,
+            filename: file.id,
+            size: size
+          };
+        });
+      }
+    } catch (e) {
+      // Silently fail
+    }
+  }
+  
+  // Touch session to keep it alive and ensure documents persist
+  req.session.touch();
+  req.session.save((err) => {
+    if (err) {
+      // silently fail
+    }
+  });
+  
+  res.render('projects/back-office/manage/documents/upload-bo', {
+    caseRef: req.session.currentCaseRef || '',
+    serviceName: 'Local Plans Examinations',
+    uploadedDocuments: uploadedDocuments
+  });
+});
+
+// Upload documents page POST - redirect to check answers
+router.post('/projects/back-office/manage/documents/upload-bo', (req, res) => {
+  console.log('\n========== POST /upload-bo ==========');
+  console.log('Session ID:', req.sessionID);
+  console.log('Current fileSizeMap:', req.session.data.fileSizeMap || {});
+  
+  // Check fileData from session.data
+  let fileCount = 0;
+  if (req.session.data && req.session.data.fileData) {
+    try {
+      const fileData = typeof req.session.data.fileData === 'string' 
+        ? JSON.parse(req.session.data.fileData) 
+        : req.session.data.fileData;
+      fileCount = Array.isArray(fileData) ? fileData.length : 0;
+    } catch (e) {
+      console.error('Error parsing fileData:', e);
+    }
+  }
+  
+  console.log('Redirecting to check-answers with', fileCount, 'files');
+  
+  // IMPORTANT: Save session BEFORE redirecting to ensure data persists
+  req.session.save((err) => {
+    if (err) {
+      console.error('Session save error on POST redirect:', err);
+    } else {
+      console.log('Session saved before redirect');
+    }
+    res.redirect('/projects/back-office/manage/documents/check-answers');
+  });
+});
+
+// Serve uploaded file
+router.get('/projects/back-office/manage/documents/download/:filename', (req, res) => {
+  const filename = req.params.filename;
+  const filepath = path.join(__dirname, '../../../uploads', filename);
+  
+  console.log('Download request for:', filename);
+  console.log('Full path:', filepath);
+  
+  res.download(filepath, (err) => {
+    if (err) {
+      console.error('Download error:', err);
+      res.status(404).send('File not found');
+    }
+  });
+});
+
+// Check answers page for documents
+router.get('/projects/back-office/manage/documents/check-answers', (req, res) => {
+  // Parse fileData from session.data (GOV.UK Prototype Kit format)
+  let uploadedDocuments = [];
+  if (req.session.data && req.session.data.fileData) {
+    try {
+      const fileData = typeof req.session.data.fileData === 'string' 
+        ? JSON.parse(req.session.data.fileData) 
+        : req.session.data.fileData;
+      
+      if (Array.isArray(fileData)) {
+        uploadedDocuments = fileData.map(file => {
+          // Look up file size from session.data.fileSizeMap by filename
+          let size = 0;
+          if (req.session.data.fileSizeMap && req.session.data.fileSizeMap[file.name]) {
+            size = req.session.data.fileSizeMap[file.name];
+          }
+          
+          return {
+            originalname: file.name,
+            filename: file.id,
+            size: size
+          };
+        });
+      }
+    } catch (e) {
+      // Silently fail
+    }
+  }
+  
+  // Touch session to keep it alive
+  req.session.touch();
+  req.session.save((err) => {
+    if (err) {
+      // silently fail
+    }
+  });
+  
+  res.render('projects/back-office/manage/documents/check-answers', {
+    caseRef: req.session.currentCaseRef || '',
+    serviceName: 'Local Plans Examinations',
+    uploadedDocuments: uploadedDocuments,
+    totalFiles: uploadedDocuments.length
+  });
+});
 
 module.exports = router;
