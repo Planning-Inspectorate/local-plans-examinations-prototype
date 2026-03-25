@@ -38,7 +38,7 @@
               down arrows to review and enter to select. Touch device users, explore by touch or with swipe
               gestures.</span>
 
-            <select class="govuk-select" id="caseOfficer" name="caseOfficer" data-module="autocomplete" data-autoselect=""
+            <select class="govuk-select" id="caseOfficer" name="caseOfficer" data-module="autocomplete" title="Case officer name" data-autoselect=""
               data-display-menu="" data-min-length="" data-show-all-values="" data-show-no-options-found="">
               <option value="" {% if not caseOfficer %}selected{% endif %} disabled>Select an option</option>
               <option value="Jane Smith" {% if caseOfficer == "Jane Smith" %}selected{% endif %}>Jane Smith</option>

@@ -1,3 +1,9 @@
+// Multi-file upload
+@import 'components/multi-file-upload';
+
+
+@import 'secondary-navigation';
+
 // Override GOV.UK footer background and border
 .govuk-footer {
     background-color: #f3f2f1 !important;
@@ -5,8 +11,6 @@
 }
 // Make main content area full width without overflow
 .govuk-main-wrapper {
-@import 'secondary-navigation';
-
     width: 100% !important;
     max-width: 100% !important;
     box-sizing: border-box;

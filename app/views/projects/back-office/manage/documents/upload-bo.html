@@ -1,0 +1,111 @@
+{% extends "layouts/back-office.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block pageTitle %}
+  Upload a document – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
+    <h1 class="govuk-heading-l">Upload documents</h1>
+
+    <p>
+      Each file must be a PDF, DOC, DOCX, PPT, PPTX, XLS, XLSX, MSG, JPG, JPEG, MPEG, MP3, MP4, MOV, PNG, TIF or TIFF
+      and smaller than 250MB.
+    </p>
+
+    <p>
+      The total size of your uploaded files must be smaller than 1GB.
+    </p>
+
+    <h2 class="govuk-heading-m">Upload documents</h2>
+    <!-- include file upload -->
+    <form class="form" action="/projects/back-office/manage/documents/upload-bo" method="post" id="upload-form">
+      <div class="app-multi-file-upload">
+        {% include 'includes/back-office/multiple-document-upload.html' %}
+      </div>
+
+      {% if uploadedDocuments and uploadedDocuments.length > 0 %}
+        <h3 class="govuk-heading-s">Previously uploaded files</h3>
+        <ul class="govuk-list">
+          {% for doc in uploadedDocuments %}
+            <li>{{ doc.originalname }} ({{ doc.size }} bytes)</li>
+          {% endfor %}
+        </ul>
+        <p>
+          <a href="/projects/back-office/manage/documents/clear-uploads">Clear all documents</a>
+        </p>
+      {% endif %}
+
+      {{ govukButton({
+        text: "Continue",
+        type: "submit"
+      }) }}
+    </form>
+</div>
+
+<script>
+  // Initialize App object if it doesn't exist
+  if (typeof window.App === 'undefined') {
+    window.App = {};
+  }
+</script>
+<script src="/public/javascripts/multi-file-upload.js"></script>
+<script>
+  console.log('Upload page script loading...');
+  console.log('App.MultiFileUpload defined?', typeof App.MultiFileUpload);
+  console.log('jQuery available?', typeof jQuery);
+  
+  // Wait for jQuery to be available before initializing
+  function initMultiFileUpload() {
+    if (typeof jQuery === 'undefined' || typeof $ === 'undefined') {
+      console.log('Waiting for jQuery...');
+      setTimeout(initMultiFileUpload, 100);
+      return;
+    }
+    
+    console.log('jQuery is available');
+    
+// Use the real UI elements you actually have
+const container = document.querySelector('.moj-multi-file-upload__upload');
+const fileInput = document.querySelector('#documents');
+
+// Only initialise if elements exist
+if (!container || !fileInput) {
+  console.log('MOJ container or input not found — cannot initialise uploader');
+  return;
+}
+
+    if(typeof App.MultiFileUpload !== 'undefined') {
+      console.log('Initializing MultiFileUpload...');
+      const uploader = new App.MultiFileUpload({
+        container: $('.app-multi-file-upload'),
+        uploadUrl: '/projects/back-office/manage/ajax-upload',
+        deleteUrl: '/projects/back-office/manage/ajax-delete'
+      });
+      console.log('MultiFileUpload initialized');
+    } else {
+      console.error('App.MultiFileUpload is not defined!');
+    }
+  }
+  
+  initMultiFileUpload();
+</script>
+  
+
+
+
+{% endblock %}
+
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

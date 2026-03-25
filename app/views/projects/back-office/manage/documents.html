@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-Docuements – {{ serviceName }}
+Documents – {{ serviceName }}
 {% endblock %}
 {% block beforeContent %}
   {{ govukBackLink({
@@ -175,373 +175,194 @@ Docuements – {{ serviceName }}
       </nav>
     </div>
   </div>
-<div class="govuk-grid-column-one-third" style="padding-left: 0px;">
-<!--<h2 class="govuk-heading-m">Filter</h2>
-    <p class="govuk-link govuk-body-s">Show all sections</p>
+<h2 class="govuk-heading-m">
+      Documents
+    </h2>
 
-    <dl class="govuk-summary-list">
-      <details class="govuk-details filters">
-        <summary class="govuk-details__summary">
-          <span class="govuk-details__summary-text filtersText">
-            Sort by
-          </span>
-        </summary>
-        <div class="govuk-details__text">
-          <div class="govuk-form-group">
-            <fieldset class="govuk-fieldset">
-              <div class="govuk-radios govuk-radios--small" data-module="govuk-radios" data-govuk-radios-init="">
-                <div class="govuk-radios__item">
-                  <input class="govuk-radios__input" id="changedName" name="changedName" type="radio" value="month">
-                  <label class="govuk-label govuk-radios__label" for="changedName">
-                    Name (ascending)
-                  </label>
-                </div>
-                <div class="govuk-radios__item">
-                  <input class="govuk-radios__input" id="changedName" name="changedName" type="radio" value="month">
-                  <label class="govuk-label govuk-radios__label" for="changedName">
-                    Name (descending)
-                  </label>
-                </div>
-                <div class="govuk-radios__item">
-                  <input class="govuk-radios__input" id="changedName" name="changedName" type="radio" value="month">
-                  <label class="govuk-label govuk-radios__label" for="changedName">
-                    Author (ascending)
-                  </label>
-                </div>
-                <div class="govuk-radios__item">
-                  <input class="govuk-radios__input" id="changedName" name="changedName" type="radio" value="month">
-                  <label class="govuk-label govuk-radios__label" for="changedName">
-                    Author (descending)
-                  </label>
-                </div>
-                <div class="govuk-radios__item">
-                  <input class="govuk-radios__input" id="changedName-2" name="changedName" type="radio" value="year">
-                  <label class="govuk-label govuk-radios__label" for="changedName-2">
-                    Updated (newest)
-                  </label>
-                </div>
-                <div class="govuk-radios__item">
-                  <input class="govuk-radios__input" id="changedName-2" name="changedName" type="radio" value="year">
-                  <label class="govuk-label govuk-radios__label" for="changedName-2">
-                    Updated (oldest)
-                  </label>
-                </div>
-              </div>
-            </fieldset>
-          </div>
-        </div>
-      </details>
-      <details class="govuk-details filters">
-        <summary class="govuk-details__summary">
-          <span class="govuk-details__summary-text filtersText">
-            Examination library (28)
-          </span>
-        </summary>
-        <div class="govuk-details__text">
-          <div class="govuk-form-group">
-            <fieldset class="govuk-fieldset">
-              <a class="govuk-body-s govuk-link" style="color: #1d70b8;">Select all filters</a>
-              <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes" data-govuk-checkboxes-init="">
-                <div class="govuk-checkboxes__item">
-                  <input class="govuk-checkboxes__input" id="organisation" name="organisation" type="checkbox" value="hmrc">
-                  <label class="govuk-label govuk-checkboxes__label" for="organisation">
-                    Application documents (APP)
-                  </label>
-                </div>
-                <div class="govuk-checkboxes__item">
-                  <input class="govuk-checkboxes__input" id="organisation" name="organisation" type="checkbox" value="hmrc">
-                  <label class="govuk-label govuk-checkboxes__label" for="organisation">
-                    Adequecy of Consultation responses (AoC)
-                  </label>
-                </div>
-                <div class="govuk-checkboxes__item">
-                  <input class="govuk-checkboxes__input" id="organisation" name="organisation" type="checkbox" value="hmrc">
-                  <label class="govuk-label govuk-checkboxes__label" for="organisation">
-                    Procedural decisions and notifications from Examining Authority (PD)
-                  </label>
-                </div>
-                <div class="govuk-checkboxes__item">
-                  <input class="govuk-checkboxes__input" id="organisation" name="organisation" type="checkbox" value="hmrc">
-                  <label class="govuk-label govuk-checkboxes__label" for="organisation">
-                    Additional submissions (AS)
-                  </label>
-                </div>
-                <div class="govuk-checkboxes__item">
-                  <input class="govuk-checkboxes__input" id="organisation" name="organisation" type="checkbox" value="hmrc">
-                  <label class="govuk-label govuk-checkboxes__label" for="organisation">
-                    Events and hearings 1 (EV1)
-                  </label>
-                </div>
-                <div class="govuk-checkboxes__item">
-                  <input class="govuk-checkboxes__input" id="organisation" name="organisation" type="checkbox" value="hmrc">
-                  <label class="govuk-label govuk-checkboxes__label" for="organisation">
-                    Events and hearings 2 (EV2)
-                  </label>
-                </div>
-                <div class="govuk-checkboxes__item">
-                  <input class="govuk-checkboxes__input" id="organisation" name="organisation" type="checkbox" value="hmrc">
-                  <label class="govuk-label govuk-checkboxes__label" for="organisation">
-                    Events and hearings 3 (EV3)
-                  </label>
-                </div>
-                <div class="govuk-checkboxes__item">
-                  <input class="govuk-checkboxes__input" id="organisation" name="organisation" type="checkbox" value="hmrc">
-                  <label class="govuk-label govuk-checkboxes__label" for="organisation">
-                    Events and hearings 4 (EV4)
-                  </label>
-                </div>
-                <div class="govuk-checkboxes__item">
-                  <input class="govuk-checkboxes__input" id="organisation" name="organisation" type="checkbox" value="hmrc">
-                  <label class="govuk-label govuk-checkboxes__label" for="organisation">
-                    Events and hearings 5 (EV5)
-                  </label>
-                </div>
-                <div class="govuk-checkboxes__item">
-                  <input class="govuk-checkboxes__input" id="organisation" name="organisation" type="checkbox" value="hmrc">
-                  <label class="govuk-label govuk-checkboxes__label" for="organisation">
-                    Events and hearings 6 (EV6)
-                  </label>
-                </div>
-                <div class="govuk-checkboxes__item">
-                  <input class="govuk-checkboxes__input" id="organisation" name="organisation" type="checkbox" value="hmrc">
-                  <label class="govuk-label govuk-checkboxes__label" for="organisation">
-                    Other documents (OD)
-                  </label>
-                </div>
-              </div>
-            </fieldset>
-          </div>
-        </div>
-      </details>
-      <details class="govuk-details filters">
-        <summary class="govuk-details__summary">
-          <span class="govuk-details__summary-text filtersText">
-            Date published
-          </span>
-        </summary>
-        <div class="govuk-details__text">
-          <div class="govuk-form-group">
-            <fieldset class="govuk-fieldset" role="group" aria-describedby="passport-issued-hint">
-              <legend class="govuk-fieldset__legend">
-                From
-              </legend>
-              <div class="govuk-date-input" id="passport-issued">
-                <div class="govuk-date-input__item">
-                  <div class="govuk-form-group">
-                    <label class="govuk-label govuk-date-input__label" for="passport-issued-day">
-                      Day
-                    </label>
-                    <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="passport-issued-day" name="passport-issued-day" type="text" inputmode="numeric">
-                  </div>
-                </div>
-                <div class="govuk-date-input__item">
-                  <div class="govuk-form-group">
-                    <label class="govuk-label govuk-date-input__label" for="passport-issued-month">
-                      Month
-                    </label>
-                    <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="passport-issued-month" name="passport-issued-month" type="text" inputmode="numeric">
-                  </div>
-                </div>
-                <div class="govuk-date-input__item">
-                  <div class="govuk-form-group">
-                    <label class="govuk-label govuk-date-input__label" for="passport-issued-year">
-                      Year
-                    </label>
-                    <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="passport-issued-year" name="passport-issued-year" type="text" inputmode="numeric">
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-          </div>
-          <div class="govuk-form-group">
-            <fieldset class="govuk-fieldset" role="group" aria-describedby="passport-issued-hint">
-              <legend class="govuk-fieldset__legend">
-                To
-              </legend>
-              <div class="govuk-date-input" id="passport-issued">
-                <div class="govuk-date-input__item">
-                  <div class="govuk-form-group">
-                    <label class="govuk-label govuk-date-input__label" for="passport-issued-day">
-                      Day
-                    </label>
-                    <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="passport-issued-day" name="passport-issued-day" type="text" inputmode="numeric">
-                  </div>
-                </div>
-                <div class="govuk-date-input__item">
-                  <div class="govuk-form-group">
-                    <label class="govuk-label govuk-date-input__label" for="passport-issued-month">
-                      Month
-                    </label>
-                    <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="passport-issued-month" name="passport-issued-month" type="text" inputmode="numeric">
-                  </div>
-                </div>
-                <div class="govuk-date-input__item">
-                  <div class="govuk-form-group">
-                    <label class="govuk-label govuk-date-input__label" for="passport-issued-year">
-                      Year
-                    </label>
-                    <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="passport-issued-year" name="passport-issued-year" type="text" inputmode="numeric">
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-          </div>
-        </div>
-      </details>
-    </dl>
-    <button class="govuk-button">Apply filters</button>
+    <!--<p class="govuk-body"> This folder contains x documents.</p>-->
 
+    {% from "govuk/components/button/macro.njk" import govukButton %}
 
-  </div>
-  <div class="govuk-grid-column-two-thirds">
-
-    <div class="govuk-form-group">
-      <label class="govuk-label govuk-label--m" for="event-name">
-        Search documents
-      </label>
-      <div id="event-name-hint" class="govuk-hint">
-        Search by author, description, document type or examination library reference.
-      </div>
-
-      <input class="govuk-input govuk-!-width-two-thirds" id="two-thirds" name="oneHalf" type="text">
-
-      <button type="submit" class="govuk-button" data-module="govuk-button">
-        Search
-      </button>
-    </div>
-<p class="govuk-body">Showing <strong>1</strong> to <strong>25</strong> of <strong>676</strong> documents, newest first.</p>    
-    <p class="govuk-body"><strong style="padding-right: 16px;">Results per page</strong> 25&#10240;&VerticalLine;&#10240;<a>50</a>&#10240;&VerticalLine;&#10240;<a>100</a></p>
-
-    
-
-
-
-    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-    <div class="document-item">
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-full">
-          <p class="govuk-body"><a class="govuk-link"><strong>New proposed document format &#10240; (PDF, 149KB)</strong></a>
-            <br><span class="govuk-body-s">From Highways England on 13 December 2025</span></p>
-        </div>
-        <div class="govuk-grid-column-one-third">
-          <p class="govuk-body govuk-body-s" style="color: #505a5f;">REF-001</p>
-        </div>
-        <div class="govuk-grid-column-one-third">
-          <p class="govuk-body govuk-body-s" style="color: #505a5f;">Post decision</p>
-        </div>
-        <div class="govuk-grid-column-one-third">
-          <p class="govuk-body govuk-body-s" style="color: #505a5f;">Development Consent Order as made</p>
-        </div>
-      </div>
-      <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible">
-    </div>
-    <div class="document-item">
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-full">
-          <p class="govuk-body"><a class="govuk-link"><strong>New proposed document format &#10240; (PDF, 149KB)</strong></a>
-            <br><span class="govuk-body-s">From Highways England on 13 September 2025</span></p>
-        </div>
-        <div class="govuk-grid-column-one-third">
-          <p class="govuk-body govuk-body-s" style="color: #505a5f;">REF-001</p>
-        </div>
-        <div class="govuk-grid-column-one-third">
-          <p class="govuk-body govuk-body-s" style="color: #505a5f;">Post decision</p>
-        </div>
-        <div class="govuk-grid-column-one-third">
-          <p class="govuk-body govuk-body-s" style="color: #505a5f;">Development Consent Order as made</p>
-        </div>
-      </div>
-      <div class="govuk-inset-text" style="margin-top: 0px;">
-        This document has been superseded, <a href="Project_documentHistory">view all updates</a>
-      </div>
-      <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible">
-    </div>
-    <div class="document-item">
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-full">
-          <p class="govuk-body"><a class="govuk-link"><strong>Current document format &#10240; (PDF, 149KB)</strong></a>
-            <br><span class="govuk-body-s">From Highways England</span></p>
-        </div>
-        <div class="govuk-grid-column-one-third">
-          <p class="govuk-body govuk-body-s" style="color: #505a5f;">20 May 2025</p>
-        </div>
-        <div class="govuk-grid-column-one-third">
-          <p class="govuk-body govuk-body-s" style="color: #505a5f;">Post decision</p>
-        </div>
-        <div class="govuk-grid-column-one-third">
-          <p class="govuk-body govuk-body-s" style="color: #505a5f;">Development Consent Order as made</p>
-        </div>
-      </div>
-      <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible">
-    </div>
-    <div class="document-item">
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-full">
-          <p class="govuk-body"><a class="govuk-link"><strong>Current document format &#10240; (PDF, 149KB)</strong></a>
-            <br><span class="govuk-body-s">From Highways England</span></p>
-        </div>
-        <div class="govuk-grid-column-one-third">
-          <p class="govuk-body govuk-body-s" style="color: #505a5f;">20 May 2025</p>
-        </div>
-        <div class="govuk-grid-column-one-third">
-          <p class="govuk-body govuk-body-s" style="color: #505a5f;">Post decision</p>
-        </div>
-        <div class="govuk-grid-column-one-third">
-          <p class="govuk-body govuk-body-s" style="color: #505a5f;">Development Consent Order as made</p>
-        </div>
-      </div>
-      <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible">
-    </div>
-    <div class="document-item">
-      <div class="govuk-grid-row">
-        <div class="govuk-grid-column-full">
-          <p class="govuk-body"><a class="govuk-link"><strong>Current document format &#10240; (PDF, 149KB)</strong></a>
-            <br><span class="govuk-body-s">From Highways England</span></p>
-        </div>
-        <div class="govuk-grid-column-one-third">
-          <p class="govuk-body govuk-body-s" style="color: #505a5f;">20 May 2025</p>
-        </div>
-        <div class="govuk-grid-column-one-third">
-          <p class="govuk-body govuk-body-s" style="color: #505a5f;">Post decision</p>
-        </div>
-        <div class="govuk-grid-column-one-third">
-          <p class="govuk-body govuk-body-s" style="color: #505a5f;">Development Consent Order as made</p>
-        </div>
-      </div>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      {{ govukButton({
+      text: "Upload files",
+      classes: "govuk-button--secondary",
+      href: "/projects/back-office/manage/documents/upload-bo.html"
+      }) }}
+      
     </div>
 
-    <nav class="govuk-pagination" aria-label="Pagination">
-      <ul class="govuk-pagination__list">
-        <li class="govuk-pagination__item govuk-pagination__item--current">
-          <a class="govuk-link govuk-pagination__link" href="#" aria-label="Page 1" aria-current="page">
-            1
-          </a>
-        </li>
-        <li class="govuk-pagination__item">
-          <a class="govuk-link govuk-pagination__link" href="#" aria-label="Page 2">
-            2
-          </a>
-        </li>
-        <li class="govuk-pagination__item">
-          <a class="govuk-link govuk-pagination__link" href="#" aria-label="Page 3">
-            3
-          </a>
-        </li>
-      </ul>
-      <div class="govuk-pagination__next">
-        <a class="govuk-link govuk-pagination__link" href="#" rel="next">
-          <span class="govuk-pagination__link-title">
-            Next<span class="govuk-visually-hidden"> page</span>
-          </span>
-          <svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13">
-            <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
-          </svg>
-        </a>
-      </div>
-    </nav>
+    <p class="govuk-body govuk-!-margin-top-3">
+      <a href="/projects/back-office/manage/documents-empty.html" class="govuk-link">View empty version</a>
+    </p>
+
+ 
   </div>
 </div>
--->
+
+<div class="govuk-grid-row equal-height">
+
+  <!-- 
+  <div class="govuk-grid-column-two-thirds">
+    <div class="grey-box">
+      <form autocomplete="off" class="status" action="status?project={{projectNo}}" method="post"
+        onsubmit="return validateStatusLib(event)">
+        <div class="govuk-form-group status">
+          <h4 id="select-status" class="govuk-heading-s">Statuses</h4>
+        </div>
+
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-one-third">
+            {% from "govuk/components/radios/macro.njk" import govukRadios %}
+            {{ govukRadios({
+              name: "redaction",
+              fieldset: {
+                legend: {
+                  text: "Redaction",
+                  isPageHeading: false,
+                  classes: "govuk-fieldset__legend--s"
+                }
+              },
+              items: [
+                { value: "Unredacted", text: "Unredacted" },
+                { value: "Redacted", text: "Redacted" }
+              ]
+            }) }}
+          </div>
+
+          <div class="govuk-grid-column-one-third">
+            {{ govukRadios({
+              name: "status",
+              classes: "status",
+              fieldset: {
+                legend: {
+                  text: "Status",
+                  isPageHeading: false,
+                  classes: "govuk-fieldset__legend--s"
+                }
+              },
+              items: [
+                { value: "Checked", text: "Checked" },
+                { value: "Not Checked", text: "Not checked" },
+                { value: "Ready to publish", text: "Ready to publish" },
+                { value: "Do not publish", text: "Do not publish" }
+              ]
+            }) }}
+          </div>
+
+          <div class="govuk-grid-column-one-third">
+            <button class="govuk-button">Apply changes</button>
+            <p class="govuk-body clear-all"><a href="">Clear selected</a></p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  Actions section -
+  <div class="govuk-grid-column-one-third">
+    <div class="grey-box">
+      <h4 class="govuk-heading-s">Document actions</h4>
+      <ul class="govuk-list">
+        <li><a href="#">Download selected</a></li>
+        <li><a href="#">Move selected</a></li>
+        <li><a href="#">Unpublish selected</a></li>
+      </ul>
+    </div>
+  </div>-->
+
+
+<div class="govuk-grid-column-full">
+
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">Document information</th>
+      <th scope="col" class="govuk-table__header">Date uploaded</th>
+      <th scope="col" class="govuk-table__header">Source</th>
+      <th scope="col" class="govuk-table__header">Type</th>
+      <th scope="col" class="govuk-table__header">Actions</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    {% set documents = [
+      {
+        name: "Site_Location_Plan.pdf",
+        uploadedBy: "John Smith",
+        size: "2.4MB",
+        uploadDate: "12 April 2025",
+        source: "LPA",
+        type: "Plan",
+        viewUrl: "https://example.com/images/site-location-plan.jpg"
+      },
+      {
+        name: "Housing_Report_2025.pdf",
+        uploadedBy: "Sarah Johnson",
+        size: "1.8MB",
+        uploadDate: "11 April 2025",
+        source: "LPA",
+        type: "Procedural",
+        viewUrl: "https://example.com/images/housing-report.jpg"
+      },
+      {
+        name: "Document.pdf",
+        uploadedBy: "Michael Brown",
+        size: "3.2MB",
+        uploadDate: "10 April 2025",
+        source: "LPA",
+        type: "Correspondence",
+        viewUrl: "https://example.com/images/environmental-assessment.jpg"
+      },
+      {
+        name: "Transportation_Study.pdf",
+        uploadedBy: "Emma Davis",
+        size: "2.1MB",
+        uploadDate: "09 April 2025",
+        source: "LPA",
+        type: "Procedural",
+        viewUrl: "https://example.com/images/transport-study.jpg"
+      },
+      {
+        name: "Design_and_Access_Statement.pdf",
+        uploadedBy: "James Wilson",
+        size: "1.5MB",
+        uploadDate: "08 April 2025",
+        source: "LPA",
+        type: "Procedural",
+        viewUrl: "https://example.com/images/design-statement.jpg"
+      }
+    ] %}
+    
+    {% for doc in documents %}
+    <tr class="govuk-table__row">
+      
+      <td class="govuk-table__cell">
+        <strong><a href="{{ doc.viewUrl }}" target="_blank" class="govuk-link">{{ doc.name }}<span class="govuk-visually-hidden"> (opens in new tab)</span></a></strong><br>
+        Uploaded by: {{ doc.uploadedBy }}<br>
+        File type and size: PDF, {{ doc.size }}<br><br>
+        Scan status: {{ govukTag({
+          text: "Passed", 
+          classes: "govuk-tag--green"
+        }) }}
+      </td>
+      <td class="govuk-table__cell">{{ doc.uploadDate }}</td>
+      <td class="govuk-table__cell">{{ doc.source }}</td>
+      <td class="govuk-table__cell">{{ doc.type }}</td>
+      <td class="govuk-table__cell">
+        <ul class="govuk-list govuk-list--spaced">
+          <li><a href="{{ doc.viewUrl }}" target="_blank" class="govuk-link">View<span class="govuk-visually-hidden"> {{ doc.name }} (opens in new tab)</span></a></li>
+          <li><a href="{{ doc.viewUrl }}" download class="govuk-link">Download<span class="govuk-visually-hidden"> {{ doc.name }}</span></a></li>
+          <li><a href="#" class="govuk-link">Remove</a></li>
+        </ul>
+      </td>
+    </tr>
+    {% endfor %}
+
+  </tbody>
+</table>
+</div>
+
+
 {% endblock %}
 {% block footer %}
   {% include "includes/footer.njk" %}
