@@ -1,0 +1,186 @@
+{% extends "layouts/back-office.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% block pageTitle %}
+  Hearing Dates - Pattern B (Consecutive Days Option) – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/projects/back-office/manage/examination.html"
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">Pattern B: Hearing Dates with Consecutive Days Option</h1>
+    
+    <p class="govuk-body">Use this pattern when most hearings are continuous blocks, but you still support non-consecutive dates.</p>
+
+    <form method="post">
+
+      {{ govukRadios({
+        name: "hearingDurationType",
+        fieldset: {
+          legend: {
+            text: "Hearing duration",
+            isPageHeading: false,
+            classes: "govuk-fieldset__legend--m"
+          }
+        },
+        items: [
+          {
+            value: "one-day",
+            text: "One day",
+            checked: true
+          },
+          {
+            value: "consecutive-days",
+            text: "More than one day (consecutive)"
+          }
+        ]
+      }) }}
+
+      <!-- One Day Option (Default) -->
+      <div id="one-day-section">
+        {% call govukFieldset({
+          legend: {
+            text: "Hearing date",
+            isPageHeading: false,
+            classes: "govuk-fieldset__legend--m"
+          }
+        }) %}
+
+          {{ govukDateInput({
+            id: "hearing-date-single",
+            namePrefix: "hearingDateSingle",
+            fieldset: {
+              legend: {
+                text: "Date",
+                classes: "govuk-visually-hidden"
+              }
+            },
+            hint: {
+              text: "For example, 12 5 2026"
+            },
+            items: [
+              {
+                name: "day",
+                classes: "govuk-input--width-2"
+              },
+              {
+                name: "month",
+                classes: "govuk-input--width-2"
+              },
+              {
+                name: "year",
+                classes: "govuk-input--width-4"
+              }
+            ]
+          }) }}
+
+        {% endcall %}
+      </div>
+
+      <!-- Consecutive Days Option (Hidden by default) -->
+      <div id="consecutive-days-section" style="display: none;">
+        {% call govukFieldset({
+          legend: {
+            text: "Hearing dates",
+            isPageHeading: false,
+            classes: "govuk-fieldset__legend--m"
+          }
+        }) %}
+
+          <p class="govuk-hint">For example, 12 May 2026 to 15 May 2026</p>
+
+          {{ govukDateInput({
+            id: "hearing-date-start",
+            namePrefix: "hearingDateStart",
+            fieldset: {
+              legend: {
+                text: "Start date",
+                classes: "govuk-fieldset__legend--s"
+              }
+            },
+            hint: {
+              text: "For example, 12 5 2026"
+            },
+            items: [
+              {
+                name: "day",
+                classes: "govuk-input--width-2"
+              },
+              {
+                name: "month",
+                classes: "govuk-input--width-2"
+              },
+              {
+                name: "year",
+                classes: "govuk-input--width-4"
+              }
+            ]
+          }) }}
+
+          {{ govukDateInput({
+            id: "hearing-date-end",
+            namePrefix: "hearingDateEnd",
+            fieldset: {
+              legend: {
+                text: "End date",
+                classes: "govuk-fieldset__legend--s"
+              }
+            },
+            hint: {
+              text: "For example, 15 5 2026"
+            },
+            items: [
+              {
+                name: "day",
+                classes: "govuk-input--width-2"
+              },
+              {
+                name: "month",
+                classes: "govuk-input--width-2"
+              },
+              {
+                name: "year",
+                classes: "govuk-input--width-4"
+              }
+            ]
+          }) }}
+
+          <p style="margin-top: 20px;">
+            <a href="#" id="non-consecutive-link" class="govuk-link">Dates are not consecutive — enter individual days instead</a>
+          </p>
+
+        {% endcall %}
+      </div>
+
+      <br>
+
+      {{ govukButton({
+        text: "Save hearing dates"
+      }) }}
+
+      <p class="govuk-body">
+        <a href="/projects/back-office/manage/examination.html" class="govuk-link">Cancel</a>
+      </p>
+    </form>
+
+  </div>
+</div>
+
+<script src="/public/javascripts/hearing-dates-pattern-b.js"></script>
+
+{% endblock %}
+
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}
