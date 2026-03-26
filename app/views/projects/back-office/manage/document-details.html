@@ -1,0 +1,293 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+Documents – {{ serviceName }}
+{% endblock %}
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+<style>
+  .layout-slots__divider{
+    color: #ffffff
+  }
+  a {
+    color: #1d70b8;
+  }
+  .grey-box {
+    display: none;
+  }
+
+  
+
+  .govuk-header, .govuk-header__container {
+    background-color: rgb(7, 71, 69);
+    border-bottom: none;
+    padding-top: 22px;
+    padding-bottom: 22px;
+  }
+
+  .govuk-header {
+    border-bottom: 10px solid #13a19b;
+  }
+
+  .greybg {
+    box-shadow: #f3f2f1 800px 0px, #f3f2f1 -800px 0px;
+  }
+
+  .side-nav {
+        padding-right: 20px;
+      }
+
+      .side-nav ul {
+        list-style: none;
+        padding-left: 0;
+        margin: 0;
+      }
+
+      .side-nav li {
+        margin-bottom: 5px;
+      }
+
+      .side-nav a {
+        display: block;
+        padding: 12px 8px;
+        font-size: 16px;
+        text-decoration: none;
+        color: #1d70b8;
+        border-left: 5px solid transparent;
+      }
+
+      .side-nav a:hover {
+        background-color: #f3f2f1;
+      }
+
+      .side-nav a.selected {
+        background-color: #f3f2f1;
+        font-weight: bold;
+        border-left: 6px solid #00847f;
+        color: #0b0c0c;
+      }
+
+      .govuk-details__summary::before {
+    clip-path: polygon(6.38% 22.63%, 49.5% 65.75%, 92.63% 22.63%, 100% 30%, 50% 80%, 0% 30%);
+    background-color: black;
+    color: black;
+    width: 3px;
+    height: 3px;
+    background-color: black;
+    color: black;
+  }
+
+  .filters {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #b1b4b6;
+  }
+
+  .document-item {
+    padding-top: 12px;
+    padding-bottom: 0px;
+  }
+
+  .filters .govuk-details__summary {
+    margin-left: 15px;
+  }
+
+  .filters .govuk-details__summary-text {
+    text-decoration: none;
+  }
+
+  .filters .govuk-details__text {
+    border: none;
+    padding-left: 0px;
+    margin-left: 15px;
+
+  }
+
+
+  .govuk-details[open] > .govuk-details__summary::before {
+    clip-path: polygon(0% 71.88%, 49.5% 22.63%, 98.5% 71.88%, 91.63% 78.71%, 50% 36.88%, 7.37% 79.29%);
+    width: 3px;
+    height: 3px;
+  }
+
+</style>
+
+
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+
+    <span class="govuk-caption-xl">Document properties</span>
+    <h1 class="govuk-heading-xl"> Document_1.pdf</h1>
+  </div>
+  <div class="govuk-grid-column-two-thirds">
+    <table class="govuk-table">
+      <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">Case reference</th>
+          <td class="govuk-table__cell">EN0110007</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">Document reference number</th>
+          <td class="govuk-table__cell">EN0110007-000011</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">File type and size</th>
+          <td class="govuk-table__cell">PDF, 17 KB</td>
+        </tr>
+        <!--<tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">Version</th>
+          <td class="govuk-table__cell">2</td>
+        </tr>-->
+      </tbody>
+    </table>
+
+    <!--{% from "govuk/components/button/macro.njk" import govukButton %}
+
+    {{ govukButton({
+    text: "Upload new version"
+  }) }}-->
+
+    <h2 class="govuk-heading-m">Document actions</h2>
+
+    <div class="govuk-button-group">
+      <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+        Open
+      </button>
+      <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+        Download
+      </button>
+     <!-- <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+        Open in Adobe
+      </button>
+      <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+        Unpublish
+      </button>-->
+    </div>
+
+  </div>
+
+  <div class="govuk-grid-column-full">
+         
+     
+        <h2 class="govuk-heading-m">Document properties</h2>
+        <table class="govuk-table">
+          <tbody class="govuk-table__body">
+            <tr class="govuk-table__row">
+              <td class="govuk-table__header">File name</td>
+              <td class="govuk-table__cell">document.pdf</td>
+              <td class="govuk-table__cell govuk-!-text-align-right"><a href="#">Change</a></td>
+            </tr>
+            <!--<tr class="govuk-table__row">
+              <td class="govuk-table__header">IP number (optional)</td>
+              <td class="govuk-table__cell"></td>
+              <td class="govuk-table__cell govuk-!-text-align-right"><a href="#">Change</a></td>
+            </tr>-->
+            <tr class="govuk-table__row">
+              <td class="govuk-table__header">Who the document is from</td>
+              <td class="govuk-table__cell"></td>
+              <td class="govuk-table__cell govuk-!-text-align-right"><a href="#">Change</a></td>
+            </tr>
+           <!-- <tr class="govuk-table__row">
+              <td class="govuk-table__header">Agent (optional)</td>
+              <td class="govuk-table__cell"></td>
+              <td class="govuk-table__cell govuk-!-text-align-right"><a href="#">Change</a></td>
+            </tr>
+            <tr class="govuk-table__row">
+              <td class="govuk-table__header">Document case stage</td>
+              <td class="govuk-table__cell"></td>
+              <td class="govuk-table__cell govuk-!-text-align-right"><a href="#">Change</a></td>
+            </tr>
+            <tr class="govuk-table__row">
+              <td class="govuk-table__header">Webfilter</td>
+              <td class="govuk-table__cell"></td>
+              <td class="govuk-table__cell govuk-!-text-align-right"><a href="#">Change</a></td>
+            </tr>
+            <tr class="govuk-table__row">
+              <td class="govuk-table__header">Document type (optional)</td>
+              <td class="govuk-table__cell"></td>
+              <td class="govuk-table__cell govuk-!-text-align-right"><a href="#">Change</a></td>
+            </tr>-->
+            <tr class="govuk-table__row">
+              <td class="govuk-table__header">Date received</td>
+              <td class="govuk-table__cell">11 April 2025</td>
+              <td class="govuk-table__cell govuk-!-text-align-right"><a href="#">Change</a></td>
+            </tr>
+           <!-- <tr class="govuk-table__row">
+              <td class="govuk-table__header">Published date</td>
+              <td class="govuk-table__cell"></td>
+              <td class="govuk-table__cell govuk-!-text-align-right"><a href="#">Change</a></td>
+            </tr>
+           
+            <tr class="govuk-table__row">
+              <td class="govuk-table__header">Status</td>
+              <td class="govuk-table__cell">Not checked</td>
+              <td class="govuk-table__cell govuk-!-text-align-right"><a href="#">Change</a></td>
+            </tr>-->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="past-week">
+        <h2 class="govuk-heading-m">Document history</h2>
+
+        <table class="govuk-table">
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header">Version</th>
+              <th scope="col" class="govuk-table__header">File name</th>
+              <th scope="col" class="govuk-table__header">Activity</th>
+             <!-- <th scope="col" class="govuk-table__header">Redaction</th>-->
+              <th scope="col" class="govuk-table__header">Action</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+
+            {% for i in [5,4,3,2,1] %}
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell">
+                <p class="govuk-body">{{ i }}</p>
+      </div>
+      </td>
+      <td class="govuk-table__cell">
+        <strong><a href="#" class="govuk-link">Document_v{{ i }}.pdf</a></strong><br>
+        PDF, 1.2MB
+      </td>
+      <td class="govuk-table__cell">
+        <ul class="govuk-list govuk-list--spaced">
+          <li>
+            <p class="govuk-body"><strong>Uploaded: </strong>13:23, 11 Apr 2025, McShane, Claire</p>
+          </li>
+          <li>
+            <p class="govuk-body"><strong>Published: </strong>Not published</p>
+          </li>
+        </ul>
+      </td>
+     <!-- <td class="govuk-table__cell">Unredacted</td>-->
+      <td class="govuk-table__cell">
+        <ul class="govuk-list govuk-list--spaced">
+          <li><a href="#" class="govuk-link">Download</a></li>
+          <li><a href="#" class="govuk-link">Open in Adobe</a></li>
+        </ul>
+      </td>
+      </tr>
+      {% endfor %}
+
+      </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

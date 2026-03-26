@@ -3,10 +3,55 @@ const path = require('path');
 const session = require('express-session');
 const app = express();
 
-// Disable HTTPS redirect for local development
+// Tell Express to trust the X-Forwarded-Proto header
+app.set('trust proxy', 1);
+
+// Disable HTTPS redirect for local development EARLY - MUST be first middleware
 app.use((req, res, next) => {
-  // Set the protocol to http for local development
+  // Force HTTP protocol
   req.headers['x-forwarded-proto'] = 'http';
+  req.protocol = 'http';
+  req.secure = false;
+  
+  // Remove any HSTS and HTTPS-forcing headers
+  res.removeHeader('Strict-Transport-Security');
+  res.setHeader('Strict-Transport-Security', 'max-age=0');
+  
+  // Prevent other HTTPS-forcing headers
+  res.removeHeader('Content-Security-Policy');
+  
+  next();
+});
+
+// Override res.redirect to prevent HTTPS redirects
+app.use((req, res, next) => {
+  const originalRedirect = res.redirect;
+  res.redirect = function(code, url) {
+    // Handle both redirect(url) and redirect(code, url) signatures
+    if (typeof code === 'string') {
+      url = code;
+      code = 302;
+    }
+    
+    // Convert HTTPS to HTTP
+    if (typeof url === 'string' && url.startsWith('https://')) {
+      url = url.replace('https://', 'http://');
+      console.log('Converting HTTPS redirect to HTTP:', url);
+    }
+    
+    return originalRedirect.call(this, code, url);
+  };
+  
+  // Also override res.location which is sometimes used
+  const originalLocation = res.location;
+  res.location = function(url) {
+    if (typeof url === 'string' && url.startsWith('https://')) {
+      url = url.replace('https://', 'http://');
+      console.log('Converting HTTPS location to HTTP:', url);
+    }
+    return originalLocation.call(this, url);
+  };
+  
   next();
 });
 

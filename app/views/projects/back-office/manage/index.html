@@ -84,7 +84,7 @@ Plan overview – {{ serviceName }}
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Plan type</dt>
-          <dd class="govuk-summary-list__value">{{ planType or '-' }}</dd>
+          <dd class="govuk-summary-list__value">{% if planType == 'local-plan' %}Local Plan{% else %}{{ planType or '-' }}{% endif %}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/overview/plan-type">Change<span class="govuk-visually-hidden"> Change the plan type</span></a>
           </dd>
@@ -378,6 +378,7 @@ Plan overview – {{ serviceName }}
           </button>
         </form>
         <form method="get" action="/projects/back-office/manage/delete-case-confirmation.html" style="display: inline-block;">
+          <input type="hidden" name="caseRef" value="{{ caseRef }}">
           <button type="submit" class="govuk-button govuk-button--warning">
             Delete case
           </button>

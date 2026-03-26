@@ -1,0 +1,121 @@
+.app-multi-file-upload {
+	margin-bottom: 40px;
+}
+
+.app-multi-file-upload--enhanced .app-multi-file-upload__button {
+	display: none;
+}
+
+.app-multi-file-upload__dropzone {
+  outline: 2px dashed $govuk-border-colour;
+	display: flex;
+	padding: govuk-spacing(9) govuk-spacing(3);
+	transition: outline-offset .1s ease-in-out, background-color .1s linear;
+}
+
+.app-multi-file-upload__dropzone label {
+	margin-bottom: 0;
+	display: inline-block;
+	width: auto;
+}
+
+.app-multi-file-upload__dropzone p {
+  margin-bottom: 0;
+  margin-left: 10px;
+  padding-top: 7px;
+}
+
+.app-multi-file-upload__dropzone [type=file] {
+	position: absolute;
+	left: -9999em;
+}
+
+.app-multi-file-upload--dragover {
+	background: #b1b4b6;
+	outline-color: #6f777b;
+}
+
+.app-multi-file-upload--focused {
+	background-color: $govuk-focus-colour;
+  color: $govuk-focus-text-colour;
+  box-shadow: 0 -2px $govuk-focus-colour, 0 4px $govuk-focus-text-colour;
+  outline: none;
+}
+
+.app-multi-file-upload__error {
+	color: govuk-colour('red');
+	font-weight: bold;
+}
+
+.app-multi-file-upload__success {
+	color: govuk-colour('green');
+	font-weight: bold;
+}
+
+.app-multi-file-upload__error svg {
+   fill: currentColor;
+   float: left;
+   margin-right: govuk-spacing(2);
+}
+
+.app-multi-file-upload__success svg {
+	fill: currentColor;
+	float: left;
+	margin-right: govuk-spacing(2);
+}
+
+.app-multi-file-upload__message {
+	// padding-bottom: 0;
+	vertical-align: middle;
+
+}
+
+.app-multi-file-upload__success {
+	display: block;
+}
+
+.app-multi-file-upload__list {
+	margin-bottom: govuk-spacing(6);
+}
+
+.app-multi-file-upload__row {
+	display: flex;
+	align-items: center;
+	padding: govuk-spacing(3) 0;
+	border-bottom: 1px solid $govuk-border-colour;
+	
+	&:last-child {
+		border-bottom: none;
+	}
+}
+
+.app-multi-file-upload__message {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	gap: govuk-spacing(2);
+}
+
+.app-multi-file-upload__filename {
+	font-weight: bold;
+	word-break: break-all;
+}
+
+.app-multi-file-upload__progress {
+	font-size: 14px;
+	color: $govuk-secondary-text-colour;
+	min-width: 40px;
+}
+
+.app-multi-file-upload__actions {
+	margin-left: govuk-spacing(2);
+	white-space: nowrap;
+}
+
+.app-multi-file-upload__delete {
+	color: govuk-colour('red');
+	
+	&:hover {
+		color: #b10e1c;
+	}
+}

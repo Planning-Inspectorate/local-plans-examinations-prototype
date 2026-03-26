@@ -34,7 +34,7 @@
               gestures.</span>
             <input type="hidden" name="index" value="{{ index }}">
             <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
-            <select class="govuk-select" id="lpa" name="lpa" data-module="autocomplete" data-autoselect=""
+            <select class="govuk-select" id="lpa" name="lpa" data-module="autocomplete" title="Local Planning Authority" data-autoselect=""
               data-display-menu="" data-min-length="" data-show-all-values="" data-show-no-options-found="">
               <option value="" disabled {% if not selectedLPA %}selected{% endif %}>Select an option</option>
               {% for lpa in lpaList %}
