@@ -16,7 +16,7 @@
 	<div class="govuk-grid-row">
 <div class="govuk-grid-column-two-thirds">
 <h1 class="govuk-heading-l">When will this hearing take place?</h1>
-<form method="post" action="/projects/back-office/manage/examination/hearing-date-ranges.html">
+<form method="post" action="/projects/back-office/manage/examination/hearing-dates-pattern-c.html">
 
   <fieldset class="govuk-fieldset">
     <div class="govuk-hint" style="margin-bottom: 2rem;">
@@ -139,24 +139,7 @@
 </form>
 </div>
 
-<script>
-// Handle remove block buttons
-document.querySelectorAll('.remove-block-btn').forEach(btn => {
-  btn.addEventListener('click', (e) => {
-    e.preventDefault();
-    const blockIndex = btn.dataset.blockIndex;
-    const blockDiv = document.querySelector(`[data-block-index="${blockIndex}"]`);
-    if (blockDiv) {
-      blockDiv.remove();
-      // Re-number remaining blocks
-      document.querySelectorAll('.hearing-dates-block').forEach((block, idx) => {
-        const heading = block.querySelector('.govuk-heading-s');
-        heading.textContent = `Block ${idx + 1}`;
-      });
-    }
-  });
-});
-</script>
+<script src="/public/javascripts/hearing-dates-pattern-c.js"></script>
 
 {% endblock %}
 
