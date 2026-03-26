@@ -277,23 +277,23 @@ Documents – {{ serviceName }}
 <table class="govuk-table">
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
-      <th scope="col" class="govuk-table__header">File name</th>
-      <th scope="col" class="govuk-table__header">File type</th>
-      <th scope="col" class="govuk-table__header">File size</th>
-      <th scope="col" class="govuk-table__header">Uploaded</th>
+      <th scope="col" class="govuk-table__header">Document information</th>
+      <th scope="col" class="govuk-table__header">Date uploaded</th>
+      <th scope="col" class="govuk-table__header">Source</th>
+      <th scope="col" class="govuk-table__header">Type</th>
       <th scope="col" class="govuk-table__header">Actions</th>
     </tr>
   </thead>
   <tbody class="govuk-table__body">
     {% set documents = [
       {
-        name: "Site_Location_Plan.jpg",
+        name: "Site_Location_Plan.pdf",
         govTag: "Gateway 2",
         uploadedBy: "John Smith",
         size: "2.4MB",
         uploadDate: "12 April 2025",
         source: "LPA",
-        type: "JPG",
+        type: "Plan",
         viewUrl: "https://example.com/images/site-location-plan.jpg"
       },
       {
@@ -303,7 +303,7 @@ Documents – {{ serviceName }}
         size: "1.8MB",
         uploadDate: "11 April 2025",
         source: "LPA",
-        type: "PDF",
+        type: "Procedural",
         viewUrl: "https://example.com/images/housing-report.jpg"
       },
       {
@@ -313,7 +313,7 @@ Documents – {{ serviceName }}
         size: "3.2MB",
         uploadDate: "10 April 2025",
         source: "LPA",
-        type: "PDF",
+        type: "Correspondence",
         viewUrl: "https://example.com/images/environmental-assessment.jpg"
       },
       {
@@ -323,17 +323,17 @@ Documents – {{ serviceName }}
         size: "2.1MB",
         uploadDate: "09 April 2025",
         source: "LPA",
-        type: "PDF",
+        type: "Procedural",
         viewUrl: "https://example.com/images/transport-study.jpg"
       },
       {
-        name: "Design_and_Access_Statement.docx",
+        name: "Design_and_Access_Statement.pdf",
         govTag: "Gateway 2",
         uploadedBy: "James Wilson",
         size: "1.5MB",
         uploadDate: "08 April 2025",
         source: "LPA",
-        type: "DOCX",
+        type: "Procedural",
         viewUrl: "https://example.com/images/design-statement.jpg"
       }
     ] %}
@@ -341,12 +341,26 @@ Documents – {{ serviceName }}
     {% for doc in documents %}
     <tr class="govuk-table__row">
       <td class="govuk-table__cell">
-        <strong><a href="{{ doc.viewUrl }}" target="_blank" class="govuk-link">{{ doc.name }}<span class="govuk-visually-hidden"> (opens in new tab)</span></a></strong>
+        
+        <strong><a href="{{ doc.viewUrl }}" target="_blank" class="govuk-link">{{ doc.name }}<span class="govuk-visually-hidden"> (opens in new tab)</span></a></strong><br>
+      <br>
+        {{ govukTag({
+          text: doc.govTag,
+          classes: "govuk-tag--grey"
+        }) }}<br><br>
+        Uploaded by: {{ doc.uploadedBy }}<br>
+        File type and size: PDF, {{ doc.size }}<br>
+        Scan status: Passed 
       </td>
-      <td class="govuk-table__cell">{{ doc.type }}</td>
-      <td class="govuk-table__cell">{{ doc.size }}</td>
       <td class="govuk-table__cell">{{ doc.uploadDate }}</td>
-      <td class="govuk-table__cell"><a href="{{ doc.viewUrl }}" target="_blank" download class="govuk-link">Download<span class="govuk-visually-hidden"> {{ doc.name }}</span></a> | <a href="#" class="govuk-link">Remove</a>
+      <td class="govuk-table__cell">{{ doc.source }}</td>
+      <td class="govuk-table__cell">{{ doc.type }}</td>
+      <td class="govuk-table__cell">
+        <ul class="govuk-list govuk-list--spaced">
+          <li><a href="{{ doc.viewUrl }}" target="_blank" class="govuk-link">View<span class="govuk-visually-hidden"> {{ doc.name }} (opens in new tab)</span></a></li>
+          <li><a href="{{ doc.viewUrl }}" download class="govuk-link">Download<span class="govuk-visually-hidden"> {{ doc.name }}</span></a></li>
+          <li><a href="#" class="govuk-link">Remove</a></li>
+        </ul>
       </td>
     </tr>
     {% endfor %}

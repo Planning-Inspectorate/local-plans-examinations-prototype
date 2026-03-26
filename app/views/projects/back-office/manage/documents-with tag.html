@@ -342,6 +342,10 @@ Documents – {{ serviceName }}
     <tr class="govuk-table__row">
       <td class="govuk-table__cell">
         <strong><a href="{{ doc.viewUrl }}" target="_blank" class="govuk-link">{{ doc.name }}<span class="govuk-visually-hidden"> (opens in new tab)</span></a></strong>
+      <br><br>{{ govukTag({
+          text: doc.govTag,
+          classes: "govuk-tag--grey"
+        }) }} <br><br>
       </td>
       <td class="govuk-table__cell">{{ doc.type }}</td>
       <td class="govuk-table__cell">{{ doc.size }}</td>

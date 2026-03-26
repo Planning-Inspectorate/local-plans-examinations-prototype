@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-Docuements – {{ serviceName }}
+Documents – {{ serviceName }}
 {% endblock %}
 {% block beforeContent %}
   {{ govukBackLink({
@@ -175,8 +175,8 @@ Docuements – {{ serviceName }}
       </nav>
     </div>
   </div>
-<div class="govuk-grid-column-one-third" style="padding-left: 0px;">
-<!--<h2 class="govuk-heading-m">Filter</h2>
+<!--<div class="govuk-grid-column-one-third" style="padding-left: 0px;">
+<h2 class="govuk-heading-m">Filter</h2>
     <p class="govuk-link govuk-body-s">Show all sections</p>
 
     <dl class="govuk-summary-list">
@@ -542,6 +542,33 @@ Docuements – {{ serviceName }}
   </div>
 </div>
 -->
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+  
+<h2 class="govuk-heading-m">
+      Documents
+    </h2> 
+    
+    <h3 class="govuk-heading-s">
+      Gateway 2
+    </h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li class="govuk-body"><a href="#">Site Location Plan (PDF, 2.4MB)</a> - uploaded by John Smith on 12 April 2025</li>
+      <li class="govuk-body"><a href="#">Housing Report 2025 (PDF, 1.8MB)</a> - uploaded by Sarah Johnson on 11 April 2025</li>
+      <li class="govuk-body"><a href="#">Document (PDF, 3.2MB)</a> - uploaded by Michael Brown on 10 April 2025</li>
+    </ul>
+    <h3 class="govuk-heading-s">Gateway 3</h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li class="govuk-body"><a href="#">Design and Access Statement (PDF, 1.5MB)</a> - uploaded by James Wilson on 8 April 2025</li>
+      <li class="govuk-body"><a href="#">Environmental Statement (PDF, 4.2MB)</a> - uploaded by Emily Davis on 7 April 2025</li>
+    </ul>
+    <h3 class="govuk-heading-s">Examination</h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li class="govuk-body"><a href="#">Statement of Common Ground (PDF, 2.8MB)</a> - uploaded by David Lee on 5 April 2025</li>
+      <li class="govuk-body"><a href="#">Consultation Report (PDF, 3.5MB)</a> - uploaded by Laura Wilson on 3 April 2025</li>
+    </ul>
+
+
 {% endblock %}
 {% block footer %}
   {% include "includes/footer.njk" %}
