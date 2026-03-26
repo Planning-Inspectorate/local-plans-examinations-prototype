@@ -2272,4 +2272,284 @@ router.get('/projects/back-office/manage/documents/check-answers', (req, res) =>
   });
 });
 
+// --- Hearing Dates Pattern Demonstrations ---
+
+// Pattern A: Add Another Day (non-consecutive dates)
+router.get('/projects/back-office/manage/examination/hearing-dates-pattern-a.html', (req, res) => {
+  res.render('projects/back-office/manage/examination/hearing-dates-pattern-a', {
+    serviceName: 'Local Plans Examinations'
+  });
+});
+
+router.post('/projects/back-office/manage/examination/hearing-dates-pattern-a.html', (req, res) => {
+  // Initialize session.data if it doesn't exist
+  if (!req.session.data) {
+    req.session.data = {};
+  }
+
+  // Handle mixed format from form (some flat strings, some objects)
+  const rawDates = req.body.hearingDates || [];
+  console.log('Pattern A - Raw array from form:', JSON.stringify(rawDates));
+  
+  // Process the mixed array into proper date objects
+  const dates = [];
+  let i = 0;
+  while (i < rawDates.length) {
+    const item = rawDates[i];
+    
+    // Check if this is an object (nested format) or string (flat format)
+    if (typeof item === 'object' && item !== null) {
+      // Object format: could be { day: '16', month: '07', year: '2026' } 
+      // OR it could be split: { day: '20' }, { month: '06' }, { year: '2026' }
+      let day, month, year;
+      
+      if (item.day && item.month && item.year) {
+        // Complete object
+        day = item.day;
+        month = item.month;
+        year = item.year;
+        i++;
+      } else if (item.day) {
+        // Partial object - day only, look ahead for month and year
+        day = item.day;
+        i++;
+        if (i < rawDates.length && typeof rawDates[i] === 'object' && rawDates[i].month) {
+          month = rawDates[i].month;
+          i++;
+        }
+        if (i < rawDates.length && typeof rawDates[i] === 'object' && rawDates[i].year) {
+          year = rawDates[i].year;
+          i++;
+        }
+      } else if (item.month) {
+        // Skip orphaned month/year objects
+        i++;
+        continue;
+      } else if (item.year) {
+        // Skip orphaned month/year objects
+        i++;
+        continue;
+      } else {
+        i++;
+        continue;
+      }
+      
+      if (day && month && year) {
+        dates.push({ day, month, year });
+      }
+    } else if (typeof item === 'string') {
+      // Flat format: need to group 3 consecutive strings as day, month, year
+      const day = rawDates[i];
+      const month = rawDates[i + 1];
+      const year = rawDates[i + 2];
+      if (day && month && year) {
+        dates.push({ day, month, year });
+      }
+      i += 3;
+    } else {
+      i++;
+    }
+  }
+  
+  console.log('Pattern A - Processed dates:', JSON.stringify(dates));
+  
+  // Process and sort dates
+  const processedDates = dates
+    .map(date => {
+      const d = parseInt(date.day);
+      const m = parseInt(date.month);
+      const y = parseInt(date.year);
+      return new Date(y, m - 1, d);
+    })
+    .sort((a, b) => a - b);
+  
+  // Store in session.data
+  req.session.data.hearingDatesPatternA = processedDates.map(date => 
+    `${date.getDate()} ${new Intl.DateTimeFormat('en-US', { month: 'long' }).format(date)} ${date.getFullYear()}`
+  );
+  
+  console.log('Pattern A - Stored in session:', req.session.data.hearingDatesPatternA);
+  
+  req.session.save(() => {
+    console.log('Pattern A - Session saved, redirecting');
+    res.redirect('/projects/back-office/manage/examination/hearing-dates-results.html');
+  });
+});
+
+// Pattern B: Consecutive Days Option (start + end)
+router.get('/projects/back-office/manage/examination/hearing-dates-pattern-b.html', (req, res) => {
+  res.render('projects/back-office/manage/examination/hearing-dates-pattern-b', {
+    serviceName: 'Local Plans Examinations'
+  });
+});
+
+router.post('/projects/back-office/manage/examination/hearing-dates-pattern-b.html', (req, res) => {
+  // Initialize session.data if it doesn't exist
+  if (!req.session.data) {
+    req.session.data = {};
+  }
+  
+  console.log('Pattern B - Full req.body:', JSON.stringify(req.body));
+  
+  const durationType = req.body.hearingDurationType;
+  console.log('Pattern B - Duration type:', durationType);
+  
+  if (durationType === 'one-day') {
+    // Single day - read from hyphenated field names
+    const day = req.body['hearingDateSingle-day'];
+    const month = req.body['hearingDateSingle-month'];
+    const year = req.body['hearingDateSingle-year'];
+    
+    console.log('Pattern B - Single date fields:', {day, month, year});
+    
+    if (day && month && year) {
+      const dateObj = new Date(year, month - 1, day);
+      req.session.data.hearingDatesPatternB = `${dateObj.getDate()} ${new Intl.DateTimeFormat('en-US', { month: 'long' }).format(dateObj)} ${dateObj.getFullYear()}`;
+      console.log('Pattern B - Stored:', req.session.data.hearingDatesPatternB);
+    }
+  } else if (durationType === 'consecutive-days') {
+    // Date range - read from hyphenated field names
+    const startDay = req.body['hearingDateStart-day'];
+    const startMonth = req.body['hearingDateStart-month'];
+    const startYear = req.body['hearingDateStart-year'];
+    const endDay = req.body['hearingDateEnd-day'];
+    const endMonth = req.body['hearingDateEnd-month'];
+    const endYear = req.body['hearingDateEnd-year'];
+    
+    console.log('Pattern B - Date range fields:', {startDay, startMonth, startYear, endDay, endMonth, endYear});
+    
+    if (startDay && startMonth && startYear && endDay && endMonth && endYear) {
+      const start = new Date(startYear, startMonth - 1, startDay);
+      const end = new Date(endYear, endMonth - 1, endDay);
+      
+      const startFormatted = `${start.getDate()} ${new Intl.DateTimeFormat('en-US', { month: 'long' }).format(start)} ${start.getFullYear()}`;
+      const endFormatted = `${end.getDate()} ${new Intl.DateTimeFormat('en-US', { month: 'long' }).format(end)} ${end.getFullYear()}`;
+      
+      req.session.data.hearingDatesPatternB = `${startFormatted} to ${endFormatted}`;
+      console.log('Pattern B - Stored:', req.session.data.hearingDatesPatternB);
+    }
+  }
+  
+  req.session.save(() => {
+    console.log('Pattern B - Session saved, redirecting');
+    res.redirect('/projects/back-office/manage/examination/hearing-dates-results.html');
+  });
+});
+
+// Pattern C: Date Ranges (Multiple Blocks)
+router.get('/projects/back-office/manage/examination/hearing-dates-pattern-c.html', (req, res) => {
+  let blocks = req.session.data.hearingDatesPatternCBlocks || [{ start: {}, end: {} }];
+  
+  // If there are saved blocks, add an empty one for the user to fill in
+  if (req.session.data.hearingDatesPatternCBlocks && req.session.data.hearingDatesPatternCBlocks.length > 0) {
+    blocks = [...blocks, { start: {}, end: {} }];
+  }
+  
+  res.render('projects/back-office/manage/examination/hearing-date-ranges', {
+    blocks: blocks,
+    serviceName: 'Local Plans Examinations'
+  });
+});
+
+router.post('/projects/back-office/manage/examination/hearing-dates-pattern-c.html', (req, res) => {
+  // Initialize session.data if it doesn't exist
+  if (!req.session.data) {
+    req.session.data = {};
+  }
+  
+  const rawBlocks = req.body.blocks || [];
+  console.log('Pattern C - Raw blocks:', JSON.stringify(rawBlocks));
+  
+  // If "Add another set of dates" was clicked, save current blocks and redirect
+  if (req.body.addAnother) {
+    // Initialize array if needed
+    if (!req.session.data.hearingDatesPatternCBlocks) {
+      req.session.data.hearingDatesPatternCBlocks = [];
+    }
+    
+    // Get previously saved blocks if any
+    const previousBlocks = req.session.data.hearingDatesPatternCBlocks || [];
+    
+    // Add the current blocks to the stored blocks
+    const allBlocks = Array.isArray(previousBlocks) ? previousBlocks : [];
+    
+    // Parse the current form submission's blocks
+    const processedRawBlocks = (Array.isArray(rawBlocks) ? rawBlocks : [rawBlocks])
+      .filter(block => block && block.start && block.start.day && block.start.month && block.start.year)
+      .map(block => ({
+        start: {
+          day: block.start.day,
+          month: block.start.month,
+          year: block.start.year
+        },
+        end: {
+          day: block.end && block.end.day ? block.end.day : block.start.day,
+          month: block.end && block.end.month ? block.end.month : block.start.month,
+          year: block.end && block.end.year ? block.end.year : block.start.year
+        }
+      }));
+    
+    // Combine and save
+    req.session.data.hearingDatesPatternCBlocks = [...allBlocks, ...processedRawBlocks];
+    
+    // Save and redirect back to the form for another block
+    req.session.save(() => {
+      res.redirect('/projects/back-office/manage/examination/hearing-dates-pattern-c.html');
+    });
+    return;
+  }
+  
+  // Otherwise, process and save all blocks
+  const processedBlocks = (Array.isArray(rawBlocks) ? rawBlocks : [rawBlocks])
+    .filter(block => block && block.start && block.start.day && block.start.month && block.start.year)
+    .map(block => {
+      const startDay = parseInt(block.start.day);
+      const startMonth = parseInt(block.start.month);
+      const startYear = parseInt(block.start.year);
+      const endDay = block.end && block.end.day ? parseInt(block.end.day) : startDay;
+      const endMonth = block.end && block.end.month ? parseInt(block.end.month) : startMonth;
+      const endYear = block.end && block.end.year ? parseInt(block.end.year) : startYear;
+      
+      const start = new Date(startYear, startMonth - 1, startDay);
+      const end = new Date(endYear, endMonth - 1, endDay);
+      
+      const startFormatted = `${start.getDate()} ${new Intl.DateTimeFormat('en-US', { month: 'long' }).format(start)} ${start.getFullYear()}`;
+      const endFormatted = `${end.getDate()} ${new Intl.DateTimeFormat('en-US', { month: 'long' }).format(end)} ${end.getFullYear()}`;
+      
+      return {
+        startDate: startFormatted,
+        endDate: endFormatted
+      };
+    });
+  
+  req.session.data.hearingDatesPatternC = processedBlocks;
+  req.session.data.hearingDatesPatternCBlocks = undefined;
+  
+  req.session.save(() => {
+    res.redirect('/projects/back-office/manage/examination/hearing-dates-results.html');
+  });
+});
+
+// Hearing Dates Results Page
+router.get('/projects/back-office/manage/examination/hearing-dates-results.html', (req, res) => {
+  res.render('projects/back-office/manage/examination/hearing-dates-results', {
+    data: req.session.data,
+    serviceName: 'Local Plans Examinations'
+  });
+});
+
+// Clear Hearing Dates Data
+router.get('/projects/back-office/manage/examination/hearing-dates-clear.html', (req, res) => {
+  if (req.session.data) {
+    req.session.data.hearingDatesPatternA = undefined;
+    req.session.data.hearingDatesPatternB = undefined;
+    req.session.data.hearingDatesPatternC = undefined;
+    req.session.data.hearingDatesPatternCBlocks = undefined;
+  }
+  
+  req.session.save(() => {
+    res.redirect('/projects/back-office/manage/examination/hearing-dates-results.html');
+  });
+});
+
 module.exports = router;

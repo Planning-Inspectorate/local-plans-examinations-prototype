@@ -1,0 +1,116 @@
+{% extends "layouts/back-office.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+
+{% block pageTitle %}
+  Hearing Dates - Pattern A (Add Another Day) – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/projects/back-office/manage/examination.html"
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">Pattern A: Hearing Dates with "Add Another Day"</h1>
+    
+    <p class="govuk-body">Use this pattern when users need to add multiple non-consecutive dates for a single hearing.</p>
+
+    <form method="post">
+      {% call govukFieldset({
+        legend: {
+          text: "Hearing dates",
+          isPageHeading: false,
+          classes: "govuk-fieldset__legend--m"
+        }
+      }) %}
+
+        <div class="hearing-dates-container">
+          <!-- Day 1 -->
+          <div class="hearing-date-item" data-day="1">
+            <h3 class="govuk-heading-s">Day 1</h3>
+            {{ govukDateInput({
+              id: "hearing-date-day-1",
+              namePrefix: "hearingDates[0]",
+              fieldset: {
+                legend: {
+                  text: "Date",
+                  classes: "govuk-visually-hidden"
+                }
+              },
+              hint: {
+                text: "For example, 12 5 2026"
+              },
+              items: [
+                {
+                  name: "day",
+                  classes: "govuk-input--width-2"
+                },
+                {
+                  name: "month",
+                  classes: "govuk-input--width-2"
+                },
+                {
+                  name: "year",
+                  classes: "govuk-input--width-4"
+                }
+              ]
+            }) }}
+          </div>
+        </div>
+
+        {{ govukButton({
+          text: "Add another day",
+          classes: "govuk-button--secondary",
+          attributes: {
+            id: "add-day-button",
+            type: "button"
+          }
+        }) }}
+
+      {% endcall %}
+
+      <br>
+
+      {{ govukButton({
+        text: "Save hearing dates"
+      }) }}
+
+      <p class="govuk-body">
+        <a href="/projects/back-office/manage/examination.html" class="govuk-link">Cancel</a>
+      </p>
+    </form>
+
+  </div>
+</div>
+
+<script src="/public/javascripts/hearing-dates-pattern-a.js"></script>
+
+<style>
+  .hearing-date-item {
+    padding: 20px;
+    border: 1px solid #b1b4b6;
+    margin-bottom: 15px;
+    background-color: #f3f2f1;
+  }
+
+  .hearing-date-item h3 {
+    margin-top: 0;
+  }
+
+  .remove-day-link {
+    font-size: 16px;
+  }
+</style>
+
+{% endblock %}
+
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

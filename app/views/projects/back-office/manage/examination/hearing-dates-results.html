@@ -1,0 +1,122 @@
+{% extends "layouts/back-office.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+{% block pageTitle %}
+  Hearing Dates Results – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/projects/back-office/manage/examination.html"
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">Hearing Dates - Results Summary</h1>
+    
+    <p class="govuk-body">Below is a summary of the hearing dates you entered using each pattern.</p>
+
+    <!-- Pattern A Results -->
+    <div style="margin-bottom: 3rem; padding: 20px; border: 2px solid #0b7d5d; background-color: #f0f4f3;">
+      <h2 class="govuk-heading-m" style="margin-top: 0; color: #0b7d5d;">Pattern A: Individual Non-Consecutive Dates</h2>
+      <div class="govuk-body">
+        {% if data.hearingDatesPatternA %}
+          <strong>Dates entered ({{ data.hearingDatesPatternA.length }} days):</strong>
+          <ul class="govuk-list govuk-list--bullet" style="margin-top: 10px; margin-bottom: 0;">
+            {% for date in data.hearingDatesPatternA %}
+              <li>{{ date }}</li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p><em>No dates entered yet. <a href="/projects/back-office/manage/examination/hearing-dates-pattern-a.html" class="govuk-link">Enter dates for Pattern A</a></em></p>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Pattern B Results -->
+    <div style="margin-bottom: 3rem; padding: 20px; border: 2px solid #d73058; background-color: #fdf5f7;">
+      <h2 class="govuk-heading-m" style="margin-top: 0; color: #d73058;">Pattern B: Consecutive Days Option</h2>
+      <div class="govuk-body">
+        {% if data.hearingDatesPatternB %}
+          <strong>Duration selected:</strong>
+          <p style="margin-top: 10px; margin-bottom: 0;">
+            {{ data.hearingDatesPatternB }}
+          </p>
+        {% else %}
+          <p><em>No dates entered yet. <a href="/projects/back-office/manage/examination/hearing-dates-pattern-b.html" class="govuk-link">Enter dates for Pattern B</a></em></p>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Pattern C Results -->
+    <div style="margin-bottom: 3rem; padding: 20px; border: 2px solid #1d70b8; background-color: #f3f8fd;">
+      <h2 class="govuk-heading-m" style="margin-top: 0; color: #1d70b8;">Pattern C: Date Ranges (Multiple Blocks)</h2>
+      <div class="govuk-body">
+        {% if data.hearingDatesPatternC %}
+          <strong>Blocks entered ({{ data.hearingDatesPatternC.length }} blocks):</strong>
+          <ol class="govuk-list govuk-list--number" style="margin-top: 10px;">
+            {% for block in data.hearingDatesPatternC %}
+              <li>
+                {% if block.startDate === block.endDate %}
+                  {{ block.startDate }}
+                {% else %}
+                  {{ block.startDate }} to {{ block.endDate }}
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ol>
+        {% else %}
+          <p><em>No date blocks entered yet. <a href="/projects/back-office/manage/examination/hearing-dates-pattern-c.html" class="govuk-link">Enter dates for Pattern C</a></em></p>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Edit Actions -->
+    <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #b1b4b6;">
+      <h2 class="govuk-heading-m">Edit Dates</h2>
+      <p class="govuk-body">Choose a pattern to modify its dates:</p>
+      <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+        {{ govukButton({
+          text: "Edit Pattern A",
+          href: "/projects/back-office/manage/examination/hearing-dates-pattern-a.html",
+          classes: "govuk-button--secondary"
+        }) }}
+        {{ govukButton({
+          text: "Edit Pattern B",
+          href: "/projects/back-office/manage/examination/hearing-dates-pattern-b.html",
+          classes: "govuk-button--secondary"
+        }) }}
+        {{ govukButton({
+          text: "Edit Pattern C",
+          href: "/projects/back-office/manage/examination/hearing-dates-pattern-c.html",
+          classes: "govuk-button--secondary"
+        }) }}
+      </div>
+    </div>
+
+    <br>
+
+    {{ govukButton({
+      text: "Return to examination",
+      href: "/projects/back-office/manage/examination.html"
+    }) }}
+
+    {{ govukButton({
+      text: "Clear all data",
+      href: "/projects/back-office/manage/examination/hearing-dates-clear.html",
+      classes: "govuk-button--warning"
+    }) }}
+
+  </div>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}
