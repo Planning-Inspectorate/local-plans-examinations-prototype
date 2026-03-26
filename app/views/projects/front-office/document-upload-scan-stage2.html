@@ -16,17 +16,7 @@
 
 {% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
 
-{% set html %}
-  <h3 class="govuk-notification-banner__heading">
-    The documents have been deleted.
-  </h3>
-  <p class="govuk-body">If the files did not pass the security check, you can try to <a class="govuk-notification-banner__link" href="document-upload"> upload them again.</a></p>
-{% endset %}
 
-{{ govukNotificationBanner({
-  html: html,
-  type: "success"
-}) }}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <span class="govuk-caption-l">Your documents</span>
@@ -34,15 +24,22 @@
   </div>
 </div>
 
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds govuk-body">
+If the files did not upload successfully or you want to change them, first remove them from the list and upload them again.
+  </div>
+</div>
+
+
 <table class="govuk-table govuk-table--small-text-until-tablet">
-  <caption class="govuk-table__caption govuk-table__caption--m">Files uploaded</caption>
+  <caption class="govuk-table__caption govuk-table__caption--m">Uploaded files</caption>
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
       <th scope="col" class="govuk-table__header">File</th>
       <th scope="col" class="govuk-table__header">Type</th>
       <!-- <th scope="col" class="govuk-table__header">Date uploaded</th> -->
       <th scope="col" class="govuk-table__header">Virus check status</th>
-      <th scope="col" class="govuk-table__header">Remove</th>
+      <th scope="col" class="govuk-table__header"> </th>
     </tr>
   </thead>
   <tbody class="govuk-table__body">
@@ -62,7 +59,7 @@
         <p class="govuk-grid-column-full govuk-tag govuk-tag--green"><b>Passed</b></p>
       </td>
       <td class="govuk-table__cell">
-        <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> LocalPlanTimetable1.pdf</span></a>
+        <a class="govuk-link" href="#">Remove<span class="govuk-visually-hidden"> LocalPlanTimetable1.pdf</span></a>
       </td>
     </tr>
 
@@ -80,12 +77,21 @@
         <p class="govuk-grid-column-full govuk-tag govuk-tag--green"><b>Passed</b></p>
       </td>
       <td class="govuk-table__cell">
-        <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> LocalPlanTimetable2.pdf</span></a>
+        <a class="govuk-link" href="#">Remove<span class="govuk-visually-hidden"> LocalPlanTimetable2.pdf</span></a>
       </td>
     </tr>
 
     </tbody>
 </table>
+<div class="govuk-!-padding-top-6 govuk-!-padding-bottom-6"> 
+  <h2 class="govuk-heading-m">You must remove these files</h2>
+  <p class="govuk-body">No files to remove.</p>
+  <p> </p>
+</div>
+
+
+
+
 <form class="form" action="/projects/front-office/document-upload-confirm" method="post">
     
   {% from "govuk/components/button/macro.njk" import govukButton %}

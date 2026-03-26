@@ -18,15 +18,20 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <span class="govuk-caption-l">Your files</span>
+    <span class="govuk-caption-l">Your documents</span>
   <h1 class="govuk-heading-l">Document section</h1>
   </div>
 </div>
 
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds govuk-body">
+If the files did not upload successfully or you want to change them, first remove them from the list and upload them again.
+  </div>
+</div>
 
 
 <table class="govuk-table govuk-table--small-text-until-tablet">
-  <caption class="govuk-table__caption govuk-table__caption--m">Files uploaded</caption>
+  <caption class="govuk-table__caption govuk-table__caption--m">Uploaded files</caption>
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
       <th scope="col" class="govuk-table__header">File</th>
@@ -41,11 +46,11 @@
 
     <tr class="govuk-table__row">
       <th scope="row" class="govuk-table__header">
-        <a class="govuk-link" href="/uploads/ApplicationCoverLetter2.pdf" target="_blank" rel="noopener">
-          ApplicationCoverLetter1.pdf
+        <a class="govuk-link" href="/uploads/LocalPlanTimetable2.pdf" target="_blank" rel="noopener">
+          LocalPlanTimetable1.pdf
         </a>
       </th>
-      <td class="govuk-table__cell">File type</td>
+      <td class="govuk-table__cell">Local Plan Timetable</td>
       <!-- <td class="govuk-table__cell">5(2)(b)</td>
       <td class="govuk-table__cell">Certified</td> -->
       <!-- <td class="govuk-table__cell">13/10/2025 11:30</td> -->
@@ -53,37 +58,37 @@
         <p class="govuk-grid-column-full govuk-tag govuk-tag--green"><b>Passed</b></p>
       </td>
       <td class="govuk-table__cell">
-        <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> ApplicationCoverLetter1.pdf</span></a>
+        <a class="govuk-link" href="#">Remove<span class="govuk-visually-hidden"> LocalPlanTimetable1.pdf</span></a>
       </td>
     </tr>
 
     <tr class="govuk-table__row">
       <th scope="row" class="govuk-table__header">
-        <a class="govuk-link" href="/uploads/ApplicationCoverLetter1.pdf" target="_blank" rel="noopener">
-          ApplicationCoverLetter2.pdf
+        <a class="govuk-link" href="/uploads/LocalPlanTimetable2.pdf" target="_blank" rel="noopener">
+          LocalPlanTimetable2.pdf
         </a>
       </th>
-
-      <td class="govuk-table__cell">File type</td>
-      <!-- <td class="govuk-table__cell">5(2)(b)</td> -->
-      <!-- <td class="govuk-table__cell">Certified</td> -->
-      <td class="govuk-table__cell">
-        <strong class="govuk-tag govuk-tag--yellow">Scanning for viruses</strong>
-      </td>
+      <td class="govuk-table__cell">Local Plan Timetable</td>
+      <!-- <td class="govuk-table__cell">5(2)(b)</td>
+      <td class="govuk-table__cell">Certified</td> -->
       <!-- <td class="govuk-table__cell">13/10/2025 11:30</td> -->
-      <!-- <td class="govuk-table__cell">
-        <strong class="govuk-tag govuk-tag--yellow"><b>Scanning for viruses</b></strong>
-      </td> -->
       <td class="govuk-table__cell">
-       <span class="govuk-visually-hidden"> ApplicationCoverLetter2.pdf</span>
+        <p class="govuk-grid-column-full govuk-tag govuk-tag--green"><b>Passed</b></p>
+      </td>
+      <td class="govuk-table__cell">
+        <a class="govuk-link" href="#">Remove<span class="govuk-visually-hidden"> LocalPlanTimetable2.pdf</span></a>
       </td>
     </tr>
 
     </tbody>
 </table>
+<div class="govuk-!-padding-top-6 govuk-!-padding-bottom-6"> 
+
+  <h2 class="govuk-heading-m">You must remove these files</h2>
+  <p class="govuk-body">These files have not been uploaded successfully and must be removed.</p>
+
 
 <table class="govuk-table govuk-table--small-text-until-tablet">
-  <caption class="govuk-table__caption govuk-table__caption--m">You must remove these files</caption>
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
       <th scope="col" class="govuk-table__header">File</th>
@@ -115,10 +120,7 @@
     </tbody>
     </table>
 
-
-  </tbody>
-</table>
-
+  </div>
 <!-- {% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
 
 

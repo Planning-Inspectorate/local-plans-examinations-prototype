@@ -25,20 +25,6 @@
       <form class="form" action="/projects/front-office/document-upload-confirm" method="get">
 
 
-{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
-
-{{ govukTextarea({
-  name: "moreDetail",
-  id: "more-detail",
-  label: {
-    text: "Enter the document summary",
-    classes: "govuk-label--m",
-    isPageHeading: false
-  },
-  hint: {
-    text: "Please give a description of the document and add any information which you think may be relevant to the application."
-  }
-}) }}
       <button type="submit" class="govuk-button" data-module="govuk-button">
         Continue
       </button>
