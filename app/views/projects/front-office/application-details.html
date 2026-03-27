@@ -26,7 +26,7 @@
 {# Size modifiers: xl, l, m #}
 <hr
 	class="govuk-section-break govuk-section-break--l govuk-section-break--visible" />
-<! -- // Main content -->
+<!-- Main content -->
 <div class="govuk-grid-row">
 	<div>
 		<!-- <h2 class="govuk-heading-m">Tasks</h2> -->
@@ -43,20 +43,57 @@
 						These documents describe how the local plan will be prepared
 						and assessed.
 					</p>
-					{{ govukTaskList({ idPrefix: "application-documents", items: [ {
-					title: { text: "Gateway 2 covering letter" }, href:
-					"document-category", status: { text: "Completed" } }, { title: {
-					text: "Local plan timetable" }, href:
-					"/projects/front-office/document-upload?category=Local%20plan%20timetable",
-					status: { tag: { text: "Incomplete", classes: "govuk-tag--blue" }
-					} }, { title: { text: "Project initiation document" }, hint: {
-					text: "Do we need information about each document here?" }, href:
-					"#", status: { tag: { text: "Incomplete", classes:
-					"govuk-tag--blue" } } }, { title: { text: "Draft statement of
-					compliance" }, href: "#", status: { tag: { text: "Incomplete",
-					classes: "govuk-tag--blue" } } }, { title: { text: "Draft
-					statement of soundness" }, href: "#", status: { tag: { text:
-					"Incomplete", classes: "govuk-tag--blue" } } } ] }) }}
+					{{ govukTaskList({ 
+						idPrefix: "application-documents", 
+						items: [ 
+							{
+							title: { text: "Gateway 2 covering letter" }, 
+							href: "document-category", 
+							status: { text: "Completed" } 
+							}, 
+							{ 
+							title: { text: "Local plan timetable" }, 
+							href: "/projects/front-office/document-upload?category=Local%20plan%20timetable",
+							status: { 
+								tag: { 
+									text: "Incomplete", 
+									classes: "govuk-tag--blue" 
+								}
+							} 
+							}, 
+							{ 
+								title: { text: "Project initiation document" }, 
+									hint: { text: "Do we need information about each document here?" }, 
+									href: "#", 
+									status: { 
+										tag: { 
+											text: "Incomplete", 
+										classes: "govuk-tag--blue" 
+											} 
+										} 
+									}, 
+							{ 
+								title: { text: "Draft statement of compliance" }, 
+									href: "#", 
+									status: { 
+										tag: { 
+											text: "Incomplete",
+											classes: "govuk-tag--blue" 
+										} 
+								} 
+							}, 
+							{ title: { text: "Draft statement of soundness" }, 
+							href: "#", 
+							status: { 
+								tag: { 
+									text:
+									"Incomplete", classes: "govuk-tag--blue" 
+								} 
+							} 
+						} 
+						] 
+					}) 
+					}}
 
 					<div class="govuk-!-margin-top-4">&nbsp;</div>
 					<h3 class="govuk-heading-m">Consultation documents</h3>
@@ -64,31 +101,105 @@
 						These documents show how consultation has been carried out and
 						what feedback was received.
 					</p>
-					{{ govukTaskList({ idPrefix: "application-documents", items: [ {
-					title: { text: "Consultation statement" }, href: "#", status: {
-					tag: { text: "Incomplete", classes: "govuk-tag--blue" } } }, {
-					title: { text: "Consultation summary for scoping consultation" },
-					href: "#", status: { tag: { text: "Incomplete", classes:
-					"govuk-tag--blue" } } }, { title: { text: "Consultation summary
-					for proposed local plan content and evidence documents" }, href:
-					"#", status: { tag: { text: "Incomplete", classes:
-					"govuk-tag--blue" } } } ] }) }} {{ govukTaskList({ idPrefix:
-					"application-documents", items: [ { title: { text: "Notice of
-					intention to commence local plan preparation" }, href: "#",
-					status: { text: "Completed" } }, { title: { text: "Scoping
-					consultation documents" }, href: "#", status: { tag: { text:
-					"Incomplete", classes: "govuk-tag--blue" } } }, { title: { text:
-					"Consultation summary of feedback to scoping consultation" },
-					hint: { text: "Do we need information about each document here?"
-					}, href: "#", status: { tag: { text: "Incomplete", classes:
-					"govuk-tag--blue" } } }, { title: { text: "Gateway 1 – Self
-					assessment of readiness" }, href: "#", status: { tag: { text:
-					"Incomplete", classes: "govuk-tag--blue" } } }, { title: { text:
-					"Consultation on proposed local plan content and evidence
-					documents" }, href: "#", status: { tag: { text: "Incomplete",
-					classes: "govuk-tag--blue" } } }, { title: { text: "Consultation
-					summary for the above" }, href: "#", status: { tag: { text:
-					"Incomplete", classes: "govuk-tag--blue" } } } ] }) }}
+					
+						{{
+						  govukTaskList ({
+							idPrefix: "application-documents",
+							items: [
+							  {
+								title: { text: "Consultation statement" },
+								href: "#",
+								status: {
+								  tag: { 
+									text: "Incomplete", classes: "govuk-tag--blue" 
+									}
+								}
+							},
+							  {
+								title: { text: "Consultation summary for scoping consultation" },
+								href: "#",
+								status: { 
+									tag: { 
+										text: "Incomplete", classes: "govuk-tag--blue" 
+									} 
+								}
+							  },
+							  {
+								title: { 
+									text: "Consultation summary for proposed local plan content and evidence  documents" },
+								href: "#",
+								status: { 
+									tag: { 
+										text: "Incomplete", classes: "govuk-tag--blue" 
+									} 
+								}
+							  },
+							  {
+								title: {
+								  text: "Notice of intention to commence local plan preparation"
+								},
+								href: "#",
+								status: { 
+									tag: { 
+										text: "Incomplete", classes: "govuk-tag--blue" 
+									} 
+								}
+							  },
+							  {
+								title: { text: "Scoping consultation documents" },
+								href: "#",
+								status: { 
+									tag: { 
+										text: "Incomplete", classes: "govuk-tag--blue" 
+									} 
+								}
+							  },
+							  {
+								title: {
+								  text: "Consultation summary of feedback to scoping consultation"
+								},
+								hint: { text: "Do we need information about each document here?" },
+								href: "#",
+								status: { 
+									tag: { 
+										text: "Incomplete", classes: "govuk-tag--blue" 
+									} 
+								}
+							  },
+							  {
+								title: { text: "Gateway 1 – Self assessment of readiness" },
+								href: "#",
+								status: { 
+									tag: { 
+										text: "Incomplete", classes: "govuk-tag--blue" 
+									} 
+								}
+							  },
+							  {
+								title: {
+								  text: "Consultation on proposed local plan content and evidence documents"
+								},
+								href: "#",
+								status: { 
+									tag: { 
+										text: "Incomplete", classes: "govuk-tag--blue" 
+									} 
+								}
+							  },
+							  {
+								title: { text: "Consultation summary for the above" },
+								href: "#",
+								status: { 
+									tag: { 
+										text: "Incomplete", classes: "govuk-tag--blue" 
+									} 
+								}
+							  }
+							]
+						  })
+						}}
+					  
+					  
 				</div>
 				
 			</div>
