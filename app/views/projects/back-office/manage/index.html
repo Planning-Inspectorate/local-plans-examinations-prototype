@@ -287,7 +287,7 @@ Plan overview – {{ serviceName }}
           </dd>
         </div>
         </dl>
-        {% if gateway2AssessorName and gateway2AssessorName != '-' %}
+        <dl class="govuk-summary-list govuk-summary-list-timetable">
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Assessor Gateway 2</dt>
           <dd class="govuk-summary-list__value">{{ gateway2AssessorName }}</dd>
@@ -296,8 +296,6 @@ Plan overview – {{ serviceName }}
           </dd>
       
         </div>
-        {% endif %}
-       {% if gateway3AssessorName and gateway3AssessorName != '-' %}
        <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Assessor Gateway 3</dt>
           <dd class="govuk-summary-list__value">
@@ -311,8 +309,7 @@ Plan overview – {{ serviceName }}
             </ul>
           </dd>
        </div>
-       {% endif %}
-        <dl class="govuk-summary-list govuk-summary-list-timetable">
+
 
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Examining Inspector 1</dt>

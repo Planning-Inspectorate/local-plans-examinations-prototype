@@ -19,7 +19,7 @@
 			<form class="form" method="post" action="/projects/back-office/manage/examination/QA-inspector-2">
 				<input type="hidden" name="isEdit" value="{{ isEdit }}">
 				<input type="hidden" name="returnUrl" value="{{ returnUrl }}">
-				<div class="govuk-form-group">				<label class="govuk-label" for="qa-assessor-name">Inspector name</label>					<input class="govuk-input govuk-!-width-two-thirds" id="qa-assessor-name" name="qa-assessor-name" type="text" value="{{ qaAssessorName }}">
+				<div class="govuk-form-group">					<input class="govuk-input govuk-!-width-two-thirds" id="qa-assessor-name" name="qa-assessor-name" type="text" value="{{ qaAssessorName }}">
 				</div>
 				<button class="govuk-button govuk-!-margin-right-2" data-module="govuk-button" type="submit">Save and continue</button>
 				<a href="{{ returnUrl or '/projects/back-office/manage/examination.html' }}" class="govuk-button govuk-button--secondary govuk-!-margin-right-2" role="button">Cancel</a>
