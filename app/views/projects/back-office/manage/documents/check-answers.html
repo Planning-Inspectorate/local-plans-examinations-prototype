@@ -18,9 +18,7 @@
   <div class="govuk-grid-column-two-thirds">
 
     <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
-    <h1 class="govuk-heading-l">Check your answers</h1>
-
-    <h2 class="govuk-heading-m">Uploaded documents</h2>
+    <h1 class="govuk-heading-l">Check your documents</h1>
 
     {% if uploadedDocuments.length > 0 %}
       <div class="govuk-summary-list">
@@ -29,7 +27,7 @@
             <dt class="govuk-summary-list__key">
               {{ doc.originalname }}
             </dt>
-            <dd class="govuk-summary-list__value">
+            <!--<dd class="govuk-summary-list__value">
               {% if doc.size < 1024 %}
                 {{ doc.size }} bytes
               {% elif doc.size < 1048576 %}
@@ -37,7 +35,7 @@
               {% else %}
                 {{ (doc.size / 1048576).toFixed(2) }} MB
               {% endif %}
-            </dd>
+            </dd>-->
             <dd class="govuk-summary-list__actions">
               <a class="govuk-link" href="/projects/back-office/manage/documents/upload-bo">
                 Remove<span class="govuk-visually-hidden"> {{ doc.originalname }}</span>

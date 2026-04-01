@@ -1,8 +1,33 @@
+{% include "includes/PINS-header--internal.html" %}
 
-{% block header %}
-  {% include "includes/PINS-header--internal.html" %}
-
-
+<section aria-label="Service information" class="govuk-service-navigation" data-module="govuk-service-navigation">
+  <div class="govuk-width-container">
+    <div class="govuk-service-navigation__container">
+      <span class="govuk-service-navigation__service-name">
+        <a href="/projects/front-office/index.html" class="govuk-service-navigation__link">Local Plans Portal</a>
+      </span>
+      <nav aria-label="Menu" class="govuk-service-navigation__wrapper">
+        <ul class="govuk-service-navigation__list" id="navigation">
+          <li class="govuk-service-navigation__item">
+            <a class="govuk-service-navigation__link" href="/projects/front-office/application-details">
+              Application details
+            </a>
+          </li>
+          <li class="govuk-service-navigation__item">
+            <a class="govuk-service-navigation__link" href="/projects/front-office/account-settings">
+              Account settings
+            </a>
+          </li>
+          <li class="govuk-service-navigation__item">
+            <a class="govuk-service-navigation__link" href="#">
+              Manage users
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</section> 
 <div class="govuk-phase-banner govuk-width-container">
   <p class="govuk-phase-banner__content">
     <strong class="govuk-tag govuk-phase-banner__content__tag">
@@ -13,30 +38,3 @@
     </span>
   </p>
 </div>
-{% endblock %}
-
-
-
-{{ govukServiceNavigation({
-  classes: "govuk-grid-column-full",
-  navigation: [
-    {
-      href: "application-details",
-      text: "Application details",
-      active: true
-    },  
-    {
-      href: "account-settings",
-      text: "Acccount settings"
-    },
-    {
-      href: "manage-users",
-      text: "Manage users"
-    },
-    {
-      href: "#",
-      text: "Help and guidance"
-    }
-    
-  ]
-}) }}

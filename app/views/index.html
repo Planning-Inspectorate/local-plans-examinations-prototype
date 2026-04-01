@@ -2,231 +2,42 @@
 
 {% set pageName="Prototypes" %}
 
+{% block header %}
+  {% include "includes/PINS-header--internal.html" %}
+  
+<section aria-label="Service information" class="govuk-service-navigation" data-module="govuk-service-navigation">
+  <div class="govuk-width-container">
+    <div class="govuk-service-navigation__container">
+      <span class="govuk-service-navigation__service-name">
+        <a href="/" class="govuk-service-navigation__link">Local plans prototypes</a>
+      </span>
+      <nav aria-label="Menu" class="govuk-service-navigation__wrapper">
+        <ul class="govuk-service-navigation__list" id="navigation">
+          <li class="govuk-service-navigation__item">
+            <a class="govuk-service-navigation__link" href="/back-office.html">
+              Back office
+            </a>
+          </li>
+          <li class="govuk-service-navigation__item">
+            <a class="govuk-service-navigation__link" href="/front-office.html">
+              Front office
+            </a>
+          </li>
+          <li class="govuk-service-navigation__item">
+            <a class="govuk-service-navigation__link" href="resources.html">
+              Resources
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
 {% block content %}
 <div class="govuk-width-container">
   <h1 class="govuk-heading-l">{{ pageName }}</h1>
-  <div class="govuk-tabs" data-module="govuk-tabs">
-    <h2 class="govuk-tabs__title">
-      Contents
-    </h2>
-    <ul class="govuk-tabs__list">
-    <li class="govuk-tabs__list-item govuk-tabs__list-item govuk-tabs__list-item--selected">
-        <a class="govuk-tabs__tab" href="#back-office">
-          Back Office
-        </a>
-      </li>
-      <li class="govuk-tabs__list-item">
-        <a class="govuk-tabs__tab" href="#front-office">
-          Front Office
-        </a>
-      </li>
-      <!---
-       <li class="govuk-tabs__list-item">
-        <a class="govuk-tabs__tab" href="#reps">
-          Representations
-        </a>
-      </li>--->
-      
-      
-      <li class="govuk-tabs__list-item">
-        <a class="govuk-tabs__tab" href="#archive">
-          Archive
-        </a>
-      </li>
-      <li class="govuk-tabs__list-item">
-        <a class="govuk-tabs__tab" href="#resources">
-          Resources
-        </a>
-      </li>
-    </ul>
-
-<!--
-     <div class="govuk-tabs__panel" id="reps">
-      <ul>
-        <li><a href="/projects/local-plan-representations/start.html">Comment on a Local Plan landing page</a></li>
-        <li><a href="/projects/local-plan-representations/who-are-you-representing.html">Who are you making the submission for?</a></li>
-        <br>
-        <p>
-        Representation for myself
-        </p>
-        <li><a href="/projects/local-plan-representations/agent">Are you acting as an agent on behalf of a client?</a></li>
-        <li><a href="/projects/local-plan-representations/name.html">What is your name?</a> </li>
-        <li><a href="/projects/local-plan-representations/email-address.html">What is you email address?</a> </li>
-        <li><a href="/projects/local-plan-representations/address.html">What is your address?</a> </li>
-        <br>
-        <p>
-        Representation for another person
-        </p>
-        <li><a href="/projects/local-plan-representations/agent-person.html">Are you acting as an agent on behalf of a client?</a> </li>
-        <li><a href="/projects/local-plan-representations/name-of-organisation-another-person.html" >What is the name of the organisation you work for?</a> </li>
-        <li><a href="/projects/local-plan-representations/email-rep-person.html">What is your email address?</a> </li>
-        <li><a href="/projects/local-plan-representations/email-rep-not-agent-person.html">What is your email address (not agent)</a></li>
-        <li><a href="/projects/local-plan-representations/person-representing.html">What is the name of the person you are representing?</a> </li>
-        <br>
-        <p>
-        Representation for a client
-        </p>
-        <li><a href="/projects/local-plan-representations/agent.html">Are you acting as an agent on behalf of a client?</a> </li>
-        <li><a href="/projects/local-plan-representations/name-of-organisation.html" >What is the name of the organisation you work for?</a> </li>
-        <li><a href="/projects/local-plan-representations/email-rep-organisation.html">What is your email address?</a> </li>
-        <li><a href="/projects/local-plan-representations/email-rep-not-agent-organisation.html">What is your email address (not agent)</a></li>
-        <li><a href="/projects/local-plan-representations/organisation-representing.html">What is the full name of the organisation or charity that you are representing?</a> </li>
-        <br>
-        <p>
-        Representation comments 
-        </p>
-          <li><a href="/projects/local-plan-representations/part-of-plan.html">What part of the plan are you commenting on?</a> </li>
-          <li><a href="/projects/local-plan-representations/soundness.html">Do you consider the Local Plan to be sound?</a> </li>
-          <li><a href="/projects/local-plan-representations/legally-compliant.html">Do you consider the Local Plan to be legally compliant?</a> </li>
-          <li><a href="/projects/local-plan-representations/duty-to-cooperate.html">Do you consider the Local Plan complies with Duty to Co-operate?</a> </li>
-          <li><a href="/projects/local-plan-representations/add-your-comment.html">What do you want to say about this Local Plan?</a> </li>
-          <li><a href="/projects/local-plan-representations/upload-files-to-support-comment.html">Do you want to include any supporting documents with your comment?</a> </li>
-          <li><a href="/projects/document-category/upload-documents.html">Upload documents</a> </li>
-       </ul>
-     </div>
-    -->
-    <div class="govuk-tabs__panel" id="back-office">
-      <p>Create a case:</p>
-      <ul>
-        <li><a href="/projects/back-office/create-case/index">Create a case v1 (tested Jan 26)</a></li>
-      </ul>
-      <ul>
-        <li><a href="/projects/back-office/create-case-v2/index">Create a case v2</a></li>
-        <ul>
-          <li><a href="/projects/back-office/create-case-v2/0-case-officer-name">Case officer name</a></li>
-          <li><a href="/projects/back-office/create-case-v2/1-plan-title">Plan title</a></li>
-          <li><a href="/projects/back-office/create-case-v2/2-plan-type">Plan type</a></li>
-          <li><a href="/projects/back-office/create-case-v2/3-select-LPA">Select LPA(s)</a></li>
-          <li><a href="/projects/back-office/create-case-v2/add-additional-lpa">Add another LPA</a></li>
-          <li><a href="/projects/back-office/create-case-v2/main-contact">Add main contact</a></li>
-          <li><a href="/projects/back-office/create-case-v2/additional-contact">Add additional contact</a></li>
-          <li><a href="/projects/back-office/create-case-v2/check-contact-details">Check contact details</a></li>
-          <li><a href="/projects/back-office/create-case-v2/additional-contact?edit=0&from=check-contact-details">Edit contact details</a></li>
-          <li><a href="/projects/back-office/create-case-v2/remove-contact-details-page?edit=0">Remove contact details</a></li>
-          <li><a href="/projects/back-office/create-case-v2/main-contact?edit=true">Edit main contact details</a></li>
-          <li><a href="/projects/back-office/create-case-v2/remove-contact-details-page?type=main">Remove main contact details</a></li>
-          <li><a href="/projects/back-office/create-case-v2/enter-key-dates">Enter key dates</a></li>
-          <li><a href="/projects/back-office/create-case-v2/check-answers">Check answers</a></li>
-          <li><a href="/projects/back-office/create-case-v2/1-plan-title?edit=true">Change plan title</a></li> 
-          <li><a href="/projects/back-office/create-case-v2/2-plan-type?edit=true">Change plan type</a></li>
-          <li><a href="/projects/back-office/create-case-v2/3-select-LPA?edit=true&index=0">Change LPA</a></li>
-          <li><a href="/projects/back-office/create-case-v2/LPA-region">Change region for LPA</a></li>
-          <li><a href="/projects/back-office/create-case-v2/0-case-officer-name?edit=true">Change case officer</a></li>
-          <li><a href="/projects/back-office/create-case-v2/enter-key-dates?edit=true">Change key dates</a></li>
-          <li><a href="/projects/back-office/create-case-v2/confirmation">Creation confirmation</a></li>
-          </ul>
-          <p></p>
-          <li><a href="/projects/back-office/create-case-v2/index">All cases</a></li>
-          <li><a href="/projects/back-office/create-case-v2/index-assigned">Cases assigned to me</a></li>
-      </ul>
-      </ul>
-        
-      <p>Manage a case:</p>
-      <ul>
-        <li><a href="/projects/back-office/manage/index-side.html">Manage a case - side nav</a></li>
-          
-        </li>
-        <p></p>
-        <li><a href="/projects/back-office/manage/index.html">Manage a case - top nav</a></li>
-        <ul>
-          <li><a href="/projects/back-office/manage/timetable.html">Timetable</a></li>
-          <li><a href="/projects/back-office/manage/gateway-1.html">Gateway 1</a></li>
-          <li><a href="/projects/back-office/manage/gateway-2.html">Gateway 2</a></li>
-          <li><a href="/projects/back-office/manage/gateway-3.html">Gateway 3</a></li>
-          <li><a href="/projects/back-office/manage/examination.html">Examination</a></li>
-          <li><a href="/projects/back-office/manage/documents.html">Documents</a></li>
-          <li><a href="/projects/back-office/manage/updates.html">Updates</a></li>
-        </ul>
-      </ul>
-    </div>
-        
-    
-    <div class="govuk-tabs__panel" id="front-office">
-      <h1 class="govuk-heading-m">
-      Accessing the service:
-    </h1>
-
-    <!-- {% include "govuk-prototype-kit/includes/homepage-bottom.njk" %} -->
-    <p>
-    <a href="/projects/front-office/login-email">Sign in</a> - full journey starts here <br>
-    <a href="/projects/front-office/login-code">Do you have an application reference number</a> <br>
-    <a href="/projects/front-office/login-otp">OTP</a> <br>
-    <a href="/projects/front-office/login-email">Email</a> <br>
-    <a href="/projects/front-office/login-request-new-code">Request a new code</a> <br>
-</p>
-
-       
-    <h1 class="govuk-heading-m">
-      Application details:
-    </h1>
-    <p>
-      <a href="/projects/front-office/application-details">Application details</a> <br>
-      <a href="/projects/front-office/document-category">Document category homepage empty</a> <br>
-
-    </p>
-
-    <h2 class="govuk-heading-m">
-      Document upload:
-    </h2>
-
-    <p>
-      <a href="/projects/front-office/document-upload">Upload documents</a> <br>
-      <a href="/projects/front-office/document-scan">Security scan</a> <br>
-      <a href="/projects/front-office/document-scan-stage2">Security scan fail</a> <br>
-      <a href="/projects/front-office/document-summary">Document summary</a> <br>
-      <a href="/projects/front-office/document-upload-confirm">Document confirm</a> <br>
-      <a href="/projects/front-office/document-section-complete.html">Section complete</a> <br>
-    </p>
-<!--
-    <h1 class="govuk-heading-m">
-      Application form:
-    </h1>
-    <p>
-      <a href="/application-form/01a-organisation.html">Applicant organisation</a> <br>
-      <a href="/application-form/01b-contact-name.html">Applicant contact name</a> <br>
-    </p>
-
-    <h1 class="govuk-heading-m">
-      Archived
-    </h1>
-    <p>
-      <a href="/reference-number.html">Enter reference number</a> <br>
-      <a href="/email-address.html">Enter email address</a> <br>
-      <a href="/application-reference.html">Enter application reference</a> <br>
-      <a href="/document-category/apfp-v1.html">APFP Regulation (Version 1)</a> <br>
-      <a href="/sign-in-v1.html">Sign in (Version 1)</a> <br>
-      <a href="/sign-in-v2.html">Sign in (Version 2)</a> <br>
-      <a href="/sign-in-v3.html">Sign in (Version 3)</a> <br>
-      <a href="/sign-in-v4.html">Sign in (Version 4)</a> <br>
-    </p>-->
-  </div>
-    <div class="govuk-tabs__panel" id="archive">
-      <p>Add links here for archived prototypes
-      </p>
-      
   
-    </div>
-    <div class="govuk-tabs__panel" id="resources">
-      <p>Prototypes</p>
-      <ul>
-        <li><a href="https://pins-app-prototype-appeals-front-office.azurewebsites.net">Appeals Front Office prototype</a></li>
-        <li><a href="https://pins-app-prototype-appeals-back-office.azurewebsites.net">Appeals Back Office prototype</a></li>
-        <li><a href="https://pins-app-prototype-local-plans-front-office.azurewebsites.net">Applications back office prototype</a></li>
-        <li><a href="https://pins-app-prototype-crown-dev.azurewebsites.net">Crown Development prototype</a></li>
-        <li><a href="https://pins-app-prototype-applications-dco-portal.azurewebsites.net">DCO portal prototype</a></li>
-      </ul>
-      <p>Training sites</p>
-      <ul>
-        <li><a href="https://applications-service-training.planninginspectorate.gov.uk/">Applications Front Office training site</a></li>
-        <li><a href="https://back-office-training.planninginspectorate.gov.uk/applications-service/case/100000093/project-documentation">Applications Back Office training site</a></li>
-        <li><a href="https://pins-training-appeals-front-office.azurewebsites.net">Appeals Front Office training site</a></li>
-      </ul>
-      <p>User research</p>
-      <ul>
-        <li><a href="https://pins-ds.atlassian.net/wiki/spaces/LO/folder/2424700939?atlOrigin=eyJpIjoiZmUzZjg1ODBlMmI1NDdiM2EyYTM3MWYwYWFlZjMxYTMiLCJwIjoiYyJ9">Local Plans - User research</a></li>
-        <li><a href="https://pins-ds.atlassian.net/wiki/spaces/AS2/pages/1223655425/Applications+User+Research">Applications - User research</a></li>
-      </ul>
-    </div>
-  </div>
-</div>
+      
 {% endblock %}

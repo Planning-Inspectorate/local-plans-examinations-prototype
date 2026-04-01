@@ -1,0 +1,64 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName="Resources" %}
+
+{% block header %}
+  {% include "includes/PINS-header--internal.html" %}
+  
+<section aria-label="Service information" class="govuk-service-navigation" data-module="govuk-service-navigation">
+  <div class="govuk-width-container">
+    <div class="govuk-service-navigation__container">
+      <span class="govuk-service-navigation__service-name">
+        <a href="/" class="govuk-service-navigation__link">Local plans prototypes</a>
+      </span>
+      <nav aria-label="Menu" class="govuk-service-navigation__wrapper">
+        <ul class="govuk-service-navigation__list" id="navigation">
+          <li class="govuk-service-navigation__item">
+            <a class="govuk-service-navigation__link" href="/back-office.html">
+              Back office
+            </a>
+          </li>
+          <li class="govuk-service-navigation__item">
+            <a class="govuk-service-navigation__link" href="/front-office.html">
+              Front office
+            </a>
+          </li>
+          <li class="govuk-service-navigation__item">
+            <a class="govuk-service-navigation__link" href="/resources.html">
+              Resources
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-width-container">
+  <h1 class="govuk-heading-l">{{ pageName }}</h1>
+      
+      <h2 class="govuk-heading-m">Prototypes:</h2>
+      <ul>
+        <li><a href="https://pins-app-prototype-appeals-front-office.azurewebsites.net">Appeals Front Office prototype</a></li>
+        <li><a href="https://pins-app-prototype-appeals-back-office.azurewebsites.net">Appeals Back Office prototype</a></li>
+        <li><a href="https://pins-app-prototype-local-plans-front-office.azurewebsites.net">Applications back office prototype</a></li>
+        <li><a href="https://pins-app-prototype-crown-dev.azurewebsites.net">Crown Development prototype</a></li>
+        <li><a href="https://pins-app-prototype-applications-dco-portal.azurewebsites.net">DCO portal prototype</a></li>
+      </ul>
+      <h2 class="govuk-heading-m">Training sites:</h2>
+      <ul>
+        <li><a href="https://applications-service-training.planninginspectorate.gov.uk/">Applications Front Office training site</a></li>
+        <li><a href="https://back-office-training.planninginspectorate.gov.uk/applications-service/case/100000093/project-documentation">Applications Back Office training site</a></li>
+        <li><a href="https://pins-training-appeals-front-office.azurewebsites.net">Appeals Front Office training site</a></li>
+      </ul>
+      <h2 class="govuk-heading-m">User research:</h2>
+      <ul>
+        <li><a href="https://pins-ds.atlassian.net/wiki/spaces/LO/folder/2424700939?atlOrigin=eyJpIjoiZmUzZjg1ODBlMmI1NDdiM2EyYTM3MWYwYWFlZjMxYTMiLCJwIjoiYyJ9">Local Plans - User research</a></li>
+        <li><a href="https://pins-ds.atlassian.net/wiki/spaces/AS2/pages/1223655425/Applications+User+Research">Applications - User research</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}

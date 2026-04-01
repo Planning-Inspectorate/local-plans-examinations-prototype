@@ -1,0 +1,92 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName="Back office" %}
+
+{% block header %}
+  {% include "includes/PINS-header--internal.html" %}
+  
+<section aria-label="Service information" class="govuk-service-navigation" data-module="govuk-service-navigation">
+  <div class="govuk-width-container">
+    <div class="govuk-service-navigation__container">
+      <span class="govuk-service-navigation__service-name">
+        <a href="/" class="govuk-service-navigation__link">Local plans prototypes</a>
+      </span>
+      <nav aria-label="Menu" class="govuk-service-navigation__wrapper">
+        <ul class="govuk-service-navigation__list" id="navigation">
+          <li class="govuk-service-navigation__item">
+            <a class="govuk-service-navigation__link" href="/back-office.html">
+              Back office
+            </a>
+          </li>
+          <li class="govuk-service-navigation__item">
+            <a class="govuk-service-navigation__link" href="/front-office.html">
+              Front office
+            </a>
+          </li>
+          <li class="govuk-service-navigation__item">
+            <a class="govuk-service-navigation__link" href="/resources.html">
+              Resources
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-width-container">
+  <h1 class="govuk-heading-l">{{ pageName }}</h1>
+  
+
+<h2 class="govuk-heading-m">Create a case:</h2>
+      <p>
+      <a href="/projects/back-office/create-case/index">Create a case v1 (tested Jan 26)</a><br><br>
+      <a href="/projects/back-office/create-case-v2/index">Create a case v2</a>
+        <ul>
+          <li><a href="/projects/back-office/create-case-v2/0-case-officer-name">Case officer name</a></li>
+          <li><a href="/projects/back-office/create-case-v2/1-plan-title">Plan title</a></li>
+          <li><a href="/projects/back-office/create-case-v2/2-plan-type">Plan type</a></li>
+          <li><a href="/projects/back-office/create-case-v2/3-select-LPA">Select LPA(s)</a></li>
+          <li><a href="/projects/back-office/create-case-v2/add-additional-lpa">Add another LPA</a></li>
+          <li><a href="/projects/back-office/create-case-v2/main-contact">Add main contact</a></li>
+          <li><a href="/projects/back-office/create-case-v2/additional-contact">Add additional contact</a></li>
+          <li><a href="/projects/back-office/create-case-v2/check-contact-details">Check contact details</a></li>
+          <li><a href="/projects/back-office/create-case-v2/additional-contact?edit=0&from=check-contact-details">Edit contact details</a></li>
+          <li><a href="/projects/back-office/create-case-v2/remove-contact-details-page?edit=0">Remove contact details</a></li>
+          <li><a href="/projects/back-office/create-case-v2/main-contact?edit=true">Edit main contact details</a></li>
+          <li><a href="/projects/back-office/create-case-v2/remove-contact-details-page?type=main">Remove main contact details</a></li>
+          <li><a href="/projects/back-office/create-case-v2/enter-key-dates">Enter key dates</a></li>
+          <li><a href="/projects/back-office/create-case-v2/check-answers">Check answers</a></li>
+          <li><a href="/projects/back-office/create-case-v2/1-plan-title?edit=true">Change plan title</a></li> 
+          <li><a href="/projects/back-office/create-case-v2/2-plan-type?edit=true">Change plan type</a></li>
+          <li><a href="/projects/back-office/create-case-v2/3-select-LPA?edit=true&index=0">Change LPA</a></li>
+          <li><a href="/projects/back-office/create-case-v2/LPA-region">Change region for LPA</a></li>
+          <li><a href="/projects/back-office/create-case-v2/0-case-officer-name?edit=true">Change case officer</a></li>
+          <li><a href="/projects/back-office/create-case-v2/enter-key-dates?edit=true">Change key dates</a></li>
+          <li><a href="/projects/back-office/create-case-v2/confirmation">Creation confirmation</a></li>
+          </ul>
+      </ul>
+      </p>
+      <h2 class="govuk-heading-m">Manage a case:</h2>
+     <p>
+         <a href="/projects/back-office/create-case-v2/index">All cases</a><br>
+          <a href="/projects/back-office/create-case-v2/index-assigned">Cases assigned to me</a><br>
+        <a href="/projects/back-office/manage/index-side.html">Manage a case - side nav</a><br>  
+       <a href="/projects/back-office/manage/index.html">Manage a case - top nav</a><br>
+        <ul>
+          <li><a href="/projects/back-office/manage/timetable.html">Timetable</a></li>
+          <li><a href="/projects/back-office/manage/gateway-1.html">Gateway 1</a></li>
+          <li><a href="/projects/back-office/manage/gateway-2.html">Gateway 2</a></li>
+          <li><a href="/projects/back-office/manage/gateway-3.html">Gateway 3</a></li>
+          <li><a href="/projects/back-office/manage/examination.html">Examination</a></li>
+          <li><a href="/projects/back-office/manage/documents.html">Documents</a></li>
+          <li><a href="/projects/back-office/manage/updates.html">Updates</a></li>
+        </ul>
+      </p>
+    
+        
+    
+   
+{% endblock %}

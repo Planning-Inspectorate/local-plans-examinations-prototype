@@ -13,28 +13,8 @@
 {% block beforeContent %}
 {% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
 
-{{ govukServiceNavigation({
-  classes: "govuk-grid-column-full",
-  navigation: [
-    {
-      href: "application-details",
-      text: "Application details"
-    },  
-    {
-      href: "account-settings",
-      text: "Acccount settings",
-      active: true
-    },
-    {
-      href: "#",
-      text: "Manage users"
-    },
-    {
-      href: "#",
-      text: "This menu should be included in the header."
-    }
-  ]
-}) }}
+
+
   {{ govukBackLink({
   text: "Back",
   href: "javascript:window.history.back()"

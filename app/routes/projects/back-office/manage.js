@@ -1872,10 +1872,43 @@ router.get('/projects/back-office/manage/clear-data.html', (req, res) => {
 
 // Documents page GET
 router.get('/projects/back-office/manage/documents.html', (req, res) => {
+  const deleteSuccess = req.session.deleteSuccess || null;
+  
+  // Clear the success message after displaying it
+  if (deleteSuccess) {
+    delete req.session.deleteSuccess;
+  }
+  
   res.render('projects/back-office/manage/documents', {
     caseRef: req.session.currentCaseRef || '',
-    planTitle: req.session.planTitle || ''
+    planTitle: req.session.planTitle || '',
+    deleteSuccess: deleteSuccess
   });
+});
+
+// Delete confirmation page GET
+router.get('/projects/back-office/manage/documents/delete-confirmation', (req, res) => {
+  const documentName = req.query.docName || '';
+  
+  res.render('projects/back-office/manage/documents/delete-confirmation', {
+    caseRef: req.session.currentCaseRef || '',
+    planTitle: req.session.planTitle || '',
+    documentName: documentName
+  });
+});
+
+// Delete document POST
+router.post('/projects/back-office/manage/documents/delete', (req, res) => {
+  const documentName = req.body.documentName;
+  
+  // In a real implementation, this would delete the file from storage
+  // For now, we'll just log it and redirect back to documents with a success message
+  console.log(`Document deleted: ${documentName}`);
+  
+  // Set a success message in session if you have flash messaging set up
+  req.session.deleteSuccess = `${documentName} has been successfully deleted.`;
+  
+  res.redirect('/projects/back-office/manage/documents.html');
 });
 
 // Updates page GET

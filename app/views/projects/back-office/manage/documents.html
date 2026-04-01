@@ -118,6 +118,18 @@ Documents – {{ serviceName }}
 
 </style>
 
+    {% if deleteSuccess %}
+    <div class="govuk-notification-banner govuk-notification-banner--success" role="status" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+      <div class="govuk-notification-banner__header">
+        <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+          Success
+        </h2>
+      </div>
+      <div class="govuk-notification-banner__content">
+        <p class="govuk-body">{{ deleteSuccess }}</p>
+      </div>
+    </div>
+    {% endif %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
   <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
@@ -178,6 +190,7 @@ Documents – {{ serviceName }}
 <h2 class="govuk-heading-m">
       Documents
     </h2>
+
 
     <!--<p class="govuk-body"> This folder contains x documents.</p>-->
 
@@ -346,7 +359,7 @@ Documents – {{ serviceName }}
       <td class="govuk-table__cell">{{ doc.type }}</td>
       <td class="govuk-table__cell">{{ doc.size }}</td>
       <td class="govuk-table__cell">{{ doc.uploadDate }}</td>
-      <td class="govuk-table__cell"><a href="{{ doc.viewUrl }}" target="_blank" download class="govuk-link">Download<span class="govuk-visually-hidden"> {{ doc.name }}</span></a> | <a href="#" class="govuk-link">Remove</a>
+      <td class="govuk-table__cell"><a href="{{ doc.viewUrl }}" target="_blank" download class="govuk-link">Download<span class="govuk-visually-hidden"> {{ doc.name }}</span></a> | <a href="/projects/back-office/manage/documents/delete-confirmation?docName={{ doc.name | urlencode }}" class="govuk-link">Remove</a>
       </td>
     </tr>
     {% endfor %}
