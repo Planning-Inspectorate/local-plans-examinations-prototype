@@ -88,6 +88,11 @@ app.use('/', portalRoutes);
 const manageRoutes = require('./app/routes/projects/back-office/manage');
 app.use('/', manageRoutes);
 
+// Top-level pages
+app.get('/resources.html', (req, res) => {
+  res.render('resources');
+});
+
 // Example: set up a simple route
 app.get('/', (req, res) => {
   res.send('Prototype Home. Add your routes and views!');
