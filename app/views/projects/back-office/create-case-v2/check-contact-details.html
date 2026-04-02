@@ -13,6 +13,9 @@
 
 {% block content %}
 <h1 class="govuk-heading-l">Check contact details</h1>
+<p>
+<a href="/projects/back-office/create-case-v2/additional-contact" class="govuk-body govuk-link">Add details</a>
+</p>
 <dl class="govuk-summary-list">
   {% if mainContact %}
     <div class="govuk-summary-list__row">
@@ -71,7 +74,6 @@
   {% endif %}
 </dl>
 
-<a href="/projects/back-office/create-case-v2/additional-contact" class="govuk-button govuk-button--secondary">Add details</a><br>
 <a href="/projects/back-office/create-case-v2/enter-key-dates" class="govuk-button">Continue</a>
 {% endblock %}
 

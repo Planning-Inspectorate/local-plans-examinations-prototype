@@ -22,8 +22,10 @@
 				<div class="govuk-form-group">
 					<input class="govuk-input govuk-!-width-two-thirds" id="examination-assessor-name" name="examination-assessor-name" type="text" value="{{ examinationAssessorName }}">
 				</div>
-				<button class="govuk-button govuk-!-margin-right-2" data-module="govuk-button" type="submit">Save and continue</button>
-				<a href="{{ returnUrl or '/projects/back-office/manage/examination.html' }}" class="govuk-button govuk-button--secondary govuk-!-margin-right-2" role="button">Cancel</a>
+			<div class="govuk-button-group">
+				<button class="govuk-button" data-module="govuk-button" type="submit">Save and continue</button>
+				<a href="{{ returnUrl or '/projects/back-office/manage/examination.html' }}" class="govuk-link">Cancel</a>
+			</div>
 			</form>
 		</div>
 	</div>

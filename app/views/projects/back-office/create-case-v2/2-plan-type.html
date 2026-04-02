@@ -70,11 +70,7 @@
         {% endif %}
         
         {% if isEdit %}
-        {{ govukButton({
-          text: "Cancel",
-          classes: "govuk-button--secondary",
-          href: "/projects/back-office/create-case-v2/check-answers"
-        }) }}
+        <a href="/projects/back-office/create-case-v2/check-answers" class="govuk-link">Cancel</a>
         {% endif %}
       </div>
 

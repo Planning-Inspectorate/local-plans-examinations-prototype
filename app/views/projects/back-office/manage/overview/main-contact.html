@@ -78,12 +78,8 @@
             }) }}
             {% endif %}
           {% if isEdit %}
-          {{ govukButton({
-            text: "Cancel",
-            classes: "govuk-button--secondary",
-            href: "/projects/back-office/manage/index.html"
-        
-          }) }}
+          
+             <a href="/projects/back-office/manage/index.html" class="govuk-link">Cancel</a>
           {% endif %}
         </div>
       </form>

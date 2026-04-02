@@ -369,15 +369,15 @@ Plan overview – {{ serviceName }}
       </dl>
       </form>
       <div class="govuk-!-margin-top-6">
-        <form method="get" action="/projects/back-office/manage/clear-data.html" style="display: inline-block; margin-right: 10px;">
-          <button type="submit" class="govuk-button govuk-button--secondary">
-            Clear manage data
-          </button>
-        </form>
         <form method="get" action="/projects/back-office/manage/delete-case-confirmation.html" style="display: inline-block;">
           <input type="hidden" name="caseRef" value="{{ caseRef }}">
           <button type="submit" class="govuk-button govuk-button--warning">
             Delete case
+          </button>
+        </form>
+        <form method="get" action="/projects/back-office/manage/clear-data.html" style="display: inline-block; margin-right: 10px;">
+          <button type="submit" class="govuk-button govuk-button--secondary">
+            Clear prototype data
           </button>
         </form>
       </div>

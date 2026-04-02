@@ -38,140 +38,126 @@
           {
             value: "one-day",
             text: "One day",
-            checked: true
+            checked: true,
+            conditional: {
+              html: "
+                <div class='govuk-form-group'>
+                  <fieldset class='govuk-fieldset'>
+                    <legend class='govuk-fieldset__legend govuk-fieldset__legend--s'>
+                      <h3 class='govuk-fieldset__heading'>Hearing date</h3>
+                    </legend>
+                    <div class='govuk-date-input' id='hearing-date-single'>
+                      <div class='govuk-date-input__item'>
+                        <div class='govuk-form-group'>
+                          <label class='govuk-label govuk-date-input__label' for='hearing-date-single-day'>Day</label>
+                          <input class='govuk-input govuk-date-input__input govuk-input--width-2' id='hearing-date-single-day' name='hearingDateSingle-day' type='text' inputmode='numeric'>
+                        </div>
+                      </div>
+                      <div class='govuk-date-input__item'>
+                        <div class='govuk-form-group'>
+                          <label class='govuk-label govuk-date-input__label' for='hearing-date-single-month'>Month</label>
+                          <input class='govuk-input govuk-date-input__input govuk-input--width-2' id='hearing-date-single-month' name='hearingDateSingle-month' type='text' inputmode='numeric'>
+                        </div>
+                      </div>
+                      <div class='govuk-date-input__item'>
+                        <div class='govuk-form-group'>
+                          <label class='govuk-label govuk-date-input__label' for='hearing-date-single-year'>Year</label>
+                          <input class='govuk-input govuk-date-input__input govuk-input--width-4' id='hearing-date-single-year' name='hearingDateSingle-year' type='text' inputmode='numeric'>
+                        </div>
+                      </div>
+                    </div>
+              
+                  </fieldset>
+                </div>
+              "
+            }
           },
           {
             value: "consecutive-days",
-            text: "More than one day (consecutive)"
+            text: "More than one day (consecutive)",
+            conditional: {
+              html: "
+                <div class='govuk-form-group'>
+                  <fieldset class='govuk-fieldset'>
+                    <legend class='govuk-fieldset__legend govuk-fieldset__legend--s'>
+                      <h3 class='govuk-fieldset__heading'>Hearing dates</h3>
+                    </legend>
+                    
+                    <div class='govuk-form-group'>
+                      <fieldset class='govuk-fieldset'>
+                        <legend class='govuk-fieldset__legend govuk-fieldset__legend--s'>
+                          Start date
+                        </legend>
+                        <div class='govuk-date-input' id='hearing-date-start'>
+                          <div class='govuk-date-input__item'>
+                            <div class='govuk-form-group'>
+                              <label class='govuk-label govuk-date-input__label' for='hearing-date-start-day'>Day</label>
+                              <input class='govuk-input govuk-date-input__input govuk-input--width-2' id='hearing-date-start-day' name='hearingDateStart-day' type='text' inputmode='numeric'>
+                            </div>
+                          </div>
+                          <div class='govuk-date-input__item'>
+                            <div class='govuk-form-group'>
+                              <label class='govuk-label govuk-date-input__label' for='hearing-date-start-month'>Month</label>
+                              <input class='govuk-input govuk-date-input__input govuk-input--width-2' id='hearing-date-start-month' name='hearingDateStart-month' type='text' inputmode='numeric'>
+                            </div>
+                          </div>
+                          <div class='govuk-date-input__item'>
+                            <div class='govuk-form-group'>
+                              <label class='govuk-label govuk-date-input__label' for='hearing-date-start-year'>Year</label>
+                              <input class='govuk-input govuk-date-input__input govuk-input--width-4' id='hearing-date-start-year' name='hearingDateStart-year' type='text' inputmode='numeric'>
+                            </div>
+                          </div>
+                        </div>
+                      </fieldset>
+                    </div>
+
+                    <div class='govuk-form-group'>
+                      <fieldset class='govuk-fieldset'>
+                        <legend class='govuk-fieldset__legend govuk-fieldset__legend--s'>
+                          End date
+                        </legend>
+                        <div class='govuk-date-input' id='hearing-date-end'>
+                          <div class='govuk-date-input__item'>
+                            <div class='govuk-form-group'>
+                              <label class='govuk-label govuk-date-input__label' for='hearing-date-end-day'>Day</label>
+                              <input class='govuk-input govuk-date-input__input govuk-input--width-2' id='hearing-date-end-day' name='hearingDateEnd-day' type='text' inputmode='numeric'>
+                            </div>
+                          </div>
+                          <div class='govuk-date-input__item'>
+                            <div class='govuk-form-group'>
+                              <label class='govuk-label govuk-date-input__label' for='hearing-date-end-month'>Month</label>
+                              <input class='govuk-input govuk-date-input__input govuk-input--width-2' id='hearing-date-end-month' name='hearingDateEnd-month' type='text' inputmode='numeric'>
+                            </div>
+                          </div>
+                          <div class='govuk-date-input__item'>
+                            <div class='govuk-form-group'>
+                              <label class='govuk-label govuk-date-input__label' for='hearing-date-end-year'>Year</label>
+                              <input class='govuk-input govuk-date-input__input govuk-input--width-4' id='hearing-date-end-year' name='hearingDateEnd-year' type='text' inputmode='numeric'>
+                            </div>
+                          </div>
+                        </div>
+                      </fieldset>
+                    </div>
+
+                    <p style='margin-top: 20px;'>
+                      <a href='#' id='non-consecutive-link' class='govuk-link'>Dates are not consecutive — enter individual days instead</a>
+                    </p>
+                  </fieldset>
+                </div>
+              "
+            }
           }
         ]
       }) }}
 
-      <!-- One Day Option (Default) -->
-      <div id="one-day-section">
-        {% call govukFieldset({
-          legend: {
-            text: "Hearing date",
-            isPageHeading: false,
-            classes: "govuk-fieldset__legend--m"
-          }
-        }) %}
-
-          {{ govukDateInput({
-            id: "hearing-date-single",
-            namePrefix: "hearingDateSingle",
-            fieldset: {
-              legend: {
-                text: "Date",
-                classes: "govuk-visually-hidden"
-              }
-            },
-            hint: {
-              text: "For example, 12 5 2026"
-            },
-            items: [
-              {
-                name: "day",
-                classes: "govuk-input--width-2"
-              },
-              {
-                name: "month",
-                classes: "govuk-input--width-2"
-              },
-              {
-                name: "year",
-                classes: "govuk-input--width-4"
-              }
-            ]
-          }) }}
-
-        {% endcall %}
-      </div>
-
-      <!-- Consecutive Days Option (Hidden by default) -->
-      <div id="consecutive-days-section" style="display: none;">
-        {% call govukFieldset({
-          legend: {
-            text: "Hearing dates",
-            isPageHeading: false,
-            classes: "govuk-fieldset__legend--m"
-          }
-        }) %}
-
-          <p class="govuk-hint">For example, 12 May 2026 to 15 May 2026</p>
-
-          {{ govukDateInput({
-            id: "hearing-date-start",
-            namePrefix: "hearingDateStart",
-            fieldset: {
-              legend: {
-                text: "Start date",
-                classes: "govuk-fieldset__legend--s"
-              }
-            },
-            hint: {
-              text: "For example, 12 5 2026"
-            },
-            items: [
-              {
-                name: "day",
-                classes: "govuk-input--width-2"
-              },
-              {
-                name: "month",
-                classes: "govuk-input--width-2"
-              },
-              {
-                name: "year",
-                classes: "govuk-input--width-4"
-              }
-            ]
-          }) }}
-
-          {{ govukDateInput({
-            id: "hearing-date-end",
-            namePrefix: "hearingDateEnd",
-            fieldset: {
-              legend: {
-                text: "End date",
-                classes: "govuk-fieldset__legend--s"
-              }
-            },
-            hint: {
-              text: "For example, 15 5 2026"
-            },
-            items: [
-              {
-                name: "day",
-                classes: "govuk-input--width-2"
-              },
-              {
-                name: "month",
-                classes: "govuk-input--width-2"
-              },
-              {
-                name: "year",
-                classes: "govuk-input--width-4"
-              }
-            ]
-          }) }}
-
-          <p style="margin-top: 20px;">
-            <a href="#" id="non-consecutive-link" class="govuk-link">Dates are not consecutive — enter individual days instead</a>
-          </p>
-
-        {% endcall %}
-      </div>
-
       <br>
 
-      {{ govukButton({
-        text: "Save hearing dates"
-      }) }}
-
-      <p class="govuk-body">
-        <a href="/projects/back-office/manage/examination.html" class="govuk-link">Cancel</a>
-      </p>
+      <div class="govuk-button-group">
+        {{ govukButton({
+          text: "Save hearing dates"
+        }) }}
+        <a href="/projects/back-office/manage/examination/hearing-dates-results.html" class="govuk-link">Cancel</a>
+      </div>
     </form>
 
   </div>
