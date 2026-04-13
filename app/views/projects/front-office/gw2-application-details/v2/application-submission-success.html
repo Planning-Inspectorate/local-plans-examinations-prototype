@@ -1,0 +1,35 @@
+{% extends "layouts/front-office.html" %}
+
+{% block pageTitle %}
+  Application complete – {{ serviceName }}
+{% endblock %}
+
+{% set mainClasses = "govuk-main-wrapper--l" %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {{ govukPanel({
+        titleText: "Application complete",
+        html: "Your reference number<br><strong>PLAN/12345</strong>"
+      }) }}
+
+      <p class="govuk-body">We have sent you a confirmation email. This will include a link to <a href="application-details-submitted">view your application</a>.</p>
+
+      <h2 class="govuk-heading-m">What happens next</h2>
+
+      <p class="govuk-body">
+        We've sent your application to whoever is responsible for the local plan you are applying about. They will check that your application is complete and that they have all the information they need to start processing it.
+      </p>
+      <p class="govuk-body">
+        They will contact you either to confirm your registration, or to ask for more information.
+      </p>
+
+    </div>
+  </div>
+{% endblock %}
+
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

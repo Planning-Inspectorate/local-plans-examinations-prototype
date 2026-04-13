@@ -1,0 +1,39 @@
+{% set proceduralComplete = data['covering-letter-complete'] and data['timetable-complete'] and data['pid-complete'] and data['compliance-complete'] and data['soundness-complete'] %}
+
+{% set consultationComplete = data['consultation-statement-complete'] and data['scoping-summary-complete'] and data['proposed-content-summary-complete'] and data['notice-complete'] and data['scoping-docs-complete'] and data['scoping-feedback-complete'] and data['gateway1-complete'] and data['proposed-content-consultation-complete'] and data['proposed-content-feedback-complete'] %}
+
+<li>
+  <h2 class="app-task-list__section">
+    <span class="app-task-list__section-number">3. </span> Submit
+    {% if proceduralComplete and consultationComplete %}
+      {{ govukTag({
+        html: 'Ready to submit',
+        classes: 'govuk-tag--blue'
+      }) }}
+    {% else %}
+      {{ govukTag({
+        html: 'Cannot start yet',
+        classes: 'govuk-tag--grey'
+      }) }}
+    {% endif %}
+  </h2>
+  {{ govukSummaryList({
+    classes: 'govuk-!-margin-bottom-9',
+    rows: [
+      {
+        key: {
+          html: 'Accept declaration and submit',
+          classes: 'govuk-!-width-full'
+        },
+        actions: {
+          items: [
+            {
+              href: 'application-review',
+              html: 'Continue'
+            }
+          ]
+        } if proceduralComplete and consultationComplete
+      }
+    ]
+  }) }}
+</li>

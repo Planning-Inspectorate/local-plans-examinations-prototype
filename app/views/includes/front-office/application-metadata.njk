@@ -1,0 +1,28 @@
+<style>
+  .app-details .govuk-summary-list__key,
+  .app-details .govuk-summary-list__value,
+  .app-details .govuk-summary-list__actions {
+    padding-top: 3px;
+    padding-bottom: 3px;
+  }
+  /* Give some space for the tag being inline now */
+  .app-task-list__section {
+    padding-right: 140px
+  }
+</style>
+
+<h1 class="govuk-heading-l">Application reference: PLAN/12345</h1>
+ 
+{{ govukSummaryList({
+  classes: "app-details govuk-summary-list--no-border",
+  rows: [
+    {
+      key: { text: "Local authority" },
+      value: { text: "Liverpool City Council" }
+    },
+    {
+      key: { text: "Region" },
+      value: { text: "North West" }
+    }
+  ]
+}) }}

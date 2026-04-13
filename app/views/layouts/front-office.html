@@ -1,7 +1,28 @@
-{% extends "layouts/main.html" %} 
-{% from "govuk/components/pagination/macro.njk" import govukPagination %} 
-{% from "govuk/components/radios/macro.njk" import govukRadios %} 
+{% extends "layouts/main.html" %}
+{% from "govuk/components/pagination/macro.njk" import govukPagination %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
 
-{% block header %} 
-{% include "includes/front-office/front-office-header.njk" %} {% endblock %} 
-{% block content %} {{ super() }} {% endblock %}
+{% block header %}
+  {% include "includes/front-office/front-office-header.njk" %}
+{% endblock %}
+
+{% block content %}
+  {{ super() }}
+{% endblock %}
+
+{% block pageScripts %}
+  <script src="/node_modules/@ministryofjustice/frontend/moj/all.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var uploadElement = document.querySelector('[data-module="multi-file-upload"]')
+      if (uploadElement) {
+        new MOJFrontend.MultiFileUpload({
+          container: uploadElement,
+          uploadUrl: uploadElement.getAttribute('data-upload-url'),
+          deleteUrl: '/delete-file'
+        })
+      }
+    })
+  </script>
+{% endblock %}
+

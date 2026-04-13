@@ -1,38 +1,11 @@
 {% extends "layouts/main.html" %}
 
 {% set pageName="Resources" %}
+{% set activeNav = 'resources' %}
 
 {% block header %}
   {% include "includes/PINS-header--internal.html" %}
-  
-<section aria-label="Service information" class="govuk-service-navigation" data-module="govuk-service-navigation">
-  <div class="govuk-width-container">
-    <div class="govuk-service-navigation__container">
-      <span class="govuk-service-navigation__service-name">
-        <a href="/" class="govuk-service-navigation__link">Local plans prototypes</a>
-      </span>
-      <nav aria-label="Menu" class="govuk-service-navigation__wrapper">
-        <ul class="govuk-service-navigation__list" id="navigation">
-          <li class="govuk-service-navigation__item">
-            <a class="govuk-service-navigation__link" href="/back-office.html">
-              Back office
-            </a>
-          </li>
-          <li class="govuk-service-navigation__item">
-            <a class="govuk-service-navigation__link" href="/front-office.html">
-              Front office
-            </a>
-          </li>
-          <li class="govuk-service-navigation__item">
-            <a class="govuk-service-navigation__link" href="/resources.html">
-              Resources
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  </div>
-</section>
+  {% include "includes/service-navigation.html" %}
 {% endblock %}
 
 {% block content %}

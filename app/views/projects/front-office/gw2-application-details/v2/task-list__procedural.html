@@ -1,0 +1,87 @@
+<li>
+  <h2 class="app-task-list__section">
+    <span class="app-task-list__section-number">1. </span> Procedural documents
+  </h2>
+  <ul class="govuk-task-list">
+    <li class="govuk-task-list__item govuk-task-list__item--with-link">
+      <div class="govuk-task-list__name-and-hint">
+        <a class="govuk-link govuk-task-list__link" href="document-upload?task=covering-letter" aria-describedby="covering-letter-status">
+          Gateway 2 covering letter
+        </a>
+      </div>
+      <div class="govuk-task-list__status" id="covering-letter-status">
+        {% if data['covering-letter-complete'] %}
+          Completed
+        {% elif data['covering-letter-started'] %}
+          <strong class="govuk-tag govuk-tag--light-blue">In progress</strong>
+        {% else %}
+          <strong class="govuk-tag govuk-tag--blue">Incomplete</strong>
+        {% endif %}
+      </div>
+    </li>
+    <li class="govuk-task-list__item govuk-task-list__item--with-link">
+      <div class="govuk-task-list__name-and-hint">
+        <a class="govuk-link govuk-task-list__link" href="document-upload?task=timetable" aria-describedby="timetable-status">
+          Local plan timetable
+        </a>
+      </div>
+      <div class="govuk-task-list__status" id="timetable-status">
+        {% if data['timetable-complete'] %}
+          Completed
+        {% elif data['timetable-started'] %}
+          <strong class="govuk-tag govuk-tag--light-blue">In progress</strong>
+        {% else %}
+          <strong class="govuk-tag govuk-tag--blue">Incomplete</strong>
+        {% endif %}
+      </div>
+    </li>
+    <li class="govuk-task-list__item govuk-task-list__item--with-link">
+      <div class="govuk-task-list__name-and-hint">
+        <a class="govuk-link govuk-task-list__link" href="document-upload?task=pid" aria-describedby="pid-status">
+          Project initiation document
+        </a>
+      </div>
+      <div class="govuk-task-list__status" id="pid-status">
+        {% if data['pid-complete'] %}
+          Completed
+        {% elif data['pid-started'] %}
+          <strong class="govuk-tag govuk-tag--light-blue">In progress</strong>
+        {% else %}
+          <strong class="govuk-tag govuk-tag--blue">Incomplete</strong>
+        {% endif %}
+      </div>
+    </li>
+    <li class="govuk-task-list__item govuk-task-list__item--with-link">
+      <div class="govuk-task-list__name-and-hint">
+        <a class="govuk-link govuk-task-list__link" href="document-upload?task=compliance" aria-describedby="compliance-status">
+          Draft statement of compliance
+        </a>
+      </div>
+      <div class="govuk-task-list__status" id="compliance-status">
+        {% if data['compliance-complete'] %}
+          Completed
+        {% elif data['compliance-started'] %}
+          <strong class="govuk-tag govuk-tag--light-blue">In progress</strong>
+        {% else %}
+          <strong class="govuk-tag govuk-tag--blue">Incomplete</strong>
+        {% endif %}
+      </div>
+    </li>
+    <li class="govuk-task-list__item govuk-task-list__item--with-link">
+      <div class="govuk-task-list__name-and-hint">
+        <a class="govuk-link govuk-task-list__link" href="document-upload?task=soundness" aria-describedby="soundness-status">
+          Draft statement of soundness
+        </a>
+      </div>
+      <div class="govuk-task-list__status" id="soundness-status">
+        {% if data['soundness-complete'] %}
+          Completed
+        {% elif data['soundness-started'] %}
+          <strong class="govuk-tag govuk-tag--light-blue">In progress</strong>
+        {% else %}
+          <strong class="govuk-tag govuk-tag--blue">Incomplete</strong>
+        {% endif %}
+      </div>
+    </li>
+  </ul>
+</li>

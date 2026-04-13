@@ -1,0 +1,38 @@
+{% extends "layouts/front-office.html" %}
+
+{% block pageTitle %}
+Upload documents – {{ serviceName }}
+{% endblock %}
+
+{% from "includes/multiDocumentUpload.njk" import multiDocumentUpload %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <form method="post" action="document-category" enctype="multipart/form-data">
+      {{ multiDocumentUpload({
+      caption: "Your documents",
+      heading: "Upload a document",
+      uploadUrl: "upload-documents"
+      }) }}
+
+      <input type="hidden" name="current-task" value="{{ data['current-task'] }}">
+
+      {{ govukButton({ text: "Continue" }) }}
+    </form>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+{% include "includes/footer.njk" %}
+{% endblock %}

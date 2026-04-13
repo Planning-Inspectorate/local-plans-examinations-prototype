@@ -1,0 +1,80 @@
+{% extends "layouts/front-office.html" %}
+
+{% block pageTitle %} Application details – {{ serviceName }} 
+{% endblock %}
+
+{% set prototypeLinks =
+  [
+    {
+      href: 'application-review',
+      text: 'Skip to check answers'
+    },
+    {
+      href: 'application-submission-success',
+      text: 'Skip to declaration'
+    }
+  ]
+%}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+{% set proceduralComplete = data['covering-letter-complete'] and data['timetable-complete'] and data['pid-complete'] and data['compliance-complete'] and data['soundness-complete'] %}
+
+{% set consultationComplete = data['consultation-statement-complete'] and data['scoping-summary-complete'] and data['proposed-content-summary-complete'] and data['notice-complete'] and data['scoping-docs-complete'] and data['scoping-feedback-complete'] and data['gateway1-complete'] and data['proposed-content-consultation-complete'] and data['proposed-content-feedback-complete'] %}
+
+{% set completedCount = 0 %}
+{% if proceduralComplete %}{% set completedCount = completedCount + 1 %}{% endif %}
+{% if consultationComplete %}{% set completedCount = completedCount + 1 %}{% endif %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+ 
+{% include "includes/front-office/application-metadata.njk" %}
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible" />
+
+
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-2">
+      {% if completedCount == 3 %}Application complete{% else %}Application incomplete{% endif %}
+    </h2>
+    <p class="govuk-!-margin-bottom-7">You have completed {{ completedCount }} of 3 sections.</p>
+
+    <style>
+      .app-task-list > li {
+        position: relative;
+      }
+      .app-task-list__section .govuk-tag {
+        position: absolute;
+        top: 3px;
+        right: 0;
+      }
+      .app-task-list .govuk-summary-list {
+        border-top: 1px solid #b1b4b6;
+      }
+      .app-task-list__section {
+        padding-right: 140px;
+      }
+    </style>
+
+    <ol class="app-task-list">
+      {% include "./task-list__procedural.html" %}
+      {% include "./task-list__consultation.html" %}
+      {% include "./task-list__submit.html" %}
+    </ol>
+
+  </div>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+  {% include "includes/front-office/footer.njk" %}
+{% endblock %}
+

@@ -1,0 +1,91 @@
+{% extends "layouts/main.html" %}
+ 
+{% set title="User sign-in" %}
+{% set activeNav = 'front-office' %}
+
+{% block header %}
+  {% include "includes/PINS-header--internal.html" %}
+  {% include "includes/service-navigation.html" %}
+{% endblock %}
+ 
+{% block beforeContent %}
+  {{ govukBackLink({
+    html: 'Back to all prototypes',
+    href: '/front-office.html'
+  }) }}
+{% endblock %}
+ 
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+ 
+    <span class="govuk-caption-l">
+      Submit a local plan
+    </span>
+    <h1 class="govuk-heading-l">
+      {{ title }}
+    </h1>
+ 
+    {% set version = "2" %}
+    <h2 class="govuk-heading-m">
+      Version {{ version }}
+      {{ govukTag({
+        classes: 'govuk-tag--yellow govuk-!-margin-left-2',
+        text: 'In progress'
+      }) }}
+    </h2>
+ 
+    {{ govukInsetText({
+      text: "TODO: add description"
+    }) }}
+ 
+    <p class="govuk-!-margin-bottom-2">Changes:</p>
+ 
+    <ul class="govuk-list govuk-list--bullet">
+      <li>TODO</li>
+    </ul>
+ 
+    {{ govukButton({
+      html: 'View prototype',
+      href: '/projects/front-office/user-login/v' ~ version ~ '/login-email',
+      isStartButton: true
+    }) }}
+ 
+    {% set v1HTML %}
+ 
+      {% set version = "1" %}
+ 
+      <p class="govuk-body">
+        This flow was copied from the DCO portal as a starting point. Users enter their CBOS reference number and email address, then receive a one-time passcode (OTP) to access the service. Content was carried over directly from DCO and had not been refined for the local plans service. 
+      </p>
+ 
+      {{ govukInsetText({
+        html: '<p class="govuk-body"><a href="https://app.mural.co/t/allpins6990/m/allpins6990/1765884601123/237bc418b7dd56fd74fe7b0ce600936fbf9aba46">Design Mural board</a></p>'
+      }) }}
+ 
+      {{ govukButton({
+        html: 'View prototype',
+        href: '/projects/front-office/user-login/v' ~ version ~ '/login-email',
+        isStartButton: true
+      }) }}
+ 
+    {% endset -%}
+ 
+    {{ govukAccordion({
+      id: 'previous',
+      classes: 'govuk-!-margin-top-9',
+      items: [
+        {
+          heading: {
+            html: 'Version 1 <strong class="govuk-tag govuk-tag--grey govuk-!-margin-left-2">Superseded</strong>'
+          },
+          content: {
+            html: v1HTML
+          }
+        }
+      ]
+    }) }}
+ 
+  </div>
+</div>
+{% endblock %}

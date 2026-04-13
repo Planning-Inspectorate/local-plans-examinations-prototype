@@ -1,0 +1,183 @@
+{% extends "layouts/front-office.html" %}
+
+{% block pageTitle %}
+  Review documents – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters-from-desktop">
+
+    <span class="govuk-caption-l">Your application</span>
+    <h1 class="govuk-heading-l">Review documents</h1>
+
+    <p class="govuk-body">Check that all required files are included and that the information is correct before submitting your application.</p>
+    <p class="govuk-body">If you need to add more files, return to the <a class="govuk-link" href="application-details">application details</a> page.</p>
+
+    <h2 class="govuk-heading-m govuk-!-margin-top-6">Procedural documents</h2>
+    <p class="govuk-hint">These documents describe how the local plan will be prepared and assessed.</p>
+
+    {{ govukSummaryList({
+      classes: "app-summary-list--narrow-key",
+      rows: [
+        {
+          key: { text: "Gateway 2 covering letter" },
+          value: {
+            html: '<ul class="govuk-list"><li><a class="govuk-link" href="/uploads/Application file name.pdf" target="_blank" rel="noopener">Application file name.pdf</a></li><li><a class="govuk-link" href="/uploads/Application file name.pdf" target="_blank" rel="noopener">Application file name.pdf</a></li></ul>'
+          },
+          actions: {
+            items: [{ href: "document-upload?task=covering-letter", text: "Change", visuallyHiddenText: "Gateway 2 covering letter" }]
+          }
+        },
+        {
+          key: { text: "Local plan timetable" },
+          value: {
+            html: '<ul class="govuk-list"><li><a class="govuk-link" href="/uploads/Application file name.pdf" target="_blank" rel="noopener">Application file name.pdf</a></li><li><a class="govuk-link" href="/uploads/Application file name.pdf" target="_blank" rel="noopener">Application file name.pdf</a></li></ul>'
+          },
+          actions: {
+            items: [{ href: "document-upload?task=timetable", text: "Change", visuallyHiddenText: "Local plan timetable" }]
+          }
+        },
+        {
+          key: { text: "Project initiation document" },
+          value: {
+            html: '<ul class="govuk-list"><li><a class="govuk-link" href="/uploads/Application file name.pdf" target="_blank" rel="noopener">Application file name.pdf</a></li><li><a class="govuk-link" href="/uploads/Application file name.pdf" target="_blank" rel="noopener">Application file name.pdf</a></li></ul>'
+          },
+          actions: {
+            items: [{ href: "document-upload?task=pid", text: "Change", visuallyHiddenText: "Project initiation document" }]
+          }
+        },
+        {
+          key: { text: "Draft statement of compliance" },
+          value: {
+            html: '<ul class="govuk-list"><li><a class="govuk-link" href="/uploads/Application file name.pdf" target="_blank" rel="noopener">Application file name.pdf</a></li><li><a class="govuk-link" href="/uploads/Application file name.pdf" target="_blank" rel="noopener">Application file name.pdf</a></li></ul>'
+          },
+          actions: {
+            items: [{ href: "document-upload?task=compliance", text: "Change", visuallyHiddenText: "Draft statement of compliance" }]
+          }
+        },
+        {
+          key: { text: "Draft statement of soundness" },
+          value: {
+            html: '<ul class="govuk-list"><li><a class="govuk-link" href="/uploads/Application file name.pdf" target="_blank" rel="noopener">Application file name.pdf</a></li><li><a class="govuk-link" href="/uploads/Application file name.pdf" target="_blank" rel="noopener">Application file name.pdf</a></li></ul>'
+          },
+          actions: {
+            items: [{ href: "document-upload?task=soundness", text: "Change", visuallyHiddenText: "Draft statement of soundness" }]
+          }
+        }
+      ]
+    }) }}
+
+    <h2 class="govuk-heading-m govuk-!-margin-top-6">Consultation documents</h2>
+    <p class="govuk-hint">These documents show how consultation has been carried out and what feedback was received.</p>
+
+    {{ govukSummaryList({
+      classes: "app-summary-list--narrow-key",
+      rows: [
+        {
+          key: { text: "Consultation statement" },
+          value: {
+            html: '<ul class="govuk-list"><li><a class="govuk-link" href="/uploads/Application file name.pdf" target="_blank" rel="noopener">Application file name.pdf</a></li><li><a class="govuk-link" href="/uploads/Application file name.pdf" target="_blank" rel="noopener">Application file name.pdf</a></li></ul>'
+          },
+          actions: {
+            items: [{ href: "document-upload?task=consultation-statement", text: "Change", visuallyHiddenText: "Consultation statement" }]
+          }
+        },
+        {
+          key: { text: "Consultation summary for scoping consultation" },
+          value: {
+            html: '<ul class="govuk-list"><li><a class="govuk-link" href="/uploads/Application file name.pdf" target="_blank" rel="noopener">Application file name.pdf</a></li><li><a class="govuk-link" href="/uploads/Application file name.pdf" target="_blank" rel="noopener">Application file name.pdf</a></li></ul>'
+          },
+          actions: {
+            items: [{ href: "document-upload?task=scoping-summary", text: "Change", visuallyHiddenText: "Consultation summary for scoping consultation" }]
+          }
+        },
+        {
+          key: { text: "Consultation summary for proposed local plan content and evidence documents" },
+          value: {
+            html: '<ul class="govuk-list"><li><a class="govuk-link" href="/uploads/Application file name.pdf" target="_blank" rel="noopener">Application file name.pdf</a></li><li><a class="govuk-link" href="/uploads/Application file name.pdf" target="_blank" rel="noopener">Application file name.pdf</a></li></ul>'
+          },
+          actions: {
+            items: [{ href: "document-upload?task=proposed-content-summary", text: "Change", visuallyHiddenText: "Consultation summary for proposed local plan content and evidence documents" }]
+          }
+        },
+        {
+          key: { text: "Consultation summary of feedback to scoping consultation" },
+          value: {
+            html: '<ul class="govuk-list"><li><a class="govuk-link" href="/uploads/Application file name.pdf" target="_blank" rel="noopener">Application file name.pdf</a></li><li><a class="govuk-link" href="/uploads/Application file name.pdf" target="_blank" rel="noopener">Application file name.pdf</a></li></ul>'
+          },
+          actions: {
+            items: [{ href: "document-upload?task=scoping-feedback", text: "Change", visuallyHiddenText: "Consultation summary of feedback to scoping consultation" }]
+          }
+        },
+        {
+          key: { text: "Consultation on proposed local plan content and evidence documents" },
+          value: {
+            html: '<ul class="govuk-list"><li><a class="govuk-link" href="/uploads/Application file name.pdf" target="_blank" rel="noopener">Application file name.pdf</a></li><li><a class="govuk-link" href="/uploads/Application file name.pdf" target="_blank" rel="noopener">Application file name.pdf</a></li></ul>'
+          },
+          actions: {
+            items: [{ href: "document-upload?task=proposed-content-consultation", text: "Change", visuallyHiddenText: "Consultation on proposed local plan content and evidence documents" }]
+          }
+        },
+        {
+          key: { text: "Notice of intention to commence local plan preparation" },
+          value: {
+            html: '<ul class="govuk-list"><li><a class="govuk-link" href="/uploads/Application file name.pdf" target="_blank" rel="noopener">Application file name.pdf</a></li><li><a class="govuk-link" href="/uploads/Application file name.pdf" target="_blank" rel="noopener">Application file name.pdf</a></li></ul>'
+          },
+          actions: {
+            items: [{ href: "document-upload?task=notice", text: "Change", visuallyHiddenText: "Notice of intention to commence local plan preparation" }]
+          }
+        },
+        {
+          key: { text: "Scoping consultation documents" },
+          value: {
+            html: '<ul class="govuk-list"><li><a class="govuk-link" href="/uploads/Application file name.pdf" target="_blank" rel="noopener">Application file name.pdf</a></li><li><a class="govuk-link" href="/uploads/Application file name.pdf" target="_blank" rel="noopener">Application file name.pdf</a></li></ul>'
+          },
+          actions: {
+            items: [{ href: "document-upload?task=scoping-docs", text: "Change", visuallyHiddenText: "Scoping consultation documents" }]
+          }
+        },
+        {
+          key: { text: "Gateway 1 – Self assessment of readiness" },
+          value: {
+            html: '<ul class="govuk-list"><li><a class="govuk-link" href="/uploads/Application file name.pdf" target="_blank" rel="noopener">Application file name.pdf</a></li><li><a class="govuk-link" href="/uploads/Application file name.pdf" target="_blank" rel="noopener">Application file name.pdf</a></li></ul>'
+          },
+          actions: {
+            items: [{ href: "document-upload?task=gateway1", text: "Change", visuallyHiddenText: "Gateway 1 – Self assessment of readiness" }]
+          }
+        },
+        {
+          key: { text: "Consultation summary for the above" },
+          value: {
+            html: '<ul class="govuk-list"><li><a class="govuk-link" href="/uploads/Application file name.pdf" target="_blank" rel="noopener">Application file name.pdf</a></li><li><a class="govuk-link" href="/uploads/Application file name.pdf" target="_blank" rel="noopener">Application file name.pdf</a></li></ul>'
+          },
+          actions: {
+            items: [{ href: "document-upload?task=proposed-content-feedback", text: "Change", visuallyHiddenText: "Consultation summary for the above" }]
+          }
+        }
+      ]
+    }) }}
+
+    <form action="application-declaration" method="post">
+      {{ govukButton({
+        text: "Continue"
+      }) }}
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}
+  

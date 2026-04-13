@@ -71,13 +71,12 @@ href: "javascript:window.history.back()"
         </tr>
       </tbody>
     </table>
-    <form class="form" action="/projects/front-office/document-upload"
-      method="post">
-      {{ govukButton({
+
+    {{ govukButton({
       text: "Upload more documents",
-      classes: "govuk-button--secondary"
-      }) }}
-    </form>
+      classes: "govuk-button--secondary",
+      href:"document-upload"
+    }) }}
 
     <!-- Submit guidance -->
     <div class="govuk-!-padding-top-5">
@@ -125,13 +124,11 @@ href: "javascript:window.history.back()"
     }) }} -->
 
       <!-- Continue button -->
-      <form class="form" action="/projects/front-office/application-details"
-        method="post">
+      {{ govukButton({
+        text: "Back to tasklist",
+        href: "application-details"
+      }) }}
 
-        <button type="submit" class="govuk-button" data-module="govuk-button">
-          Back to tasklist
-        </button>
-      </form>
     </div>
   </div>
 

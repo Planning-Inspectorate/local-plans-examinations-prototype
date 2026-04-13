@@ -47,12 +47,11 @@
 <div class="govuk-grid-row govuk-!-margin-top-5">
   <div class="govuk-grid-column-two-thirds">
 
-<form class="form" action="/projects/front-office/document-upload-scan" method="post">
-    
-      <button type="submit" class="govuk-button" data-module="govuk-button">
-        Continue
-      </button>
-    </form>
+    {{ govukButton({
+      text: "Continue",
+      href: "document-upload-scan"
+    }) }}
+
   </div>
 </div>
 

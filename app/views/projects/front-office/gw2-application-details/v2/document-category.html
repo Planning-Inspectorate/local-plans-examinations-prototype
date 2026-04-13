@@ -1,0 +1,103 @@
+{% extends "layouts/front-office.html" %}
+
+{% block pageTitle %}
+Document category – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+{% set taskLabels = {
+  "covering-letter": "Gateway 2 covering letter",
+  "timetable": "Local plan timetable",
+  "pid": "Project initiation document",
+  "compliance": "Draft statement of compliance",
+  "soundness": "Draft statement of soundness",
+  "consultation-statement": "Consultation statement",
+  "scoping-summary": "Consultation summary for scoping consultation",
+  "proposed-content-summary": "Consultation summary for proposed local plan content and evidence documents",
+  "notice": "Notice of intention to commence local plan preparation",
+  "scoping-docs": "Scoping consultation documents",
+  "scoping-feedback": "Consultation summary of feedback to scoping consultation",
+  "gateway1": "Gateway 1 – Self assessment of readiness",
+  "proposed-content-consultation": "Consultation on proposed local plan content and evidence documents",
+  "proposed-content-feedback": "Consultation summary for the above"
+} %}
+
+<span class="govuk-caption-l">Your documents</span>
+<h1 class="govuk-heading-l">{{ taskLabels[data['current-task']] or "Document category" }}</h1>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <p class="govuk-body">This page shows files added for this section. If you need to replace documents, first remove the existing one then upload the new one.</p>
+
+    <table class="govuk-table govuk-table--small-text-until-tablet">
+      <caption class="govuk-table__caption govuk-table__caption--m">Uploaded documents</caption>
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">Document</th>
+          <th scope="col" class="govuk-table__header">Date uploaded</th>
+          <th scope="col" class="govuk-table__header"> </th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">
+            <a class="govuk-link" href="/uploads/example.pdf" target="_blank" rel="noopener">
+              example-document.pdf
+            </a>
+          </th>
+          <td class="govuk-table__cell">13/10/2025 11:30</td>
+          <td class="govuk-table__cell">
+            <a class="govuk-link" href="#">Remove<span class="govuk-visually-hidden"> example-document.pdf</span></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    {{ govukButton({
+      text: "Upload more documents",
+      classes: "govuk-button--secondary",
+      href: "document-upload"
+    }) }}
+
+    <div class="govuk-!-padding-top-5">
+      <h3 class="govuk-heading-m">Have you uploaded all files for this section?</h3>
+      <p class="govuk-body">Mark this section as complete when you have uploaded all the required files. This won't stop you from returning later to upload or replace files if needed.</p>
+
+      <form method="post" action="/projects/front-office/gw2-application-details/v2/document-category-complete">
+        <input type="hidden" name="current-task" value="{{ data['current-task'] }}">
+
+        {{ govukCheckboxes({
+          name: "mark-complete",
+          classes: "govuk-checkboxes--small",
+          items: [
+            {
+              value: "yes",
+              text: "I have finished uploading all files for this section and I am ready to mark it as complete"
+            }
+          ]
+        }) }}
+
+        {{ govukButton({
+          text: "Save and return to task list"
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

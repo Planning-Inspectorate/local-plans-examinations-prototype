@@ -1,6 +1,8 @@
+@import "node_modules/@ministryofjustice/frontend/moj/all";
+
+
 // Multi-file upload
 @import 'components/multi-file-upload';
-
 
 @import 'secondary-navigation';
 
@@ -351,6 +353,9 @@ html, body {
     background-color: #fff !important;
 }
 
+.app-summary-list--narrow-key .govuk-summary-list__key {
+  width: 40%;
+}
 
 // Additions for the font and the Planning Inspectorate header
 

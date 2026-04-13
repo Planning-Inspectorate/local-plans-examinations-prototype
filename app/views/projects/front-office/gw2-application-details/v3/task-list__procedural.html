@@ -1,0 +1,82 @@
+<li>
+  {% set proceduralSectionComplete = data['covering-letter-complete'] and data['timetable-complete'] and data['pid-complete'] and data['compliance-complete'] and data['soundness-complete'] %}
+
+  {% set proceduralSectionStarted = data['covering-letter-started'] or data['timetable-started'] or data['pid-started'] or data['compliance-started'] or data['soundness-started'] %}
+
+  <h2 class="app-task-list__section">
+    <span class="app-task-list__section-number">1. </span> Procedural documents
+    {% if proceduralSectionComplete %}
+      {{ govukTag({ text: 'Completed', classes: 'govuk-tag--green' }) }}
+    {% elif proceduralSectionStarted %}
+      {{ govukTag({ text: 'In progress', classes: 'govuk-tag--light-blue' }) }}
+    {% else %}
+      {{ govukTag({ text: 'Not started', classes: 'govuk-tag--grey' }) }}
+    {% endif %}
+  </h2>
+
+  {% macro taskRow(id, label) %}
+    {% set file = data[id + '-file'] %}
+    {% set started = data[id + '-started'] %}
+    {% set complete = data[id + '-complete'] %}
+    {
+      key: { text: "{{ label }}" },
+      value: {
+        html: {% if file %}'<a class="govuk-link" href="/uploads/{{ file }}" target="_blank" rel="noopener">{{ file }}</a>'{% elif started %}'<strong class="govuk-tag govuk-tag--light-blue">In progress</strong>'{% else %}'<span class="govuk-hint govuk-!-margin-bottom-0">Not started</span>'{% endif %}
+      },
+      actions: {
+        items: [{ href: "document-upload?task={{ id }}", text: "{% if file %}Change{% else %}Add{% endif %}", visuallyHiddenText: "{{ label }}" }]
+      }
+    }
+  {% endmacro %}
+
+  {{ govukSummaryList({
+    rows: [
+      {
+        key: { text: "Gateway 2 covering letter" },
+        value: {
+          html: ('<a class="govuk-link" href="/uploads/' + data['covering-letter-file'] + '" target="_blank" rel="noopener">' + data['covering-letter-file'] + '</a>') if data['covering-letter-file'] else ('<span class="govuk-hint govuk-!-margin-bottom-0">Not started</span>')
+        },
+        actions: {
+          items: [{ href: "document-upload?task=covering-letter", text: "Change" if data['covering-letter-file'] else "Add", visuallyHiddenText: "Gateway 2 covering letter" }]
+        }
+      },
+      {
+        key: { text: "Local plan timetable" },
+        value: {
+          html: ('<a class="govuk-link" href="/uploads/' + data['timetable-file'] + '" target="_blank" rel="noopener">' + data['timetable-file'] + '</a>') if data['timetable-file'] else ('<strong class="govuk-tag govuk-tag--light-blue">In progress</strong>' if data['timetable-started'] else '<span class="govuk-hint govuk-!-margin-bottom-0">Not started</span>')
+        },
+        actions: {
+          items: [{ href: "document-upload?task=timetable", text: "Change" if data['timetable-file'] else "Add", visuallyHiddenText: "Local plan timetable" }]
+        }
+      },
+      {
+        key: { text: "Project initiation document" },
+        value: {
+          html: ('<a class="govuk-link" href="/uploads/' + data['pid-file'] + '" target="_blank" rel="noopener">' + data['pid-file'] + '</a>') if data['pid-file'] else ('<strong class="govuk-tag govuk-tag--light-blue">In progress</strong>' if data['pid-started'] else '<span class="govuk-hint govuk-!-margin-bottom-0">Not started</span>')
+        },
+        actions: {
+          items: [{ href: "document-upload?task=pid", text: "Change" if data['pid-file'] else "Add", visuallyHiddenText: "Project initiation document" }]
+        }
+      },
+      {
+        key: { text: "Draft statement of compliance" },
+        value: {
+          html: ('<a class="govuk-link" href="/uploads/' + data['compliance-file'] + '" target="_blank" rel="noopener">' + data['compliance-file'] + '</a>') if data['compliance-file'] else ('<strong class="govuk-tag govuk-tag--light-blue">In progress</strong>' if data['compliance-started'] else '<span class="govuk-hint govuk-!-margin-bottom-0">Not started</span>')
+        },
+        actions: {
+          items: [{ href: "document-upload?task=compliance", text: "Change" if data['compliance-file'] else "Add", visuallyHiddenText: "Draft statement of compliance" }]
+        }
+      },
+      {
+        key: { text: "Draft statement of soundness" },
+        value: {
+          html: ('<a class="govuk-link" href="/uploads/' + data['soundness-file'] + '" target="_blank" rel="noopener">' + data['soundness-file'] + '</a>') if data['soundness-file'] else ('<strong class="govuk-tag govuk-tag--light-blue">In progress</strong>' if data['soundness-started'] else '<span class="govuk-hint govuk-!-margin-bottom-0">Not started</span>')
+        },
+        actions: {
+          items: [{ href: "document-upload?task=soundness", text: "Change" if data['soundness-file'] else "Add", visuallyHiddenText: "Draft statement of soundness" }]
+        }
+      }
+    ]
+  }) }}
+
+</li>

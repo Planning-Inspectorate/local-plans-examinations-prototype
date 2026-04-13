@@ -89,19 +89,11 @@ If the files did not upload successfully or you want to change them, first remov
   <p> </p>
 </div>
 
-
-
-
-<form class="form" action="/projects/front-office/document-upload-confirm" method="post">
-    
-  {% from "govuk/components/button/macro.njk" import govukButton %}
-
   {{ govukButton({
     text: "Continue",
-    disabled: false
+    href: "document-upload-confirm"
   }) }}
 
-    </form>
   </div>
 </div>
 

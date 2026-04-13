@@ -26,6 +26,8 @@ router.use('/', require('./routes/create-case'));
 router.use('/', require('./routes/create-case-v2'));
 router.use('/', require('./routes/projects/back-office/manage'));
 router.use('/', require('./routes/reps'));
+router.use('/', require('./views/projects/front-office/gw2-application-details/v2/_routes'));
+
 
 // If you have other feature routers that also export Router objects,
 // mount them like this (and make sure they export a Router, not a function):

@@ -1,0 +1,151 @@
+<li>
+  <h2 class="app-task-list__section">
+    <span class="app-task-list__section-number">2. </span> Consultation documents
+  </h2>
+  <ul class="govuk-task-list">
+    <li class="govuk-task-list__item govuk-task-list__item--with-link">
+      <div class="govuk-task-list__name-and-hint">
+        <a class="govuk-link govuk-task-list__link" href="document-upload?task=consultation-statement" aria-describedby="consultation-statement-status">
+          Consultation statement
+        </a>
+      </div>
+      <div class="govuk-task-list__status" id="consultation-statement-status">
+        {% if data['consultation-statement-complete'] %}
+          Completed
+        {% elif data['consultation-statement-started'] %}
+          <strong class="govuk-tag govuk-tag--light-blue">In progress</strong>
+        {% else %}
+          <strong class="govuk-tag govuk-tag--blue">Incomplete</strong>
+        {% endif %}
+      </div>
+    </li>
+    <li class="govuk-task-list__item govuk-task-list__item--with-link">
+      <div class="govuk-task-list__name-and-hint">
+        <a class="govuk-link govuk-task-list__link" href="document-upload?task=scoping-summary" aria-describedby="scoping-summary-status">
+          Consultation summary for scoping consultation
+        </a>
+      </div>
+      <div class="govuk-task-list__status" id="scoping-summary-status">
+        {% if data['scoping-summary-complete'] %}
+          Completed
+        {% elif data['scoping-summary-started'] %}
+          <strong class="govuk-tag govuk-tag--light-blue">In progress</strong>
+        {% else %}
+          <strong class="govuk-tag govuk-tag--blue">Incomplete</strong>
+        {% endif %}
+      </div>
+    </li>
+    <li class="govuk-task-list__item govuk-task-list__item--with-link">
+      <div class="govuk-task-list__name-and-hint">
+        <a class="govuk-link govuk-task-list__link" href="document-upload?task=proposed-content-summary" aria-describedby="proposed-content-summary-status">
+          Consultation summary for proposed local plan content and evidence documents
+        </a>
+      </div>
+      <div class="govuk-task-list__status" id="proposed-content-summary-status">
+        {% if data['proposed-content-summary-complete'] %}
+          Completed
+        {% elif data['proposed-content-summary-started'] %}
+          <strong class="govuk-tag govuk-tag--light-blue">In progress</strong>
+        {% else %}
+          <strong class="govuk-tag govuk-tag--blue">Incomplete</strong>
+        {% endif %}
+      </div>
+    </li>
+    <li class="govuk-task-list__item govuk-task-list__item--with-link">
+      <div class="govuk-task-list__name-and-hint">
+        <a class="govuk-link govuk-task-list__link" href="document-upload?task=notice" aria-describedby="notice-status">
+          Notice of intention to commence local plan preparation
+        </a>
+      </div>
+      <div class="govuk-task-list__status" id="notice-status">
+        {% if data['notice-complete'] %}
+          Completed
+        {% elif data['notice-started'] %}
+          <strong class="govuk-tag govuk-tag--light-blue">In progress</strong>
+        {% else %}
+          <strong class="govuk-tag govuk-tag--blue">Incomplete</strong>
+        {% endif %}
+      </div>
+    </li>
+    <li class="govuk-task-list__item govuk-task-list__item--with-link">
+      <div class="govuk-task-list__name-and-hint">
+        <a class="govuk-link govuk-task-list__link" href="document-upload?task=scoping-docs" aria-describedby="scoping-docs-status">
+          Scoping consultation documents
+        </a>
+      </div>
+      <div class="govuk-task-list__status" id="scoping-docs-status">
+        {% if data['scoping-docs-complete'] %}
+          Completed
+        {% elif data['scoping-docs-started'] %}
+          <strong class="govuk-tag govuk-tag--light-blue">In progress</strong>
+        {% else %}
+          <strong class="govuk-tag govuk-tag--blue">Incomplete</strong>
+        {% endif %}
+      </div>
+    </li>
+    <li class="govuk-task-list__item govuk-task-list__item--with-link">
+      <div class="govuk-task-list__name-and-hint">
+        <a class="govuk-link govuk-task-list__link" href="document-upload?task=scoping-feedback" aria-describedby="scoping-feedback-status">
+          Consultation summary of feedback to scoping consultation
+        </a>
+      </div>
+      <div class="govuk-task-list__status" id="scoping-feedback-status">
+        {% if data['scoping-feedback-complete'] %}
+          Completed
+        {% elif data['scoping-feedback-started'] %}
+          <strong class="govuk-tag govuk-tag--light-blue">In progress</strong>
+        {% else %}
+          <strong class="govuk-tag govuk-tag--blue">Incomplete</strong>
+        {% endif %}
+      </div>
+    </li>
+    <li class="govuk-task-list__item govuk-task-list__item--with-link">
+      <div class="govuk-task-list__name-and-hint">
+        <a class="govuk-link govuk-task-list__link" href="document-upload?task=gateway1" aria-describedby="gateway1-status">
+          Gateway 1 – Self assessment of readiness
+        </a>
+      </div>
+      <div class="govuk-task-list__status" id="gateway1-status">
+        {% if data['gateway1-complete'] %}
+          Completed
+        {% elif data['gateway1-started'] %}
+          <strong class="govuk-tag govuk-tag--light-blue">In progress</strong>
+        {% else %}
+          <strong class="govuk-tag govuk-tag--blue">Incomplete</strong>
+        {% endif %}
+      </div>
+    </li>
+    <li class="govuk-task-list__item govuk-task-list__item--with-link">
+      <div class="govuk-task-list__name-and-hint">
+        <a class="govuk-link govuk-task-list__link" href="document-upload?task=proposed-content-consultation" aria-describedby="proposed-content-consultation-status">
+          Consultation on proposed local plan content and evidence documents
+        </a>
+      </div>
+      <div class="govuk-task-list__status" id="proposed-content-consultation-status">
+        {% if data['proposed-content-consultation-complete'] %}
+          Completed
+        {% elif data['proposed-content-consultation-started'] %}
+          <strong class="govuk-tag govuk-tag--light-blue">In progress</strong>
+        {% else %}
+          <strong class="govuk-tag govuk-tag--blue">Incomplete</strong>
+        {% endif %}
+      </div>
+    </li>
+    <li class="govuk-task-list__item govuk-task-list__item--with-link">
+      <div class="govuk-task-list__name-and-hint">
+        <a class="govuk-link govuk-task-list__link" href="document-upload?task=proposed-content-feedback" aria-describedby="proposed-content-feedback-status">
+          Consultation summary for the above
+        </a>
+      </div>
+      <div class="govuk-task-list__status" id="proposed-content-feedback-status">
+        {% if data['proposed-content-feedback-complete'] %}
+          Completed
+        {% elif data['proposed-content-feedback-started'] %}
+          <strong class="govuk-tag govuk-tag--light-blue">In progress</strong>
+        {% else %}
+          <strong class="govuk-tag govuk-tag--blue">Incomplete</strong>
+        {% endif %}
+      </div>
+    </li>
+  </ul>
+</li>

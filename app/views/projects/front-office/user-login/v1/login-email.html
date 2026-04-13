@@ -14,13 +14,10 @@
 
   <h1 class="govuk-heading-xl">Sign-in</h1>
 
-
-  
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <p class="govuk-!-margin-bottom-9">To access this service, you will need your CBOS reference number which has been sent to your email address. If you don't have a reference number .....</p>
       
-      <form class="form" action="/projects/front-office/login-code" method="get">
       <div class="govuk-form-group">
         <h1 class="govuk-label-wrapper">
           <label class="govuk-label govuk-label--l" for="event-name">
@@ -30,11 +27,12 @@
         <input class="govuk-input govuk-!-width-two-thirds" id="event-name" name="e-mail-address" type="text">
       </div>
 
-      <div class="govuk-form-group">
+
         {{ govukButton({
-          text: "Continue"
+          text: "Continue",
+          href: "login-code"
         }) }}
-      </div>
+
 
       </form>
     </div>

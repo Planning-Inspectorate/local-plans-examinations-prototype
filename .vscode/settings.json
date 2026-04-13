@@ -4,5 +4,8 @@
 	"prettier.bracketSpacing": false,
 	"prettier.bracketSameLine": true,
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
-	"editor.formatOnType": true
+	"editor.formatOnType": true,
+	"[html]": {
+		"editor.defaultFormatter": "vscode.html-language-features"
+	}
 }
