@@ -10,6 +10,10 @@
   {{ super() }}
 {% endblock %}
 
+{% block footer %}
+  {% include "includes/front-office/footer.njk" %}
+{% endblock %}
+
 {% block pageScripts %}
   <script src="/node_modules/@ministryofjustice/frontend/moj/all.js"></script>
   <script>

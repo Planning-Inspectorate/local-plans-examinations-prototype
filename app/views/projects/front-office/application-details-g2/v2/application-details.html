@@ -6,12 +6,12 @@
 {% set prototypeLinks =
   [
     {
-      href: 'application-review',
-      text: 'Skip to check answers'
+      href: 'application-declaration',
+      text: 'Skip to declaration'
     },
     {
       href: 'application-submission-success',
-      text: 'Skip to declaration'
+      text: 'Skip to confirmation'
     }
   ]
 %}
@@ -65,7 +65,10 @@
 
     <ol class="app-task-list">
       {% include "./task-list__procedural.html" %}
+      {# Size modifiers: xl, l, m #}
+      <hr class="govuk-section-break govuk-section-break--m govuk-section-break--not-visible">
       {% include "./task-list__consultation.html" %}
+      <hr class="govuk-section-break govuk-section-break--m govuk-section-break--not-visible">
       {% include "./task-list__submit.html" %}
     </ol>
 
@@ -77,4 +80,3 @@
 {% block footer %}
   {% include "includes/front-office/footer.njk" %}
 {% endblock %}
-

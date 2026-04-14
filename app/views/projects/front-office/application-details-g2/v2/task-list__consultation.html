@@ -1,0 +1,167 @@
+<li>
+
+  {% set consultationSectionComplete =
+    data['consultation-statement-upload'] and
+    data['scoping-summary-upload'] and
+    data['proposed-content-summary-upload'] and
+    data['notice-upload'] and
+    data['scoping-docs-upload'] and
+    data['scoping-feedback-upload'] and
+    data['gateway1-upload'] and
+    data['proposed-content-consultation-upload'] and
+    data['proposed-content-feedback-upload']
+  %}
+
+  <h2 class="app-task-list__section">
+    <span class="app-task-list__section-number">2. </span>
+    Consultation documents
+
+    {% if consultationSectionComplete %}
+      {{ govukTag({ text: 'Completed', classes: 'govuk-tag--green' }) }}
+    {% else %}
+      {{ govukTag({ text: 'Not started', classes: 'govuk-tag--grey' }) }}
+    {% endif %}
+  </h2>
+
+  {{ govukSummaryList({
+    rows: [
+
+      {
+        key: { text: "Consultation statement" },
+        value: {
+          html: ('<a class="govuk-link" href="/uploads/' + data['consultation-statement-upload'] + '">' + data['consultation-statement-upload'] + '</a>')
+            if data['consultation-statement-upload']
+            else '<span class="govuk-hint">Not started</span>'
+        },
+        actions: {
+          items: [{
+            href: "document-upload/consultation-statement-upload",
+            text: "Change" if data['consultation-statement-upload'] else "Add"
+          }]
+        }
+      },
+
+      {
+        key: { text: "Consultation summary for scoping consultation" },
+        value: {
+          html: ('<a class="govuk-link" href="/uploads/' + data['scoping-summary-upload'] + '">' + data['scoping-summary-upload'] + '</a>')
+            if data['scoping-summary-upload']
+            else '<span class="govuk-hint">Not started</span>'
+        },
+        actions: {
+          items: [{
+            href: "document-upload/scoping-summary-upload",
+            text: "Change" if data['scoping-summary-upload'] else "Add"
+          }]
+        }
+      },
+
+      {
+        key: { text: "Consultation summary for proposed local plan content and evidence documents" },
+        value: {
+          html: ('<a class="govuk-link" href="/uploads/' + data['proposed-plan-summary-upload'] + '">' + data['proposed-plan-summary-upload'] + '</a>')
+            if data['proposed-plan-summary-upload']
+            else '<span class="govuk-hint">Not started</span>'
+        },
+        actions: {
+          items: [{
+            href: "document-upload/proposed-plan-summary-upload",
+            text: "Change" if data['proposed-plan-summary-upload'] else "Add"
+          }]
+        }
+      },
+
+      {
+        key: { text: "Notice of intention to commence local plan preparation" },
+        value: {
+          html: ('<a class="govuk-link" href="/uploads/' + data['notice-of-intention-upload'] + '">' + data['notice-of-intention-upload'] + '</a>')
+            if data['notice-of-intention-upload']
+            else '<span class="govuk-hint">Not started</span>'
+        },
+        actions: {
+          items: [{
+            href: "document-upload/notice-of-intention-upload",
+            text: "Change" if data['notice-of-intention-upload'] else "Add"
+          }]
+        }
+      },
+
+      {
+        key: { text: "Scoping consultation documents" },
+        value: {
+          html: ('<a class="govuk-link" href="/uploads/' + data['scoping-full-upload'] + '">' + data['scoping-full-upload'] + '</a>')
+            if data['scoping-full-upload']
+            else '<span class="govuk-hint">Not started</span>'
+        },
+        actions: {
+          items: [{
+            href: "document-upload/scoping-full-upload",
+            text: "Change" if data['scoping-full-upload'] else "Add"
+          }]
+        }
+      },
+
+      {
+        key: { text: "Consultation summary of feedback to scoping consultation" },
+        value: {
+          html: ('<a class="govuk-link" href="/uploads/' + data['scoping-feedback-summary-upload'] + '">' + data['scoping-feedback-summary-upload'] + '</a>')
+            if data['scoping-feedback-summary-upload']
+            else '<span class="govuk-hint">Not started</span>'
+        },
+        actions: {
+          items: [{
+            href: "document-upload/scoping-feedback-summary-upload",
+            text: "Change" if data['scoping-feedback-summary-upload'] else "Add"
+          }]
+        }
+      },
+
+      {
+        key: { text: "Gateway 1 – Self assessment of readiness" },
+        value: {
+          html: ('<a class="govuk-link" href="/uploads/' + data['gateway1-upload'] + '">' + data['gateway1-upload'] + '</a>')
+            if data['gateway1-upload']
+            else '<span class="govuk-hint">Not started</span>'
+        },
+        actions: {
+          items: [{
+            href: "document-upload/gateway1-upload",
+            text: "Change" if data['gateway1-upload'] else "Add"
+          }]
+        }
+      },
+
+      {
+        key: { text: "Consultation on proposed local plan content and evidence documents" },
+        value: {
+          html: ('<a class="govuk-link" href="/uploads/' + data['proposed-plan-full-upload'] + '">' + data['proposed-plan-full-upload'] + '</a>')
+            if data['proposed-plan-full-upload']
+            else '<span class="govuk-hint">Not started</span>'
+        },
+        actions: {
+          items: [{
+            href: "document-upload/proposed-plan-full-upload",
+            text: "Change" if data['proposed-plan-full-upload'] else "Add"
+          }]
+        }
+      },
+
+      {
+        key: { text: "Consultation summary for the above" },
+        value: {
+          html: ('<a class="govuk-link" href="/uploads/' + data['consultation-summary-upload'] + '">' + data['consultation-summary-upload'] + '</a>')
+            if data['consultation-summary-upload']
+            else '<span class="govuk-hint">Not started</span>'
+        },
+        actions: {
+          items: [{
+            href: "document-upload/consultation-summary-upload",
+            text: "Change" if data['consultation-summary-upload'] else "Add"
+          }]
+        }
+      }
+
+    ]
+  }) }}
+
+</li>

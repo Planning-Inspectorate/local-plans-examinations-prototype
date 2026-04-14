@@ -1,0 +1,46 @@
+{% extends "layouts/front-office.html" %}
+
+{% block pageTitle %}
+  Upload file – {{ serviceName }}
+{% endblock %}
+
+{% from "includes/multidocumentupload.njk" import multiDocumentUpload %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <form method="post" action="pid-upload" enctype="multipart/form-data">
+
+      {{ multiDocumentUpload({
+        caption: "Procedural documents",
+        heading: "Upload local plan timetable",
+        uploadUrl: "upload-documents"
+      }) }}
+
+      <input type="hidden" name="current-task" value="{{ data['current-task'] }}">
+
+      {{ govukButton({
+        text: "Continue"
+      }) }}
+
+    </form>
+
+    <p class="govuk-body">
+      <a class="govuk-link" href="../application-details">
+        Return to your application
+      </a>
+    </p>
+
+  </div>
+</div>
+
+{% endblock %}
