@@ -1,7 +1,7 @@
 const govukPrototypeKit = require('govuk-prototype-kit')
 const router = govukPrototypeKit.requests.setupRouter()
 
-router.get('/projects/front-office/application-details-g2/archive/v1/document-upload', (req, res, next) => {
+router.get('/projects/front-office/application-details-g2/archive/test-1/document-upload', (req, res, next) => {
   if (req.query.task) {
     req.session.data['current-task'] = req.query.task
     req.session.data[req.query.task + '-started'] = true
@@ -9,12 +9,12 @@ router.get('/projects/front-office/application-details-g2/archive/v1/document-up
   next()
 })
 
-router.post('/projects/front-office/application-details-g2/archive/v1/document-upload', (req, res) => {
+router.post('/projects/front-office/application-details-g2/archive/test-1/document-upload', (req, res) => {
   const task = req.session.data['current-task']
-  res.redirect('/projects/front-office/application-details-g2/archive/v1/document-category')
+  res.redirect('/projects/front-office/application-details-g2/archive/test-1/document-category')
 })
 
-router.get('/projects/front-office/application-details-g2/archive/v1/document-category', (req, res, next) => {
+router.get('/projects/front-office/application-details-g2/archive/test-1/document-category', (req, res, next) => {
   const task = req.session.data['current-task']
   if (task) {
     req.session.data[task + '-started'] = true
@@ -22,7 +22,7 @@ router.get('/projects/front-office/application-details-g2/archive/v1/document-ca
   next()
 })
 
-router.post('/projects/front-office/application-details-g2/archive/v1/document-category-complete', (req, res) => {
+router.post('/projects/front-office/application-details-g2/archive/test-1/document-category-complete', (req, res) => {
   const task = req.body['current-task']
 
   if (task) {
@@ -33,10 +33,10 @@ router.post('/projects/front-office/application-details-g2/archive/v1/document-c
     }
   }
 
-  res.redirect('/projects/front-office/application-details-g2/archive/v1/application-details')
+  res.redirect('/projects/front-office/application-details-g2/archive/test-1/application-details')
 })
 
-router.post('/projects/front-office/application-details-g2/archive/v1/upload-documents', (req, res) => {
+router.post('/projects/front-office/application-details-g2/archive/test-1/upload-documents', (req, res) => {
   res.json({
     files: [
       {
