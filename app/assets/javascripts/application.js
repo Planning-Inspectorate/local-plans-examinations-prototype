@@ -3,37 +3,6 @@
 // https://prototype-kit.service.gov.uk/docs/adding-css-javascript-and-images
 //
 
-window.GOVUKPrototypeKit.documentReady(() => {
-  // Add JavaScript here
-  window.filterCheckboxes = function(input) {
-    const filter = input.value.toLowerCase();
-    const checkboxes = input.parentNode.querySelectorAll('.govuk-checkboxes__item');
-    checkboxes.forEach(item => {
-      const label = item.querySelector('label');
-      if (label && label.textContent.toLowerCase().indexOf(filter) > -1) {
-        item.style.display = '';
-      } else {
-        item.style.display = 'none';
-      }
-    });
-  };
-})
-
-import { MultiFileUpload } from '@ministryofjustice/frontend'
-
-document.addEventListener('DOMContentLoaded', () => {
-  const $multiFileUpload = document.querySelector(
-    '[data-module="moj-multi-file-upload"]'
-  )
-
-  if ($multiFileUpload) {
-    new MultiFileUpload($multiFileUpload, {
-      uploadUrl: '/ajax-upload-url',
-      deleteUrl: '/ajax-delete-url'
-    })
-  }
-})
-
 // Multi file upload v5 
 const initMultiDocumentUploadV5 = () => {
   const fileInput = document.getElementById('documents')
@@ -289,6 +258,21 @@ const initMultiDocumentUploadV5 = () => {
 }
 
 window.GOVUKPrototypeKit.documentReady(() => {
+  // Add JavaScript here
+  window.filterCheckboxes = function(input) {
+    const filter = input.value.toLowerCase();
+    const checkboxes = input.parentNode.querySelectorAll('.govuk-checkboxes__item');
+    checkboxes.forEach(item => {
+      const label = item.querySelector('label');
+      if (label && label.textContent.toLowerCase().indexOf(filter) > -1) {
+        item.style.display = '';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  };
+  
+  // Initialize multi-file upload v5
   initMultiDocumentUploadV5()
 })
 
