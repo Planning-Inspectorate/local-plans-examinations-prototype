@@ -53,53 +53,7 @@
     </form>
 </div>
 
-<script>
-  // Initialize App object if it doesn't exist
-  if (typeof window.App === 'undefined') {
-    window.App = {};
-  }
-</script>
 <script src="/public/javascripts/multi-file-upload.js"></script>
-<script>
-  console.log('Upload page script loading...');
-  console.log('App.MultiFileUpload defined?', typeof App.MultiFileUpload);
-  console.log('jQuery available?', typeof jQuery);
-  
-  // Wait for jQuery to be available before initializing
-  function initMultiFileUpload() {
-    if (typeof jQuery === 'undefined' || typeof $ === 'undefined') {
-      console.log('Waiting for jQuery...');
-      setTimeout(initMultiFileUpload, 100);
-      return;
-    }
-    
-    console.log('jQuery is available');
-    
-// Use the real UI elements you actually have
-const container = document.querySelector('.moj-multi-file-upload__upload');
-const fileInput = document.querySelector('#documents');
-
-// Only initialise if elements exist
-if (!container || !fileInput) {
-  console.log('MOJ container or input not found — cannot initialise uploader');
-  return;
-}
-
-    if(typeof App.MultiFileUpload !== 'undefined') {
-      console.log('Initializing MultiFileUpload...');
-      const uploader = new App.MultiFileUpload({
-        container: $('.app-multi-file-upload'),
-        uploadUrl: '/projects/back-office/manage/ajax-upload',
-        deleteUrl: '/projects/back-office/manage/ajax-delete'
-      });
-      console.log('MultiFileUpload initialized');
-    } else {
-      console.error('App.MultiFileUpload is not defined!');
-    }
-  }
-  
-  initMultiFileUpload();
-</script>
   
 
 
