@@ -18,28 +18,24 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    <form method="post" action="consultation-statement-upload" enctype="multipart/form-data">
-
+    <form method="post">
       {{ multiDocumentUpload({
-        caption: "Procedural documents",
-        heading: "Upload draft statement of soundness",
-        uploadUrl: "upload-documents"
+      caption: "Consultation documents",
+      heading: "Upload consultation summary of the above(?)",
+      uploadUrl: "upload-documents"
       }) }}
-
-      <input type="hidden" name="current-task" value="{{ data['current-task'] }}">
 
       {{ govukButton({
-        text: "Continue"
+      text: "Continue"
       }) }}
 
+      <p class="govuk-body">
+        <a class="govuk-link" href="../application-details">
+          Return to your application
+        </a>
+      </p>
+
     </form>
-
-    <p class="govuk-body">
-      <a class="govuk-link" href="../application-details">
-        Return to your application
-      </a>
-    </p>
-
   </div>
 </div>
 
