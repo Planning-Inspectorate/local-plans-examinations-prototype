@@ -27,9 +27,19 @@ router.use('/', require('./routes/create-case'));
 router.use('/', require('./routes/create-case-v2'));
 router.use('/', require('./routes/projects/back-office/manage'));
 router.use('/', require('./routes/reps'));
-router.use('/', require('./views/projects/front-office/application-details-g2/archive/test-1/_routes'));
+router.use('/', require('./views/projects/front-office/application-details-g2/archive/v1/_routes.js'));
+
 
 // Import routes from different prototype folders
+router.use("/:service/:area/:prototype/v:version", (req, res, next) => {
+  try {
+    res.locals.location = `${req.params.service}/${req.params.area}/${req.params.prototype}/v${req.params.version}/`
+    return require(`./views/${req.params.service}/${req.params.area}/${req.params.prototype}/v${req.params.version}/_routes`)(req, res, next)
+  } catch (e) {
+    next()
+  }
+})
+
 router.use("/:service/:prototype/v:version", (req, res, next) => {
 	try {
 		res.locals.location = `${req.params.service}/${req.params.prototype}/v${req.params.version}/`
@@ -45,15 +55,6 @@ router.use("/:service/v:version", (req, res, next) => {
 	} catch (e) {
 		next()
 	}
-})
-
-router.use("/:service/:area/:prototype/v:version", (req, res, next) => {
-  try {
-    res.locals.location = `${req.params.service}/${req.params.area}/${req.params.prototype}/v${req.params.version}/`
-    return require(`./views/${req.params.service}/${req.params.area}/${req.params.prototype}/v${req.params.version}/_routes`)(req, res, next)
-  } catch (e) {
-    next()
-  }
 })
 
 // If you have other feature routers that also export Router objects,
