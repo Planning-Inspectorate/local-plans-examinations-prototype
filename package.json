@@ -5,26 +5,19 @@
     "start": "govuk-prototype-kit start"
   },
   "dependencies": {
-    "@govuk-prototype-kit/common-templates": "3.0.0",
-    "@govuk-prototype-kit/step-by-step": "3.0.0",
-    "@govuk-prototype-kit/task-list": "2.0.0",
-    "@ministryofjustice/frontend": "^9.0.0",
-    "express": "^5.1.0",
-<<<<<<< Updated upstream
-    "govuk-frontend": "6.1.0",
-    "govuk-prototype-kit": "13.20.0",
-    "hmrc-frontend": "7.9.0",
-    "jquery": "4.0.0",
-=======
-    "govuk-frontend": "^5.14.0",
-    "govuk-prototype-kit": "13.18.1",
-    "hmrc-frontend": "6.103.0",
-    "jquery": "3.7.1",
-    "moment": "^2.30.1",
->>>>>>> Stashed changes
-    "multer": "^2.0.2",
-    "notifications-node-client": "8.3.2"
-  },
+  "@govuk-prototype-kit/common-templates": "3.0.0",
+  "@govuk-prototype-kit/step-by-step": "3.0.0",
+  "@govuk-prototype-kit/task-list": "2.0.0",
+  "@ministryofjustice/frontend": "^9.0.0",
+  "express": "^5.1.0",
+  "govuk-frontend": "^5.14.0",
+  "govuk-prototype-kit": "13.20.0",
+  "hmrc-frontend": "7.9.0",
+  "jquery": "3.7.1",
+  "moment": "^2.30.1",
+  "multer": "^2.0.2",
+  "notifications-node-client": "8.3.2"
+},
   "devDependencies": {
     "sass": "^1.97.3"
   }

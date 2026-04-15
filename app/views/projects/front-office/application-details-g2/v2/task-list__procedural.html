@@ -1,72 +1,74 @@
 <li>
-
-  {% set proceduralSectionComplete =
-    data['cover-letter-upload'] and
-    data['timetable-upload'] and
-    data['pid-upload'] and
-    data['compliance-upload'] and
-    data['soundness-upload']
-  %}
-
   <h2 class="app-task-list__section">
-    <span class="app-task-list__section-number">1. </span>
-    Procedural documents
-
-    {% if proceduralSectionComplete %}
-      {{ govukTag({ text: 'Completed', classes: 'govuk-tag--green' }) }}
+    <span class="app-task-list__section-number">1. </span> Procedural documents
+    {% if data['procedural-completed'] == 'true' %}
+      {{ govukTag({ html: 'Completed' }) }}
+    {% elif data['procedural-started'] == 'true' %}
+      {{ govukTag({ html: 'In progress', classes: 'govuk-tag--blue' }) }}
     {% else %}
-      {{ govukTag({ text: 'Not started', classes: 'govuk-tag--grey' }) }}
+      {{ govukTag({ html: 'Not started', classes: 'govuk-tag--grey' }) }}
     {% endif %}
   </h2>
 
   {{ govukSummaryList({
+    classes: 'govuk-!-margin-bottom-9',
     rows: [
+
       {
-        key: { text: "Gateway 2 covering letter" },
-        value: {
-          html: ('<a class="govuk-link" href="/uploads/' + data['cover-letter-upload'] + '">' + data['cover-letter-upload'] + '</a>') if data['cover-letter-upload'] else '<span class="govuk-hint">Not started</span>'
-        },
-        actions: {
-          items: [{ href: "document-upload/cover-letter-upload", text: "Change" if data['cover-letter-upload'] else "Add" }]
-        }
+        key: { text: 'Gateway 2 covering letter' },
+        value:
+          { html: "<a href='#'>cover-letter.pdf</a>" } if data['cover-letter-upload-complete']
+          else { html: '<span class="govuk-hint">Not started</span>' },
+        actions: { items: [
+          { href: 'procedural-documents/cover-letter-upload?cya=true', html: 'Change' } if data['cover-letter-upload-complete']
+          else { href: 'procedural-documents/cover-letter-upload', html: 'Add' }
+        ]}
       },
+
       {
-        key: { text: "Local plan timetable" },
-        value: {
-          html: ('<a class="govuk-link" href="/uploads/' + data['timetable-upload'] + '">' + data['timetable-upload'] + '</a>') if data['timetable-upload'] else '<span class="govuk-hint">Not started</span>'
-        },
-        actions: {
-          items: [{ href: "document-upload/timetable-upload", text: "Change" if data['timetable-upload'] else "Add" }]
-        }
+        key: { text: 'Local plan timetable' },
+        value:
+          { html: "<a href='#'>timetable.pdf</a>" } if data['timetable-upload-complete']
+          else { html: '<span class="govuk-hint">Not started</span>' },
+        actions: { items: [
+          { href: 'procedural-documents/timetable-upload?cya=true', html: 'Change' } if data['timetable-upload-complete']
+          else { href: 'procedural-documents/timetable-upload', html: 'Add' }
+        ]}
       },
+
       {
-        key: { text: "Project initiation document" },
-        value: {
-          html: ('<a class="govuk-link" href="/uploads/' + data['pid-upload'] + '">' + data['pid-upload'] + '</a>') if data['pid-upload'] else '<span class="govuk-hint">Not started</span>'
-        },
-        actions: {
-          items: [{ href: "document-upload/pid-upload", text: "Change" if data['pid-upload'] else "Add" }]
-        }
+        key: { text: 'Project initiation document' },
+        value:
+          { html: "<a href='#'>pid.pdf</a>" } if data['pid-upload-complete']
+          else { html: '<span class="govuk-hint">Not started</span>' },
+        actions: { items: [
+          { href: 'procedural-documents/pid-upload?cya=true', html: 'Change' } if data['pid-upload-complete']
+          else { href: 'procedural-documents/pid-upload', html: 'Add' }
+        ]}
       },
+
       {
-        key: { text: "Draft statement of compliance" },
-        value: {
-          html: ('<a class="govuk-link" href="/uploads/' + data['compliance-upload'] + '">' + data['compliance-upload'] + '</a>') if data['compliance-upload'] else '<span class="govuk-hint">Not started</span>'
-        },
-        actions: {
-          items: [{ href: "document-upload/compliance-upload", text: "Change" if data['compliance-upload'] else "Add" }]
-        }
+        key: { text: 'Draft statement of compliance' },
+        value:
+          { html: "<a href='#'>compliance.pdf</a>" } if data['compliance-upload-complete']
+          else { html: '<span class="govuk-hint">Not started</span>' },
+        actions: { items: [
+          { href: 'procedural-documents/compliance-upload?cya=true', html: 'Change' } if data['compliance-upload-complete']
+          else { href: 'procedural-documents/compliance-upload', html: 'Add' }
+        ]}
       },
+
       {
-        key: { text: "Draft statement of soundness" },
-        value: {
-          html: ('<a class="govuk-link" href="/uploads/' + data['soundness-upload'] + '">' + data['soundness-upload'] + '</a>') if data['soundness-upload'] else '<span class="govuk-hint">Not started</span>'
-        },
-        actions: {
-          items: [{ href: "document-upload/soundness-upload", text: "Change" if data['soundness-upload'] else "Add" }]
-        }
+        key: { text: 'Draft statement of soundness' },
+        value:
+          { html: "<a href='#'>soundness.pdf</a>" } if data['soundness-upload-complete']
+          else { html: '<span class="govuk-hint">Not started</span>' },
+        actions: { items: [
+          { href: 'procedural-documents/soundness-upload?cya=true', html: 'Change' } if data['soundness-upload-complete']
+          else { href: 'procedural-documents/soundness-upload', html: 'Add' }
+        ]}
       }
+
     ]
   }) }}
-
 </li>

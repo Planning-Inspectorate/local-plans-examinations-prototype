@@ -1,27 +1,22 @@
-{% set proceduralComplete = data['covering-letter-file'] and data['timetable-file'] and data['pid-file'] and data['compliance-file'] and data['soundness-file'] %}
- 
-{% set consultationComplete = data['consultation-statement-file'] and data['scoping-summary-file'] and data['proposed-content-summary-file'] and data['notice-file'] and data['scoping-docs-file'] and data['scoping-feedback-file'] and data['gateway1-file'] and data['proposed-content-consultation-file'] and data['proposed-content-feedback-file'] %}
- 
 <li>
   <h2 class="app-task-list__section">
     <span class="app-task-list__section-number">3. </span> Submit
-    {% if proceduralComplete and consultationComplete %}
+    {% if data['procedural-completed'] == 'true' and data['consultation-completed'] == 'true' %}
       {{ govukTag({ text: 'Ready to submit', classes: 'govuk-tag--blue' }) }}
     {% else %}
       {{ govukTag({ text: 'Cannot start yet', classes: 'govuk-tag--grey' }) }}
     {% endif %}
   </h2>
+
   {{ govukSummaryList({
     classes: 'govuk-!-margin-bottom-9',
     rows: [
       {
-        key: {
-          html: 'Accept declaration and submit',
-          classes: 'govuk-!-width-full'
-        },
-        actions: {
-          items: [{ href: 'application-review', html: 'Continue' }]
-        } if proceduralComplete and consultationComplete
+        key: { html: 'Accept declaration and submit', classes: 'govuk-!-width-full' },
+        actions: { items: [
+          { href: 'application-declaration', html: 'Continue' }
+        ]}
+        if data['procedural-completed'] == 'true' and data['consultation-completed'] == 'true'
       }
     ]
   }) }}

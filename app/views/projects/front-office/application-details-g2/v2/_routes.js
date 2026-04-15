@@ -1,41 +1,138 @@
 const govukPrototypeKit = require('govuk-prototype-kit')
 const router = govukPrototypeKit.requests.setupRouter()
 
-// Array defining the sequence of pages for the "Continue" flow
-const uploadFlow = [
-  'cover-letter-upload',
-  'timetable-upload',
-  'pid-upload',
-  'compliance-upload',
-  'soundness-upload',
-  'consultation-statement-upload',
-  'scoping-summary-upload',
-  'proposed-plan-summary-upload',
-  'notice-of-intention-upload',
-  'scoping-full-upload',
-  'scoping-feedback-summary-upload',
-  'gateway1-upload',
-  'proposed-plan-full-upload',
-  'consultation-summary-upload'
-]
+// -----------------------------------------------
+// APPLICATION DETAILS
+// -----------------------------------------------
 
-router.post('/document-upload/:page', function (req, res) {
-  const currentPage = req.params.page
-  const currentIndex = uploadFlow.indexOf(currentPage)
-  
-  // 1. Mark this specific page as "uploaded" by saving a dummy filename
-  // This satisfies your requirement to show a filename in the task list
-  req.session.data[currentPage + '-file'] = 'document_v1.pdf'
+router.get('/application-details', function (req, res, next) {
+  let completedCount = 0
+  if (req.session.data['procedural-completed'] == 'true') { completedCount++ }
+  if (req.session.data['consultation-completed'] == 'true') { completedCount++ }
+  res.locals.completedCount = completedCount
+  next()
+})
 
-  // 2. Determine where to go next
-  if (currentIndex !== -1 && currentIndex < uploadFlow.length - 1) {
-    // Go to the next page in the sequence
-    const nextPage = uploadFlow[currentIndex + 1]
-    res.redirect(nextPage)
+// -----------------------------------------------
+// PROCEDURAL DOCUMENTS
+// -----------------------------------------------
+
+// Specific routes first
+router.post('/procedural-documents/cover-letter-upload', function (req, res) {
+  req.session.data['procedural-started'] = 'true'
+  req.session.data['cover-letter-upload-complete'] = 'true'
+  res.redirect('timetable-upload')
+})
+
+router.post('/procedural-documents/timetable-upload', function (req, res) {
+  req.session.data['procedural-started'] = 'true'
+  req.session.data['timetable-upload-complete'] = 'true'
+  res.redirect('pid-upload')
+})
+
+router.post('/procedural-documents/pid-upload', function (req, res) {
+  req.session.data['procedural-started'] = 'true'
+  req.session.data['pid-upload-complete'] = 'true'
+  res.redirect('compliance-upload')
+})
+
+router.post('/procedural-documents/compliance-upload', function (req, res) {
+  req.session.data['procedural-started'] = 'true'
+  req.session.data['compliance-upload-complete'] = 'true'
+  res.redirect('soundness-upload')
+})
+
+router.post('/procedural-documents/soundness-upload', function (req, res) {
+  req.session.data['procedural-started'] = 'true'
+  req.session.data['soundness-upload-complete'] = 'true'
+  req.session.data['procedural-completed'] = 'true'
+  res.redirect('complete')
+})
+
+// Generic wildcard — after specific routes
+router.post('/procedural-documents/:page', function (req, res, next) {
+  req.session.data['procedural-started'] = 'true'
+  req.session.data[`${req.params.page}-complete`] = 'true'
+  next()
+})
+
+router.get('/procedural-documents/complete', function (req, res) {
+  if (!req.session.data['consultation-completed']) {
+    res.redirect('../consultation-documents/consultation-statement-upload')
   } else {
-    // It's the last page (consultation-summary-upload), go back to task list
     res.redirect('../application-details')
   }
+})
+
+// -----------------------------------------------
+// CONSULTATION DOCUMENTS
+// -----------------------------------------------
+
+// Specific routes first
+router.post('/consultation-documents/consultation-statement-upload', function (req, res) {
+  req.session.data['consultation-started'] = 'true'
+  req.session.data['consultation-statement-upload-complete'] = 'true'
+  res.redirect('scoping-summary-upload')
+})
+
+router.post('/consultation-documents/scoping-summary-upload', function (req, res) {
+  req.session.data['consultation-started'] = 'true'
+  req.session.data['scoping-summary-upload-complete'] = 'true'
+  res.redirect('proposed-plan-summary-upload')
+})
+
+router.post('/consultation-documents/proposed-plan-summary-upload', function (req, res) {
+  req.session.data['consultation-started'] = 'true'
+  req.session.data['proposed-plan-summary-upload-complete'] = 'true'
+  res.redirect('notice-of-intention-upload')
+})
+
+router.post('/consultation-documents/notice-of-intention-upload', function (req, res) {
+  req.session.data['consultation-started'] = 'true'
+  req.session.data['notice-of-intention-upload-complete'] = 'true'
+  res.redirect('scoping-full-upload')
+})
+
+router.post('/consultation-documents/scoping-full-upload', function (req, res) {
+  req.session.data['consultation-started'] = 'true'
+  req.session.data['scoping-full-upload-complete'] = 'true'
+  res.redirect('scoping-feedback-summary-upload')
+})
+
+router.post('/consultation-documents/scoping-feedback-summary-upload', function (req, res) {
+  req.session.data['consultation-started'] = 'true'
+  req.session.data['scoping-feedback-summary-upload-complete'] = 'true'
+  res.redirect('gateway1-upload')
+})
+
+router.post('/consultation-documents/gateway1-upload', function (req, res) {
+  req.session.data['consultation-started'] = 'true'
+  req.session.data['gateway1-upload-complete'] = 'true'
+  res.redirect('proposed-plan-full-upload')
+})
+
+router.post('/consultation-documents/proposed-plan-full-upload', function (req, res) {
+  req.session.data['consultation-started'] = 'true'
+  req.session.data['proposed-plan-full-upload-complete'] = 'true'
+  res.redirect('consultation-summary-upload')
+})
+
+router.post('/consultation-documents/consultation-summary-upload', function (req, res) {
+  req.session.data['consultation-started'] = 'true'
+  req.session.data['consultation-summary-upload-complete'] = 'true'
+  req.session.data['consultation-completed'] = 'true'
+  res.redirect('complete')
+})
+
+// Generic wildcard — after specific routes
+router.post('/consultation-documents/:page', function (req, res, next) {
+  req.session.data['consultation-started'] = 'true'
+  req.session.data[`${req.params.page}-complete`] = 'true'
+  next()
+})
+
+router.get('/consultation-documents/complete', function (req, res) {
+  res.redirect('../application-details')
 })
 
 module.exports = router

@@ -276,3 +276,6 @@ const initMultiDocumentUploadV5 = () => {
 window.GOVUKPrototypeKit.documentReady(() => {
   initMultiDocumentUploadV5()
 })
+
+window.MOJFrontend = require('@ministryofjustice/frontend');
+MOJFrontend.initAll();
