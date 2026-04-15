@@ -1,0 +1,81 @@
+{% extends "layouts/front-office.html" %}
+
+{% block pageTitle %} Home – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "homepage"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">Submit local plans 2026</h1>
+    <p class="govuk-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
+      labore et dolore magna aliqua.</p>
+
+      <p class="govuk-body"><a href="#" class="govuk-link">See submission guidance here</a></p>
+
+      {% from "govuk/components/task-list/macro.njk" import govukTaskList %}
+
+{{ govukTaskList({
+  idPrefix: "to-do",
+  items: [
+    {
+      title: {
+        text: "Gateway 2 application"
+      },
+      hint: {
+      text: "Description of gateway 2 goes here"
+      },
+      href: "../../application-details-g2/v2/application-details",
+      status: {
+        tag: {
+          text: "Complete",
+          classes: "govuk-tag--green"
+        }
+      }
+    },
+    {
+      title: {
+        text: "Gateway 3 application"
+      },
+      hint: {
+      text: "Description of gateway 3 goes here"
+      },
+      href: "#",
+      status: {
+        tag: {
+          text: "In progress",
+          classes: "govuk-tag--light-blue"
+        }
+      }
+    },
+    {
+      title: {
+        text: "Final submission"
+      },
+      hint: {
+        text: "Description of final submission goes here"
+      },
+      href: "#",
+      status: {
+        tag: {
+          text: "Cannot start yet",
+          classes: "govuk-tag--grey"
+        }
+      }
+    }
+  ]
+}) }}
+  </div>
+
+
+</div>
+
+{% endblock %}

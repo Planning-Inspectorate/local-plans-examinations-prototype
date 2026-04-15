@@ -1,0 +1,54 @@
+{% extends "layouts/main.html" %}
+ 
+{% set title="Dashboard" %}
+{% set activeNav = 'front-office' %}
+
+{% block header %}
+  {% include "includes/PINS-header--internal.html" %}
+  {% include "includes/service-navigation.html" %}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    html: 'Back to all prototypes',
+    href: '/front-office.html'
+  }) }}
+{% endblock %}
+ 
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+ 
+    <span class="govuk-caption-l">
+      Submit a local plan
+    </span>
+    <h1 class="govuk-heading-l">
+      {{ title }}
+    </h1>
+ 
+    {% set version = "1" %}
+    <h2 class="govuk-heading-m">
+      Version {{ version }}
+      {{ govukTag({
+        classes: 'govuk-tag--yellow govuk-!-margin-left-2',
+        text: 'In progress'
+      }) }}
+    </h2>
+ 
+    <p class="govuk-!-margin-bottom-2">Changes:</p>
+ 
+    <ul class="govuk-list govuk-list--bullet">
+      <li>TODO</li>
+    </ul>
+ 
+    {{ govukButton({
+      html: 'View prototype',
+      href: '/projects/front-office/home/v' ~ version ~ '/homepage',
+      isStartButton: true
+    }) }}
+ 
+
+ 
+  </div>
+</div>
+{% endblock %}

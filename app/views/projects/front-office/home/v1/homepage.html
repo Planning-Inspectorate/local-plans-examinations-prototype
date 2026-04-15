@@ -1,16 +1,34 @@
 {% extends "layouts/front-office.html" %}
 
-{% block pageTitle %} Home – {{ serviceName }} 
+{% block pageTitle %} Home – {{ serviceName }}
 {% endblock %}
 
 {% block content %}
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-three-quarters">
- 
 
-
+  <div class="govuk-grid-column-one-third">
+    <h1 class="govuk-heading-l">Local plans</h1>
+    <p class="govuk-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
+      labore et dolore magna aliqua.</p>
+    <p class="govuk-body"><a href="local-plans-home" class="govuk-link">Manage local plans</a></p>
   </div>
+
+  <div class="govuk-grid-column-one-third">
+    <h1 class="govuk-heading-l">Second plans</h1>
+    <p class="govuk-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
+      labore et dolore magna aliqua.</p>
+    <p class="govuk-body"><a href="#" class="govuk-link">Manage second plans</a></p>
+  </div>
+
+  <div class="govuk-grid-column-one-third">
+    <h1 class="govuk-heading-l">Third plans</h1>
+    <p class="govuk-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
+      labore et dolore magna aliqua.</p>
+    <p class="govuk-body"><a href="#" class="govuk-link">Manage third plans</a></p>
+  </div>
+
+
 </div>
 
 {% endblock %}
