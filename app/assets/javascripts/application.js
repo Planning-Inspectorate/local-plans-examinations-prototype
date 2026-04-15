@@ -19,6 +19,21 @@ window.GOVUKPrototypeKit.documentReady(() => {
   };
 })
 
+import { MultiFileUpload } from '@ministryofjustice/frontend'
+
+document.addEventListener('DOMContentLoaded', () => {
+  const $multiFileUpload = document.querySelector(
+    '[data-module="moj-multi-file-upload"]'
+  )
+
+  if ($multiFileUpload) {
+    new MultiFileUpload($multiFileUpload, {
+      uploadUrl: '/ajax-upload-url',
+      deleteUrl: '/ajax-delete-url'
+    })
+  }
+})
+
 // Multi file upload v5 
 const initMultiDocumentUploadV5 = () => {
   const fileInput = document.getElementById('documents')
