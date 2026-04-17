@@ -2,7 +2,7 @@
   <h2 class="app-task-list__section">
     <span class="app-task-list__section-number">2. </span> Consultation documents
     {% if data['consultation-completed'] == 'true' %}
-      {{ govukTag({ html: 'Completed' }) }}
+      {{ govukTag({ html: 'Completed', classes: 'govuk-tag--green' }) }}
     {% elif data['consultation-started'] == 'true' %}
       {{ govukTag({ html: 'In progress', classes: 'govuk-tag--blue' }) }}
     {% else %}

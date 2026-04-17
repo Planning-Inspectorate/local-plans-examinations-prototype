@@ -2,7 +2,7 @@
   <h2 class="app-task-list__section">
     <span class="app-task-list__section-number">1. </span> Procedural documents
     {% if data['procedural-completed'] == 'true' %}
-      {{ govukTag({ html: 'Completed' }) }}
+      {{ govukTag({ html: 'Completed', classes: 'govuk-tag--green' }) }}
     {% elif data['procedural-started'] == 'true' %}
       {{ govukTag({ html: 'In progress', classes: 'govuk-tag--blue' }) }}
     {% else %}
