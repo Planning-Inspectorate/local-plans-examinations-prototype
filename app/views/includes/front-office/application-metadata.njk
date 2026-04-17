@@ -11,18 +11,20 @@
   }
 </style>
 
-<h1 class="govuk-heading-l">Application reference: PLAN/12345</h1>
+<h1 class="govuk-heading-l">
+  <span class="govuk-caption-l">PLAN/12345</span>
+Southside Local Plan</h1>
  
 {{ govukSummaryList({
   classes: "app-details govuk-summary-list--no-border",
   rows: [
     {
-      key: { text: "Local authority" },
-      value: { text: "Liverpool City Council" }
+      key: { text: "Local planning authority", classes: "govuk-!-width-one-third" },
+      value: { text: "Brighton and Hove City Council" }
     },
     {
       key: { text: "Region" },
-      value: { text: "North West" }
+      value: { text: "South East" }
     }
   ]
 }) }}
