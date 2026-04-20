@@ -1,0 +1,176 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+  Check your answers – {{ serviceName }} 
+{% endblock %}
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+{% block content %}
+  <form method="post" action="/projects/back-office/create-case/v2/check-answers">
+<h1 class="govuk-heading-l">Check your answers</h1> 
+      <!-- Overview summary card -->
+      <div class="govuk-summary-card" id="overview">
+        <div class="govuk-summary-card__title-wrapper">
+          <h2 class="govuk-summary-card__title">Overview</h2>
+        </div>
+        <div class="govuk-summary-card__content">
+          <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Plan title</dt>
+              <dd class="govuk-summary-list__value">{{ planTitle or '-' }}</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/projects/back-office/create-case/v2/1-plan-title?edit=true">Change<span class="govuk-visually-hidden"> Change the plan title</span></a>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Plan type</dt>
+              <dd class="govuk-summary-list__value">{{ planType or '-' }}</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/projects/back-office/create-case/v2/2-plan-type?edit=true">Change<span class="govuk-visually-hidden"> Change the plan type</span></a>
+              </dd>
+            </div>
+            {% if lpas and lpas.length > 0 %}
+              {% for lpa in lpas %}
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key">Local Planning Authority {{ loop.index }}</dt>
+                  <dd class="govuk-summary-list__value">{{ lpa }}</dd>
+                  <dd class="govuk-summary-list__actions">
+                    <a class="govuk-link" href="/projects/back-office/create-case/v2/3-select-LPA?edit=true&index={{ loop.index0 }}">Change<span class="govuk-visually-hidden"> Change LPA {{ loop.index }}</span></a>
+                  </dd>
+                </div>
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key">Region {{ loop.index }}</dt>
+                  <dd class="govuk-summary-list__value">{{ lpaRegions and lpaRegions[lpa] or '-' }}</dd>
+                  <dd class="govuk-summary-list__actions">
+                    <a class="govuk-link" href="/projects/back-office/create-case/v2/LPA-region?edit=true&index={{ loop.index0 }}">Change<span class="govuk-visually-hidden"> Change region for LPA {{ loop.index }}</span></a>
+                  </dd>
+                </div>
+              {% endfor %}
+            {% else %}
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Local Planning Authority</dt>
+                <dd class="govuk-summary-list__value">-</dd>
+                <dd class="govuk-summary-list__actions"></dd>
+              </div>
+            {% endif %}
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Case officer</dt>
+              <dd class="govuk-summary-list__value">{{ caseOfficer or '-' }}</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/projects/back-office/create-case/v2/0-case-officer-name?edit=true">Change<span class="govuk-visually-hidden"> Change the case officer</span></a>
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+
+      <!-- Contacts summary card -->
+
+       <div class="govuk-summary-card" id="contacts">
+        <div class="govuk-summary-card__title-wrapper">
+          <h2 class="govuk-summary-card__title">Contacts</h2>
+        </div>
+        <div class="govuk-summary-card__content">
+          <dl class="govuk-summary-list">
+            {% if mainContact %}
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Main contact</dt>
+                <dd class="govuk-summary-list__value">
+                  {{ mainContact.firstName }} {{ mainContact.lastName }}<br>
+                  {{ mainContact.email }}<br>
+                  {% if mainContact.phone %}{{ mainContact.phone }}<br>{% endif %}
+                  {{ mainContact.organisation }}
+                </dd>
+                <dd class="govuk-summary-list__actions">
+                  <ul class="govuk-summary-list__actions-list">
+                    <li class="govuk-summary-list__actions-list-item">
+                      <a class="govuk-link" href="/projects/back-office/create-case/v2/main-contact?edit=true">Change<span class="govuk-visually-hidden"> main contact</span></a>
+                    </li>
+                  </ul>
+                </dd>
+              </div>
+            {% endif %}
+
+            {% if contacts %}
+              {% for contact in contacts %}
+                {% if contact.firstName or contact.lastName or contact.email %}
+                <div class="govuk-summary-list__row">
+                  <dt class="govuk-summary-list__key">Additional contact</dt>
+                  <dd class="govuk-summary-list__value">
+                    {{ contact.firstName }} {{ contact.lastName }}<br>
+                    {{ contact.email }}<br>
+                    {% if contact.phone %}{{ contact.phone }}<br>{% endif %}
+                    {{ contact.organisation }}
+                  </dd>
+                  <dd class="govuk-summary-list__actions">
+                    <ul class="govuk-summary-list__actions-list">
+                      <li class="govuk-summary-list__actions-list-item">
+                        <a class="govuk-link" href="/projects/back-office/create-case/v2/additional-contact?edit={{ loop.index0 }}&from=check-answers">Change<span class="govuk-visually-hidden"> contact {{ loop.index }}</span></a>
+                      </li>
+                    </ul>
+                  </dd>
+                </div>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          </dl>
+        </div>
+      </div>
+      <!-- Dates summary card -->
+      <div class="govuk-summary-card" id="dates">
+        <div class="govuk-summary-card__title-wrapper">
+          <h2 class="govuk-summary-card__title">Dates</h2>
+        </div>
+        <div class="govuk-summary-card__content">
+          <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Notice of Intention date</dt>
+              <dd class="govuk-summary-list__value">{{ noticeOfIntentionDate or '-' }}</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/projects/back-office/create-case/v2/enter-key-dates?edit=true">Change<span class="govuk-visually-hidden"> Notice of Intention date</span></a>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Gateway 1 estimated date</dt>
+              <dd class="govuk-summary-list__value">{{ gateway1Date or '-' }}</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/projects/back-office/create-case/v2/enter-key-dates?edit=true#gateway-1-date">Change<span class="govuk-visually-hidden"> Gateway 1 Estimated Date</span></a>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Gateway 2 estimated date</dt>
+              <dd class="govuk-summary-list__value">{{ gateway2Date or '-' }}</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/projects/back-office/create-case/v2/enter-key-dates?edit=true#gateway-2-date">Change<span class="govuk-visually-hidden"> Gateway 2 Estimated Date</span></a>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Gateway 3 estimated date</dt>
+              <dd class="govuk-summary-list__value">{{ gateway3Date or '-' }}</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/projects/back-office/create-case/v2/enter-key-dates?edit=true#gateway-3-date">Change<span class="govuk-visually-hidden">Gateway 3 Estimated Date</span></a>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Submission for examination date</dt>
+              <dd class="govuk-summary-list__value">{{ submissionDate or '-' }}</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/projects/back-office/create-case/v2/enter-key-dates?edit=true#submission-date">Change<span class="govuk-visually-hidden">Submission for Examination date</span></a>
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+
+      <button type="submit" class="govuk-button" data-module="govuk-button" data-govuk-button-init="">
+        Submit case
+      </button>
+    </form>
+{% endblock %}
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

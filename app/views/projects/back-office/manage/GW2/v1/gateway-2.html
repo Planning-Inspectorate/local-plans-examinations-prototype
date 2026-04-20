@@ -1,0 +1,169 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+Gateway 2 overview – {{ serviceName }} 
+{% endblock %}
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+  <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
+	<h1 class="govuk-heading-l">{{ planTitle or '-' }}</h1>
+	{{govukTag({
+      text: "New",
+      classes: "govuk-tag--turquoise"
+    })}}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <nav class="x-govuk-secondary-navigation app-secondary-nav govuk-!-margin-top-6 govuk-!-margin-bottom-6" aria-label="Secondary menu">
+        <ul class="x-govuk-secondary-navigation__list">
+    <li class="x-govuk-secondary-navigation__list-item">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/overview/v1/index">
+        Overview
+      </a>
+    </li>
+    <li class="x-govuk-secondary-navigation__list-item ">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/timetable.html">
+        Timetable
+      </a>
+    </li>  
+    <li class="x-govuk-secondary-navigation__list-item ">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/GW1/v1/gateway-1">
+        Gateway 1
+      </a>
+    </li> 
+    <li class="x-govuk-secondary-navigation__list-item x-govuk-secondary-navigation__list-item--current">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/GW2/v1/gateway-2" aria-current="page">
+        Gateway 2
+      </a>
+    </li>
+    <li class="x-govuk-secondary-navigation__list-item ">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/GW3/v1/gateway-3">
+        Gateway 3
+      </a>
+    </li>
+    <li class="x-govuk-secondary-navigation__list-item ">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/examination/v1/examination">
+        Examination
+      </a>
+    </li>
+    <li class="x-govuk-secondary-navigation__list-item ">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/documents/v1/documents">
+        Documents
+      </a>
+    </li>
+    <li class="x-govuk-secondary-navigation__list-item ">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/updates/v1/updates.html">
+        Updates
+      </a>
+    </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <form method="post" action="">
+
+      <h2 class="govuk-heading-m">Gateway 2</h2>
+      <dl class="govuk-summary-list govuk-summary-list-timetable">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Gateway 2 estimated date</dt>
+          <dd class="govuk-summary-list__value">{{ gateway2EstimatedDate or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-estimated.html?returnUrl=/projects/back-office/manage/GW2/v1/gateway-2.html">Change<span class="govuk-visually-hidden"> Gateway 2 Estimated Date</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Gateway 2 actual date</dt>
+          <dd class="govuk-summary-list__value">{{ gateway2ActualDate or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-actual.html?returnUrl=/projects/back-office/manage/GW2/v1/gateway-2.html">Change<span class="govuk-visually-hidden"> Gateway 2 Actual Date</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Gateway 2 valid date</dt>
+          <dd class="govuk-summary-list__value">{{ gateway2ValidDate or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-valid.html?returnUrl=/projects/back-office/manage/GW2/v1/gateway-2.html">Change<span class="govuk-visually-hidden"> Gateway 2 Valid Date</span></a>
+          </dd>
+        </div>
+        </dl>
+         <dl class="govuk-summary-list govuk-summary-list-timetable">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Gateway 2 assessor name</dt>
+          <dd class="govuk-summary-list__value">{{ gateway2AssessorName or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-assessor-name.html?returnUrl=/projects/back-office/manage/GW2/v1/gateway-2.html">Change<span class="govuk-visually-hidden"> Gateway 2 Assessor Name</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Assessor date of appointment</dt>
+          <dd class="govuk-summary-list__value">{{ gateway2AssessorAppointmentDate or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-assessor-appointment.html?returnUrl=/projects/back-office/manage/GW2/v1/gateway-2.html">Change<span class="govuk-visually-hidden"> Gateway 2 Assessor Date of Appointment</span></a>
+          </dd>
+        </div>
+        </dl>
+         <dl class="govuk-summary-list govuk-summary-list-timetable">
+               <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Workshop date</dt>
+          <dd class="govuk-summary-list__value">{{ gateway2WorkshopDate or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-workshop-date.html?returnUrl=/projects/back-office/manage/GW2/v1/gateway-2.html">Change<span class="govuk-visually-hidden"> Gateway 2 Dates for Workshop</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Workshop venue</dt>
+          <dd class="govuk-summary-list__value">{{ gateway2WorkshopVenue or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-workshop-venue.html?returnUrl=/projects/back-office/manage/GW2/v1/gateway-2.html">Change<span class="govuk-visually-hidden"> Gateway 2 Workshop Venue</span></a>
+          </dd>
+        </div>
+        </dl>
+         <dl class="govuk-summary-list govuk-summary-list-timetable">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Report issued date</dt>
+          <dd class="govuk-summary-list__value">{{ gateway2ReportIssuedDate or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-report-issued.html?returnUrl=/projects/back-office/manage/GW2/v1/gateway-2.html">Change<span class="govuk-visually-hidden"> Gateway 2 Report Issued Date</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Report published by LPA date</dt>
+          <dd class="govuk-summary-list__value">{{ gateway2ReportPublishedDate or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-report-published.html?returnUrl=/projects/back-office/manage/GW2/v1/gateway-2.html">Change<span class="govuk-visually-hidden"> Gateway 2 Report Published by LPA Date</span></a>
+          </dd>
+        </div>
+        </dl>
+         <dl class="govuk-summary-list govuk-summary-list-timetable">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Plan grade</dt>
+          <dd class="govuk-summary-list__value">{{ gateway2Grade or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-grade.html?returnUrl=/projects/back-office/manage/GW2/v1/gateway-2.html">Change<span class="govuk-visually-hidden"> Gateway 2 Grade</span></a>
+          </dd>
+        </div>
+        <!--
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Plan status</dt>
+          <dd class="govuk-summary-list__value">{{ gateway2PlanStatus or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-plan-status.html?returnUrl=/projects/back-office/manage/GW2/v1/gateway-2.html">Change<span class="govuk-visually-hidden"> Gateway 2 Plan Status</span></a>
+          </dd>
+        </div> -->
+      </dl>
+{% endblock %}
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

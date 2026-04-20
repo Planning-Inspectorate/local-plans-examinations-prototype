@@ -1,0 +1,60 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+  Was the plan found to be sound or unsound? – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+     
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="form" action="/projects/back-office/manage/examination/v1/sound-unsound" method="post">
+      
+      <input type="hidden" name="isEdit" value="{{ isEdit }}">
+
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{{ govukRadios({
+  name: "plan-soundness",
+  fieldset: {
+    legend: {
+      text: "Was the plan found to be sound or unsound?" if not isEdit else "Was the plan found to be sound or unsound?",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--l"
+    }
+  },
+  items: [
+    {
+      value: "sound",
+      text: "Sound",
+      checked: planType == "sound"
+    },
+    {
+      value: "unsound",
+      text: "Unsound",
+      checked: planType == "unsound"
+      }
+  ]
+}) }}
+
+<div class="govuk-button-group">
+        <button type="submit" class="govuk-button" data-module="govuk-button">Save and continue</button>
+        <a href="{{ returnUrl or '/projects/back-office/manage/examination/v1/sound-unsound' }}" class="govuk-link">Cancel</a>
+      </div>
+			
+
+      </form>
+    </div>
+</div>
+
+{% endblock %}
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}
+

@@ -278,3 +278,12 @@ window.GOVUKPrototypeKit.documentReady(() => {
 
 window.MOJFrontend = require('@ministryofjustice/frontend');
 MOJFrontend.initAll();
+
+// Initialize MOJ multi-file upload for upload-bo2
+const $multiFileUpload = document.querySelector('[data-module="moj-multi-file-upload"]')
+if ($multiFileUpload && window.MOJFrontend && window.MOJFrontend.MultiFileUpload) {
+  new window.MOJFrontend.MultiFileUpload($multiFileUpload, {
+    uploadUrl: '/projects/back-office/manage/ajax-upload',
+    deleteUrl: '/projects/back-office/manage/ajax-delete'
+  })
+}

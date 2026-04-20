@@ -1,0 +1,225 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+Documents – {{ serviceName }}
+{% endblock %}
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+<style>
+  .layout-slots__divider{
+    color: #ffffff
+  }
+  a {
+    color: #1d70b8;
+  }
+  .grey-box {
+    display: none;
+  }
+
+  
+
+  .govuk-header, .govuk-header__container {
+    background-color: rgb(7, 71, 69);
+    border-bottom: none;
+    padding-top: 22px;
+    padding-bottom: 22px;
+  }
+
+  .govuk-header {
+    border-bottom: 10px solid #13a19b;
+  }
+
+  .greybg {
+    box-shadow: #f3f2f1 800px 0px, #f3f2f1 -800px 0px;
+  }
+
+  .side-nav {
+        padding-right: 20px;
+      }
+
+      .side-nav ul {
+        list-style: none;
+        padding-left: 0;
+        margin: 0;
+      }
+
+      .side-nav li {
+        margin-bottom: 5px;
+      }
+
+      .side-nav a {
+        display: block;
+        padding: 12px 8px;
+        font-size: 16px;
+        text-decoration: none;
+        color: #1d70b8;
+        border-left: 5px solid transparent;
+      }
+
+      .side-nav a:hover {
+        background-color: #f3f2f1;
+      }
+
+      .side-nav a.selected {
+        background-color: #f3f2f1;
+        font-weight: bold;
+        border-left: 6px solid #00847f;
+        color: #0b0c0c;
+      }
+
+      .govuk-details__summary::before {
+    clip-path: polygon(6.38% 22.63%, 49.5% 65.75%, 92.63% 22.63%, 100% 30%, 50% 80%, 0% 30%);
+    background-color: black;
+    color: black;
+    width: 3px;
+    height: 3px;
+    background-color: black;
+    color: black;
+  }
+
+  .filters {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #b1b4b6;
+  }
+
+  .document-item {
+    padding-top: 12px;
+    padding-bottom: 0px;
+  }
+
+  .filters .govuk-details__summary {
+    margin-left: 15px;
+  }
+
+  .filters .govuk-details__summary-text {
+    text-decoration: none;
+  }
+
+  .filters .govuk-details__text {
+    border: none;
+    padding-left: 0px;
+    margin-left: 15px;
+
+  }
+
+
+  .govuk-details[open] > .govuk-details__summary::before {
+    clip-path: polygon(0% 71.88%, 49.5% 22.63%, 98.5% 71.88%, 91.63% 78.71%, 50% 36.88%, 7.37% 79.29%);
+    width: 3px;
+    height: 3px;
+  }
+
+</style>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+  <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
+	<h1 class="govuk-heading-l">{{ planTitle or '-' }}</h1>
+	{{govukTag({
+      text: "New",
+      classes: "govuk-tag--turquoise"
+    })}}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <nav class="x-govuk-secondary-navigation app-secondary-nav govuk-!-margin-top-6 govuk-!-margin-bottom-6" aria-label="Secondary menu">
+        <ul class="x-govuk-secondary-navigation__list">
+    <li class="x-govuk-secondary-navigation__list-item x-govuk-secondary-navigation__list-item">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/overview/v1/overview.html">
+        Overview
+      </a>
+    </li>
+    <li class="x-govuk-secondary-navigation__list-item ">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/timetable.html">
+        Timetable
+      </a>
+    </li>  
+    <li class="x-govuk-secondary-navigation__list-item ">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/gateway-1/v1/gateway-1.html">
+        Gateway 1
+      </a>
+    </li>
+    <li class="x-govuk-secondary-navigation__list-item ">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/gateway-2/v1/gateway-2.html">
+        Gateway 2
+      </a>
+    </li>
+    <li class="x-govuk-secondary-navigation__list-item ">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/gateway-3/v1/gateway-3.html">
+        Gateway 3
+      </a>
+    </li>
+    <li class="x-govuk-secondary-navigation__list-item ">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/examination/v1/examination">
+        Examination
+      </a>
+    </li>
+    <li class="x-govuk-secondary-navigation__list-item x-govuk-secondary-navigation__list-item--current">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/documents/v1/documents">
+        Documents
+      </a>
+    </li>
+    <li class="x-govuk-secondary-navigation__list-item ">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/updates/v1/updates.html">
+        Updates
+      </a>
+    </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+<h2 class="govuk-heading-m">
+      Documents
+    </h2>
+
+    <!--<p class="govuk-body"> This folder contains x documents.</p>-->
+
+    {% from "govuk/components/button/macro.njk" import govukButton %}
+
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      {{ govukButton({
+      text: "Upload files",
+      classes: "govuk-button--secondary",
+      href: "/projects/back-office/manage/documents/upload/v1/upload-bo"
+      }) }}
+      
+    </div>
+
+    <p class="govuk-body govuk-!-margin-top-3">
+      <a href="/projects/back-office/manage/documents/v1/documents" class="govuk-link">View version with sample documents</a>
+    </p>
+
+ 
+  </div>
+</div>
+
+<div class="govuk-grid-row equal-height">
+  <div class="govuk-grid-column-full">
+    <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title">
+      <div class="govuk-notification-banner__header">
+        <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+          No documents uploaded
+        </h2>
+      </div>
+      <div class="govuk-notification-banner__content">
+        <p class="govuk-body">
+          You have not uploaded any documents yet.
+          <a class="govuk-link" href="/projects/back-office/manage/documents/upload/v1/upload-bo.html">Upload documents</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

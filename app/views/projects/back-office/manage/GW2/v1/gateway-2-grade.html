@@ -1,0 +1,49 @@
+
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+	What is the plan grade? – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+	{{ govukBackLink({
+		text: "Back",
+		href: returnUrl or "javascript:window.history.back()"
+	}) }}
+{% endblock %}
+
+{% block content %}
+	<div class="govuk-grid-row">
+		<div class="govuk-grid-column-two-thirds">
+			<h1 class="govuk-heading-l">What is the plan grade?</h1>
+			<form class="form" method="post" action="/projects/back-office/manage/GW2/v1/gateway-2-grade">
+				<input type="hidden" name="isEdit" value="{{ isEdit }}">
+				<input type="hidden" name="returnUrl" value="{{ returnUrl }}">
+				{{ govukRadios({
+					items: [
+						{
+							value: "1",
+							text: "1",
+							checked: gateway2Grade == "1"
+						},
+						{
+							value: "2",
+							text: "2",
+							checked: gateway2Grade == "2"
+						},
+						{
+							value: "3",
+							text: "3",
+							checked: gateway2Grade == "3"
+						}
+					],
+					name: "gateway-2-grade"
+				}) }}
+			<div class="govuk-button-group">
+				<button class="govuk-button" data-module="govuk-button" type="submit">Save and continue</button>
+				<a href="{{ returnUrl or '/projects/back-office/manage/GW2/v1/gateway-2.html' }}" class="govuk-link">Cancel</a>
+			</div>
+			</form>
+		</div>
+	</div>
+{% endblock %}

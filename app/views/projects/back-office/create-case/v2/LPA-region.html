@@ -1,0 +1,58 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+ What is the region of the Local Planning Authority? – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+      <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form method="post" action="/projects/back-office/create-case/v2/LPA-region">
+       
+        <div class="govuk-form-group">
+          <h1 class="govuk-label-wrapper">
+            <label class="govuk-label govuk-label--l" for="region">
+              {% if isEdit %}What is the region of the Local Planning Authority?{% else %}What is the region of the Local Planning Authority?{% endif %}
+            </label>
+          </h1>
+          <div class="autocomplete__wrapper">
+            <div class="autocomplete__status govuk-visually-hidden">
+              <div id="lpaId__status--A" role="status" aria-atomic="true" aria-live="polite"></div>
+              <div id="lpaId__status--B" role="status" aria-atomic="true" aria-live="polite"></div>
+            </div>
+            <ul aria-labelledby="lpaId" id="lpaId__listbox" role="listbox" title="Region options"
+              class="autocomplete__menu autocomplete__menu--inline autocomplete__menu--hidden"></ul>
+            <span id="lpaId__assistiveHint" class="govuk-visually-hidden">When autocomplete results are available use up and
+              down arrows to review and enter to select. Touch device users, explore by touch or with swipe
+              gestures.</span>
+            <select class="govuk-select" id="region" name="region" data-module="autocomplete" data-autoselect=""
+              data-display-menu="" data-min-length="" data-show-all-values="" data-show-no-options-found="">
+              <option value="" disabled {% if not region %}selected{% endif %}>Select an option</option>
+              {% for option in regionOptions %}
+                <option value="{{ option }}" {% if region == option %}selected{% endif %}>{{ option }}</option>
+              {% endfor %}
+            </select>
+          </div>
+    </div>
+
+      <div class="govuk-button-group">
+        <button class="govuk-button" data-module="govuk-button" type="submit">Save and continue</button>
+        <a href="/projects/back-office/create-case/v2/check-answers" class="govuk-link">Cancel</a>
+      </div>
+    </form>
+  </div>
+
+
+      {% endblock %}
+      {% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}
+  

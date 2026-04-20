@@ -1,0 +1,54 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+	When was the report sent to the panel? – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+	{{ govukBackLink({
+		text: "Back",
+		href: returnUrl or "javascript:window.history.back()"
+	}) }}
+{% endblock %}
+
+{% block content %}
+	<div class="govuk-grid-row">
+		<div class="govuk-grid-column-two-thirds">
+			<h1 class="govuk-heading-l">When was the report sent to the panel?</h1>
+			<form class="form" method="post" action="/projects/back-office/manage/examination/v1/QA-sent-to-panel-date">
+				<input type="hidden" name="isEdit" value="{{ isEdit }}">
+				<input type="hidden" name="returnUrl" value="{{ returnUrl }}">
+				{% set dateParts = inspectorReportSentToQAPanelDate.split('/') if inspectorReportSentToQAPanelDate else ['', '', ''] %}
+				<fieldset class="govuk-fieldset govuk-!-margin-bottom-2" role="group" aria-describedby="inspector-report-sent-to-qa-panel-date-hint">
+					<legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+						<span class="govuk-visually-hidden">Inspector report sent to QA panel date</span>
+					</legend>
+					<div class="govuk-date-input" id="inspector-report-sent-to-qa-panel-date">
+						<div class="govuk-date-input__item">
+							<div class="govuk-form-group">
+								<label class="govuk-label govuk-date-input__label" for="inspector-report-sent-to-qa-panel-date-day">Day</label>
+								<input class="govuk-input govuk-date-input__input govuk-input--width-2" id="inspector-report-sent-to-qa-panel-date-day" name="inspector-report-sent-to-qa-panel-date-day" type="text" inputmode="numeric" value="{{ dateParts[0] }}">
+							</div>
+						</div>
+						<div class="govuk-date-input__item">
+							<div class="govuk-form-group">
+								<label class="govuk-label govuk-date-input__label" for="inspector-report-sent-to-qa-panel-date-month">Month</label>
+								<input class="govuk-input govuk-date-input__input govuk-input--width-2" id="inspector-report-sent-to-qa-panel-date-month" name="inspector-report-sent-to-qa-panel-date-month" type="text" inputmode="numeric" value="{{ dateParts[1] }}">
+							</div>
+						</div>
+						<div class="govuk-date-input__item">
+							<div class="govuk-form-group">
+								<label class="govuk-label govuk-date-input__label" for="inspector-report-sent-to-qa-panel-date-year">Year</label>
+								<input class="govuk-input govuk-date-input__input govuk-input--width-4" id="inspector-report-sent-to-qa-panel-date-year" name="inspector-report-sent-to-qa-panel-date-year" type="text" inputmode="numeric" value="{{ dateParts[2] }}">
+							</div>
+						</div>
+					</div>
+				</fieldset>
+			<div class="govuk-button-group">
+				<button type="submit" class="govuk-button" data-module="govuk-button">Save and continue</button>
+				<a href="{{ returnUrl or '/projects/back-office/manage/examination/v1/QA-sent-to-panel-date' }}" class="govuk-link">Cancel</a>
+			</div>
+			</form>
+		</div>
+	</div>
+{% endblock %}
