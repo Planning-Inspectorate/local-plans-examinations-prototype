@@ -1,0 +1,87 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+  What are the main contact details for the Local Planning Authority? – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">
+       What are the main contact details for the Local Planning Authority?
+      </h1>
+
+
+      <form method="post" action="/projects/back-office/manage/overview/v1/main-contact">
+        <input type="hidden" name="isEdit" value="{{ isEdit }}">
+        <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
+        <input type="hidden" name="contactOrganisation" value="{{ lpaName }}">
+        
+        <fieldset class="govuk-fieldset">
+          <div class="govuk-form-group">
+            <label class="govuk-label" for="main-contact-first-name">
+              First name
+            </label>
+            <input class="govuk-input" id="main-contact-first-name" name="main-contact-first-name" type="text" autocomplete="given-name" value="{{ mainContact.firstName }}">
+          </div>
+          <div class="govuk-form-group">
+            <label class="govuk-label" for="main-contact-last-name">
+              Last name
+            </label>
+            <input class="govuk-input" id="main-contact-last-name" name="main-contact-last-name" type="text" autocomplete="family-name" value="{{ mainContact.lastName }}">
+          </div>
+          <div class="govuk-form-group">
+            <label class="govuk-label" for="main-contact-email">
+              Email address
+            </label>
+            <input class="govuk-input" id="main-contact-email" name="main-contact-email" type="email" autocomplete="email" value="{{ mainContact.email }}">
+          </div>
+          <div class="govuk-form-group">
+            <label class="govuk-label" for="main-contact-phone">
+              Phone number (optional)
+            </label>
+            <input class="govuk-input govuk-!-width-one-half" id="main-contact-phone" name="main-contact-phone" type="text" value="{{ mainContact.phone }}">
+          </div>
+        </fieldset>
+        <div class="govuk-form-group">
+          <label class="govuk-label" for="contact-organisation">
+            Select the organisation for this contact
+          </label>
+          <div class="govuk-radios" data-module="govuk-radios">
+            {% for lpa in lpas %}
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="lpa-{{ loop.index }}" name="contactOrganisation" type="radio" value="{{ lpa }}"
+                  {% if mainContact.organisation == lpa %}checked{% endif %}>
+                <label class="govuk-label govuk-radios__label" for="lpa-{{ loop.index }}">
+                  {{ lpa }}
+                </label>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+        
+        <div class="govuk-button-group">
+           {% if isEdit %}
+            <button type="submit" class="govuk-button" data-module="govuk-button">Save and continue</button>
+            {% else %}
+            <button type="submit" class="govuk-button" data-module="govuk-button">Save and continue</button>
+            {% endif %}
+          {% if isEdit %}
+          
+             <a href="/projects/back-office/manage/index.html" class="govuk-link">Cancel</a>
+          {% endif %}
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

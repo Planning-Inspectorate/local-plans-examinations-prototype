@@ -1,0 +1,96 @@
+{% extends "layouts/main.html" %}
+ 
+{% set title="All cases" %}
+{% set activeNav = 'back-office' %}
+
+{% block header %}
+  {% include "includes/PINS-header--internal.html" %}
+  {% include "includes/service-navigation.html" %}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    html: 'Back to all prototypes',
+    href: '/back-office.html'
+  }) }}
+{% endblock %}
+ 
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+ 
+    <span class="govuk-caption-l">
+      Local plans back office
+    </span>
+    <h1 class="govuk-heading-l">
+      {{ title }}
+    </h1>
+ 
+    {% set version = "1" %}
+    <h2 class="govuk-heading-m">
+      Version {{ version }}
+      {{ govukTag({
+        classes: 'govuk-tag--green govuk-!-margin-left-2',
+        text: 'Ready for user testing'
+      }) }}
+    </h2>
+ 
+    <!--<p class="govuk-!-margin-bottom-2">Changes:</p>
+ 
+    <ul class="govuk-list govuk-list--bullet">
+      <li>updated layout of application details to match Appeals pattern and loop through each upload page</li>
+      <li>declaration pages merged into 1 declaration page</li>
+      <li>view-only 'application submitted' page added</li>
+      <li>progress tracker added i.e. "You have completed 0 of 3 sections."</li>
+    </ul> 
+ 
+     {{ govukInsetText({
+        html: '<p class="govuk-body"><a href="https://app.mural.co/t/allpins6990/m/allpins6990/1762788535163/3a2c841844dbb96c1cd802902aafd1d9c74d2108?wid=0-1772544795774">Design Mural board</a></p>'
+      }) }}
+ 
+    {{ govukButton({
+      html: 'View prototype',
+      href: '/projects/back-office/create-case/v' ~ version ~ '/index',
+      isStartButton: true
+    }) }}
+ 
+    {% set v1HTML %}-->
+ 
+      {% set version = "2" %}
+ 
+      <p class="govuk-body">
+        Create a case prototype for testing with Case Officers.
+      </p>
+ 
+      {{ govukInsetText({
+        html: '<p class="govuk-body"><a href="https://app.mural.co/t/allpins6990/m/allpins6990/1762788535163/3a2c841844dbb96c1cd802902aafd1d9c74d2108?wid=0-1772544994853">Design Mural board</a></p>'
+      }) }}
+ 
+      {{ govukButton({
+        html: 'View prototype',
+        href: '/projects/back-office/create-case/v' ~ version ~ '/index',
+        isStartButton: true
+      }) }}
+
+     
+ 
+    {% endset -%}
+ 
+    {{ govukAccordion({
+      id: 'previous',
+      classes: 'govuk-!-margin-top-9',
+      items: [
+        {
+          heading: {
+            html: 'Version 1 <strong class="govuk-tag govuk-tag--grey govuk-!-margin-left-2">Superseded</strong>'
+          },
+          content: {
+            html: v1HTML
+          }
+        }
+      ]
+    }) }}
+ 
+  </div>
+</div>
+{% endblock %}

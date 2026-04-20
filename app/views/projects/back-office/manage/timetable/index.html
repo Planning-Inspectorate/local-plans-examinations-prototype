@@ -1,0 +1,89 @@
+{% extends "layouts/main.html" %}
+ 
+{% set title="Plan timetable" %}
+{% set activeNav = 'back-office' %}
+
+{% block header %}
+  {% include "includes/PINS-header--internal.html" %}
+  {% include "includes/service-navigation.html" %}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    html: 'Back to all prototypes',
+    href: '/back-office.html'
+  }) }}
+{% endblock %}
+ 
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+ 
+    <span class="govuk-caption-l">
+      Submit a local plan
+    </span>
+    <h1 class="govuk-heading-l">
+      {{ title }}
+    </h1>
+ 
+   <!-- {% set version = "2" %}
+    <h2 class="govuk-heading-m">
+      Version {{ version }}
+      {{ govukTag({
+        classes: 'govuk-tag--yellow govuk-!-margin-left-2',
+        text: 'In progress'
+      }) }}
+    </h2>
+ 
+    <p class="govuk-!-margin-bottom-2">Changes:</p>
+ 
+    <ul class="govuk-list govuk-list--bullet">
+      <li>updated layout of application details to match Appeals pattern and loop through each upload page</li>
+      <li>declaration pages merged into 1 declaration page</li>
+      <li>view-only 'application submitted' page added</li>
+      <li>progress tracker added i.e. "You have completed 0 of 3 sections."</li>
+    </ul>
+ 
+    {{ govukButton({
+      html: 'View prototype',
+      href: '/projects/back-office/application-details-g2/v' ~ version ~ '/application-details',
+      isStartButton: true
+  }) }}
+ 
+    {% set v1HTML %}-->
+ 
+      {% set version = "1" %}
+ 
+      <p class="govuk-body">
+       An overview of all dates associated with a local plan case. This supports the need for users to have a clear timeline of key events and deadlines, enabling them to manage their workload effectively and ensure timely progression of cases through gateways and examination stages.
+ 
+      {{ govukInsetText({
+        html: '<p class="govuk-body"><a href="https://app.mural.co/t/allpins6990/m/allpins6990/1772019468343/735e3b84708bc6f2f8960f2961356d29168aebfb?wid=0-1773229391061">Design Mural board</a></p>'
+      }) }}
+ 
+      {{ govukButton({
+        html: 'View prototype',
+        href: '/projects/back-office/manage/timetable/v' ~ version ~ '/timetable',
+        isStartButton: true
+      }) }}
+
+    {% endset -%}
+ 
+    {{ govukAccordion({
+      id: 'previous',
+      classes: 'govuk-!-margin-top-9',
+      items: [
+        {
+          heading: {
+            html: 'Version 1 <strong class="govuk-tag govuk-tag--grey govuk-!-margin-left-2">Superseded</strong>'
+          },
+          content: {
+            html: v1HTML
+          }
+        }
+      ]
+    }) }}
+ 
+  </div>
+</div>
+{% endblock %}

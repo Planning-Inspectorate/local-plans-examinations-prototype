@@ -1,0 +1,76 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+  {% if isEdit %}Who is the case officer?{% else %}Who is the case officer?{% endif %} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <form action="/projects/back-office/create-case/v2/0-case-officer-name" method="POST" novalidate="">
+      <input type="hidden" name="_csrf" value="">
+      <input type="hidden" name="isEdit" value="{{ isEdit }}">
+
+      <div class="govuk-form-group">
+        <h1 class="govuk-label-wrapper">
+          <label class="govuk-label govuk-label--l" for="caseOfficer">
+            {% if isEdit %}Who is the case officer?{% else %}Who is the case officer?{% endif %}
+          </label>
+        </h1>
+        <div style="width: 66.66% !important;">
+          <div class="autocomplete__wrapper" style="width: 100% !important;">
+            <div class="autocomplete__status" 
+              style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; margin-bottom: -1px; margin-right: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;">
+              <div id="lpaId__status--A" role="status" aria-atomic="true" aria-live="polite"></div>
+              <div id="lpaId__status--B" role="status" aria-atomic="true" aria-live="polite"></div>
+            </div>
+            <ul aria-labelledby="lpaId" id="lpaId__listbox" role="listbox"
+              class="autocomplete__menu autocomplete__menu--inline autocomplete__menu--hidden"></ul>
+            <span id="lpaId__assistiveHint" style="display: none;">When autocomplete results are available use up and
+              down arrows to review and enter to select. Touch device users, explore by touch or with swipe
+              gestures.</span>
+
+            <select class="govuk-select" style="width: 100% !important;" id="caseOfficer" name="caseOfficer" data-module="autocomplete" title="Case officer name" data-autoselect=""
+              data-display-menu="" data-min-length="" data-show-all-values="" data-show-no-options-found="">
+              <option value="" {% if not caseOfficer %}selected{% endif %} disabled>Select an option</option>
+              <option value="Jane Smith" {% if caseOfficer == "Jane Smith" %}selected{% endif %}>Jane Smith</option>
+              <option value="John Doe" {% if caseOfficer == "John Doe" %}selected{% endif %}>John Doe</option>
+              <option value="Alex Johnson" {% if caseOfficer == "Alex Johnson" %}selected{% endif %}>Alex Johnson</option>
+              <option value="Michael Brown" {% if caseOfficer == "Michael Brown" %}selected{% endif %}>Michael Brown</option>
+              <option value="Sophie Green" {% if caseOfficer == "Sophie Green" %}selected{% endif %}>Sophie Green</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="govuk-button-group">
+         {% if isEdit %}
+        {{ govukButton({
+          text: "Save and continue"
+        }) }}
+        {% else %}
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+        {% endif %}
+        
+        {% if isEdit %}
+        <a href="/projects/back-office/create-case/v2/check-answers" class="govuk-link">Cancel</a>
+        {% endif %}
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}
+
