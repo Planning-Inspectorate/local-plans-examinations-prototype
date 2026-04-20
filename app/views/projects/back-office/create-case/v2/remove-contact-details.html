@@ -1,0 +1,48 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+  Remove contact details – {{ serviceName }} 
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+<h1 class="govuk-heading-l">Remove contact details</h1>
+<p>Are you sure you want to remove this contact?</p>
+<dl class="govuk-summary-list">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key" style="width: 15%;">
+      {% if isMain %}Main contact{% else %}Contact{% endif %}
+    </dt>
+    <dd class="govuk-summary-list__value" style="width: 85%;">
+      {{ contact.firstName }} {{ contact.lastName }}<br>
+      {{ contact.email }}<br>
+      {% if contact.phone %}{{ contact.phone }}<br>{% endif %}
+      {{ contact.organisation }}
+    </dd>
+  </div>
+</dl>
+
+<form method="post" action="/projects/back-office/create-case/v2/remove-contact-details-page">
+  <input type="hidden" name="editIndex" value="{{ editIndex }}">
+  <input type="hidden" name="isMain" value="{{ isMain }}">
+  <div class="govuk-button-group">
+    {{ govukButton({
+      text: "Remove contact",
+      classes: "govuk-button--warning"
+    }) }}
+    <a href="/projects/back-office/create-case/v2/check-contact-details" class="govuk-button govuk-button--secondary">
+      Cancel
+    </a>
+  </div>
+</form>
+{% endblock %}
+
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

@@ -1,0 +1,32 @@
+
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+	Which Inspector is assigned for QA? – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+	{{ govukBackLink({
+		text: "Back",
+		href: returnUrl or "javascript:window.history.back()"
+	}) }}
+{% endblock %}
+
+{% block content %}
+	<div class="govuk-grid-row">
+		<div class="govuk-grid-column-two-thirds">
+			<h1 class="govuk-heading-l">Which Inspector is assigned for QA?</h1>
+		<form class="form" method="post" action="/projects/back-office/manage/examination/v1/QA-inspector-1">
+				<input type="hidden" name="isEdit" value="{{ isEdit }}">
+				<input type="hidden" name="returnUrl" value="{{ returnUrl }}">
+				<div class="govuk-form-group">									
+					<input class="govuk-input govuk-!-width-two-thirds" id="qa-assessor-name" name="qa-assessor-name" type="text" value="{{ qaAssessorName }}">
+				</div>
+			<div class="govuk-button-group">
+				<button class="govuk-button" data-module="govuk-button" type="submit">Save and continue</button>
+				<a href="{{ returnUrl or '/projects/back-office/manage/examination/v1/QA-inspector-1' }}" class="govuk-link">Cancel</a>
+			</div>
+			</form>
+		</div>
+	</div>
+{% endblock %}
