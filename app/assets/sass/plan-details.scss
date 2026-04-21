@@ -1,0 +1,149 @@
+
+  /* ─── Plan details page ─────────────────────────────────────────── */
+
+/* Plan meta — horizontal key/value strip under the heading */
+.app-plan-meta .govuk-summary-list__row {
+  display: inline-flex;
+  flex-direction: column;
+  margin-right: 2rem;
+  border: none;
+}
+.app-plan-meta .govuk-summary-list__key,
+.app-plan-meta .govuk-summary-list__value {
+  width: auto;
+  padding: 0;
+  border: none;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+.app-plan-meta .govuk-summary-list__key {
+  font-weight: 700;
+}
+.app-plan-meta .govuk-summary-list__value {
+  font-weight: 400;
+}
+
+/* Current stage call-to-action banner */
+.app-inset-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-left: 5px solid #1d70b8;
+  background: #fff;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+}
+.app-inset-action__text {
+  flex: 1;
+}
+@media (max-width: 40.0625em) {
+  .app-inset-action {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* Inset text variant — informational (matches GW guidance box) */
+.app-inset-text--info {
+  border-left-color: #1d70b8;
+  background-color: #e8f0fa;
+}
+
+/* ─── Plan journey tracker ───────────────────────────────────────── */
+
+.app-plan-journey {
+  list-style: none;
+  margin: 0 0 1.5rem;
+  padding: 0;
+}
+
+.app-plan-journey__step {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 0;
+  align-items: stretch;
+}
+
+/* Left column: dot + vertical line */
+.app-plan-journey__indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 0.875rem;
+}
+
+.app-plan-journey__dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: #b1b4b6;
+  border: 2.5px solid #b1b4b6;
+}
+
+.app-plan-journey__line {
+  width: 2px;
+  background: #b1b4b6;
+  flex: 1;
+  min-height: 12px;
+}
+
+/* Step states */
+.app-plan-journey__step--done .app-plan-journey__dot {
+  background: #00703c;
+  border-color: #00703c;
+}
+.app-plan-journey__step--done .app-plan-journey__line {
+  background: #00703c;
+}
+
+.app-plan-journey__step--active .app-plan-journey__dot {
+  background: #fff;
+  border-color: #1d70b8;
+  box-shadow: 0 0 0 4px #d2e2f1;
+}
+
+.app-plan-journey__step--action-needed .app-plan-journey__dot {
+  background: #fff;
+  border-color: #d4351c;
+  box-shadow: 0 0 0 4px #f9dbd8;
+}
+
+/* Right column: content */
+.app-plan-journey__content {
+  padding: 0.75rem 0 0.75rem 0.875rem;
+  border-bottom: 1px solid #e8e4dd;
+}
+
+.app-plan-journey__step:last-child .app-plan-journey__content {
+  border-bottom: none;
+}
+
+.app-plan-journey__header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+/* ─── Aside cards (timetable, contact) ───────────────────────────── */
+
+.app-aside-card {
+  background: #fff;
+  border: 1px solid #b1b4b6;
+  padding: 1rem 1.25rem;
+}
+
+.app-aside-card .govuk-heading-s {
+  border-bottom: 1px solid #e8e4dd;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Tighter table for the aside */
+.govuk-table--small .govuk-table__header,
+.govuk-table--small .govuk-table__cell {
+  padding: 6px 10px 6px 0;
+}

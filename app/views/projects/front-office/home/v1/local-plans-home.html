@@ -16,10 +16,8 @@ href: "homepage"
 
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-xl">Submit local plans 2026</h1>
-    <p class="govuk-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
-      labore et dolore magna aliqua.</p>
-
-      <p class="govuk-body"><a href="#" class="govuk-link">See submission guidance here</a></p>
+    <!--<p class="govuk-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
+      labore et dolore magna aliqua.</p>-->
 
       {% from "govuk/components/task-list/macro.njk" import govukTaskList %}
 
@@ -31,14 +29,12 @@ href: "homepage"
         text: "Gateway 2 application"
       },
       hint: {
-      text: "Description of gateway 2 goes here"
+      text: "Due date: 25 April 2026"
       },
       href: "../../application-details-g2/v2/application-details",
       status: {
-        tag: {
-          text: "Complete",
-          classes: "govuk-tag--green"
-        }
+          tag: {
+          text: "In progress"        }        
       }
     },
     {
@@ -46,13 +42,13 @@ href: "homepage"
         text: "Gateway 3 application"
       },
       hint: {
-      text: "Description of gateway 3 goes here"
+      text: "Due date: 26 May 2026"
       },
       href: "#",
       status: {
         tag: {
-          text: "In progress",
-          classes: "govuk-tag--light-blue"
+          text: "Cannot start yet",
+          classes: "govuk-tag--grey"
         }
       }
     },
@@ -61,7 +57,7 @@ href: "homepage"
         text: "Final submission"
       },
       hint: {
-        text: "Description of final submission goes here"
+        text: "Due date: 25 June 2026"
       },
       href: "#",
       status: {

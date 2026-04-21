@@ -7,25 +7,119 @@
 
 <div class="govuk-grid-row">
 
-  <div class="govuk-grid-column-one-third">
-    <h1 class="govuk-heading-l">Local plans</h1>
-    <p class="govuk-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
-      labore et dolore magna aliqua.</p>
-    <p class="govuk-body"><a href="local-plans-home" class="govuk-link">Manage local plans</a></p>
-  </div>
+  <div class="govuk-grid-column-full">
+    <span class="govuk-caption-xl">Southampton City Council</span>
+    <h1 class="govuk-heading-xl">My plans</h1>
 
-  <div class="govuk-grid-column-one-third">
-    <h1 class="govuk-heading-l">[Plans title]</h1>
-    <p class="govuk-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
-      labore et dolore magna aliqua.</p>
-    <p class="govuk-body"><a href="#" class="govuk-link">Manage second plans</a></p>
-  </div>
-
-  <div class="govuk-grid-column-one-third">
-    <h1 class="govuk-heading-l">[Plans title]</h1>
-    <p class="govuk-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
-      labore et dolore magna aliqua.</p>
-    <p class="govuk-body"><a href="#" class="govuk-link">Manage third plans</a></p>
+    {{ govukTable({
+      firstCellIsHeader: false,
+      head: [
+        {
+          text: "Reference number"
+        },
+        {
+          text: "Plan title"
+        },
+        {
+          text: "Type"
+        },
+        {
+          text: "Stage"
+        },
+        {
+          text: "Status"
+        }
+      ],
+      rows: [
+      [
+          {
+            html: '<b><a href="plan-details">PLAN/000005</a></b>'
+          },
+          {
+            text: "East Borough Local Plan"
+          },
+          {
+            text: "Local Plan"
+          },
+          {
+            text: "Gateway 2"
+          },
+        {
+          html: '<strong class="govuk-tag govuk-tag--green">New</strong>'
+        }
+        ],
+        [
+          {
+            html: '<b><a href="#">PLAN/000004</a></b>'
+          },
+          {
+            text: "West End Local Plan"
+          },
+          {
+            text: "Local Plan"
+          },
+          {
+            text: "Gateway 2"
+          },
+        {
+          html: '<strong class="govuk-tag govuk-tag--blue">In progress</strong>'
+        }
+        ],
+      [
+          {
+            html: '<b><a href="#">PLAN/000003</a></b>'
+          },
+          {
+            text: "Southside Local Plan"
+          },
+          {
+            text: "Local Plan"
+          },
+          {
+            text: "Gateway 3"
+          },
+        {
+          html: '<strong class="govuk-tag govuk-tag--yellow">With case officer</strong>'
+        }
+        ],
+      [
+          {
+            html: '<b><a href="#">PLAN/000002</a></b>'
+          },
+          {
+            text: "	North District Local Plan"
+          },
+          {
+            text: "Local Plan"
+          },
+          {
+            text: "Gateway 3"
+          },
+        {
+          html: '<strong class="govuk-tag govuk-tag--grey">Invalid</strong>'
+        }
+        ],
+        [
+          {
+            html: '<b><a href="#">PLAN/000001</a></b>'
+          },
+          {
+            text: "Central City Local Plan"
+          },
+          {
+            text: "Local Plan"
+          },
+          {
+            text: "Examination"
+          },
+        {
+          html: '<div class="govuk-task-list__status">
+      Completed
+    </div>'
+        }
+        ]
+      ]
+    }) }}
   </div>
 
 

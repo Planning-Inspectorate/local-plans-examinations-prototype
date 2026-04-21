@@ -1,30 +1,48 @@
 <style>
-  .app-details .govuk-summary-list__key,
-  .app-details .govuk-summary-list__value,
-  .app-details .govuk-summary-list__actions {
-    padding-top: 3px;
-    padding-bottom: 3px;
+  .app-header {
+    margin-bottom: 20px;
   }
-  /* Give some space for the tag being inline now */
-  .app-task-list__section {
-    padding-right: 140px
+
+  .app-header__title {
+    margin-bottom: 5px;
+  }
+
+  .app-header__tag {
+    margin-bottom: 15px;
+  }
+
+  .app-details .govuk-summary-list__key,
+  .app-details .govuk-summary-list__value {
+    padding-top: 6px;
+    padding-bottom: 6px;
   }
 </style>
 
-<h1 class="govuk-heading-l">
-  <span class="govuk-caption-l">PLAN/12345</span>
-Southside Local Plan</h1>
- 
+<div class="app-header">
+  <h1 class="govuk-heading-xl app-header__title">
+    <span class="govuk-caption-xl">PLAN/000005</span>
+    Gateway 2 application
+  </h1>
+</div>
+
 {{ govukSummaryList({
   classes: "app-details govuk-summary-list--no-border",
   rows: [
     {
-      key: { text: "Local planning authority", classes: "govuk-!-width-one-third" },
-      value: { text: "Brighton and Hove City Council" }
+      key: { text: "Plan title", classes: "govuk-!-width-one-third" },
+      value: { text: "East Borough Local Plan" }
     },
     {
-      key: { text: "Region" },
-      value: { text: "South East" }
+      key: { text: "Due date", classes: "govuk-!-width-one-third" },
+      value: { text: "25 April 2026" }
+    },
+    {
+      key: { text: "Local planning authority", classes: "govuk-!-width-one-third" },
+      value: { text: "Southampton City Council" }
+    },
+    {
+      key: { text: "Region", classes: "govuk-!-width-one-third" },
+      value: { text: "East" }
     }
   ]
 }) }}
