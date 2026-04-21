@@ -20,7 +20,7 @@
   <div class="govuk-grid-column-two-thirds">
  
     <span class="govuk-caption-l">
-      Submit a local plan
+      Landing pages
     </span>
     <h1 class="govuk-heading-l">
       {{ title }}
@@ -34,19 +34,53 @@
         text: 'In progress'
       }) }}
     </h2>
- 
-    <p class="govuk-!-margin-bottom-2">Notes:</p>
- 
-    <ul class="govuk-list govuk-list--bullet">
-      <li>TODO</li>
-    </ul>
+
+    <p class="govuk-body">Designed to give LPAs a quick overview of all plans and their current status.</p>
+
+    {{ govukInsetText({
+        html: '<p class="govuk-body"><a href="https://app.mural.co/t/allpins6990/m/allpins6990/1765884601123/237bc418b7dd56fd74fe7b0ce600936fbf9aba46">Design Mural board</a></p>'
+      }) }}
+
+      {% set versionNotesHtml %}
+<p class="govuk-!-margin-bottom-2">Notes:</p>
+
+<ul class="govuk-list govuk-list--bullet">
+  <li>'My plans' LPA dashboard page created as the landing page after sign-in</li>
+  <li>Designed to give LPAs a quick overview of all plans and their current status</li>
+  <li>Table includes reference number, plan title, type, current stage and status</li>
+  <li>Status column aims to help users quickly understand progress and identify next actions</li>
+  <li>Each plan links to a detailed "Plan details" page with full visibility of stages, materials and decisions</li>
+  <li>Focus on supporting user needs around understanding readiness, progress across gateways, and stop/go decisions</li>
+</ul>
+
+<p class="govuk-!-margin-bottom-2">Things to test:</p>
+
+<ul class="govuk-list govuk-list--bullet">
+  <li>Do users understand what each status means (for example "New", “In progress”, “With case officer”, “Completed”)?</li>
+  <li>Can users quickly identify which plans need attention?</li>
+  <li>Is the difference between “Current stage” and “status” clear?</li>
+  <li>Do users know what happens when they click into a plan?</li>
+</ul>
+
+<p class="govuk-!-margin-bottom-2">Open questions:</p>
+
+<ul class="govuk-list govuk-list--bullet">
+  <li>Should the dashboard highlight overdue or at-risk plans more prominently?</li>
+  <li>Is additional filtering or sorting needed (for example by stage or status)?</li>
+  <li>Do users need a clearer indication of “next action” directly in the table?</li>
+</ul>
+{% endset %}
+
+{{ govukDetails({
+  summaryText: "Version 1 notes",
+  html: versionNotesHtml
+}) }}
  
     {{ govukButton({
       html: 'View prototype',
       href: '/projects/front-office/home/v' ~ version ~ '/homepage',
       isStartButton: true
     }) }}
- 
 
  
   </div>

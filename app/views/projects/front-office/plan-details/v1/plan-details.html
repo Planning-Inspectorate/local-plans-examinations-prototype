@@ -5,7 +5,7 @@
 {% block beforeContent %}
 {{ govukBackLink({
 text: "Back to my plans",
-href: "homepage"
+href: "/projects/front-office/home"
 }) }}
 {% endblock %}
 
@@ -116,7 +116,8 @@ href: "homepage"
             classes: "govuk-tag--green"
             }) }}
           </div>
-          <p class="govuk-body-s govuk-!-colour-secondary govuk-!-margin-top-3 govuk-!-margin-bottom-1">Self-assessed by LPA. No PINS decision required.</p>
+          <p class="govuk-body-s govuk-!-colour-secondary govuk-!-margin-top-3 govuk-!-margin-bottom-1">Self-assessed by
+            LPA. No PINS decision required.</p>
           <p class="govuk-body-s govuk-!-margin-bottom-1">
             <span class="govuk-!-colour-secondary">Submitted:</span> 12 September 2024
           </p>
@@ -133,28 +134,29 @@ href: "homepage"
         </div>
         <div class="app-plan-journey__content">
           <div class="app-plan-journey__header" style="justify-content: space-between;">
-              <h3 class="govuk-heading-s govuk-!-margin-bottom-0">
-                Gateway 2
-              </h3>
-              {{ govukTag({
-              text: "In progress",
-              classes: "govuk-tag--blue"
-              }) }}
-            </div>
-            <p class="govuk-body-s govuk-!-margin-top-3 govuk-!-margin-bottom-1">PINS checks your submission is complete and meets interim standards before examination begins.</p>
+            <h3 class="govuk-heading-s govuk-!-margin-bottom-0">
+              Gateway 2
+            </h3>
+            {{ govukTag({
+            text: "In progress",
+            classes: "govuk-tag--blue"
+            }) }}
+          </div>
+          <p class="govuk-body-s govuk-!-margin-top-3 govuk-!-margin-bottom-1">
+            PINS checks your submission is complete and helps identify and resolve potential issues early, including legal and procedural compliance.</p>
           <p class="govuk-body-s govuk-!-margin-bottom-4">
             <span class="govuk-!-colour-secondary">Due:</span> 12 September 2024
           </p>
-           {{ govukButton({
-    text: "Continue submission",
-    href: "../../application-details-g2/v2/application-details"
-    }) }}
-            <!--<div class="govuk-inset-text app-inset-text--info govuk-!-margin-top-2">
+          {{ govukButton({
+          text: "Continue submission",
+          href: "../../application-details-g2/v2/application-details"
+          }) }}
+          <!--<div class="govuk-inset-text app-inset-text--info govuk-!-margin-top-2">
               <p class="govuk-body-s govuk-!-font-weight-bold govuk-!-margin-bottom-1">What Gateway 2 means for your plan
               </p>
               <p class="govuk-body-s govuk-!-margin-bottom-0">PINS will check all required documents are present and correct. If complete, your plan will be marked valid and Gateway 3 will unlock. If incomplete, you will be asked to upload corrections before resubmitting.</p>
             </div>-->
-          </div>
+        </div>
       </li>
 
       <li class="app-plan-journey__step app-plan-journey__step--locked">
@@ -172,7 +174,7 @@ href: "homepage"
             classes: "govuk-tag--grey"
             }) }}
           </div>
-          <p class="govuk-body-s govuk-!-margin-top-3 govuk-!-margin-bottom-1" style="color: #767676;">Available once Gateway 2 is passed. PINS reviews the legal and soundness requirements of your plan.</p>
+          <p class="govuk-body-s govuk-!-margin-top-3 govuk-!-margin-bottom-1" style="color: #767676;">Available once Gateway 2 is passed. PINS confirms whether the plan is ready to proceed to examination.</p>
           <p class="govuk-body-s govuk-!-margin-bottom-1" style="color: #767676;">Target due: 1 June 2025</p>
         </div>
       </li>
@@ -191,27 +193,41 @@ href: "homepage"
             classes: "govuk-tag--grey"
             }) }}
           </div>
-          <p class="govuk-body-s govuk-!-margin-top-3 govuk-!-margin-bottom-1" style="color: #767676;">Available once Gateway 3 is passed. Your plan is examined by an independent inspector.</p>
+          <p class="govuk-body-s govuk-!-margin-top-3 govuk-!-margin-bottom-1" style="color: #767676;">Available once Gateway 3 is passed. Your plan is examined by an independent inspector to assess whether the plan is sound and complies with the National Planning Policy Framework before it can be adopted.</p>
           <p class="govuk-body-s govuk-!-margin-bottom-1" style="color: #767676;">Target due: 1 December 2025</p>
         </div>
       </li>
-
     </ol>
+    
+    {{ govukDetails({
+      summaryText: "Documents required at each gateway / stage",
+      text: "Text"
+    }) }}
 
-    <details class="govuk-details">
+    <!--<details class="govuk-details">
       <summary class="govuk-details__summary">
         <span class="govuk-details__summary-text">How do the gateways differ?</span>
       </summary>
+
       <div class="govuk-details__text">
-        <p class="govuk-body-s"><strong>Gateway 1</strong> is a self-assessment. Your LPA confirms it is ready to proceed. PINS does not make a decision at this stage.</p>
-        <p class="govuk-body-s"><strong>Gateway 2</strong> is a completeness check by PINS. All required documents must be present and correctly formatted. A passed GW2 is a <em>go</em> decision to proceed to GW3.</p>
-        <p class="govuk-body-s"><strong>Gateway 3</strong> is a soundness and legal compliance check. PINS reviews whether the plan meets interim standards. A passed GW3 means your plan can proceed to examination.</p>
-        <p class="govuk-body-s govuk-!-margin-bottom-0"><strong>Examination</strong> is conducted by an independent inspector who assesses the plan against the National Planning Policy Framework.</p>
+        <p class="govuk-body-s"><strong>Gateway 1</strong> is a self-assessment stage. <br>The local planning authority
+          confirms that it is on track to prepare a plan ready for adoption within 30 months.
+          The Planning Inspectorate (PINS) does not make a decision at this stage.</p>
+        <p class="govuk-body-s"><strong>Gateway 2</strong> provides advisory support. <br> It helps identify and resolve
+          potential issues early, including legal and procedural compliance. It also supports tracking progress to
+          ensure the plan is developing as expected.</p>
+        <p class="govuk-body-s"><strong>Gateway 3</strong> is a readiness confirmation stage.<br> PINS confirms whether
+          the plan is ready to proceed to examination. This is a formal check on whether the plan is sufficiently
+          prepared to move forward.
+        </p>
+        <p class="govuk-body-s govuk-!-margin-bottom-0"><strong>Examination</strong> is carried out by an independent
+          inspector.<br>The inspector assesses whether the plan is sound and complies with the National Planning Policy Framework before it can be adopted.
+        </p>
         <p class="govuk-body-s govuk-!-margin-top-4 govuk-!-margin-bottom-0">
           <a class="govuk-link" href="https://www.gov.uk/guidance/local-plans">Read the full guidance on GOV.UK</a>
         </p>
       </div>
-    </details>
+    </details>-->
 
     <!--<h2 class="govuk-heading-m govuk-!-margin-top-6">Submitted documents — all stages</h2>
     <p class="govuk-body-s">A record of all documents submitted across each stage. Documents for future stages will appear here once that stage is active.</p>
