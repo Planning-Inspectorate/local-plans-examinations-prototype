@@ -11,7 +11,7 @@
 {% block beforeContent %}
   {{ govukBackLink({
     html: 'Back to all prototypes',
-    href: '/projects/front-office/home/v1/homepage'
+    href: '/front-office'
   }) }}
 {% endblock %}
  
@@ -20,7 +20,7 @@
   <div class="govuk-grid-column-two-thirds">
  
     <span class="govuk-caption-l">
-      Landing pages
+      Dashboards
     </span>
     <h1 class="govuk-heading-l">
       {{ title }}
@@ -85,6 +85,8 @@
       href: '/projects/front-office/plan-details/v' ~ version ~ '/plan-details',
       isStartButton: true
     }) }}
+
+    <p class="govuk-body"><a href="/projects/front-office/plan-details/v1/plan-details1">See other option here</a></p>
 
  
   </div>

@@ -1,6 +1,6 @@
 {% extends "layouts/main.html" %}
  
-{% set title="Dashboard" %}
+{% set title="Homepage" %}
 {% set activeNav = 'front-office' %}
 
 {% block header %}
@@ -11,7 +11,7 @@
 {% block beforeContent %}
   {{ govukBackLink({
     html: 'Back to all prototypes',
-    href: '/front-office.html'
+    href: '/front-office'
   }) }}
 {% endblock %}
  
@@ -20,7 +20,7 @@
   <div class="govuk-grid-column-two-thirds">
  
     <span class="govuk-caption-l">
-      Landing pages
+      Dasboards
     </span>
     <h1 class="govuk-heading-l">
       {{ title }}

@@ -1,0 +1,223 @@
+{% extends "layouts/front-office.html" %}
+
+{% block pageTitle %}East Borough Local Plan (PLAN/000005) – {{ serviceName }}{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back to my plans",
+    href: "/projects/front-office/home/v1/homepage"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+
+    <span class="govuk-caption-xl">PLAN/000005</span>
+    <h1 class="govuk-heading-xl">East Borough Local Plan</h1>
+
+    {{ govukSummaryList({
+      classes: "govuk-summary-list--no-border",
+      rows: [
+        {
+          key: { text: "Local planning authority" },
+          value: { text: "Southampton City Council" }
+        },
+        {
+          key: { text: "Region" },
+          value: { text: "East" }
+        },
+        {
+          key: { text: "Plan type" },
+          value: { text: "Local plan" }
+        },
+        {
+          key: { text: "Current stage" },
+          value: { text: "Gateway 2" }
+        }
+      ]
+    }) }}
+
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <div class="app-inset-action">
+      <div class="app-inset-action__text">
+        <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-1">Current stage: Gateway 2</p>
+        <p class="govuk-body-s govuk-!-margin-bottom-0">Your Gateway 2 submission is in progress. Complete all required documents and submit to PINS.</p>
+      </div>
+      {{ govukButton({
+        text: "Continue Gateway 2 submission",
+        href: "/plan/000005/gateway-2",
+        classes: "govuk-!-margin-bottom-0"
+      }) }}
+    </div>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+
+  {# ── Left column ── #}
+  <div class="govuk-grid-column-two-thirds">
+
+    <h2 class="govuk-heading-m">What you need for Gateway 2</h2>
+
+    <p class="govuk-body">PINS will check that all required documents are present and correctly formatted. You must upload all documents listed below before submitting.</p>
+
+    <p class="govuk-body">If your submission is complete, PINS will mark it valid and Gateway 3 will unlock. If anything is missing or incorrect, you will receive an email asking you to upload corrections and resubmit.</p>
+
+    <p class="govuk-body">Required documents for Gateway 2:</p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Gateway 2 covering letter</li>
+      <li>Local plan timetable</li>
+      <li>Project initiation document</li>
+      <li>Draft statement of compliance</li>
+      <li>Draft statement of soundness</li>
+      <li>Consultation statement</li>
+      <li>Consultation summary for scoping consultation</li>
+      <li>Notice of intention to commence local plan preparation</li>
+    </ul>
+
+    {{ govukDetails({
+      summaryText: "How do the gateways differ?",
+      html: "
+        <p class='govuk-body-s'><strong>Gateway 1</strong> is a self-assessment. Your LPA confirms it is ready to proceed. PINS does not make a decision at this stage.</p>
+        <p class='govuk-body-s'><strong>Gateway 2</strong> is a completeness check by PINS. All required documents must be present and correctly formatted. A passed GW2 is a go decision to proceed to GW3.</p>
+        <p class='govuk-body-s'><strong>Gateway 3</strong> is a soundness and legal compliance check. PINS reviews whether the plan meets interim standards. A passed GW3 means your plan can proceed to examination.</p>
+        <p class='govuk-body-s govuk-!-margin-bottom-0'><strong>Examination</strong> is conducted by an independent inspector who assesses the plan against the National Planning Policy Framework.</p>
+        <p class='govuk-body-s govuk-!-margin-top-2 govuk-!-margin-bottom-0'><a class='govuk-link' href='https://www.gov.uk/guidance/local-plans'>Read the full guidance on GOV.UK</a></p>
+      "
+    }) }}
+
+    <h2 class="govuk-heading-m govuk-!-margin-top-4">Submitted documents — all stages</h2>
+
+    <p class="govuk-body-s">A record of all documents submitted across each stage. Documents for future stages will appear here once that stage is active.</p>
+
+    <h3 class="govuk-heading-s govuk-!-margin-bottom-1">Gateway 1</h3>
+
+    <table class="govuk-table govuk-!-margin-bottom-6">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">Document</th>
+          <th scope="col" class="govuk-table__header">Status</th>
+          <th scope="col" class="govuk-table__header">File</th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Gateway 1 – self assessment of readiness</td>
+          <td class="govuk-table__cell">{{ govukTag({ text: "Accepted", classes: "govuk-tag--green" }) }}</td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#">gateway1.pdf</a></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 class="govuk-heading-s govuk-!-margin-bottom-1">Gateway 2</h3>
+
+    <table class="govuk-table govuk-!-margin-bottom-6">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">Document</th>
+          <th scope="col" class="govuk-table__header">Status</th>
+          <th scope="col" class="govuk-table__header">File</th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Gateway 2 covering letter</td>
+          <td class="govuk-table__cell">{{ govukTag({ text: "Accepted", classes: "govuk-tag--green" }) }}</td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#">cover-letter.pdf</a></td>
+        </tr>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Local plan timetable</td>
+          <td class="govuk-table__cell">{{ govukTag({ text: "Accepted", classes: "govuk-tag--green" }) }}</td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#">timetable.pdf</a></td>
+        </tr>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Project initiation document</td>
+          <td class="govuk-table__cell">{{ govukTag({ text: "Incorrect", classes: "govuk-tag--red" }) }}</td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#">pid.pdf</a></td>
+        </tr>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Draft statement of compliance</td>
+          <td class="govuk-table__cell">{{ govukTag({ text: "Accepted", classes: "govuk-tag--green" }) }}</td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#">compliance.pdf</a></td>
+        </tr>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Consultation statement</td>
+          <td class="govuk-table__cell">{{ govukTag({ text: "Accepted", classes: "govuk-tag--green" }) }}</td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#">consultation-statement.pdf</a></td>
+        </tr>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Draft statement of soundness</td>
+          <td class="govuk-table__cell">{{ govukTag({ text: "Needs clarification", classes: "govuk-tag--orange" }) }}</td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#">soundness.pdf</a></td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  {# ── Right column ── #}
+  <div class="govuk-grid-column-one-third">
+
+    <div class="app-aside-card">
+      <h2 class="govuk-heading-s">Plan timetable</h2>
+      <table class="govuk-table govuk-table--small govuk-!-margin-bottom-2">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header govuk-!-font-size-14">Stage</th>
+            <th scope="col" class="govuk-table__header govuk-!-font-size-14">Due</th>
+            <th scope="col" class="govuk-table__header govuk-!-font-size-14">Status</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell govuk-!-font-size-14">Gateway 1</td>
+            <td class="govuk-table__cell govuk-!-font-size-14">Oct 2024</td>
+            <td class="govuk-table__cell">{{ govukTag({ text: "Done", classes: "govuk-tag--green govuk-!-font-size-14" }) }}</td>
+          </tr>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell govuk-!-font-size-14">Gateway 2</td>
+            <td class="govuk-table__cell govuk-!-font-size-14">1 Mar 2025</td>
+            <td class="govuk-table__cell">{{ govukTag({ text: "In progress", classes: "govuk-tag--blue govuk-!-font-size-14" }) }}</td>
+          </tr>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell govuk-!-font-size-14">Gateway 3</td>
+            <td class="govuk-table__cell govuk-!-font-size-14">1 Jun 2025</td>
+            <td class="govuk-table__cell">{{ govukTag({ text: "Cannot start yet", classes: "govuk-tag--grey govuk-!-font-size-14" }) }}</td>
+          </tr>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell govuk-!-font-size-14">Examination</td>
+            <td class="govuk-table__cell govuk-!-font-size-14">1 Dec 2025</td>
+            <td class="govuk-table__cell">{{ govukTag({ text: "Cannot start yet", classes: "govuk-tag--grey govuk-!-font-size-14" }) }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <a class="govuk-link govuk-body-s" href="#">Download full timetable (PDF)</a>
+    </div>
+
+    <div class="app-aside-card govuk-!-margin-top-4">
+      <h2 class="govuk-heading-s">Your case officer</h2>
+      <p class="govuk-body-s govuk-!-margin-bottom-1">
+        <strong>Sarah Thompson</strong><br>
+        Planning Inspectorate
+      </p>
+      <p class="govuk-body-s govuk-!-margin-bottom-2">
+        <a class="govuk-link" href="mailto:s.thompson@planninginspectorate.gov.uk">s.thompson@planninginspectorate.gov.uk</a>
+      </p>
+      <p class="govuk-body-s govuk-!-margin-bottom-0">
+        General enquiries:<br>
+        <a class="govuk-link" href="mailto:support@planninginspectorate.gov.uk">support@planninginspectorate.gov.uk</a>
+      </p>
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}
