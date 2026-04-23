@@ -1,0 +1,126 @@
+{% extends "layouts/front-office.html" %}
+
+{% block pageTitle %}East Borough Local Plan – Local Plans Portal{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back to my plans",
+href: "/projects/front-office/home/v1/homepage"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+
+  <div class="govuk-grid-column-two-thirds">
+
+    <span class="govuk-caption-xl">PLAN/000005</span>
+    <h1 class="govuk-heading-xl" style="margin-bottom: 20px;">East Borough Local Plan</h1>
+
+        <p class="govuk-body-l govuk-!-margin-bottom-2">
+      Current stage: <strong>Gateway 2</strong>
+    </p>
+
+    {{ govukTag({
+    text: "In progress",
+    classes: "govuk-tag--blue govuk-!-margin-bottom-5"
+    }) }}
+
+    {% include "includes/front-office/plan-metadata.njk" %}
+
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+
+  <div class="govuk-grid-column-two-thirds">
+
+    <h2 class="govuk-heading-m">Plan journey</h2>
+
+    <h3 class="govuk-heading-s">Gateway 1</h3>
+    <p class="govuk-body">Self-assessed by LPA. No PINS decision required.</p>
+    <p class="govuk-body">Submitted: 12 September 2025</p>
+    <p class="govuk-body"><a href="#">See Gateway 1 details</a></p>
+
+    <h3 class="govuk-heading-s">Gateway 2 <span class="govuk-tag">In progress</span></h3>
+    <p class="govuk-body">PINS checks your submission is complete and helps identify and resolve potential issues early,
+      including legal and procedural compliance.</p>
+    <p class="govuk-body">Due: 12 March 2026</p>
+    {{ govukButton({
+    text: "Continue Gateway 2 submission",
+    href: "../../application-details-g2/v2/application-details"
+    }) }}
+
+     {{ govukDetails({
+  summaryText: "What you need for Gateway 2",
+  html: "
+
+    <h3 class='govuk-heading-s'>Gateway 2</h3>
+    <ul class='govuk-list govuk-list--bullet'>
+      <li>Gateway 2 covering letter</li>
+      <li>Local plan timetable</li>
+      <li>Project initiation document</li>
+      <li>Statement of compliance (draft)</li>
+      <li>Statement of soundness (draft)</li>
+      <li>Consultation statement</li>
+      <li>Regulation 18 consultation summary</li>
+    </ul>
+
+  "
+}) }}
+
+    <h3 class="govuk-heading-s">Gateway 3 <span class="govuk-tag govuk-tag--grey">Cannot start yet</span></h3>
+    <p class="govuk-body">Available once Gateway 2 is passed. PINS confirms whether the plan is ready to proceed to
+      examination.</p>
+    <p class="govuk-body">Due: 20 May 2026</p>
+
+     {{ govukDetails({
+  summaryText: "What you need for Gateway 3",
+  html: "
+    <ul class='govuk-list govuk-list--bullet govuk-!-margin-bottom-0'>
+      <li>Submission version of the plan</li>
+      <li>Final compliance statement</li>
+      <li>Final soundness statement</li>
+      <li>Updated evidence base</li>
+      <li>Regulation 19 consultation report</li>
+      <li>Duty to cooperate statement</li>
+      <li>Sustainability appraisal</li>
+      <li>Habitats regulations assessment</li>
+    </ul>
+
+  "
+}) }}
+
+    <h3 class="govuk-heading-s">Examination <span class="govuk-tag govuk-tag--grey">Cannot start yet</span></h3>
+    <p class="govuk-body">Available once Gateway 3 is passed. Your plan is examined by an independent inspector to
+      assess whether the plan is sound and complies with the National Planning Policy Framework before it can be
+      adopted.</p>
+    <p class="govuk-body">Due: 30 July 2026</p>
+
+    {# Size modifiers: xl, l, m #}
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+    <h2 class="govuk-heading-m">Your case officer</h2>
+    <p class="govuk-body-s govuk-!-margin-bottom-1">
+      <strong>Sarah Thompson</strong><br>
+      Planning Inspectorate
+    </p>
+    <p class="govuk-body-s govuk-!-margin-bottom-2">
+      <a class="govuk-link"
+        href="mailto:s.thompson@planninginspectorate.gov.uk">s.thompson@planninginspectorate.gov.uk</a>
+    </p>
+    <p class="govuk-body-s govuk-!-margin-bottom-0">
+      General enquiries:<br>
+      <a class="govuk-link" href="mailto:support@planninginspectorate.gov.uk">support@planninginspectorate.gov.uk</a>
+    </p>
+
+  </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,175 @@
+{% extends "layouts/front-office.html" %}
+
+{% block pageTitle %}East Borough Local Plan – {{ serviceName }}{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back to my plans",
+    href: "/projects/front-office/home/v1/homepage"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <span class="govuk-caption-xl">PLAN/000005</span>
+    <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">East Borough Local Plan</h1>
+
+    <p class="govuk-body-l govuk-!-margin-bottom-5">
+      Current stage: <strong>Gateway 2</strong>
+      {{ govukTag({ text: "In progress", classes: "govuk-tag--blue govuk-!-margin-left-2" }) }}
+    </p>
+
+    {% include "includes/front-office/plan-metadata.njk" %}
+
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+
+  {# ── Left column: plan journey ── #}
+  <div class="govuk-grid-column-two-thirds">
+
+    <h2 class="govuk-heading-m govuk-!-margin-top-2">Plan journey</h2>
+
+    {# Gateway 1 — completed #}
+    <h3 class="govuk-heading-s govuk-!-margin-bottom-1">Gateway 1</h3>
+    {{ govukTag({ text: "Completed", classes: "govuk-tag--green govuk-!-margin-bottom-2" }) }}
+    <p class="govuk-body">Self-assessed by LPA. No PINS decision required.</p>
+    <p class="govuk-body">Submitted: 12 September 2025</p>
+    <p class="govuk-body govuk-!-margin-bottom-6">
+      <a class="govuk-link" href="#">View Gateway 1 documents</a>
+    </p>
+
+    {# Gateway 2 — active #}
+    <h3 class="govuk-heading-s govuk-!-margin-bottom-1">Gateway 2</h3>
+    {{ govukTag({ text: "In progress", classes: "govuk-tag--blue govuk-!-margin-bottom-2" }) }}
+    <p class="govuk-body">PINS checks your submission is complete and helps identify and resolve potential issues early, including legal and procedural compliance.</p>
+    <p class="govuk-body">Due: 12 March 2026</p>
+
+    {{ govukNotificationBanner({
+      html: "
+        <h3 class='govuk-notification-banner__heading'>Gateway 2 is in progress</h3>
+        <p class='govuk-body'>Complete all required documents and submit to PINS for review.</p>
+        <ul class='govuk-list govuk-list--bullet govuk-!-margin-bottom-0'>
+          <li>If your submission is complete, PINS will approve it and Gateway 3 will unlock.</li>
+          <li>If anything is missing or incorrect, you will receive an email asking you to upload corrections and resubmit.</li>
+        </ul>
+      "
+    }) }}
+
+    {{ govukButton({
+      text: "Continue Gateway 2 submission",
+      href: "../../application-details-g2/v2/application-details"
+    }) }}
+
+    {{ govukDetails({
+      summaryText: "What you need for Gateway 2",
+      html: "
+        <ul class='govuk-list govuk-list--bullet govuk-!-margin-bottom-0'>
+          <li>Gateway 2 covering letter</li>
+          <li>Local plan timetable</li>
+          <li>Project initiation document</li>
+          <li>Statement of compliance (draft)</li>
+          <li>Statement of soundness (draft)</li>
+          <li>Consultation statement</li>
+          <li>Regulation 18 consultation summary</li>
+        </ul>
+      "
+    }) }}
+
+    {# Gateway 3 — locked #}
+    <h3 class="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-margin-top-2">Gateway 3</h3>
+    {{ govukTag({ text: "Cannot start yet", classes: "govuk-tag--grey govuk-!-margin-bottom-2" }) }}
+    <p class="govuk-body">Available once Gateway 2 is passed. PINS confirms whether the plan is ready to proceed to examination.</p>
+    <p class="govuk-body">Due: 20 May 2026</p>
+
+    {{ govukDetails({
+      summaryText: "What you need for Gateway 3",
+      html: "
+        <ul class='govuk-list govuk-list--bullet govuk-!-margin-bottom-0'>
+          <li>Submission version of the plan</li>
+          <li>Final compliance statement</li>
+          <li>Final soundness statement</li>
+          <li>Updated evidence base</li>
+          <li>Regulation 19 consultation report</li>
+          <li>Duty to cooperate statement</li>
+          <li>Sustainability appraisal</li>
+          <li>Habitats regulations assessment</li>
+        </ul>
+      "
+    }) }}
+
+    {# Examination — locked #}
+    <h3 class="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-margin-top-2">Examination</h3>
+    {{ govukTag({ text: "Cannot start yet", classes: "govuk-tag--grey govuk-!-margin-bottom-2" }) }}
+    <p class="govuk-body">Available once Gateway 3 is passed. Your plan is examined by an independent inspector to assess whether it is sound and complies with the National Planning Policy Framework before it can be adopted.</p>
+    <p class="govuk-body govuk-!-margin-bottom-0">Due: 30 July 2026</p>
+
+  </div>
+
+  {# ── Right column: timetable and contact ── #}
+  <div class="govuk-grid-column-one-third">
+
+    <div class="app-aside-card">
+      <h2 class="govuk-heading-s">Plan timetable</h2>
+      <table class="govuk-table govuk-!-margin-bottom-2">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header govuk-!-font-size-14">Stage</th>
+            <th scope="col" class="govuk-table__header govuk-!-font-size-14">Due</th>
+            <th scope="col" class="govuk-table__header govuk-!-font-size-14">Status</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell govuk-!-font-size-14">
+              <a class="govuk-link" href="#">Gateway 1</a>
+            </td>
+            <td class="govuk-table__cell govuk-!-font-size-14">Sep 2025</td>
+            <td class="govuk-table__cell">{{ govukTag({ text: "Done", classes: "govuk-tag--green govuk-!-font-size-14" }) }}</td>
+          </tr>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell govuk-!-font-size-14">
+              <a class="govuk-link" href="#">Gateway 2</a>
+            </td>
+            <td class="govuk-table__cell govuk-!-font-size-14">12 Mar 2026</td>
+            <td class="govuk-table__cell">{{ govukTag({ text: "In progress", classes: "govuk-tag--blue govuk-!-font-size-14" }) }}</td>
+          </tr>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell govuk-!-font-size-14">Gateway 3</td>
+            <td class="govuk-table__cell govuk-!-font-size-14">20 May 2026</td>
+            <td class="govuk-table__cell">{{ govukTag({ text: "Locked", classes: "govuk-tag--grey govuk-!-font-size-14" }) }}</td>
+          </tr>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell govuk-!-font-size-14">Examination</td>
+            <td class="govuk-table__cell govuk-!-font-size-14">30 Jul 2026</td>
+            <td class="govuk-table__cell">{{ govukTag({ text: "Locked", classes: "govuk-tag--grey govuk-!-font-size-14" }) }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <a class="govuk-link govuk-body-s" href="#">Download full timetable (PDF)</a>
+    </div>
+
+    <div class="app-aside-card govuk-!-margin-top-4">
+      <h2 class="govuk-heading-s">Your case officer</h2>
+      <p class="govuk-body-s govuk-!-margin-bottom-1">
+        <strong>Sarah Thompson</strong><br>
+        Planning Inspectorate
+      </p>
+      <p class="govuk-body-s govuk-!-margin-bottom-2">
+        <a class="govuk-link" href="mailto:s.thompson@planninginspectorate.gov.uk">s.thompson@planninginspectorate.gov.uk</a>
+      </p>
+      <p class="govuk-body-s govuk-!-margin-bottom-0">
+        General enquiries:<br>
+        <a class="govuk-link" href="mailto:support@planninginspectorate.gov.uk">support@planninginspectorate.gov.uk</a>
+      </p>
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

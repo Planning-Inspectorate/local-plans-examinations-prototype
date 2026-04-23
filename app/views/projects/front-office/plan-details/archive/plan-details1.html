@@ -1,0 +1,251 @@
+{% extends "layouts/front-office.html" %}
+
+{% block pageTitle %}
+East Borough Local Plan (PLAN/000005) – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back to my plans",
+href: "/projects/front-office/home/v1/homepage"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <!-- Header -->
+    <span class="govuk-caption-xl">PLAN/000005</span>
+    <h1 class="govuk-heading-xl">East Borough Local Plan</h1>
+
+    <!-- Status -->
+    <p class="govuk-body-l govuk-!-margin-bottom-2">
+      Current stage: <strong>Gateway 2</strong>
+    </p>
+
+    {{ govukTag({
+    text: "In progress",
+    classes: "govuk-tag--blue govuk-!-margin-bottom-5"
+    }) }}
+
+        {% include "includes/front-office/plan-metadata.njk" %}
+
+
+    <!-- Summary list
+    {{ govukSummaryList({
+    classes: "govuk-summary-list--no-border",
+    rows: [
+    {
+    key: { text: "Plan type", classes: "govuk-!-padding-top-1 govuk-!-padding-bottom-1" },
+    value: { text: "Local plan", classes: "govuk-!-padding-top-1 govuk-!-padding-bottom-1" }
+    },
+    {
+    key: { text: "Lead LPA", classes: "govuk-!-padding-top-1 govuk-!-padding-bottom-1" },
+    value: { text: "Southampton City Council", classes: "govuk-!-padding-top-1 govuk-!-padding-bottom-1" }
+    },
+    {
+    key: { text: "Linked LPA", classes: "govuk-!-padding-top-1 govuk-!-padding-bottom-1" },
+    value: { text: "Romsey Town Council", classes: "govuk-!-padding-top-1 govuk-!-padding-bottom-1" }
+    }
+    ]
+  }) }}-->
+
+    <!-- Primary action -->
+    {{ govukButton({
+    text: "Continue Gateway 2 submission",
+    classes: "govuk-!-margin-bottom-3",
+    href: "../../application-details-g2/v2/application-details"
+    }) }}
+
+    <!-- Context -->
+    {{ govukInsetText({
+    html: "
+    <p class='govuk-body govuk-!-margin-bottom-1' >Complete all required documents and submit to PINS for review.</p>
+    <p class='govuk-body govuk-!-margin-bottom-1'>If your submission is complete, PINS will approve it and Gateway 3 will be ready to start.</p>
+    <p class='govuk-body govuk-!-margin-bottom-0'>If anything is missing or incorrect, you will receive an email asking you to upload corrections and resubmit.</p>
+    </ul>
+    "
+    }) }}
+
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <!-- Timetable -->
+    <h2 class="govuk-heading-m">Timetable</h2>
+
+    <table class="govuk-table govuk-table">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th class="govuk-table__header">Stage</th>
+          <th class="govuk-table__header">Due date</th>
+          <th class="govuk-table__header">Status</th>
+        </tr>
+      </thead>
+
+      <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Gateway 1</td>
+          <td class="govuk-table__cell">12 October 2025</td>
+          <td class="govuk-table__cell">{{ govukTag({ text: "Completed", classes: "govuk-tag--green" }) }}</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Gateway 2</td>
+          <td class="govuk-table__cell">10 January 2026</td>
+          <td class="govuk-table__cell">{{ govukTag({ text: "In progress", classes: "govuk-tag--blue" }) }}</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Gateway 3</td>
+          <td class="govuk-table__cell">20 April 2026</td>
+          <td class="govuk-table__cell">{{ govukTag({ text: "Cannot start yet", classes: "govuk-tag--grey" }) }}</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Examination</td>
+          <td class="govuk-table__cell">21 June 2026</td>
+          <td class="govuk-table__cell">{{ govukTag({ text: "Cannot start yet", classes: "govuk-tag--grey" }) }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {{ govukDetails({
+    summaryText: "How do the gateways differ?",
+    html: "
+    <p class='govuk-body'><strong>Gateway 1</strong> is a self-assessment. Your LPA confirms it is ready to proceed.
+      PINS does not make a decision at this stage.</p>
+    <p class='govuk-body'><strong>Gateway 2</strong> provides advisory support to help resolve potential issues and
+      ensure legal and procedural compliance.</p>
+    <p class='govuk-body'><strong>Gateway 3</strong> confirms whether your plan is ready to proceed to examination.</p>
+    <p class='govuk-body'><strong>Examination</strong> is carried out by an independent inspector who assesses the plan
+      against the National Planning Policy Framework.</p>
+    "
+    }) }}
+
+   {{ govukDetails({
+  summaryText: "Gateway requirements",
+  html: "
+
+    <h3 class='govuk-heading-s'>Gateway 2</h3>
+    <ul class='govuk-list govuk-list--bullet'>
+      <li>Gateway 2 covering letter</li>
+      <li>Local plan timetable</li>
+      <li>Project initiation document</li>
+      <li>Statement of compliance (draft)</li>
+      <li>Statement of soundness (draft)</li>
+      <li>Consultation statement</li>
+      <li>Regulation 18 consultation summary</li>
+    </ul>
+
+    <h3 class='govuk-heading-s govuk-!-margin-top-4'>Gateway 3</h3>
+    <ul class='govuk-list govuk-list--bullet govuk-!-margin-bottom-0'>
+      <li>Submission version of the plan</li>
+      <li>Final compliance statement</li>
+      <li>Final soundness statement</li>
+      <li>Updated evidence base</li>
+      <li>Regulation 19 consultation report</li>
+      <li>Duty to cooperate statement</li>
+      <li>Sustainability appraisal</li>
+      <li>Habitats regulations assessment</li>
+    </ul>
+
+  "
+}) }}
+
+  </div>
+</div>
+
+
+<!--<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h2 class="govuk-heading-l">How the gateways work</h2>
+
+    <p class="govuk-body">
+      Gateway 1 is a self-assessment confirming readiness to prepare a plan within 30 months.
+    </p>
+
+    <p class="govuk-body">
+      Gateway 2 provides advisory support to resolve issues and ensure legal and procedural compliance.
+    </p>
+
+    <p class="govuk-body">
+      Gateway 3 confirms whether the plan is ready to proceed to examination.
+    </p>
+
+    <p class="govuk-body">
+      Examination is carried out by an independent inspector against the National Planning Policy Framework.
+    </p>-->
+
+<!-- Gateway requirements 
+    <h2 class="govuk-heading-m govuk-!-margin-top-6">Gateway requirements</h2>
+
+    {{ govukDetails({
+      summaryText: "What you need for Gateway 2",
+      html: "
+        <ul class='govuk-list govuk-list--bullet'>
+          <li>Gateway 2 covering letter</li>
+          <li>Local plan timetable</li>
+          <li>Project initiation document</li>
+          <li>Statement of compliance (draft)</li>
+          <li>Statement of soundness (draft)</li>
+          <li>Consultation statement</li>
+          <li>Regulation 18 consultation summary</li>
+        </ul>
+      "
+    }) }}
+
+    {{ govukDetails({
+      summaryText: "What you need for Gateway 3",
+      html: "
+        <ul class='govuk-list govuk-list--bullet'>
+          <li>Submission version of the plan</li>
+          <li>Final compliance statement</li>
+          <li>Final soundness statement</li>
+          <li>Updated evidence base</li>
+          <li>Regulation 19 consultation report</li>
+          <li>Duty to cooperate statement</li>
+          <li>Sustainability appraisal</li>
+          <li>Habitats regulations assessment</li>
+        </ul>
+      "
+    }) }}
+
+  </div>
+</div>-->
+
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <!-- Case officer -->
+    <h2 class="govuk-heading-m">Case officer</h2>
+
+    <p class="govuk-body-s govuk-!-margin-bottom-1">
+      <strong>Sarah Thompson</strong><br>
+      Planning Inspectorate
+    </p>
+
+    <p class="govuk-body-s govuk-!-margin-bottom-1">
+      <a class="govuk-link" href="mailto:s.thompson@planninginspectorate.gov.uk">
+        s.thompson@planninginspectorate.gov.uk
+      </a>
+    </p>
+
+    <p class="govuk-body-s">
+      General enquiries: <a class="govuk-link" href="mailto:support@planninginspectorate.gov.uk">
+        support@planninginspectorate.gov.uk</a>
+    </p>
+
+  </div>
+</div>
+
+{% endblock %}
