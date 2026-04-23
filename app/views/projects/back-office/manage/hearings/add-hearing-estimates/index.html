@@ -1,0 +1,47 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+Add hearing estimates – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">Add hearing estimates</h1>
+    <form method="post" action="/projects/back-office/manage/hearings/add-hearing-estimates/index">
+      <div class="govuk-form-group">
+        <label class="govuk-label" for="estimated-prep-time">
+          Estimated preparation time (hours)
+        </label>
+        <input class="govuk-input govuk-input--width-10" id="estimated-prep-time" name="estimatedPreparationTime" type="number" value="{{ addHearingEstimates.estimatedPreparationTime or '' }}">
+      </div>
+
+      <div class="govuk-form-group">
+        <label class="govuk-label" for="estimated-hearing-time">
+          Estimated hearing time (hours)
+        </label>
+        <input class="govuk-input govuk-input--width-10" id="estimated-hearing-time" name="estimatedHearingTime" type="number" value="{{ addHearingEstimates.estimatedHearingTime or '' }}">
+      </div>
+
+      <div class="govuk-form-group">
+        <label class="govuk-label" for="estimated-reporting-time">
+          Estimated reporting time (hours)
+        </label>
+        <input class="govuk-input govuk-input--width-10" id="estimated-reporting-time" name="estimatedReportingTime" type="number" value="{{ addHearingEstimates.estimatedReportingTime or '' }}">
+      </div>
+
+      <div class="govuk-button-group">
+        <button type="submit" class="govuk-button">Continue</button>
+        <a href="/projects/back-office/manage/examination/v1/examination" class="govuk-link">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+Check hearing estimates – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">Check your answers</h1>
+    
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Estimated preparation time</dt>
+        <dd class="govuk-summary-list__value">
+          {{ addHearingEstimates.estimatedPreparationTime }} hours
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a href="/projects/back-office/manage/examination/v1/add-hearing-estimates">Change<span class="govuk-visually-hidden"> estimated preparation time</span></a>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Estimated hearing time</dt>
+        <dd class="govuk-summary-list__value">
+          {{ addHearingEstimates.estimatedHearingTime }} hours
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Estimated reporting time</dt>
+        <dd class="govuk-summary-list__value">
+          {{ addHearingEstimates.estimatedReportingTime }} hours
+        </dd>
+      </div>
+    </dl>
+
+    <form method="post" action="/projects/back-office/manage/examination/v1/add-hearing-estimates/check">
+      <div class="govuk-button-group">
+        <button type="submit" class="govuk-button">Confirm and save</button>
+        <a href="/projects/back-office/manage/examination/v1/examination" class="govuk-link">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

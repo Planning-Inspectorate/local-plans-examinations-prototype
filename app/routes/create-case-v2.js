@@ -247,7 +247,8 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
     ];
   }
   res.render('projects/back-office/create-case/v2/index', {
-    cases: req.session.cases.slice().reverse()
+    cases: req.session.cases.slice().reverse(),
+    showEmpty: req.query.showEmpty === 'true'
   });
 });
 

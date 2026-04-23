@@ -26,6 +26,9 @@ router.use('/', require('./routes/portal'));
 router.use('/', require('./routes/create-case'));
 router.use('/', require('./routes/create-case-v2'));
 router.use('/', require('./routes/projects/back-office/manage'));
+router.use('/', require('./routes/projects/back-office/hearing/add-hearing'));
+router.use('/', require('./routes/projects/back-office/hearing/add-hearing-estimates'));
+router.use('/', require('./routes/projects/back-office/hearing/cancel-hearing'));
 router.use('/', require('./routes/reps'));
 router.use('/', require('./views/projects/front-office/application-details-g2/archive/test-1/_routes'));
 

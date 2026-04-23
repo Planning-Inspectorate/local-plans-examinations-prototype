@@ -1205,9 +1205,13 @@ gw3DateFields.forEach(({ key, file }) => {
 
 // --- Examination Routes ---
 router.get('/projects/back-office/manage/examination/v1/examination', (req, res) => {
+  const notificationMessage = req.session.notificationMessage || '';
+  delete req.session.notificationMessage;
+  
   res.render('projects/back-office/manage/examination/v1/examination', {
     caseRef: req.session.currentCaseRef || '',
     planTitle: req.session.planTitle || '',
+    notificationMessage: notificationMessage,
     examinationEstimatedDate: formatDateForDisplay(req.session.examinationEstimatedDate) || '-',
     examinationActualDate: formatDateForDisplay(req.session.examinationActualDate) || '-',
     examiningInspector1Name: req.session.examiningInspector1Name || '-',
@@ -1217,6 +1221,10 @@ router.get('/projects/back-office/manage/examination/v1/examination', (req, res)
     examinationWebsite: req.session.examinationWebsite || '-',
     hearingVenue: req.session.hearingVenue || '-',
     hearingStartDate: formatDateForDisplay(req.session.hearingStartDate) || '-',
+    hearingTime: req.session.hearingTime || '-',
+    hearingEstimatedDays: req.session.hearingEstimatedDays || '-',
+    hearingHasAddress: req.session.hearingHasAddress || '-',
+    hearingAddress: req.session.hearingAddress || {},
     hearingCloseDate: formatDateForDisplay(req.session.hearingCloseDate) || '-',
     furtherHearingDates: formatDateForDisplay(req.session.furtherHearingDates) || '-',
     letterSentToMhclgDate: formatDateForDisplay(req.session.letterSentToMhclgDate) || '-',
@@ -1240,6 +1248,8 @@ router.get('/projects/back-office/manage/examination/v1/examination', (req, res)
     adoptionDate: formatDateForDisplay(req.session.adoptionDate) || '-',
     approvedForCilDate: formatDateForDisplay(req.session.approvedForCilDate) || '-'
   });
+  
+  req.session.save();
 });
 
 // Examining Inspector GET handlers (for editing/adding inspector details)
@@ -1325,22 +1335,19 @@ function createDateHandler(sessionKey, fieldPrefix) {
 router.get('/projects/back-office/manage/examination/v1/examination-estimated.html', (req, res) => {
   let day = '', month = '', year = '';
   if (req.session.examinationEstimatedDate && req.session.examinationEstimatedDate !== '-') {
-    const parts = req.session.examinationEstimatedDate.split(' ');
+    const parts = req.session.examinationEstimatedDate.split('/');
     day = parts[0] || '';
     month = parts[1] || '';
     year = parts[2] || '';
-    const monthMap = { 'January': '01', 'February': '02', 'March': '03', 'April': '04', 'May': '05', 'June': '06', 'July': '07', 'August': '08', 'September': '09', 'October': '10', 'November': '11', 'December': '12' };
-    if (monthMap[month]) month = monthMap[month];
-    else if (month.length === 1) month = '0' + month;
   }
   res.render('projects/back-office/manage/examination/v1/examination-estimated', {
-    noticeOfIntentionDate: `${day}/${month}/${year}`,
+    examinationEstimatedDate: `${day}/${month}/${year}`,
     returnUrl: req.query.returnUrl || '/projects/back-office/manage/examination/v1/examination'
   });
 });
 
 router.post('/projects/back-office/manage/examination/v1/examination-estimated', (req, res) => {
-  const { 'notice-of-intention-date-day': day, 'notice-of-intention-date-month': month, 'notice-of-intention-date-year': year, returnUrl } = req.body;
+  const { 'examination-estimated-date-day': day, 'examination-estimated-date-month': month, 'examination-estimated-date-year': year, returnUrl } = req.body;
   req.session.examinationEstimatedDate = parseDateFields(day, month, year) || req.session.examinationEstimatedDate || '-';
   res.redirect(returnUrl || '/projects/back-office/manage/examination/v1/examination');
 });
@@ -1349,16 +1356,13 @@ router.post('/projects/back-office/manage/examination/v1/examination-estimated',
 router.get('/projects/back-office/manage/examination/v1/examination-actual.html', (req, res) => {
   let day = '', month = '', year = '';
   if (req.session.examinationActualDate && req.session.examinationActualDate !== '-') {
-    const parts = req.session.examinationActualDate.split(' ');
+    const parts = req.session.examinationActualDate.split('/');
     day = parts[0] || '';
     month = parts[1] || '';
     year = parts[2] || '';
-    const monthMap = { 'January': '01', 'February': '02', 'March': '03', 'April': '04', 'May': '05', 'June': '06', 'July': '07', 'August': '08', 'September': '09', 'October': '10', 'November': '11', 'December': '12' };
-    if (monthMap[month]) month = monthMap[month];
-    else if (month.length === 1) month = '0' + month;
   }
   res.render('projects/back-office/manage/examination/v1/examination-actual', {
-    noticeOfIntentionDate: `${day}/${month}/${year}`,
+    examinationActualDate: `${day}/${month}/${year}`,
     returnUrl: req.query.returnUrl || '/projects/back-office/manage/examination/v1/examination'
   });
 });
