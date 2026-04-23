@@ -12,52 +12,13 @@ href: "/projects/front-office/home/v1/homepage"
 {% block content %}
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
-
-    <span class="govuk-caption-xl">PLAN/000005</span>
-    <h1 class="govuk-heading-xl">East Borough Local Plan</h1>
-
-  </div>
 
   <div class="govuk-grid-column-two-thirds">
 
-    {{ govukTable({
-    firstCellIsHeader: true,
-    rows: [
-    [
-    {
-    text: "Local planning authority"
-    },
-    {
-    text: "Southampton City Council"
-    }
-    ],
-    [
-    {
-    text: "Region"
-    },
-    {
-    text: "East"
-    }
-    ],
-    [
-    {
-    text: "Plan type"
-    },
-    {
-    text: "Local plan"
-    }
-    ],
-    [
-    {
-    text: "Current stage"
-    },
-    {
-    text: "Gateway 2"
-    }
-    ]
-    ]
-    }) }}
+        <span class="govuk-caption-xl">PLAN/000005</span>
+    <h1 class="govuk-heading-xl" style="margin-bottom: 20px;">East Borough Local Plan</h1>
+
+    {% include "includes/front-office/plan-metadata.njk" %}
 
     <!--<dl class="govuk-summary-list govuk-summary-list--no-border app-plan-meta">
       <div class="govuk-summary-list__row">

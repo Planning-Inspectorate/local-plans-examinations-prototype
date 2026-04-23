@@ -27,10 +27,13 @@ href: "/projects/front-office/home/v1/homepage"
 
     {{ govukTag({
     text: "In progress",
-    classes: "govuk-tag--blue govuk-!-margin-bottom-3"
+    classes: "govuk-tag--blue govuk-!-margin-bottom-5"
     }) }}
 
-    <!-- Summary list -->
+        {% include "includes/front-office/plan-metadata.njk" %}
+
+
+    <!-- Summary list
     {{ govukSummaryList({
     classes: "govuk-summary-list--no-border",
     rows: [
@@ -47,7 +50,7 @@ href: "/projects/front-office/home/v1/homepage"
     value: { text: "Romsey Town Council", classes: "govuk-!-padding-top-1 govuk-!-padding-bottom-1" }
     }
     ]
-    }) }}
+  }) }}-->
 
     <!-- Primary action -->
     {{ govukButton({
@@ -59,12 +62,11 @@ href: "/projects/front-office/home/v1/homepage"
     <!-- Context -->
     {{ govukInsetText({
     html: "
-    <p class='govuk-body govuk-!-margin-bottom-1'>
-      You are currently preparing your Gateway 2 submission.
-    </p>
-    <p class='govuk-body govuk-!-margin-bottom-0'>
-      Complete all required documents before submission to PINS.
-    </p>
+    <p class='govuk-body'>Complete all required documents and submit to PINS for review.</p>
+    <ul class='govuk-list govuk-list--bullet'>
+      <li>If your submission is complete, PINS will approve it and Gateway 3 will be ready to start</li>
+      <li>If anything is missing or incorrect, you will receive an email asking you to upload corrections and resubmit</li>
+    </ul>
     "
     }) }}
 
@@ -115,9 +117,6 @@ href: "/projects/front-office/home/v1/homepage"
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-m">Useful information</h1>
-
-    <p class="govuk-body"><a href="#">View Gateway 1 documents</a></p>
 
     {{ govukDetails({
     summaryText: "How do the gateways differ?",
