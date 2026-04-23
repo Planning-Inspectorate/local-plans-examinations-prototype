@@ -11,8 +11,15 @@ All cases – {{ serviceName }}
 {% endblock %}
 
 {% block content %}
-{% if cases and cases.length > 0 %}
-    <h1 class="govuk-heading-l">All cases ({{ cases.length }})</h1>
+{% if showEmpty %}
+    <h1 class="govuk-heading-l">All cases</h1>
+{% else %}
+    {% if cases and cases.length > 0 %}
+        <h1 class="govuk-heading-l">All cases ({{ cases.length }})</h1>
+    {% else %}
+        <h1 class="govuk-heading-l">All cases</h1>
+    {% endif %}
+{% endif %}
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-one-half">
@@ -52,8 +59,28 @@ All cases – {{ serviceName }}
    style="float:right;">
   Clear data
 </a>
+{% if showEmpty %}
+  <a href="/projects/back-office/create-case/v2/index"
+     class="govuk-link"
+     style="float:right; padding: 12px 15px;">
+    See all plans
+  </a>
+{% else %}
+  <a href="/projects/back-office/create-case/v2/index?showEmpty=true"
+     class="govuk-link"
+     style="float:right; padding: 12px 15px;">
+    View empty state
+  </a>
+{% endif %}
 </div>
 
+{% if showEmpty %}
+<br>
+<br
+  <div class="govuk-grid-column-full-width">
+    <p class="govuk-body">No cases have been created yet.</p>
+  </div>
+{% else %}
 <div class="govuk-grid-column-full-width project">
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--invisible">
 
@@ -85,9 +112,7 @@ All cases – {{ serviceName }}
         {% endfor %}
       </tbody>
     </table>
-    {% else %}
-    <p class="govuk-body">No cases have been created yet.</p>
-    {% endif %}
 </div>
+{% endif %}
 
 {% endblock %}

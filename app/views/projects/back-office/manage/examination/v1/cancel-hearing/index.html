@@ -1,0 +1,28 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+Cancel hearing – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">Are you sure you want to cancel the hearing?</h1>
+    <p class="govuk-body">This will remove all hearing details including date, time, venue, and estimates.</p>
+    
+    <form method="post" action="/projects/back-office/manage/examination/v1/cancel-hearing">
+      <div class="govuk-button-group">
+        <button type="submit" class="govuk-button govuk-button--warning">Cancel hearing</button>
+        <a href="/projects/back-office/manage/examination/v1/examination" class="govuk-link">Do not cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

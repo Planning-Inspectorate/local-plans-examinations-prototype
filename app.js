@@ -84,10 +84,6 @@ app.use((req, res, next) => {
 const portalRoutes = require('./app/routes/portal');
 app.use('/', portalRoutes);
 
-// Register Create Case v2 routes
-const createCaseV2Routes = require('./app/routes/create-case-v2');
-app.use('/', createCaseV2Routes);
-
 // Register Manage routes
 const manageRoutes = require('./app/routes/projects/back-office/manage');
 app.use('/', manageRoutes);
