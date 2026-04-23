@@ -200,9 +200,34 @@ href: "/projects/front-office/home/v1/homepage"
     </ol>
     
     {{ govukDetails({
-      summaryText: "Documents required at each gateway / stage",
-      text: "Text"
-    }) }}
+  summaryText: "Gateway requirements",
+  html: "
+
+    <h3 class='govuk-heading-s'>Gateway 2</h3>
+    <ul class='govuk-list govuk-list--bullet'>
+      <li>Gateway 2 covering letter</li>
+      <li>Local plan timetable</li>
+      <li>Project initiation document</li>
+      <li>Statement of compliance (draft)</li>
+      <li>Statement of soundness (draft)</li>
+      <li>Consultation statement</li>
+      <li>Regulation 18 consultation summary</li>
+    </ul>
+
+    <h3 class='govuk-heading-s govuk-!-margin-top-4'>Gateway 3</h3>
+    <ul class='govuk-list govuk-list--bullet govuk-!-margin-bottom-0'>
+      <li>Submission version of the plan</li>
+      <li>Final compliance statement</li>
+      <li>Final soundness statement</li>
+      <li>Updated evidence base</li>
+      <li>Regulation 19 consultation report</li>
+      <li>Duty to cooperate statement</li>
+      <li>Sustainability appraisal</li>
+      <li>Habitats regulations assessment</li>
+    </ul>
+
+  "
+}) }}
 
     <!--<details class="govuk-details">
       <summary class="govuk-details__summary">
