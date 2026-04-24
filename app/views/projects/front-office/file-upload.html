@@ -1,0 +1,27 @@
+{% extends "layouts/front-office.html" %}
+
+{% block pageTitle %} Home – {{ serviceName }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+
+  <div class="govuk-grid-column-two-thirds">
+
+    {% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
+
+{{ govukFileUpload({
+  id: "file-upload-1",
+  name: "fileUpload1",
+  label: {
+    text: "Upload a file"
+  },
+  javascript: true
+}) }}
+
+  </div>
+
+</div>
+
+{% endblock %}
