@@ -1,94 +1,97 @@
 {% extends "layouts/main.html" %}
- 
+
 {% set title="Plan details" %}
 {% set activeNav = 'front-office' %}
 
 {% block header %}
-  {% include "includes/PINS-header--internal.html" %}
-  {% include "includes/service-navigation.html" %}
+{% include "includes/PINS-header--internal.html" %}
+{% include "includes/service-navigation.html" %}
 {% endblock %}
 
 {% block beforeContent %}
-  {{ govukBackLink({
-    html: 'Back to all prototypes',
-    href: '/front-office'
-  }) }}
+{{ govukBackLink({
+html: 'Back to all prototypes',
+href: '/front-office'
+}) }}
 {% endblock %}
- 
+
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
- 
+
     <span class="govuk-caption-l">
       Dashboards
     </span>
     <h1 class="govuk-heading-l">
       {{ title }}
     </h1>
- 
+
     {% set version = "1" %}
     <h2 class="govuk-heading-m">
       Version {{ version }}
       {{ govukTag({
-        classes: 'govuk-tag--yellow govuk-!-margin-left-2',
-        text: 'In progress'
+      classes: 'govuk-tag--yellow govuk-!-margin-left-2',
+      text: 'In progress'
       }) }}
     </h2>
 
-    <p class="govuk-body">Designed to give LPAs a clear understanding of the current stage of a plan, its status, and what comes next.</p>
+    <p class="govuk-body">Designed to give LPAs a clear understanding of the current stage of a plan, its status, and
+      what comes next.</p>
 
     {{ govukInsetText({
-        html: '<p class="govuk-body"><a href="https://app.mural.co/t/allpins6990/m/allpins6990/1765884601123/237bc418b7dd56fd74fe7b0ce600936fbf9aba46">Design Mural board</a></p>'
-      }) }}
-
-      {% set planJourneyNotesHtml %}
-
-<p class="govuk-!-margin-bottom-2">Notes:</p>
-
-<ul class="govuk-list govuk-list--bullet">
-  <li>Plan details page designed as a “Plan journey” view showing progress across all gateways</li>
-  <li>Each gateway presented as a step with status (Completed, In progress, Cannot start yet)</li>
-  <li>Content includes key information such as descriptions, dates and links to relevant documents or actions</li>
-  <li>Designed to support visibility of materials and progress across stages in one place</li>
-  <li>Focus on reducing uncertainty around readiness and whether users can proceed</li>
-</ul>
-
-<p class="govuk-!-margin-bottom-2">Things to test:</p>
-
-<ul class="govuk-list govuk-list--bullet">
-  <li>Do users understand what "new" or “in progress” means at each gateway?</li>
-  <li>Is it clear why some stages cannot be started yet?</li>
-  <li>Can users easily identify their next action from this page?</li>
-  <li>Do users understand the role of PINS at different gateways?</li>
-  <li>Is the difference between gateways clear without needing additional guidance?</li>
-</ul>
-
-<p class="govuk-!-margin-bottom-2">Open questions:</p>
-
-<ul class="govuk-list govuk-list--bullet">
-  <li>Should the page show a clearer “next step” or primary action at the top?</li>
-  <li>Do users need more explicit feedback on missing or incomplete materials?</li>
-  <li>Should stop/go decisions be more prominent or visually distinct?</li>
-  <li>Is additional guidance needed to explain what each gateway involves?</li>
-  <li>Would a more visual progress indicator (for example a progress bar) improve understanding?</li>
-</ul>
-
-{% endset %}
-
-{{ govukDetails({
-  summaryText: "Version 1 notes",
-  html: planJourneyNotesHtml
-}) }}
- 
-    {{ govukButton({
-      html: 'View prototype',
-      href: '/projects/front-office/plan-details/v' ~ version ~ '/plan-details',
-      isStartButton: true
+    html: '<p class="govuk-body"><a
+        href="https://app.mural.co/t/allpins6990/m/allpins6990/1765884601123/237bc418b7dd56fd74fe7b0ce600936fbf9aba46">Design
+        Mural board</a></p>'
     }) }}
 
-    <p class="govuk-body"><a href="/projects/front-office/plan-details/v1/plan-details1">See other option with bespoke timeline component</a></p>
+    {% set planJourneyNotesHtml %}
 
- 
+    <p class="govuk-!-margin-bottom-2">Notes:</p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Gateways presented in a tasklist view with statuses (Completed, In progress, Cannot start yet)</li>
+      <li>Content includes key information such as descriptions, dates and links to relevant actions</li>
+      <li>Focus on reducing uncertainty around readiness and whether users can proceed</li>
+    </ul>
+
+    <p class="govuk-!-margin-bottom-2">Things to test:</p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Do users understand what "new" or “in progress” means at each gateway?</li>
+      <li>Is it clear why some stages cannot be started yet?</li>
+      <li>Can users easily identify their next action from this page?</li>
+      <li>Do users understand the role of PINS at different gateways?</li>
+      <li>Is the difference between gateways clear without needing additional guidance?</li>
+      <li>What metadata is useful to provide on this page?</li>
+      <li>Do users need access to their gateway 1 documents from here?</li>
+      <li>Whether users understand what to do in each state (for example, ready to start, in progress, with case officer, or information required)</li>    </ul>
+
+    <p class="govuk-!-margin-bottom-2">Open questions:</p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Do users need more explicit feedback on missing or incomplete materials?</li>
+      <li>Should stop/go decisions be more prominent or visually distinct?</li>
+      <li>Is additional guidance needed to explain what each gateway involves?</li>
+      <li>Would a more visual progress indicator (for example a progress bar) improve understanding?</li>
+    </ul>
+
+    {% endset %}
+
+    {{ govukDetails({
+    summaryText: "Version 1 notes",
+    html: planJourneyNotesHtml
+    }) }}
+
+    {{ govukButton({
+    html: 'View prototype',
+    href: '/projects/front-office/plan-details/v' ~ version ~ '/plan-details',
+    isStartButton: true
+    }) }}
+
+    <p class="govuk-body"><a href="/projects/front-office/plan-details/v1/plan-details1">See other option with bespoke
+        timeline component</a></p>
+
+
   </div>
 </div>
 {% endblock %}

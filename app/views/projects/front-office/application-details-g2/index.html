@@ -34,15 +34,51 @@
         text: 'In progress'
       }) }}
     </h2>
- 
+
+    <p class="govuk-body">Allows LPAs to submit a Gateway 2 application. Users upload required documents, complete a declaration, and confirm submission.</p>
+
+    {% set appDetailsNotesHtml %}
+
     <p class="govuk-!-margin-bottom-2">Changes:</p>
  
     <ul class="govuk-list govuk-list--bullet">
-      <li>updated layout of application details to match Appeals pattern and loop through each upload page</li>
-      <li>declaration pages merged into 1 declaration page</li>
-      <li>view-only 'application submitted' page added</li>
-      <li>progress tracker added i.e. "You have completed 0 of 3 sections."</li>
+      <li>Updated application structure to follow the Appeals pattern with individual upload steps</li>
+      <li>Merged declaration into a single page</li>
+      <li>Added a view-only ‘application submitted’ page</li>
+      <li>Added a progress indicator (for example, “You have completed 0 of 2 sections”)</li>
+</ul>
     </ul>
+
+<p class="govuk-!-margin-bottom-2">Things to test:</p>
+
+<ul class="govuk-list govuk-list--bullet">
+  <li>Whether users understand what documents they need to upload</li>
+  <li>Whether users need to upload multiple files at once or one file per step</li>
+  <li>Whether the application pattern is easy to follow</li>
+  <li>Whether next steps after submission are clear</li>
+  <li>Where users expect to go after submitting e.g. homepage, plan details page, submitted application view</li>
+  <li>Whether users expect to save progress and return later</li>
+  <li>Whether users need to upload additional (optional) documents</li>
+  <li>Whether users need to add comments or supporting information alongside uploads</li>
+  <li>Whether users need to access or download their submitted application</li>
+  <li>Whether users understand what happens when they submit (for example, can they edit after submission)</li>
+</ul>
+
+<p class="govuk-!-margin-bottom-2">Open questions:</p>
+
+<ul class="govuk-list govuk-list--bullet">
+  <li>What documents are mandatory for each Gateway</li>
+  <li>Whether document requirements differ by plan type or complexity</li>
+  <li>How validation should work for missing or incorrect documents</li>
+</ul>
+
+{% endset %}
+
+{{ govukDetails({
+  summaryText: "Version 2 notes",
+  html: appDetailsNotesHtml
+}) }}
+
  
     {{ govukButton({
       html: 'View prototype',
