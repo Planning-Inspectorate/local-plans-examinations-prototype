@@ -46,60 +46,60 @@ East Borough Local Plan – Local Plans Portal
     {% from "govuk/components/task-list/macro.njk" import govukTaskList %}
 
     {{ govukTaskList({
-    idPrefix: "plan-details",
-    items: [
-    {
-    title: {
-    text: "Gateway 1 - self assessment"
-    },
-    hint: {
-    text: "Completed on 12 September 2025"
-    },
-    href: "#",
-    status: {
-    text: "Completed"
-    }
-    },
-    {
-    title: {
-    text: "Gateway 2 - legal advisory check"
-    },
-    hint: {
-    text: "Due by 12 March 2026"
-    },
-    href: "../../application-details-g2/v2/application-details",
-    status: {
-    tag: {
-    text: "Ready to start",
-    classes: "govuk-tag--green"
-    }
-    }
-    },
-    {
-    title: {
-    text: "Gateway 3 - readiness check"
-    },
-    hint: {
-    html: "Available after Gateway 2 is approved"
-    },
-    status: {
-        text: "Cannot start yet",
-        classes: "govuk-task-list__status--cannot-start-yet"
-      }
-    },
-    {
-    title: {
-    text: "Examination"
-    },
-    hint: {
-    html: "Available after Gateway 3 is approved"
-    },
-    status: {
-        text: "Cannot start yet",
-        classes: "govuk-task-list__status--cannot-start-yet"
-      }
-    }
-    ]
+      idPrefix: "plan-details",
+      items: [
+        {
+          title: {
+            text: "Gateway 1 - self assessment (opens in new tab)"
+          },
+          hint: {
+            text: "Completed outside this service on 12 September 2025"
+          },
+          href: "../../application-details-g2/v2/application-details",
+          status: {
+              text: "Completed"
+          }
+        },
+        {
+          title: {
+            text: "Gateway 2 - legal advisory check"
+          },
+          hint: {
+            text: "Due by 12 March 2026"
+          },
+          href: "../../application-details-g2/v2/application-details",
+          status: {
+            tag: {
+              text: "Ready to start",
+              classes: "govuk-tag--green"
+            }
+          }
+        },
+        {
+          title: {
+            text: "Gateway 3 - readiness check"
+          },
+          hint: {
+            html: "Due by 20 June 2026<br>Available after Gateway 2 is approved"
+          },
+          status: {
+            text: "Cannot start yet",
+            classes: "govuk-task-list__status--cannot-start-yet"
+          }
+        },
+        {
+          title: {
+            text: "Examination"
+          },
+          hint: {
+            html: "Due by 8 August 2026<br>Available after Gateway 3 is approved"
+          },
+          status: {
+            text: "Cannot start yet",
+            classes: "govuk-task-list__status--cannot-start-yet"
+          }
+        }
+      ]
     }) }}
 
     <!-- Requirements -->
