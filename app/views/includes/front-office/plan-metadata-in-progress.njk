@@ -1,0 +1,54 @@
+<style>
+  .app-header {
+    margin-bottom: 20px;
+  }
+
+  .app-header__title {
+    margin-bottom: 5px;
+  }
+
+  .app-header__tag {
+    margin-bottom: 15px;
+  }
+
+  .app-details .govuk-summary-list__key,
+  .app-details .govuk-summary-list__value {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+
+  .app-stage {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* controls spacing */
+  }
+</style>
+
+{{ govukSummaryList({
+  classes: "app-details govuk-summary-list--no-border",
+  rows: [
+    {
+      key: { text: "Current stage", classes: "govuk-!-width-one-half" },
+      value: {
+  html: '
+    <div class="app-stage">
+      <span>Gateway 2</span>
+      <strong class="govuk-tag govuk-tag--blue">In progress</strong>
+    </div>
+  '
+}
+    },
+    {
+      key: { text: "Plan type", classes: "govuk-!-width-one-half" },
+      value: { text: "Local plan" }
+    },
+    {
+      key: { text: "Local planning authority", classes: "govuk-!-width-one-half" },
+      value: { text: "Southampton City Council (lead)" }
+    },
+    {
+      key: { text: "Linked local planning authorities", classes: "govuk-!-width-one-half" },
+      value: { text: "Romsey Town Council" }
+    }
+  ]
+}) }}
