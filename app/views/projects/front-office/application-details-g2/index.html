@@ -39,7 +39,7 @@
 
     {% set appDetailsNotesHtml %}
 
-    <p class="govuk-!-margin-bottom-2">Changes:</p>
+    <h3 class="govuk-heading-s">Changes</h3>
  
     <ul class="govuk-list govuk-list--bullet">
       <li>Updated application structure to follow the Appeals pattern with individual upload steps</li>
@@ -49,14 +49,14 @@
 </ul>
     </ul>
 
-<p class="govuk-!-margin-bottom-2">Things to test:</p>
+    <h3 class="govuk-heading-s">Things to test</h3>
 
 <ul class="govuk-list govuk-list--bullet">
   <li>Whether users understand what documents they need to upload</li>
   <li>Whether users need to upload multiple files at once or one file per step</li>
   <li>Whether the application pattern is easy to follow</li>
   <li>Whether next steps after submission are clear</li>
-  <li>Where users expect to go after submitting e.g. homepage, plan details page, submitted application view</li>
+  <li>Where users expect to go after submitting e.g. plan details page or submitted application view</li>
   <li>Whether users expect to save progress and return later</li>
   <li>Whether users need to upload additional (optional) documents</li>
   <li>Whether users need to add comments or supporting information alongside uploads</li>
@@ -64,12 +64,14 @@
   <li>Whether users understand what happens when they submit (for example, can they edit after submission)</li>
 </ul>
 
-<p class="govuk-!-margin-bottom-2">Open questions:</p>
+    <h3 class="govuk-heading-s">Open questions</h3>
 
 <ul class="govuk-list govuk-list--bullet">
   <li>What documents are mandatory for each Gateway</li>
+  <li>If there are no mandated documents, could other options work such as one multi-file upload + tagging journey</li>
   <li>Whether document requirements differ by plan type or complexity</li>
   <li>How validation should work for missing or incorrect documents</li>
+  <li>How multiple users accessing the service should be managed</li>
 </ul>
 
 {% endset %}

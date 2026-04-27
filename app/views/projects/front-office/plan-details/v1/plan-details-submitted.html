@@ -12,16 +12,27 @@ East Borough Local Plan – Local Plans Portal
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
+    {{ govukNotificationBanner({
+  html: "
+    <h3 class='govuk-notification-banner__heading'>Gateway 2 is with PINS</h3>
+    <p class='govuk-body'>Your submission is being reviewed by your case officer. You do not need to do anything right now. You will be notified by email if any action is required.</p>
+  "
+}) }}
+
     <!-- Header -->
     <span class="govuk-caption-xl">PLAN/000005</span>
     <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">East Borough Local Plan</h1>
 
-    <!--{% include "includes/front-office/plan-metadata.njk" %}
+     <!--<p class="govuk-body-l govuk-!-margin-bottom-5">
+      <strong>Current stage:</strong> Gateway 2
+      {{ govukTag({ text: "In progress", classes: "govuk-tag--blue govuk-!-margin-left-2" }) }}
+    </p>
 
-    {{ govukButton({
-      text: "Start Gateway 2 submission",
-      href: "../../application-details-g2/v2/application-details"
-  }) }}-->
+   <p class="govuk-body">
+      Submit all required documents before <strong>12 March 2026</strong>.
+    </p>-->
+
+    {% include "includes/front-office/plan-metadata-submitted.njk" %}
 
   </div>
 </div>
@@ -30,7 +41,7 @@ East Borough Local Plan – Local Plans Portal
   <div class="govuk-grid-column-two-thirds">
 
     <!-- Task list -->
-   <!-- <h2 class="govuk-heading-m">Plan progress</h2> -->
+    <h2 class="govuk-heading-m">Plan progress</h2>
 
     {% from "govuk/components/task-list/macro.njk" import govukTaskList %}
 
@@ -54,13 +65,13 @@ East Borough Local Plan – Local Plans Portal
             text: "Gateway 2 - legal advisory check"
           },
           hint: {
-            text: "Due by 25 April 2026"
+            text: "Submitted on 25 April 2026"
           },
-          href: "../../application-details-g2/v2/application-details",
+          href: "../../application-details-g2/v2/application-details-submitted",
           status: {
             tag: {
-              text: "Ready to start",
-              classes: "govuk-tag--green"
+              text: "With case officer",
+              classes: "govuk-tag"
             }
           }
         },
@@ -69,7 +80,7 @@ East Borough Local Plan – Local Plans Portal
             text: "Gateway 3 - readiness check"
           },
           hint: {
-            html: "Available after Gateway 2 is approved"
+            html: "Due by 20 June 2026<br>Available after Gateway 2 is approved"
           },
           status: {
             text: "Cannot start yet",
@@ -81,7 +92,7 @@ East Borough Local Plan – Local Plans Portal
             text: "Examination"
           },
           hint: {
-            html: "Available after Gateway 3 is approved"
+            html: "Due by 8 August 2026<br>Available after Gateway 3 is approved"
           },
           status: {
             text: "Cannot start yet",
