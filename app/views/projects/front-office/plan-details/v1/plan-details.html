@@ -4,8 +4,12 @@
 East Borough Local Plan – Local Plans Portal
 {% endblock %}
 
-<!--Remove "Back to my plans back link"-->
-{% block beforeContent %}{% endblock %}
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back to my plans",
+href: "/projects/front-office/home/v1/homepage"
+}) }}
+{% endblock %}
 
 {% block content %}
 
@@ -16,12 +20,12 @@ East Borough Local Plan – Local Plans Portal
     <span class="govuk-caption-xl">PLAN/000005</span>
     <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">East Borough Local Plan</h1>
 
-    <!--{% include "includes/front-office/plan-metadata.njk" %}
+    {% include "includes/front-office/plan-metadata.njk" %}
 
     {{ govukButton({
       text: "Start Gateway 2 submission",
       href: "../../application-details-g2/v2/application-details"
-  }) }}-->
+  }) }}
 
   </div>
 </div>
@@ -30,7 +34,7 @@ East Borough Local Plan – Local Plans Portal
   <div class="govuk-grid-column-two-thirds">
 
     <!-- Task list -->
-   <!-- <h2 class="govuk-heading-m">Plan progress</h2> -->
+   <h2 class="govuk-heading-m">Plan progress</h2>
 
     {% from "govuk/components/task-list/macro.njk" import govukTaskList %}
 
@@ -69,7 +73,7 @@ East Borough Local Plan – Local Plans Portal
             text: "Gateway 3 - readiness check"
           },
           hint: {
-            html: "Due by 20 June 2026<br>Available after Gateway 2 is approved"
+            html: "Target date: June 2026<br>Available after Gateway 2 is approved"
           },
           status: {
             text: "Cannot start yet",
@@ -81,7 +85,7 @@ East Borough Local Plan – Local Plans Portal
             text: "Examination"
           },
           hint: {
-            html: "Due by 8 August 2026<br>Available after Gateway 3 is approved"
+            html: "Target date: 8 August 2026<br>Available after Gateway 3 is approved"
           },
           status: {
             text: "Cannot start yet",
@@ -117,16 +121,13 @@ East Borough Local Plan – Local Plans Portal
     }) }}
 
     {{ govukDetails({
-    summaryText: "How do the gateways differ?",
-    html: "
-    <p class='govuk-body'><strong>Gateway 1</strong> is a self-assessment. Your LPA confirms it is ready to proceed.
-      PINS does not make a decision at this stage.</p>
-    <p class='govuk-body'><strong>Gateway 2</strong> provides advisory support to help resolve potential issues and
-      ensure legal and procedural compliance.</p>
-    <p class='govuk-body'><strong>Gateway 3</strong> confirms whether your plan is ready to proceed to examination.</p>
-    <p class='govuk-body'><strong>Examination</strong> is carried out by an independent inspector who assesses the plan
-      against the National Planning Policy Framework.</p>
-    "
+      summaryText: "How do the gateways differ?",
+      html: "
+        <p class='govuk-body'><strong>Gateway 1</strong> is a self-assessment of readiness. Your LPA publishes a document setting out how it has prepared for plan-making. This formally starts the plan-making process and the 30-month timeframe.</p>
+        <p class='govuk-body'><strong>Gateway 2</strong> is an advisory check. An assessor reviews your plan and provides observations to help resolve potential soundness issues early and progress towards meeting the prescribed requirements.</p>
+        <p class='govuk-body'><strong>Gateway 3</strong> tests whether your proposed local plan has met the prescribed requirements and is ready to proceed to examination.</p>
+        <p class='govuk-body govuk-!-margin-bottom-0'><strong>Examination</strong> is carried out by an independent inspector who assesses the plan against the tests of soundness set out in national policy.</p>
+      "
     }) }}
 
   </div>
