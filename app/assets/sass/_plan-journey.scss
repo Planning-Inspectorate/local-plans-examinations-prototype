@@ -1,0 +1,50 @@
+/* ── Plan journey — extends govuk-task-list ────────────────────── */
+
+/*
+  Builds on the GOV.UK task list component (govuk-task-list).
+  No custom dots or connecting lines — uses the standard task list
+  row pattern with dividers instead.
+*/
+
+.app-plan-journey {
+  /* Reset list styles inherited from govuk-task-list if needed */
+  margin-bottom: 0;
+}
+
+.app-plan-journey__item {
+  /* Extra padding to give each step more breathing room */
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+/* Locked steps — mute the text to signal non-actionable state */
+.app-plan-journey__locked-text {
+  color: #505a5f;
+}
+
+/* Align the status tag to the top of the row, not the centre */
+.app-plan-journey .govuk-task-list__status {
+  align-self: flex-start;
+  padding-top: 0.125rem;
+  white-space: nowrap;
+}
+
+/* Prevent the heading from inheriting the muted colour on locked steps */
+.app-plan-journey__item--locked .govuk-task-list__name {
+  color: #505a5f;
+}
+
+/* Remove the default govuk-task-list link underline on the name
+   since we're using plain text headings, not links */
+.app-plan-journey .govuk-task-list__name {
+  text-decoration: none;
+  font-size: 1.1875rem; /* 19px — matches govuk-body */
+  line-height: 1.3157894737;
+}
+
+@media (min-width: 40.0625em) {
+  .app-plan-journey .govuk-task-list__name {
+    font-size: 1.1875rem;
+    line-height: 1.3157894737;
+  }
+}

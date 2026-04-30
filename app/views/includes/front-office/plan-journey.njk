@@ -1,0 +1,76 @@
+{% set journeyItems = [
+  {
+    heading: "Gateway 1 - self assessmemt",
+    state: "completed",
+    tagText: "Completed",    
+    description: "Your LPA publishes a document setting out how it has prepared for plan-making. This formally starts the plan-making process and the 30-month timeframe.",
+    meta: "Submitted: 12 September 2024",
+    actionHtml: '<p class="govuk-body govuk-!-margin-bottom-0"><a class="govuk-link" href="#">View Gateway 1 documents</a></p>'
+  },
+  {
+    heading: "Gateway 2 - advisory check",
+    state: "active",
+    tagText: "In progress",
+    tagClass: "govuk-tag--teal",
+    description: "An assessor reviews your plan and provides observations to help resolve potential soundness issues early and progress towards meeting the prescribed requirements.",
+    meta: "Target due: 12 March 2026",
+    actionHtml: '
+      <button class="govuk-button govuk-!-margin-bottom-0" data-module="govuk-button">
+        Continue Gateway 2 submission
+      </button>
+    '
+  },
+  {
+    heading: "Gateway 3 - readiness check",
+    state: "locked",
+    tagText: "Cannot start yet",
+    tagClass: "govuk-tag--grey",
+    description: "Tests whether your proposed local plan has met the prescribed requirements and is ready to proceed to examination.",
+    meta: "Target due: 1 June 2025"
+  },
+  {
+    heading: "Examination",
+    state: "locked",
+    tagText: "Cannot start yet",
+    tagClass: "govuk-tag--grey",
+    description: "Carried out by an independent inspector who assesses the plan against the tests of soundness set out in national policy.",
+    meta: "Target due: 1 December 2025"
+  }
+] %}
+
+<h2 class="govuk-heading-m">Plan journey</h2>
+
+<ol class="govuk-task-list app-plan-journey">
+  {% for item in journeyItems %}
+  <li class="govuk-task-list__item app-plan-journey__item app-plan-journey__item--{{ item.state }}">
+
+    <div class="govuk-task-list__name-and-hint">
+      <h3 class="govuk-heading-s">{{ item.heading }}</h3>
+      <div class="govuk-task-list__hint">
+        <p class="govuk-body govuk-!-margin-bottom-1 {% if item.state === 'locked' %}app-plan-journey__locked-text{% endif %}">
+          {{ item.description }}
+        </p>
+        <p class="govuk-body govuk-!-margin-bottom-0 {% if item.state === 'locked' %}app-plan-journey__locked-text{% endif %}">
+          {{ item.meta }}
+        </p>
+        {% if item.actionHtml %}
+          <div class="govuk-!-margin-top-3">
+            {{ item.actionHtml | safe }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="govuk-task-list__status">
+      {% if item.state === "completed" %}
+      <span class="govuk-task-list__status">{{ item.tagText }}</span>
+    {% elif item.state === "active" %}
+      <strong class="govuk-tag {{ item.tagClass }}">{{ item.tagText }}</strong>
+    {% else %}
+      <span class="govuk-task-list__status--cannot-start-yet">{{ item.tagText }}</span>
+    {% endif %}
+    </div>
+
+  </li>
+  {% endfor %}
+</ol>
