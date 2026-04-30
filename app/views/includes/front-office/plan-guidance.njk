@@ -1,0 +1,35 @@
+ <!-- Requirements -->
+    {{ govukDetails({
+    summaryText: "What you need for each gateway",
+    html: "
+
+    <h3 class='govuk-heading-s'>Gateway 2</h3>
+    <ul class='govuk-list govuk-list--bullet'>
+      <li>Gateway 2 covering letter</li>
+      <li>Local plan timetable</li>
+      <li>Project initiation document</li>
+      <li>Statement of compliance (draft)</li>
+      <li>Statement of soundness (draft)</li>
+      <li>Consultation statement</li>
+    </ul>
+
+    <h3 class='govuk-heading-s govuk-!-margin-top-4'>Gateway 3</h3>
+    <ul class='govuk-list govuk-list--bullet'>
+      <li>Submission version of the plan</li>
+      <li>Final compliance statement</li>
+      <li>Final soundness statement</li>
+      <li>Updated evidence base</li>
+    </ul>
+    "
+    }) }}
+
+    {{ govukDetails({
+      summaryText: "How do the gateways differ?",
+      html: "
+        <p class='govuk-body'><strong>Gateway 1</strong> is a self-assessment of readiness. Your LPA publishes a document setting out how it has prepared for plan-making. This formally starts the plan-making process and the 30-month timeframe.</p>
+        <p class='govuk-body'><strong>Gateway 2</strong> is an advisory check. An assessor reviews your plan and provides observations to help resolve potential soundness issues early and progress towards meeting the prescribed requirements.</p>
+        <p class='govuk-body'><strong>Gateway 3</strong> tests whether your proposed local plan has met the prescribed requirements and is ready to proceed to examination. Available after Gateway 2 is approved.</p>
+        <p class='govuk-body govuk-!-margin-bottom-0'><strong>Examination</strong> is carried out by an independent inspector who assesses the plan against the tests of soundness set out in national policy. <br>Available after Gateway 3 is approved.</p>
+      "
+    }) }}
+

@@ -16,29 +16,16 @@ href: "/projects/front-office/home/v1/homepage"
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    {{ govukNotificationBanner({
-      type: "important",
-      html: "
-        <h3 class='govuk-notification-banner__heading'>Action needed: Gateway 2 submission incomplete</h3>
-        <p class='govuk-body'>PINS has reviewed your submission and found issues with some documents. You must upload corrected files before your plan can progress.</p>
-        <p class='govuk-body govuk-!-margin-bottom-0'><a class='govuk-link' href='../gateway-2/'>Review and correct your documents</a></p>
-      "
-    }) }}
-
     <!-- Header -->
-    <span class="govuk-caption-xl">PLAN/000003</span>
-    <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">North District Local Plan</h1>
+    <span class="govuk-caption-xl">PLAN/000005</span>
+    <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">West End Local Plan</h1>
 
-     <!--<p class="govuk-body-l govuk-!-margin-bottom-5">
-      <strong>Current stage:</strong> Gateway 2
-      {{ govukTag({ text: "In progress", classes: "govuk-tag--blue govuk-!-margin-left-2" }) }}
-    </p>
+    {% include "includes/front-office/plan-metadata-in-progress.njk" %}
 
-   <p class="govuk-body">
-      Submit all required documents before <strong>12 March 2026</strong>.
-    </p>-->
-
-    {% include "includes/front-office/plan-metadata-action-needed.njk" %}
+    {{ govukButton({
+      text: "Continue Gateway 2 submission",
+      href: "../../application-details-g2/v2/application-details"
+  }) }}
 
   </div>
 </div>
@@ -47,7 +34,7 @@ href: "/projects/front-office/home/v1/homepage"
   <div class="govuk-grid-column-two-thirds">
 
     <!-- Task list -->
-    <h2 class="govuk-heading-m">Plan progress</h2>
+   <h2 class="govuk-heading-m">Plan progress</h2>
 
     {% from "govuk/components/task-list/macro.njk" import govukTaskList %}
 
@@ -68,16 +55,16 @@ href: "/projects/front-office/home/v1/homepage"
         },
         {
           title: {
-            text: "Gateway 2 - legal advisory check"
+            text: "Gateway 2 - advisory check"
           },
           hint: {
-            text: "Submitted on 25 April 2026"
+            text: "Target date: 25 April 2026"
           },
-          href: "../../application-details-g2/v2/application-details-action-needed",
+          href: "../../application-details-g2/v2/application-details",
           status: {
             tag: {
-              text: "Action needed",
-              classes: "govuk-tag--red"
+              text: "In progress",
+              classes: "govuk-tag--teal"
             }
           }
         },
@@ -86,7 +73,7 @@ href: "/projects/front-office/home/v1/homepage"
             text: "Gateway 3 - readiness check"
           },
           hint: {
-            html: "Target date: 20 June 2026"
+            html: "Target date: June 2026"
           },
           status: {
             text: "Cannot start yet",
@@ -108,7 +95,8 @@ href: "/projects/front-office/home/v1/homepage"
       ]
     }) }}
 
-       {% include "includes/front-office/plan-guidance.njk" %}
+        {% include "includes/front-office/plan-guidance.njk" %}
+
 
   </div>
 </div>
@@ -116,7 +104,6 @@ href: "/projects/front-office/home/v1/homepage"
 <!--<div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-
 
     <h2 class="govuk-heading-m">Case officer</h2>
 

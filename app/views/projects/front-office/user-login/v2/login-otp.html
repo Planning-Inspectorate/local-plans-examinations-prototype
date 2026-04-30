@@ -1,0 +1,63 @@
+{% extends "layouts/front-office-login.html" %}
+
+{% block pageTitle %}
+  Enter your one-time password – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "login-email"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {{ govukInput({
+      label: {
+        text: "Enter your one-time password",
+        classes: "govuk-label--l",
+        isPageHeading: true
+      },
+      classes: "govuk-input--width-10",
+      hint: {
+        text: "We sent a code to joe.bloggs@localcouncil.gov.uk. It may take a few minutes to arrive."
+      },
+      id: "otp",
+      name: "otp"
+    }) }}
+
+    <p class="govuk-body">If you do not receive the email:</p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Check the email address is correct.</li>
+      <li>Check your spam or junk folder.</li>
+    </ul>
+
+    <p class="govuk-body">
+      If everything looks correct but you still have not received the email, you can
+      <a class="govuk-link" href="login-request-new-code">request a new code</a>.
+    </p>
+
+    {{ govukButton({
+      text: "Continue",
+      href: "../../home/v1/homepage"
+    }) }}
+
+    {{ govukDetails({
+      summaryText: "If you are still having problems",
+      html: "
+        <p class='govuk-body'>Contact our support team.</p>
+        <p class='govuk-body'>Telephone: 0303 444 5000<br>
+        Monday to Friday, 9am to midday (except public holidays)<br>
+        <a class='govuk-link' href='https://www.gov.uk/call-charges'>Find out about call charges</a></p>
+      "
+    }) }}
+
+  </div>
+</div>
+
+{% endblock %}

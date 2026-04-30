@@ -41,6 +41,12 @@
         html: '<p class="govuk-body"><a href="https://app.mural.co/t/allpins6990/m/allpins6990/1765884601123/237bc418b7dd56fd74fe7b0ce600936fbf9aba46">Design Mural board</a></p>'
       }) }}
 
+    {{ govukButton({
+      html: 'View prototype',
+      href: '/projects/front-office/home/v' ~ version ~ '/homepage',
+      isStartButton: true
+    }) }}
+
       {% set versionNotesHtml %}
 <p class="govuk-!-margin-bottom-2">Notes:</p>
 
@@ -60,14 +66,14 @@
   <li>Can users quickly identify which plans need attention?</li>
   <li>Is the difference between “Current stage” and “Status” clear?</li>
   <li>Do users know what happens when they click into a plan?</li>
+  <li>Is additional filtering or sorting needed (for example by stage or status)?</li>
+  <li>Do users need a clearer indication of “next action” directly in the table?</li>
+  <li>Should the dashboard highlight overdue or at-risk plans more prominently?</li>
 </ul>
 
 <p class="govuk-!-margin-bottom-2">Open questions:</p>
 
 <ul class="govuk-list govuk-list--bullet">
-  <li>Should the dashboard highlight overdue or at-risk plans more prominently?</li>
-  <li>Is additional filtering or sorting needed (for example by stage or status)?</li>
-  <li>Do users need a clearer indication of “next action” directly in the table?</li>
   <li>Do we need the "Plan type" column if all plans are local plans?</li>
   <li>Do we need a separate view for invalid or rejected plans?</li>
   <li>What should drive the ordering of the plans?</li>
@@ -78,12 +84,6 @@
   summaryText: "Version 1 notes",
   html: versionNotesHtml
 }) }}
- 
-    {{ govukButton({
-      html: 'View prototype',
-      href: '/projects/front-office/home/v' ~ version ~ '/homepage',
-      isStartButton: true
-    }) }}
 
  
   </div>

@@ -4,8 +4,12 @@
 East Borough Local Plan – Local Plans Portal
 {% endblock %}
 
-<!--Remove "Back to my plans back link"-->
-{% block beforeContent %}{% endblock %}
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back to my plans",
+href: "/projects/front-office/home/v1/homepage"
+}) }}
+{% endblock %}
 
 {% block content %}
 
@@ -14,14 +18,14 @@ East Borough Local Plan – Local Plans Portal
 
     {{ govukNotificationBanner({
   html: "
-    <h3 class='govuk-notification-banner__heading'>Gateway 2 is with the Planning Inspectorate</h3>
+    <h3 class='govuk-notification-banner__heading'>Gateway 3 is with the Planning Inspectorate</h3>
     <p class='govuk-body'>Your submission is being reviewed. You do not need to do anything right now. You will be notified by email if any action is required.</p>
   "
 }) }}
 
     <!-- Header -->
-    <span class="govuk-caption-xl">PLAN/000005</span>
-    <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">East Borough Local Plan</h1>
+    <span class="govuk-caption-xl">PLAN/000004</span>
+    <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">Southside Local Plan</h1>
 
      <!--<p class="govuk-body-l govuk-!-margin-bottom-5">
       <strong>Current stage:</strong> Gateway 2
@@ -65,9 +69,21 @@ East Borough Local Plan – Local Plans Portal
             text: "Gateway 2 - legal advisory check"
           },
           hint: {
-            text: "Submitted on 25 April 2026"
+            text: "Approved on 25 April 2026"
           },
-          href: "../../application-details-g2/v2/application-details-submitted",
+          href: "#",
+          status: {
+              text: "Completed"
+          }
+        },
+        {
+          title: {
+            text: "Gateway 3 - readiness check"
+          },
+          hint: {
+            html: "Submitted on 20 June 2026"
+          },
+          href: "#",
           status: {
             tag: {
               text: "With PINS",
@@ -77,22 +93,10 @@ East Borough Local Plan – Local Plans Portal
         },
         {
           title: {
-            text: "Gateway 3 - readiness check"
-          },
-          hint: {
-            html: "Due by 20 June 2026<br>Available after Gateway 2 is approved"
-          },
-          status: {
-            text: "Cannot start yet",
-            classes: "govuk-task-list__status--cannot-start-yet"
-          }
-        },
-        {
-          title: {
             text: "Examination"
           },
           hint: {
-            html: "Due by 8 August 2026<br>Available after Gateway 3 is approved"
+            html: "Target date: 8 August 2026"
           },
           status: {
             text: "Cannot start yet",
@@ -102,53 +106,16 @@ East Borough Local Plan – Local Plans Portal
       ]
     }) }}
 
-    <!-- Requirements -->
-    {{ govukDetails({
-    summaryText: "What you need for each gateway",
-    html: "
-
-    <h3 class='govuk-heading-s'>Gateway 2</h3>
-    <ul class='govuk-list govuk-list--bullet'>
-      <li>Gateway 2 covering letter</li>
-      <li>Local plan timetable</li>
-      <li>Project initiation document</li>
-      <li>Statement of compliance (draft)</li>
-      <li>Statement of soundness (draft)</li>
-      <li>Consultation statement</li>
-    </ul>
-
-    <h3 class='govuk-heading-s govuk-!-margin-top-4'>Gateway 3</h3>
-    <ul class='govuk-list govuk-list--bullet'>
-      <li>Submission version of the plan</li>
-      <li>Final compliance statement</li>
-      <li>Final soundness statement</li>
-      <li>Updated evidence base</li>
-    </ul>
-    "
-    }) }}
-
-    {{ govukDetails({
-    summaryText: "How do the gateways differ?",
-    html: "
-    <p class='govuk-body'><strong>Gateway 1</strong> is a self-assessment. Your LPA confirms it is ready to proceed.
-      PINS does not make a decision at this stage.</p>
-    <p class='govuk-body'><strong>Gateway 2</strong> provides advisory support to help resolve potential issues and
-      ensure legal and procedural compliance.</p>
-    <p class='govuk-body'><strong>Gateway 3</strong> confirms whether your plan is ready to proceed to examination.</p>
-    <p class='govuk-body'><strong>Examination</strong> is carried out by an independent inspector who assesses the plan
-      against the National Planning Policy Framework.</p>
-    "
-    }) }}
+    {% include "includes/front-office/plan-guidance.njk" %}
 
   </div>
 </div>
-
+<!--
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
 
-    <!-- Case officer -->
     <h2 class="govuk-heading-m">Case officer</h2>
 
     <p class="govuk-body-s govuk-!-margin-bottom-1">
@@ -169,8 +136,7 @@ East Borough Local Plan – Local Plans Portal
         support@planninginspectorate.gov.uk
       </a>
     </p>
-
   </div>
-</div>
+  </div-->
 
 {% endblock %}
