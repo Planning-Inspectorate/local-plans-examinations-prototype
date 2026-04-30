@@ -37,6 +37,27 @@
 
     <p class="govuk-body">Allows LPAs to submit a Gateway 2 application. Users upload required documents, complete a declaration, and confirm submission.</p>
 
+    <h3 class="govuk-heading-s">Mural board workings:</h3>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>
+        <a
+        href="https://app.mural.co/t/allpins6990/m/allpins6990/1765884601123/237bc418b7dd56fd74fe7b0ce600936fbf9aba46">Design
+        Mural board</a>
+      </li>
+      <li>
+        <a
+        href="https://app.mural.co/t/allpins6990/m/allpins6990/1776240173187/3c951bd1e9c81a3c6506f51abab0d859c1ff7e10">User research assumption mapping mural</a>
+      </li>
+    </ul>
+
+     
+    {{ govukButton({
+      html: 'View prototype',
+      href: '/projects/front-office/application-details-g2/v' ~ version ~ '/application-details',
+      isStartButton: true
+    }) }}
+
     {% set appDetailsNotesHtml %}
 
     <h3 class="govuk-heading-s">Changes</h3>
@@ -80,13 +101,6 @@
   summaryText: "Version 2 notes",
   html: appDetailsNotesHtml
 }) }}
-
- 
-    {{ govukButton({
-      html: 'View prototype',
-      href: '/projects/front-office/application-details-g2/v' ~ version ~ '/application-details',
-      isStartButton: true
-    }) }}
  
     {% set v1HTML %}
  

@@ -38,10 +38,24 @@ href: '/front-office'
     <p class="govuk-body">Designed to give LPAs a clear understanding of the current stage of a plan, its status, and
       what comes next.</p>
 
-    {{ govukInsetText({
-    html: '<p class="govuk-body"><a
+    <h3 class="govuk-heading-s">Mural board workings:</h3>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>
+        <a
         href="https://app.mural.co/t/allpins6990/m/allpins6990/1765884601123/237bc418b7dd56fd74fe7b0ce600936fbf9aba46">Design
-        Mural board</a></p>'
+        Mural board</a>
+      </li>
+      <li>
+        <a
+        href="https://app.mural.co/t/allpins6990/m/allpins6990/1776240173187/3c951bd1e9c81a3c6506f51abab0d859c1ff7e10">User research assumption mapping mural</a>
+      </li>
+    </ul>
+
+        {{ govukButton({
+    html: 'View prototype',
+    href: '/projects/front-office/plan-details/v' ~ version ~ '/plan-details',
+    isStartButton: true
     }) }}
 
     {% set planJourneyNotesHtml %}
@@ -81,12 +95,6 @@ href: '/front-office'
     {{ govukDetails({
     summaryText: "Version 1 notes",
     html: planJourneyNotesHtml
-    }) }}
-
-    {{ govukButton({
-    html: 'View prototype',
-    href: '/projects/front-office/plan-details/v' ~ version ~ '/plan-details',
-    isStartButton: true
     }) }}
 
     <p class="govuk-body"><a href="/projects/front-office/plan-details/v1/plan-details1">See other "riskier" option with bespoke
