@@ -40,7 +40,9 @@
     <ul class="govuk-list govuk-list--bullet">
       <li>Adding Gateway 2 documentation to tab view</li>
     </ul>
- 
+    {{ govukInsetText({
+          html: '<p class="govuk-body"><a href="https://app.mural.co/t/allpins6990/m/allpins6990/1772019468343/735e3b84708bc6f2f8960f2961356d29168aebfb?wid=0-1777567594810">Design Mural board</a></p>'
+        }) }}
     {{ govukButton({
       html: 'View prototype',
       href: '/projects/back-office/manage/GW2/v' ~ version ~ '/gateway-2',
