@@ -7,7 +7,7 @@
 {% block beforeContent %}
   {{ govukBackLink({
     text: "Back",
-    href: "../../home"
+    href: "/projects/front-office/plan-details/v1/plan-details-submitted"
   }) }}
 {% endblock %}
 
@@ -16,102 +16,23 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters-from-desktop">
 
-    {{ govukNotificationBanner({
-      type: "Action required",
-      text: "Appeal marked as incomplete. Upload corrected files and resubmit."
-    }) }}
-
     {% include "includes/front-office/application-metadata.html" %}
 
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible" />
 
     <p class="govuk-body">
-      Your application was submitted on 1 January 2024 at 12:00pm.
+      Your application was submitted on 25 April 2026 at 12:00pm.
     </p>
 
-    <p class="govuk-body">
+    <!--<p class="govuk-body">
       If you need to make any changes, send an email to:
       <a href="mailto:support@planninginspectorate.gov.uk" class="govuk-link">
         support@planninginspectorate.gov.uk
       </a>
-    </p>
+    </p>-->
 
-<h2 class="app-task-list__section">
-    <span class="app-task-list__section-number">1. </span> Procedural documents
-    
-      {{ govukTag({ html: '1 issue', classes: 'govuk-tag--red' }) }}
+    <h2 class="govuk-heading-m govuk-!-margin-top-6">Procedural documents</h2>
 
-</h2>
-
-      {% from "govuk/components/table/macro.njk" import govukTable %}
-
-{{ govukTable({
-  caption: "Procedural documents",
-  captionClasses: "govuk-table__caption--m",
-  firstCellIsHeader: true,
-  head: [
-    {
-      text: "Document"
-    },
-    {
-      text: "File"
-    },
-    {
-      text: "Status"
-    },
-    {
-      text: "Action"
-    }
-  ],
-  rows: [
-    [
-      {
-        text: "January"
-      },
-      {
-        text: "£85",
-        format: "numeric"
-      },
-      {
-        text: "£95",
-        format: "numeric"
-      }
-      ,
-      {
-        text: "Change"      
-      }
-    ],
-    [
-      {
-        text: "February"
-      },
-      {
-        text: "£75",
-        format: "numeric"
-      },
-      {
-        text: "£55",
-        format: "numeric"
-      }
-    ],
-    [
-      {
-        text: "March"
-      },
-      {
-        text: "£165",
-        format: "numeric"
-      },
-      {
-        text: "£125",
-        format: "numeric"
-      }
-    ]
-  ]
-}) }}
-
-
-  </h2>
     {{ govukSummaryList({
       classes: "app-summary-list--narrow-key",
       rows: [
@@ -125,15 +46,6 @@
           key: { text: "Local plan timetable" },
           value: {
             html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">timetable.pdf</a></li></ul>'
-          },
-          actions: {
-            items: [
-              {
-                href: "#",
-                text: "Change",
-                visuallyHiddenText: "name"
-              }
-            ]
           }
         },
         {
@@ -211,16 +123,12 @@
           }
         },
         {
-          key: { text: "Consultation summary for the above" },
+          key: { text: "Consultation summary" },
           value: {
             html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">consultation-summary.pdf</a></li></ul>'
           }
         }
       ]
-    }) }}
-
-    {{ govukButton({
-      text: "Submit"
     }) }}
 
   </div>

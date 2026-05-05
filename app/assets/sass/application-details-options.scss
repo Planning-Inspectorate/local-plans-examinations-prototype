@@ -1,0 +1,21 @@
+/* ── Option A: action needed table rows ─────────────────────────── */
+ 
+.app-table-row--action-needed {
+  background-color: #fff8f6;
+  border-left: 4px solid #d4351c;
+}
+ 
+.app-case-officer-note {
+  background: #fff8f6;
+  border-left: 3px solid #d4351c;
+  padding: 8px 12px;
+}
+ 
+/* ── Option B: PINS feedback panel ──────────────────────────────── */
+ 
+.app-feedback-panel {
+  background: #f3f2f1;
+  border-left: 5px solid #505a5f;
+  padding: 16px 20px;
+  margin-bottom: 1rem;
+}

@@ -17,17 +17,15 @@ href: "/projects/front-office/home/v1/homepage"
   <div class="govuk-grid-column-two-thirds">
 
     {{ govukNotificationBanner({
-      type: "important",
-      html: "
-        <h3 class='govuk-notification-banner__heading'>Action needed: Gateway 2 submission incomplete</h3>
-        <p class='govuk-body'>PINS has reviewed your submission and found issues with some documents. You must upload corrected files before your plan can progress.</p>
-        <p class='govuk-body govuk-!-margin-bottom-0'><a class='govuk-link' href='../gateway-2/'>Review and correct your documents</a></p>
-      "
-    }) }}
+  html: "
+    <h3 class='govuk-notification-banner__heading'>Gateway 3 is with the Planning Inspectorate</h3>
+    <p class='govuk-body'>Your submission is being reviewed. You do not need to do anything right now. You will be notified by email if any action is required.</p>
+  "
+}) }}
 
     <!-- Header -->
-    <span class="govuk-caption-xl">PLAN/000003</span>
-    <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">North District Local Plan</h1>
+    <span class="govuk-caption-xl">PLAN/000004</span>
+    <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">Southside Local Plan</h1>
 
      <!--<p class="govuk-body-l govuk-!-margin-bottom-5">
       <strong>Current stage:</strong> Gateway 2
@@ -38,7 +36,7 @@ href: "/projects/front-office/home/v1/homepage"
       Submit all required documents before <strong>12 March 2026</strong>.
     </p>-->
 
-    {% include "includes/front-office/plan-metadata-action-needed.njk" %}
+    {% include "includes/front-office/plan-metadata-submitted-gw3.njk" %}
 
   </div>
 </div>
@@ -71,14 +69,11 @@ href: "/projects/front-office/home/v1/homepage"
             text: "Gateway 2 - advisory check"
           },
           hint: {
-            text: "Submitted on 25 April 2026"
+            text: "Approved on 25 April 2026"
           },
-          href: "../../application-details-g2/v2/application-details-action-needed",
+          href: "#",
           status: {
-            tag: {
-              text: "Action needed",
-              classes: "govuk-tag--red"
-            }
+              text: "Completed"
           }
         },
         {
@@ -86,11 +81,14 @@ href: "/projects/front-office/home/v1/homepage"
             text: "Gateway 3 - readiness check"
           },
           hint: {
-            html: "Target date: 20 June 2026"
+            html: "Submitted on 20 June 2026"
           },
+          href: "#",
           status: {
-            text: "Cannot start yet",
-            classes: "govuk-task-list__status--cannot-start-yet"
+            tag: {
+              text: "With PINS",
+              classes: "govuk-tag--yellow"
+            }
           }
         },
         {
@@ -108,12 +106,12 @@ href: "/projects/front-office/home/v1/homepage"
       ]
     }) }}
 
-       {% include "includes/front-office/plan-guidance.njk" %}
+    {% include "includes/front-office/plan-guidance.njk" %}
 
   </div>
 </div>
-
-<!--<div class="govuk-grid-row">
+<!--
+<div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
@@ -138,8 +136,7 @@ href: "/projects/front-office/home/v1/homepage"
         support@planninginspectorate.gov.uk
       </a>
     </p>
-
   </div>
-</div>-->
+  </div-->
 
 {% endblock %}

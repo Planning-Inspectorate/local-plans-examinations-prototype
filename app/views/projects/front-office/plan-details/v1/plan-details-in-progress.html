@@ -22,10 +22,10 @@ href: "/projects/front-office/home/v1/homepage"
 
     {% include "includes/front-office/plan-metadata-in-progress.njk" %}
 
-    {{ govukButton({
+    <!--{{ govukButton({
       text: "Continue Gateway 2 submission",
       href: "../../application-details-g2/v2/application-details"
-  }) }}
+  }) }}-->
 
   </div>
 </div>
@@ -33,7 +33,7 @@ href: "/projects/front-office/home/v1/homepage"
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    <!-- Task list -->
+    <!--
    <h2 class="govuk-heading-m">Plan progress</h2>
 
     {% from "govuk/components/task-list/macro.njk" import govukTaskList %}
@@ -93,7 +93,113 @@ href: "/projects/front-office/home/v1/homepage"
           }
         }
       ]
-    }) }}
+  }) }}-->
+
+
+    <h2 class="govuk-heading-m">Plan journey</h2>
+
+    <ol class="app-plan-journey">
+
+      <li class="app-plan-journey__step app-plan-journey__step--done">
+        <div class="app-plan-journey__indicator" aria-hidden="true">
+          <span class="app-plan-journey__dot"></span>
+          <span class="app-plan-journey__line"></span>
+        </div>
+        <div class="app-plan-journey__content">
+          <div class="app-plan-journey__header" style="justify-content: space-between;">
+            <h3 class="govuk-heading-s govuk-!-margin-bottom-0">
+              Gateway 1
+            </h3>
+            {{ govukTag({
+            text: "Completed",
+            classes: "govuk-tag--green"
+            }) }}
+          </div>
+          <p class="govuk-body-s govuk-!-colour-secondary govuk-!-margin-top-3 govuk-!-margin-bottom-1">Self-assessed by
+            LPA. No PINS decision required.</p>
+          <p class="govuk-body-s govuk-!-margin-bottom-1">
+            <span class="govuk-!-colour-secondary">Submitted:</span> 12 September 2024
+          </p>
+          <p class="govuk-body-s govuk-!-margin-bottom-1">
+            <a class="govuk-link" href="#">View Gateway 1 documents</a>
+          </p>
+        </div>
+      </li>
+
+      <li class="app-plan-journey__step app-plan-journey__step--active">
+        <div class="app-plan-journey__indicator" aria-hidden="true">
+          <span class="app-plan-journey__dot"></span>
+          <span class="app-plan-journey__line"></span>
+        </div>
+        <div class="app-plan-journey__content">
+          <div class="app-plan-journey__header" style="justify-content: space-between;">
+            <h3 class="govuk-heading-s govuk-!-margin-bottom-0">
+              Gateway 2
+            </h3>
+            {{ govukTag({
+            text: "In progress",
+            classes: "govuk-tag--blue"
+            }) }}
+          </div>
+          <p class="govuk-body-s govuk-!-margin-top-3 govuk-!-margin-bottom-1">
+            PINS checks your submission is complete and helps identify and resolve potential issues early, including legal and procedural compliance.</p>
+          <p class="govuk-body-s govuk-!-margin-bottom-4">
+            <span class="govuk-!-colour-secondary">Due:</span> 12 September 2024
+          </p>
+          {{ govukButton({
+          text: "Continue submission",
+          href: "../../application-details-g2/v2/application-details"
+          }) }}
+          <!--<div class="govuk-inset-text app-inset-text--info govuk-!-margin-top-2">
+              <p class="govuk-body-s govuk-!-font-weight-bold govuk-!-margin-bottom-1">What Gateway 2 means for your plan
+              </p>
+              <p class="govuk-body-s govuk-!-margin-bottom-0">PINS will check all required documents are present and correct. If complete, your plan will be marked valid and Gateway 3 will unlock. If incomplete, you will be asked to upload corrections before resubmitting.</p>
+            </div>-->
+        </div>
+      </li>
+
+      <li class="app-plan-journey__step app-plan-journey__step--locked">
+        <div class="app-plan-journey__indicator" aria-hidden="true">
+          <span class="app-plan-journey__dot"></span>
+          <span class="app-plan-journey__line"></span>
+        </div>
+        <div class="app-plan-journey__content">
+          <div class="app-plan-journey__header" style="justify-content: space-between;">
+            <h3 class="govuk-heading-s govuk-!-margin-bottom-0">
+              Gateway 3
+            </h3>
+            {{ govukTag({
+            text: "Cannot start yet",
+            classes: "govuk-tag--grey"
+            }) }}
+          </div>
+          <p class="govuk-body-s govuk-!-margin-top-3 govuk-!-margin-bottom-1" style="color: #767676;">Available once Gateway 2 is passed. PINS confirms whether the plan is ready to proceed to examination.</p>
+          <p class="govuk-body-s govuk-!-margin-bottom-1" style="color: #767676;">Target due: 1 June 2025</p>
+        </div>
+      </li>
+
+      <li class="app-plan-journey__step app-plan-journey__step--locked">
+        <div class="app-plan-journey__indicator" aria-hidden="true">
+          <span class="app-plan-journey__dot"></span>
+        </div>
+        <div class="app-plan-journey__content">
+          <div class="app-plan-journey__header" style="justify-content: space-between;">
+            <h3 class="govuk-heading-s govuk-!-margin-bottom-0">
+              Examination
+            </h3>
+            {{ govukTag({
+            text: "Cannot start yet",
+            classes: "govuk-tag--grey"
+            }) }}
+          </div>
+          <p class="govuk-body-s govuk-!-margin-top-3 govuk-!-margin-bottom-1" style="color: #767676;">Available once Gateway 3 is passed. Your plan is examined by an independent inspector to assess whether the plan is sound and complies with the National Planning Policy Framework before it can be adopted.</p>
+          <p class="govuk-body-s govuk-!-margin-bottom-1" style="color: #767676;">Target due: 1 December 2025</p>
+        </div>
+      </li>
+    </ol>
+
+    {# Size modifiers: xl, l, m #}
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break">
 
         {% include "includes/front-office/plan-guidance.njk" %}
 

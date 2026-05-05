@@ -4,9 +4,14 @@
 
 <h1 class="govuk-heading-l">{{ params.heading or "Upload cross-team correspondence" }}</h1>
 
+{% if params.hintHtml %}
+  <div class="govuk-body">{{ params.hintHtml | safe }}</div>
+{% elif params.hint %}
+  <p class="govuk-body">{{ params.hint }}</p>
+{% endif %}
+
 <p>
-  Each file must be a PDF, DOC, DOCX, PPT, PPTX, XLS, XLSX, MSG, JPG, JPEG, MPEG, MP3, MP4, MOV, PNG, TIF or TIFF
-  and smaller than 250MB.
+  Each file must be a PDF, DOC, DOCX, PPT, PPTX, XLS, XLSX, MSG, JPG, JPEG, PNG, TIF or TIFF and smaller than 250MB.
 </p>
 
 <p>The total size of your uploaded files must be smaller than 1GB.</p>

@@ -1,0 +1,119 @@
+{% extends "layouts/front-office.html" %}
+
+{% block pageTitle %}East Borough Local Plan – Local Plans Portal{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back to my plans",
+href: "/projects/front-office/home/v1/homepage"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+
+  <div class="govuk-grid-column-two-thirds">
+
+        <span class="govuk-caption-xl">PLAN/000006</span>
+    <h1 class="govuk-heading-xl" style="margin-bottom: 20px;">East Borough Local Plan</h1>
+
+
+
+    {% include "includes/front-office/plan-metadata-in-progress.njk" %}
+        {{ govukButton({
+      text: "Continue gateway 2 submission"
+    }) }}
+
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+
+  <div class="govuk-grid-column-two-thirds">
+
+
+        {# Size modifiers: xl, l, m #}
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break">
+
+        <h2 class="govuk-heading-l">Gateway information</h2>
+
+        {{ govukAccordion({
+  id: "gateway-requirements",
+  items: [
+    {
+      heading: {
+        text: "Gateway 1"
+      },
+      content: {
+        html: '
+          <p class="govuk-body">Self-assessed by LPA. No PINS decision required.</p>
+          <p class="govuk-body govuk-!-margin-bottom-0"><a class="govuk-link" href="#">View Gateway 1 documents</a></p>
+        '
+      }
+    },
+    {
+      heading: {
+        text: "Gateway 2"
+      },
+      content: {
+        html: '
+          <p class="govuk-body">An assessor reviews your submission and provides observations to help resolve potential soundness issues early.</p>
+          <p class="govuk-body">Target due date: 30 March 2026</p>
+          <p class="govuk-body"><a class="govuk-link" href="../../application-details-g2/v2/application-details">Continue Gateway 2 submission</a></p>
+          <h3 class="govuk-heading-s">Gateway 2 requirements</h3>
+          <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-0">
+            <li>Gateway 2 covering letter</li>
+            <li>Local plan timetable</li>
+            <li>Project initiation document</li>
+            <li>Statement of compliance (draft)</li>
+            <li>Statement of soundness (draft)</li>
+            <li>Consultation statement</li>
+            <li>Regulation 18 consultation summary</li>
+          </ul>
+        '
+      }
+    },
+    {
+      heading: {
+        text: "Gateway 3"
+      },
+      content: {
+        html: '
+          <p class="govuk-body">Tests whether your proposed local plan has met the prescribed requirements and is ready to proceed to examination.</p>
+          <p class="govuk-body">Target due date: 30 July 2026</p>
+          <p class="govuk-body">Gateway 3 cannot be started until Gateway 2 has been approved by PINS.</p>
+          <h3 class="govuk-heading-s">Gateway 3 requirements</h3>
+          <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-0">
+            <li>Submission version of the plan</li>
+            <li>Final compliance statement</li>
+            <li>Final soundness statement</li>
+            <li>Updated evidence base</li>
+            <li>Regulation 19 consultation report</li>
+            <li>Duty to cooperate statement</li>
+            <li>Sustainability appraisal</li>
+            <li>Habitats regulations assessment</li>
+          </ul>
+        '
+      }
+    },
+    {
+      heading: {
+        text: "Examination"
+      },
+      content: {
+        html: '
+          <p class="govuk-body">An independent inspector assesses your plan against the tests of soundness set out in national policy before it can be adopted.</p>
+           <p class="govuk-body">Target due date: 30 September 2026</p>
+          <p class="govuk-body govuk-!-margin-bottom-0">Examination cannot be started until Gateway 3 has been approved by PINS.</p>
+        '
+      }
+    }
+  ]
+}) }}
+
+  </div>
+
+</div>
+
+{% endblock %}
