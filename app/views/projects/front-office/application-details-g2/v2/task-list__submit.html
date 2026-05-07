@@ -8,16 +8,20 @@
     {% endif %}
   </h2>
 
-  {{ govukSummaryList({
-    classes: 'govuk-!-margin-bottom-9',
-    rows: [
-      {
-        key: { html: 'Accept declaration and submit', classes: 'govuk-!-width-full' },
-        actions: { items: [
-          { href: 'application-declaration', html: 'Continue' }
-        ]}
-        if data['procedural-completed'] == 'true' and data['consultation-completed'] == 'true'
-      }
-    ]
-  }) }}
+{{ govukSummaryList({
+  classes: 'govuk-!-margin-bottom-9',
+  rows: [
+    {
+      key: { html: 'Accept declaration and submit' },
+      actions: {
+        items: [
+          {
+            href: 'application-declaration',
+            html: 'Continue'
+          }
+        ]
+      } if data['procedural-completed'] == 'true' and data['consultation-completed'] == 'true'
+    }
+  ]
+}) }}
 </li>
