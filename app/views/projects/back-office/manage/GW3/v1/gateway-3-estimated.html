@@ -16,7 +16,7 @@
 	<div class="govuk-grid-row">
 		<div class="govuk-grid-column-two-thirds">
 			<h1 class="govuk-heading-l">What is the estimated Gateway 3 date?</h1>
-			<form class="form" method="post" action="/projects/back-office/manage/GW3/gateway-3-estimated">
+			<form class="form" method="post" action="/projects/back-office/manage/GW3/v1/gateway-3-estimated">
 				<input type="hidden" name="isEdit" value="{{ isEdit }}">
 				<input type="hidden" name="returnUrl" value="{{ returnUrl }}">
 				{% set dateParts = noticeOfIntentionDate.split('/') if noticeOfIntentionDate else ['', '', ''] %}
@@ -47,7 +47,7 @@
 				</fieldset>
 			<div class="govuk-button-group">
 				<button type="submit" class="govuk-button" data-module="govuk-button">Save and continue</button>
-				<a href="{{ returnUrl or '/projects/back-office/manage/GW3/v1/gateway-3.html' }}" class="govuk-link">Cancel</a>
+				<a href="{{ returnUrl or '/projects/back-office/manage/GW3/v2/gateway-3.html' }}" class="govuk-link">Cancel</a>
 			</div>
 			</form>
 		</div>

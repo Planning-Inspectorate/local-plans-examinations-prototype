@@ -17,10 +17,11 @@ Plan timetable – {{ serviceName }}
   <div class="govuk-grid-column-full">
   <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
 	<h1 class="govuk-heading-l">{{ planTitle or '-' }}</h1>
-	{{govukTag({
-      text: "New",
+	<span class="govuk-caption-m">{{ planStage or 'Gateway 1' }}
+  {{govukTag({
+      text: "Ready to start",
       classes: "govuk-tag--turquoise"
-    })}}
+    })}}</span>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
       <nav class="x-govuk-secondary-navigation app-secondary-nav govuk-!-margin-top-6 govuk-!-margin-bottom-6" aria-label="Secondary menu">
@@ -41,12 +42,12 @@ Plan timetable – {{ serviceName }}
       </a>
     </li>
     <li class="x-govuk-secondary-navigation__list-item ">
-      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/GW2/v1/gateway-2">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/GW2/v2/gateway-2">
         Gateway 2
       </a>
     </li>
     <li class="x-govuk-secondary-navigation__list-item ">
-      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/GW3/v1/gateway-3">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/GW3/v2/gateway-3">
         Gateway 3
       </a>
     </li>

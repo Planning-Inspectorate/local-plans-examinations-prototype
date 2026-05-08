@@ -1,0 +1,420 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+Gateway 3 overview – {{ serviceName }}
+{% endblock %}
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+  <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
+	<h1 class="govuk-heading-l">{{ planTitle or '-' }}</h1>
+	<span class="govuk-caption-m">{{ planStage or 'Gateway 1' }}
+  {{govukTag({
+      text: "Ready to start",
+      classes: "govuk-tag--turquoise"
+    })}}</span>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <nav class="x-govuk-secondary-navigation app-secondary-nav govuk-!-margin-top-6 govuk-!-margin-bottom-6" aria-label="Secondary menu">
+        <ul class="x-govuk-secondary-navigation__list">
+    <li class="x-govuk-secondary-navigation__list-item">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/overview/v1/index">
+        Overview
+      </a>
+    </li>
+    <li class="x-govuk-secondary-navigation__list-item ">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/timetable.html">
+        Timetable
+      </a>
+    </li>  
+    
+    <li class="x-govuk-secondary-navigation__list-item ">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/GW1/v1/gateway-1">
+        Gateway 1
+      </a>
+    </li>
+    <li class="x-govuk-secondary-navigation__list-item ">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/GW2/v2/gateway-2">
+        Gateway 2
+      </a>
+    </li>
+    <li class="x-govuk-secondary-navigation__list-item x-govuk-secondary-navigation__list-item--current">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/GW3/v2/gateway-3" aria-current="page">
+        Gateway 3
+      </a>
+    </li>
+    <li class="x-govuk-secondary-navigation__list-item ">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/examination/v1/examination">
+        Examination
+      </a>
+    </li>
+    <li class="x-govuk-secondary-navigation__list-item ">
+       <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/documents/upload/v1/documents">
+        Documents
+      </a>
+    </li>
+    <li class="x-govuk-secondary-navigation__list-item ">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/updates/v1/updates.html">
+        Updates
+      </a>
+    </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <form method="post" action="">
+
+      <h2 class="govuk-heading-l">Gateway 3</h2>
+      <dl class="govuk-summary-list govuk-summary-list-timetable">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Gateway 3 estimated date</dt>
+          <dd class="govuk-summary-list__value">{{ gateway3EstimatedDate or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/GW3/v1/gateway-3-estimated.html?returnUrl=/projects/back-office/manage/GW3/v2/gateway-3">Change<span class="govuk-visually-hidden">Gateway 3 estimated date</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Gateway 3 actual date</dt>
+          <dd class="govuk-summary-list__value">{{ gateway3ActualDate or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/GW3/v1/gateway-3-actual.html?returnUrl=/projects/back-office/manage/GW3/v2/gateway-3">Change<span class="govuk-visually-hidden"> Gateway 3 actual date</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Gateway 3 assessor date of appointment</dt>
+          <dd class="govuk-summary-list__value">{{ gateway3AssessorAppointmentDate or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/GW3/v1/gateway-3-assessor-appointment.html?returnUrl=/projects/back-office/manage/GW3/v2/gateway-3">Change<span class="govuk-visually-hidden"> Gateway 3 assessor date of appointment</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Gateway 3 completion date</dt>
+          <dd class="govuk-summary-list__value">{{ gateway3CompletionDate or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/GW3/v1/gateway-3-completion-date.html?returnUrl=/projects/back-office/manage/GW3/v2/gateway-3">Change<span class="govuk-visually-hidden"> Gateway 3 completion date</span></a>
+          </dd>
+        </div>
+        </dl> 
+        <dl class="govuk-summary-list govuk-summary-list-timetable">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Gateway 3 assessor name</dt>
+          <dd class="govuk-summary-list__value">{{ gateway3AssessorName or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/GW3/v1/gateway-3-assessor-name.html?returnUrl=/projects/back-office/manage/GW3/v2/gateway-3">Change<span class="govuk-visually-hidden"> Gateway 3 assessor name</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Programme officer details</dt>
+          <dd class="govuk-summary-list__value">
+            {% if gateway3PoContact.firstName or gateway3PoContact.lastName %}
+              {{ gateway3PoContact.firstName }} {{ gateway3PoContact.lastName }}<br>
+              {% if gateway3PoContact.email %}{{ gateway3PoContact.email }}<br>{% endif %}
+              {% if gateway3PoContact.phone %}{{ gateway3PoContact.phone }}{% endif %}
+            {% else %}
+              -
+            {% endif %}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/GW3/v1/gateway-3-po-details.html?returnUrl=/projects/back-office/manage/GW3/v2/gateway-3">Change<span class="govuk-visually-hidden"> Gateway 3 programme officer details</span></a>
+          </dd>
+        </div>
+      </dl>
+           <style>
+      .app-task-list__section {
+      display: flex; !important;
+      justify-content: space-between; !important;
+      align-items: flex-start; !important;
+      gap: 12px; !important;
+      }
+
+      .app-task-list__section .govuk-tag {
+      position: static;
+      margin-left: 0;
+      flex-shrink: 0;
+      }
+    </style>
+    <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <form method="post" action="">
+    <h2 class="app-task-list__section">Core plan documents<!--<strong class="govuk-tag govuk-tag--yellow">For review</strong>--></h2>
+    <hr>
+    <dl class="govuk-summary-list govuk-summary-list-timetable">
+          <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+          Proposed local plan
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <a class="govuk-hint" href="#">Proposed_local_plan.docx</a>
+        </dd>
+        
+        <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="#">Manage</a>
+          
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Map of proposed local plan policies
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <a class="govuk-hint" href="#">map_of_proposed_local_plan_policies.doc</a>
+        </dd>
+        
+        <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="#">Manage</a>
+          
+        </dd>
+      </div>
+    </dl>
+    </form>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <form method="post" action="">
+    <h2 class="app-task-list__section">Legal and policy compliance assurance<!--<strong class="govuk-tag govuk-tag--yellow">For review</strong>--></h2>
+    <hr>  
+    <dl class="govuk-summary-list govuk-summary-list-timetable">
+        <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+        Statement of compliance
+      </dt>
+      <dd class="govuk-summary-list__value">
+        <a class="govuk-hint" href="#">statement_of_compliance.pdf</a>
+      </dd>
+      
+      <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="#">Manage</a>
+        
+      </dd>
+      
+        </div>
+    
+      <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">
+        Statement of soundness
+      </dt>
+      <dd class="govuk-summary-list__value">
+        <a class="govuk-hint" href="#">statement_of_soundness.pdf</a>
+      </dd>
+      
+      <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="#">Manage</a>
+      </dd>
+    </div>
+    </dl>
+    </form>
+
+     <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <form method="post" action="">
+    <h2 class="app-task-list__section">Consultation evidence and audit trail<!--<strong class="govuk-tag govuk-tag--yellow">For review</strong>--></h2>
+    <hr>  
+    <dl class="govuk-summary-list govuk-summary-list-timetable">
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">
+        Statement summarising consultation and engagement activities
+      </dt>
+      <dd class="govuk-summary-list__value">
+        <a class="govuk-hint" href="#">statement_summarising_consultation_and_engagement_activities.pdf</a>
+      </dd>
+      
+      <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="#">Manage</a>
+        
+      </dd>
+      
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">
+        Summary of scoping consultation
+      </dt>
+      <dd class="govuk-summary-list__value">
+        <a class="govuk-hint" href="#">summary_of_scoping_consultation.pdf</a>
+      </dd>
+      
+      <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="#">Manage</a>
+        
+      </dd>
+      
+    </div>
+    <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Summary of consultation on proposed local plan content and evidence
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <a class="govuk-hint" href="#">summary_of_consultation_on_proposed_local_plan_content_and_evidence.pdf</a>
+        </dd>
+        
+        <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="#">Manage</a>
+          
+        </dd>
+        
+    </div>
+    <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Summary of consultation on the proposed local plan
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <a class="govuk-hint" href="#">summary_of_consultation_on_the_proposed_local_plan.pdf</a>
+        </dd>
+        
+        <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="#">Manage</a>
+          
+        </dd>
+    </div>
+    </dl>
+    </form>
+    <div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+      <form method="post" action="">
+        <h2 class="app-task-list__section">Spatial development strategy conformity<!--<strong class="govuk-tag govuk-tag--yellow">For review</strong>--></h2>
+        <hr>
+      <dl class="govuk-summary-list govuk-summary-list-timetable">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Gateway 1 – Self assessment of readiness
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <a class="govuk-hint" href="#">gateway1_self_assessment.pdf</a>
+        </dd>
+        
+        <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="#">Manage</a>
+          
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Consultation on proposed local plan content and evidence documents
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <a class="govuk-hint" href="#">proposed_plan_full.pdf</a>
+        </dd>
+        
+        <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="#">Manage</a>
+          
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Consultation summary for the above
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <a class="govuk-hint" href="#">consultation_summary.pdf</a>
+        </dd>
+        <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="#">Manage</a>
+        </dd>
+    </div>
+    </dl>
+    </form>
+    <div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <form method="post" action="">
+    <h2 class="app-task-list__section">Examination readiness and process assurance<!--<strong class="govuk-tag govuk-tag--yellow">For review</strong>--></h2>
+    <hr>  
+    <dl class="govuk-summary-list govuk-summary-list-timetable">
+        <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+        Statement of practical arrangements for the examination
+      </dt>
+      <dd class="govuk-summary-list__value">
+        <a class="govuk-hint" href="#">statement_of_practical_arrangements_for_the_examination.pdf</a>
+      </dd>
+      
+      <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="#">Manage</a>
+        
+      </dd>
+      
+        </div>
+    </dl>
+    </form>
+    <div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <form method="post" action="">
+    <h2 class="app-task-list__section">Supplementary plans<!--<strong class="govuk-tag govuk-tag--yellow">For review</strong>--></h2>
+    <hr>  
+    <dl class="govuk-summary-list govuk-summary-list-timetable">
+        <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+        Supplementary plans statement
+      </dt>
+      <dd class="govuk-summary-list__value">
+        <a class="govuk-hint" href="#">supplementary_plans_statement.pdf</a>
+      </dd>
+      
+      <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="#">Manage</a>
+        
+      </dd>
+      
+        </div>
+    </dl>
+    </form>
+    <div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <form method="post" action="">
+    <h2 class="app-task-list__section">Environmental assessment material<!--<strong class="govuk-tag govuk-tag--yellow">For review</strong>--></h2>
+    <hr>  
+    <dl class="govuk-summary-list govuk-summary-list-timetable">
+        <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+        Environmental report
+      </dt>
+      <dd class="govuk-summary-list__value">
+        <a class="govuk-hint" href="#">environmental_report.pdf</a>
+      </dd>
+      
+      <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="#">Manage</a>
+        
+      </dd>
+      
+        </div>
+    </dl>
+    </form>
+    <div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <form method="post" action="">
+    <h2 class="app-task-list__section">Other supporting material<!--<strong class="govuk-tag govuk-tag--yellow">For review</strong>--></h2>
+    <hr>  
+    <dl class="govuk-summary-list govuk-summary-list-timetable">
+        <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+        Any other documents for supporting the examination of the plan
+      <dd class="govuk-summary-list__value">
+        <a class="govuk-hint" href="#">other_supporting_documents.pdf</a>
+      </dd>
+      
+      <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="#">Manage</a>
+        
+      </dd>
+      
+        </div>
+    </dl>
+    </form>
+  </div>
+</div>
+    </div>
+{% endblock %}
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}
