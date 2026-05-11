@@ -1,8 +1,6 @@
 {% extends "layouts/front-office.html" %}
 
-{% block pageTitle %}
-East Borough Local Plan – Local Plans Portal
-{% endblock %}
+{% block pageTitle %}East Borough Local Plan – Local Plans Portal{% endblock %}
 
 {% block beforeContent %}
 {{ govukBackLink({
@@ -14,23 +12,22 @@ href: "/projects/front-office/home/v1/homepage"
 {% block content %}
 
 <div class="govuk-grid-row">
+
   <div class="govuk-grid-column-two-thirds">
 
-    <!-- Header -->
     <span class="govuk-caption-xl">PLAN/000006</span>
-    <h1 class="govuk-heading-xl govuk-!-margin-bottom-6">East Borough Local Plan</h1>
+    <h1 class="govuk-heading-xl" style="margin-bottom: 20px;">East Borough Local Plan</h1>
 
     {% include "includes/front-office/plan-metadata.njk" %}
-
     {{ govukButton({
-      text: "Start Gateway 2 submission",
-      href: "../../application-details-g2/v2/application-details"
-  }) }}
+    text: "Start gateway 2 submission"
+    }) }}
 
   </div>
 </div>
 
 <div class="govuk-grid-row">
+
   <div class="govuk-grid-column-two-thirds">
 
     <!-- Task list -->
@@ -73,7 +70,7 @@ href: "/projects/front-office/home/v1/homepage"
             text: "Gateway 3 - readiness check"
           },
           hint: {
-            html: "Target date: June 2026"
+            html: "Target date: 12 June 2026"
           },
           status: {
             text: "Cannot start yet",
@@ -95,34 +92,91 @@ href: "/projects/front-office/home/v1/homepage"
       ]
     }) }}
 
-    {% include "includes/front-office/plan-guidance.njk" %}
 
-<!--<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+    {# Size modifiers: xl, l, m #}
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break">
 
-    <h2 class="govuk-heading-m">Case officer</h2>
+    <h2 class="govuk-heading-m">Assessment information</h2>
 
-    <p class="govuk-body-s govuk-!-margin-bottom-1">
-      <strong>Sarah Thompson</strong><br>
-      Planning Inspectorate
+    {% set tab1Html %}
+
+    <p class='govuk-body'>Gateway 2 is an advisory check. An assessor reviews your plan and provides
+      observations to help resolve potential soundness issues early and progress towards meeting the prescribed
+      requirements.</p>
+
+
+    <h3 class='govuk-heading-s'>What you need for gateway 2</h3>
+    <ul class='govuk-list govuk-list--bullet'>
+      <li>Gateway 2 covering letter</li>
+      <li>Local plan timetable</li>
+      <li>Project initiation document (PID)</li>
+      <li>Statement of Compliance (draft)</li>
+      <li>Statement of Soundness (draft)</li>
+      <li>Notice of Intention to commence preparation of your local plan</li>
+      <li>Scoping consultation documents</li>
+      <li>Summary of scoping consultation</li>
+      <li>Gateway 1 - Self Assessment of Readiness</li>
+      <li>Consultation on proposed local plan content and evidence documents</li>
+      <li>Summary of consultation responses for your proposed local plan content and evidence</li>
+    </ul>
+
+    {% endset -%}
+
+    {% set tab2Html %}
+
+    <p class='govuk-body'>Gateway 3 tests whether your proposed local plan has met the prescribed
+      requirements and is ready to proceed to examination.</p>
+
+      <p class='govuk-body'>Available after Gateway 2 is approved.</p>
+
+    <h3 class='govuk-heading-s govuk-!-margin-top-4'>What you need for gateway 3</h3>
+    <ul class='govuk-list govuk-list--bullet'>
+      <li>Submission version of the plan</li>
+      <li>Final compliance statement</li>
+      <li>Final soundness statement</li>
+      <li>Updated evidence base</li>
+    </ul>
+
+    {% endset -%}
+
+    {% set tab3Html %}
+
+    <p class='govuk-body'>Examination is carried out by an independent
+      inspector who assesses the plan against the tests of soundness set out in national policy.
     </p>
+    <p class='govuk-body'>Available after
+      Gateway 3 is approved.
 
-    <p class="govuk-body-s govuk-!-margin-bottom-1">
-      Email:
-      <a class="govuk-link" href="mailto:s.thompson@planninginspectorate.gov.uk">
-        s.thompson@planninginspectorate.gov.uk
-      </a>
-    </p>
+      {% endset -%}
 
-    <p class="govuk-body-s">
-      General enquiries:
-      <a class="govuk-link" href="mailto:support@planninginspectorate.gov.uk">
-        support@planninginspectorate.gov.uk
-      </a>
-    </p>-->
+      {{ govukTabs({
+      items: [
+      {
+      label: "Gateway 2",
+      id: "tab-1",
+      panel: {
+      html: tab1Html
+      }
+      },
+      {
+      label: "Gateway 3",
+      id: "tab-2",
+      panel: {
+      html: tab2Html
+      }
+      },
+      {
+      label: "Examination",
+      id: "tab-3",
+      panel: {
+      html: tab3Html
+      }
+      }
+      ]
+      }) }}
 
   </div>
+
 </div>
 
 {% endblock %}
