@@ -2267,7 +2267,7 @@ router.get('/projects/back-office/manage/documents/upload/v1/documents', (req, r
   res.render('projects/back-office/manage/documents/upload/v1/documents', {
     caseRef: req.session.currentCaseRef || '',
     planTitle: req.session.planTitle || '',
-    planStage: req.session.planStage || 'Gateway 1',
+    planStage: req.session.planStage || 'Gateway 2',
     serviceName: 'Local Plans Examinations'
   });
 });
@@ -2277,7 +2277,7 @@ router.get('/projects/back-office/manage/documents/upload/v1/documents-empty.htm
   res.render('projects/back-office/manage/documents/upload/v1/documents-empty', {
     caseRef: req.session.currentCaseRef || '',
     planTitle: req.session.planTitle || '',
-    planStage: req.session.planStage || 'Gateway 1',
+    planStage: req.session.planStage || 'Gateway 2',
     serviceName: 'Local Plans Examinations'
   });
 });
