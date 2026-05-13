@@ -33,27 +33,10 @@ router.use('/', require('./routes/reps'));
 router.use('/', require('./views/projects/front-office/application-details-g2/archive/test-1/_routes'));
 
 // Import routes from different prototype folders
-router.use("/:service/:prototype/v:version", (req, res, next) => {
-	try {
-		res.locals.location = `${req.params.service}/${req.params.prototype}/v${req.params.version}/`
-		return require(`./views/${req.params.service}/${req.params.prototype}/v${req.params.version}/_routes`)(req, res, next)
-	} catch (e) {
-		next()
-	}
-})
-router.use("/:service/v:version", (req, res, next) => {
-	try {
-		res.locals.location = `${req.params.service}/v${req.params.version}/`
-		return require(`./views/${req.params.service}/v${req.params.version}/_routes`)(req, res, next)
-	} catch (e) {
-		next()
-	}
-})
-
-router.use("/:service/:area/:prototype/v:version", (req, res, next) => {
+router.use("/:projects/:service/:prototype/v:version", (req, res, next) => {
   try {
-    res.locals.location = `${req.params.service}/${req.params.area}/${req.params.prototype}/v${req.params.version}/`
-    return require(`./views/${req.params.service}/${req.params.area}/${req.params.prototype}/v${req.params.version}/_routes`)(req, res, next)
+    res.locals.location = `${req.params.projects}/${req.params.service}/${req.params.prototype}/v${req.params.version}/`
+    return require(`./views/${req.params.projects}/${req.params.service}/${req.params.prototype}/v${req.params.version}/_routes`)(req, res, next)
   } catch (e) {
     next()
   }
