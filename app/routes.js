@@ -30,7 +30,7 @@ router.use('/', require('./routes/projects/back-office/hearing/add-hearing'));
 router.use('/', require('./routes/projects/back-office/hearing/add-hearing-estimates'));
 router.use('/', require('./routes/projects/back-office/hearing/cancel-hearing'));
 router.use('/', require('./routes/reps'));
-router.use('/', require('./views/projects/front-office/application-details-g2/archive/test-1/_routes'));
+router.use('/', require('./views/projects/front-office/gw2/archive/test-1/_routes'));
 
 // Import routes from different prototype folders
 router.use("/:projects/:service/:prototype/v:version", (req, res, next) => {

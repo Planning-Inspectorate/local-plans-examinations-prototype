@@ -35,8 +35,9 @@ router.get('/application-details', function (req, res) {
   let completedCount = 0
   if (data['procedural-completed'] == 'true') completedCount++
   if (data['consultation-completed'] == 'true') completedCount++
+  if (data['supplementary-completed'] == 'true') completedCount++
 
-  res.render('projects/front-office/application-details-g2/v2/application-details', {
+  res.render('projects/front-office/gw2/v3/application-details', {
     completedCount: completedCount
   })
 })
@@ -191,12 +192,47 @@ router.post('/consultation-documents/consultation-summary-upload', function (req
   req.session.data['consultation-started'] = 'true'
   req.session.data['consultation-summary-upload-complete'] = 'true'
   req.session.data['consultation-completed'] = 'true'
-  res.redirect('../application-details')
+  res.redirect('../supplementary-documents/supplementary-check')
 })
 
 // Fallback for any consultation page not explicitly handled above
 router.post('/consultation-documents/:page', function (req, res) {
   req.session.data['consultation-started'] = 'true'
+  req.session.data[`${req.params.page}-complete`] = 'true'
+  res.redirect('../application-details')
+})
+
+// -----------------------------------------------
+// SUPPLEMENTARY DOCUMENTS
+// -----------------------------------------------
+
+router.post('/supplementary-documents/supplementary-check', function (req, res) {
+  req.session.data['supplementary-started'] = 'true'
+  const answer = req.session.data['supplementary-needed']
+
+  if (answer === 'Yes') {
+    res.redirect('supplementary-upload')
+  } else {
+    // No supplementary documents needed — mark as complete
+    req.session.data['supplementary-completed'] = 'true'
+    res.redirect('../application-details')
+  }
+})
+
+router.post('/supplementary-documents/supplementary-upload', function (req, res) {
+  req.session.data['supplementary-started'] = 'true'
+  req.session.data['supplementary-upload-complete'] = 'true'
+  req.session.data['supplementary-completed'] = 'true'
+  if (req.query.cya) {
+    res.redirect('../application-details')
+  } else {
+    res.redirect('../application-details')
+  }
+})
+
+// Fallback
+router.post('/supplementary-documents/:page', function (req, res) {
+  req.session.data['supplementary-started'] = 'true'
   req.session.data[`${req.params.page}-complete`] = 'true'
   res.redirect('../application-details')
 })

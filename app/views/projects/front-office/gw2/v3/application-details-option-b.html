@@ -1,0 +1,200 @@
+{% extends "layouts/front-office.html" %}
+
+{% block pageTitle %}
+  Review and respond to feedback – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back to plan details",
+    href: "/projects/front-office/plan-details/v1/plan-details-action-needed"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters-from-desktop">
+
+        {{ govukNotificationBanner({
+      type: "important",
+      html: "
+        <h3 class='govuk-notification-banner__heading'>Action needed — Gateway 2 submission incomplete</h3>
+        <p class='govuk-body'>PINS has reviewed your submission and provided feedback. You must review the comments below, upload any corrected or additional documents, and resubmit before your plan can progress.</p>
+      "
+    }) }}
+
+    {% include "includes/front-office/application-metadata.html" %}
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible" />
+
+
+
+    <p class="govuk-body">Your application was submitted on 25 April 2026 at 12:00pm. PINS reviewed your submission on 3 May 2026.</p>
+
+    <h2 class="govuk-heading-m govuk-!-margin-top-6">Feedback from PINS</h2>
+
+    <div class="app-feedback-panel">
+      <p class="govuk-body-s govuk-!-margin-bottom-1"><strong>Case officer:</strong> Sarah Thompson &nbsp;·&nbsp; <strong>Date:</strong> 3 May 2026</p>
+      <p class="govuk-body">We have reviewed your Gateway 2 submission and identified the following issues that must be resolved before we can proceed:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>The project initiation document is incomplete. Section 4 (risk register) appears to be missing. Please upload a complete version.</li>
+        <li>The draft statement of soundness appears to be an earlier version. Please check you have submitted the correct and most recent version of this document.</li>
+      </ul>
+      <p class="govuk-body govuk-!-margin-bottom-0">Once you have addressed these issues, please resubmit your application. If you have any questions, contact your case officer directly.</p>
+    </div>
+
+    <h2 class="govuk-heading-m govuk-!-margin-top-6">Procedural documents</h2>
+
+{{ govukSummaryList({
+  classes: "app-summary-list--narrow-key",
+  rows: [
+    {
+      key: { text: "Gateway 2 covering letter" },
+      value: {
+        html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">cover-letter.pdf</a></li></ul>'
+      },
+      actions: {
+        items: [{ href: "upload-cover-letter", text: "Change", visuallyHiddenText: "gateway 2 covering letter" }]
+      }
+    },
+    {
+      key: { text: "Local plan timetable" },
+      value: {
+        html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">timetable.pdf</a></li></ul>'
+      },
+      actions: {
+        items: [{ href: "upload-timetable", text: "Change", visuallyHiddenText: "local plan timetable" }]
+      }
+    },
+    {
+      key: { text: "Project initiation document" },
+      value: {
+        html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">pid.pdf</a></li></ul>'
+      },
+      actions: {
+        items: [{ href: "upload-pid", text: "Change", visuallyHiddenText: "project initiation document" }]
+      }
+    },
+    {
+      key: { text: "Draft statement of compliance" },
+      value: {
+        html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">compliance.pdf</a></li></ul>'
+      },
+      actions: {
+        items: [{ href: "upload-compliance", text: "Change", visuallyHiddenText: "draft statement of compliance" }]
+      }
+    },
+    {
+      key: { text: "Draft statement of soundness" },
+      value: {
+        html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">soundness.pdf</a></li></ul>'
+      },
+      actions: {
+        items: [{ href: "upload-soundness", text: "Change", visuallyHiddenText: "draft statement of soundness" }]
+      }
+    }
+  ]
+}) }}
+
+    <h2 class="govuk-heading-m govuk-!-margin-top-6">Consultation documents</h2>
+
+{{ govukSummaryList({
+  classes: "app-summary-list--narrow-key",
+  rows: [
+    {
+      key: { text: "Consultation statement" },
+      value: {
+        html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">consultation-statement.pdf</a></li></ul>'
+      },
+      actions: {
+        items: [{ href: "upload-consultation-statement", text: "Change", visuallyHiddenText: "consultation statement" }]
+      }
+    },
+    {
+      key: { text: "Consultation summary for scoping consultation" },
+      value: {
+        html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">scoping-summary.pdf</a></li></ul>'
+      },
+      actions: {
+        items: [{ href: "upload-scoping-summary", text: "Change", visuallyHiddenText: "consultation summary for scoping consultation" }]
+      }
+    },
+    {
+      key: { text: "Consultation summary for proposed local plan content and evidence documents" },
+      value: {
+        html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">proposed-plan-summary.pdf</a></li></ul>'
+      },
+      actions: {
+        items: [{ href: "upload-proposed-plan-summary", text: "Change", visuallyHiddenText: "consultation summary for proposed local plan content and evidence documents" }]
+      }
+    },
+    {
+      key: { text: "Notice of intention to commence local plan preparation" },
+      value: {
+        html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">notice-of-intention.pdf</a></li></ul>'
+      },
+      actions: {
+        items: [{ href: "upload-notice-of-intention", text: "Change", visuallyHiddenText: "notice of intention to commence local plan preparation" }]
+      }
+    },
+    {
+      key: { text: "Scoping consultation documents" },
+      value: {
+        html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">scoping-full.pdf</a></li></ul>'
+      },
+      actions: {
+        items: [{ href: "upload-scoping-full", text: "Change", visuallyHiddenText: "scoping consultation documents" }]
+      }
+    },
+    {
+      key: { text: "Consultation summary of feedback to scoping consultation" },
+      value: {
+        html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">scoping-feedback-summary.pdf</a></li></ul>'
+      },
+      actions: {
+        items: [{ href: "upload-scoping-feedback-summary", text: "Change", visuallyHiddenText: "consultation summary of feedback to scoping consultation" }]
+      }
+    },
+    {
+      key: { text: "Gateway 1 – self assessment of readiness" },
+      value: {
+        html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">gateway1.pdf</a></li></ul>'
+      },
+      actions: {
+        items: [{ href: "upload-gateway1", text: "Change", visuallyHiddenText: "gateway 1 self assessment of readiness" }]
+      }
+    },
+    {
+      key: { text: "Consultation on proposed local plan content and evidence documents" },
+      value: {
+        html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">proposed-plan-full.pdf</a></li></ul>'
+      },
+      actions: {
+        items: [{ href: "upload-proposed-plan-full", text: "Change", visuallyHiddenText: "consultation on proposed local plan content and evidence documents" }]
+      }
+    },
+    {
+      key: { text: "Consultation summary" },
+      value: {
+        html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">consultation-summary.pdf</a></li></ul>'
+      },
+      actions: {
+        items: [{ href: "upload-consultation-summary", text: "Change", visuallyHiddenText: "consultation summary" }]
+      }
+    }
+  ]
+}) }}
+
+    <div class="govuk-button-group govuk-!-margin-top-6">
+      {{ govukButton({
+        text: "Resubmit to PINS",
+        href: "confirmation-resubmit"
+      }) }}
+      <a class="govuk-link" href="/projects/front-office/plan-details/v1/plan-details-action-needed">Return to plan details</a>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}
