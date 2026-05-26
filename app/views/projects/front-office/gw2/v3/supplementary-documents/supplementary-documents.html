@@ -1,0 +1,93 @@
+{% extends "layouts/front-office.html" %}
+
+{% block pageTitle %}
+  Supplementary documents – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "../application-details"
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <form method="post">
+
+      {{ govukCheckboxes({
+        name: "supplementary-types",
+        fieldset: {
+          legend: {
+            text: "Which supplementary documents do you want to add?",
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--l"
+          }
+        },
+        hint: {
+          text: "Select all that apply. You will be able to upload each document on the next screen."
+        },
+        items: [
+          {
+            value: "soundness-topic-papers",
+            text: "Soundness topic papers",
+            hint: { text: "Up to 5 papers, maximum 2,000 words each" }
+          },
+          {
+            value: "evidence-base-documents",
+            text: "Full list of evidence base documents"
+          },
+          {
+            value: "vision-aims-objectives",
+            text: "Draft vision, aims and objectives, and 10 draft outcomes"
+          },
+          {
+            value: "spatial-strategy",
+            text: "Spatial strategy options or draft spatial strategy"
+          },
+          {
+            value: "housing-requirement",
+            text: "Progress towards setting a housing requirement"
+          },
+          {
+            value: "gypsy-traveller",
+            text: "Progress towards identifying needs for Gypsy and Traveller accommodation"
+          },
+          {
+            value: "other-development-needs",
+            text: "Progress towards setting other development needs and supply",
+            hint: { text: "For example, employment, retail and other uses" }
+          },
+          {
+            value: "site-selection",
+            text: "Site selection approach or evidence"
+          },
+          {
+            value: "green-belt-review",
+            text: "Draft Green Belt review"
+          },
+          {
+            value: "soundness-evidence",
+            text: "Evidence relevant to the matters of soundness to be discussed"
+          },
+          {
+            value: "engagement-evidence",
+            text: "Evidence on engagement"
+          },
+          {
+            value: "habitats-environmental",
+            text: "Progress on assessments required by the Habitats Regulations and the Environmental Assessment Regulations"
+          }
+        ]
+      }) }}
+
+      {{ govukButton({ text: "Continue" }) }}
+      
+      <p class="govuk-body">
+        <a class="govuk-link" href="../application-details">Return to your application</a>
+      </p>
+    </form>
+  </div>
+</div>
+{% endblock %}

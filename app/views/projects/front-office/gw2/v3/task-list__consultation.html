@@ -15,39 +15,6 @@
     rows: [
 
       {
-        key: { text: 'Consultation statement' },
-        value:
-          { html: "<a href='#'>consultation-statement.pdf</a>" } if data['consultation-statement-upload-complete']
-          else { html: '<span class="govuk-hint">Not started</span>' },
-        actions: { items: [
-          { href: 'consultation-documents/consultation-statement-upload?cya=true', html: 'Change' } if data['consultation-statement-upload-complete']
-          else { href: 'consultation-documents/consultation-statement-upload', html: 'Add' }
-        ]}
-      },
-
-      {
-        key: { text: 'Consultation summary for scoping consultation' },
-        value:
-          { html: "<a href='#'>scoping-summary.pdf</a>" } if data['scoping-summary-upload-complete']
-          else { html: '<span class="govuk-hint">Not started</span>' },
-        actions: { items: [
-          { href: 'consultation-documents/scoping-summary-upload?cya=true', html: 'Change' } if data['scoping-summary-upload-complete']
-          else { href: 'consultation-documents/scoping-summary-upload', html: 'Add' }
-        ]}
-      },
-
-      {
-        key: { text: 'Consultation summary for proposed local plan content and evidence documents' },
-        value:
-          { html: "<a href='#'>proposed-plan-summary.pdf</a>" } if data['proposed-plan-summary-upload-complete']
-          else { html: '<span class="govuk-hint">Not started</span>' },
-        actions: { items: [
-          { href: 'consultation-documents/proposed-plan-summary-upload?cya=true', html: 'Change' } if data['proposed-plan-summary-upload-complete']
-          else { href: 'consultation-documents/proposed-plan-summary-upload', html: 'Add' }
-        ]}
-      },
-
-      {
         key: { text: 'Notice of intention to commence local plan preparation' },
         value:
           { html: "<a href='#'>notice-of-intention.pdf</a>" } if data['notice-of-intention-upload-complete']

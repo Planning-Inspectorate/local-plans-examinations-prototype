@@ -14,10 +14,7 @@ function proceduralComplete(data) {
 }
 
 function consultationComplete(data) {
-  return data['consultation-statement-upload-complete'] &&
-         data['scoping-summary-upload-complete'] &&
-         data['proposed-plan-summary-upload-complete'] &&
-         data['notice-of-intention-upload-complete'] &&
+  return data['notice-of-intention-upload-complete'] &&
          data['scoping-full-upload-complete'] &&
          data['scoping-feedback-summary-upload-complete'] &&
          data['gateway1-upload-complete'] &&
@@ -93,7 +90,7 @@ router.post('/procedural-documents/soundness-upload', function (req, res) {
   if (req.query.cya) {
     res.redirect('../application-details')
   } else {
-    res.redirect('../consultation-documents/consultation-statement-upload')
+    res.redirect('../consultation-documents/notice-of-intention-upload')
   }
 })
 
@@ -107,36 +104,6 @@ router.post('/procedural-documents/:page', function (req, res) {
 // -----------------------------------------------
 // CONSULTATION DOCUMENTS
 // -----------------------------------------------
-
-router.post('/consultation-documents/consultation-statement-upload', function (req, res) {
-  req.session.data['consultation-started'] = 'true'
-  req.session.data['consultation-statement-upload-complete'] = 'true'
-  if (req.query.cya) {
-    res.redirect('../application-details')
-  } else {
-    res.redirect('scoping-summary-upload')
-  }
-})
-
-router.post('/consultation-documents/scoping-summary-upload', function (req, res) {
-  req.session.data['consultation-started'] = 'true'
-  req.session.data['scoping-summary-upload-complete'] = 'true'
-  if (req.query.cya) {
-    res.redirect('../application-details')
-  } else {
-    res.redirect('proposed-plan-summary-upload')
-  }
-})
-
-router.post('/consultation-documents/proposed-plan-summary-upload', function (req, res) {
-  req.session.data['consultation-started'] = 'true'
-  req.session.data['proposed-plan-summary-upload-complete'] = 'true'
-  if (req.query.cya) {
-    res.redirect('../application-details')
-  } else {
-    res.redirect('notice-of-intention-upload')
-  }
-})
 
 router.post('/consultation-documents/notice-of-intention-upload', function (req, res) {
   req.session.data['consultation-started'] = 'true'
