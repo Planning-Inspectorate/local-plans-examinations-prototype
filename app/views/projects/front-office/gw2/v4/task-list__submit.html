@@ -1,0 +1,31 @@
+<li>
+<h2 class="app-task-list__section">
+  <span class="app-task-list__section-number">3. </span> Submit
+  {% if data['procedural-completed'] == 'true' %}
+    {{ govukTag({ text: 'Ready to submit', classes: 'govuk-tag--blue' }) }}
+  {% else %}
+    {{ govukTag({ text: 'Cannot start yet', classes: 'govuk-tag--grey' }) }}
+  {% endif %}
+</h2>
+
+{% if data['procedural-completed'] != 'true' %}
+  <p class="govuk-body govuk-hint">You must upload all required documents before you can submit.</p>
+{% endif %}
+
+  {{ govukSummaryList({
+    classes: 'govuk-!-margin-bottom-9',
+    rows: [
+      {
+        key: { html: 'Accept declaration and submit' },
+        actions: {
+          items: [
+            {
+              href: 'application-declaration',
+              html: 'Continue'
+            }
+          ]
+        } if data['procedural-completed'] == 'true'
+      }
+    ]
+  }) }}
+</li>
