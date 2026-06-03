@@ -1,0 +1,52 @@
+{% extends "layouts/front-office.html" %}
+
+{% block pageTitle %}
+  Upload supplementary documents – {{ serviceName }}
+{% endblock %}
+
+{% from "includes/multidocumentupload.njk" import multiDocumentUpload %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "supplementary-check"
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <form method="post">
+      {{ multiDocumentUpload({
+    caption: "Supplementary documentation",
+    heading: "Upload any additional documents",
+    hintHtml: "
+      <p>Upload relevant additional documents that support your Gateway 2 submission. This could include any of the following depending on the stage of your preparation and the issues you are seeking advice on:</p>
+
+      <ul class='govuk-list govuk-list--bullet'>
+        <li>Up to 5 issues of soundness topic papers (2,000 word limit per paper)</li>
+        <li>Full list of evidence base documents</li>
+        <li>Draft vision, aims and objectives, 10 draft outcomes</li>
+        <li>Spatial strategy options / Draft spatial strategy</li>
+        <li>Progress towards setting a housing requirement</li>
+        <li>Progress towards identifying needs for Gypsy and Traveller Accommodation</li>
+        <li>Progress towards setting other development needs and supply (employment, retail etc)</li>
+        <li>Site selection approach / evidence</li>
+        <li>Draft Green Belt Review</li>
+        <li>Evidence relevant to the matters of soundness to be discussed</li>
+        <li>Evidence on engagement</li>
+        <li>Progress on assessments required by the Habitats Regulations and the Environmental Assessment Regulations</li>
+      </ul>
+    ",
+        uploadUrl: "upload-documents"
+      }) }}
+
+      {{ govukButton({ text: "Continue" }) }}
+
+      <p class="govuk-body">
+        <a class="govuk-link" href="../application-details">Return to your application</a>
+      </p>
+    </form>
+  </div>
+</div>
+{% endblock %}

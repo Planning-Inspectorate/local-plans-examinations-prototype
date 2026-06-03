@@ -21,7 +21,8 @@ function consultationComplete(data) {
          data['scoping-feedback-summary-upload-complete'] &&
          data['gateway1-upload-complete'] &&
          data['proposed-plan-full-upload-complete'] &&
-         data['consultation-summary-upload-complete']
+         data['consultation-summary-upload-complete'] &&
+         data['supplementary-upload-complete']
 }
 
 // -----------------------------------------------
@@ -183,6 +184,12 @@ router.post('/consultation-documents/proposed-plan-full-upload', function (req, 
 router.post('/consultation-documents/consultation-summary-upload', function (req, res) {
   req.session.data['consultation-started'] = 'true'
   req.session.data['consultation-summary-upload-complete'] = 'true'
+  res.redirect('supplementary-upload')
+})
+
+router.post('/consultation-documents/supplementary-upload', function (req, res) {
+  req.session.data['consultation-started'] = 'true'
+  req.session.data['supplementary-upload-complete'] = 'true'
   req.session.data['consultation-completed'] = 'true'
   res.redirect('../application-details')
 })

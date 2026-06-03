@@ -89,6 +89,22 @@
           { href: 'consultation-documents/consultation-summary-upload?cya=true', text: 'Change' } if data['consultation-summary-upload-complete']
           else { href: 'consultation-documents/consultation-summary-upload', text: 'Add' }
         ]}
+      },
+      {
+        key: { text: 'Additional documents' },
+        value:
+          {
+            html: '<ul class="govuk-list govuk-list--bullet">
+              <li><a class="govuk-link" href="#">supplementary-doc-1.pdf</a></li>
+              <li><a class="govuk-link" href="#">supplementary-doc-2.pdf</a></li>
+              <li><a class="govuk-link" href="#">supplementary-doc-3.pdf</a></li>
+            </ul>'
+          } if data['supplementary-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'consultation-documents/supplementary-upload?cya=true', text: 'Change' } if data['supplementary-upload-complete']
+          else { href: 'consultation-documents/supplementary-upload', text: 'Add' }
+        ]}
       }
     ]
   }) }}
