@@ -12,7 +12,7 @@
         key: { text: 'Draft statement of compliance' },
         value:
           { html: "<a href='#'>compliance.pdf</a>" } if data['compliance-upload-complete']
-          else { html: '<span class="govuk-hint">Not started</span>' },
+          else { html: '<span class="govuk-hint">Not added</span>' },
         actions: { items: [
           { href: 'procedural-documents/compliance-upload?cya=true', html: 'Change' } if data['compliance-upload-complete']
           else { href: 'consultation-documents/compliance-upload', html: 'Add' }
@@ -23,7 +23,7 @@
         key: { text: 'Draft statement of soundness' },
         value:
           { html: "<a href='#'>soundness.pdf</a>" } if data['soundness-upload-complete']
-          else { html: '<span class="govuk-hint">Not started</span>' },
+          else { html: '<span class="govuk-hint">Not added</span>' },
         actions: { items: [
           { href: 'procedural-documents/soundness-upload?cya=true', html: 'Change' } if data['soundness-upload-complete']
           else { href: 'consultation-documents/soundness-upload', html: 'Add' }
