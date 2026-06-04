@@ -1,0 +1,63 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+Hearing venue address – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">Hearing venue address</h1>
+    <form method="post" action="/projects/back-office/manage/examination/v1/add-hearing/address">
+      <div class="govuk-form-group">
+        <label class="govuk-label" for="hearing-venue">
+          Venue name
+        </label>
+        <input class="govuk-input" id="hearing-venue" name="hearing-venue" type="text" value="{{ addHearing.venue or '' }}">
+      </div>
+
+      <div class="govuk-form-group">
+        <label class="govuk-label" for="hearing-address-line1">
+          Address line 1
+        </label>
+        <input class="govuk-input" id="hearing-address-line1" name="hearing-address-line1" type="text" value="{{ addHearing.address.line1 or '' }}">
+      </div>
+
+      <div class="govuk-form-group">
+        <label class="govuk-label" for="hearing-address-line2">
+          Address line 2 (optional)
+        </label>
+        <input class="govuk-input" id="hearing-address-line2" name="hearing-address-line2" type="text" value="{{ addHearing.address.line2 or '' }}">
+      </div>
+
+      <div class="govuk-form-group">
+        <label class="govuk-label" for="hearing-address-town">
+          Town or city
+        </label>
+        <input class="govuk-input" id="hearing-address-town" name="hearing-address-town" type="text" value="{{ addHearing.address.town or '' }}">
+      </div>
+
+      <div class="govuk-form-group">
+        <label class="govuk-label" for="hearing-address-postcode">
+          Postcode
+        </label>
+        <input class="govuk-input govuk-input--width-10" id="hearing-address-postcode" name="hearing-address-postcode" type="text" value="{{ addHearing.address.postcode or '' }}">
+      </div>
+
+      <div class="govuk-button-group">
+        <button type="submit" class="govuk-button">Continue</button>
+        {% if isEditing %}
+          <a href="/projects/back-office/manage/examination/v1/add-hearing/cancel" class="govuk-link">Cancel</a>
+        {% endif %}
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

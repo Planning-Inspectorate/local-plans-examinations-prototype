@@ -1,0 +1,332 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+Examination overview– {{ serviceName }}
+{% endblock %}
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+  <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
+	<h1 class="govuk-heading-l">{{ planTitle or '-' }}</h1>
+	<span class="govuk-caption-m">{{ planStage or 'Gateway 2' }}
+  {{govukTag({
+      text: "Ready to start",
+      classes: "govuk-tag--turquoise"
+    })}}</span>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter">
+      {% set currentSection = "examination" %}
+      {% include "includes/back-office/side-secondary-nav.njk" %}
+    </div>
+    <div class="govuk-grid-column-three-quarters">
+  {% if notificationMessage %}
+  <div class="govuk-notification-banner govuk-notification-banner--success" role="region" aria-labelledby="govuk-notification-banner-title">
+    <div class="govuk-notification-banner__header">
+      <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+        Success
+      </h2>
+    </div>
+    <div class="govuk-notification-banner__content" >
+      <p class="govuk-notification-banner__heading">{{ notificationMessage }}</p>
+    </div>
+  </div>
+  {% endif %}
+
+      <form method="post" action="">
+
+      <h2 class="govuk-heading-l">Examination</h2>
+      <dl class="govuk-summary-list govuk-summary-list-timetable">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Estimated submission date</dt>
+          <dd class="govuk-summary-list__value">{{ examinationEstimatedDate or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/examination-estimated.html?returnUrl=/projects/back-office/manage/examination/v1/examination-side">Change<span class="govuk-visually-hidden">Estimated Submission Date</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Actual submission date</dt>
+          <dd class="govuk-summary-list__value">{{ examinationActualDate or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/examination-actual.html?returnUrl=/projects/back-office/manage/examination/v1/examination-side">Change<span class="govuk-visually-hidden">Actual Submission Date</span></a>
+          </dd>
+        </div>
+      </dl>
+
+      <h2 class="govuk-heading-l">Inspectors</h2>
+      <dl class="govuk-summary-list govuk-summary-list-timetable">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Examining Inspector 1</dt>
+          <dd class="govuk-summary-list__value">{{ examiningInspector1Name or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/examining-inspector-1.html?returnUrl=/projects/back-office/manage/examination/v1/examination-side">Change<span class="govuk-visually-hidden">Examining Inspector 1</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Examining Inspector 2</dt>
+          <dd class="govuk-summary-list__value">{{ examiningInspector2Name or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/examining-inspector-2.html?returnUrl=/projects/back-office/manage/examination/v1/examination-side">Change<span class="govuk-visually-hidden">Examining Inspector 2</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Examining Inspector 3</dt>
+          <dd class="govuk-summary-list__value">{{ examiningInspector3Name or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/examining-inspector-3.html?returnUrl=/projects/back-office/manage/examination/v1/examination-side">Change<span class="govuk-visually-hidden">Examining Inspector 3</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Examining Inspector(s) appointment date</dt>
+          <dd class="govuk-summary-list__value">{{ examiningInspectorAppointmentDate or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/examining-inspector-date.html?returnUrl=/projects/back-office/manage/examination/v1/examination-side">Change<span class="govuk-visually-hidden">Examining Inspector Date of Appointment</span></a>
+          </dd>
+        </div>
+      </dl>
+
+      <h2 class="govuk-heading-l">Examination website</h2>
+      <dl class="govuk-summary-list govuk-summary-list-timetable">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Examination website</dt>
+          <dd class="govuk-summary-list__value">{{ examinationWebsite or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/examination-website.html?returnUrl=/projects/back-office/manage/examination/v1/examination-side">Change<span class="govuk-visually-hidden">Examination Website</span></a>
+          </dd>
+        </div>
+      </dl>
+
+      <h2 class="govuk-heading-l">Hearings</h2>
+      <p>Hearing capture TBD</p><!--
+      {% if hearingStartDate and hearingStartDate != '-' %}
+        <p class="govuk-body">
+          <a href="/projects/back-office/manage/examination/v1/cancel-hearing" class="govuk-link">Cancel hearing</a>
+        </p>
+
+    <h3 class="govuk-heading-s">Hearing estimates</h3>
+        <p class="govuk-body">
+          <a href="/projects/back-office/manage/examination/v1/add-hearing-estimates" class="govuk-link">Add/Edit hearing estimates</a>
+        </p>
+
+        <dl class="govuk-summary-list govuk-summary-list-timetable">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Hearing start date</dt>
+            <dd class="govuk-summary-list__value">{{ hearingStartDate or '-' }}</dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="/projects/back-office/manage/examination/v1/add-hearing">Change<span class="govuk-visually-hidden">Hearing details</span></a>
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Hearing time</dt>
+            <dd class="govuk-summary-list__value">{{ hearingTime or '-' }}</dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="/projects/back-office/manage/examination/v1/add-hearing">Change<span class="govuk-visually-hidden">Hearing time</span></a>
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Estimated number of days</dt>
+            <dd class="govuk-summary-list__value">{{ hearingEstimatedDays or '-' }}</dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="/projects/back-office/manage/examination/v1/add-hearing/has-estimates">Change<span class="govuk-visually-hidden">Estimated number of days</span></a>
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Venue address</dt>
+            <dd class="govuk-summary-list__value">
+              {% if hearingHasAddress == 'Yes' and hearingAddress %}
+                {{ hearingVenue }}<br>
+                {{ hearingAddress.line1 }}<br>
+                {% if hearingAddress.line2 %}{{ hearingAddress.line2 }}<br>{% endif %}
+                {{ hearingAddress.town }}<br>
+                {{ hearingAddress.postcode }}
+              {% else %}
+                -
+              {% endif %}
+            </dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="/projects/back-office/manage/examination/v1/add-hearing/has-address">Change<span class="govuk-visually-hidden">Venue address</span></a>
+            </dd>
+          </div>
+        </dl>
+      {% else %}
+        <p class="govuk-body">
+          <a href="/projects/back-office/manage/examination/v1/add-hearing" class="govuk-button">Add hearing</a>
+        </p>
+      {% endif %}-->
+
+     <!-- <h3 class="govuk-heading-s">Hearing estimates</h3>
+      <p class="govuk-body">
+        <a href="/projects/back-office/manage/examination/v1/add-hearing-estimates" class="govuk-link">Add/Edit hearing estimates</a>
+      </p>-->
+
+      <h2 class="govuk-heading-l">Letters</h2>
+      <dl class="govuk-summary-list govuk-summary-list-timetable">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Letter sent to MHCLG date</dt>
+          <dd class="govuk-summary-list__value">{{ letterSentToMhclgDate or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/letter-sent-to-mhclg-date.html?returnUrl=/projects/back-office/manage/examination/v1/examination-side">Change<span class="govuk-visually-hidden">Letter Sent to MHCLG Date</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Letter issue date</dt>
+          <dd class="govuk-summary-list__value">{{ letterIssueDate or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/letter-issue-date.html?returnUrl=/projects/back-office/manage/examination/v1/examination-side">Change<span class="govuk-visually-hidden">Letter Issue Date</span></a>
+          </dd>
+        </div>
+      </dl>
+
+      <h2 class="govuk-heading-l">QA</h2>
+      <dl class="govuk-summary-list govuk-summary-list-timetable">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">QA date</dt>
+          <dd class="govuk-summary-list__value">{{ qaDate or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/qa-date.html?returnUrl=/projects/back-office/manage/examination/v1/examination-side">Change<span class="govuk-visually-hidden">QA Date</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">QA Inspector 1</dt>
+          <dd class="govuk-summary-list__value">{{ qaInspector1Name or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/QA-inspector-1.html?returnUrl=/projects/back-office/manage/examination/v1/examination-side">Change<span class="govuk-visually-hidden">QA Inspector 1</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">QA Inspector 2</dt>
+          <dd class="govuk-summary-list__value">{{ qaInspector2Name or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/QA-inspector-2.html?returnUrl=/projects/back-office/manage/examination/v1/examination-side">Change<span class="govuk-visually-hidden">QA Inspector 2</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">QA Inspector 3</dt>
+          <dd class="govuk-summary-list__value">{{ qaInspector3Name or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/QA-inspector-3.html?returnUrl=/projects/back-office/manage/examination/v1/examination-side">Change<span class="govuk-visually-hidden">QA Inspector 3</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Sent to panel date</dt>
+          <dd class="govuk-summary-list__value">{{ qaReportSentDate or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/qa-sent-to-panel-date.html?returnUrl=/projects/back-office/manage/examination/v1/examination-side">Change<span class="govuk-visually-hidden">Inspector Report Sent to QA Panel Date</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">QA panel response sent to Inspector</dt>
+          <dd class="govuk-summary-list__value">{{ qaPanelResponseDate or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/qa-panel-response-sent-date.html?returnUrl=/projects/back-office/manage/examination/v1/examination-side">Change<span class="govuk-visually-hidden">QA Panel Response Sent to Inspector</span></a>
+          </dd>
+        </div>
+      </dl>
+
+      <h2 class="govuk-heading-l">Fact Check</h2>
+      <dl class="govuk-summary-list govuk-summary-list-timetable">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Fact Check date received from Inspector</dt>
+          <dd class="govuk-summary-list__value">{{ factCheckReceivedDate or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/fact-check-received-from-inspector.html?returnUrl=/projects/back-office/manage/examination/v1/examination-side">Change<span class="govuk-visually-hidden">Fact Check Date Received from Inspector</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Fact Check due date</dt>
+          <dd class="govuk-summary-list__value">{{ factCheckDueDate or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/fact-check-due-date.html?returnUrl=/projects/back-office/manage/examination/v1/examination-side">Change<span class="govuk-visually-hidden">Fact Check Due Date</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Fact Check actual date</dt>
+          <dd class="govuk-summary-list__value">{{ factCheckActualDate or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/fact-check-actual-date.html?returnUrl=/projects/back-office/manage/examination/v1/examination-side">Change<span class="govuk-visually-hidden">Fact Check Actual Date</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Fact Check received back from LPA</dt>
+          <dd class="govuk-summary-list__value">{{ factCheckReceivedFromLpaDate or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/fact-check-received-back-from-lpa.html?returnUrl=/projects/back-office/manage/examination/v1/examination-side">Change<span class="govuk-visually-hidden">Fact Check Received Back from LPA</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Final report issue date</dt>
+          <dd class="govuk-summary-list__value">{{ finalReportIssueDate or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/final-report-issue-date.html?returnUrl=/projects/back-office/manage/examination/v1/examination-side">Change<span class="govuk-visually-hidden">Final Report Issue Date</span></a>
+          </dd>
+        </div>
+      </dl>
+
+      <h2 class="govuk-heading-l">Important dates for this plan</h2>
+      <dl class="govuk-summary-list govuk-summary-list-timetable">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Plan pause date</dt>
+          <dd class="govuk-summary-list__value">{{ planPauseDate or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/plan-pause.html?returnUrl=/projects/back-office/manage/examination/v1/examination-side">Change<span class="govuk-visually-hidden">Plan Pause Date</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Plan pause end date</dt>
+          <dd class="govuk-summary-list__value">{{ planPauseEndDate or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/plan-pause-end.html?returnUrl=/projects/back-office/manage/examination/v1/examination-side">Change<span class="govuk-visually-hidden">Plan Pause End Date</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Withdrawn date</dt>
+          <dd class="govuk-summary-list__value">{{ withdrawnDate or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/withdrawn-date.html?returnUrl=/projects/back-office/manage/examination/v1/examination-side">Change<span class="govuk-visually-hidden">Withdrawn Date</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Sound / unsound</dt>
+          <dd class="govuk-summary-list__value">{{ planSoundness or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/sound-unsound.html?returnUrl=/projects/back-office/manage/examination/v1/examination-side">Change<span class="govuk-visually-hidden">Sound / Unsound</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Sound / unsound date</dt>
+          <dd class="govuk-summary-list__value">{{ soundUnsoundDate or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/sound-unsound-date.html?returnUrl=/projects/back-office/manage/examination/v1/examination-side">Change<span class="govuk-visually-hidden">Sound / Unsound Date</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Adoption date</dt>
+          <dd class="govuk-summary-list__value">{{ adoptionDate or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/adoption-date.html?returnUrl=/projects/back-office/manage/examination/v1/examination-side">Change<span class="govuk-visually-hidden">Adoption Date</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Approved for CIL date</dt>
+          <dd class="govuk-summary-list__value">{{ approvedForCilDate or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/approved-for-CIL-date.html?returnUrl=/projects/back-office/manage/examination/v1/examination-side">Change<span class="govuk-visually-hidden">Approved for CIL Date</span></a>
+          </dd>
+        </div>
+      </dl>
+
+    </div>
+  </div>
+
+{% endblock %}
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

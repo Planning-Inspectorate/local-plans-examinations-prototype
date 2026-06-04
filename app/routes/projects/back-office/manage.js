@@ -105,8 +105,7 @@ router.get('/projects/back-office/manage/overview/v1/index', (req, res) => {
     examiningInspector3Name: req.session.examiningInspector3Name || '-',
     qaInspector1Name: req.session.qaInspector1Name || '-',
     qaInspector2Name: req.session.qaInspector2Name || '-',
-    qaInspector3Name: req.session.qaInspector3Name || '-',
-    planBand: req.session.planBand || '-'
+    qaInspector3Name: req.session.qaInspector3Name || '-'
   });
 });
 
@@ -124,15 +123,6 @@ router.post('/projects/back-office/manage/overview/v1/plan-type', (req, res) => 
   const { 'plan-type': planType, returnUrl } = req.body;
   req.session.planType = planType && planType.trim() !== '' ? planType : '';
   res.redirect(returnUrl || '/projects/back-office/manage/overview/v1/index');
-});
-
-// Plan band edit GET
-router.get('/projects/back-office/manage/overview/v1/plan-band', (req, res) => {
-  res.render('projects/back-office/manage/overview/v1/plan-band', {
-    planBand: req.session.planBand || '',
-    returnUrl: req.query.returnUrl || '/projects/back-office/manage/overview/v1/index',
-    isEdit: true
-  });
 });
 
 // LPA edit GET (preselect LPA and provide list)
@@ -282,7 +272,6 @@ router.get('/projects/back-office/manage/overview/v1/main-contact', (req, res) =
   res.render('projects/back-office/manage/overview/v1/main-contact', {
     mainContact: req.session.mainContact || {},
     lpaName: req.session.lpaName || '',
-    lpas: req.session.lpas || [],
     returnUrl: req.query.returnUrl || '/projects/back-office/manage/overview/v1/index',
     isEdit: true
   });
@@ -452,10 +441,10 @@ router.post('/projects/back-office/manage/GW2/v1/gateway-2-plan-status', (req, r
   res.redirect(returnUrl || '/projects/back-office/manage/GW2/v1/gateway-2');
 });
 
-router.post('/projects/back-office/manage/overview/v1/plan-band', (req, res) => {
-  const { 'plan-band': value, returnUrl } = req.body;
-  req.session.planBand = value && value.trim() !== '' ? value : '-';
-  res.redirect(returnUrl || '/projects/back-office/manage/overview/v1/index');
+router.post('/projects/back-office/manage/GW2/v1/gateway-2-grade', (req, res) => {
+  const { 'gateway-2-grade': value, returnUrl } = req.body;
+  req.session.gateway2Grade = value && value.trim() !== '' ? value : '-';
+  res.redirect(returnUrl || '/projects/back-office/manage/GW2/v1/gateway-2');
 });
 
 router.post('/projects/back-office/manage/GW2/v1/gateway-2-workshop-venue', (req, res) => {
@@ -1234,8 +1223,14 @@ router.get('/projects/back-office/manage/examination/v1/examination', (req, res)
     hearingStartDate: formatDateForDisplay(req.session.hearingStartDate) || '-',
     hearingTime: req.session.hearingTime || '-',
     hearingEstimatedDays: req.session.hearingEstimatedDays || '-',
+    hearingActualDuration: req.session.hearingActualDuration || '-',
+    hearingEndDate: formatDateForDisplay(req.session.hearingEndDate) || '-',
+    hearingIsVirtual: req.session.hearingIsVirtual || '-',
+    hearingHasVirtualMeetingLink: req.session.hearingHasVirtualMeetingLink || 'No',
+    hearingVirtualMeetingLink: req.session.hearingVirtualMeetingLink || '-',
     hearingHasAddress: req.session.hearingHasAddress || '-',
     hearingAddress: req.session.hearingAddress || {},
+    hearings: Array.isArray(req.session.hearings) ? req.session.hearings : [],
     hearingCloseDate: formatDateForDisplay(req.session.hearingCloseDate) || '-',
     furtherHearingDates: formatDateForDisplay(req.session.furtherHearingDates) || '-',
     letterSentToMhclgDate: formatDateForDisplay(req.session.letterSentToMhclgDate) || '-',
@@ -1346,19 +1341,22 @@ function createDateHandler(sessionKey, fieldPrefix) {
 router.get('/projects/back-office/manage/examination/v1/examination-estimated.html', (req, res) => {
   let day = '', month = '', year = '';
   if (req.session.examinationEstimatedDate && req.session.examinationEstimatedDate !== '-') {
-    const parts = req.session.examinationEstimatedDate.split('/');
+    const parts = req.session.examinationEstimatedDate.split(' ');
     day = parts[0] || '';
     month = parts[1] || '';
     year = parts[2] || '';
+    const monthMap = { 'January': '01', 'February': '02', 'March': '03', 'April': '04', 'May': '05', 'June': '06', 'July': '07', 'August': '08', 'September': '09', 'October': '10', 'November': '11', 'December': '12' };
+    if (monthMap[month]) month = monthMap[month];
+    else if (month.length === 1) month = '0' + month;
   }
   res.render('projects/back-office/manage/examination/v1/examination-estimated', {
-    examinationEstimatedDate: `${day}/${month}/${year}`,
+    noticeOfIntentionDate: `${day}/${month}/${year}`,
     returnUrl: req.query.returnUrl || '/projects/back-office/manage/examination/v1/examination'
   });
 });
 
 router.post('/projects/back-office/manage/examination/v1/examination-estimated', (req, res) => {
-  const { 'examination-estimated-date-day': day, 'examination-estimated-date-month': month, 'examination-estimated-date-year': year, returnUrl } = req.body;
+  const { 'notice-of-intention-date-day': day, 'notice-of-intention-date-month': month, 'notice-of-intention-date-year': year, returnUrl } = req.body;
   req.session.examinationEstimatedDate = parseDateFields(day, month, year) || req.session.examinationEstimatedDate || '-';
   res.redirect(returnUrl || '/projects/back-office/manage/examination/v1/examination');
 });
@@ -1367,13 +1365,16 @@ router.post('/projects/back-office/manage/examination/v1/examination-estimated',
 router.get('/projects/back-office/manage/examination/v1/examination-actual.html', (req, res) => {
   let day = '', month = '', year = '';
   if (req.session.examinationActualDate && req.session.examinationActualDate !== '-') {
-    const parts = req.session.examinationActualDate.split('/');
+    const parts = req.session.examinationActualDate.split(' ');
     day = parts[0] || '';
     month = parts[1] || '';
     year = parts[2] || '';
+    const monthMap = { 'January': '01', 'February': '02', 'March': '03', 'April': '04', 'May': '05', 'June': '06', 'July': '07', 'August': '08', 'September': '09', 'October': '10', 'November': '11', 'December': '12' };
+    if (monthMap[month]) month = monthMap[month];
+    else if (month.length === 1) month = '0' + month;
   }
   res.render('projects/back-office/manage/examination/v1/examination-actual', {
-    examinationActualDate: `${day}/${month}/${year}`,
+    noticeOfIntentionDate: `${day}/${month}/${year}`,
     returnUrl: req.query.returnUrl || '/projects/back-office/manage/examination/v1/examination'
   });
 });
@@ -2262,26 +2263,6 @@ router.get('/projects/back-office/manage/documents/clear-uploads', (req, res) =>
   res.redirect('/projects/back-office/manage/documents/upload/v1/upload-bo');
 });
 
-// Documents index page GET
-router.get('/projects/back-office/manage/documents/upload/v1/documents', (req, res) => {
-  res.render('projects/back-office/manage/documents/upload/v1/documents', {
-    caseRef: req.session.currentCaseRef || '',
-    planTitle: req.session.planTitle || '',
-    planStage: req.session.planStage || 'Gateway 2',
-    serviceName: 'Local Plans Examinations'
-  });
-});
-
-// Documents empty page GET
-router.get('/projects/back-office/manage/documents/upload/v1/documents-empty.html', (req, res) => {
-  res.render('projects/back-office/manage/documents/upload/v1/documents-empty', {
-    caseRef: req.session.currentCaseRef || '',
-    planTitle: req.session.planTitle || '',
-    planStage: req.session.planStage || 'Gateway 2',
-    serviceName: 'Local Plans Examinations'
-  });
-});
-
 // Upload documents page GET
 router.get('/projects/back-office/manage/documents/upload/v1/upload-bo', (req, res) => {
   // Parse fileData from session.data (GOV.UK Prototype Kit format)
@@ -2702,39 +2683,6 @@ router.get('/projects/back-office/manage/examination/v1/hearing-dates-clear.html
   
   req.session.save(() => {
     res.redirect('/projects/back-office/manage/examination/v1/hearing-dates-results');
-  });
-});
-
-// --- Gateway 2 v2 Routes ---
-router.get('/projects/back-office/manage/GW2/v2/gateway-2', (req, res) => {
-  res.render('projects/back-office/manage/GW2/v2/gateway-2', {
-    caseRef: req.session.currentCaseRef || '',
-    planTitle: req.session.planTitle || '',
-    gateway2EstimatedDate: formatDateForDisplay(req.session.gateway2EstimatedDate) || '-',
-    gateway2ActualDate: formatDateForDisplay(req.session.gateway2ActualDate) || '-',
-    gateway2ValidDate: formatDateForDisplay(req.session.gateway2ValidDate) || '-',
-    gateway2WorkshopDate: formatDateForDisplay(req.session.gateway2WorkshopDate) || '-',
-    gateway2WorkshopVenue: req.session.gateway2WorkshopVenue || '-',
-    gateway2AssessorAppointmentDate: formatDateForDisplay(req.session.gateway2AssessorAppointmentDate) || '-',
-    gateway2ReportIssuedDate: formatDateForDisplay(req.session.gateway2ReportIssuedDate) || '-',
-    gateway2ReportPublishedDate: formatDateForDisplay(req.session.gateway2ReportPublishedDate) || '-',
-    gateway2AssessorName: req.session.gateway2AssessorName || '-',
-    gateway2PlanStatus: req.session.gateway2PlanStatus || '-',
-    gateway2Grade: req.session.gateway2Grade || '-'
-  });
-});
-
-// --- Gateway 3 v2 Routes ---
-router.get('/projects/back-office/manage/GW3/v2/gateway-3', (req, res) => {
-  res.render('projects/back-office/manage/GW3/v2/gateway-3', {
-    caseRef: req.session.currentCaseRef || '',
-    planTitle: req.session.planTitle || '',
-    gateway3EstimatedDate: formatDateForDisplay(req.session.gateway3EstimatedDate) || '-',
-    gateway3ActualDate: formatDateForDisplay(req.session.gateway3ActualDate) || '-',
-    gateway3AssessorAppointmentDate: formatDateForDisplay(req.session.gateway3AssessorAppointmentDate) || '-',
-    gateway3CompletionDate: formatDateForDisplay(req.session.gateway3CompletionDate) || '-',
-    gateway3AssessorName: req.session.gateway3AssessorName || '-',
-    gateway3PoContact: req.session.gateway3PoContact || {}
   });
 });
 

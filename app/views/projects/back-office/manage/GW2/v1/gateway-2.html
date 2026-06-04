@@ -17,11 +17,10 @@ Gateway 2 overview – {{ serviceName }}
   <div class="govuk-grid-column-full">
   <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
 	<h1 class="govuk-heading-l">{{ planTitle or '-' }}</h1>
-	<span class="govuk-caption-m">{{ planStage or 'Gateway 1' }}
-  {{govukTag({
-      text: "Ready to start",
+	{{govukTag({
+      text: "New",
       classes: "govuk-tag--turquoise"
-    })}}</span>
+    })}}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
       <nav class="x-govuk-secondary-navigation app-secondary-nav govuk-!-margin-top-6 govuk-!-margin-bottom-6" aria-label="Secondary menu">
@@ -42,7 +41,7 @@ Gateway 2 overview – {{ serviceName }}
       </a>
     </li> 
     <li class="x-govuk-secondary-navigation__list-item x-govuk-secondary-navigation__list-item--current">
-      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/GW2/v2/gateway-2" aria-current="page">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/GW2/v1/gateway-2" aria-current="page">
         Gateway 2
       </a>
     </li>
@@ -57,7 +56,7 @@ Gateway 2 overview – {{ serviceName }}
       </a>
     </li>
     <li class="x-govuk-secondary-navigation__list-item ">
-      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/documents/upload/v1/documents">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/documents/v1/documents">
         Documents
       </a>
     </li>
@@ -75,7 +74,7 @@ Gateway 2 overview – {{ serviceName }}
     <div class="govuk-grid-column-full">
       <form method="post" action="">
 
-      <h2 class="govuk-heading-l">Gateway 2</h2>
+      <h2 class="govuk-heading-m">Gateway 2</h2>
       <dl class="govuk-summary-list govuk-summary-list-timetable">
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Gateway 2 estimated date</dt>
@@ -147,8 +146,14 @@ Gateway 2 overview – {{ serviceName }}
           </dd>
         </div>
         </dl>
-        </form>
-   
+         <dl class="govuk-summary-list govuk-summary-list-timetable">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Plan grade</dt>
+          <dd class="govuk-summary-list__value">{{ gateway2Grade or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-grade.html?returnUrl=/projects/back-office/manage/GW2/v1/gateway-2.html">Change<span class="govuk-visually-hidden"> Gateway 2 Grade</span></a>
+          </dd>
+        </div>
         <!--
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Plan status</dt>
@@ -157,13 +162,7 @@ Gateway 2 overview – {{ serviceName }}
             <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-plan-status.html?returnUrl=/projects/back-office/manage/GW2/v1/gateway-2.html">Change<span class="govuk-visually-hidden"> Gateway 2 Plan Status</span></a>
           </dd>
         </div> -->
-        
-     
-    </dl>
-    </form>
-  </div>
-</div>
-    </div>
+      </dl>
 {% endblock %}
 {% block footer %}
   {% include "includes/footer.njk" %}

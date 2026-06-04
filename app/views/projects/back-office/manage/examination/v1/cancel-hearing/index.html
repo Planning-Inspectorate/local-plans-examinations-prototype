@@ -17,7 +17,8 @@ Cancel hearing – {{ serviceName }}
     <h1 class="govuk-heading-l">Are you sure you want to cancel the hearing?</h1>
     <p class="govuk-body">This will remove all hearing details including date, time, venue, and estimates.</p>
     
-    <form method="post" action="/projects/back-office/manage/examination/v1/cancel-hearing">
+    <form method="post" action="/projects/back-office/manage/examination/v1/cancel-hearing?index={{ hearingIndex }}">
+      <input type="hidden" name="hearingIndex" value="{{ hearingIndex }}">
       <div class="govuk-button-group">
         <button type="submit" class="govuk-button govuk-button--warning">Cancel hearing</button>
         <a href="/projects/back-office/manage/examination/v1/examination" class="govuk-link">Do not cancel</a>

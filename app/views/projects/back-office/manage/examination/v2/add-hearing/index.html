@@ -1,0 +1,80 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+Add hearing – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">Hearing date and time</h1>
+    <form method="post" action="/projects/back-office/manage/examination/v1/add-hearing/index">
+      <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+          Date
+        </legend>
+        <div id="hearing-date-hint" class="govuk-hint">
+          For example, 27 3 2024
+        </div>
+        <div class="govuk-date-input" id="hearing-date">
+          <div class="govuk-date-input__item">
+            <div class="govuk-form-group">
+              <label class="govuk-label govuk-date-input__label" for="hearing-date-day">Day</label>
+              <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="hearing-date-day" name="hearing-date-day" type="text" inputmode="numeric" value="{{ addHearing.date.day or '' }}">
+            </div>
+          </div>
+          <div class="govuk-date-input__item">
+            <div class="govuk-form-group">
+              <label class="govuk-label govuk-date-input__label" for="hearing-date-month">Month</label>
+              <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="hearing-date-month" name="hearing-date-month" type="text" inputmode="numeric" value="{{ addHearing.date.month or '' }}">
+            </div>
+          </div>
+          <div class="govuk-date-input__item">
+            <div class="govuk-form-group">
+              <label class="govuk-label govuk-date-input__label" for="hearing-date-year">Year</label>
+              <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="hearing-date-year" name="hearing-date-year" type="text" inputmode="numeric" value="{{ addHearing.date.year or '' }}">
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+          Time
+        </legend>
+        <div id="hearing-time-hint" class="govuk-hint">
+          For example, 14 30
+        </div>
+        <div class="govuk-date-input" id="hearing-time">
+          <div class="govuk-date-input__item">
+            <div class="govuk-form-group">
+              <label class="govuk-label govuk-date-input__label" for="hearing-time-hour">Hour</label>
+              <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="hearing-time-hour" name="hearing-time-hour" type="text" inputmode="numeric" value="{{ addHearing.time.hour or '' }}">
+            </div>
+          </div>
+          <div class="govuk-date-input__item">
+            <div class="govuk-form-group">
+              <label class="govuk-label govuk-date-input__label" for="hearing-time-minute">Minute</label>
+              <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="hearing-time-minute" name="hearing-time-minute" type="text" inputmode="numeric" value="{{ addHearing.time.minute or '' }}">
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="govuk-button-group">
+        <button type="submit" class="govuk-button">Continue</button>
+        {% if isEditing %}
+          <a href="/projects/back-office/manage/examination/v1/add-hearing/cancel" class="govuk-link">Cancel</a>
+        {% endif %}
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

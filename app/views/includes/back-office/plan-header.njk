@@ -1,0 +1,14 @@
+{% set headerCaseRef = headerCaseRef or caseRef or 'PLAN/000001' %}
+{% set headerPlanTitle = headerPlanTitle or planTitle or 'Plan title' %}
+{% set headerPlanStage = headerPlanStage or planStage or 'Gateway 2' %}
+{% set headerStatusText = headerStatusText or 'Ready to start' %}
+{% set headerStatusClasses = headerStatusClasses or 'govuk-tag--turquoise' %}
+
+<span class="govuk-caption-l">{{ headerCaseRef }}</span>
+<h1 class="govuk-heading-l">{{ headerPlanTitle }}</h1>
+<span class="govuk-caption-m">{{ headerPlanStage }}
+{{ govukTag({
+  text: headerStatusText,
+  classes: headerStatusClasses
+}) }}
+</span>

@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-Does the hearing have a venue address? – {{ serviceName }}
+Do you know the address of where the hearing will take place? – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -14,7 +14,7 @@ Does the hearing have a venue address? – {{ serviceName }}
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l">Does the hearing have a venue address?</h1>
+    <h1 class="govuk-heading-l">Do you know the address of where the hearing will take place?</h1>
     <form method="post" action="/projects/back-office/manage/examination/v1/add-hearing/has-address">
       <div class="govuk-form-group">
         <fieldset class="govuk-fieldset" aria-describedby="hearing-address-hint">
@@ -41,9 +41,7 @@ Does the hearing have a venue address? – {{ serviceName }}
 
       <div class="govuk-button-group">
         <button type="submit" class="govuk-button">Continue</button>
-        {% if isEditing %}
-          <a href="/projects/back-office/manage/examination/v1/add-hearing/cancel" class="govuk-link">Cancel</a>
-        {% endif %}
+        <a href="javascript:window.history.back()" class="govuk-link">Back</a>
       </div>
     </form>
   </div>

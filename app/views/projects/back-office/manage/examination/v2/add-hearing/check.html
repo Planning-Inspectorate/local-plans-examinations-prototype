@@ -1,0 +1,92 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+Check hearing details – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">Check your answers</h1>
+    
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Hearing date</dt>
+        <dd class="govuk-summary-list__value">
+          {{ addHearing.date.day }}/{{ addHearing.date.month }}/{{ addHearing.date.year }}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a href="/projects/back-office/manage/examination/v1/add-hearing/index">Change<span class="govuk-visually-hidden"> hearing date</span></a>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Hearing time</dt>
+        <dd class="govuk-summary-list__value">
+          {{ addHearing.time.hour }}:{{ addHearing.time.minute }}
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Do you know the expected number of days?</dt>
+        <dd class="govuk-summary-list__value">
+          {{ addHearing.hasEstimates or 'Not answered' }}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a href="/projects/back-office/manage/examination/v1/add-hearing/has-estimates">Change<span class="govuk-visually-hidden"> whether you know the estimated number of days</span></a>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Estimated number of days</dt>
+        <dd class="govuk-summary-list__value">
+          {% if addHearing.hasEstimates == 'Yes' %}
+            {{ addHearing.estimatedDays }}
+          {% else %}
+            Not provided
+          {% endif %}
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Do you know the venue address?</dt>
+        <dd class="govuk-summary-list__value">
+          {{ addHearing.hasAddress or 'Not answered' }}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a href="/projects/back-office/manage/examination/v1/add-hearing/has-address">Change<span class="govuk-visually-hidden"> whether you know the venue address</span></a>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Venue address</dt>
+        <dd class="govuk-summary-list__value">
+          {% if addHearing.hasAddress == 'Yes' %}
+            {{ addHearing.venue }}<br>
+            {{ addHearing.address.line1 }}<br>
+            {% if addHearing.address.line2 %}{{ addHearing.address.line2 }}<br>{% endif %}
+            {{ addHearing.address.town }}<br>
+            {{ addHearing.address.postcode }}
+          {% else %}
+            Not provided
+          {% endif %}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a href="/projects/back-office/manage/examination/v1/add-hearing/has-address">Change<span class="govuk-visually-hidden"> venue address</span></a>
+        </dd>
+      </div>
+    </dl>
+
+    <form method="post" action="/projects/back-office/manage/examination/v1/add-hearing/check">
+      <div class="govuk-button-group">
+        <button type="submit" class="govuk-button">Confirm and save</button>
+        {% if isEditing %}
+          <a href="/projects/back-office/manage/examination/v1/add-hearing/cancel" class="govuk-link">Cancel</a>
+        {% endif %}
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
