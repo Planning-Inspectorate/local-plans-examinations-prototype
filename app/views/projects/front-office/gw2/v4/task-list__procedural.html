@@ -17,7 +17,7 @@
         key: { text: 'Gateway 2 covering letter' },
         value:
           { html: "<a href='#'>cover-letter.pdf</a>" } if data['cover-letter-upload-complete']
-          else { html: '<span class="govuk-hint">Not started</span>' },
+          else { html: '<span class="govuk-hint">Not added</span>' },
         actions: { items: [
           { href: 'procedural-documents/cover-letter-upload?cya=true', text: 'Change' } if data['cover-letter-upload-complete']
           else { href: 'procedural-documents/cover-letter-upload', text: 'Add' }
@@ -27,7 +27,7 @@
         key: { text: 'Local plan timetable' },
         value:
           { html: "<a href='#'>timetable.pdf</a>" } if data['timetable-upload-complete']
-          else { html: '<span class="govuk-hint">Not started</span>' },
+          else { html: '<span class="govuk-hint">Not added</span>' },
         actions: { items: [
           { href: 'procedural-documents/timetable-upload?cya=true', text: 'Change' } if data['timetable-upload-complete']
           else { href: 'procedural-documents/timetable-upload', text: 'Add' }
@@ -37,7 +37,7 @@
         key: { text: 'Project initiation document' },
         value:
           { html: "<a href='#'>pid.pdf</a>" } if data['pid-upload-complete']
-          else { html: '<span class="govuk-hint">Not started</span>' },
+          else { html: '<span class="govuk-hint">Not added</span>' },
         actions: { items: [
           { href: 'procedural-documents/pid-upload?cya=true', text: 'Change' } if data['pid-upload-complete']
           else { href: 'procedural-documents/pid-upload', text: 'Add' }
