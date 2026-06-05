@@ -9,7 +9,7 @@
 {% block beforeContent %}
   {{ govukBackLink({
     text: "Back",
-    href: "../application-details"
+    href: "javascript:window.history.back()"
   }) }}
 {% endblock %}
 
@@ -20,8 +20,8 @@
 
     <form method="post">
       {{ multiDocumentUpload({
-      caption: "Consultation documents",
-      heading: "Upload summary of consultation on proposed local plan content and evidence documents",
+      caption: "Procedural documents",
+      heading: "Upload project initiation document",
       uploadUrl: "upload-documents"
       }) }}
 

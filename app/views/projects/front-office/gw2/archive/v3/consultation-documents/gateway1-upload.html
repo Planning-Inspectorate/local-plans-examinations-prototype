@@ -9,7 +9,7 @@
 {% block beforeContent %}
   {{ govukBackLink({
     text: "Back",
-    href: "../application-details"
+    href: "javascript:window.history.back()"
   }) }}
 {% endblock %}
 
@@ -21,7 +21,7 @@
     <form method="post">
       {{ multiDocumentUpload({
       caption: "Consultation documents",
-      heading: "Upload summary of consultation on proposed local plan content and evidence documents",
+      heading: "Upload Gateway 1 – Self assessment of readiness",
       uploadUrl: "upload-documents"
       }) }}
 

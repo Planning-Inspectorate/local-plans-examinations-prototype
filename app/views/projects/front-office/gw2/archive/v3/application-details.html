@@ -35,13 +35,10 @@ href: "/projects/front-office/plan-details/v1/plan-details"
 
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible" />
 
-
-    <!--<h2 class="govuk-heading-s govuk-!-margin-bottom-2">
-      {% if completedCount == 2 %}Application ready to submit{% else %}Application incomplete{% endif %}
-    </h2>
-    <p class="govuk-!-margin-bottom-7">You have completed {{ completedCount }} of 2 sections.</p>-->
-
-    <p class="govuk-body">Add the documents relevant to your plan. You do not need to add all documents. Include what is appropriate for your plan's stage and complexity.</p>
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-2">
+  {% if completedCount == 3 %}Application ready to submit{% else %}Application incomplete{% endif %}
+</h2>
+<p class="govuk-!-margin-bottom-7">You have completed {{ completedCount }} of 3 sections.</p>
 
     <style>
       .app-task-list>li {
@@ -65,7 +62,6 @@ href: "/projects/front-office/plan-details/v1/plan-details"
 
     <ol class="app-task-list">
       {% include "./task-list__procedural.html" %}
-      {# Size modifiers: xl, l, m #}
       {% include "./task-list__consultation.html" %}
       {% include "./task-list__supplementary-docs.html" %}
       {% include "./task-list__submit.html" %}

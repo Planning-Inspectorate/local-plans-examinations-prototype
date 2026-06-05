@@ -1,0 +1,187 @@
+{% extends "layouts/front-office.html" %}
+
+{% block pageTitle %}
+  Review and correct your documents – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back to plan details",
+    href: "/projects/front-office/plan-details/v1/plan-details-action-needed"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters-from-desktop">
+
+        {{ govukNotificationBanner({
+      type: "important",
+      html: "
+        <h3 class='govuk-notification-banner__heading'>Action needed — Gateway 2 submission incomplete</h3>
+        <p class='govuk-body'>PINS has reviewed your submission and found issues with some documents. You must upload corrected files before your plan can progress.</p>
+      "
+    }) }}
+
+    {% include "includes/front-office/application-metadata.html" %}
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible" />
+
+    <p class="govuk-body">Your application was submitted on 25 April 2026 at 12:00pm. PINS reviewed your submission on 3 May 2026.</p>
+
+    <h2 class="govuk-heading-m govuk-!-margin-top-6">Procedural documents</h2>
+
+    <table class="govuk-table">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">Document</th>
+          <th scope="col" class="govuk-table__header">File</th>
+          <th scope="col" class="govuk-table__header">Status</th>
+          <th scope="col" class="govuk-table__header"><span class="govuk-visually-hidden">Action</span></th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Gateway 2 covering letter</td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#" target="_blank" rel="noopener">cover-letter.pdf</a></td>
+          <td class="govuk-table__cell">{{ govukTag({ text: "Accepted", classes: "govuk-tag--green" }) }}</td>
+          <td class="govuk-table__cell"></td>
+        </tr>
+
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Local plan timetable</td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#" target="_blank" rel="noopener">timetable.pdf</a></td>
+          <td class="govuk-table__cell">{{ govukTag({ text: "Accepted", classes: "govuk-tag--green" }) }}</td>
+          <td class="govuk-table__cell"></td>
+        </tr>
+
+        <tr class="govuk-table__row app-table-row--action-needed">
+          <td class="govuk-table__cell">
+            Project initiation document
+            <div class="app-case-officer-note govuk-!-margin-top-2">
+              <p class="govuk-body-s govuk-!-margin-bottom-0"><strong>Case officer note:</strong> The document is missing section 4 (risk register). Please upload a complete version.</p>
+            </div>
+          </td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#" target="_blank" rel="noopener">pid.pdf</a></td>
+          <td class="govuk-table__cell">{{ govukTag({ text: "Action needed", classes: "govuk-tag--red" }) }}</td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="upload-pid">Upload correction</a></td>
+        </tr>
+
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Draft statement of compliance</td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#" target="_blank" rel="noopener">compliance.pdf</a></td>
+          <td class="govuk-table__cell">{{ govukTag({ text: "Accepted", classes: "govuk-tag--green" }) }}</td>
+          <td class="govuk-table__cell"></td>
+        </tr>
+
+        <tr class="govuk-table__row app-table-row--action-needed">
+          <td class="govuk-table__cell">
+            Draft statement of soundness
+            <div class="app-case-officer-note govuk-!-margin-top-2">
+              <p class="govuk-body-s govuk-!-margin-bottom-0"><strong>Case officer note:</strong> This appears to be an earlier draft. Please confirm you have uploaded the correct version.</p>
+            </div>
+          </td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#" target="_blank" rel="noopener">soundness.pdf</a></td>
+          <td class="govuk-table__cell">{{ govukTag({ text: "Action needed", classes: "govuk-tag--red" }) }}</td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="upload-soundness">Upload correction</a></td>
+        </tr>
+
+      </tbody>
+    </table>
+
+    <h2 class="govuk-heading-m govuk-!-margin-top-6">Consultation documents</h2>
+
+    <table class="govuk-table">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">Document</th>
+          <th scope="col" class="govuk-table__header">File</th>
+          <th scope="col" class="govuk-table__header">Status</th>
+          <th scope="col" class="govuk-table__header"><span class="govuk-visually-hidden">Action</span></th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Consultation statement</td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#" target="_blank" rel="noopener">consultation-statement.pdf</a></td>
+          <td class="govuk-table__cell">{{ govukTag({ text: "Accepted", classes: "govuk-tag--green" }) }}</td>
+          <td class="govuk-table__cell"></td>
+        </tr>
+
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Consultation summary for scoping consultation</td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#" target="_blank" rel="noopener">scoping-summary.pdf</a></td>
+          <td class="govuk-table__cell">{{ govukTag({ text: "Accepted", classes: "govuk-tag--green" }) }}</td>
+          <td class="govuk-table__cell"></td>
+        </tr>
+
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Consultation summary for proposed local plan content and evidence documents</td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#" target="_blank" rel="noopener">proposed-plan-summary.pdf</a></td>
+          <td class="govuk-table__cell">{{ govukTag({ text: "Accepted", classes: "govuk-tag--green" }) }}</td>
+          <td class="govuk-table__cell"></td>
+        </tr>
+
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Notice of intention to commence local plan preparation</td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#" target="_blank" rel="noopener">notice-of-intention.pdf</a></td>
+          <td class="govuk-table__cell">{{ govukTag({ text: "Accepted", classes: "govuk-tag--green" }) }}</td>
+          <td class="govuk-table__cell"></td>
+        </tr>
+
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Scoping consultation documents</td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#" target="_blank" rel="noopener">scoping-full.pdf</a></td>
+          <td class="govuk-table__cell">{{ govukTag({ text: "Accepted", classes: "govuk-tag--green" }) }}</td>
+          <td class="govuk-table__cell"></td>
+        </tr>
+
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Consultation summary of feedback to scoping consultation</td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#" target="_blank" rel="noopener">scoping-feedback-summary.pdf</a></td>
+          <td class="govuk-table__cell">{{ govukTag({ text: "Accepted", classes: "govuk-tag--green" }) }}</td>
+          <td class="govuk-table__cell"></td>
+        </tr>
+
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Gateway 1 – self assessment of readiness</td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#" target="_blank" rel="noopener">gateway1.pdf</a></td>
+          <td class="govuk-table__cell">{{ govukTag({ text: "Accepted", classes: "govuk-tag--green" }) }}</td>
+          <td class="govuk-table__cell"></td>
+        </tr>
+
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Consultation on proposed local plan content and evidence documents</td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#" target="_blank" rel="noopener">proposed-plan-full.pdf</a></td>
+          <td class="govuk-table__cell">{{ govukTag({ text: "Accepted", classes: "govuk-tag--green" }) }}</td>
+          <td class="govuk-table__cell"></td>
+        </tr>
+
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Consultation summary</td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#" target="_blank" rel="noopener">consultation-summary.pdf</a></td>
+          <td class="govuk-table__cell">{{ govukTag({ text: "Accepted", classes: "govuk-tag--green" }) }}</td>
+          <td class="govuk-table__cell"></td>
+        </tr>
+
+      </tbody>
+    </table>
+
+    <div class="govuk-button-group govuk-!-margin-top-6">
+      {{ govukButton({
+        text: "Resubmit to PINS",
+        href: "confirmation-resubmit",
+        disabled: true
+      }) }}
+      <a class="govuk-link" href="/projects/front-office/plan-details/v1/plan-details-action-needed">Return to plan details</a>
+    </div>
+
+    <p class="govuk-body-s govuk-!-colour-secondary">You must correct all documents marked as action needed before you can resubmit.</p>
+
+  </div>
+</div>
+
+{% endblock %}

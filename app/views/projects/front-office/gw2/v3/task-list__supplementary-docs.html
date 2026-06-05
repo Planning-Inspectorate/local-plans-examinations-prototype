@@ -1,101 +1,29 @@
 <li>
   <h2 class="app-task-list__section">
-    <span class="app-task-list__section-number">3. </span>
     Supplementary documentation
-
-    {% if data['supplementary-completed'] == 'true' %}
-      {{ govukTag({ text: 'Completed', classes: 'govuk-tag--green' }) }}
-
-    {% elif data['supplementary-started'] == 'true' %}
-      {{ govukTag({ text: 'In progress', classes: 'govuk-tag--blue' }) }}
-
-    {% else %}
-      {{ govukTag({ text: 'Not started', classes: 'govuk-tag--grey' }) }}
-    {% endif %}
   </h2>
 
-  {# ------------------------------------ #}
-  {# BUILD ROWS                          #}
-  {# ------------------------------------ #}
-
-  {% set rows = [] %}
-
-  {# ------------------------------------ #}
-  {# ONLY SHOW Q ROW IF NOT YES          #}
-  {# ------------------------------------ #}
-
-  {% if data['supplementary-needed'] != 'Yes' %}
-
-    {% if data['supplementary-needed'] == 'No' %}
-
-      {% set supplementaryNeededValue = 'No' %}
-
-    {% else %}
-
-      {% set supplementaryNeededValue = '<span class=\"govuk-hint\">Not started</span>' %}
-
-    {% endif %}
-
-    {% set rows = rows.concat([
-      {
-        key: {
-          text: 'Do you need to add any supplementary documents?'
-        },
-        value: {
-          html: supplementaryNeededValue
-        },
-        actions: {
-          items: [
-            {
-              href: 'supplementary-documents/supplementary-check',
-              text: 'Change' if data['supplementary-needed'] else 'Answer'
-            }
-          ]
-        }
-      }
-    ]) %}
-
-  {% endif %}
-
-  {# ------------------------------------ #}
-  {# ADD DOCUMENTS ROW ONLY IF YES       #}
-  {# ------------------------------------ #}
-
-  {% if data['supplementary-needed'] == 'Yes'
-    and data['supplementary-upload-complete'] %}
-
-    {% set supplementaryDocuments %}
-      <ul class="govuk-list govuk-list--bullet">
-        <li><a class="govuk-link" href="#">supplementary-doc-1.pdf</a></li>
-        <li><a class="govuk-link" href="#">supplementary-doc-2.pdf</a></li>
-        <li><a class="govuk-link" href="#">supplementary-doc-3.pdf</a></li>
-      </ul>
-    {% endset %}
-
-    {% set rows = rows.concat([
-      {
-        key: {
-          text: 'Supplementary documents'
-        },
-        value: {
-          html: supplementaryDocuments
-        },
-        actions: {
-          items: [
-            {
-              href: 'supplementary-documents/supplementary-upload?cya=true',
-              text: 'Change'
-            }
-          ]
-        }
-      }
-    ]) %}
-
-  {% endif %}
+  {% set supplementaryDocuments %}
+    <ul class="govuk-list govuk-list--bullet">
+      <li><a class="govuk-link" href="#">supplementary-doc-1.pdf</a></li>
+      <li><a class="govuk-link" href="#">supplementary-doc-2.pdf</a></li>
+      <li><a class="govuk-link" href="#">supplementary-doc-3.pdf</a></li>
+    </ul>
+  {% endset %}
 
   {{ govukSummaryList({
     classes: 'govuk-!-margin-bottom-9',
-    rows: rows
+    rows: [
+      {
+        key: { text: 'Supplementary documents' },
+        value:
+          { html: supplementaryDocuments } if data['supplementary-upload-complete']
+          else { html: '<span class="govuk-hint">Not provided</span>' },
+        actions: { items: [
+          { href: 'supplementary-documents/supplementary-upload?cya=true', text: 'Change' } if data['supplementary-upload-complete']
+          else { href: 'supplementary-documents/supplementary-upload', text: 'Add' }
+        ]}
+      }
+    ]
   }) }}
-
 </li>
