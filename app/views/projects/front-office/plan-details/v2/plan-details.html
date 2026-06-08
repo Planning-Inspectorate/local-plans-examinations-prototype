@@ -39,8 +39,23 @@ href: "/projects/front-office/home/v1/homepage"
 
     {% include "includes/front-office/plan-metadata.njk" %}
     {% include "includes/front-office/plan-tasklist.njk" %}
-    {% include "includes/front-office/plan-guidance-tabs.njk" %}
 
+    <h2 class="govuk-heading-m govuk-!-margin-top-6">Shared documents</h2>
+
+    {{ govukSummaryList({
+      rows: [
+        {
+          key: { text: "Gateway 2 report" },
+          value: { html: "<a class='govuk-link' href='#'>gw2-report.pdf (1.2 KB)</a><br><span class='govuk-hint'>Shared 12 May 2026</span>" }
+        },
+        {
+          key: { text: "Workshop agenda" },
+          value: { html: "<a class='govuk-link' href='#'>workshop-agenda.pdf (6.4 KB)</a><br><span class='govuk-hint'>Shared 3 May 2026</span>" }
+        }
+      ]
+    }) }}
+
+    {% include "includes/front-office/plan-guidance-tabs.njk" %}
 
   </div>
 </div>

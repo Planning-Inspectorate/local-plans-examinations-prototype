@@ -1,112 +1,141 @@
 {% extends "layouts/main.html" %}
 
-{% set title="Plan details" %}
+{% set title = "Plan details" %}
 {% set activeNav = 'front-office' %}
+{% set version = "1" %}
 
 {% block header %}
-{% include "includes/PINS-header--internal.html" %}
-{% include "includes/service-navigation.html" %}
+  {% include "includes/PINS-header--internal.html" %}
+  {% include "includes/service-navigation.html" %}
 {% endblock %}
 
 {% block beforeContent %}
-{{ govukBackLink({
-html: 'Back to all prototypes',
-href: '/front-office'
-}) }}
+  {{ govukBackLink({
+    text: "Back to all prototypes",
+    href: "/front-office"
+  }) }}
 {% endblock %}
 
 {% block content %}
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    <span class="govuk-caption-l">
-      Dashboards
-    </span>
-    <h1 class="govuk-heading-l">
-      {{ title }}
-    </h1>
+    <span class="govuk-caption-l">Dashboards</span>
 
-    {% set version = "1" %}
+    <h1 class="govuk-heading-l">{{ title }}</h1>
+
     <h2 class="govuk-heading-m">
       Version {{ version }}
       {{ govukTag({
-      classes: 'govuk-tag--green govuk-!-margin-left-2',
-      text: 'Ready for research'
+        classes: 'govuk-tag--green govuk-!-margin-left-2',
+        text: 'Ready for research'
       }) }}
     </h2>
 
-    <p class="govuk-body">Designed to give LPAs a clear understanding of the current stage of a plan, its status, and
-      what comes next.</p>
+    <p class="govuk-body">
+      Designed to give LPAs a clear understanding of the current stage of a plan, its status, and what comes next.
+    </p>
 
-    <h3 class="govuk-heading-s">Mural board workings and other options:</h3>
+    {{ govukButton({
+      text: "View prototype",
+      href: "/projects/front-office/plan-details/v" ~ version ~ "/plan-details?status=ready",
+      isStartButton: true
+    }) }}
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+
+    {# STATUS VARIANTS #}
+    <h3 class="govuk-heading-s">Prototype states</h3>
 
     <ul class="govuk-list govuk-list--bullet">
       <li>
-        <a
-        href="https://app.mural.co/t/allpins6990/m/allpins6990/1765884601123/237bc418b7dd56fd74fe7b0ce600936fbf9aba46">Design
-        Mural board</a>
+        <a href="/projects/front-office/plan-details/v1/plan-details?status=ready">
+          Ready
+        </a>
       </li>
       <li>
-        <a
-        href="https://app.mural.co/t/allpins6990/m/allpins6990/1776240173187/3c951bd1e9c81a3c6506f51abab0d859c1ff7e10">User research assumption mapping mural</a>
+        <a href="/projects/front-office/plan-details/v1/plan-details?status=in-progress">
+          In progress
+        </a>
       </li>
       <li>
-        <a href="/projects/front-office/plan-details/v1/plan-details1">"Riskier" option with bespoke timeline component</a>
-      </li>
-      <li>
-        <a href="/projects/front-office/plan-details/v1/plan-details2">Plan details with tasklist and details component containing guidance</a>
-      </li>
-      <li>
-        <a href="/projects/front-office/plan-details/v1/plan-details3">Plan details with accordion component</a>
+        <a href="/projects/front-office/plan-details/v1/plan-details?status=with-pins">
+          With PINS
+        </a>
       </li>
     </ul>
 
-        {{ govukButton({
-    html: 'View prototype',
-    href: '/projects/front-office/plan-details/v' ~ version ~ '/plan-details',
-    isStartButton: true
-    }) }}
+
+    {# RESEARCH LINKS #}
+    <h3 class="govuk-heading-s">Research materials</h3>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>
+        <a href="https://app.mural.co/t/allpins6990/m/allpins6990/1765884601123/237bc418b7dd56fd74fe7b0ce600936fbf9aba46">
+          Design Mural board
+        </a>
+      </li>
+      <li>
+        <a href="https://app.mural.co/t/allpins6990/m/allpins6990/1776240173187/3c951bd1e9c81a3c6506f51abab0d859c1ff7e10">
+          User research assumption mapping mural
+        </a>
+      </li>
+      <li>
+        <a href="/projects/front-office/plan-details/archive/plan-details7">
+          Riskier option with bespoke timeline component
+        </a>
+      </li>
+      <li>
+        <a href="/projects/front-office/plan-details/archive/plan-details8">
+          Tasklist + guidance in details component
+        </a>
+      </li>
+      <li>
+        <a href="/projects/front-office/plan-details/archive/plan-details9">
+          Accordion-based version
+        </a>
+      </li>
+    </ul>
+
+
+    {# NOTES - collapsed so it doesn’t dominate page #}
+    <h3 class="govuk-heading-s">Notes</h3>
 
     {% set planJourneyNotesHtml %}
 
-    <h3 class="govuk-heading-s">Notes</h3>
-    <ul class="govuk-list govuk-list--bullet">
-      <li>Gateways presented in a tasklist view with statuses (Ready to start, In progress, Cannot start yet, Completed, Action needed)</li>
-      <li>Content includes key information such as descriptions, dates and links to relevant actions</li>
-      <li>Focus on reducing uncertainty around readiness and whether users can proceed</li>
-    </ul>
+      <h3 class="govuk-heading-s">What this prototype explores</h3>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>Gateway stages shown in a tasklist with clear statuses</li>
+        <li>Key metadata like dates, descriptions and actions</li>
+        <li>Reducing uncertainty around whether users can proceed</li>
+      </ul>
 
-    <h3 class="govuk-heading-s">Things to test</h3>
+      <h3 class="govuk-heading-s">Key questions</h3>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>Do users understand what each status means?</li>
+        <li>Is it clear why some stages are blocked?</li>
+        <li>Can users identify their next action?</li>
+        <li>Do users understand the role of PINS?</li>
+        <li>Is progression through gateways intuitive?</li>
+      </ul>
 
-    <ul class="govuk-list govuk-list--bullet">
-      <li>Do users understand what "ready to start" or “in progress” means at each gateway?</li>
-      <li>Is it clear why some stages cannot be started yet?</li>
-      <li>Can users easily identify their next action from this page?</li>
-      <li>Do users understand the role of PINS at different gateways?</li>
-      <li>Is the difference between gateways clear without needing additional guidance?</li>
-      <li>Do users need access to their gateway 1 documents from here?</li>
-      <li>Should stop/go decisions be more prominent or visually distinct?</li>
-      <li>Would a more visual progress indicator (for example a progress bar) improve understanding?</li>
-      <li>What metadata (if any) is useful to provide on this page?</li>
-      <li>Do users understand what to do in each state (for example, ready to start, in progress, with case officer, or information required)</li>
-    </ul>
-
-    <h3 class="govuk-heading-s">Open questions</h3>
-
-    <ul class="govuk-list govuk-list--bullet">
-      <li>How does LPA linking work for a joint local plan?</li>
-      <li>Do users need more explicit feedback on missing or incomplete materials? If so, what does that process look like?</li>
-      <li>What should happen if an LPA does not submit by their deadline?</li>
-    </ul>
+      <h3 class="govuk-heading-s">Open questions</h3>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>LPA linking in joint plans</li>
+        <li>Handling missing or incomplete submissions</li>
+        <li>What happens when deadlines are missed</li>
+      </ul>
 
     {% endset %}
 
     {{ govukDetails({
-    summaryText: "Version 1 notes",
-    html: planJourneyNotesHtml
+      summaryText: "View research notes",
+      html: planJourneyNotesHtml
     }) }}
-
 
   </div>
 </div>
+
 {% endblock %}

@@ -20,22 +20,68 @@
   .app-stage {
     display: flex;
     align-items: center;
-    gap: 8px; /* controls spacing */
+    gap: 8px;
   }
 </style>
 
+{# Default state (important fallback) #}
+{% set stageTagText = "Unknown status" %}
+{% set stageTagClass = "govuk-tag--grey" %}
+{% set ctaText = "" %}
+{% set ctaHref = "" %}
+{% set showMessage = false %}
+
+{# State logic #}
+{% if planStatus == 'ready' %}
+
+  {% set stageTagText = "Ready to start" %}
+  {% set stageTagClass = "govuk-tag--green" %}
+  {% set ctaText = "Start gateway 2 submission" %}
+  {% set ctaHref = "/projects/front-office/gw2/v2/application-details" %}
+  {% set showMessage = false %}
+
+{% elif planStatus == 'in-progress' %}
+
+  {% set stageTagText = "In progress" %}
+  {% set stageTagClass = "govuk-tag--blue" %}
+  {% set ctaText = "Continue gateway 2 submission" %}
+  {% set ctaHref = "/projects/front-office/gw2/v2/application-details" %}
+  {% set showMessage = false %}
+
+{% elif planStatus == 'with-pins' %}
+
+  {% set stageTagText = "With PINS" %}
+  {% set stageTagClass = "govuk-tag--yellow" %}
+  {% set showMessage = true %}
+
+{% endif %}
+
+
+{# Header #}
+<span class="govuk-caption-xl">PLAN/000006</span>
+<h1 class="govuk-heading-xl" style="margin-bottom: 20px;">
+  East Borough Local Plan
+</h1>
+
+{# Current stage HTML #}
+{% set currentStageHtml %}
+  <div class="app-stage">
+    <span>Gateway 2</span>
+    <strong class="govuk-tag {{ stageTagClass }}">
+      {{ stageTagText }}
+    </strong>
+  </div>
+{% endset %}
+
+{# Summary list #}
 {{ govukSummaryList({
   classes: "app-details govuk-summary-list--no-border",
   rows: [
     {
       key: { text: "Current stage", classes: "govuk-!-width-one-half" },
       value: {
-        html: '
-          <div class="app-stage">
-            <span>Gateway 2</span>
-            <strong class="govuk-tag govuk-tag--green">Ready to start</strong>
-          </div>'
-        }
+        html: currentStageHtml
+      }
     },
     {
       key: { text: "Local planning authority", classes: "govuk-!-width-one-half" },
@@ -47,3 +93,16 @@
     }
   ]
 }) }}
+
+
+{# CTA / status message #}
+{% if showMessage %}
+
+{% else %}
+
+  {{ govukButton({
+    text: ctaText,
+    href: ctaHref
+  }) }}
+
+{% endif %}

@@ -1,0 +1,183 @@
+<!-- Task list -->
+    <h2 class="govuk-heading-m">Plan progress</h2>
+
+    {% from "govuk/components/task-list/macro.njk" import govukTaskList %}
+
+    {% if planStatus == 'ready' %}
+
+    {{ govukTaskList({
+    idPrefix: "plan-details",
+    items: [
+    {
+    title: {
+    text: "Gateway 1 - self assessment (opens in new tab)"
+    },
+    hint: {
+    text: "Completed outside this service on 12 September 2025"
+    },
+    href: "#",
+    status: {
+    text: "Completed"
+    }
+    },
+    {
+    title: {
+    text: "Gateway 2 - advisory check"
+    },
+    hint: {
+    text: "Target date: 25 April 2026"
+    },
+    href: "../../gw2/v2/application-details",
+    status: {
+    tag: {
+    text: "Ready to start",
+    classes: "govuk-tag--green"
+    }
+    }
+    },
+    {
+    title: {
+    text: "Gateway 3 - readiness check"
+    },
+    hint: {
+    html: "Target date: 12 June 2026"
+    },
+    status: {
+    text: "Cannot start yet",
+    classes: "govuk-task-list__status--cannot-start-yet"
+    }
+    },
+    {
+    title: {
+    text: "Examination"
+    },
+    hint: {
+    html: "Target date: 8 August 2026"
+    },
+    status: {
+    text: "Cannot start yet",
+    classes: "govuk-task-list__status--cannot-start-yet"
+    }
+    }
+    ]
+    }) }}
+
+    {% elif planStatus == 'in-progress' %}
+
+        {{ govukTaskList({
+      idPrefix: "plan-details",
+      items: [
+        {
+          title: {
+            text: "Gateway 1 - self assessment (opens in new tab)"
+          },
+          hint: {
+            text: "Completed outside this service on 12 September 2025"
+          },
+          href: "#",
+          status: {
+              text: "Completed"
+          }
+        },
+        {
+          title: {
+            text: "Gateway 2 - advisory check"
+          },
+          hint: {
+            text: "Target date: 25 April 2026"
+          },
+          href: "../../gw2/v2/application-details",
+          status: {
+            tag: {
+              text: "In progress",
+              classes: "govuk-tag--blue"
+            }
+          }
+        },
+        {
+          title: {
+            text: "Gateway 3 - readiness check"
+          },
+          hint: {
+            html: "Target date: 12 June 2026"
+          },
+          status: {
+            text: "Cannot start yet",
+            classes: "govuk-task-list__status--cannot-start-yet"
+          }
+        },
+        {
+          title: {
+            text: "Examination"
+          },
+          hint: {
+            html: "Target date: 8 August 2026"
+          },
+          status: {
+            text: "Cannot start yet",
+            classes: "govuk-task-list__status--cannot-start-yet"
+          }
+        }
+      ]
+  }) }}
+
+  {% elif planStatus == 'with-pins' %}
+
+      {{ govukTaskList({
+      idPrefix: "plan-details",
+      items: [
+        {
+          title: {
+            text: "Gateway 1 - self assessment (opens in new tab)"
+          },
+          hint: {
+            text: "Completed outside this service on 12 September 2025"
+          },
+          href: "#",
+          status: {
+              text: "Completed"
+          }
+        },
+        {
+          title: {
+            text: "Gateway 2 - advisory check"
+          },
+          hint: {
+            text: "Submitted on 25 April 2026"
+          },
+          href: "../../gw2/v2/application-details-submitted",
+          status: {
+            tag: {
+              text: "With PINS",
+              classes: "govuk-tag--yellow"
+            }
+          }
+        },
+        {
+          title: {
+            text: "Gateway 3 - readiness check"
+          },
+          hint: {
+            html: "Target date: 20 June 2026"
+          },
+          status: {
+            text: "Cannot start yet",
+            classes: "govuk-task-list__status--cannot-start-yet"
+          }
+        },
+        {
+          title: {
+            text: "Examination"
+          },
+          hint: {
+            html: "Target date: 8 August 2026"
+          },
+          status: {
+            text: "Cannot start yet",
+            classes: "govuk-task-list__status--cannot-start-yet"
+          }
+        }
+      ]
+    }) }}
+
+    {% endif %}
