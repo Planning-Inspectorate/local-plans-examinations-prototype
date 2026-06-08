@@ -53,9 +53,7 @@ Hearing venue address – {{ serviceName }}
 
       <div class="govuk-button-group">
         <button type="submit" class="govuk-button">Continue</button>
-        {% if isEditing %}
-          <a href="/projects/back-office/manage/examination/v1/add-hearing/cancel" class="govuk-link">Cancel</a>
-        {% endif %}
+        <a href="javascript:window.history.back()" class="govuk-link">Back</a>
       </div>
     </form>
   </div>

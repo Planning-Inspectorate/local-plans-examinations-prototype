@@ -67,18 +67,8 @@ Plan updates – {{ serviceName }}
 </div>
 
   <div class="govuk-grid-column-one-quarter">
-    <nav class="side-nav">
-      <ul class="govuk-list">
-        <li><a href="/projects/back-office/manage/overview/v1/index-side.html" >Overview</a></li>
-        <li><a href="/projects/back-office/manage/timetable/v1/timetable-side.html">Timetable</a></li>
-        <li><a href="">Gateway 1</a></li>
-        <li><a href="">Gateway 2</a></li>
-        <li><a href="">Gateway 3</a></li>
-        <li><a href="">Examination</a></li>
-        <li><a href="/projects/back-office/manage/documents/v1/documents-side.html">Documents</a></li>
-        <li><a href="/projects/back-office/manage/updates/v1/updates-side.html" class="selected">Updates</a></li>
-      </ul>
-    </nav>
+    {% set currentSection = "updates" %}
+    {% include "includes/back-office/side-secondary-nav.njk" %}
   </div>
 
   <div class="govuk-grid-column-three-quarters">

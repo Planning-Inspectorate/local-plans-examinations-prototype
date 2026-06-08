@@ -1,0 +1,57 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+Do you know the expected number of days – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form method="post">
+       <!-- <span class="govuk-caption-l">{{ caseRef }} - Set up hearing</span>-->
+        <h1 class="govuk-heading-l">Do you know the expected number of days to carry out the hearing?</h1>
+
+        {% set estimatedDaysHtml %}
+        <div class="govuk-form-group"><label class="govuk-label govuk-label--s" for="hearing-estimation-days">Expected number of days to carry out the hearing</label><div class="govuk-input__wrapper"><input class="govuk-input govuk-input--width-3" id="hearing-estimation-days" name="hearingEstimationDays" type="text" value="{{ addHearing.estimatedDays or '' }}"><div class="govuk-input__suffix" aria-hidden="true">Days</div></div></div>
+        {% endset %}
+
+        {{ govukRadios({
+          id: "hasEstimates",
+          name: "hasEstimates",
+          fieldset: {
+          },
+          items: [
+           {
+          value: "Yes",
+          text: "Yes",
+          checked: addHearing.hasEstimates == "Yes",
+          conditional: {
+            html: estimatedDaysHtml | safe
+          }
+        },
+            {
+              value: "No",
+              text: "No",
+              checked: addHearing.hasEstimates == "No"
+            }
+          ]
+        }) }}
+
+        <div class="govuk-button-group">
+          {{ govukButton({
+            text: "Continue"
+          }) }}
+          {% if isEditing %}
+            <a href="/projects/back-office/manage/examination/v1/add-hearing/cancel" class="govuk-link">Cancel</a>
+          {% endif %}
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

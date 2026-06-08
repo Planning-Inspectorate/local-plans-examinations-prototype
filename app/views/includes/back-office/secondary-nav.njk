@@ -1,0 +1,30 @@
+{% set currentSection = currentSection or "overview" %}
+<h2 id="case-workflow-nav-heading" class="govuk-visually-hidden">Case workflow navigation</h2>
+<nav class="x-govuk-secondary-navigation app-secondary-nav govuk-!-margin-top-6 govuk-!-margin-bottom-6" aria-labelledby="case-workflow-nav-heading">
+  <ul class="x-govuk-secondary-navigation__list">
+    <li class="x-govuk-secondary-navigation__list-item{% if currentSection == 'overview' %} x-govuk-secondary-navigation__list-item--current{% endif %}">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/overview/v1/index"{% if currentSection == 'overview' %} aria-current="page"{% endif %}>Overview</a>
+    </li>
+    <li class="x-govuk-secondary-navigation__list-item{% if currentSection == 'timetable' %} x-govuk-secondary-navigation__list-item--current{% endif %}">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/timetable.html"{% if currentSection == 'timetable' %} aria-current="page"{% endif %}>Timetable</a>
+    </li>
+    <li class="x-govuk-secondary-navigation__list-item{% if currentSection == 'gw1' %} x-govuk-secondary-navigation__list-item--current{% endif %}">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/GW1/v1/gateway-1"{% if currentSection == 'gw1' %} aria-current="page"{% endif %}>Gateway 1</a>
+    </li>
+    <li class="x-govuk-secondary-navigation__list-item{% if currentSection == 'gw2' %} x-govuk-secondary-navigation__list-item--current{% endif %}">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/GW2/v2/gateway-2"{% if currentSection == 'gw2' %} aria-current="page"{% endif %}>Gateway 2</a>
+    </li>
+    <li class="x-govuk-secondary-navigation__list-item{% if currentSection == 'gw3' %} x-govuk-secondary-navigation__list-item--current{% endif %}">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/GW3/v2/gateway-3"{% if currentSection == 'gw3' %} aria-current="page"{% endif %}>Gateway 3</a>
+    </li>
+    <li class="x-govuk-secondary-navigation__list-item{% if currentSection == 'examination' %} x-govuk-secondary-navigation__list-item--current{% endif %}">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/examination/v1/examination"{% if currentSection == 'examination' %} aria-current="page"{% endif %}>Examination</a>
+    </li>
+    <li class="x-govuk-secondary-navigation__list-item{% if currentSection == 'documents' %} x-govuk-secondary-navigation__list-item--current{% endif %}">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/documents/upload/v1/documents"{% if currentSection == 'documents' %} aria-current="page"{% endif %}>Documents</a>
+    </li>
+    <li class="x-govuk-secondary-navigation__list-item{% if currentSection == 'updates' %} x-govuk-secondary-navigation__list-item--current{% endif %}">
+      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/updates/v1/updates.html"{% if currentSection == 'updates' %} aria-current="page"{% endif %}>Updates</a>
+    </li>
+  </ul>
+</nav>

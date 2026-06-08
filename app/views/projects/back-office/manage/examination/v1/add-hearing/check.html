@@ -23,7 +23,7 @@ Check hearing details – {{ serviceName }}
           {{ addHearing.date.day }}/{{ addHearing.date.month }}/{{ addHearing.date.year }}
         </dd>
         <dd class="govuk-summary-list__actions">
-          <a href="/projects/back-office/manage/examination/v1/add-hearing/index">Change<span class="govuk-visually-hidden"> hearing date</span></a>
+          <a href="/projects/back-office/manage/examination/v1/add-hearing">Change<span class="govuk-visually-hidden"> hearing date</span></a>
         </dd>
       </div>
       <div class="govuk-summary-list__row">
@@ -52,6 +52,33 @@ Check hearing details – {{ serviceName }}
         </dd>
       </div>
       <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Is the hearing virtual or in-person?</dt>
+        <dd class="govuk-summary-list__value">
+          {{ addHearing.isVirtual or 'Not answered' }}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a href="/projects/back-office/manage/examination/v1/add-hearing/is-virtual">Change<span class="govuk-visually-hidden"> hearing type</span></a>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row{% if addHearing.isVirtual != 'Virtual' %} govuk-!-display-none{% endif %}">
+        <dt class="govuk-summary-list__key">Do you have a virtual meeting link?</dt>
+        <dd class="govuk-summary-list__value">
+          {{ addHearing.hasVirtualMeetingLink or 'Not answered' }}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a href="/projects/back-office/manage/examination/v1/add-hearing/has-virtual-meeting-link">Change<span class="govuk-visually-hidden"> virtual meeting link question</span></a>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row{% if addHearing.isVirtual != 'Virtual' or addHearing.hasVirtualMeetingLink != 'Yes' %} govuk-!-display-none{% endif %}">
+        <dt class="govuk-summary-list__key">Virtual meeting link</dt>
+        <dd class="govuk-summary-list__value">
+          {{ addHearing.virtualMeetingLink or 'Not provided' }}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a href="/projects/back-office/manage/examination/v1/add-hearing/virtual-meeting">Change<span class="govuk-visually-hidden"> virtual meeting link</span></a>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row{% if addHearing.isVirtual != 'In-person' %} govuk-!-display-none{% endif %}">
         <dt class="govuk-summary-list__key">Do you know the venue address?</dt>
         <dd class="govuk-summary-list__value">
           {{ addHearing.hasAddress or 'Not answered' }}
@@ -60,7 +87,7 @@ Check hearing details – {{ serviceName }}
           <a href="/projects/back-office/manage/examination/v1/add-hearing/has-address">Change<span class="govuk-visually-hidden"> whether you know the venue address</span></a>
         </dd>
       </div>
-      <div class="govuk-summary-list__row">
+      <div class="govuk-summary-list__row{% if addHearing.isVirtual != 'In-person' %} govuk-!-display-none{% endif %}">
         <dt class="govuk-summary-list__key">Venue address</dt>
         <dd class="govuk-summary-list__value">
           {% if addHearing.hasAddress == 'Yes' %}
@@ -82,9 +109,7 @@ Check hearing details – {{ serviceName }}
     <form method="post" action="/projects/back-office/manage/examination/v1/add-hearing/check">
       <div class="govuk-button-group">
         <button type="submit" class="govuk-button">Confirm and save</button>
-        {% if isEditing %}
-          <a href="/projects/back-office/manage/examination/v1/add-hearing/cancel" class="govuk-link">Cancel</a>
-        {% endif %}
+        <a href="/projects/back-office/manage/examination/v1/examination" class="govuk-link">Cancel</a>
       </div>
     </form>
   </div>
