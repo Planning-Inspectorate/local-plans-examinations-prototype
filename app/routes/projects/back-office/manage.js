@@ -1258,6 +1258,63 @@ router.get('/projects/back-office/manage/examination/v1/examination', (req, res)
   req.session.save();
 });
 
+router.get('/projects/back-office/manage/examination/v3/examination', (req, res) => {
+  const notificationMessage = req.session.notificationMessage || '';
+  delete req.session.notificationMessage;
+
+  res.render('projects/back-office/manage/examination/v3/examination', {
+    basePath: '/projects/back-office/manage/examination/v3',
+    caseRef: req.session.currentCaseRef || '',
+    planTitle: req.session.planTitle || '',
+    notificationMessage: notificationMessage,
+    examinationEstimatedDate: formatDateForDisplay(req.session.examinationEstimatedDate) || '-',
+    examinationActualDate: formatDateForDisplay(req.session.examinationActualDate) || '-',
+    examiningInspector1Name: req.session.examiningInspector1Name || '-',
+    examiningInspector2Name: req.session.examiningInspector2Name || '-',
+    examiningInspector3Name: req.session.examiningInspector3Name || '-',
+    examiningInspectorAppointmentDate: formatDateForDisplay(req.session.examiningInspectorAppointmentDate) || '-',
+    examinationWebsite: req.session.examinationWebsite || '-',
+    hearingVenue: req.session.hearingVenue || '-',
+    hearingStartDate: formatDateForDisplay(req.session.hearingStartDate) || '-',
+    hearingTime: req.session.hearingTime || '-',
+    hearingEstimatedDays: req.session.hearingEstimatedDays || '-',
+    hearingEstimatedDuration: req.session.hearingEstimatedDays || '-',
+    hearingActualDuration: req.session.hearingActualDuration || '-',
+    hearingEndDate: formatDateForDisplay(req.session.hearingEndDate) || '-',
+    hearingIsVirtual: req.session.hearingIsVirtual || '-',
+    hearingHasVirtualMeetingLink: req.session.hearingHasVirtualMeetingLink || 'No',
+    hearingVirtualMeetingLink: req.session.hearingVirtualMeetingLink || '-',
+    virtualHearingLink: req.session.hearingVirtualMeetingLink || '-',
+    hearingHasAddress: req.session.hearingHasAddress || '-',
+    hearingAddress: req.session.hearingAddress || {},
+    hearings: Array.isArray(req.session.hearings) ? req.session.hearings : [],
+    hearingCloseDate: formatDateForDisplay(req.session.hearingCloseDate) || '-',
+    furtherHearingDates: formatDateForDisplay(req.session.furtherHearingDates) || '-',
+    letterSentToMhclgDate: formatDateForDisplay(req.session.letterSentToMhclgDate) || '-',
+    letterIssueDate: formatDateForDisplay(req.session.letterIssueDate) || '-',
+    qaDate: formatDateForDisplay(req.session.qaDate) || '-',
+    qaInspector1Name: req.session.qaInspector1Name || '-',
+    qaInspector2Name: req.session.qaInspector2Name || '-',
+    qaInspector3Name: req.session.qaInspector3Name || '-',
+    qaReportSentDate: formatDateForDisplay(req.session.qaReportSentDate) || '-',
+    qaPanelResponseDate: formatDateForDisplay(req.session.qaPanelResponseDate) || '-',
+    factCheckReceivedDate: formatDateForDisplay(req.session.factCheckReceivedDate) || '-',
+    factCheckDueDate: formatDateForDisplay(req.session.factCheckDueDate) || '-',
+    factCheckActualDate: formatDateForDisplay(req.session.factCheckActualDate) || '-',
+    factCheckReceivedFromLpaDate: formatDateForDisplay(req.session.factCheckReceivedFromLpaDate) || '-',
+    finalReportIssueDate: formatDateForDisplay(req.session.finalReportIssueDate) || '-',
+    planPauseDate: formatDateForDisplay(req.session.planPauseDate) || '-',
+    planPauseEndDate: formatDateForDisplay(req.session.planPauseEndDate) || '-',
+    withdrawnDate: formatDateForDisplay(req.session.withdrawnDate) || '-',
+    planSoundness: req.session.planSoundness || '-',
+    soundUnsoundDate: formatDateForDisplay(req.session.soundUnsoundDate) || '-',
+    adoptionDate: formatDateForDisplay(req.session.adoptionDate) || '-',
+    approvedForCilDate: formatDateForDisplay(req.session.approvedForCilDate) || '-'
+  });
+
+  req.session.save();
+});
+
 // Examining Inspector GET handlers (for editing/adding inspector details)
 for (let i = 1; i <= 3; i++) {
   router.get(`/projects/back-office/manage/examination/v1/examining-inspector-${i}.html`, (req, res) => {

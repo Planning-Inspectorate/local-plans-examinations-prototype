@@ -1,0 +1,36 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+Actual duration – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">How many days did the hearing actually take?</h1>
+    <form method="post">
+      <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
+      <input type="hidden" name="hearingIndex" value="{{ hearingIndex }}">
+      <div class="govuk-form-group">
+        <label class="govuk-label govuk-label--m govuk-visually-hidden" for="actual-duration">Actual duration</label>
+        <div class="govuk-input__wrapper">
+          <input class="govuk-input govuk-input--width-3" id="actual-duration" name="actualDuration" type="text" inputmode="numeric" value="{{ addHearing.actualDuration or '' }}">
+          <div class="govuk-input__suffix" aria-hidden="true">days</div>
+        </div>
+      </div>
+
+      <div class="govuk-button-group">
+        <button type="submit" class="govuk-button">Continue</button>
+        <a href="{{ returnUrl }}" class="govuk-link">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
