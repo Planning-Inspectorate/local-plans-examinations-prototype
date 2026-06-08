@@ -1,0 +1,33 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+What is the virtual meeting link? – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">What is the virtual meeting link?</h1>
+      <form method="post">
+      <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
+      <input type="hidden" name="hearingIndex" value="{{ hearingIndex }}">
+      <div class="govuk-form-group">
+        <label class="govuk-label" for="virtual-meeting-link"><span class="govuk-visually-hidden">Virtual meeting link</span></label>
+            <input class="govuk-input" id="virtual-meeting-link" name="virtualMeetingLink" type="text" value="{{ addHearing.virtualMeetingLink or '' }}">
+      </div>
+
+      <div class="govuk-button-group">
+        <button type="submit" class="govuk-button">Continue</button>
+        <a href="{{ returnUrl }}" class="govuk-link">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

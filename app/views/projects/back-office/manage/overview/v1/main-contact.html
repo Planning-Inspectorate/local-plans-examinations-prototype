@@ -22,6 +22,7 @@
       <form method="post" action="/projects/back-office/manage/overview/v1/main-contact">
         <input type="hidden" name="isEdit" value="{{ isEdit }}">
         <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
+        <input type="hidden" name="contactOrganisation" value="{{ lpaName }}">
         
         <fieldset class="govuk-fieldset">
           <div class="govuk-form-group">
@@ -51,7 +52,7 @@
         </fieldset>
         <div class="govuk-form-group">
           <label class="govuk-label" for="contact-organisation">
-            Select an organisation for this contact
+            Select the organisation for this contact
           </label>
           <div class="govuk-radios" data-module="govuk-radios">
             {% for lpa in lpas %}

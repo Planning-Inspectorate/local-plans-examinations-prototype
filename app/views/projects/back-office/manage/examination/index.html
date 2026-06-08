@@ -20,12 +20,33 @@
   <div class="govuk-grid-column-two-thirds">
  
     <span class="govuk-caption-l">
-      Manage a local plan case
+      Manage a plan examination
     </span>
     <h1 class="govuk-heading-l">
       {{ title }}
     </h1>
- <!--
+  {% set version = "3" %}
+    <h2 class="govuk-heading-m">
+      Version {{ version }}
+      {{ govukTag({
+        classes: 'govuk-tag--yellow govuk-!-margin-left-2',
+        text: 'In progress'
+      }) }}
+    </h2>
+ 
+    <p class="govuk-!-margin-bottom-2">Changes:</p>
+ 
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Option 2 for hearings: a flow based approach with check your answers pages.</li>
+  
+    </ul>
+ 
+    {{ govukButton({
+      html: 'View prototype',
+      href: '/projects/back-office/manage/examination/v' ~ version ~ '/examination',
+      isStartButton: true
+    }) }}
+ 
     {% set version = "2" %}
     <h2 class="govuk-heading-m">
       Version {{ version }}
@@ -38,24 +59,20 @@
     <p class="govuk-!-margin-bottom-2">Changes:</p>
  
     <ul class="govuk-list govuk-list--bullet">
-      <li>updated layout of application details to match Appeals pattern and loop through each upload page</li>
-      <li>declaration pages merged into 1 declaration page</li>
-      <li>view-only 'application submitted' page added</li>
-      <li>progress tracker added i.e. "You have completed 0 of 3 sections."</li>
+      <li>Option 1 for hearings: more basic version that allows details of hearings to be added independently</li>
     </ul>
  
     {{ govukButton({
       html: 'View prototype',
-      href: '/projects/back-office/manage/examination/v' ~ version ~ '/examination',
+      href: '/projects/back-office/manage/examination/v' ~ version ~ '/examination-hearings-flat',
       isStartButton: true
     }) }}
  
     {% set v1HTML %}
-  -->
       {% set version = "1" %}
  
       <p class="govuk-body">
-      Key activities and information requirements for the examination stage of the local plan examination process. 
+      Version used for user research in June 2026.  
       </p>
  
       {{ govukInsetText({

@@ -1,0 +1,36 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+Cancel hearing – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    {% if isValidHearing %}
+      <h1 class="govuk-heading-l">Are you sure you want to cancel hearing {{ hearingNumber }}?</h1>
+      <p class="govuk-body">This will remove all hearing details for this hearing.</p>
+
+      <form method="post">
+        <input type="hidden" name="hearingIndex" value="{{ hearingIndex }}">
+        <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
+        <div class="govuk-button-group">
+          <button type="submit" class="govuk-button govuk-button--warning">Cancel hearing</button>
+          <a href="{{ returnUrl }}" class="govuk-link">Do not cancel</a>
+        </div>
+      </form>
+    {% else %}
+      <h1 class="govuk-heading-l">Hearing not found</h1>
+      <p class="govuk-body">The hearing you are trying to cancel could not be found.</p>
+      <a href="{{ returnUrl }}" class="govuk-link">Return to hearings</a>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

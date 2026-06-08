@@ -1,0 +1,54 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+	When was the examination submitted? – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+	{{ govukBackLink({
+		text: "Back",
+		href: returnUrl or "javascript:window.history.back()"
+	}) }}
+{% endblock %}
+
+{% block content %}
+	<div class="govuk-grid-row">
+		<div class="govuk-grid-column-two-thirds">
+			<h1 class="govuk-heading-l">When was the examination submitted?</h1>
+			<form class="form" method="post" action="/projects/back-office/manage/examination/v1/examination-actual">
+				<input type="hidden" name="isEdit" value="{{ isEdit }}">
+				<input type="hidden" name="returnUrl" value="{{ returnUrl }}">
+				{% set dateParts = examinationActualDate.split('/') if examinationActualDate else ['', '', ''] %}
+				<fieldset class="govuk-fieldset govuk-!-margin-bottom-2" role="group" aria-describedby="examination-actual-date-hint">
+					<legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+						<span class="govuk-visually-hidden">Examination actual date</span>
+					</legend>
+					<div class="govuk-date-input" id="examination-actual-date">
+						<div class="govuk-date-input__item">
+							<div class="govuk-form-group">
+								<label class="govuk-label govuk-date-input__label" for="examination-actual-date-day">Day</label>
+								<input class="govuk-input govuk-date-input__input govuk-input--width-2" id="examination-actual-date-day" name="examination-actual-date-day" type="text" inputmode="numeric" value="{{ dateParts[0] }}">
+							</div>
+						</div>
+						<div class="govuk-date-input__item">
+							<div class="govuk-form-group">
+								<label class="govuk-label govuk-date-input__label" for="examination-actual-date-month">Month</label>
+								<input class="govuk-input govuk-date-input__input govuk-input--width-2" id="examination-actual-date-month" name="examination-actual-date-month" type="text" inputmode="numeric" value="{{ dateParts[1] }}">
+							</div>
+						</div>
+						<div class="govuk-date-input__item">
+							<div class="govuk-form-group">
+								<label class="govuk-label govuk-date-input__label" for="examination-actual-date-year">Year</label>
+								<input class="govuk-input govuk-date-input__input govuk-input--width-4" id="examination-actual-date-year" name="examination-actual-date-year" type="text" inputmode="numeric" value="{{ dateParts[2] }}">
+							</div>
+						</div>
+					</div>
+				</fieldset>
+			<div class="govuk-button-group">
+				<button type="submit" class="govuk-button" data-module="govuk-button">Save and continue</button>
+				<a href="{{ returnUrl or '/projects/back-office/manage/examination/v1/index.html' }}" class="govuk-link">Cancel</a>
+			</div>
+			</form>
+		</div>
+	</div>
+{% endblock %}
