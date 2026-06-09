@@ -8,61 +8,61 @@
     {% if planStatus == 'ready' %}
 
     {{ govukTaskList({
-    idPrefix: "plan-details",
-    items: [
+      idPrefix: "plan-details",
+      items: [
+        {
+          title: {
+            text: "Gateway 1 - self assessment (opens in new tab)"
+          },
+      hint: {
+        text: "Completed outside this service on 12 September 2025"
+      },
+      href: "#",
+      status: {
+      text: "Completed"
+    }
+  },
     {
+      title: {
+        text: "Gateway 2 - advisory check"
+      },
+      hint: {
+        text: "Target date: 25 April 2026"
+      },
+        href: "../../gw2/v2/application-details",
+        status: {
+        tag: {
+        text: "Ready to start",
+        classes: "govuk-tag--green"
+      }
+    }
+  },
+  {
     title: {
-    text: "Gateway 1 - self assessment (opens in new tab)"
+      text: "Gateway 3 - readiness check"
     },
     hint: {
-    text: "Completed outside this service on 12 September 2025"
+      html: "Target date: 12 June 2026"
     },
-    href: "#",
-    status: {
-    text: "Completed"
+      status: {
+      text: "Cannot start yet",
+      classes: "govuk-task-list__status--cannot-start-yet"
     }
-    },
-    {
+  },
+  {
     title: {
-    text: "Gateway 2 - advisory check"
+      text: "Examination"
     },
-    hint: {
-    text: "Target date: 25 April 2026"
-    },
-    href: "../../gw2/v2/application-details",
-    status: {
-    tag: {
-    text: "Ready to start",
-    classes: "govuk-tag--green"
-    }
-    }
-    },
-    {
-    title: {
-    text: "Gateway 3 - readiness check"
-    },
-    hint: {
-    html: "Target date: 12 June 2026"
+      hint: {
+      html: "Target date: 8 August 2026"
     },
     status: {
-    text: "Cannot start yet",
-    classes: "govuk-task-list__status--cannot-start-yet"
+      text: "Cannot start yet",
+      classes: "govuk-task-list__status--cannot-start-yet"
     }
-    },
-    {
-    title: {
-    text: "Examination"
-    },
-    hint: {
-    html: "Target date: 8 August 2026"
-    },
-    status: {
-    text: "Cannot start yet",
-    classes: "govuk-task-list__status--cannot-start-yet"
-    }
-    }
-    ]
-    }) }}
+  }
+  ]
+}) }}
 
     {% elif planStatus == 'in-progress' %}
 
@@ -181,5 +181,65 @@
         }
       ]
     }) }}
+
+    {% elif planStatus == 'action-needed' %}
+
+      {{ govukTaskList({
+      idPrefix: "plan-details",
+      items: [
+        {
+          title: {
+            text: "Gateway 1 - self assessment (opens in new tab)"
+          },
+          hint: {
+            text: "Completed outside this service on 12 September 2025"
+          },
+          href: "#",
+          status: {
+              text: "Completed"
+          }
+        },
+        {
+          title: {
+            text: "Gateway 2 - advisory check"
+          },
+          hint: {
+            text: "Submitted on 25 April 2026"
+          },
+          href: "/projects/front-office/gw2/v2/application-details-option-a",
+          status: {
+            tag: {
+              text: "Action needed",
+              classes: "govuk-tag--red"
+            }
+          }
+        },
+        {
+          title: {
+            text: "Gateway 3 - readiness check"
+          },
+          hint: {
+            html: "Target date: 20 June 2026"
+          },
+          status: {
+            text: "Cannot start yet",
+            classes: "govuk-task-list__status--cannot-start-yet"
+          }
+        },
+        {
+          title: {
+            text: "Examination"
+          },
+          hint: {
+            html: "Target date: 8 August 2026"
+          },
+          status: {
+            text: "Cannot start yet",
+            classes: "govuk-task-list__status--cannot-start-yet"
+          }
+        }
+      ]
+    }) }}
+
 
     {% endif %}

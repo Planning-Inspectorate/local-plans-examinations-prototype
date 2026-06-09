@@ -35,6 +35,16 @@ href: "/projects/front-office/home/v1/homepage"
       "
     }) }}
 
+    {% elif planStatus == 'action-needed' %}
+
+    {{ govukNotificationBanner({
+      html: "
+        <h3 class='govuk-notification-banner__heading'>Your gateway 2 submission is incomplete</h3>
+        <p class='govuk-body'>PINS has reviewed your submission and found issues with some documents. You must upload corrected files before your plan can progress.</p>
+        <p class='govuk-body govuk-!-margin-bottom-0'><a class='govuk-link' href='/projects/front-office/gw2/v2/application-details-option-a'>Review and correct your documents</a></p>
+      "
+    }) }}
+
     {% endif %}
 
     {% include "./_includes/plan-heading.njk" %}

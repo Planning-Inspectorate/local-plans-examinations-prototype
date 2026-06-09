@@ -54,6 +54,12 @@
   {% set stageTagClass = "govuk-tag--yellow" %}
   {% set showMessage = true %}
 
+{% elif planStatus == 'action-needed' %}
+
+  {% set stageTagText = "Action needed" %}
+  {% set stageTagClass = "govuk-tag--red" %}
+  {% set showMessage = true %}
+
 {% endif %}
 
 {# Current stage HTML #}
