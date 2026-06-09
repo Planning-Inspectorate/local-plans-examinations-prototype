@@ -145,7 +145,28 @@ Examination overview– {{ serviceName }}
             </div>
             <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">Hearing venue</dt>
-              <dd class="govuk-summary-list__value">{{ hearing.venue }}</dd>
+                            
+              <dd class="govuk-summary-list__value">
+                {{ hearing.venue }}<br>
+
+                {% if hearing.address.line1 %}
+                  {{ hearing.address.line1 }}<br>
+                {% endif %}
+
+                {% if hearing.address.line2 %}
+                  {{ hearing.address.line2 }}<br>
+                {% endif %}
+
+                {% if hearing.address.town %}
+                  {{ hearing.address.town }}<br>
+                {% endif %}
+
+                {% if hearing.address.postcode %}
+                  {{ hearing.address.postcode }}
+                {% endif %}
+              </dd>
+
+
               <dd class="govuk-summary-list__actions">
                 <a class="govuk-link" href="/projects/back-office/manage/examination/v2/add-hearing/address?hearingIndex={{ hearing.index }}&returnUrl=/projects/back-office/manage/examination/v2/examination-hearings-flat">Change<span class="govuk-visually-hidden">Hearing {{ loop.index }} venue</span></a>
               </dd>
