@@ -180,4 +180,63 @@
       ]
     }) }}
 
+      {% elif planStatus == 'action-needed' %}
+
+      {{ govukTaskList({
+      idPrefix: "plan-details",
+      items: [
+        {
+          title: {
+            text: "Gateway 1 - self assessment (opens in new tab)"
+          },
+          hint: {
+            text: "Completed outside this service on 12 September 2025"
+          },
+          href: "#",
+          status: {
+              text: "Completed"
+          }
+        },
+        {
+          title: {
+            text: "Gateway 2 - advisory check"
+          },
+          hint: {
+            text: "Submitted on 25 April 2026"
+          },
+          href: "/projects/front-office/gw2/v2/application-details-option-a",
+          status: {
+            tag: {
+              text: "Action needed",
+              classes: "govuk-tag--red"
+            }
+          }
+        },
+        {
+          title: {
+            text: "Gateway 3 - readiness check"
+          },
+          hint: {
+            html: "Target date: 20 June 2026"
+          },
+          status: {
+            text: "Cannot start yet",
+            classes: "govuk-task-list__status--cannot-start-yet"
+          }
+        },
+        {
+          title: {
+            text: "Examination"
+          },
+          hint: {
+            html: "Target date: 8 August 2026"
+          },
+          status: {
+            text: "Cannot start yet",
+            classes: "govuk-task-list__status--cannot-start-yet"
+          }
+        }
+      ]
+    }) }}
+
     {% endif %}
