@@ -1,6 +1,8 @@
 const govukPrototypeKit = require('govuk-prototype-kit');
 const router = govukPrototypeKit.requests.setupRouter();
 
+
+
 function parseDateFields(day, month, year) {
 	if (!day || !month || !year) {
 		return '';
@@ -109,22 +111,13 @@ function hasLegacyHearingData(session) {
 }
 
 function ensureHearings(session) {
-	if (!Array.isArray(session.hearings)) {
-		session.hearings = [];
-	}
+	
+// only initialise array, do NOT auto-create data
+if (!Array.isArray(session.hearings)) {
+    session.hearings = [];
+}
 
-	if (session.hearings.length === 0 && hasLegacyHearingData(session)) {
-		session.hearings.push({
-			startDate: session.hearingStartDate && session.hearingStartDate !== '-' ? session.hearingStartDate : '',
-			time: session.hearingTime && session.hearingTime !== '-' ? session.hearingTime : '',
-			estimatedDays: session.hearingEstimatedDays && session.hearingEstimatedDays !== '-' ? session.hearingEstimatedDays : '',
-			actualDuration: session.hearingActualDuration && session.hearingActualDuration !== '-' ? session.hearingActualDuration : '',
-			endDate: session.hearingEndDate && session.hearingEndDate !== '-' ? session.hearingEndDate : '',
-			venue: session.hearingVenue && session.hearingVenue !== '-' ? session.hearingVenue : '',
-			address: session.hearingAddress || {},
-			virtualMeetingLink: session.hearingVirtualMeetingLink && session.hearingVirtualMeetingLink !== '-' ? session.hearingVirtualMeetingLink : ''
-		});
-	}
+
 
 	return session.hearings;
 }
@@ -214,7 +207,8 @@ router.get('/examination-hearings-flat', (req, res) => {
 		estimatedDuration: hearing.estimatedDays || '-',
 		actualDuration: hearing.actualDuration || '-',
 		endDate: formatDateForDisplay(hearing.endDate) || '-',
-		venue: hearing.venue || '-',
+        venue: hearing.venue || '-',
+        address: hearing.address || '-',
 		virtualMeetingLink: hearing.virtualMeetingLink || '-'
 	}));
 
@@ -285,7 +279,8 @@ router.post('/cancel-hearing', (req, res) => {
 });
 
 router.get('/add-hearing/index', (req, res) => {
-	const { hearing, hearingIndex } = getHearingForRead(req.session, getHearingIndex(req));
+    const { hearing, hearingIndex } = getHearingForRead(req.session, getHearingIndex(req));
+    console.log();
 	res.render('projects/back-office/manage/examination/v2/add-hearing/index', {
 		addHearing: buildAddHearingViewModelFromHearing(hearing),
 		returnUrl: getReturnUrl(req),
