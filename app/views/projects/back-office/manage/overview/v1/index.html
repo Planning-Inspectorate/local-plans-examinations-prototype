@@ -26,74 +26,7 @@ Plan overview – {{ serviceName }}
       {% include "includes/back-office/secondary-nav.njk" %}
 
       <h2 class="govuk-heading-l">Overview</h2>
-          {# Case Notes Section #}
-      <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Case note actions</h2>
-
-      {% set caseNotesHtml %}
-        {# 1. Point the form to the new route #}
-        <form method="POST" action="/cases/add-case-note?ref={{ currentCase.reference }}">
-          <div class="govuk-grid-row">
-            <div class="govuk-grid-column-full">
-              {{ govukCharacterCount({
-                name: "comment",
-                id: "comment",
-                maxlength: 500,
-                rows: 5,
-                label: {
-                  text: "Add case note",
-                  classes: "govuk-visually-hidden"
-                }
-              }) }}
-            </div>
-          </div>
-          {{ govukButton({
-            text: "Add case note",
-            classes: "govuk-button--secondary govuk-!-margin-bottom-1"
-          }) }}
-        </form>
-
-        {# Loop through and display the saved notes (MAX 4) #}
-        {% if currentCase.caseNotes and currentCase.caseNotes.length > 0 %}
-          <div>
-            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-            
-            {% for note in currentCase.caseNotes %}
-              {% if loop.index <= 4 %}
-                <section>
-                  <p class="govuk-body govuk-!-margin-bottom-1 govuk-!-text-break-word">
-                    {{ note.text }}
-                  </p>
-                  <p class="govuk-hint govuk-!-margin-bottom-6">
-                    {{ note.meta }}
-                  </p>
-                  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-                </section>
-              {% endif %}
-            {% endfor %}
-
-            {# Show "Show all notes" link if there are more than 4 #}
-            {% if currentCase.caseNotes.length > 4 %}
-              <p class="govuk-body govuk-!-text-align-centre">
-                <a class="govuk-link govuk-link--no-visited-state" href="/cases/all-case-notes?ref={{ currentCase.reference }}" data-cy="show-all-notes-link">
-                  Show all notes
-                </a>
-              </p>
-            {% endif %}
-
-          </div>
-        {% endif %}
-      {% endset %}
-
-      {# Make the summary text dynamically count the notes! #}
-      {% set noteCount = currentCase.caseNotes | length if currentCase.caseNotes else 0 %}
-      
-      {{ govukDetails({
-        summaryText: noteCount ~ " case notes",
-        html: caseNotesHtml
-      }) }}
-
-    </div>
-  </div> 
+     
  
       <dl class="govuk-summary-list govuk-summary-list-timetable">
         <div class="govuk-summary-list__row">
