@@ -20,13 +20,10 @@ Plan overview – {{ serviceName }}
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-  {% include "includes/back-office/plan-header.njk" %}
+   {% include "includes/back-office/plan-header.njk" %}
 
-
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-      {% set currentSection = "overview" %}
-        {% include "includes/back-office/secondary-nav.njk" %}
+     {% set currentSection = "overview" %}
+      {% include "includes/back-office/secondary-nav.njk" %}
 
       <h2 class="govuk-heading-l">Overview</h2>
           {# Case Notes Section #}
@@ -108,7 +105,7 @@ Plan overview – {{ serviceName }}
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Plan type</dt>
-          <dd class="govuk-summary-list__value">{% if planType == 'local-plan' %}Local Plan{% else %}{{ planType or '-' }}{% endif %}</dd>
+          <dd class="govuk-summary-list__value">{%-if planType == 'local-plan'-%}Local Plan{%-else-%}{{ planType or '-' }}{% endif %}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/overview/v1/plan-type">Change<span class="govuk-visually-hidden"> Change the plan type</span></a>
           </dd>
@@ -157,8 +154,8 @@ Plan overview – {{ serviceName }}
             <a class="govuk-link" href="/projects/back-office/manage/overview/v1/case-officer-name">Change<span class="govuk-visually-hidden"> Change the case officer</span></a>
           </dd>
         </div>
-          </dl>
       </dl>
+      
 
 
       <h2 class="govuk-heading-l">Contacts</h2>
@@ -397,7 +394,7 @@ Plan overview – {{ serviceName }}
           </dd>
         </div>
       </dl>
-      </dl>
+      
       <div class="govuk-button-group">
       
         <form method="get" action="/projects/back-office/manage/delete-case/v1/delete-case-confirmation.html" style="display: inline-block;">
