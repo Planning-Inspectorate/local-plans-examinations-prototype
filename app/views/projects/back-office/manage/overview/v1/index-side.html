@@ -13,7 +13,46 @@ Plan overview – {{ serviceName }}
 {% block content %}
 
 
+  <style>
+    .side-nav {
+      padding-right: 20px;
+    }
 
+    .side-nav ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+
+    .side-nav li {
+      margin-bottom: 5px;
+    }
+
+    .side-nav a {
+      display: block;
+      padding: 10px 15px;
+      text-decoration: none;
+      color: #1d70b8;
+      border-left: 5px solid transparent;
+    }
+
+    .side-nav a:hover {
+      background-color: #f3f2f1;
+    }
+
+    .side-nav a.selected {
+      background-color: #f3f2f1;
+      font-weight: bold;
+      border-left: 5px solid #1d70b8;
+      color: #0b0c0c;
+    }
+    .grey-box {
+    background-color: #f3f2f1;
+    padding: 20px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+  </style>
    <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <div class="grey-box">
@@ -25,19 +64,7 @@ Plan overview – {{ serviceName }}
     })}}
   
 </div>
-
-    </div>
-  </div> 
- <div class="govuk-grid-row">
-  <div class="govuk-grid-column-one-quarter">
-    {% set currentSection = "overview" %}
-    {% include "includes/back-office/side-secondary-nav.njk" %}
-  </div>
-
-  <div class="govuk-grid-column-three-quarters">
-
-    <h2 class="govuk-heading-m">Overview</h2>
-  {# Case Notes Section #}
+    {# Case Notes Section #}
       <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Case note actions</h2>
 
       {% set caseNotesHtml %}
@@ -95,14 +122,26 @@ Plan overview – {{ serviceName }}
         {% endif %}
       {% endset %}
 
-          {# Make the summary text dynamically count the notes! #}
+      {# Make the summary text dynamically count the notes! #}
       {% set noteCount = currentCase.caseNotes | length if currentCase.caseNotes else 0 %}
       
       {{ govukDetails({
         summaryText: noteCount ~ " case notes",
         html: caseNotesHtml
       }) }}
-      
+
+    </div>
+  </div> 
+ <div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-quarter">
+    {% set currentSection = "overview" %}
+    {% include "includes/back-office/side-secondary-nav.njk" %}
+  </div>
+
+  <div class="govuk-grid-column-three-quarters">
+
+    <h2 class="govuk-heading-m">Overview</h2>
+  
       <dl class="govuk-summary-list">
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Plan title</dt>

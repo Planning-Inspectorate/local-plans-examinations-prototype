@@ -80,30 +80,9 @@ app.use((req, res, next) => {
   next();
 });
 
-// Register Portal routes
-const portalRoutes = require('./app/routes/portal');
-app.use('/', portalRoutes);
-
-// Register Create Case v2 routes
-const createCaseV2Routes = require('./app/routes/create-case-v2');
-app.use('/', createCaseV2Routes);
-
-// Register Manage routes
-const manageRoutes = require('./app/routes/projects/back-office/manage');
-app.use('/', manageRoutes);
-
-// Register Hearing routes
-const addHearingRoutes = require('./app/routes/projects/back-office/hearing/add-hearing');
-const editHearingRoutes = require('./app/routes/projects/back-office/hearing/edit-hearing');
-const addHearingEstimatesRoutes = require('./app/routes/projects/back-office/hearing/add-hearing-estimates');
-const editHearingEstimatesRoutes = require('./app/routes/projects/back-office/hearing/edit-hearing-estimates');
-const cancelHearingRoutes = require('./app/routes/projects/back-office/hearing/cancel-hearing');
-
-app.use('/', addHearingRoutes);
-app.use('/', editHearingRoutes);
-app.use('/', addHearingEstimatesRoutes);
-app.use('/', editHearingEstimatesRoutes);
-app.use('/', cancelHearingRoutes);
+// Register the central app router (includes dynamic prototype _routes loading)
+const appRoutes = require('./app/routes');
+app.use('/', appRoutes);
 
 // Top-level pages
 app.get('/resources.html', (req, res) => {

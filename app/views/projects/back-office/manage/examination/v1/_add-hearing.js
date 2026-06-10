@@ -2,155 +2,36 @@ const express = require('express');
 const router = express.Router();
 const { DateTime } = require("luxon")
 
-function getAddHearingView(req, page) {
-  const baseViewPath = (req.baseUrl || '').replace(/^\//, '');
-  return `${baseViewPath}/add-hearing/${page}`;
-}
-
-function getEditingHearingIndex(req) {
-  const rawIndex = req.session?.data?.editHearingIndex;
-  const hearingIndex = Number.parseInt(rawIndex, 10);
-
-  if (!Number.isInteger(hearingIndex) || hearingIndex < 0) {
-    return null;
-  }
-
-  if (!Array.isArray(req.session.hearings) || hearingIndex >= req.session.hearings.length) {
-    return null;
-  }
-
-  return hearingIndex;
-}
-
-function hydrateAddHearingFromRecord(hearingRecord) {
-  const parsedDate = DateTime.fromFormat(hearingRecord?.startDate || '', 'd MMMM yyyy');
-  const parsedEndDate = DateTime.fromFormat(hearingRecord?.endDate || '', 'd MMMM yyyy');
-  const date = parsedDate.isValid
-    ? {
-        day: parsedDate.day.toString(),
-        month: parsedDate.month.toString(),
-        year: parsedDate.year.toString()
-      }
-    : { day: '', month: '', year: '' };
-  const endDate = parsedEndDate.isValid
-    ? {
-        day: parsedEndDate.day.toString(),
-        month: parsedEndDate.month.toString(),
-        year: parsedEndDate.year.toString()
-      }
-    : { day: '', month: '', year: '' };
-  const timeParts = (hearingRecord?.time || '').split(':');
-
-  return {
-    date,
-    time: {
-      hour: timeParts[0] || '',
-      minute: timeParts[1] || ''
-    },
-    estimatedDays: hearingRecord?.estimatedDays || '',
-    actualDuration: hearingRecord?.actualDuration || '',
-    endDate,
-    isVirtual: hearingRecord?.isVirtual || '',
-    hasVirtualMeetingLink: hearingRecord?.hasVirtualMeetingLink || 'No',
-    virtualMeetingLink: hearingRecord?.virtualMeetingLink || '',
-    hasEstimates: hearingRecord?.estimatedDays ? 'Yes' : 'No',
-    hasAddress: hearingRecord?.hasAddress || 'No',
-    venue: hearingRecord?.venue || '',
-    address: hearingRecord?.address || {}
-  };
-}
-
-function clearWorkingHearingData(sessionData) {
-  delete sessionData.addHearing;
-  delete sessionData['hearing-date-day'];
-  delete sessionData['hearing-date-month'];
-  delete sessionData['hearing-date-year'];
-  delete sessionData['hearing-time-hour'];
-  delete sessionData['hearing-time-minute'];
-  delete sessionData.hearingEstimationDays;
-  delete sessionData.actualDuration;
-  delete sessionData['hearing-end-date-day'];
-  delete sessionData['hearing-end-date-month'];
-  delete sessionData['hearing-end-date-year'];
-  delete sessionData.hasEstimates;
-  delete sessionData.isVirtual;
-  delete sessionData.hasVirtualMeetingLink;
-  delete sessionData.virtualMeetingLink;
-  delete sessionData.hasAddress;
-  delete sessionData['hearing-venue'];
-  delete sessionData['hearing-address-line1'];
-  delete sessionData['hearing-address-line2'];
-  delete sessionData['hearing-address-town'];
-  delete sessionData['hearing-address-postcode'];
-}
-
-function syncLatestHearingFields(session) {
-  const hearings = Array.isArray(session.hearings) ? session.hearings : [];
-  const latestHearing = hearings.length ? hearings[hearings.length - 1] : null;
-
-  if (!latestHearing) {
-    delete session.hearingStartDate;
-    delete session.hearingTime;
-    delete session.hearingEstimatedDays;
-    delete session.hearingIsVirtual;
-    delete session.hearingHasVirtualMeetingLink;
-    delete session.hearingVirtualMeetingLink;
-    delete session.hearingVenue;
-    delete session.hearingAddress;
-    delete session.hearingHasAddress;
-    return;
-  }
-
-  session.hearingStartDate = latestHearing.startDate || '';
-  session.hearingTime = latestHearing.time || '';
-  session.hearingEstimatedDays = latestHearing.estimatedDays || '';
-  session.hearingActualDuration = latestHearing.actualDuration || '';
-  session.hearingEndDate = latestHearing.endDate || '';
-  session.hearingIsVirtual = latestHearing.isVirtual || '';
-  session.hearingHasVirtualMeetingLink = latestHearing.hasVirtualMeetingLink || 'No';
-  session.hearingVirtualMeetingLink = latestHearing.virtualMeetingLink || '';
-  session.hearingVenue = latestHearing.venue || '-';
-  session.hearingAddress = latestHearing.address || {};
-  session.hearingHasAddress = latestHearing.hasAddress || 'No';
-}
-
 console.log('✓ add-hearing.js module loaded');
 
 // Redirect /add-hearing to /add-hearing/index
 router.get('/add-hearing', function (req, res) {
-  const requestedEditIndex = Number.parseInt(req.query.edit, 10);
-  const requestedStep = (req.query.step || 'index').toString();
-  const allowedSteps = [
-    'index',
-    'has-estimates',
-    'is-virtual',
-    'has-virtual-meeting-link',
-    'virtual-meeting',
-    'has-address',
-    'address',
-    'actual-duration',
-    'end-date'
-  ];
-  const targetStep = allowedSteps.includes(requestedStep) ? requestedStep : 'index';
-
-  if (Number.isInteger(requestedEditIndex) && requestedEditIndex >= 0) {
-    req.session.data.editHearingIndex = String(requestedEditIndex);
-  } else {
-    delete req.session.data.editHearingIndex;
-  }
-
-  clearWorkingHearingData(req.session.data);
-  res.redirect(`${req.baseUrl}/add-hearing/${targetStep}`);
+  res.redirect('/projects/back-office/manage/examination/v1/add-hearing/index');
 });
 
 // Cancel route - clears form data only, preserves saved hearing
 router.get('/add-hearing/cancel', function (req, res) {
   console.log('Cancel hearing flow - clearing session form data (keeping saved hearing)');
-  clearWorkingHearingData(req.session.data);
-  delete req.session.data.editHearingIndex;
+  
+  // Clear only the working form data from req.session.data
+  // Do NOT delete the saved hearing data (hearingStartDate, hearingTime, etc.)
+  delete req.session.data.addHearing;
+  delete req.session.data['hearing-date-day'];
+  delete req.session.data['hearing-date-month'];
+  delete req.session.data['hearing-date-year'];
+  delete req.session.data['hearing-time-hour'];
+  delete req.session.data['hearing-time-minute'];
+  delete req.session.data.hearingEstimationDays;
+  delete req.session.data.hasEstimates;
+  delete req.session.data.hasAddress;
+  delete req.session.data['hearing-venue'];
+  delete req.session.data['hearing-address-line1'];
+  delete req.session.data['hearing-address-line2'];
+  delete req.session.data['hearing-address-town'];
+  delete req.session.data['hearing-address-postcode'];
   
   req.session.save(() => {
-    res.redirect(`${req.baseUrl}/examination`);
+    res.redirect('/projects/back-office/manage/examination/v1/examination');
   });
 });
 
@@ -175,11 +56,8 @@ router.get('/add-hearing/index', function (req, res) {
         minute: req.session.data['hearing-time-minute'] || ''
       },
       estimatedDays: req.session.data.hearingEstimationDays || '',
-      hasEstimates: req.session.data.hasEstimates || '',
-      isVirtual: req.session.data.isVirtual || '',
-      hasVirtualMeetingLink: req.session.data.hasVirtualMeetingLink || '',
-      virtualMeetingLink: req.session.data.virtualMeetingLink || '',
-      hasAddress: req.session.data.hasAddress || '',
+      hasEstimates: req.session.data.hasEstimates || 'No',
+      hasAddress: req.session.data.hasAddress || 'No',
       venue: req.session.data['hearing-venue'] || '',
       address: {
         line1: req.session.data['hearing-address-line1'] || '',
@@ -195,124 +73,40 @@ router.get('/add-hearing/index', function (req, res) {
   
   // Check if editing existing hearing or adding new
   let hearingData = req.session.data.addHearing || {}
-  const editingHearingIndex = getEditingHearingIndex(req);
   console.log('hearingData being passed to template:', JSON.stringify(hearingData, null, 2));
-
-  if (!req.session.data.addHearing && editingHearingIndex !== null) {
-    hearingData = hydrateAddHearingFromRecord(req.session.hearings[editingHearingIndex]);
-    req.session.data.addHearing = hearingData;
+  
+  // If no working data but there's existing hearing data, pre-fill for edit
+  if (!req.session.data.addHearing && req.session.hearingStartDate) {
+    // Parse the formatted date string back to day/month/year
+    const parsedDate = DateTime.fromFormat(req.session.hearingStartDate, 'd MMMM yyyy')
+    
+    // Initialize addHearing with all existing data so it carries through the flow
+    req.session.data.addHearing = {
+      date: {
+        day: parsedDate.day.toString(),
+        month: parsedDate.month.toString(),
+        year: parsedDate.year.toString()
+      },
+      time: req.session.hearingTime ? {
+        hour: req.session.hearingTime.split(':')[0],
+        minute: req.session.hearingTime.split(':')[1]
+      } : { hour: '', minute: '' },
+      estimatedDays: req.session.hearingEstimatedDays || '',
+      hasEstimates: req.session.hearingEstimatedDays ? 'Yes' : 'No',
+      hasAddress: req.session.hearingHasAddress || 'No',
+      venue: req.session.hearingVenue || '',
+      address: req.session.hearingAddress || {}
+    }
+    hearingData = req.session.data.addHearing
   }
   
-  res.render(getAddHearingView(req, 'index'), {
+  res.render('projects/back-office/manage/examination/v1/add-hearing/index', {
     caseRef: req.session.data.currentCaseRef || '',
     planTitle: req.session.data.planTitle || '',
     addHearing: hearingData,
-    isEditing: editingHearingIndex !== null
+    isEditing: !!req.session.hearingStartDate
   })
 })
-
-router.get('/add-hearing/actual-duration', function (req, res) {
-  const requestedEditIndex = Number.parseInt(req.query.edit, 10);
-  if (Number.isInteger(requestedEditIndex) && requestedEditIndex >= 0) {
-    req.session.data.editHearingIndex = String(requestedEditIndex);
-  }
-
-  const editingHearingIndex = getEditingHearingIndex(req);
-  if (!req.session.data.addHearing && editingHearingIndex !== null) {
-    req.session.data.addHearing = hydrateAddHearingFromRecord(req.session.hearings[editingHearingIndex]);
-  }
-
-  const hearingData = req.session.data.addHearing || {};
-
-  res.render(getAddHearingView(req, 'actual-duration'), {
-    caseRef: req.session.data.currentCaseRef || '',
-    planTitle: req.session.data.planTitle || '',
-    addHearing: hearingData,
-    isEditing: editingHearingIndex !== null
-  });
-});
-
-router.post('/add-hearing/actual-duration', function (req, res) {
-  const editingHearingIndex = getEditingHearingIndex(req);
-
-  if (editingHearingIndex === null) {
-    return res.redirect(`${req.baseUrl}/add-hearing/check`);
-  }
-
-  if (!Array.isArray(req.session.hearings) || !req.session.hearings[editingHearingIndex]) {
-    return res.redirect(`${req.baseUrl}/examination`);
-  }
-
-  req.session.hearings[editingHearingIndex].actualDuration = req.session.data.actualDuration || '';
-  syncLatestHearingFields(req.session);
-  clearWorkingHearingData(req.session.data);
-  delete req.session.data.editHearingIndex;
-  req.session.notificationMessage = 'Hearing updated';
-
-  req.session.save(() => {
-    res.redirect(`${req.baseUrl}/examination`);
-  });
-});
-
-router.get('/add-hearing/end-date', function (req, res) {
-  const requestedEditIndex = Number.parseInt(req.query.edit, 10);
-  if (Number.isInteger(requestedEditIndex) && requestedEditIndex >= 0) {
-    req.session.data.editHearingIndex = String(requestedEditIndex);
-  }
-
-  const editingHearingIndex = getEditingHearingIndex(req);
-  if (!req.session.data.addHearing && editingHearingIndex !== null) {
-    req.session.data.addHearing = hydrateAddHearingFromRecord(req.session.hearings[editingHearingIndex]);
-  }
-
-  const hearingData = req.session.data.addHearing || {};
-
-  res.render(getAddHearingView(req, 'end-date'), {
-    caseRef: req.session.data.currentCaseRef || '',
-    planTitle: req.session.data.planTitle || '',
-    addHearing: hearingData,
-    isEditing: editingHearingIndex !== null
-  });
-});
-
-router.post('/add-hearing/end-date', function (req, res) {
-  const editingHearingIndex = getEditingHearingIndex(req);
-
-  if (editingHearingIndex === null) {
-    return res.redirect(`${req.baseUrl}/add-hearing/check`);
-  }
-
-  if (!Array.isArray(req.session.hearings) || !req.session.hearings[editingHearingIndex]) {
-    return res.redirect(`${req.baseUrl}/examination`);
-  }
-
-  const day = req.session.data['hearing-end-date-day'];
-  const month = req.session.data['hearing-end-date-month'];
-  const year = req.session.data['hearing-end-date-year'];
-  let endDateValue = '';
-
-  if (day && month && year) {
-    const parsedEndDate = DateTime.fromObject({
-      day: parseInt(day, 10),
-      month: parseInt(month, 10),
-      year: parseInt(year, 10)
-    });
-
-    if (parsedEndDate.isValid) {
-      endDateValue = parsedEndDate.toFormat('d MMMM yyyy');
-    }
-  }
-
-  req.session.hearings[editingHearingIndex].endDate = endDateValue;
-  syncLatestHearingFields(req.session);
-  clearWorkingHearingData(req.session.data);
-  delete req.session.data.editHearingIndex;
-  req.session.notificationMessage = 'Hearing updated';
-
-  req.session.save(() => {
-    res.redirect(`${req.baseUrl}/examination`);
-  });
-});
 
 router.post('/add-hearing/index', function (req, res) {
   console.log('POST /add-hearing/index received');
@@ -337,7 +131,7 @@ router.post('/add-hearing/index', function (req, res) {
   
   req.session.save(() => {
     console.log('Session saved, redirecting to has-estimates...');
-    res.redirect(`${req.baseUrl}/add-hearing/has-estimates`)
+    res.redirect(`/projects/back-office/manage/examination/v1/add-hearing/has-estimates`)
   })
 })
 
@@ -361,9 +155,6 @@ router.get('/add-hearing/has-estimates', function (req, res) {
         minute: req.session.hearingTime.split(':')[1]
       } : { hour: '', minute: '' },
       estimatedDays: req.session.hearingEstimatedDays || '',
-      isVirtual: req.session.hearingIsVirtual || '',
-      hasVirtualMeetingLink: req.session.hearingHasVirtualMeetingLink || 'No',
-      virtualMeetingLink: req.session.hearingVirtualMeetingLink || '',
       hasEstimates: req.session.hearingEstimatedDays ? 'Yes' : 'No',
       hasAddress: req.session.hearingHasAddress || 'No',
       venue: req.session.hearingVenue || '',
@@ -388,11 +179,8 @@ router.get('/add-hearing/has-estimates', function (req, res) {
       minute: req.session.data['hearing-time-minute'] || ''
     };
     req.session.data.addHearing.estimatedDays = req.session.data.hearingEstimationDays || '';
-    req.session.data.addHearing.hasEstimates = req.session.data.hasEstimates || req.session.data.addHearing.hasEstimates || '';
-    req.session.data.addHearing.isVirtual = req.session.data.isVirtual || req.session.data.addHearing.isVirtual || '';
-    req.session.data.addHearing.hasVirtualMeetingLink = req.session.data.hasVirtualMeetingLink || req.session.data.addHearing.hasVirtualMeetingLink || '';
-    req.session.data.addHearing.virtualMeetingLink = req.session.data.virtualMeetingLink || req.session.data.addHearing.virtualMeetingLink || '';
-    req.session.data.addHearing.hasAddress = req.session.data.hasAddress || req.session.data.addHearing.hasAddress || '';
+    req.session.data.addHearing.hasEstimates = req.session.data.hasEstimates || 'No';
+    req.session.data.addHearing.hasAddress = req.session.data.hasAddress || 'No';
     req.session.data.addHearing.venue = req.session.data['hearing-venue'] || '';
     req.session.data.addHearing.address = {
       line1: req.session.data['hearing-address-line1'] || '',
@@ -406,11 +194,11 @@ router.get('/add-hearing/has-estimates', function (req, res) {
   const hearingData = req.session.data.addHearing || {}
   console.log('Final hearingData being passed to template:', JSON.stringify(hearingData, null, 2));
   
-  res.render(getAddHearingView(req, 'has-estimates'), {
+  res.render('projects/back-office/manage/examination/v1/add-hearing/has-estimates', {
     caseRef: req.session.data.currentCaseRef || '',
     planTitle: req.session.data.planTitle || '',
     addHearing: hearingData,
-    isEditing: getEditingHearingIndex(req) !== null
+    isEditing: !!req.session.hearingStartDate
   })
 })
 
@@ -425,7 +213,7 @@ router.post('/add-hearing/has-estimates', function (req, res) {
   console.log('POST /has-estimates - addHearing after:', JSON.stringify(req.session.data.addHearing, null, 2));
   
   req.session.save(() => {
-    res.redirect(`${req.baseUrl}/add-hearing/is-virtual`)
+    res.redirect(`/projects/back-office/manage/examination/v1/add-hearing/is-virtual`)
   })
 })
 
@@ -434,11 +222,11 @@ router.get('/add-hearing/is-virtual', function (req, res) {
   
   const hearingData = req.session.data.addHearing || {}
   
-  res.render(getAddHearingView(req, 'is-virtual'), {
+  res.render('projects/back-office/manage/examination/v1/add-hearing/is-virtual', {
     caseRef: req.session.data.currentCaseRef || '',
     planTitle: req.session.data.planTitle || '',
     addHearing: hearingData,
-    isEditing: getEditingHearingIndex(req) !== null
+    isEditing: !!req.session.hearingStartDate
   })
 })
 
@@ -446,14 +234,10 @@ router.post('/add-hearing/is-virtual', function (req, res) {
   console.log('POST /is-virtual - form data:', req.session.data);
   
   if (!req.session.data.addHearing) req.session.data.addHearing = {}
-  req.session.data.addHearing.isVirtual = req.session.data.isVirtual || req.session.data.addHearing.isVirtual || ''
+  req.session.data.addHearing.isVirtual = req.session.data.isVirtual
   
   req.session.save(() => {
-    if (req.session.data.addHearing.isVirtual === 'In-person') {
-      res.redirect(`${req.baseUrl}/add-hearing/has-address`)
-    } else {
-      res.redirect(`${req.baseUrl}/add-hearing/has-virtual-meeting-link`)
-    }
+    res.redirect(`/projects/back-office/manage/examination/v1/add-hearing/has-virtual-meeting-link`)
   })
 })
 
@@ -462,11 +246,11 @@ router.get('/add-hearing/has-virtual-meeting-link', function (req, res) {
   
   const hearingData = req.session.data.addHearing || {}
   
-  res.render(getAddHearingView(req, 'has-virtual-meeting-link'), {
+  res.render('projects/back-office/manage/examination/v1/add-hearing/has-virtual-meeting-link', {
     caseRef: req.session.data.currentCaseRef || '',
     planTitle: req.session.data.planTitle || '',
     addHearing: hearingData,
-    isEditing: getEditingHearingIndex(req) !== null
+    isEditing: !!req.session.hearingStartDate
   })
 })
 
@@ -474,15 +258,14 @@ router.post('/add-hearing/has-virtual-meeting-link', function (req, res) {
   console.log('POST /has-virtual-meeting-link - form data:', req.session.data);
   
   if (!req.session.data.addHearing) req.session.data.addHearing = {}
-  req.session.data.addHearing.isVirtual = req.session.data.addHearing.isVirtual || req.session.data.isVirtual || ''
   req.session.data.addHearing.hasVirtualMeetingLink = req.session.data.hasVirtualMeetingLink
   req.session.data.addHearing.virtualMeetingLink = req.session.data.virtualMeetingLink || ''
   
   req.session.save(() => {
     if (req.session.data.addHearing.hasVirtualMeetingLink === 'Yes') {
-      res.redirect(`${req.baseUrl}/add-hearing/virtual-meeting`)
+      res.redirect(`/projects/back-office/manage/examination/v1/add-hearing/virtual-meeting`)
     } else {
-      res.redirect(`${req.baseUrl}/add-hearing/check`)
+      res.redirect(`/projects/back-office/manage/examination/v1/add-hearing/has-address`)
     }
   })
 })
@@ -492,11 +275,11 @@ router.get('/add-hearing/virtual-meeting', function (req, res) {
   
   const hearingData = req.session.data.addHearing || {}
   
-  res.render(getAddHearingView(req, 'virtual-meeting'), {
+  res.render('projects/back-office/manage/examination/v1/add-hearing/virtual-meeting', {
     caseRef: req.session.data.currentCaseRef || '',
     planTitle: req.session.data.planTitle || '',
     addHearing: hearingData,
-    isEditing: getEditingHearingIndex(req) !== null
+    isEditing: !!req.session.hearingStartDate
   })
 })
 
@@ -507,7 +290,7 @@ router.post('/add-hearing/virtual-meeting', function (req, res) {
   req.session.data.addHearing.virtualMeetingLink = req.session.data.virtualMeetingLink || ''
   
   req.session.save(() => {
-    res.redirect(`${req.baseUrl}/add-hearing/check`)
+    res.redirect(`/projects/back-office/manage/examination/v1/add-hearing/check`)
   })
 })
 
@@ -529,7 +312,6 @@ router.get('/add-hearing/has-address', function (req, res) {
         minute: req.session.hearingTime.split(':')[1]
       } : { hour: '', minute: '' },
       estimatedDays: req.session.hearingEstimatedDays || '',
-      isVirtual: req.session.hearingIsVirtual || '',
       hasEstimates: req.session.hearingEstimatedDays ? 'Yes' : 'No',
       hasAddress: req.session.hearingHasAddress || 'No',
       venue: req.session.hearingVenue || '',
@@ -552,11 +334,8 @@ router.get('/add-hearing/has-address', function (req, res) {
       minute: req.session.data['hearing-time-minute'] || ''
     };
     req.session.data.addHearing.estimatedDays = req.session.data.hearingEstimationDays || '';
-    req.session.data.addHearing.hasEstimates = req.session.data.hasEstimates || req.session.data.addHearing.hasEstimates || '';
-    req.session.data.addHearing.hasAddress = req.session.data.hasAddress || req.session.data.addHearing.hasAddress || '';
-    req.session.data.addHearing.isVirtual = req.session.data.isVirtual || '';
-    req.session.data.addHearing.hasVirtualMeetingLink = req.session.data.hasVirtualMeetingLink || req.session.data.addHearing.hasVirtualMeetingLink || '';
-    req.session.data.addHearing.virtualMeetingLink = req.session.data.virtualMeetingLink || '';
+    req.session.data.addHearing.hasEstimates = req.session.data.hasEstimates || 'No';
+    req.session.data.addHearing.hasAddress = req.session.data.hasAddress || 'No';
     req.session.data.addHearing.venue = req.session.data['hearing-venue'] || '';
     req.session.data.addHearing.address = {
       line1: req.session.data['hearing-address-line1'] || '',
@@ -568,11 +347,11 @@ router.get('/add-hearing/has-address', function (req, res) {
   
   const hearingData = req.session.data.addHearing || {}
   
-  res.render(getAddHearingView(req, 'has-address'), {
+  res.render('projects/back-office/manage/examination/v1/add-hearing/has-address', {
     caseRef: req.session.data.currentCaseRef || '',
     planTitle: req.session.data.planTitle || '',
     addHearing: hearingData,
-    isEditing: getEditingHearingIndex(req) !== null
+    isEditing: !!req.session.hearingStartDate
   })
 })
 
@@ -581,16 +360,15 @@ router.post('/add-hearing/has-address', function (req, res) {
   console.log('POST /has-address - addHearing before:', JSON.stringify(req.session.data.addHearing, null, 2));
   
   if (!req.session.data.addHearing) req.session.data.addHearing = {}
-  req.session.data.addHearing.isVirtual = req.session.data.addHearing.isVirtual || req.session.data.isVirtual || ''
   req.session.data.addHearing.hasAddress = req.session.data.hasAddress
   
   console.log('POST /has-address - addHearing after:', JSON.stringify(req.session.data.addHearing, null, 2));
   
   req.session.save(() => {
     if(req.session.data.addHearing.hasAddress == 'Yes') {
-      res.redirect(`${req.baseUrl}/add-hearing/address`)
+      res.redirect(`/projects/back-office/manage/examination/v1/add-hearing/address`)
     } else {
-      res.redirect(`${req.baseUrl}/add-hearing/check`)
+      res.redirect(`/projects/back-office/manage/examination/v1/add-hearing/check`)
     }
   })
 })
@@ -613,7 +391,6 @@ router.get('/add-hearing/address', function (req, res) {
         minute: req.session.hearingTime.split(':')[1]
       } : { hour: '', minute: '' },
       estimatedDays: req.session.hearingEstimatedDays || '',
-      isVirtual: req.session.hearingIsVirtual || '',
       hasEstimates: req.session.hearingEstimatedDays ? 'Yes' : 'No',
       hasAddress: req.session.hearingHasAddress || 'No',
       venue: req.session.hearingVenue || '',
@@ -636,11 +413,8 @@ router.get('/add-hearing/address', function (req, res) {
       minute: req.session.data['hearing-time-minute'] || ''
     };
     req.session.data.addHearing.estimatedDays = req.session.data.hearingEstimationDays || '';
-    req.session.data.addHearing.hasEstimates = req.session.data.hasEstimates || req.session.data.addHearing.hasEstimates || '';
-    req.session.data.addHearing.isVirtual = req.session.data.isVirtual || req.session.data.addHearing.isVirtual || '';
-    req.session.data.addHearing.hasVirtualMeetingLink = req.session.data.hasVirtualMeetingLink || req.session.data.addHearing.hasVirtualMeetingLink || '';
-    req.session.data.addHearing.virtualMeetingLink = req.session.data.virtualMeetingLink || req.session.data.addHearing.virtualMeetingLink || '';
-    req.session.data.addHearing.hasAddress = req.session.data.hasAddress || req.session.data.addHearing.hasAddress || '';
+    req.session.data.addHearing.hasEstimates = req.session.data.hasEstimates || 'No';
+    req.session.data.addHearing.hasAddress = req.session.data.hasAddress || 'No';
     req.session.data.addHearing.venue = req.session.data['hearing-venue'] || '';
     req.session.data.addHearing.address = {
       line1: req.session.data['hearing-address-line1'] || '',
@@ -652,11 +426,11 @@ router.get('/add-hearing/address', function (req, res) {
   
   const hearingData = req.session.data.addHearing || {}
   
-  res.render(getAddHearingView(req, 'address'), {
+  res.render('projects/back-office/manage/examination/v1/add-hearing/address', {
     caseRef: req.session.data.currentCaseRef || '',
     planTitle: req.session.data.planTitle || '',
     addHearing: hearingData,
-    isEditing: getEditingHearingIndex(req) !== null
+    isEditing: !!req.session.hearingStartDate
   })
 })
 
@@ -676,7 +450,7 @@ router.post('/add-hearing/address', function (req, res) {
   console.log('POST /address - addHearing after:', JSON.stringify(req.session.data.addHearing, null, 2));
   
   req.session.save(() => {
-    res.redirect(`${req.baseUrl}/add-hearing/check`)
+    res.redirect(`/projects/back-office/manage/examination/v1/add-hearing/check`)
   })
 })
 
@@ -698,9 +472,6 @@ router.get('/add-hearing/check', function (req, res) {
         minute: req.session.hearingTime.split(':')[1]
       } : { hour: '', minute: '' },
       estimatedDays: req.session.hearingEstimatedDays || '',
-      isVirtual: req.session.hearingIsVirtual || '',
-      hasVirtualMeetingLink: req.session.hearingHasVirtualMeetingLink || 'No',
-      virtualMeetingLink: req.session.hearingVirtualMeetingLink || '',
       hasEstimates: req.session.hearingEstimatedDays ? 'Yes' : 'No',
       hasAddress: req.session.hearingHasAddress || 'No',
       venue: req.session.hearingVenue || '',
@@ -723,11 +494,8 @@ router.get('/add-hearing/check', function (req, res) {
       minute: req.session.data['hearing-time-minute'] || ''
     };
     req.session.data.addHearing.estimatedDays = req.session.data.hearingEstimationDays || '';
-    req.session.data.addHearing.isVirtual = req.session.data.isVirtual || req.session.data.addHearing.isVirtual || '';
-    req.session.data.addHearing.hasVirtualMeetingLink = req.session.data.hasVirtualMeetingLink || req.session.data.addHearing.hasVirtualMeetingLink || '';
-    req.session.data.addHearing.virtualMeetingLink = req.session.data.virtualMeetingLink || req.session.data.addHearing.virtualMeetingLink || '';
-    req.session.data.addHearing.hasEstimates = req.session.data.hasEstimates || req.session.data.addHearing.hasEstimates || '';
-    req.session.data.addHearing.hasAddress = req.session.data.hasAddress || req.session.data.addHearing.hasAddress || '';
+    req.session.data.addHearing.hasEstimates = req.session.data.hasEstimates || 'No';
+    req.session.data.addHearing.hasAddress = req.session.data.hasAddress || 'No';
     req.session.data.addHearing.venue = req.session.data['hearing-venue'] || '';
     req.session.data.addHearing.address = {
       line1: req.session.data['hearing-address-line1'] || '',
@@ -737,11 +505,11 @@ router.get('/add-hearing/check', function (req, res) {
     };
   }
   
-  res.render(getAddHearingView(req, 'check'), {
+  res.render('projects/back-office/manage/examination/v1/add-hearing/check', {
     caseRef: req.session.data.currentCaseRef || '',
     planTitle: req.session.data.planTitle || '',
     addHearing: req.session.data.addHearing || {},
-    isEditing: getEditingHearingIndex(req) !== null
+    isEditing: !!req.session.hearingStartDate
   })
 })
 
@@ -750,7 +518,7 @@ router.post('/add-hearing/check', function (req, res) {
   
   if (!req.session.data.addHearing || !req.session.data.addHearing.date) {
     console.log('Missing addHearing or date object');
-    return res.redirect(`${req.baseUrl}/add-hearing/index`)
+    return res.redirect(`/projects/back-office/manage/examination/v1/add-hearing/index`)
   }
   
   const { date, time, venue } = req.session.data.addHearing
@@ -759,7 +527,7 @@ router.post('/add-hearing/check', function (req, res) {
   // Validate that all fields have values
   if (!date.day || !date.month || !date.year || !time.hour || !time.minute) {
     console.log('Validation failed - day:', date.day, 'month:', date.month, 'year:', date.year, 'hour:', time.hour, 'minute:', time.minute);
-    return res.redirect(`${req.baseUrl}/add-hearing/index`)
+    return res.redirect(`/projects/back-office/manage/examination/v1/add-hearing/index`)
   }
 
   const day = parseInt(date.day);
@@ -770,7 +538,7 @@ router.post('/add-hearing/check', function (req, res) {
 
   // Check if all values are valid numbers
   if (isNaN(day) || isNaN(month) || isNaN(year) || isNaN(hour) || isNaN(minute)) {
-    return res.redirect(`${req.baseUrl}/add-hearing/index`)
+    return res.redirect(`/projects/back-office/manage/examination/v1/add-hearing/index`)
   }
 
   const hearingDate = DateTime.fromObject({
@@ -781,53 +549,22 @@ router.post('/add-hearing/check', function (req, res) {
     minutes: minute,
   })
 
-  const hearingEndDateInput = req.session.data.addHearing.endDate || {};
-  const hasCompleteEndDate = hearingEndDateInput.day && hearingEndDateInput.month && hearingEndDateInput.year;
-  let endDateValue = '';
-
-  if (hasCompleteEndDate) {
-    const parsedEndDate = DateTime.fromObject({
-      day: parseInt(hearingEndDateInput.day, 10),
-      month: parseInt(hearingEndDateInput.month, 10),
-      year: parseInt(hearingEndDateInput.year, 10)
-    });
-
-    if (parsedEndDate.isValid) {
-      endDateValue = parsedEndDate.toFormat('d MMMM yyyy');
-    }
-  }
-
-  const hearingRecord = {
-    startDate: hearingDate.toFormat('d MMMM yyyy'),
-    time: `${time.hour}:${time.minute}`,
-    estimatedDays: req.session.data.addHearing.estimatedDays || '',
-    actualDuration: req.session.data.addHearing.actualDuration || '',
-    endDate: endDateValue,
-    isVirtual: req.session.data.addHearing.isVirtual || req.session.data.isVirtual || '',
-    hasVirtualMeetingLink: req.session.data.addHearing.hasVirtualMeetingLink || 'No',
-    virtualMeetingLink: req.session.data.addHearing.virtualMeetingLink || '',
-    venue: venue || '-',
-    address: req.session.data.addHearing.address || {},
-    hasAddress: req.session.data.addHearing.hasAddress || 'No'
-  };
-
-  const editingHearingIndex = getEditingHearingIndex(req);
-
-  if (editingHearingIndex !== null) {
-    req.session.hearings[editingHearingIndex] = hearingRecord;
-  } else {
-    if (!Array.isArray(req.session.hearings)) {
-      req.session.hearings = [];
-    }
-    req.session.hearings.push(hearingRecord);
-  }
-
-  syncLatestHearingFields(req.session);
-  clearWorkingHearingData(req.session.data);
-  delete req.session.data.editHearingIndex;
-  req.session.notificationMessage = editingHearingIndex !== null ? 'Hearing updated' : 'Hearing created';
+  const isUpdate = req.session.hearingStartDate ? true : false
+  
+  req.session.hearingStartDate = hearingDate.toFormat('d MMMM yyyy')
+  req.session.hearingTime = `${time.hour}:${time.minute}`
+  req.session.hearingEstimatedDays = req.session.data.addHearing.estimatedDays || ''
+  req.session.hearingIsVirtual = req.session.data.addHearing.isVirtual || 'No'
+  req.session.hearingHasVirtualMeetingLink = req.session.data.addHearing.hasVirtualMeetingLink || 'No'
+  req.session.hearingVirtualMeetingLink = req.session.data.addHearing.virtualMeetingLink || ''
+  req.session.hearingVenue = venue || '-'
+  req.session.hearingAddress = req.session.data.addHearing.address || {}
+  req.session.hearingHasAddress = req.session.data.addHearing.hasAddress || 'No'
+  
+  delete req.session.data.addHearing
+  req.session.notificationMessage = isUpdate ? 'Hearing updated' : 'Hearing created'
   req.session.save(() => {
-    res.redirect(`${req.baseUrl}/examination`)
+    res.redirect(`/projects/back-office/manage/examination/v1/examination`)
   })
 })
 
