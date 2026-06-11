@@ -1,29 +1,55 @@
 {% set currentSection = currentSection or "overview" %}
+{% set inferredVersion = urlVersion or "v1" %}
+{% if location and '/v' in location %}
+  {% set inferredVersion = "v" + location.split('/v')[1].split('/')[0] %}
+{% endif %}
+{# Define which versions exist for each section, in preference order #}
+{% set cascade = {
+  overview: [inferredVersion, 'v2', 'v1'],
+  gw1: [inferredVersion, 'v1'],
+  gw2: [inferredVersion, 'v2', 'v1'],
+  gw3: [inferredVersion, 'v2', 'v1'],
+  examination: [inferredVersion, 'v3', 'v2', 'v1'],
+  documents: [inferredVersion, 'v1'],
+  updates: [inferredVersion, 'v1']
+} %}
+{# Use cascade[section][0] for each link; allow override via versions param #}
+{% set versions = versions or cascade %}
+{% set links = {
+  overview: "/projects/back-office/manage/overview/" ~ versions.overview[0] ~ "/index",
+  timetable: "/projects/back-office/manage/timetable.html",
+  gw1: "/projects/back-office/manage/GW1/" ~ versions.gw1[0] ~ "/gateway-1",
+  gw2: "/projects/back-office/manage/GW2/" ~ versions.gw2[0] ~ "/gateway-2",
+  gw3: "/projects/back-office/manage/GW3/" ~ versions.gw3[0] ~ "/gateway-3",
+  examination: "/projects/back-office/manage/examination/" ~ versions.examination[0] ~ "/examination",
+  documents: "/projects/back-office/manage/documents/upload/" ~ versions.documents[0] ~ "/documents",
+  updates: "/projects/back-office/manage/updates/" ~ versions.updates[0] ~ "/updates.html"
+} %}
 <nav class="moj-sub-navigation govuk-!-margin-top-6 govuk-!-margin-bottom-6" aria-label="Case workflow navigation">
   <ul class="moj-sub-navigation__list">
     <li class="moj-sub-navigation__item{% if currentSection == 'overview' %} moj-sub-navigation__item--active{% endif %}">
-      <a class="moj-sub-navigation__link" href="/projects/back-office/manage/overview/v1/index"{% if currentSection == 'overview' %} aria-current="page"{% endif %}>Overview</a>
+      <a class="moj-sub-navigation__link" href="{{ links.overview }}"{% if currentSection == 'overview' %} aria-current="page"{% endif %}>Overview</a>
     </li>
     <li class="moj-sub-navigation__item{% if currentSection == 'timetable' %} moj-sub-navigation__item--active{% endif %}">
-      <a class="moj-sub-navigation__link" href="/projects/back-office/manage/timetable.html"{% if currentSection == 'timetable' %} aria-current="page"{% endif %}>Timetable</a>
+      <a class="moj-sub-navigation__link" href="{{ links.timetable }}"{% if currentSection == 'timetable' %} aria-current="page"{% endif %}>Timetable</a>
     </li>
     <li class="moj-sub-navigation__item{% if currentSection == 'gw1' %} moj-sub-navigation__item--active{% endif %}">
-      <a class="moj-sub-navigation__link" href="/projects/back-office/manage/GW1/v1/gateway-1"{% if currentSection == 'gw1' %} aria-current="page"{% endif %}>Gateway 1</a>
+      <a class="moj-sub-navigation__link" href="{{ links.gw1 }}"{% if currentSection == 'gw1' %} aria-current="page"{% endif %}>Gateway 1</a>
     </li>
     <li class="moj-sub-navigation__item{% if currentSection == 'gw2' %} moj-sub-navigation__item--active{% endif %}">
-      <a class="moj-sub-navigation__link" href="/projects/back-office/manage/GW2/v2/gateway-2"{% if currentSection == 'gw2' %} aria-current="page"{% endif %}>Gateway 2</a>
+      <a class="moj-sub-navigation__link" href="{{ links.gw2 }}"{% if currentSection == 'gw2' %} aria-current="page"{% endif %}>Gateway 2</a>
     </li>
     <li class="moj-sub-navigation__item{% if currentSection == 'gw3' %} moj-sub-navigation__item--active{% endif %}">
-      <a class="moj-sub-navigation__link" href="/projects/back-office/manage/GW3/v2/gateway-3"{% if currentSection == 'gw3' %} aria-current="page"{% endif %}>Gateway 3</a>
+      <a class="moj-sub-navigation__link" href="{{ links.gw3 }}"{% if currentSection == 'gw3' %} aria-current="page"{% endif %}>Gateway 3</a>
     </li>
     <li class="moj-sub-navigation__item{% if currentSection == 'examination' %} moj-sub-navigation__item--active{% endif %}">
-      <a class="moj-sub-navigation__link" href="/projects/back-office/manage/examination/v1/examination"{% if currentSection == 'examination' %} aria-current="page"{% endif %}>Examination</a>
+      <a class="moj-sub-navigation__link" href="{{ links.examination }}"{% if currentSection == 'examination' %} aria-current="page"{% endif %}>Examination</a>
     </li>
     <li class="moj-sub-navigation__item{% if currentSection == 'documents' %} moj-sub-navigation__item--active{% endif %}">
-      <a class="moj-sub-navigation__link" href="/projects/back-office/manage/documents/upload/v1/documents"{% if currentSection == 'documents' %} aria-current="page"{% endif %}>Documents</a>
+      <a class="moj-sub-navigation__link" href="{{ links.documents }}"{% if currentSection == 'documents' %} aria-current="page"{% endif %}>Documents</a>
     </li>
     <li class="moj-sub-navigation__item{% if currentSection == 'updates' %} moj-sub-navigation__item--active{% endif %}">
-      <a class="moj-sub-navigation__link" href="/projects/back-office/manage/updates/v1/updates.html"{% if currentSection == 'updates' %} aria-current="page"{% endif %}>Updates</a>
+      <a class="moj-sub-navigation__link" href="{{ links.updates }}"{% if currentSection == 'updates' %} aria-current="page"{% endif %}>Updates</a>
     </li>
   </ul>
 </nav>

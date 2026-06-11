@@ -57,6 +57,9 @@ Do you know the expected number of days – {{ serviceName }}
         {{ govukButton({
           text: "Continue"
         }) }}
+        {% if isEditing %}
+          <a href="cancel" class="govuk-link">Cancel</a>
+        {% endif %}
       </form>
     </div>
   </div>

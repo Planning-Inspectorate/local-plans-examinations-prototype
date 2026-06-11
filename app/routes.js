@@ -7,6 +7,13 @@
 const govukPrototypeKit = require('govuk-prototype-kit');
 const router = govukPrototypeKit.requests.setupRouter();
 
+router.use((req, res, next) => {
+  res.locals.currentPath = req.originalUrl || req.url || '';
+  const versionMatch = (res.locals.currentPath || '').match(/\/v(\d+)(?:\/|$)/);
+  res.locals.urlVersion = versionMatch ? `v${versionMatch[1]}` : '';
+  next();
+});
+
 
 // Debug middleware - log session data on every request
 router.use((req, res, next) => {
