@@ -199,9 +199,10 @@ router.get('/examination-hearings-flat', (req, res) => {
 	delete req.session.notificationMessage;
 
 	const hearings = ensureHearings(req.session);
-	const hearingsForView = hearings.map((hearing, index) => ({
+	let hearingsForView = hearings.map((hearing, index) => ({
 		index,
 		label: `Hearing ${index + 1}`,
+		canCancel: true,
 		startDate: formatDateForDisplay(hearing.startDate) || '-',
 		time: hearing.time || '-',
 		estimatedDuration: hearing.estimatedDays || '-',
@@ -211,6 +212,22 @@ router.get('/examination-hearings-flat', (req, res) => {
         address: hearing.address || '-',
 		virtualMeetingLink: hearing.virtualMeetingLink || '-'
 	}));
+
+	if (hearingsForView.length === 0) {
+		hearingsForView = [{
+			index: null,
+			label: 'Hearing 1',
+			canCancel: false,
+			startDate: '-',
+			time: '-',
+			estimatedDuration: '-',
+			actualDuration: '-',
+			endDate: '-',
+			venue: '-',
+			address: {},
+			virtualMeetingLink: '-'
+		}];
+	}
 
 	res.render('projects/back-office/manage/examination/v2/examination-hearings-flat', {
 		caseRef: req.session.currentCaseRef || '',

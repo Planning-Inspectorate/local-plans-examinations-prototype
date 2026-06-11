@@ -52,7 +52,7 @@ Check hearing details – {{ serviceName }}
         </dd>
       </div>
       <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">Is the hearing virtual or in-person?</dt>
+        <dt class="govuk-summary-list__key">Is the hearing in-person, hybrid or remote?</dt>
         <dd class="govuk-summary-list__value">
           {{ addHearing.isVirtual or 'Not answered' }}
         </dd>
@@ -60,25 +60,25 @@ Check hearing details – {{ serviceName }}
           <a href="{{ basePath }}/add-hearing/is-virtual">Change<span class="govuk-visually-hidden"> hearing type</span></a>
         </dd>
       </div>
-      <div class="govuk-summary-list__row{% if addHearing.isVirtual != 'Virtual' %} govuk-!-display-none{% endif %}">
-        <dt class="govuk-summary-list__key">Do you have a virtual meeting link?</dt>
+      <div class="govuk-summary-list__row{% if addHearing.isVirtual != 'Remote' and addHearing.isVirtual != 'Virtual' and addHearing.isVirtual != 'Hybrid' %} govuk-!-display-none{% endif %}">
+        <dt class="govuk-summary-list__key">Do you have a remote meeting link?</dt>
         <dd class="govuk-summary-list__value">
           {{ addHearing.hasVirtualMeetingLink or 'Not answered' }}
         </dd>
         <dd class="govuk-summary-list__actions">
-          <a href="{{ basePath }}/add-hearing/has-virtual-meeting-link">Change<span class="govuk-visually-hidden"> virtual meeting link question</span></a>
+          <a href="{{ basePath }}/add-hearing/has-virtual-meeting-link">Change<span class="govuk-visually-hidden"> remote meeting link question</span></a>
         </dd>
       </div>
-      <div class="govuk-summary-list__row{% if addHearing.isVirtual != 'Virtual' or addHearing.hasVirtualMeetingLink != 'Yes' %} govuk-!-display-none{% endif %}">
-        <dt class="govuk-summary-list__key">Virtual meeting link</dt>
+      <div class="govuk-summary-list__row{% if (addHearing.isVirtual != 'Remote' and addHearing.isVirtual != 'Virtual' and addHearing.isVirtual != 'Hybrid') or addHearing.hasVirtualMeetingLink != 'Yes' %} govuk-!-display-none{% endif %}">
+        <dt class="govuk-summary-list__key">Remote meeting link</dt>
         <dd class="govuk-summary-list__value">
           {{ addHearing.virtualMeetingLink or 'Not provided' }}
         </dd>
         <dd class="govuk-summary-list__actions">
-          <a href="{{ basePath }}/add-hearing/virtual-meeting">Change<span class="govuk-visually-hidden"> virtual meeting link</span></a>
+          <a href="{{ basePath }}/add-hearing/virtual-meeting">Change<span class="govuk-visually-hidden"> remote meeting link</span></a>
         </dd>
       </div>
-      <div class="govuk-summary-list__row{% if addHearing.isVirtual != 'In-person' %} govuk-!-display-none{% endif %}">
+      <div class="govuk-summary-list__row{% if addHearing.isVirtual != 'In-person' and addHearing.isVirtual != 'Hybrid' %} govuk-!-display-none{% endif %}">
         <dt class="govuk-summary-list__key">Do you know the venue address?</dt>
         <dd class="govuk-summary-list__value">
           {{ addHearing.hasAddress or 'Not answered' }}
@@ -87,7 +87,7 @@ Check hearing details – {{ serviceName }}
           <a href="{{ basePath }}/add-hearing/has-address">Change<span class="govuk-visually-hidden"> whether you know the venue address</span></a>
         </dd>
       </div>
-      <div class="govuk-summary-list__row{% if addHearing.isVirtual != 'In-person' %} govuk-!-display-none{% endif %}">
+      <div class="govuk-summary-list__row{% if addHearing.isVirtual != 'In-person' and addHearing.isVirtual != 'Hybrid' %} govuk-!-display-none{% endif %}">
         <dt class="govuk-summary-list__key">Venue address</dt>
         <dd class="govuk-summary-list__value">
           {% if addHearing.hasAddress == 'Yes' %}

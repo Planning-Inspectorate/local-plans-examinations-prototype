@@ -135,7 +135,7 @@ Examination overview– {{ serviceName }}
               </dd>
             </div>
 
-            {% if hearing.isVirtual == 'Virtual' %}
+            {% if hearing.isVirtual == 'Remote' or hearing.isVirtual == 'Virtual' or hearing.isVirtual == 'Hybrid' %}
             <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">Do you have a virtual meeting link?</dt>
               <dd class="govuk-summary-list__value">{{ hearing.hasVirtualMeetingLink or '-' }}</dd>
@@ -154,7 +154,7 @@ Examination overview– {{ serviceName }}
             {% endif %}
             {% endif %}
 
-            {% if hearing.isVirtual == 'In-person' %}
+            {% if hearing.isVirtual == 'In-person' or hearing.isVirtual == 'Hybrid' %}
             <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">Venue address</dt>
               <dd class="govuk-summary-list__value">

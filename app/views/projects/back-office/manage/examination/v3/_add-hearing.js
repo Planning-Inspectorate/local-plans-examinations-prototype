@@ -451,6 +451,8 @@ router.post('/add-hearing/is-virtual', function (req, res) {
   req.session.save(() => {
     if (req.session.data.addHearing.isVirtual === 'In-person') {
       res.redirect(`${req.baseUrl}/add-hearing/has-address`)
+    } else if (req.session.data.addHearing.isVirtual === 'Hybrid') {
+      res.redirect(`${req.baseUrl}/add-hearing/has-address`)
     } else {
       res.redirect(`${req.baseUrl}/add-hearing/has-virtual-meeting-link`)
     }
@@ -587,8 +589,10 @@ router.post('/add-hearing/has-address', function (req, res) {
   console.log('POST /has-address - addHearing after:', JSON.stringify(req.session.data.addHearing, null, 2));
   
   req.session.save(() => {
-    if(req.session.data.addHearing.hasAddress == 'Yes') {
+    if (req.session.data.addHearing.hasAddress == 'Yes') {
       res.redirect(`${req.baseUrl}/add-hearing/address`)
+    } else if (req.session.data.addHearing.isVirtual === 'Hybrid') {
+      res.redirect(`${req.baseUrl}/add-hearing/has-virtual-meeting-link`)
     } else {
       res.redirect(`${req.baseUrl}/add-hearing/check`)
     }
@@ -676,7 +680,11 @@ router.post('/add-hearing/address', function (req, res) {
   console.log('POST /address - addHearing after:', JSON.stringify(req.session.data.addHearing, null, 2));
   
   req.session.save(() => {
-    res.redirect(`${req.baseUrl}/add-hearing/check`)
+    if (req.session.data.addHearing.isVirtual === 'Hybrid') {
+      res.redirect(`${req.baseUrl}/add-hearing/has-virtual-meeting-link`)
+    } else {
+      res.redirect(`${req.baseUrl}/add-hearing/check`)
+    }
   })
 })
 

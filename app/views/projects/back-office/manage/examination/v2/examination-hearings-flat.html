@@ -98,9 +98,11 @@ Examination overview– {{ serviceName }}
       {% if hearings and hearings.length %}
         {% for hearing in hearings %}
           <h3 class="govuk-heading-m">{{ hearing.label }}</h3>
+          {% if hearing.canCancel %}
              <p class="govuk-body">
             <a class="govuk-link" href="/projects/back-office/manage/examination/v2/cancel-hearing?hearingIndex={{ hearing.index }}&returnUrl=/projects/back-office/manage/examination/v2/examination-hearings-flat">Cancel hearing {{ loop.index }}</a>
           </p>
+          {% endif %}
           <dl class="govuk-summary-list govuk-summary-list-timetable">
             <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">Hearing start date</dt>
@@ -166,19 +168,17 @@ Examination overview– {{ serviceName }}
               </dd>
             </div>
             <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">Virtual hearing link</dt>
+              <dt class="govuk-summary-list__key">Remote hearing link</dt>
               <dd class="govuk-summary-list__value">{{ hearing.virtualMeetingLink }}</dd>
               <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="/projects/back-office/manage/examination/v2/add-hearing/virtual-meeting?hearingIndex={{ hearing.index }}&returnUrl=/projects/back-office/manage/examination/v2/examination-hearings-flat">Change<span class="govuk-visually-hidden">Hearing {{ loop.index }} virtual hearing link</span></a>
+                <a class="govuk-link" href="/projects/back-office/manage/examination/v2/add-hearing/virtual-meeting?hearingIndex={{ hearing.index }}&returnUrl=/projects/back-office/manage/examination/v2/examination-hearings-flat">Change<span class="govuk-visually-hidden">Hearing {{ loop.index }} remote hearing link</span></a>
               </dd>
             </div>
           </dl>
         {% endfor %}
-      {% else %}
-        <p class="govuk-body">No hearings added yet.</p>
       {% endif %}
       <p class="govuk-body">
-          <a href="/projects/back-office/manage/examination/v2/add-hearing/index?returnUrl=/projects/back-office/manage/examination/v2/examination-hearings-flat" class="govuk-button">Add hearing</a>
+          <a href="/projects/back-office/manage/examination/v2/add-hearing/index?returnUrl=/projects/back-office/manage/examination/v2/examination-hearings-flat" class="govuk-button">Add another hearing</a>
         </p>
 
       <h2 class="govuk-heading-l govuk-!-margin-top-6">Letters</h2>
