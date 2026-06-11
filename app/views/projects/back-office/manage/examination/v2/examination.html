@@ -15,14 +15,7 @@ Examination overview– {{ serviceName }}
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    {% include "includes/back-office/plan-header.njk" %}
- 
-      {% set currentSection = "examination" %}
-        {% include "includes/back-office/secondary-nav.njk" %}
-    </div>
-  </div>
-
-  {% if notificationMessage %}
+    {% if notificationMessage %}
   <div class="govuk-notification-banner govuk-notification-banner--success" role="region" aria-labelledby="govuk-notification-banner-title">
     <div class="govuk-notification-banner__header">
       <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
@@ -34,7 +27,12 @@ Examination overview– {{ serviceName }}
     </div>
   </div>
   {% endif %}
-
+    {% include "includes/back-office/plan-header.njk" %}
+ 
+      {% set currentSection = "examination" %}
+        {% include "includes/back-office/secondary-nav.njk" %}
+    </div>
+  </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
       <form method="post" action="">

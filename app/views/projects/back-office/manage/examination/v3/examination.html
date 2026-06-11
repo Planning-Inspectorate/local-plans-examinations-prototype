@@ -12,66 +12,9 @@ Examination overview– {{ serviceName }}
 
 {% block content %}
 
-
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-  <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
-	<h1 class="govuk-heading-l">{{ planTitle or '-' }}</h1>
-	{{govukTag({
-      text: "New",
-      classes: "govuk-tag--turquoise"
-    })}}
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-      <nav class="x-govuk-secondary-navigation app-secondary-nav govuk-!-margin-top-6 govuk-!-margin-bottom-6" aria-label="Secondary menu">
-        <ul class="x-govuk-secondary-navigation__list">
-    <li class="x-govuk-secondary-navigation__list-item">
-      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/overview/v1/index">
-        Overview
-      </a>
-    </li>
-    <li class="x-govuk-secondary-navigation__list-item ">
-      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/timetable.html">
-        Timetable
-      </a>
-    </li>  
-    
-    <li class="x-govuk-secondary-navigation__list-item ">
-      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/GW1/v1/gateway-1">
-        Gateway 1
-      </a>
-    </li>
-    <li class="x-govuk-secondary-navigation__list-item ">
-      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/GW2/v1/gateway-2">
-        Gateway 2
-      </a>
-    </li>
-    <li class="x-govuk-secondary-navigation__list-item ">
-      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/GW3/v1/gateway-3">
-        Gateway 3
-      </a>
-    </li>
-    <li class="x-govuk-secondary-navigation__list-item x-govuk-secondary-navigation__list-item--current">
-      <a class="x-govuk-secondary-navigation__link" href="{{ basePath }}/examination" aria-current="page">
-        Examination
-      </a>
-    </li>
-    <li class="x-govuk-secondary-navigation__list-item ">
-      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/documents/upload/v1/documents">
-        Documents
-      </a>
-    </li>
-    <li class="x-govuk-secondary-navigation__list-item ">
-      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/updates/v1/updates.html">
-        Updates
-      </a>
-    </li>
-        </ul>
-      </nav>
-    </div>
-  </div>
-
-  {% if notificationMessage %}
+    {% if notificationMessage %}
   <div class="govuk-notification-banner govuk-notification-banner--success" role="region" aria-labelledby="govuk-notification-banner-title">
     <div class="govuk-notification-banner__header">
       <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
@@ -83,7 +26,12 @@ Examination overview– {{ serviceName }}
     </div>
   </div>
   {% endif %}
-
+    {% include "includes/back-office/plan-header.njk" %}
+ 
+      {% set currentSection = "examination" %}
+        {% include "includes/back-office/secondary-nav.njk" %}
+    </div>
+  </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
       <form method="post" action="">
