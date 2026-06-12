@@ -31,8 +31,14 @@ function submissionComplete(data) {
 router.get('/application-details', function (req, res) {
   const data = req.session.data
 
+  // Use helper to auto-set completion flag if all uploads are done
+  if (submissionComplete(data)) {
+    req.session.data['gw3-documents-completed'] = 'true'
+  }
+
   let completedCount = 0
   if (data['gw3-documents-completed'] == 'true') completedCount++
+  if (data['supplementary-completed'] == 'true') completedCount++
 
   res.render('projects/front-office/gw3/v1/application-details', {
     completedCount: completedCount
@@ -186,24 +192,47 @@ router.post('/submission-documents/environmental-report-upload', function (req, 
 router.post('/submission-documents/supplementary-plans-statement-upload', function (req, res) {
   req.session.data['gw3-documents-started'] = 'true'
   req.session.data['supplementary-plans-statement-upload-complete'] = 'true'
-  if (req.query.cya) {
-    res.redirect('../application-details')
-  } else {
-    res.redirect('supporting-documents-upload')
-  }
-})
-
-router.post('/submission-documents/supporting-documents-upload', function (req, res) {
-  req.session.data['gw3-documents-started'] = 'true'
-  req.session.data['supporting-documents-upload-complete'] = 'true'
   req.session.data['gw3-documents-completed'] = 'true'
-  res.redirect('../application-details')
+  res.redirect('../supplementary-documents/supplementary-check')
 })
 
 // Fallback for any submission page not explicitly handled above
 router.post('/submission-documents/:page', function (req, res) {
   req.session.data['gw3-documents-started'] = 'true'
   req.session.data[`${req.params.page}-complete`] = 'true'
+  res.redirect('../application-details')
+})
+
+router.post('/submission-documents/supplementary-plans-statement-upload', function (req, res) {
+  req.session.data['gw3-documents-started'] = 'true'
+  req.session.data['supplementary-plans-statement-upload-complete'] = 'true'
+  if (req.query.cya) {
+    res.redirect('../application-details')
+  } else {
+    res.redirect('/../supplementary-documents/supplementary-check')
+  }
+})
+
+router.post('/supplementary-documents/supplementary-check', function (req, res) {
+  const answer = req.session.data['supplementary-check']
+  req.session.data['supplementary-started'] = 'true'
+
+  if (answer === 'no') {
+    req.session.data['supplementary-completed'] = 'true'
+    req.session.data['supplementary-upload-complete'] = undefined
+    res.redirect('../application-details')
+  } else {
+    if (req.query.cya && req.session.data['supplementary-upload-complete']) {
+      res.redirect('../application-details')
+    } else {
+      res.redirect('supplementary-upload')
+    }
+  }
+})
+
+router.post('/supplementary-documents/supplementary-upload', function (req, res) {
+  req.session.data['supplementary-upload-complete'] = 'true'
+  req.session.data['supplementary-completed'] = 'true'
   res.redirect('../application-details')
 })
 

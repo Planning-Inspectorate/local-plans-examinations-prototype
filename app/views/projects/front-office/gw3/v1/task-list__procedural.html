@@ -125,7 +125,7 @@
       },
 
       {
-        key: { text: 'Consultation summary for the above' },
+        key: { text: 'Consultation summary on proposed local plan content and evidence documents' },
         value:
           { html: "<a href='#'>plan-content-evidence-consultation-summary-2.pdf</a>" } if data['plan-content-evidence-consultation-summary-2-upload-complete']
           else { html: '<span class="govuk-hint">Not started</span>' },
@@ -136,7 +136,7 @@
       },
 
       {
-        key: { text: 'Copies of representations (if needed)' },
+        key: { text: 'Copies of representations' },
         value:
           { html: "<a href='#'>representations.pdf</a>" } if data['representations-upload-complete']
           else { html: '<span class="govuk-hint">Not started</span>' },
@@ -176,17 +176,6 @@
         actions: { items: [
           { href: 'submission-documents/supplementary-plans-statement-upload?cya=true', html: 'Change' } if data['supplementary-plans-statement-upload-complete']
           else { href: 'submission-documents/supplementary-plans-statement-upload', html: 'Add' }
-        ]}
-      },
-
-      {
-        key: { text: 'Supporting documents' },
-        value:
-          { html: "<a href='#'>supporting-documents.pdf</a>" } if data['supporting-documents-upload-complete']
-          else { html: '<span class="govuk-hint">Not started</span>' },
-        actions: { items: [
-          { href: 'submission-documents/supporting-documents-upload?cya=true', html: 'Change' } if data['supporting-documents-upload-complete']
-          else { href: 'submission-documents/supporting-documents-upload', html: 'Add' }
         ]}
       }
 

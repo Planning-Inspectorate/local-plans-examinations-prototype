@@ -1,0 +1,69 @@
+<li>
+  <h2 class="app-task-list__section">
+    <span class="app-task-list__section-number">2. </span>
+    Supplementary documentation
+
+    {% if data['supplementary-completed'] == 'true' %}
+      {{ govukTag({
+        text: 'Completed',
+        classes: 'govuk-tag--green'
+      }) }}
+    {% elif data['supplementary-started'] == 'true' %}
+      {{ govukTag({
+        text: 'In progress',
+        classes: 'govuk-tag--blue'
+      }) }}
+    {% else %}
+      {{ govukTag({
+        text: 'Not started',
+        classes: 'govuk-tag--grey'
+      }) }}
+    {% endif %}
+  </h2>
+
+  {% set supplementaryDocuments %}
+    <ul class="govuk-list govuk-list--bullet">
+      <li><a class="govuk-link" href="#">supplementary-doc-1.pdf</a></li>
+      <li><a class="govuk-link" href="#">supplementary-doc-2.pdf</a></li>
+      <li><a class="govuk-link" href="#">supplementary-doc-3.pdf</a></li>
+    </ul>
+  {% endset %}
+
+  {% if data['supplementary-upload-complete'] %}
+    {% set summaryValue = supplementaryDocuments %}
+  {% elif data['supplementary-check'] == 'no' %}
+    {% set summaryValue = '<span class="govuk-hint">No</span>' %}
+  {% else %}
+    {% set summaryValue = '<span class="govuk-hint">Not answered</span>' %}
+  {% endif %}
+
+  {% if data['supplementary-check'] %}
+    {% set actionHref = 'supplementary-documents/supplementary-check?cya=true' %}
+    {% set actionText = 'Change' %}
+  {% else %}
+    {% set actionHref = 'supplementary-documents/supplementary-check' %}
+    {% set actionText = 'Answer' %}
+  {% endif %}
+
+  {{ govukSummaryList({
+    classes: 'govuk-!-margin-bottom-9',
+    rows: [
+      {
+        key: {
+          text: 'Do you want to add any supplementary documents?'
+        },
+        value: {
+          html: summaryValue
+        },
+        actions: {
+          items: [
+            {
+              href: actionHref,
+              text: actionText
+            }
+          ]
+        }
+      }
+    ]
+  }) }}
+</li>

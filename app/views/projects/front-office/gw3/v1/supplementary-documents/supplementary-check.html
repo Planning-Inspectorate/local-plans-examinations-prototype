@@ -1,0 +1,54 @@
+{% extends "layouts/front-office.html" %}
+
+{% block pageTitle %}
+  Upload supplementary documents – {{ serviceName }}
+{% endblock %}
+
+{% from "includes/multidocumentupload.njk" import multiDocumentUpload %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "supplementary-check"
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <form method="post">
+
+      {{ govukRadios({
+        name: "supplementary-check",
+        fieldset: {
+          legend: {
+            text: "Do you want to add any supplementary documents?",
+            isPageHeading: true,
+            classes: "govuk-fieldset__legend--l"
+          }
+        },
+        items: [
+          {
+            value: "yes",
+            text: "Yes",
+            checked: data['supplementary-check'] == 'yes'
+          },
+          {
+            value: "no",
+            text: "No"
+          }
+        ]
+      }) }}
+
+      {{ govukButton({ text: "Continue" }) }}
+
+      <p class="govuk-body">
+        <a class="govuk-link" href="../application-details">Return to your application</a>
+      </p>
+
+    </form>
+
+  </div>
+</div>
+{% endblock %}
