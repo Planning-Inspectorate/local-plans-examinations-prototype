@@ -1,0 +1,27 @@
+<li>
+  <h2 class="app-task-list__section">
+    <span class="app-task-list__section-number">2. </span> Submit
+    {% if data['gw3-documents-completed'] == 'true' %}
+      {{ govukTag({ text: 'Ready to submit', classes: 'govuk-tag--blue' }) }}
+    {% else %}
+      {{ govukTag({ text: 'Cannot start yet', classes: 'govuk-tag--grey' }) }}
+    {% endif %}
+  </h2>
+
+{{ govukSummaryList({
+  classes: 'govuk-!-margin-bottom-9',
+  rows: [
+    {
+      key: { html: 'Accept declaration and submit' },
+      actions: {
+        items: [
+          {
+            href: 'application-declaration',
+            html: 'Continue'
+          }
+        ]
+      } if data['gw3-documents-completed'] == 'true'
+    }
+  ]
+}) }}
+</li>

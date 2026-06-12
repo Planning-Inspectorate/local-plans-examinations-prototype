@@ -1,6 +1,7 @@
 {% extends "layouts/front-office.html" %}
 
 {% set planStatus = data['status'] or 'ready' %}
+{% set currentStage = data['stage'] or 'gateway-2' %}
 
 {% block pageTitle %}East Borough Local Plan – Local Plans Portal{% endblock %}
 
@@ -50,9 +51,11 @@ href: "/projects/front-office/home/v1/homepage"
     {% include "./_includes/plan-heading.njk" %}
     {% include "./_includes/plan-tasklist.njk" %}
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break">
+    {% if currentStage == 'gateway-3' %}
     {% include "./_includes/shared-documents.njk" %}
+    {% endif %}
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break">
-    {% include "./_includes/plan-guidance-tabs.njk" %}
+    <!-- {% include "./_includes/plan-guidance-tabs.njk" %} -->
 
   </div>
 </div>

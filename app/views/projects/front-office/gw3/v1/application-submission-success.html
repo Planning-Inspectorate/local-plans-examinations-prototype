@@ -1,0 +1,35 @@
+{% extends "layouts/front-office.html" %}
+
+{% block pageTitle %}
+Application complete – {{ serviceName }}
+{% endblock %}
+
+{% set mainClasses = "govuk-main-wrapper--l" %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {{ govukPanel({
+    titleText: "Submission complete"    }) }}
+
+    <p class="govuk-body">We have sent you a confirmation email.</p>
+
+    <h2 class="govuk-heading-m">What happens next</h2>
+
+    <p class="govuk-body">
+      We’ve sent your submission to the Planning Inspectorate. They will check that your submission is complete and that they have all the information required to proceed to the next stage of the plan.
+    </p>
+    <p class="govuk-body">
+      They will contact you if any further information is required.
+    </p>
+
+    <p class="govuk-body">You can <a class="govuk-link" href="#">return to your plan</a> to check the status of your submission at any time.</p>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% include "includes/footer.njk" %}
+{% endblock %}
