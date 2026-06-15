@@ -131,7 +131,7 @@ Documents – {{ serviceName }}
     </div>
     {% endif %}
 <div class="govuk-grid-row">
-  
+  <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     {% include "includes/back-office/plan-header.njk" %}
 
@@ -147,7 +147,7 @@ Documents – {{ serviceName }}
 
     {% from "govuk/components/button/macro.njk" import govukButton %}
 
-    <div style="display: flex; justify-content: space-between; align-items: center;">
+    <div class="documents-actions-row">
       {{ govukButton({
       text: "Upload files",
       classes: "govuk-button--secondary",
@@ -157,7 +157,7 @@ Documents – {{ serviceName }}
     </div>
 
     <p class="govuk-body govuk-!-margin-top-3">
-      <a href="/projects/back-office/manage/documents/upload/v1/documents-empty.html" class="govuk-link">View empty version</a>
+      <a href="/projects/back-office/manage/documents/v1/documents-empty.html" class="govuk-link">View empty version</a>
     </p>
 
  

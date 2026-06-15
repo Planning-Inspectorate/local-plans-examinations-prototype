@@ -7,10 +7,54 @@
 const govukPrototypeKit = require('govuk-prototype-kit');
 const router = govukPrototypeKit.requests.setupRouter();
 
+const defaultWorkflowNavVersions = {
+  overview: 'v2',
+  timetable: 'v1',
+  gw1: 'v1',
+  gw2: 'v2',
+  gw3: 'v2',
+  examination: 'v3',
+  documents: 'v1',
+  updates: 'v1'
+};
+
+const workflowNavSections = Object.keys(defaultWorkflowNavVersions);
+
+function getWorkflowNavQueryOverrides(query = {}) {
+  return workflowNavSections.reduce((overrides, section) => {
+    const queryKey = `nav-${section}`;
+    const value = query[queryKey];
+
+    if (typeof value === 'string' && /^v\d+$/.test(value)) {
+      overrides[section] = value;
+    }
+
+    return overrides;
+  }, {});
+}
+
 router.use((req, res, next) => {
   res.locals.currentPath = req.originalUrl || req.url || '';
   const versionMatch = (res.locals.currentPath || '').match(/\/v(\d+)(?:\/|$)/);
   res.locals.urlVersion = versionMatch ? `v${versionMatch[1]}` : '';
+
+  if (req.query.clearNavVersions === '1' && req.session) {
+    delete req.session.workflowNavVersionOverrides;
+  }
+
+  const queryOverrides = getWorkflowNavQueryOverrides(req.query);
+  if (Object.keys(queryOverrides).length && req.session) {
+    req.session.workflowNavVersionOverrides = {
+      ...(req.session.workflowNavVersionOverrides || {}),
+      ...queryOverrides
+    };
+  }
+
+  const sessionOverrides = req.session?.workflowNavVersionOverrides || {};
+  res.locals.workflowNavVersions = {
+    ...defaultWorkflowNavVersions,
+    ...sessionOverrides
+  };
   next();
 });
 

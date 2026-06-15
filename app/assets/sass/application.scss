@@ -32,6 +32,53 @@
 // Add extra styles here
 @import 'summary-list-widths';
 
+// Side navigation
+.side-nav {
+  padding-right: 20px;
+}
+
+.side-nav ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.side-nav li {
+  margin-bottom: 5px;
+}
+
+.side-nav a {
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #1d70b8;
+  border-left: 5px solid transparent;
+}
+
+.side-nav a:hover {
+  background-color: #f3f2f1;
+}
+
+.side-nav a.selected {
+  background-color: #f3f2f1;
+  font-weight: bold;
+  border-left: 5px solid #1d70b8;
+  color: #0b0c0c;
+}
+
+.grey-box {
+  background-color: #f3f2f1;
+  padding: 20px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.documents-actions-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .app-email-break,
 .app-break-word {
   word-break: break-word;

@@ -178,7 +178,7 @@ Documents – {{ serviceName }}
 
     {% from "govuk/components/button/macro.njk" import govukButton %}
 
-    <div style="display: flex; justify-content: space-between; align-items: center;">
+    <div class="documents-actions-row">
       {{ govukButton({
       text: "Upload files",
       classes: "govuk-button--secondary",
@@ -188,7 +188,7 @@ Documents – {{ serviceName }}
     </div>
 
     <p class="govuk-body govuk-!-margin-top-3">
-      <a href="/projects/back-office/manage/documents/upload/v1/documents.html" class="govuk-link">View version with sample documents</a>
+      <a href="/projects/back-office/manage/documents/v1/documents" class="govuk-link">View version with sample documents</a>
     </p>
 
  
@@ -206,7 +206,7 @@ Documents – {{ serviceName }}
       <div class="govuk-notification-banner__content">
         <p class="govuk-body">
           You have not uploaded any documents yet.
-          <a class="govuk-link" href="/projects/back-office/manage/documents/upload/v1/upload-bo.html">Upload documents</a>
+          <a class="govuk-link" href="/projects/back-office/manage/documents/upload/v1/upload-bo">Upload documents</a>
         </p>
       </div>
     </div>

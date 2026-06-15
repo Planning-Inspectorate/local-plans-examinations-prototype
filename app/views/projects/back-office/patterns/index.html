@@ -1,0 +1,78 @@
+{% extends "layouts/main.html" %}
+ 
+{% set title="Patterns" %}
+{% set activeNav = 'back-office' %}
+
+{% block header %}
+  {% include "includes/PINS-header--internal.html" %}
+  {% include "includes/service-navigation.html" %}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    html: 'Back to all prototypes',
+    href: '/back-office.html'
+  }) }}
+{% endblock %}
+ 
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+ 
+    <span class="govuk-caption-l">
+      Manage a plan examination
+    </span>
+    <h1 class="govuk-heading-l">
+      {{ title }}
+    </h1>
+    <p class="govuk-body">
+    {{ govukAccordion({
+      id: 'previous',
+      classes: 'govuk-!-margin-top-9',
+      items: [
+        {
+          heading: {
+            text: 'Navigation tools'
+          },
+          content: {
+            html: '<p class="govuk-body">Utilities for testing shared navigation behaviour.</p><ul><li><a href="/projects/back-office/patterns/nav-version-tester">Nav version tester</a></li><li><a href="/projects/back-office/patterns/nav-version-tester-side">Side nav version tester</a></li></ul>'
+          }
+        },
+        {
+        heading: {
+            text: 'Documents'
+          },
+          content: {
+            html: '<p class="govuk-body">How document metadata can be displayed.</p>
+            <ul>
+              <li><a href="/projects/back-office/manage/documents/v1/documents-side">Documents side nav</a></li>
+              <li><a href="/projects/back-office/manage/documents/v1/documents">Documents - layout we have been using</a></li>
+              <li><a href="/projects/back-office/manage/documents/v1/documents2.html">Simple list - will get unwieldy quickly</a></li>
+              <li><a href="/projects/back-office/manage/documents/v1/documents-with-tag.html">Documents with tag</a></li>
+              <li><a href="/projects/back-office/manage/documents/v1/documents-complex.html">Documents complex. Hard to scan.</a></li>
+              <li><a href="/projects/back-office/manage/documents/v1/documents-complex-with-tag.html">Documents complex with tag</a></li>
+              
+            </ul>'
+          }
+        },
+        {
+          heading: {
+            html: 'Hearings<strong class="govuk-tag govuk-tag--grey govuk-!-margin-left-2">Experimental</strong>'
+          },
+          content: {
+            html: '<p class="govuk-body">Pages related to the hearings part of the examination process, including adding and editing hearings.
+            <ul>
+              <li><a href="/projects/back-office/manage/examination/v1/hearing-dates-results">Exploration of different patterns to capture hearing details</a></li>
+              <li><a href="/projects/back-office/manage/examination/v1/hearing-dates-pattern-a">Individual non-consecutive dates</a></li>
+              <li><a href="/projects/back-office/manage/examination/v1/hearing-dates-pattern-b">Consecutive dates</a></li>
+              <li><a href="/projects/back-office/manage/examination/v1/hearing-date-ranges">Date ranges, multiple blocks</a></li>
+            </ul> 
+            </p>'
+          }
+        }
+      ]
+    }) }}
+    </p>
+  </div>
+</div>
+{% endblock %}

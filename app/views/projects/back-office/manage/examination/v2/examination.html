@@ -99,23 +99,10 @@ Examination overview– {{ serviceName }}
       </dl>
 
       <h2 class="govuk-heading-l">Hearings</h2>
-      
+
       {% if hearingStartDate and hearingStartDate != '-' %}
         <p class="govuk-body">
           <a href="/projects/back-office/manage/examination/v1/cancel-hearing" class="govuk-link">Cancel hearing</a>
-        </p>
-{% endif %}
-
-     
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Is the hearing in-person, hybrid or remote?</dt>
-          <dd class="govuk-summary-list__value">{{ hearing.isVirtual or '-' }}</dd>
-          <dd class="govuk-summary-list__actions">
-            <a href="/projects/back-office/manage/examination/v1/add-hearing/is-virtual" class="govuk-link">Change<span class="govuk-visually-hidden">Hearing type</span></a>
-    <h3 class="govuk-heading-s">Hearing estimates</h3>
-        <p class="govuk-body">
-          <a href="/projects/back-office/manage/examination/v1/add-hearing-estimates" class="govuk-link">Add/Edit hearing estimates</a>
-        </p>
 
         <dl class="govuk-summary-list govuk-summary-list-timetable">
           <div class="govuk-summary-list__row">

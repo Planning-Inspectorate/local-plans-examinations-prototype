@@ -3,27 +3,26 @@
 {% if location and '/v' in location %}
   {% set inferredVersion = "v" + location.split('/v')[1].split('/')[0] %}
 {% endif %}
-{# Define which versions exist for each section, in preference order #}
-{% set cascade = {
-  overview: [inferredVersion, 'v2', 'v1'],
-  gw1: [inferredVersion, 'v1'],
-  gw2: [inferredVersion, 'v2', 'v1'],
-  gw3: [inferredVersion, 'v2', 'v1'],
-  examination: [inferredVersion, 'v3', 'v2', 'v1'],
-  documents: [inferredVersion, 'v1'],
-  updates: [inferredVersion, 'v1']
+{% set configuredVersions = workflowNavVersions or {} %}
+{% set versions = versions or {
+  overview: configuredVersions.overview or inferredVersion,
+  timetable: configuredVersions.timetable or inferredVersion,
+  gw1: configuredVersions.gw1 or inferredVersion,
+  gw2: configuredVersions.gw2 or inferredVersion,
+  gw3: configuredVersions.gw3 or inferredVersion,
+  examination: configuredVersions.examination or inferredVersion,
+  documents: configuredVersions.documents or inferredVersion,
+  updates: configuredVersions.updates or inferredVersion
 } %}
-{# Use cascade[section][0] for each link; allow override via versions param #}
-{% set versions = versions or cascade %}
 {% set links = {
-  overview: "/projects/back-office/manage/overview/" ~ versions.overview[0] ~ "/index",
-  timetable: "/projects/back-office/manage/timetable.html",
-  gw1: "/projects/back-office/manage/GW1/" ~ versions.gw1[0] ~ "/gateway-1",
-  gw2: "/projects/back-office/manage/GW2/" ~ versions.gw2[0] ~ "/gateway-2",
-  gw3: "/projects/back-office/manage/GW3/" ~ versions.gw3[0] ~ "/gateway-3",
-  examination: "/projects/back-office/manage/examination/" ~ versions.examination[0] ~ "/examination",
-  documents: "/projects/back-office/manage/documents/upload/" ~ versions.documents[0] ~ "/documents",
-  updates: "/projects/back-office/manage/updates/" ~ versions.updates[0] ~ "/updates.html"
+  overview: "/projects/back-office/manage/overview/" ~ versions.overview ~ "/index",
+  timetable: "/projects/back-office/manage/timetable/" ~ versions.timetable ~ "/timetable.html",
+  gw1: "/projects/back-office/manage/GW1/" ~ versions.gw1 ~ "/gateway-1",
+  gw2: "/projects/back-office/manage/GW2/" ~ versions.gw2 ~ "/gateway-2",
+  gw3: "/projects/back-office/manage/GW3/" ~ versions.gw3 ~ "/gateway-3",
+  examination: "/projects/back-office/manage/examination/" ~ versions.examination ~ "/examination",
+  documents: "/projects/back-office/manage/documents/" ~ versions.documents ~ "/documents",
+  updates: "/projects/back-office/manage/updates/" ~ versions.updates ~ "/updates.html"
 } %}
 <nav class="moj-sub-navigation govuk-!-margin-top-6 govuk-!-margin-bottom-6" aria-label="Case workflow navigation">
   <ul class="moj-sub-navigation__list">

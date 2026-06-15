@@ -9,7 +9,7 @@
 {% block beforeContent %}
   {{ govukBackLink({
     text: "Back",
-    href: "/projects/back-office/manage/documents/upload-bo/v1/upload-bo.html"
+    href: "/projects/back-office/manage/documents/upload/v1/upload-bo"
   }) }}
 {% endblock %}
 
@@ -21,9 +21,8 @@
     <h1 class="govuk-heading-l">Check your documents</h1>
 
     {% if uploadedDocuments.length > 0 %}
-      <div class="govuk-summary-list">
-        {% for doc in uploadedDocuments %}
-          <div class="govuk-summary-list__row">
+      {% for doc in uploadedDocuments %}
+        <dl class="govuk-summary-list"><div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
               {{ doc.originalname }}
             </dt>
@@ -37,19 +36,18 @@
               {% endif %}
             </dd>-->
             <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="/projects/back-office/manage/documents/upload-bo/v1/upload-bo.html">
+              <a class="govuk-link" href="/projects/back-office/manage/documents/upload/v1/upload-bo">
                 Remove<span class="govuk-visually-hidden"> {{ doc.originalname }}</span>
               </a>
             </dd>
-          </div>
-        {% endfor %}
-      </div>
+          </div></dl>
+      {% endfor %}
 
       <p class="govuk-body">
         <strong>Total files: {{ totalFiles }}</strong>
       </p>
 
-      <form method="post" action="/projects/back-office/manage/documents/upload-bo/v1/upload-bo.html">
+      <form method="post" action="/projects/back-office/manage/documents/upload/v1/upload-bo">
         {{ govukButton({
           text: "Confirm and continue"
         }) }}
@@ -64,7 +62,7 @@
         <div class="govuk-notification-banner__content">
           <p class="govuk-body">
             You have not uploaded any documents yet.
-            <a class="govuk-link" href="/projects/back-office/manage/documents/upload-bo/v1/upload-bo.html">Upload documents</a>
+            <a class="govuk-link" href="/projects/back-office/manage/documents/upload/v1/upload-bo">Upload documents</a>
           </p>
         </div>
       </div>

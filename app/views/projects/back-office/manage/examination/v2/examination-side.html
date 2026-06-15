@@ -11,24 +11,7 @@ Examination overview– {{ serviceName }}
 {% endblock %}
 
 {% block content %}
-
-
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
-  <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
-	<h1 class="govuk-heading-l">{{ planTitle or '-' }}</h1>
-	<span class="govuk-caption-m">{{ planStage or 'Gateway 2' }}
-  {{govukTag({
-      text: "Ready to start",
-      classes: "govuk-tag--turquoise"
-    })}}</span>
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-one-quarter">
-      {% set currentSection = "examination" %}
-      {% include "includes/back-office/side-secondary-nav.njk" %}
-    </div>
-    <div class="govuk-grid-column-three-quarters">
-  {% if notificationMessage %}
+ {% if notificationMessage %}
   <div class="govuk-notification-banner govuk-notification-banner--success" role="region" aria-labelledby="govuk-notification-banner-title">
     <div class="govuk-notification-banner__header">
       <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
@@ -41,9 +24,22 @@ Examination overview– {{ serviceName }}
   </div>
   {% endif %}
 
-      <form method="post" action="">
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <div class="grey-box">
+    {% include "includes/back-office/plan-header.njk" %}
+        </div>
+</div>
+  <div class="govuk-grid-column-one-quarter">
+    {% set currentSection = "examination" %}
+    {% include "includes/back-office/side-secondary-nav.njk" %}
+  </div>
 
-      <h2 class="govuk-heading-l">Examination</h2>
+  <div class="govuk-grid-column-three-quarters">
+
+    <h2 class="govuk-heading-l">
+      Examination
+    </h2>
       <dl class="govuk-summary-list govuk-summary-list-timetable">
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Estimated submission date</dt>
@@ -104,63 +100,94 @@ Examination overview– {{ serviceName }}
         </div>
       </dl>
 
+ 
       <h2 class="govuk-heading-l">Hearings</h2>
-      <p>Hearing capture TBD</p><!--
-      {% if hearingStartDate and hearingStartDate != '-' %}
-        <p class="govuk-body">
-          <a href="/projects/back-office/manage/examination/v1/cancel-hearing" class="govuk-link">Cancel hearing</a>
+      {% if hearings and hearings.length %}
+        {% for hearing in hearings %}
+          <h3 class="govuk-heading-m">{{ hearing.label }}</h3>
+          {% if hearing.canCancel %}
+             <p class="govuk-body">
+            <a class="govuk-link" href="/projects/back-office/manage/examination/v2/cancel-hearing?hearingIndex={{ hearing.index }}&returnUrl=/projects/back-office/manage/examination/v2/examination-hearings-flat">Cancel hearing {{ loop.index }}</a>
+          </p>
+          {% endif %}
+          <dl class="govuk-summary-list govuk-summary-list-timetable">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Hearing start date</dt>
+              <dd class="govuk-summary-list__value">{{ hearing.startDate }}</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/projects/back-office/manage/examination/v2/add-hearing/index?hearingIndex={{ hearing.index }}&returnUrl=/projects/back-office/manage/examination/v2/examination-hearings-flat">Change<span class="govuk-visually-hidden">Hearing {{ loop.index }} start date</span></a>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Hearing start time</dt>
+              <dd class="govuk-summary-list__value">{{ hearing.time }}</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/projects/back-office/manage/examination/v2/add-hearing/index?hearingIndex={{ hearing.index }}&returnUrl=/projects/back-office/manage/examination/v2/examination-hearings-flat">Change<span class="govuk-visually-hidden">Hearing {{ loop.index }} start time</span></a>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Estimated duration</dt>
+              <dd class="govuk-summary-list__value">{{ hearing.estimatedDuration }}</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/projects/back-office/manage/examination/v2/add-hearing/est-duration?hearingIndex={{ hearing.index }}&returnUrl=/projects/back-office/manage/examination/v2/examination-hearings-flat">Change<span class="govuk-visually-hidden">Hearing {{ loop.index }} estimated duration</span></a>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Actual duration</dt>
+              <dd class="govuk-summary-list__value">{{ hearing.actualDuration }}</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/projects/back-office/manage/examination/v2/add-hearing/actual-duration?hearingIndex={{ hearing.index }}&returnUrl=/projects/back-office/manage/examination/v2/examination-hearings-flat">Change<span class="govuk-visually-hidden">Hearing {{ loop.index }} actual duration</span></a>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Hearing end date</dt>
+              <dd class="govuk-summary-list__value">{{ hearing.endDate }}</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/projects/back-office/manage/examination/v2/add-hearing/end-date?hearingIndex={{ hearing.index }}&returnUrl=/projects/back-office/manage/examination/v2/examination-hearings-flat">Change<span class="govuk-visually-hidden">Hearing {{ loop.index }} end date</span></a>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Hearing venue</dt>
+                            
+              <dd class="govuk-summary-list__value">
+                {{ hearing.venue }}<br>
+
+                {% if hearing.address.line1 %}
+                  {{ hearing.address.line1 }}<br>
+                {% endif %}
+
+                {% if hearing.address.line2 %}
+                  {{ hearing.address.line2 }}<br>
+                {% endif %}
+
+                {% if hearing.address.town %}
+                  {{ hearing.address.town }}<br>
+                {% endif %}
+
+                {% if hearing.address.postcode %}
+                  {{ hearing.address.postcode }}
+                {% endif %}
+              </dd>
+
+
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/projects/back-office/manage/examination/v2/add-hearing/address?hearingIndex={{ hearing.index }}&returnUrl=/projects/back-office/manage/examination/v2/examination-hearings-flat">Change<span class="govuk-visually-hidden">Hearing {{ loop.index }} venue</span></a>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Remote hearing link</dt>
+              <dd class="govuk-summary-list__value">{{ hearing.virtualMeetingLink }}</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/projects/back-office/manage/examination/v2/add-hearing/virtual-meeting?hearingIndex={{ hearing.index }}&returnUrl=/projects/back-office/manage/examination/v2/examination-hearings-flat">Change<span class="govuk-visually-hidden">Hearing {{ loop.index }} remote hearing link</span></a>
+              </dd>
+            </div>
+          </dl>
+        {% endfor %}
+      {% endif %}
+      <p class="govuk-body">
+          <a href="/projects/back-office/manage/examination/v2/add-hearing/index?returnUrl=/projects/back-office/manage/examination/v2/examination-hearings-flat" class="govuk-button">Add another hearing</a>
         </p>
 
-    <h3 class="govuk-heading-s">Hearing estimates</h3>
-        <p class="govuk-body">
-          <a href="/projects/back-office/manage/examination/v1/add-hearing-estimates" class="govuk-link">Add/Edit hearing estimates</a>
-        </p>
-
-        <dl class="govuk-summary-list govuk-summary-list-timetable">
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">Hearing start date</dt>
-            <dd class="govuk-summary-list__value">{{ hearingStartDate or '-' }}</dd>
-            <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="/projects/back-office/manage/examination/v1/add-hearing">Change<span class="govuk-visually-hidden">Hearing details</span></a>
-            </dd>
-          </div>
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">Hearing time</dt>
-            <dd class="govuk-summary-list__value">{{ hearingTime or '-' }}</dd>
-            <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="/projects/back-office/manage/examination/v1/add-hearing">Change<span class="govuk-visually-hidden">Hearing time</span></a>
-            </dd>
-          </div>
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">Estimated number of days</dt>
-            <dd class="govuk-summary-list__value">{{ hearingEstimatedDays or '-' }}</dd>
-            <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="/projects/back-office/manage/examination/v1/add-hearing/has-estimates">Change<span class="govuk-visually-hidden">Estimated number of days</span></a>
-            </dd>
-          </div>
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">Venue address</dt>
-            <dd class="govuk-summary-list__value">
-              {% if hearingHasAddress == 'Yes' and hearingAddress %}
-                {{ hearingVenue }}<br>
-                {{ hearingAddress.line1 }}<br>
-                {% if hearingAddress.line2 %}{{ hearingAddress.line2 }}<br>{% endif %}
-                {{ hearingAddress.town }}<br>
-                {{ hearingAddress.postcode }}
-              {% else %}
-                -
-              {% endif %}
-            </dd>
-            <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="/projects/back-office/manage/examination/v1/add-hearing/has-address">Change<span class="govuk-visually-hidden">Venue address</span></a>
-            </dd>
-          </div>
-        </dl>
-      {% else %}
-        <p class="govuk-body">
-          <a href="/projects/back-office/manage/examination/v1/add-hearing" class="govuk-button">Add hearing</a>
-        </p>
-      {% endif %}-->
 
      <!-- <h3 class="govuk-heading-s">Hearing estimates</h3>
       <p class="govuk-body">

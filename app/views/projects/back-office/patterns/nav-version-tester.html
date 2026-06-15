@@ -1,0 +1,135 @@
+{% extends "layouts/main.html" %}
+
+{% set title = "Nav version tester" %}
+{% set activeNav = 'back-office' %}
+{% set currentVersions = workflowNavVersions or {} %}
+{% set versionChoices = ['v1', 'v2', 'v3'] %}
+
+{% block header %}
+  {% include "includes/PINS-header--internal.html" %}
+  {% include "includes/service-navigation.html" %}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: 'Back',
+    href: '/projects/back-office/patterns/index'
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-l">Manage a plan examination</span>
+    <h1 class="govuk-heading-l">{{ title }}</h1>
+    <p class="govuk-body">Use this page to set which version each secondary nav link should open while you test. The selection is saved in session, so once you apply it you can click around normally.</p>
+    <p class="govuk-body"><a class="govuk-link" href="/projects/back-office/patterns/nav-version-tester-side">Use the side nav tester instead</a></p>
+
+    <form method="get" action="/projects/back-office/manage/overview/v2/index">
+      {{ govukSelect({
+        id: 'nav-overview',
+        name: 'nav-overview',
+        label: { text: 'Overview' },
+        items: [
+          { value: 'v1', text: 'v1', selected: currentVersions.overview == 'v1' },
+          { value: 'v2', text: 'v2', selected: currentVersions.overview == 'v2' },
+          { value: 'v3', text: 'v3', selected: currentVersions.overview == 'v3' }
+        ]
+      }) }}
+
+      {{ govukSelect({
+        id: 'nav-timetable',
+        name: 'nav-timetable',
+        label: { text: 'Timetable' },
+        items: [
+          { value: 'v1', text: 'v1', selected: currentVersions.timetable == 'v1' },
+          { value: 'v2', text: 'v2', selected: currentVersions.timetable == 'v2' },
+          { value: 'v3', text: 'v3', selected: currentVersions.timetable == 'v3' }
+        ]
+      }) }}
+
+      {{ govukSelect({
+        id: 'nav-gw1',
+        name: 'nav-gw1',
+        label: { text: 'Gateway 1' },
+        items: [
+          { value: 'v1', text: 'v1', selected: currentVersions.gw1 == 'v1' },
+          { value: 'v2', text: 'v2', selected: currentVersions.gw1 == 'v2' },
+          { value: 'v3', text: 'v3', selected: currentVersions.gw1 == 'v3' }
+        ]
+      }) }}
+
+      {{ govukSelect({
+        id: 'nav-gw2',
+        name: 'nav-gw2',
+        label: { text: 'Gateway 2' },
+        items: [
+          { value: 'v1', text: 'v1', selected: currentVersions.gw2 == 'v1' },
+          { value: 'v2', text: 'v2', selected: currentVersions.gw2 == 'v2' },
+          { value: 'v3', text: 'v3', selected: currentVersions.gw2 == 'v3' }
+        ]
+      }) }}
+
+      {{ govukSelect({
+        id: 'nav-gw3',
+        name: 'nav-gw3',
+        label: { text: 'Gateway 3' },
+        items: [
+          { value: 'v1', text: 'v1', selected: currentVersions.gw3 == 'v1' },
+          { value: 'v2', text: 'v2', selected: currentVersions.gw3 == 'v2' },
+          { value: 'v3', text: 'v3', selected: currentVersions.gw3 == 'v3' }
+        ]
+      }) }}
+
+      {{ govukSelect({
+        id: 'nav-examination',
+        name: 'nav-examination',
+        label: { text: 'Examination' },
+        items: [
+          { value: 'v1', text: 'v1', selected: currentVersions.examination == 'v1' },
+          { value: 'v2', text: 'v2', selected: currentVersions.examination == 'v2' },
+          { value: 'v3', text: 'v3', selected: currentVersions.examination == 'v3' }
+        ]
+      }) }}
+
+      {{ govukSelect({
+        id: 'nav-documents',
+        name: 'nav-documents',
+        label: { text: 'Documents' },
+        items: [
+          { value: 'v1', text: 'v1', selected: currentVersions.documents == 'v1' },
+          { value: 'v2', text: 'v2', selected: currentVersions.documents == 'v2' },
+          { value: 'v3', text: 'v3', selected: currentVersions.documents == 'v3' }
+        ]
+      }) }}
+
+      {{ govukSelect({
+        id: 'nav-updates',
+        name: 'nav-updates',
+        label: { text: 'Updates' },
+        items: [
+          { value: 'v1', text: 'v1', selected: currentVersions.updates == 'v1' },
+          { value: 'v2', text: 'v2', selected: currentVersions.updates == 'v2' },
+          { value: 'v3', text: 'v3', selected: currentVersions.updates == 'v3' }
+        ]
+      }) }}
+
+      <div class="govuk-button-group">
+        {{ govukButton({ text: 'Apply and open overview' }) }}
+        <a class="govuk-link" href="/projects/back-office/manage/overview/v2/index?clearNavVersions=1">Reset to defaults</a>
+      </div>
+    </form>
+
+    <h2 class="govuk-heading-m">Current starting points</h2>
+    <ul class="govuk-list govuk-list--bullet">
+      <li><a class="govuk-link" href="/projects/back-office/manage/overview/v2/index">Overview</a></li>
+      <li><a class="govuk-link" href="/projects/back-office/manage/GW1/v1/gateway-1">Gateway 1</a></li>
+      <li><a class="govuk-link" href="/projects/back-office/manage/GW2/v2/gateway-2">Gateway 2</a></li>
+      <li><a class="govuk-link" href="/projects/back-office/manage/GW3/v2/gateway-3">Gateway 3</a></li>
+      <li><a class="govuk-link" href="/projects/back-office/manage/examination/v3/examination">Examination</a></li>
+      <li><a class="govuk-link" href="/projects/back-office/manage/documents/v1/documents">Documents</a></li>
+      <li><a class="govuk-link" href="/projects/back-office/manage/updates/v1/updates.html">Updates</a></li>
+    </ul>
+  </div>
+</div>
+{% endblock %}

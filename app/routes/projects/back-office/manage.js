@@ -2136,11 +2136,33 @@ router.get('/projects/back-office/manage/documents/v1/documents', (req, res) => 
   });
 });
 
+router.get('/projects/back-office/manage/documents/v1/documents-side', (req, res) => {
+  res.render('projects/back-office/manage/documents/v1/documents-side', {
+    caseRef: req.session.currentCaseRef || '',
+    planTitle: req.session.planTitle || '',
+    planStage: req.session.planStage || 'Gateway 2',
+    serviceName: 'Local Plans Examinations'
+  });
+});
+
+router.get('/projects/back-office/manage/documents/v1/documents-side.html', (req, res) => {
+  res.redirect('/projects/back-office/manage/documents/v1/documents-side');
+});
+
+router.get('/projects/back-office/manage/documents/v1/documents-empty.html', (req, res) => {
+  res.render('projects/back-office/manage/documents/v1/documents-empty', {
+    caseRef: req.session.currentCaseRef || '',
+    planTitle: req.session.planTitle || '',
+    planStage: req.session.planStage || 'Gateway 2',
+    serviceName: 'Local Plans Examinations'
+  });
+});
+
 // Delete confirmation page GET
 router.get('/projects/back-office/manage/documents/delete-confirmation', (req, res) => {
   const documentName = req.query.docName || '';
   
-  res.render('projects/back-office/manage/documents/v1/delete-confirmation', {
+  res.render('projects/back-office/manage/documents/upload/v1/delete-confirmation', {
     caseRef: req.session.currentCaseRef || '',
     planTitle: req.session.planTitle || '',
     documentName: documentName
@@ -2420,37 +2442,9 @@ router.get('/projects/back-office/manage/documents/clear-uploads', (req, res) =>
   res.redirect('/projects/back-office/manage/documents/upload/v1/upload-bo');
 });
 
-// Documents index page GET
-router.get('/projects/back-office/manage/documents/upload/v1/documents', (req, res) => {
-  res.render('projects/back-office/manage/documents/upload/v1/documents', {
-    caseRef: req.session.currentCaseRef || '',
-    planTitle: req.session.planTitle || '',
-    planStage: req.session.planStage || 'Gateway 2',
-    serviceName: 'Local Plans Examinations'
-  });
-});
-
-router.get('/projects/back-office/manage/documents/upload/v1/documents-side', (req, res) => {
-  res.render('projects/back-office/manage/documents/upload/v1/documents-side', {
-    caseRef: req.session.currentCaseRef || '',
-    planTitle: req.session.planTitle || '',
-    planStage: req.session.planStage || 'Gateway 2',
-    serviceName: 'Local Plans Examinations'
-  });
-});
-
-router.get('/projects/back-office/manage/documents/upload/v1/documents-side.html', (req, res) => {
-  res.redirect('/projects/back-office/manage/documents/upload/v1/documents-side');
-});
-
-// Documents empty page GET
-router.get('/projects/back-office/manage/documents/upload/v1/documents-empty.html', (req, res) => {
-  res.render('projects/back-office/manage/documents/upload/v1/documents-empty', {
-    caseRef: req.session.currentCaseRef || '',
-    planTitle: req.session.planTitle || '',
-    planStage: req.session.planStage || 'Gateway 2',
-    serviceName: 'Local Plans Examinations'
-  });
+// Legacy documents-with_tag URL redirect
+router.get('/projects/back-office/manage/documents/v1/documents-with_tag.html', (req, res) => {
+  res.redirect('/projects/back-office/manage/documents/v1/documents-with-tag.html');
 });
 
 // Upload documents page GET
@@ -2530,7 +2524,7 @@ router.post('/projects/back-office/manage/documents/upload/v1/upload-bo', (req, 
     } else {
       console.log('Session saved before redirect');
     }
-    res.redirect('/projects/back-office/manage/documents/v1/check-answers');
+    res.redirect('/projects/back-office/manage/documents/upload/v1/check-answers');
   });
 });
 
@@ -2551,7 +2545,7 @@ router.get('/projects/back-office/manage/documents/download/:filename', (req, re
 });
 
 // Check answers page for documents
-router.get('/projects/back-office/manage/documents/v1/check-answers', (req, res) => {
+router.get('/projects/back-office/manage/documents/upload/v1/check-answers', (req, res) => {
   // Parse fileData from session.data (GOV.UK Prototype Kit format)
   let uploadedDocuments = [];
   if (req.session.data && req.session.data.fileData) {
@@ -2588,12 +2582,17 @@ router.get('/projects/back-office/manage/documents/v1/check-answers', (req, res)
     }
   });
   
-  res.render('projects/back-office/manage/documents/v1/check-answers', {
+  res.render('projects/back-office/manage/documents/upload/v1/check-answers', {
     caseRef: req.session.currentCaseRef || '',
     serviceName: 'Local Plans Examinations',
     uploadedDocuments: uploadedDocuments,
     totalFiles: uploadedDocuments.length
   });
+});
+
+// Backward-compatible path for check answers
+router.get('/projects/back-office/manage/documents/v1/check-answers', (req, res) => {
+  res.redirect('/projects/back-office/manage/documents/upload/v1/check-answers');
 });
 
 // --- Hearing Dates Pattern Demonstrations ---
