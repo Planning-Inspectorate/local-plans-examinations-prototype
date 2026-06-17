@@ -34,8 +34,8 @@ Plan overview – {{ serviceName }}
       <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Case note actions</h2>
 
       {% set caseNotesHtml %}
-        {# 1. Point the form to the new route #}
-        <form method="POST" action="/cases/add-case-note?ref={{ currentCase.reference }}">
+        <form method="POST" action="/projects/back-office/manage/overview/v2/index-side">
+          <input type="hidden" name="returnTo" value="/projects/back-office/manage/overview/v2/index-side">
           <div class="govuk-grid-row">
             <div class="govuk-grid-column-full">
               {{ govukCharacterCount({
@@ -56,11 +56,10 @@ Plan overview – {{ serviceName }}
           }) }}
         </form>
 
-        {# Loop through and display the saved notes (MAX 4) #}
         {% if currentCase.caseNotes and currentCase.caseNotes.length > 0 %}
           <div>
             <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-            
+
             {% for note in currentCase.caseNotes %}
               {% if loop.index <= 4 %}
                 <section>
@@ -75,15 +74,13 @@ Plan overview – {{ serviceName }}
               {% endif %}
             {% endfor %}
 
-            {# Show "Show all notes" link if there are more than 4 #}
             {% if currentCase.caseNotes.length > 4 %}
-              <p class="govuk-body govuk-!-text-align-centre">
-                <a class="govuk-link govuk-link--no-visited-state" href="/cases/all-case-notes?ref={{ currentCase.reference }}" data-cy="show-all-notes-link">
-                  Show all notes
+              <p class="govuk-body">
+                <a class="govuk-link govuk-link--no-visited-state" href="/projects/back-office/manage/overview/v2/case-notes?ref={{ currentCase.reference }}">
+                  Show all {{ currentCase.caseNotes.length }} notes
                 </a>
               </p>
             {% endif %}
-
           </div>
         {% endif %}
       {% endset %}
@@ -92,47 +89,83 @@ Plan overview – {{ serviceName }}
       {% set noteCount = currentCase.caseNotes | length if currentCase.caseNotes else 0 %}
       
       {{ govukDetails({
+        id: "case-notes-details",
         summaryText: noteCount ~ " case notes",
         html: caseNotesHtml
       }) }}
+
+      <script>
+        (function () {
+          var detailsKey = 'caseNotesOpen-v2';
+          var draftKey = 'caseNotesDraft-v2';
+          var el = document.getElementById('case-notes-details');
+          var textarea = document.getElementById('comment');
+
+          // Restore details open state
+          if (el) {
+            if (localStorage.getItem(detailsKey) === 'true') el.setAttribute('open', '');
+            el.addEventListener('toggle', function () {
+              localStorage.setItem(detailsKey, el.open ? 'true' : 'false');
+            });
+          }
+
+          // Restore draft textarea content
+          if (textarea) {
+            var saved = localStorage.getItem(draftKey);
+            if (saved) textarea.value = saved;
+
+            // Save as user types
+            textarea.addEventListener('input', function () {
+              localStorage.setItem(draftKey, textarea.value);
+            });
+          }
+
+          // Clear draft when form is submitted
+          var form = textarea && textarea.closest('form');
+          if (form) {
+            form.addEventListener('submit', function () {
+              localStorage.removeItem(draftKey);
+            });
+          }
+        })();
+      </script>
       
       <dl class="govuk-summary-list">
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Plan title</dt>
-          <dd class="govuk-summary-list__value">Central City Local Plan</dd>
+          <dd class="govuk-summary-list__value">{{ planTitle or '-' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> Change the plan title</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Plan type</dt>
-          <dd class="govuk-summary-list__value">Local plan</dd>
+          <dd class="govuk-summary-list__value">{% if planType == 'local-plan' %}Local Plan{% else %}{{ planType or '-' }}{% endif %}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> Change the plan type</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Local Planning Authority</dt>
-          <dd class="govuk-summary-list__value">Central City Council</dd>
+          <dd class="govuk-summary-list__value">{{ lpas[0] or '-' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> Change LPA 1</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Region</dt>
-          <dd class="govuk-summary-list__value">Midlands</dd>
+          <dd class="govuk-summary-list__value">{{ lpaRegions[lpas[0]] or '-' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> Change region for LPA 1</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Case officer</dt>
-          <dd class="govuk-summary-list__value">Jane Smith</dd>
+          <dd class="govuk-summary-list__value">{{ caseOfficer or '-' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> Change the case officer</span></a>
           </dd>
         </div>
-          </dl>
       </dl>
 
 
@@ -141,10 +174,10 @@ Plan overview – {{ serviceName }}
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Main contact</dt>
           <dd class="govuk-summary-list__value">
-            Jamie Lee<br>
-            jamie.lee@example.com<br>
-            07700 900123<br>
-            Central City Council
+            {{ mainContactName or '-' }}<br>
+            {{ mainContactEmail or '-' }}<br>
+            {{ mainContactPhone or '-' }}<br>
+            {{ mainContactOrg or '-' }}
           </dd>
           <dd class="govuk-summary-list__actions">
             <ul class="govuk-summary-list__actions-list">
@@ -154,62 +187,64 @@ Plan overview – {{ serviceName }}
             </ul>
           </dd>
         </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Contact 2</dt>
-          <dd class="govuk-summary-list__value">
-            Morgan Smith<br>
-            morgan.smith@example.com<br>
-            07700 900456<br>
-            Central City Council
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <ul class="govuk-summary-list__actions-list">
-              <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> contact 2</span></a>
-              </li>
-            </ul>
-          </dd>
-        </div>
-      </dl>
+        {% for contact in contacts %}
+          {% if loop.index <= 3 %}
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Contact {{ loop.index + 1 }}</dt>
+              <dd class="govuk-summary-list__value">
+                {{ contact.firstName or '' }} {{ contact.lastName or '' }}<br>
+                {{ contact.email or '-' }}<br>
+                {{ contact.phone or '-' }}<br>
+                {{ contact.organisation or '-' }}
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <ul class="govuk-summary-list__actions-list">
+                  <li class="govuk-summary-list__actions-list-item">
+                    <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> contact {{ loop.index + 1 }}</span></a>
+                  </li>
+                </ul>
+              </dd>
+            </div>
+          {% endif %}
+        {% endfor %}
       </dl>
       <h2 class="govuk-heading-m">Key dates</h2>
       <dl class="govuk-summary-list">
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Notice of Intention date</dt>
-          <dd class="govuk-summary-list__value">12 March 2026</dd>
+          <dd class="govuk-summary-list__value">{{ noticeOfIntentionDate or '-' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> Notice of Intention date</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Gateway 1 estimated date</dt>
-          <dd class="govuk-summary-list__value">28 March 2026</dd>
+          <dd class="govuk-summary-list__value">{{ gateway1EstimatedDate or '-' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> Gateway 1 Estimated Date</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Gateway 2 estimated date</dt>
-          <dd class="govuk-summary-list__value">15 April 2026</dd>
+          <dd class="govuk-summary-list__value">{{ gateway2EstimatedDate or '-' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> Gateway 2 Estimated Date</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Gateway 3 estimated date</dt>
-          <dd class="govuk-summary-list__value">2 May 2026</dd>
+          <dd class="govuk-summary-list__value">{{ gateway3EstimatedDate or '-' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden">Gateway 3 Estimated Date</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Submission for examination date</dt>
-          <dd class="govuk-summary-list__value">20 May 2026</dd>
+          <dd class="govuk-summary-list__value">{{ submissionDate or '-' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden">Submission for Examination date</span></a>
           </dd>
         </div>
-      </dl>
       </dl>
       <div class="govuk-!-margin-top-6">
         <form method="get" action="/projects/back-office/manage/delete-case-confirmation.html">
