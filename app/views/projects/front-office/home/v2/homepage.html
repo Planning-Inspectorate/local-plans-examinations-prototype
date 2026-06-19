@@ -1,0 +1,55 @@
+{% extends "layouts/front-office-v2.html" %}
+
+{% block pageTitle %}
+Home – {{ serviceName }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+
+  <div class="govuk-grid-column-two-thirds">
+
+    <span class="govuk-caption-xl">
+      Southampton City Council
+    </span>
+
+    <h1 class="govuk-heading-xl">
+      My plans
+    </h1>
+
+{{ govukTable({
+  firstCellIsHeader: true,
+  head: [
+    {
+      text: "Reference number"
+    },
+    {
+    text: "Plan title"
+    }
+  ],
+  rows: [
+    [
+      {
+ html: '<a href="/projects/front-office/plan-details/v2/plan-details?status=ready">PLAN/000006</a>'      },
+      {
+        text: "Southampton Local Plan"
+      }
+    ],
+    [
+      {
+            html: '<a href="#">PLAN/000005</a>'
+      },
+      {
+        text: "Southampton Spacial Development Strategy"
+      }
+    ]
+  ]
+}) }}           
+
+
+  </div>
+
+</div>
+
+{% endblock %}

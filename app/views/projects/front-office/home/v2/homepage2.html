@@ -1,0 +1,55 @@
+{% extends "layouts/front-office-v2.html" %}
+
+{% block pageTitle %}
+Home – {{ serviceName }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+
+  <div class="govuk-grid-column-full">
+
+    <span class="govuk-caption-xl">
+      Southampton City Council
+    </span>
+
+    <h1 class="govuk-heading-xl">
+      My plans
+    </h1>
+
+<div class="govuk-width-container">
+    <ul class="govuk-grid-row card-group">
+        <li class="govuk-grid-column-one-third card-group__item">
+            <div class="card card--clickable" data-test="global-search">
+                <h2 class="govuk-heading-m card__heading">
+                    <a class="govuk-link card__link govuk-link--no-visited-state" href="/projects/front-office/plan-details/v2/plan-details" onclick="showAlert()">My local plan</a>
+                </h2>
+                <p class="govuk-body card__description">Manage your local plan, including gateway stages and examination.</p>
+            </div>
+        </li>
+        <li class="govuk-grid-column-one-third card-group__item">
+            <div class="card card--clickable" data-test="manage-prisoner-whereabouts">
+                <h2 class="govuk-heading-m card__heading">
+My minerals and waste plan
+                </h2>
+                <p class="govuk-body card__description">This plan type is not yet available</p>
+            </div>
+        </li>
+        <li class="govuk-grid-column-one-third card-group__item">
+            <div class="card card--clickable" data-test="use-of-force">
+                <h2 class="govuk-heading-m card__heading">
+                    My spatial development strategy
+                </h2>
+                <p class="govuk-body card__description">This plan type is not yet available</p>
+            </div>
+        </li>
+    </ul>
+</div>
+
+
+  </div>
+
+</div>
+
+{% endblock %}

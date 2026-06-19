@@ -1,0 +1,89 @@
+{% extends "layouts/main.html" %}
+
+{% set title = "Guidance" %}
+{% set activeNav = 'front-office' %}
+{% set version = "1" %}
+
+{% block header %}
+  {% include "includes/PINS-header--internal.html" %}
+  {% include "includes/service-navigation.html" %}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back to all prototypes",
+    href: "/front-office"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <span class="govuk-caption-l">Common journeys and patterns</span>
+
+    <h1 class="govuk-heading-l">{{ title }}</h1>
+
+    <h2 class="govuk-heading-m">
+      Version {{ version }}
+      {{ govukTag({
+        classes: 'govuk-tag govuk-!-margin-left-2',
+        text: 'In progress'
+      }) }}
+    </h2>
+
+    <p class="govuk-body">
+      New tab added to front-office header after user research feedback. This prototype explores the design of a guidance page for LPAs, with links to relevant guidance and resources.
+    </p>
+
+    {{ govukButton({
+      text: "View prototype",
+      href: "/projects/front-office/guidance/v" ~ version ~ "/guidance-page",
+      isStartButton: true
+    }) }}
+
+
+
+
+
+
+    {# NOTES - collapsed so it doesn’t dominate page #}
+    <h3 class="govuk-heading-s">Notes</h3>
+
+    {% set planJourneyNotesHtml %}
+
+      <h3 class="govuk-heading-s">What this prototype explores</h3>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>Gateway stages shown in a tasklist with clear statuses</li>
+        <li>Key metadata like dates, descriptions and actions</li>
+        <li>Reducing uncertainty around whether users can proceed</li>
+      </ul>
+
+      <h3 class="govuk-heading-s">Key questions</h3>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>Do users understand what each status means?</li>
+        <li>Is it clear why some stages are blocked?</li>
+        <li>Can users identify their next action?</li>
+        <li>Do users understand the role of PINS?</li>
+        <li>Is progression through gateways intuitive?</li>
+      </ul>
+
+      <h3 class="govuk-heading-s">Open questions</h3>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>LPA linking in joint plans</li>
+        <li>Handling missing or incomplete submissions</li>
+        <li>What happens when deadlines are missed</li>
+      </ul>
+
+    {% endset %}
+
+    {{ govukDetails({
+      summaryText: "View research notes",
+      html: planJourneyNotesHtml
+    }) }}
+
+  </div>
+</div>
+
+{% endblock %}

@@ -26,21 +26,19 @@ href: '/front-office'
       {{ title }}
     </h1>
 
-    {% set version = "1" %}
+    {% set version = "2" %}
     <h2 class="govuk-heading-m">
       Version {{ version }}
       {{ govukTag({
-      classes: 'govuk-tag--green govuk-!-margin-left-2',
-      text: 'Ready for research'
+      classes: 'govuk-tag govuk-!-margin-left-2',
+      text: 'In progress'
       }) }}
     </h2>
 
     <p class="govuk-body">Designed to give LPAs a quick overview of all plans and their current status.</p>
 
     {{ govukInsetText({
-    html: '<p class="govuk-body"><a
-        href="https://app.mural.co/t/allpins6990/m/allpins6990/1765884601123/237bc418b7dd56fd74fe7b0ce600936fbf9aba46">Design
-        Mural board</a></p>'
+    html: '<a href="https://app.mural.co/t/allpins6990/m/allpins6990/1765884601123/237bc418b7dd56fd74fe7b0ce600936fbf9aba46" target="_blank" rel="noopener noreferrer">Design Mural board</a>'
     }) }}
 
     {{ govukButton({
@@ -49,9 +47,43 @@ href: '/front-office'
     isStartButton: true
     }) }}
 
-    {% set versionNotesHtml %}
-    <h3 class="govuk-heading-s">Notes</h3>
+    {% set v2NotesHtml %}
+    <h3 class="govuk-heading-s">Changes</h3>
+<!--
+    <p class="govuk-body">Simplified homepage to reflect user mental model and primary task completion flow. The previous table implied multiple comparable plans per authority, which is not currently true for most LPAs and caused unnecessary selection and interpretation burden.</p>
 
+    <p class="govuk-body">The new design introduces a task-based entry point using MoJ cards:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>prioritises the single active Local Plan</li>
+      <li>removes non-essential metadata (lead authority, internal status fields, reference IDs)</li>
+      <li>introduces clearly labelled future plan types in a non-interactive “coming soon” state to maintain scalability without misleading affordance</li>
+    </ul>
+
+    <p class="govuk-body">This change aligns with GDS principles of:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>“Start with user needs” (continue working on the local plan)</li>
+      <li>reducing cognitive load</li>
+      <li>avoiding premature exposure of system complexity</li>
+    </ul>
+-->
+    {% endset %}
+
+    {{ govukDetails({
+    summaryText: "Version 2 notes",
+    html: v2NotesHtml
+    }) }}
+
+    {% set v1Version = "1" %}
+
+    {% set v1HTML %}
+    {{ govukButton({
+    html: 'View prototype',
+    href: '/projects/front-office/home/v' ~ v1Version ~ '/homepage',
+    isStartButton: true
+    }) }}
+
+    {% set v1NotesHtml %}
+    <h3 class="govuk-heading-s">Notes</h3>
 
     <ul class="govuk-list govuk-list--bullet">
       <li>'My plans' LPA dashboard page created as the landing page after sign-in</li>
@@ -66,13 +98,13 @@ href: '/front-office'
     <h3 class="govuk-heading-s">Things to test</h3>
 
     <ul class="govuk-list govuk-list--bullet">
-      <li>Do users understand what each status means (for example "New" or "Ready to start", “In progress”, “With PINS”,
-        “Completed”)?</li>
+      <li>Do users understand what each status means (for example "New" or "Ready to start", "In progress", "With PINS",
+        "Completed")?</li>
       <li>Can users quickly identify which plans need attention?</li>
-      <li>Is the difference between “Current stage” and “Status” clear?</li>
+      <li>Is the difference between "Current stage" and "Status" clear?</li>
       <li>Do users know what happens when they click into a plan?</li>
       <li>Is additional filtering or sorting needed (for example by stage or status)?</li>
-      <li>Do users need a clearer indication of “next action” directly in the table?</li>
+      <li>Do users need a clearer indication of "next action" directly in the table?</li>
       <li>Should the dashboard highlight overdue or at-risk plans more prominently?</li>
     </ul>
 
@@ -87,9 +119,24 @@ href: '/front-office'
 
     {{ govukDetails({
     summaryText: "Version 1 notes",
-    html: versionNotesHtml
+    html: v1NotesHtml
     }) }}
+    {% endset %}
 
+    {{ govukAccordion({
+    id: 'previous',
+    classes: 'govuk-!-margin-top-9',
+    items: [
+      {
+        heading: {
+          html: 'Version 1 <strong class="govuk-tag govuk-tag--green govuk-!-margin-left-2">Research complete</strong>'
+        },
+        content: {
+          html: v1HTML
+        }
+      }
+    ]
+    }) }}
 
   </div>
 </div>
