@@ -1,0 +1,7 @@
+{
+  "root": true,
+  "ignore": [
+    "app/views/projects/back-office/manage/examination/v1/hearing-date-ranges.html",
+    "app/views/projects/back-office/manage/examination/v1/hearing-dates-results.html"
+  ]
+}
