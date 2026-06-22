@@ -1,4 +1,4 @@
-{% extends "layouts/front-office.html" %}
+{% extends "layouts/front-office-v2.html" %}
 
 {% block pageTitle %} Application details – {{ serviceName }}
 {% endblock %}
@@ -29,7 +29,7 @@ href: "/projects/front-office/plan-details/v1/plan-details"
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
 
-    {% include "includes/front-office/application-metadata.njk" %}
+    {% include "./application-metadata.njk" %}
 
     <p class="govuk-body"><a href="/projects/front-office/plan-details/v1/plan-details">Save and come back later</a></p>
 
@@ -41,7 +41,7 @@ href: "/projects/front-office/plan-details/v1/plan-details"
     </h2>
     <p class="govuk-!-margin-bottom-7">You have completed {{ completedCount }} of 2 sections.</p>-->
 
-    <p class="govuk-body">Add the documents relevant to your plan. You do not need to add all documents. Include what is appropriate for your plan's stage and complexity.</p>
+    <p class="govuk-body">Add any documents you have that are relevant to your plan.</p>
 
     <style>
       .app-task-list>li {
@@ -68,6 +68,7 @@ href: "/projects/front-office/plan-details/v1/plan-details"
       {# Size modifiers: xl, l, m #}
       {% include "./task-list__consultation.html" %}
       {% include "./task-list__supplementary-docs.html" %}
+      {% include "./task-list__workshop.html" %}
       {% include "./task-list__submit.html" %}
     </ol>
 

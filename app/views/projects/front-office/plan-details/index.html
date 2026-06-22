@@ -2,7 +2,6 @@
 
 {% set title = "Plan details" %}
 {% set activeNav = 'front-office' %}
-{% set version = "1" %}
 
 {% block header %}
   {% include "includes/PINS-header--internal.html" %}
@@ -25,11 +24,13 @@
 
     <h1 class="govuk-heading-l">{{ title }}</h1>
 
+    {# ===================== VERSION 2 ===================== #}
+
     <h2 class="govuk-heading-m">
-      Version {{ version }}
+      Version 2
       {{ govukTag({
-        classes: 'govuk-tag--green govuk-!-margin-left-2',
-        text: 'Ready for research'
+        classes: 'govuk-tag--blue govuk-!-margin-left-2',
+        text: 'In progress'
       }) }}
     </h2>
 
@@ -37,78 +38,33 @@
       Designed to give LPAs a clear understanding of the current stage of a plan, its status, and what comes next.
     </p>
 
+    <ul class="govuk-list govuk-list--bullet">
+      <li><a class="govuk-link" href="https://app.mural.co/t/allpins6990/m/allpins6990/1765884601123/237bc418b7dd56fd74fe7b0ce600936fbf9aba46">Design Mural board</a></li>
+      <li><a class="govuk-link" href="https://app.mural.co/t/allpins6990/m/allpins6990/1776240173187/3c951bd1e9c81a3c6506f51abab0d859c1ff7e10">User research assumption mapping mural</a></li>
+      <li><a class="govuk-link" href="/projects/front-office/plan-details/archive/plan-details7">Riskier option with bespoke timeline component</a></li>
+      <li><a class="govuk-link" href="/projects/front-office/plan-details/archive/plan-details8">Tasklist + guidance in details component</a></li>
+      <li><a class="govuk-link" href="/projects/front-office/plan-details/archive/plan-details9">Accordion-based version</a></li>
+    </ul>
+
     {{ govukButton({
       text: "View prototype",
-      href: "/projects/front-office/plan-details/v" ~ version ~ "/plan-details?status=ready",
+      href: '/projects/front-office/plan-details/v2/plan-details?status=ready',
       isStartButton: true
     }) }}
 
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
+    {# ===================== VERSION 1 NOTES (DEFINE FIRST) ===================== #}
 
-    {# STATUS VARIANTS #}
-    <h3 class="govuk-heading-s">Prototype states</h3>
+    {% set v1NotesHtml %}
 
-    <ul class="govuk-list govuk-list--bullet">
-      <li>
-        <a href="/projects/front-office/plan-details/v1/plan-details?status=ready">
-          Ready
-        </a>
-      </li>
-      <li>
-        <a href="/projects/front-office/plan-details/v1/plan-details?status=in-progress">
-          In progress
-        </a>
-      </li>
-      <li>
-        <a href="/projects/front-office/plan-details/v1/plan-details?status=with-pins">
-          With PINS
-        </a>
-      </li>
-      <li>
-        <a href="/projects/front-office/plan-details/v1/plan-details?status=action-needed">
-          Action needed
-        </a>
-      </li>
-    </ul>
-
-
-    {# RESEARCH LINKS #}
-    <h3 class="govuk-heading-s">Research materials</h3>
-
-    <ul class="govuk-list govuk-list--bullet">
-      <li>
-        <a href="https://app.mural.co/t/allpins6990/m/allpins6990/1765884601123/237bc418b7dd56fd74fe7b0ce600936fbf9aba46">
-          Design Mural board
-        </a>
-      </li>
-      <li>
-        <a href="https://app.mural.co/t/allpins6990/m/allpins6990/1776240173187/3c951bd1e9c81a3c6506f51abab0d859c1ff7e10">
-          User research assumption mapping mural
-        </a>
-      </li>
-      <li>
-        <a href="/projects/front-office/plan-details/archive/plan-details7">
-          Riskier option with bespoke timeline component
-        </a>
-      </li>
-      <li>
-        <a href="/projects/front-office/plan-details/archive/plan-details8">
-          Tasklist + guidance in details component
-        </a>
-      </li>
-      <li>
-        <a href="/projects/front-office/plan-details/archive/plan-details9">
-          Accordion-based version
-        </a>
-      </li>
-    </ul>
-
-
-    {# NOTES - collapsed so it doesn’t dominate page #}
-    <h3 class="govuk-heading-s">Notes</h3>
-
-    {% set planJourneyNotesHtml %}
+      <h3 class="govuk-heading-s">Prototype states</h3>
+      <ul class="govuk-list govuk-list--bullet">
+        <li><a class="govuk-link" href="/projects/front-office/plan-details/v1/plan-details?status=ready">Ready</a></li>
+        <li><a class="govuk-link" href="/projects/front-office/plan-details/v1/plan-details?status=in-progress">In progress</a></li>
+        <li><a class="govuk-link" href="/projects/front-office/plan-details/v1/plan-details?status=with-pins">With PINS</a></li>
+        <li><a class="govuk-link" href="/projects/front-office/plan-details/v1/plan-details?status=action-needed">Action needed</a></li>
+      </ul>
 
       <h3 class="govuk-heading-s">What this prototype explores</h3>
       <ul class="govuk-list govuk-list--bullet">
@@ -135,9 +91,39 @@
 
     {% endset %}
 
-    {{ govukDetails({
-      summaryText: "View research notes",
-      html: planJourneyNotesHtml
+    {# ===================== VERSION 1 MAIN CONTENT ===================== #}
+
+    {% set v1HTML %}
+
+      <p class="govuk-body">
+        Older iteration of the plan details dashboard used for research and comparison.
+      </p>
+
+      {{ govukDetails({
+        summaryText: "Notes",
+        html: v1NotesHtml
+      }) }}
+
+      {{ govukButton({
+        text: "View prototype",
+        href: '/projects/front-office/plan-details/v1/plan-details?status=ready',
+        isStartButton: true
+      }) }}
+
+    {% endset %}
+
+    {{ govukAccordion({
+      id: "plan-details-accordion",
+      items: [
+        {
+          heading: {
+            html: 'Version 1 <strong class="govuk-tag govuk-tag--green govuk-!-margin-left-2">Research complete</strong>'
+          },
+          content: {
+            html: v1HTML
+          }
+        }
+      ]
     }) }}
 
   </div>

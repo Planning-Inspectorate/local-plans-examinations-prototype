@@ -1,0 +1,44 @@
+<style>
+  .app-header {
+    margin-bottom: 20px;
+  }
+
+  .app-header__title {
+    margin-bottom: 5px;
+  }
+
+  .app-header__tag {
+    margin-bottom: 15px;
+  }
+
+  .app-details .govuk-summary-list__key,
+  .app-details .govuk-summary-list__value {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+</style>
+
+<div class="app-header">
+  <h1 class="govuk-heading-xl app-header__title">
+    <span class="govuk-caption-xl">PLAN/000006</span>
+    Gateway 2 submission
+  </h1>
+</div>
+
+{{ govukSummaryList({
+  classes: "app-details govuk-summary-list--no-border",
+  rows: [
+    {
+      key: { text: "Local planning authority", classes: "govuk-!-width-one-third" },
+      value: { text: "Southampton City Council" }
+    },
+    {
+      key: { text: "Plan name", classes: "govuk-!-width-one-third" },
+      value: { text: "East Borough Local Plan" }
+    },
+    {
+      key: { text: "Target date", classes: "govuk-!-width-one-third" },
+      value: { text: "25 April 2026" }
+    }
+  ]
+}) }}

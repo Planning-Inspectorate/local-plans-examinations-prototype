@@ -1,0 +1,68 @@
+<!--<li>
+<h2 class="app-task-list__section">
+  Submit
+  {% if data['procedural-started'] == 'true' %}
+    {{ govukTag({ text: 'Submission available', classes: 'govuk-tag--blue' }) }}
+  {% else %}
+    {{ govukTag({ text: 'Cannot start yet', classes: 'govuk-tag--grey' }) }}
+  {% endif %}
+</h2>
+  <p class="govuk-body govuk-hint">You must upload at least one document before you can submit</p>
+
+
+  {{ govukSummaryList({
+    classes: 'govuk-!-margin-bottom-9',
+    rows: [
+      {
+        key: { html: 'Accept declaration and submit' },
+        actions: {
+          items: [
+            {
+              href: 'application-declaration',
+              html: 'Continue'
+            }
+          ]
+        } if data['procedural-started'] == 'true'
+      }
+    ]
+  }) }}
+</li>-->
+
+<li>
+
+  <h2 class="govuk-heading-m">Workshop information</h2>
+
+ {% set workshopInfo %}
+<p class="govuk-body">Virtual</p>
+  {% endset %}
+
+   {% set workshopDates %}
+<p class="govuk-body">20,21 or 23rd of July</p>
+  {% endset %}
+
+  {{ govukSummaryList({
+    classes: 'govuk-!-margin-bottom-9',
+    rows: [
+      {
+        key: { text: 'Suggested workshop venue' },
+        value:
+          { html: workshopInfo } if data['workshop-info-complete']
+          else { html: '<span class="govuk-hint">Not provided</span>' },
+        actions: { items: [
+          { href: 'workshop-info/workshop-venue?cya=true', text: 'Change' } if data['workshop-info-complete']
+          else { href: 'workshop-info/workshop-venue', text: 'Add' }
+        ]}
+      },
+      {
+        key: { text: 'Suggested workshop dates' },
+        value:
+          { html: workshopDates } if data['workshop-dates-complete']
+          else { html: '<span class="govuk-hint">Not provided</span>' },
+        actions: { items: [
+          { href: 'workshop-info/workshop-dates?cya=true', text: 'Change' } if data['workshop-dates-complete']
+          else { href: 'workshop-info/workshop-dates', text: 'Add' }
+        ]}
+      }
+    ]
+  }) }}
+</li>

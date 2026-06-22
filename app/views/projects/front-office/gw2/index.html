@@ -26,12 +26,12 @@
       {{ title }}
     </h1>
  
-    {% set version = "2" %}
+    {% set version = "3" %}
     <h2 class="govuk-heading-m">
       Version {{ version }}
       {{ govukTag({
-        classes: 'govuk-tag--green govuk-!-margin-left-2',
-        text: 'Ready for research'
+        classes: 'govuk-tag govuk-!-margin-left-2',
+        text: 'In progress'
       }) }}
     </h2>
 
@@ -42,23 +42,21 @@
     <ul class="govuk-list govuk-list--bullet">
       <li>
         <a
-        href="https://app.mural.co/t/allpins6990/m/allpins6990/1765884601123/237bc418b7dd56fd74fe7b0ce600936fbf9aba46">Design
-        Mural board</a>
+        href="https://app.mural.co/t/allpins6990/m/allpins6990/1765884601123/237bc418b7dd56fd74fe7b0ce600936fbf9aba46">Design Mural board</a>
       </li>
       <li>
         <a
-        href="https://app.mural.co/t/allpins6990/m/allpins6990/1776240173187/3c951bd1e9c81a3c6506f51abab0d859c1ff7e10">User research assumption mapping mural</a>
-      </li>
-      <li>
-        <a
-        href="/projects/front-office/gw2/v3/application-details.html">Option with no mandatory documents</a>
+        href="https://app.mural.co/t/allpins6990/m/allpins6990/1776240173187/3c951bd1e9c81a3c6506f51abab0d859c1ff7e10">User research assumption mapping mural board</a>
       </li>
       <li>
         <a
         href="/projects/front-office/gw2/v4/application-details.html">Option with hybrid mandatory + optional documents</a>
       </li>
+      <li>
+        <a
+        href="https://app.mural.co/t/allpins6990/m/allpins6990/1781087329494/450608632532f9f252540e6e24da657510944428">Insights into decisions mural board</a>
+      </li>
     </ul>
-
      
     {{ govukButton({
       html: 'View prototype',
@@ -69,6 +67,35 @@
     {% set appDetailsNotesHtml %}
 
     <h3 class="govuk-heading-s">Changes</h3>
+ 
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Designed so all documents are optional</li>
+      <li>Changed "application" wording to "submission"</li>
+      <li>Add option to add links instead of document upload</li>
+      <li>Replaced "Continue" button with "Save and return" button</li>
+      <li>Added a "supplementary documents" section</li>
+      <li>Removed references to "joint" plans</li>
+      <li>Added a "Continue to declaration" button at the bottom</li>
+    </ul>
+
+{% endset %}
+
+{{ govukDetails({
+  summaryText: "Version 3 notes",
+  html: appDetailsNotesHtml
+}) }}
+
+    {% set v2HTML %}
+ 
+      {% set version = "2" %}
+
+          {{ govukButton({
+      html: 'View prototype',
+      href: '/projects/front-office/gw2/v' ~ version ~ '/application-details',
+      isStartButton: true
+    }) }}
+
+      <h3 class="govuk-heading-s">Changes</h3>
  
     <ul class="govuk-list govuk-list--bullet">
       <li>Updated application structure to follow the Appeals pattern with individual upload steps</li>
@@ -102,13 +129,8 @@
   <li>How validation should work for missing or incorrect documents</li>
   <li>How multiple users accessing the service should be managed</li>
 </ul>
-
-{% endset %}
-
-{{ govukDetails({
-  summaryText: "Version 2 notes",
-  html: appDetailsNotesHtml
-}) }}
+ 
+    {% endset -%}
  
     {% set v1HTML %}
  
@@ -136,6 +158,14 @@
       id: 'previous',
       classes: 'govuk-!-margin-top-9',
       items: [
+        {
+          heading: {
+            html: 'Version 2 <strong class="govuk-tag govuk-tag--green govuk-!-margin-left-2">Research complete</strong>'
+          },
+          content: {
+            html: v2HTML
+          }
+        },
         {
           heading: {
             html: 'Version 1 <strong class="govuk-tag govuk-tag--grey govuk-!-margin-left-2">Superseded</strong>'
