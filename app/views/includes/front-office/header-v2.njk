@@ -8,12 +8,12 @@
       </span>
       <nav aria-label="Menu" class="govuk-service-navigation__wrapper">
         <ul class="govuk-service-navigation__list" id="navigation">
-          <li class="govuk-service-navigation__item">
+          <li class="govuk-service-navigation__item{% if activeNav == 'guidance' %} govuk-service-navigation__item--active{% endif %}">
             <a class="govuk-service-navigation__link" href="/projects/front-office/guidance/v1/guidance-page">
               Guidance
             </a>
           </li>
-          <li class="govuk-service-navigation__item">
+          <li class="govuk-service-navigation__item{% if activeNav == 'account-settings' %} govuk-service-navigation__item--active{% endif %}">
             <a class="govuk-service-navigation__link" href="/projects/front-office/gw2/v1/account-settings.html">
               Account settings
             </a>
