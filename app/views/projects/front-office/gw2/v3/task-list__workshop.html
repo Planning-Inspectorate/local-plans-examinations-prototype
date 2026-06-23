@@ -37,7 +37,7 @@
   {% endset %}
 
    {% set workshopDates %}
-<p class="govuk-body">20,21 or 23rd of July</p>
+<p class="govuk-body">20 - 23rd of July or we're free the week of July 27th</p>
   {% endset %}
 
   {{ govukSummaryList({
@@ -46,10 +46,10 @@
       {
         key: { text: 'Suggested workshop venue' },
         value:
-          { html: workshopInfo } if data['workshop-info-complete']
+          { html: workshopInfo } if data['workshop-venue-complete']
           else { html: '<span class="govuk-hint">Not provided</span>' },
         actions: { items: [
-          { href: 'workshop-info/workshop-venue?cya=true', text: 'Change' } if data['workshop-info-complete']
+          { href: 'workshop-info/workshop-venue?cya=true', text: 'Change' } if data['workshop-venue-complete']
           else { href: 'workshop-info/workshop-venue', text: 'Add' }
         ]}
       },

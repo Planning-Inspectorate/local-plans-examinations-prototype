@@ -6,9 +6,59 @@
   {% include "includes/front-office/header-v2.njk" %}
 {% endblock %}
 
-{% block content %}
-  {{ super() }}
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: 'Back',
+    href: 'javascript:history.back()'
+  }) if back != false }}
 {% endblock %}
+
+{# Setup form question pages by default, override by using content block if not needed #}
+
+{% block content %}
+	<div class="govuk-grid-row">
+		<div class="govuk-grid-column-three-quarters govuk-grid-column-two-thirds-from-desktop">
+
+			{# Forms all post to themselves, action controlled by _routes.js in each prototype #}
+			<form method="post"{% if formAction %} action="{{ formAction }}"{% endif %}>
+
+				{# Use the questions block on each page without needing to add in the rest of this block #}
+				{% block questions %}{% endblock %}
+
+				{# Set default button to continue, use buttons block to override #}
+				{% block buttons %}
+					{{ govukButton({
+						text: 'Continue'
+					}) }}
+
+					{# Option to add a return to task list link
+					Add on pages that with:
+						{% set return = true %}
+
+					or add for whole prototype in routes.js with:
+						res.locals['return'] = true
+					#}
+					{% if return == true %}
+						<p class="govuk-body">
+							<a href="../application-details" class="govuk-link--no-visited-state">
+								Return to your submission homepage
+							</a>
+						</p>
+
+					{% endif %}
+				{% endblock %}
+
+			</form>
+
+			{% block afterContent %}
+				{# Option to add things after the green button / form #}
+			{% endblock %}
+
+		</div>
+	</div>
+{% endblock %}
+
+
 
 {% block footer %}
   {% include "includes/front-office/footer.njk" %}

@@ -1,95 +1,24 @@
-{% extends "layouts/front-office.html" %}
+{% extends "layouts/front-office-v2.html" %}
 
-{% set documentName = "Covering letter" %}
-{% set documentKey = "coveringLetter" %}
+{% set documentName = "Gateway 2 covering letter" %}
+{% set title = "Upload your " + documentName %}
 
-{% block pageTitle %}
-Provide your {{ documentName | lower }} – {{ serviceName }}
-{% endblock %}
+{% block questions %}
 
-{% block beforeContent %}
-{{ govukBackLink({
-  text: "Back",
-  href: "javascript:window.history.back()"
+  <span class="govuk-caption-l">
+    Procedural documents
+  </span>
+
+  {% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
+
+  {{ govukFileUpload({
+  id: "document-upload",
+  name: "documentUpload",
+  label: {
+    text: "Upload your " + documentName | lower,
+    classes: "govuk-fieldset__legend--l"
+  },
+  javascript: true
 }) }}
-{% endblock %}
-
-{% block content %}
-
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-
-    {% set urlHtml %}
-      {{ govukInput({
-        id: "document-url",
-        name: "documentUrl",
-        type: "url",
-        autocomplete: "url",
-        label: {
-          text: "Web link"
-        },
-        hint: {
-          text: "Enter the full web address, including https://"
-        },
-        value: data.documentUrl
-      }) }}
-    {% endset %}
-
-    {% set fileHtml %}
-      {{ govukFileUpload({
-        id: "document-upload",
-        name: "documentUpload",
-        label: {
-          text: "Upload your " + documentName | lower
-        }
-      }) }}
-    {% endset %}
-
-    <form method="post" enctype="multipart/form-data">
-
-      <h1 class="govuk-heading-l">
-        Provide your {{ documentName | lower }}
-      </h1>
-
-      <p class="govuk-body">
-        You can upload a file or provide a web link to where the document is published.
-      </p>
-
-      {{ govukRadios({
-        idPrefix: "document-method",
-        name: "documentMethod",
-        value: data.documentMethod,
-        fieldset: {
-          legend: {
-            text: "How do you want to provide it?",
-            classes: "govuk-fieldset__legend--m"
-          }
-        },
-        items: [
-          {
-            value: "upload",
-            text: "Upload a file",
-            conditional: {
-              html: fileHtml
-            }
-          },
-          {
-            value: "link",
-            text: "Provide a web link",
-            conditional: {
-              html: urlHtml
-            }
-          }
-        ]
-      }) }}
-
-      {{ govukButton({
-        text: "Save and return"
-      }) }}
-
-    </form>
-
-  </div>
-</div>
 
 {% endblock %}

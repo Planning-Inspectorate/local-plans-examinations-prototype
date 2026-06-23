@@ -1,10 +1,6 @@
-{% extends "layouts/front-office.html" %}
+{% extends "layouts/front-office-v2.html" %}
 
-{% block pageTitle %}
-  Upload supplementary documents – {{ serviceName }}
-{% endblock %}
-
-{% from "includes/multidocumentupload.njk" import multiDocumentUpload %}
+{% set title = "How would you like to hold the Gateway 2 workshop?" %}
 
 {% block beforeContent %}
   {{ govukBackLink({
@@ -13,30 +9,31 @@
   }) }}
 {% endblock %}
 
-{% block content %}
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <form method="post">
+{% block questions %}
 
-      {% set venueHtml %}
-{{ govukInput({
-  id: "contact-by-email",
-  name: "contactByEmail",
-  type: "email",
-  autocomplete: "email",
-  spellcheck: false,
-  classes: "govuk-!-width-one-half",
-  label: {
-    text: "Name the suggested venue"
-  }
-}) }}
-{% endset -%}
+  <span class="govuk-caption-l">
+    Workshop information
+  </span>
+
+    {% set venueHtml %}
+      {{ govukInput({
+        id: "contact-by-email",
+        name: "contactByEmail",
+        type: "email",
+        autocomplete: "email",
+        spellcheck: false,
+        classes: "govuk-!-width-one-half",
+        label: {
+          text: "Name the suggested venue"
+        }
+      }) }}
+    {% endset -%}
 
 {{ govukRadios({
   name: "workshopVenue",
   fieldset: {
     legend: {
-      text: "How would you like to hold the gateway 2 workshop?",
+      text: title,
       isPageHeading: true,
       classes: "govuk-fieldset__legend--l"
     }
@@ -60,12 +57,5 @@
   ]
 }) }}
 
-      {{ govukButton({ text: "Continue" }) }}
 
-      <p class="govuk-body">
-        <a class="govuk-link" href="../application-details">Return to your submission</a>
-      </p>
-    </form>
-  </div>
-</div>
 {% endblock %}

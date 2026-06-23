@@ -1,42 +1,24 @@
-{% extends "layouts/front-office.html" %}
+{% extends "layouts/front-office-v2.html" %}
 
-{% block pageTitle %}
-  Upload supplementary documents – {{ serviceName }}
-{% endblock %}
+{% set title = "What dates would you like to suggest for your Gateway 2 workshop?" %}
 
-{% from "includes/multidocumentupload.njk" import multiDocumentUpload %}
+{% block questions %}
 
-{% block beforeContent %}
-  {{ govukBackLink({
-    text: "Back",
-    href: "supplementary-check"
+  <span class="govuk-caption-l">
+    Workshop information
+  </span>
+
+  {{ govukTextarea({
+    name: "workshopDates",
+    id: "workshop-dates",
+    label: {
+      text: title,
+      classes: "govuk-label--l",
+      isPageHeading: true
+    },
+    hint: {
+      text: "Give 2 to 3 options if possible. A workshop is usually expected to last no more than 2 days. The workshop will aim to be held 3 weeks after your Gateway 2 submission."
+    }
   }) }}
-{% endblock %}
 
-{% block content %}
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <form method="post">
-
-      {{ govukTextarea({
-  name: "workshopDetail",
-  id: "workshop-detail",
-  label: {
-    text: "What dates would you like to suggest for your gateway 2 workshop?",
-    classes: "govuk-label--l",
-    isPageHeading: true
-  },
-  hint: {
-    text: "Give 2 to 3 options if possible, in case your first choice isn't available"
-  }
-}) }}
-
-      {{ govukButton({ text: "Save and return" }) }}
-
-      <p class="govuk-body">
-        <a class="govuk-link" href="../application-details">Return to your submission</a>
-      </p>
-    </form>
-  </div>
-</div>
 {% endblock %}

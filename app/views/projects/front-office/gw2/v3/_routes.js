@@ -1,6 +1,13 @@
 const govukPrototypeKit = require('govuk-prototype-kit')
 const router = govukPrototypeKit.requests.setupRouter()
 
+router.get('*', function(req, res, next){
+  // Add return to task list
+  res.locals['return'] = true
+
+  next()
+})
+
 // -----------------------------------------------
 // HELPERS
 // -----------------------------------------------
@@ -20,6 +27,11 @@ function consultationComplete(data) {
          data['gateway1-upload-complete'] &&
          data['proposed-plan-full-upload-complete'] &&
          data['consultation-summary-upload-complete']
+}
+
+function workshopComplete(data) {
+  return data['workshop-venue-complete'] &&
+         data['workshop-dates-complete']
 }
 
 // -----------------------------------------------
@@ -174,6 +186,23 @@ router.post('/consultation-documents/:page', function (req, res) {
 
 router.post('/supplementary-documents/supplementary-upload', function (req, res) {
   req.session.data['supplementary-upload-complete'] = 'true'
+  res.redirect('../workshop-info/workshop-venue')
+})
+
+router.post('/workshop-info/workshop-venue', function (req, res) {
+  req.session.data['workshop-venue-complete'] = 'true'
+  res.redirect('../workshop-info/workshop-dates')
+})
+
+router.post('/workshop-info/workshop-dates', function (req, res) {
+  req.session.data['workshop-dates-complete'] = 'true'
+  res.redirect('../application-details')
+})
+
+// Fallback for any consultation page not explicitly handled above
+router.post('/workshop-info/:page', function (req, res) {
+  req.session.data['workshop-started'] = 'true'
+  req.session.data[`${req.params.page}-complete`] = 'true'
   res.redirect('../application-details')
 })
 
