@@ -79,6 +79,7 @@ router.use('/', require('./routes/create-case-v2'));
 router.use('/', require('./routes/projects/back-office/manage'));
 router.use('/', require('./routes/reps'));
 router.use('/', require('./views/projects/front-office/gw2/archive/test-1/_routes'));
+router.use('/', require('./views/projects/front-office/gw2/archive/v4/_routes'));
 
 // Import routes from different prototype folders
 router.use("/:projects/:service/:prototype/:journey/v:version", (req, res, next) => {

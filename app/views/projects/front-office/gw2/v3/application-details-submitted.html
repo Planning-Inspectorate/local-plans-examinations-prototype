@@ -1,4 +1,4 @@
-{% extends "layouts/front-office.html" %}
+{% extends "layouts/front-office-v2.html" %}
 
 {% block pageTitle %}
   Application details – {{ serviceName }}
@@ -7,16 +7,24 @@
 {% block beforeContent %}
   {{ govukBackLink({
     text: "Back",
-    href: "/projects/front-office/plan-details/v1/plan-details-submitted"
+    href: "/projects/front-office/plan-details/v2/plan-details?with-pins"
   }) }}
 {% endblock %}
 
 {% block content %}
 
+{% set supplementaryDocuments %}
+    <ul class="govuk-list govuk-list--bullet">
+      <li><a class="govuk-link" href="#">supplementary-doc-1.pdf</a></li>
+      <li><a class="govuk-link" href="#">supplementary-doc-2.pdf</a></li>
+      <li><a class="govuk-link" href="#">supplementary-doc-3.pdf</a></li>
+    </ul>
+  {% endset %}
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters-from-desktop">
 
-    {% include "includes/front-office/application-metadata.html" %}
+    {% include "./application-metadata.html" %}
 
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible" />
 
@@ -112,6 +120,37 @@
         }
       ]
     }) }}
+
+    <h2 class="govuk-heading-m govuk-!-margin-top-6">Other documents</h2>
+
+    {{ govukSummaryList({
+      classes: "app-summary-list--narrow-key",
+      rows: [
+        {
+          key: { text: "Other documents" },
+          value: {
+            html: supplementaryDocuments
+          }
+        }
+      ]
+    }) }}
+
+        <h2 class="govuk-heading-m govuk-!-margin-top-6">Workshop details</h2>
+
+    {{ govukSummaryList({
+      classes: "app-summary-list--narrow-key",
+      rows: [
+        {
+          key: { text: "Suggested workshop venue" },
+          value: { text: "Virtual" }
+        },
+        {
+          key: { text: "Suggested workshop dates" },
+          value: { text: "20 - 23rd of July or we're free the week of July 27th" }
+        }
+      ]
+    }) }}
+
 
   </div>
 </div>

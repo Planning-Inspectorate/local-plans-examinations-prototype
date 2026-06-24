@@ -39,7 +39,7 @@ router.get('/application-details', function (req, res) {
   let completedCount = 0
   if (data['procedural-completed'] == 'true') completedCount++
 
-  res.render('projects/front-office/gw2/v4/application-details', {
+  res.render('projects/front-office/gw2/archive/v4/application-details', {
     completedCount: completedCount
   })
 })

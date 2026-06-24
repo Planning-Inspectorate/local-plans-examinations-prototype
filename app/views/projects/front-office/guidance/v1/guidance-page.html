@@ -8,6 +8,70 @@
 
 {% block content %}
 
+{% set gateway2 %}
+<p class="govuk-body">Document requirements depend on your plan's complexity. You may not need to provide all of the listed documents but it is recommended to provide what you have to get the most out of Gateway 2.</p>
+
+    <table class="govuk-table">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">Document</th>
+          <th scope="col" class="govuk-table__header">What is needed</th>
+        </tr>
+      </thead>
+
+      <tbody class="govuk-table__body">
+
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">
+            Gateway 2 cover letter
+          </th>
+          <td class="govuk-table__cell">
+            Overview of progress, key issues for advice and list of submitted documents.
+          </td>
+        </tr>
+
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">
+            Local plan timetable
+          </th>
+          <td class="govuk-table__cell">
+            Current timetable showing planned and actual milestone dates.
+          </td>
+        </tr>
+
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">
+            Project initiation document
+          </th>
+          <td class="govuk-table__cell">
+            Project management arrangements.
+          </td>
+        </tr>
+
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">
+            Draft Statement of Compliance
+          </th>
+          <td class="govuk-table__cell">
+            Early evidence of progress towards meeting prescribed requirements.
+          </td>
+        </tr>
+
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">
+            Draft Statement of Soundness
+          </th>
+          <td class="govuk-table__cell">
+            Potential soundness issues for discussion.
+          </td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+{% endset %}
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
@@ -80,183 +144,6 @@
       </tbody>
     </table>
 
-    <!-- <h2 class="govuk-heading-m">Document requirements</h2>
-
-    {{ govukTabs({
-    items: [
-
-    {
-    label: "Gateway 2",
-    id: "gateway-2",
-    panel: {
-    html: '
-
-    <p class="govuk-body">
-      Submit these documents at least 2 weeks before gateway 2 starts(??).
-    </p>
-
-    <table class="govuk-table">
-      <thead class="govuk-table__head">
-        <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header">Document</th>
-          <th scope="col" class="govuk-table__header">What is needed</th>
-        </tr>
-      </thead>
-
-      <tbody class="govuk-table__body">
-
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">
-            Gateway 2 cover letter
-          </th>
-          <td class="govuk-table__cell">
-            Overview of progress, key issues for advice and list of submitted documents.
-          </td>
-        </tr>
-
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">
-            Local plan timetable
-          </th>
-          <td class="govuk-table__cell">
-            Current timetable showing planned and actual milestone dates.
-          </td>
-        </tr>
-
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">
-            PID
-          </th>
-          <td class="govuk-table__cell">
-            Project management arrangements.
-          </td>
-        </tr>
-
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">
-            Draft Statement of Compliance
-          </th>
-          <td class="govuk-table__cell">
-            Early evidence of progress towards meeting prescribed requirements.
-          </td>
-        </tr>
-
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">
-            Draft Statement of Soundness
-          </th>
-          <td class="govuk-table__cell">
-            Potential soundness issues for discussion.
-          </td>
-        </tr>
-
-      </tbody>
-
-    </table>
-    '
-    }
-    },
-
-    {
-    label: "Gateway 3",
-    id: "gateway-3",
-    panel: {
-    html: '
-
-    <div class="govuk-inset-text">
-      Gateway 3 cannot begin until all required documents have been submitted.
-    </div>
-
-    <table class="govuk-table">
-
-      <thead class="govuk-table__head">
-        <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header">Document</th>
-          <th scope="col" class="govuk-table__header">What is needed</th>
-        </tr>
-      </thead>
-
-      <tbody class="govuk-table__body">
-
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">
-            Statement of Compliance
-          </th>
-          <td class="govuk-table__cell">
-            Demonstrates prescribed requirements have been met.
-          </td>
-        </tr>
-
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">
-            Statement of Soundness
-          </th>
-          <td class="govuk-table__cell">
-            Explains why the plan is capable of being found sound.
-          </td>
-        </tr>
-
-      </tbody>
-
-    </table>
-    '
-    }
-    },
-
-    {
-    label: "Examination",
-    id: "examination",
-    panel: {
-    html: '
-
-    <p class="govuk-body">
-      Submit these documents as part of, or shortly after, your gateway 3 submission.
-    </p>
-
-    <table class="govuk-table">
-
-      <thead class="govuk-table__head">
-        <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header">Document</th>
-          <th scope="col" class="govuk-table__header">What is needed</th>
-        </tr>
-      </thead>
-
-      <tbody class="govuk-table__body">
-
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">
-            Submitted local plan
-          </th>
-          <td class="govuk-table__cell">
-            Version of the plan that forms the basis of examination.
-          </td>
-        </tr>
-
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">
-            Full evidence base
-          </th>
-          <td class="govuk-table__cell">
-            All evidence relied on to demonstrate soundness.
-          </td>
-        </tr>
-
-      </tbody>
-
-    </table>
-
-    <div class="govuk-inset-text">
-      Do not submit additional evidence during examination unless specifically requested by the Inspector.
-    </div>
-    '
-    }
-    }
-
-    ]
-    }) }}
-    -->
-
     {# Size modifiers: xl, l, m #}
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break">
 
@@ -270,64 +157,7 @@
     text: "Gateway 2"
     },
     content: {
-    html: '<table class="govuk-table">
-      <thead class="govuk-table__head">
-        <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header">Document</th>
-          <th scope="col" class="govuk-table__header">What is needed</th>
-        </tr>
-      </thead>
-
-      <tbody class="govuk-table__body">
-
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">
-            Gateway 2 cover letter
-          </th>
-          <td class="govuk-table__cell">
-            Overview of progress, key issues for advice and list of submitted documents.
-          </td>
-        </tr>
-
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">
-            Local plan timetable
-          </th>
-          <td class="govuk-table__cell">
-            Current timetable showing planned and actual milestone dates.
-          </td>
-        </tr>
-
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">
-            Project initiation document
-          </th>
-          <td class="govuk-table__cell">
-            Project management arrangements.
-          </td>
-        </tr>
-
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">
-            Draft Statement of Compliance
-          </th>
-          <td class="govuk-table__cell">
-            Early evidence of progress towards meeting prescribed requirements.
-          </td>
-        </tr>
-
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">
-            Draft Statement of Soundness
-          </th>
-          <td class="govuk-table__cell">
-            Potential soundness issues for discussion.
-          </td>
-        </tr>
-
-      </tbody>
-
-    </table>'
+    html: gateway2
     }
     },
     {
@@ -411,45 +241,6 @@
     ]
     }) }}
 
-
-    <!-- <div class="govuk-grid-column-one-third">
-
-
-    <aside class="govuk-prototype-kit-common-templates-related-items" role="complementary">
-      <h2 class="govuk-heading-m" id="subsection-title">
-        Related content
-      </h2>
-      <nav role="navigation" aria-labelledby="subsection-title">
-        <ul class="govuk-list govuk-!-font-size-16">
-          <li>
-            <a href="https://www.gov.uk/guidance/procedural-guide-for-examinations-and-gateways-under-the-town-and-country-planning-local-planning-england-regulations-2026"
-              class="govuk-link">
-              Planning Inspectorate procedural guide
-            </a>
-          </li>
-          <li>
-            <a href="https://www.gov.uk/government/collections/create-or-update-a-local-plan-using-the-new-system"
-              class="govuk-link">
-              Create or update a local plan using the new system
-            </a>
-          </li>
-          <li>
-            <a href="https://www.gov.uk/guidance/gateway-2-assessment-for-local-plans-what-you-need-to-do"
-              class="govuk-link">
-              Gateway 2 assessment for local plans: what you need to do
-            </a>
-          </li>
-
-          <li>
-            <a href="https://www.gov.uk/guidance/gateway-3-for-local-plans-what-you-need-to-do" class="govuk-link">
-              Gateway 3 for local plans: what you need to do
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </aside>
-
-  </div>-->
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break">
 
     <h2 class="govuk-heading-l">Related content</h2>

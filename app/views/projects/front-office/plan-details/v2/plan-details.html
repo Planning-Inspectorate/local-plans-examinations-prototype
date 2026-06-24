@@ -30,7 +30,7 @@ href: "/projects/front-office/home/v2/homepage"
           You will be notified by email if any action is required.
         </p>
 
-        <a class='govuk-notification-banner__link' href='../../gw2/v2/application-details-submitted'>
+        <a class='govuk-notification-banner__link' href='../../gw2/v3/application-details-submitted'>
           View your Gateway 2 submission
         </a>
       "
@@ -49,6 +49,7 @@ href: "/projects/front-office/home/v2/homepage"
     {% endif %}
 
     {% include "./_includes/plan-heading.njk" %}
+    {% include "./_includes/plan-metadata.njk" %}
     {% include "./_includes/plan-tasklist.njk" %}
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break">
     {% if currentStage == 'gateway-3' %}

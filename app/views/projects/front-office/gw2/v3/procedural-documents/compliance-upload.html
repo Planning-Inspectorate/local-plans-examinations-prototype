@@ -20,8 +20,7 @@
         },
         hint: {
           text: "Enter the full web address, including https://"
-        },
-        value: data.documentUrl
+        }
       }) }}
     {% endset %}
 
@@ -46,7 +45,6 @@
       {{ govukRadios({
         idPrefix: "document-method",
         name: "documentMethod",
-        value: data.documentMethod,
         fieldset: {
           legend: {
             text: "How do you want to provide it?",
