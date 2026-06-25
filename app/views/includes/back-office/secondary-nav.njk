@@ -1,4 +1,12 @@
-{% set currentSection = currentSection or "overview" %}
+{% set sectionAliases = {
+  "gateway-1": "gw1",
+  "gateway-2": "gw2",
+  "gateway-3": "gw3",
+  "GW1": "gw1",
+  "GW2": "gw2",
+  "GW3": "gw3"
+} %}
+{% set currentSection = sectionAliases[currentSection] or currentSection or "overview" %}
 {% set inferredVersion = urlVersion or "v1" %}
 {% if location and '/v' in location %}
   {% set inferredVersion = "v" + location.split('/v')[1].split('/')[0] %}
@@ -49,7 +57,7 @@
       <a class="x-govuk-secondary-navigation__link" href="{{ links.documents }}"{% if currentSection == 'documents' %} aria-current="page"{% endif %}>Documents</a>
     </li>
     <li class="x-govuk-secondary-navigation__list-item{% if currentSection == 'updates' %} x-govuk-secondary-navigation__list-item--current{% endif %}">
-      <a class="x-govuk-secondary-navigation__link" href="{{ links.updates }}"{% if currentSection == 'updates' %} aria-current="page"{% endif %}>Updates</a>
+      <a class="x-govuk-secondary-navigation__link" href="{{ links.updates }}"{% if currentSection == 'updates' %} aria-current="page"{% endif %}>Case history</a>
     </li>
   </ul>
 </nav>

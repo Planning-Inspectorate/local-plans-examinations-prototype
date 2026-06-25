@@ -27,7 +27,6 @@ Gateway 2 overview – {{ serviceName }}
         </div>
       </div>
     {% endif %}
-    {% set headerPlanStage = "Gateway 2" %}
     {% include "includes/back-office/plan-header.njk" %}
      {% set currentSection = "gateway-2" %}
       {% include "includes/back-office/secondary-nav.njk" %}
@@ -74,7 +73,7 @@ Gateway 2 overview – {{ serviceName }}
           </dd>
         </div>
         </dl>
-           <h2 class="govuk-heading-l">Workshop</h2>
+           <h2 class="govuk-heading-m">Workshop</h2>
          <dl class="govuk-summary-list govuk-summary-list-timetable">
                <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Workshop date</dt>
@@ -108,19 +107,27 @@ Gateway 2 overview – {{ serviceName }}
         </div>
         </dl>
         </dl>
-        <h2 class="govuk-heading-l">Workshop documents</h2>
+        <h2 class="govuk-heading-m">Workshop documents</h2>
         {%- if uploadedDocuments and uploadedDocuments.length > 0 -%}
          
           <div class="govuk-summary-list govuk-summary-list-timetable">
+            <div class="govuk-summary-list__row">
+              <div class="govuk-summary-list__key"><strong>Document</strong></div>
+              <div class="govuk-summary-list__value"><strong>Status</strong></div>
+              <div class="govuk-summary-list__value"><strong>Date</strong></div>
+              <div class="govuk-summary-list__actions"><strong>Action</strong></div>
+            </div>
             {%- for doc in uploadedDocuments -%}
               <div class="govuk-summary-list__row">
                 <div class="govuk-summary-list__key">Document {{ loop.index }}</div>
                 <div class="govuk-summary-list__value">
-                  <a class="govuk-hint" href="/projects/back-office/manage/documents/download/{{ doc.filename }}">{{ doc.originalname }}</a>
+                  Uploaded
+                </div>
+                <div class="govuk-summary-list__value">
+                  {{ doc.uploadedAt or doc.uploadDate or '-' }}
                 </div>
                 <div class="govuk-summary-list__actions">
-                  <a class="govuk-link" href="/projects/back-office/manage/GW2/v3/upload/v1/remove-confirm?filename={{ doc.filename }}&returnTo=gateway-2">Remove<span class="govuk-visually-hidden"> {{ doc.originalname }}</span></a> |
-                  <a class="govuk-link" href="/projects/back-office/manage/GW2/v3/upload/v1/upload-bo">Change<span class="govuk-visually-hidden"> {{ doc.originalname }}</span></a>
+                  <a class="govuk-link" href="/projects/back-office/manage/documents/download/{{ doc.filename }}">View<span class="govuk-visually-hidden"> document {{ loop.index }}</span></a>
                 </div>
               </div>
             {%- endfor -%}
@@ -132,24 +139,41 @@ Gateway 2 overview – {{ serviceName }}
           <a href="/projects/back-office/manage/GW2/v3/upload/v1/upload-bo">Add documentation</a>
         </p>
         </form>
-        <br>
+   
+        <!--
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Plan status</dt>
+          <dd class="govuk-summary-list__value">{{ gateway2PlanStatus or '-' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/GW2/v2/gateway-2-plan-status.html?returnUrl=/projects/back-office/manage/GW2/v2/gateway-2.html">Change<span class="govuk-visually-hidden"> Gateway 2 Plan Status</span></a>
+          </dd>
+        </div> -->
 
     <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
       <form method="post" action="">
-    <h2 class="govuk-heading-l">Procedural documents<!--<strong class="govuk-tag govuk-tag--yellow">For review</strong>--></h2>
-   
+    <h2 class="app-task-list__section">Procedural documents<!--<strong class="govuk-tag govuk-tag--yellow">For review</strong>--></h2>
+    
     <dl class="govuk-summary-list govuk-summary-list-timetable">
+          <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key"><strong>Document</strong></dt>
+          <dd class="govuk-summary-list__value"><strong>Status</strong></dd>
+          <dd class="govuk-summary-list__value"><strong>Date</strong></dd>
+          <dd class="govuk-summary-list__actions"><strong>Action</strong></dd>
+      </div>
           <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">
           Gateway 2 covering letter
         </dt>
         <dd class="govuk-summary-list__value">
-          <a class="govuk-hint" href="#">GW2_covering_letter.docx</a>
+          Drafted
+        </dd>
+        <dd class="govuk-summary-list__value">
+          24 Jun 2026
         </dd>
         
         <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="#">Change</a>
+                <a class="govuk-link" href="#">View</a>
           
         </dd>
       </div>
@@ -158,11 +182,14 @@ Gateway 2 overview – {{ serviceName }}
           Local plan timetable
         </dt>
         <dd class="govuk-summary-list__value">
-          <a class="govuk-hint" href="#">plan_timetable.csv</a>
+          Received
+        </dd>
+        <dd class="govuk-summary-list__value">
+          18 Jun 2026
         </dd>
         
         <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="#">Change</a>
+                <a class="govuk-link" href="#">View</a>
           
         </dd>
       </div>
@@ -171,11 +198,14 @@ Gateway 2 overview – {{ serviceName }}
           Project initiation document
         </dt>
         <dd class="govuk-summary-list__value">
-          <a class="govuk-hint" href="#">PID.docx</a>
+          Submitted
+        </dd>
+        <dd class="govuk-summary-list__value">
+          20 Jun 2026
         </dd>
         
         <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="#">Change</a>  
+                <a class="govuk-link" href="#">View</a>  
         </dd> 
       </div>
       <div class="govuk-summary-list__row">
@@ -183,11 +213,14 @@ Gateway 2 overview – {{ serviceName }}
           Draft statement of compliance
         </dt>
         <dd class="govuk-summary-list__value">
-          <a class="govuk-hint" href="#">GW2_compliance_statement.docx</a>
+          In review
+        </dd>
+        <dd class="govuk-summary-list__value">
+          22 Jun 2026
         </dd>
         
         <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="#">Change</a>
+                <a class="govuk-link" href="#">View</a>
         </dd>
       </div>
       <div class="govuk-summary-list__row">
@@ -195,10 +228,13 @@ Gateway 2 overview – {{ serviceName }}
           Draft statement of soundness
         </dt>
         <dd class="govuk-summary-list__value">
-          <a class="govuk-hint" href="#">GW2_soundness_statement.docx</a>
+          In review
+        </dd>
+        <dd class="govuk-summary-list__value">
+          22 Jun 2026
         </dd>
         <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="#">Change</a>
+                <a class="govuk-link" href="#">View</a>
         </dd>
       </div>
     </dl>
@@ -207,19 +243,28 @@ Gateway 2 overview – {{ serviceName }}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <form method="post" action="">
-    <h2 class="govuk-heading-l">Consultation documents<!--<strong class="govuk-tag govuk-tag--yellow">For review</strong>--></h2>
-    
+    <h2 class="app-task-list__section">Consultation documents<!--<strong class="govuk-tag govuk-tag--yellow">For review</strong>--></h2>
+  
     <dl class="govuk-summary-list govuk-summary-list-timetable">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key"><strong>Document</strong></dt>
+        <dd class="govuk-summary-list__value"><strong>Status</strong></dd>
+        <dd class="govuk-summary-list__value"><strong>Date</strong></dd>
+        <dd class="govuk-summary-list__actions"><strong>Action</strong></dd>
+      </div>
         <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
         Consultation statement
       </dt>
       <dd class="govuk-summary-list__value">
-        <a class="govuk-hint" href="#">consultation_statement.pdf</a>
+        Published
+      </dd>
+      <dd class="govuk-summary-list__value">
+        10 Jun 2026
       </dd>
       
       <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="#">Change</a>
+              <a class="govuk-link" href="#">View</a>
         
       </dd>
       
@@ -230,11 +275,14 @@ Gateway 2 overview – {{ serviceName }}
         Consultation summary for scoping consultation
       </dt>
       <dd class="govuk-summary-list__value">
-        <a class="govuk-hint" href="#">scoping_summary.pdf</a>
+        Published
+      </dd>
+      <dd class="govuk-summary-list__value">
+        11 Jun 2026
       </dd>
       
       <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="#">Change</a>
+              <a class="govuk-link" href="#">View</a>
         
       </dd>
       
@@ -247,11 +295,14 @@ Gateway 2 overview – {{ serviceName }}
         Consultation summary for proposed local plan content and evidence documents
       </dt>
       <dd class="govuk-summary-list__value">
-        <a class="govuk-hint" href="#">proposed_plan_summary.pdf</a>
+        Published
+      </dd>
+      <dd class="govuk-summary-list__value">
+        14 Jun 2026
       </dd>
       
       <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="#">Change</a>
+              <a class="govuk-link" href="#">View</a>
         
       </dd>
       
@@ -264,11 +315,14 @@ Gateway 2 overview – {{ serviceName }}
         Notice of intention to commence local plan preparation
       </dt>
       <dd class="govuk-summary-list__value">
-        <a class="govuk-hint" href="#">notice_of_intention.pdf</a>
+        Issued
+      </dd>
+      <dd class="govuk-summary-list__value">
+        01 Jun 2026
       </dd>
       
       <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="#">Change</a>
+              <a class="govuk-link" href="#">View</a>
         
       </dd>
       
@@ -281,11 +335,14 @@ Gateway 2 overview – {{ serviceName }}
           Scoping consultation documents
         </dt>
         <dd class="govuk-summary-list__value">
-          <a class="govuk-hint" href="#">scoping_full.pdf</a>
+          Shared
+        </dd>
+        <dd class="govuk-summary-list__value">
+          05 Jun 2026
         </dd>
         
         <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="#">Change</a>
+                <a class="govuk-link" href="#">View</a>
           
         </dd>
         
@@ -295,11 +352,14 @@ Gateway 2 overview – {{ serviceName }}
           Consultation summary of feedback to scoping consultation
         </dt>
         <dd class="govuk-summary-list__value">
-          <a class="govuk-hint" href="#">scoping_feedback_summary.pdf</a>
+          Reviewed
+        </dd>
+        <dd class="govuk-summary-list__value">
+          17 Jun 2026
         </dd>
         
         <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="#">Change</a>
+                <a class="govuk-link" href="#">View</a>
           
         </dd>
         
@@ -309,11 +369,14 @@ Gateway 2 overview – {{ serviceName }}
           Gateway 1 – Self assessment of readiness
         </dt>
         <dd class="govuk-summary-list__value">
-          <a class="govuk-hint" href="#">gateway1_self_assessment.pdf</a>
+          Received
+        </dd>
+        <dd class="govuk-summary-list__value">
+          08 Jun 2026
         </dd>
         
         <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="#">Change</a>
+                <a class="govuk-link" href="#">View</a>
           
         </dd>
       </div>
@@ -322,11 +385,14 @@ Gateway 2 overview – {{ serviceName }}
           Consultation on proposed local plan content and evidence documents
         </dt>
         <dd class="govuk-summary-list__value">
-          <a class="govuk-hint" href="#">proposed_plan_full.pdf</a>
+          Published
+        </dd>
+        <dd class="govuk-summary-list__value">
+          15 Jun 2026
         </dd>
         
         <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="#">Change</a>
+                <a class="govuk-link" href="#">View</a>
           
         </dd>
       </div>
@@ -335,10 +401,13 @@ Gateway 2 overview – {{ serviceName }}
           Consultation summary for the above
         </dt>
         <dd class="govuk-summary-list__value">
-          <a class="govuk-hint" href="#">consultation_summary.pdf</a>
+          Finalised
+        </dd>
+        <dd class="govuk-summary-list__value">
+          19 Jun 2026
         </dd>
         <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="#">Change</a>
+                <a class="govuk-link" href="#">View</a>
         </dd>
       </div>
     </dl>

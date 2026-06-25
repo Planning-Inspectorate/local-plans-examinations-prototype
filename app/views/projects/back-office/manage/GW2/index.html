@@ -26,6 +26,30 @@
       {{ title }}
     </h1>
  
+        {% set version = "4" %}
+    <h2 class="govuk-heading-m">
+      Version {{ version }}
+      {{ govukTag({
+        classes: 'govuk-tag--yellow govuk-!-margin-left-2',
+        text: 'In progress'
+      }) }}
+    </h2>
+ 
+    <p class="govuk-!-margin-bottom-2">Changes:</p>
+ 
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Side navigation version containing the same content as the standard navigation version to gather feedback</li>
+    </ul>
+    {{ govukInsetText({
+          html: '<p class="govuk-body"><a href="https://app.mural.co/t/allpins6990/m/allpins6990/1772019468343/735e3b84708bc6f2f8960f2961356d29168aebfb?wid=0-1777567594810">Design Mural board</a></p>'
+        }) }}
+    {{ govukButton({
+      html: 'View prototype',
+      href: '/projects/back-office/manage/GW2/v' ~ version ~ '/gateway-2',
+      isStartButton: true
+    }) }}
+    <br>
+    <br>
     {% set version = "3" %}
     <h2 class="govuk-heading-m">
       Version {{ version }}
@@ -38,7 +62,9 @@
     <p class="govuk-!-margin-bottom-2">Changes:</p>
  
     <ul class="govuk-list govuk-list--bullet">
-      <li>Adding Gateway 2 documentation to tab view</li>
+      <li>Added Gateway 2 documentation to tab view</li>
+      <li>Added functionality to upload workshop documents</li>
+      <li>Status is set to Gateway 2 validation to gauge understanding of progress</li>
     </ul>
     {{ govukInsetText({
           html: '<p class="govuk-body"><a href="https://app.mural.co/t/allpins6990/m/allpins6990/1772019468343/735e3b84708bc6f2f8960f2961356d29168aebfb?wid=0-1777567594810">Design Mural board</a></p>'
@@ -52,6 +78,9 @@
  
     {% set v2HTML %}
     {% set version = "2" %}
+    <h3 class="govuk-heading-m">
+     Tested with Case Officers - June 2026
+     </h3>
     <p class="govuk-!-margin-bottom-2">Changes:</p>
  
     <ul class="govuk-list govuk-list--bullet">
@@ -94,7 +123,7 @@
       items: [
         {
           heading: {
-            html: 'Version 2 <strong class="govuk-tag govuk-tag--blue govuk-!-margin-left-2">Tested in June 26</strong>'
+            html: 'Version 2 <strong class="govuk-tag govuk-tag--grey govuk-!-margin-left-2">Superseded</strong>'
           },
           content: {
             html: v2HTML

@@ -3,6 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const { PLAN_STATUS_CLASS_MAP, getPlanStatusClasses } = require('./plan-status-classes');
 
 function getCurrentCase(req, preferredRef) {
   const caseRef = preferredRef || req.session.currentCaseRef || '';
@@ -59,6 +60,129 @@ function formatPlanType(planType) {
   };
   return planTypeMap[planType] || planType;
 }
+
+function getCurrentCaseRecord(req) {
+  const caseRef = req.session.currentCaseRef || '';
+  const cases = Array.isArray(req.session.cases) ? req.session.cases : [];
+  return caseRef ? cases.find((item) => item.caseRef === caseRef) : null;
+}
+
+function isSetValue(value) {
+  if (value === null || value === undefined) return false;
+  if (typeof value === 'string') return value.trim() !== '' && value !== '-';
+  if (Array.isArray(value)) return value.length > 0;
+  if (typeof value === 'number') return Number.isFinite(value);
+  if (typeof value === 'boolean') return value;
+  if (typeof value === 'object') return Object.keys(value).length > 0;
+  return Boolean(value);
+}
+
+function buildStatusContext(req, currentCase) {
+  const context = {
+    ...(currentCase || {}),
+    ...req.session
+  };
+
+  const workshopDocuments = Array.isArray(req.session.gw2v3WorkshopDocuments)
+    ? req.session.gw2v3WorkshopDocuments
+    : [];
+
+  context.gw2WorkshopDocumentsPresent = workshopDocuments.length > 0;
+  context.gw2WorkshopDocumentsCount = workshopDocuments.length;
+
+  return context;
+}
+
+function ruleMatches(rule, context) {
+  const conditions = (rule && typeof rule.when === 'object') ? rule.when : rule;
+  if (!conditions || typeof conditions !== 'object') return false;
+
+  const allSet = Array.isArray(conditions.allSet) ? conditions.allSet : [];
+  const anySet = Array.isArray(conditions.anySet) ? conditions.anySet : [];
+  const noneSet = Array.isArray(conditions.noneSet) ? conditions.noneSet : [];
+  const allTrue = Array.isArray(conditions.allTrue) ? conditions.allTrue : [];
+  const allFalse = Array.isArray(conditions.allFalse) ? conditions.allFalse : [];
+  const equals = (conditions.equals && typeof conditions.equals === 'object') ? conditions.equals : {};
+
+  if (allSet.length > 0 && !allSet.every((field) => isSetValue(context[field]))) return false;
+  if (anySet.length > 0 && !anySet.some((field) => isSetValue(context[field]))) return false;
+  if (noneSet.length > 0 && !noneSet.every((field) => !isSetValue(context[field]))) return false;
+  if (allTrue.length > 0 && !allTrue.every((field) => context[field] === true)) return false;
+  if (allFalse.length > 0 && !allFalse.every((field) => context[field] === false)) return false;
+
+  const equalsKeys = Object.keys(equals);
+  if (equalsKeys.length > 0) {
+    const equalsMatch = equalsKeys.every((field) => context[field] === equals[field]);
+    if (!equalsMatch) return false;
+  }
+
+  return true;
+}
+
+function deriveOverallPlanStatus(req, currentCase) {
+  const context = buildStatusContext(req, currentCase);
+
+  // Per-case fixed status for deterministic test scenarios.
+  if (currentCase && currentCase.statusStrategy === 'fixed') {
+    return currentCase.status || 'Submitted';
+  }
+
+  // Per-case rule set for nuanced field-based test scenarios.
+  if (currentCase && currentCase.statusStrategy === 'rules' && Array.isArray(currentCase.statusRules)) {
+    const matchingRule = currentCase.statusRules.find((rule) => rule && rule.status && ruleMatches(rule, context));
+    if (matchingRule) {
+      return String(matchingRule.status);
+    }
+  }
+
+  // Default behavior when a case does not define a strategy.
+  if (isSetValue(req.session.gateway2ActualDate) || isSetValue(req.session.gateway2ValidDate) || isSetValue(req.session.gateway2WorkshopDate)) {
+    return 'In progress';
+  }
+  return 'Submitted';
+}
+
+function setOverallPlanStatus(req, statusText) {
+  const resolvedStatus = statusText && statusText.trim() !== '' ? statusText.trim() : 'Submitted';
+  const currentCase = getCurrentCaseRecord(req);
+
+  req.session.planStatus = resolvedStatus;
+
+  if (!req.session.data) req.session.data = {};
+  req.session.data.planStatus = resolvedStatus;
+  req.session.data.planStatusClasses = getPlanStatusClasses(resolvedStatus);
+
+  if (currentCase) {
+    currentCase.status = resolvedStatus;
+  }
+
+  return resolvedStatus;
+}
+
+router.use((req, res, next) => {
+  const currentCase = getCurrentCaseRecord(req);
+  const resolvedStatus = deriveOverallPlanStatus(req, currentCase);
+  const resolvedStatusClasses = getPlanStatusClasses(resolvedStatus);
+
+  if (currentCase) {
+    currentCase.status = resolvedStatus;
+  }
+
+  req.session.planStatus = resolvedStatus;
+  if (!req.session.data) req.session.data = {};
+  req.session.data.planStatus = resolvedStatus;
+  req.session.data.planStatusClasses = resolvedStatusClasses;
+  req.session.data.planStatusClassMap = PLAN_STATUS_CLASS_MAP;
+
+  res.locals.planStatus = resolvedStatus;
+  res.locals.headerStatus = {
+    text: resolvedStatus,
+    classes: resolvedStatusClasses
+  };
+  res.locals.planStatusClassMap = PLAN_STATUS_CLASS_MAP;
+
+  next();
+});
 
 // Index overview page GET (display all case data)
 router.get('/projects/back-office/manage/overview/v1/index', (req, res) => {
@@ -554,7 +678,8 @@ router.post('/projects/back-office/manage/GW2/v1/gateway-2-assessor-name', (req,
 
 router.post('/projects/back-office/manage/GW2/v1/gateway-2-plan-status', (req, res) => {
   const { 'gateway-2-plan-status': value, returnUrl } = req.body;
-  req.session.gateway2PlanStatus = value && value.trim() !== '' ? value : '-';
+  const resolvedValue = value && value.trim() !== '' ? value.trim() : '-';
+  req.session.gateway2PlanStatus = resolvedValue;
   res.redirect(returnUrl || '/projects/back-office/manage/GW2/v1/gateway-2');
 });
 

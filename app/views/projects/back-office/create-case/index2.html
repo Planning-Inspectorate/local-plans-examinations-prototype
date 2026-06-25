@@ -26,7 +26,7 @@
       {{ title }}
     </h1>
  
-    {% set version = "1" %}
+    {% set version = "2" %}
     <h2 class="govuk-heading-m">
       Version {{ version }}
       {{ govukTag({
@@ -35,13 +35,10 @@
       }) }}
     </h2>
  
-    <!--<p class="govuk-!-margin-bottom-2">Changes:</p>
+    <p class="govuk-!-margin-bottom-2">Changes:</p>
  
     <ul class="govuk-list govuk-list--bullet">
-      <li>updated layout of application details to match Appeals pattern and loop through each upload page</li>
-      <li>declaration pages merged into 1 declaration page</li>
-      <li>view-only 'application submitted' page added</li>
-      <li>progress tracker added i.e. "You have completed 0 of 3 sections."</li>
+      <li>Added different statuses on to the all cases page</li>
     </ul> 
  
      {{ govukInsetText({
@@ -50,16 +47,16 @@
  
     {{ govukButton({
       html: 'View prototype',
-      href: '/projects/back-office/create-case/v' ~ version ~ '/index',
+      href: '/projects/back-office/create-case/v2/index?nav-overview=v2&nav-timetable=v1&nav-gw1=v1&nav-gw2=v3&nav-gw3=v2&nav-examination=v3&nav-documents=v1&nav-updates=v1',
       isStartButton: true
-    }) }}
+  }) }}
  
-    {% set v1HTML %}-->
+    {% set v1HTML %}
  
-      {% set version = "2" %}
+      {% set version = "1" %}
  
       <p class="govuk-body">
-        Create a case prototype for testing with Case Officers.
+        Create a case prototype for testing with Case Officers - June 2026.
       </p>
  
       {{ govukInsetText({

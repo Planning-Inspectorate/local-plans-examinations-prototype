@@ -1,0 +1,110 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+Plan updates – {{ serviceName }}
+{% endblock %}
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+
+
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <div class="grey-box">
+    {% include "includes/back-office/plan-header.njk" %}
+    </div>
+</div>
+  <div class="govuk-grid-column-one-quarter">
+    {% set currentSection = "updates" %}
+    {% include "includes/back-office/side-secondary-nav.njk" %}
+  </div>
+
+  <div class="govuk-grid-column-three-quarters">
+
+    <h2 class="govuk-heading-l">
+      Updates
+    </h2>
+  
+<form method="post" action="">
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">Date</th>
+      <th scope="col" class="govuk-table__header">Event</th>
+      <th scope="col" class="govuk-table__header">User</th>
+    </tr>
+  </thead>
+
+  <tbody class="govuk-table__body">
+
+   
+
+
+
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">28 June 2026, 11:05</td>
+      <td class="govuk-table__cell">GW2 Assessor date of appointment recorded: 28 June 2026</td>
+      <td class="govuk-table__cell">Case officer</td>
+    </tr>
+
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">28 June 2026, 11:00</td>
+      <td class="govuk-table__cell">GW2 Assessor assigned: Sarah Jones</td>
+      <td class="govuk-table__cell">Case officer</td>
+    </tr>
+
+<tr class="govuk-table__row"><td class="govuk-table__cell">19 Aug 2026, 09:40</td><td class="govuk-table__cell">Live DSA? set to Yes</td><td class="govuk-table__cell">Case officer</td></tr>
+
+    <!-- GATEWAY 1 -->
+    <tr class="govuk-table__row"><td class="govuk-table__cell">29 Apr 2026, 10:12</td><td class="govuk-table__cell">SLA received (Gateway 1)</td><td class="govuk-table__cell">Case officer</td></tr>
+    <tr class="govuk-table__row"><td class="govuk-table__cell">15 Apr 2026, 09:40</td><td class="govuk-table__cell">SLA sent to LPA (Gateway 1)</td><td class="govuk-table__cell">Case officer</td></tr>
+    <tr class="govuk-table__row"><td class="govuk-table__cell">04 Apr 2026, 15:05</td><td class="govuk-table__cell">GW1 self-assessment completion recorded</td><td class="govuk-table__cell">Case officer</td></tr>
+    <tr class="govuk-table__row"><td class="govuk-table__cell">04 Apr 2026, 11:30</td><td class="govuk-table__cell">GW1 evidence reviewed: in progress</td><td class="govuk-table__cell">Case officer</td></tr>
+    <tr class="govuk-table__row"><td class="govuk-table__cell">18 Mar 2026, 10:28</td><td class="govuk-table__cell">GW1 guidance link shared with LPA</td><td class="govuk-table__cell">Case officer</td></tr>
+
+    <!-- PRE‑GATEWAY 1 DATA CLEANUP -->
+    <tr class="govuk-table__row"><td class="govuk-table__cell">12 Mar 2026, 16:10</td><td class="govuk-table__cell">Contact name updated to “Policy and Delivery Team”</td><td class="govuk-table__cell">Case officer</td></tr>
+    <tr class="govuk-table__row"><td class="govuk-table__cell">12 Mar 2026, 11:55</td><td class="govuk-table__cell">Secondary contact added: policyteam@northshire.gov.uk</td><td class="govuk-table__cell">Case officer</td></tr>
+    <tr class="govuk-table__row"><td class="govuk-table__cell">12 Mar 2026, 11:32</td><td class="govuk-table__cell">Primary contact added: planning.policy@northshire.gov.uk</td><td class="govuk-table__cell">Case officer</td></tr>
+
+    <tr class="govuk-table__row"><td class="govuk-table__cell">07 Mar 2026, 10:18</td><td class="govuk-table__cell">Region updated to South West (override)</td><td class="govuk-table__cell">Case officer</td></tr>
+    <tr class="govuk-table__row"><td class="govuk-table__cell">07 Mar 2026, 10:15</td><td class="govuk-table__cell">Region auto-populated: South West</td><td class="govuk-table__cell">System</td></tr>
+
+    <tr class="govuk-table__row"><td class="govuk-table__cell">29 Feb 2026, 09:05</td><td class="govuk-table__cell">LPA updated to Northshire District Council (Lead)</td><td class="govuk-table__cell">Case officer</td></tr>
+    <tr class="govuk-table__row"><td class="govuk-table__cell">29 Feb 2026, 09:00</td><td class="govuk-table__cell">Joint authority added: East Northshire Borough Council</td><td class="govuk-table__cell">Case officer</td></tr>
+
+    <tr class="govuk-table__row"><td class="govuk-table__cell">26 Feb 2026, 14:35</td><td class="govuk-table__cell">Case officer assigned: Emma Turner</td><td class="govuk-table__cell">Admin</td></tr>
+
+    <tr class="govuk-table__row"><td class="govuk-table__cell">25 Feb 2026, 16:20</td><td class="govuk-table__cell">Estimated submission for examination recorded as Jul 2028</td><td class="govuk-table__cell">Case officer</td></tr>
+    <tr class="govuk-table__row"><td class="govuk-table__cell">25 Feb 2026, 16:15</td><td class="govuk-table__cell">GW3 estimated date recorded as Jan 2027</td><td class="govuk-table__cell">Case officer</td></tr>
+    <tr class="govuk-table__row"><td class="govuk-table__cell">25 Feb 2026, 16:10</td><td class="govuk-table__cell">GW2 estimated date recorded as Sep 2026</td><td class="govuk-table__cell">Case officer</td></tr>
+    <tr class="govuk-table__row"><td class="govuk-table__cell">25 Feb 2026, 16:05</td><td class="govuk-table__cell">GW1 estimated date recorded as Apr 2026</td><td class="govuk-table__cell">Case officer</td></tr>
+    <tr class="govuk-table__row"><td class="govuk-table__cell">25 Feb 2026, 16:00</td><td class="govuk-table__cell">Estimated Notice of Intention recorded as Mar 2026</td><td class="govuk-table__cell">Case officer</td></tr>
+
+    <tr class="govuk-table__row"><td class="govuk-table__cell">21 Feb 2026, 10:20</td><td class="govuk-table__cell">Case reference generated: PLAN/000001</td><td class="govuk-table__cell">System</td></tr>
+
+    <!-- INITIAL CREATION -->
+    <tr class="govuk-table__row"><td class="govuk-table__cell">12 Feb 2026, 10:07</td><td class="govuk-table__cell">Plan type set to Local Plan</td><td class="govuk-table__cell">Case officer</td></tr>
+    <tr class="govuk-table__row"><td class="govuk-table__cell">12 Feb 2026, 10:05</td><td class="govuk-table__cell">Plan title set to “Northshire Local Plan”</td><td class="govuk-table__cell">Case officer</td></tr>
+    <tr class="govuk-table__row"><td class="govuk-table__cell">12 Feb 2026, 10:02</td><td class="govuk-table__cell">Case created</td><td class="govuk-table__cell">System</td></tr>
+
+  </tbody>
+</table>
+
+    </div>
+  </div>
+
+
+
+{% endblock %}
+
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}
