@@ -68,7 +68,7 @@
       ]
     }) }}
 
-  {% elif planStatus == 'with-pins' %}
+  {% elif planStatus == 'with-pins' or planStatus == 'validated'%}
     {{ govukTaskList({
       idPrefix: "plan-details",
       items: [

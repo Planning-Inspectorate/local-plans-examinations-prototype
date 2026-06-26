@@ -18,9 +18,46 @@
   }
 </style>
 
-
+  <!--{% if planStatus == 'validated' %}
 
 {{ govukSummaryList({
+  classes: "app-details govuk-summary-list--no-border",
+  rows: [
+    {
+      key: { text: "Plan reference", classes: "govuk-!-width-one-third" },
+      value: { text: "PLAN/000006" }
+    },
+    {
+      key: { text: "Local planning authority", classes: "govuk-!-width-one-third" },
+      value: { text: "Southampton City Council" }
+    },
+    {
+      key: { text: "Gateway 2 workshop", classes: "govuk-!-width-one-third" },
+      value: { text: "18 May (virtual)" }
+    }
+  ]
+}) }}
+
+  {% else %}
+  {{ govukSummaryList({
+  classes: "app-details govuk-summary-list--no-border",
+  rows: [
+    {
+      key: { text: "Plan reference", classes: "govuk-!-width-one-third" },
+      value: { text: "PLAN/000006" }
+    },
+    {
+      key: { text: "Local planning authority", classes: "govuk-!-width-one-third" },
+      value: { text: "Southampton City Council" }
+    }
+  ]
+}) }}
+
+  {% endif %}-->
+
+
+
+    {{ govukSummaryList({
   classes: "app-details govuk-summary-list--no-border",
   rows: [
     {

@@ -3,6 +3,15 @@
 {% set planStatus = data['status'] or 'ready' %}
 {% set currentStage = data['stage'] or 'gateway-2' %}
 
+{% set prototypeLinks =
+[
+{
+href: 'plan-details?status=validated&stage=gateway-2',
+text: 'Gateway 2 validated'
+}
+]
+%}
+
 {% block pageTitle %}East Borough Local Plan – Local Plans Portal{% endblock %}
 
 {% block beforeContent %}
@@ -36,6 +45,19 @@ href: "/projects/front-office/home/v2/homepage"
       "
     }) }}
 
+    {% elif planStatus == 'validated' %}
+        {{ govukNotificationBanner({
+      html: "
+        <h3 class='govuk-notification-banner__heading'>
+          Gateway 2 workshop scheduled for 18 May 2026 in Southampton Town Hall
+        </h3>
+
+        <p class='govuk-body'>
+          See documents shared by the Planning Inspectorate ahead of your workshop below.
+        </p>
+      "
+    }) }}
+
     {% elif planStatus == 'action-needed' %}
 
     {{ govukNotificationBanner({
@@ -52,7 +74,7 @@ href: "/projects/front-office/home/v2/homepage"
     {% include "./_includes/plan-metadata.njk" %}
     {% include "./_includes/plan-tasklist.njk" %}
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break">
-    {% if currentStage == 'gateway-3' %}
+    {% if currentStage == 'gateway-3' or planStatus == 'validated' %}
     {% include "./_includes/shared-documents.njk" %}
     {% endif %}
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break">
