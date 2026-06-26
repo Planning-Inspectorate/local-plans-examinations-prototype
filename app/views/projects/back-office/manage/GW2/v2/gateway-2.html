@@ -15,64 +15,11 @@ Gateway 2 overview – {{ serviceName }}
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-  <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
-	<h1 class="govuk-heading-l">{{ planTitle or '-' }}</h1>
-	<span class="govuk-caption-m">{{ planStage or 'Gateway 2' }}
-  {{govukTag({
-      text: "Ready to start",
-      classes: "govuk-tag--turquoise"
-    })}}</span>
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-      <nav class="x-govuk-secondary-navigation app-secondary-nav govuk-!-margin-top-6 govuk-!-margin-bottom-6" aria-label="Secondary menu">
-        <ul class="x-govuk-secondary-navigation__list">
-    <li class="x-govuk-secondary-navigation__list-item">
-      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/overview/v1/index">
-        Overview
-      </a>
-    </li>
-    <li class="x-govuk-secondary-navigation__list-item ">
-      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/timetable.html">
-        Timetable
-      </a>
-    </li>  
-    <li class="x-govuk-secondary-navigation__list-item ">
-      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/GW1/v1/gateway-1">
-        Gateway 1
-      </a>
-    </li> 
-    <li class="x-govuk-secondary-navigation__list-item x-govuk-secondary-navigation__list-item--current">
-      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/GW2/v2/gateway-2" aria-current="page">
-        Gateway 2
-      </a>
-    </li>
-    <li class="x-govuk-secondary-navigation__list-item ">
-      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/GW3/v2/gateway-3">
-        Gateway 3
-      </a>
-    </li>
-    <li class="x-govuk-secondary-navigation__list-item ">
-      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/examination/v1/examination">
-        Examination
-      </a>
-    </li>
-    <li class="x-govuk-secondary-navigation__list-item ">
-      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/documents/v1/documents">
-        Documents
-      </a>
-    </li>
-    <li class="x-govuk-secondary-navigation__list-item ">
-      <a class="x-govuk-secondary-navigation__link" href="/projects/back-office/manage/updates/v1/updates.html">
-        Updates
-      </a>
-    </li>
-        </ul>
-      </nav>
-    </div>
-  </div>
+    {% include "includes/back-office/plan-header.njk" %}
 
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
+     {% set currentSection = "gateway-2" %}
+      {% include "includes/back-office/secondary-nav.njk" %}
+   
       <form method="post" action="">
 
       <h2 class="govuk-heading-l">Gateway 2</h2>
@@ -115,8 +62,9 @@ Gateway 2 overview – {{ serviceName }}
           </dd>
         </div>
         </dl>
+       
          <dl class="govuk-summary-list govuk-summary-list-timetable">
-               <div class="govuk-summary-list__row">
+        <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Workshop date</dt>
           <dd class="govuk-summary-list__value">{{ gateway2WorkshopDate or '-' }}</dd>
           <dd class="govuk-summary-list__actions">
@@ -158,20 +106,6 @@ Gateway 2 overview – {{ serviceName }}
           </dd>
         </div> -->
         
-     <style>
-      .app-task-list__section {
-      display: flex; !important;
-      justify-content: space-between; !important;
-      align-items: flex-start; !important;
-      gap: 12px; !important;
-      }
-
-      .app-task-list__section .govuk-tag {
-      position: static;
-      margin-left: 0;
-      flex-shrink: 0;
-      }
-    </style>
     <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
       <form method="post" action="">

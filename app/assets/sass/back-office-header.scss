@@ -62,3 +62,15 @@
     text-decoration: underline;
     font-size: 1rem;
 }
+
+.app-plan-header__meta {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.app-plan-header__stage {
+    display: inline-block;
+    margin-bottom: 0;
+}

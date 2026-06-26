@@ -3,6 +3,9 @@
 {% set title = "Side nav version tester" %}
 {% set activeNav = 'back-office' %}
 {% set currentVersions = workflowNavVersions or {} %}
+{% set navQuery = "nav-overview=" ~ currentVersions.overview ~ "&nav-timetable=" ~ currentVersions.timetable ~ "&nav-gw1=" ~ currentVersions.gw1 ~ "&nav-gw2=" ~ currentVersions.gw2 ~ "&nav-gw3=" ~ currentVersions.gw3 ~ "&nav-examination=" ~ currentVersions.examination ~ "&nav-documents=" ~ currentVersions.documents ~ "&nav-updates=" ~ currentVersions.updates %}
+{% set researcherAllCasesLink = "/projects/back-office/create-case/v2/index?" ~ navQuery %}
+{% set researcherOverviewLink = "/projects/back-office/manage/overview/" ~ currentVersions.overview ~ "/index-side?" ~ navQuery %}
 
 {% block header %}
   {% include "includes/PINS-header--internal.html" %}
@@ -120,6 +123,9 @@
     </form>
 
     <h2 class="govuk-heading-m">Current side-page starting points</h2>
+    {{ govukInsetText({
+      html: '<p class="govuk-body"><strong>Researcher share links</strong></p><p class="govuk-body">Use this when sharing with others so versions are applied from the URL every time.</p><ul class="govuk-list govuk-list--bullet"><li><a class="govuk-link" href="' ~ researcherAllCasesLink ~ '">All cases start link</a></li><li><a class="govuk-link" href="' ~ researcherOverviewLink ~ '">Overview side start link</a></li></ul>'
+    }) }}
     <ul class="govuk-list govuk-list--bullet">
       <li><a class="govuk-link" href="/projects/back-office/manage/overview/v2/index-side">Overview side</a></li>
       <li><a class="govuk-link" href="/projects/back-office/manage/timetable/v1/timetable-side">Timetable side</a></li>

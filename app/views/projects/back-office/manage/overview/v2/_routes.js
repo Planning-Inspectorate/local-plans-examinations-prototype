@@ -35,32 +35,6 @@ function buildCaseNote(now, text, userName) {
   };
 }
 
-function addCaseNoteToSession(req, newNote) {
-  const caseRef = req.session.currentCaseRef || '';
-  const cases = Array.isArray(req.session.cases) ? req.session.cases : [];
-  const matchedCase = caseRef ? cases.find(item => item.caseRef === caseRef) : null;
-
-  if (matchedCase) {
-    if (!Array.isArray(matchedCase.caseNotes)) matchedCase.caseNotes = [];
-    matchedCase.caseNotes.unshift(newNote);
-    return;
-  }
-
-  if (!Array.isArray(req.session.caseNotes)) req.session.caseNotes = [];
-  req.session.caseNotes.unshift(newNote);
-}
-
-function getSafeReturnPath(req, fallbackPath) {
-  const value = (req.body.returnTo || '').trim();
-  if (
-    value === '/projects/back-office/manage/overview/v2/index' ||
-    value === '/projects/back-office/manage/overview/v2/index-side'
-  ) {
-    return value;
-  }
-  return fallbackPath;
-}
-
 // GET v2 index
 router.get('/index', function (req, res) {
   const currentCase = getCurrentCase(req);
@@ -77,11 +51,6 @@ router.get('/index', function (req, res) {
     mainContactPhone: req.session.mainContact?.phone || '',
     mainContactOrg: req.session.mainContact?.organisation || '',
     planBand: req.session.planBand || '',
-    noticeOfIntentionDate: req.session.noticeOfIntentionDate || '-',
-    gateway1EstimatedDate: req.session.gateway1EstimatedDate || '-',
-    gateway2EstimatedDate: req.session.gateway2EstimatedDate || '-',
-    gateway3EstimatedDate: req.session.gateway3EstimatedDate || '-',
-    submissionDate: req.session.submissionDate || '-',
     currentCase
   });
 });
@@ -89,52 +58,24 @@ router.get('/index', function (req, res) {
 // POST add case note
 router.post('/index', function (req, res) {
   const comment = (req.body.comment || '').trim();
-  const returnPath = getSafeReturnPath(req, '/projects/back-office/manage/overview/v2/index');
-  if (!comment) return res.redirect(returnPath);
+  if (!comment) return res.redirect('/projects/back-office/manage/overview/v2/index');
 
   const userName = req.session.caseOfficer || 'Case officer';
   const newNote = buildCaseNote(new Date(), comment, userName);
-  addCaseNoteToSession(req, newNote);
 
-  req.session.save(() => res.redirect(returnPath));
-});
+  const caseRef = req.session.currentCaseRef || '';
+  const cases = Array.isArray(req.session.cases) ? req.session.cases : [];
+  const matchedCase = caseRef ? cases.find(item => item.caseRef === caseRef) : null;
 
-// GET v2 index-side (side navigation version)
-router.get('/index-side', function (req, res) {
-  const currentCase = getCurrentCase(req);
-  res.render('projects/back-office/manage/overview/v2/index-side', {
-    caseRef: req.session.currentCaseRef || '',
-    planTitle: req.session.planTitle || '',
-    planType: req.session.planType || '',
-    lpas: req.session.lpas || [],
-    lpaRegions: req.session.lpaRegions || {},
-    caseOfficer: req.session.caseOfficer || '',
-    contacts: req.session.contacts || [],
-    mainContactName: req.session.mainContact ? [req.session.mainContact.firstName, req.session.mainContact.lastName].filter(Boolean).join(' ') : '',
-    mainContactEmail: req.session.mainContact?.email || '',
-    mainContactPhone: req.session.mainContact?.phone || '',
-    mainContactOrg: req.session.mainContact?.organisation || '',
-    planBand: req.session.planBand || '',
-    noticeOfIntentionDate: req.session.noticeOfIntentionDate || '-',
-    gateway1EstimatedDate: req.session.gateway1EstimatedDate || '-',
-    gateway2EstimatedDate: req.session.gateway2EstimatedDate || '-',
-    gateway3EstimatedDate: req.session.gateway3EstimatedDate || '-',
-    submissionDate: req.session.submissionDate || '-',
-    currentCase
-  });
-});
+  if (matchedCase) {
+    if (!Array.isArray(matchedCase.caseNotes)) matchedCase.caseNotes = [];
+    matchedCase.caseNotes.unshift(newNote);
+  } else {
+    if (!Array.isArray(req.session.caseNotes)) req.session.caseNotes = [];
+    req.session.caseNotes.unshift(newNote);
+  }
 
-// POST add case note (side navigation version)
-router.post('/index-side', function (req, res) {
-  const comment = (req.body.comment || '').trim();
-  const returnPath = getSafeReturnPath(req, '/projects/back-office/manage/overview/v2/index-side');
-  if (!comment) return res.redirect(returnPath);
-
-  const userName = req.session.caseOfficer || 'Case officer';
-  const newNote = buildCaseNote(new Date(), comment, userName);
-  addCaseNoteToSession(req, newNote);
-
-  req.session.save(() => res.redirect(returnPath));
+  req.session.save(() => res.redirect('/projects/back-office/manage/overview/v2/index'));
 });
 
 // GET all case notes
