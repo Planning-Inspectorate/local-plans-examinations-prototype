@@ -21,6 +21,13 @@
     </ul>
   {% endset %}
 
+  {% set workshopDocuments %}
+    <ul class="govuk-list govuk-list--bullet">
+      <li><a class="govuk-link" href="#">workshop-agenda.pdf</a><br>Shared by the Planning Inspectorate on 8 May 2026</li>
+      <li><a class="govuk-link" href="#">workshop-questions.pdf</a><br>Shared by the Planning Inspectorate on 8 May 2026</li>
+    </ul>
+  {% endset %}
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters-from-desktop">
 
@@ -147,6 +154,18 @@
         {
           key: { text: "Suggested workshop dates" },
           value: { text: "20 - 23rd of July or we're free the week of July 27th" }
+        },
+        {
+          key: { text: "Confirmed workshop venue" },
+          value: { text: "Virtual" }
+        },
+        {
+          key: { text: "Confirmed workshop date" },
+          value: { text: "23 July 2026" }
+        },
+        {
+          key: { text: "Workshop documents" },
+          value: { html: workshopDocuments }
         }
       ]
     }) }}
