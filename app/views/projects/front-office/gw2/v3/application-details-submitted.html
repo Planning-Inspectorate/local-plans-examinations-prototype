@@ -7,7 +7,7 @@
 {% block beforeContent %}
   {{ govukBackLink({
     text: "Back",
-    href: "/projects/front-office/plan-details/v2/plan-details?with-pins"
+    href: "/projects/front-office/plan-details/v2/plan-details?status=with-pins"
   }) }}
 {% endblock %}
 
@@ -31,7 +31,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters-from-desktop">
 
-    {% include "./application-metadata.html" %}
+    {% include "./workshop-metadata.html" %}
 
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible" />
 
@@ -142,7 +142,7 @@
       ]
     }) }}
 
-        <h2 class="govuk-heading-m govuk-!-margin-top-6">Workshop details</h2>
+        <h2 class="govuk-heading-m govuk-!-margin-top-6">Workshop preferences</h2>
 
     {{ govukSummaryList({
       classes: "app-summary-list--narrow-key",
@@ -154,18 +154,6 @@
         {
           key: { text: "Suggested workshop dates" },
           value: { text: "20 - 23rd of July or we're free the week of July 27th" }
-        },
-        {
-          key: { text: "Confirmed workshop venue" },
-          value: { text: "Virtual" }
-        },
-        {
-          key: { text: "Confirmed workshop date" },
-          value: { text: "23 July 2026" }
-        },
-        {
-          key: { text: "Workshop documents" },
-          value: { html: workshopDocuments }
         }
       ]
     }) }}
