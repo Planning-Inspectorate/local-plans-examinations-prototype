@@ -1,13 +1,5 @@
 {% extends "layouts/front-office-v2.html" %}
-
 {% set title = "How would you like to hold the Gateway 2 workshop?" %}
-
-{% block beforeContent %}
-  {{ govukBackLink({
-    text: "Back",
-    href: "supplementary-check"
-  }) }}
-{% endblock %}
 
 {% block questions %}
 
@@ -22,7 +14,6 @@
         type: "email",
         autocomplete: "email",
         spellcheck: false,
-        classes: "govuk-!-width-one-half",
         label: {
           text: "Name the suggested venue"
         }

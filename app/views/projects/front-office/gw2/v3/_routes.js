@@ -54,19 +54,36 @@ router.get('/application-details', function (req, res) {
 // PROCEDURAL DOCUMENTS
 // -----------------------------------------------
 
+// ---- Cover letter ----
 router.post('/procedural-documents/cover-letter-upload', function (req, res) {
   req.session.data['procedural-started'] = 'true'
   req.session.data['cover-letter-upload-complete'] = 'true'
   if (req.query.cya) {
     res.redirect('../application-details')
   } else {
+    res.redirect('timetable-type')
+  }
+})
+
+// ---- Timetable ----
+router.post('/procedural-documents/timetable-type', function (req, res) {
+  req.session.data['procedural-started'] = 'true'
+  if (req.session.data['timetable-type'] === 'web link') {
+    req.session.data['timetable-link-complete'] = 'true'
+  }
+  if (req.query.cya) {
+    res.redirect('../application-details')
+  } else if (req.session.data['timetable-type'] === 'file upload') {
     res.redirect('timetable-upload')
+  } else {
+    res.redirect('pid-upload')
   }
 })
 
 router.post('/procedural-documents/timetable-upload', function (req, res) {
   req.session.data['procedural-started'] = 'true'
   req.session.data['timetable-upload-complete'] = 'true'
+  req.session.data['timetable-type-complete'] = 'true'
   if (req.query.cya) {
     res.redirect('../application-details')
   } else {
@@ -91,6 +108,83 @@ router.post('/procedural-documents/compliance-upload', function (req, res) {
     res.redirect('../application-details')
   } else {
     res.redirect('soundness-upload')
+  }
+})
+
+router.post('/procedural-documents/soundness-upload', function (req, res) {
+  req.session.data['procedural-started'] = 'true'
+  req.session.data['soundness-upload-complete'] = 'true'
+  req.session.data['procedural-completed'] = 'true'
+  if (req.query.cya) {
+    res.redirect('../application-details')
+  } else {
+    res.redirect('../consultation-documents/notice-of-intention-upload')
+  }
+})
+
+// ---- PID ----
+router.post('/procedural-documents/pid-type', function (req, res) {
+  req.session.data['procedural-started'] = 'true'
+  if (req.session.data['pid-type'] !== 'file upload') {
+    req.session.data['pid-link-complete'] = 'true'
+  }
+  if (req.query.cya) {
+    res.redirect('../application-details')
+  } else if (req.session.data['pid-type'] === 'file upload') {
+    res.redirect('pid-upload')
+  } else {
+    res.redirect('compliance-type')
+  }
+})
+
+router.post('/procedural-documents/pid-upload', function (req, res) {
+  req.session.data['procedural-started'] = 'true'
+  req.session.data['pid-upload-complete'] = 'true'
+  if (req.query.cya) {
+    res.redirect('../application-details')
+  } else {
+    res.redirect('compliance-type')
+  }
+})
+
+// ---- Compliance ----
+router.post('/procedural-documents/compliance-type', function (req, res) {
+  req.session.data['procedural-started'] = 'true'
+  if (req.session.data['compliance-type'] !== 'file upload') {
+    req.session.data['compliance-link-complete'] = 'true'
+  }
+  if (req.query.cya) {
+    res.redirect('../application-details')
+  } else if (req.session.data['compliance-type'] === 'file upload') {
+    res.redirect('compliance-upload')
+  } else {
+    res.redirect('soundness-type')
+  }
+})
+
+router.post('/procedural-documents/compliance-upload', function (req, res) {
+  req.session.data['procedural-started'] = 'true'
+  req.session.data['compliance-upload-complete'] = 'true'
+  if (req.query.cya) {
+    res.redirect('../application-details')
+  } else {
+    res.redirect('soundness-type')
+  }
+})
+
+// ---- Soundness ----
+router.post('/procedural-documents/soundness-type', function (req, res) {
+  req.session.data['procedural-started'] = 'true'
+  if (req.session.data['soundness-type'] !== 'file upload') {
+    req.session.data['soundness-link-complete'] = 'true'
+    req.session.data['procedural-completed'] = 'true'
+  }
+  if (req.query.cya) {
+    res.redirect('../application-details')
+  } else if (req.session.data['soundness-type'] === 'file upload') {
+    res.redirect('soundness-upload')
+  } else {
+    res.redirect('../consultation-documents/notice-of-intention-upload')
   }
 })
 

@@ -47,7 +47,7 @@
         key: { text: 'Suggested workshop venue' },
         value:
           { html: workshopInfo } if data['workshop-venue-complete']
-          else { html: '<span class="govuk-hint">Not provided</span>' },
+          else { html: '<span class="govuk-hint">Not added</span>' },
         actions: { items: [
           { href: 'workshop-info/workshop-venue?cya=true', text: 'Change' } if data['workshop-venue-complete']
           else { href: 'workshop-info/workshop-venue', text: 'Add' }
@@ -57,7 +57,7 @@
         key: { text: 'Suggested workshop dates' },
         value:
           { html: workshopDates } if data['workshop-dates-complete']
-          else { html: '<span class="govuk-hint">Not provided</span>' },
+          else { html: '<span class="govuk-hint">Not added</span>' },
         actions: { items: [
           { href: 'workshop-info/workshop-dates?cya=true', text: 'Change' } if data['workshop-dates-complete']
           else { href: 'workshop-info/workshop-dates', text: 'Add' }

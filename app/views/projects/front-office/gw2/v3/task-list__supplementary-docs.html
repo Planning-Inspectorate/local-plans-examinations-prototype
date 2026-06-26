@@ -1,6 +1,6 @@
 <li>
   <h2 class="app-task-list__section">
-    Other documents
+    Subsequent work towards a draft Plan
   </h2>
 
   {% set supplementaryDocuments %}
@@ -18,7 +18,7 @@
         key: { text: 'Other documents' },
         value:
           { html: supplementaryDocuments } if data['supplementary-upload-complete']
-          else { html: '<span class="govuk-hint">Not provided</span>' },
+          else { html: '<span class="govuk-hint">Not added</span>' },
         actions: { items: [
           { href: 'supplementary-documents/supplementary-upload?cya=true', text: 'Change' } if data['supplementary-upload-complete']
           else { href: 'supplementary-documents/supplementary-upload', text: 'Add' }

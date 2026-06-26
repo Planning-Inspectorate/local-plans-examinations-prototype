@@ -1,72 +1,16 @@
 {% extends "layouts/front-office-v2.html" %}
-
-{% set documentName = "draft statement of soundness" %}
-{% set title = "Upload your " + documentName | lower %}
+{% from "includes/multidocumentupload.njk" import multiDocumentUpload %}
+{% set documentName = "draft Statement of Soundness" %}
+{% set title = "Upload your " + documentName %}
 
 {% block questions %}
 
-  <span class="govuk-caption-l">
-    Procedural documents
-  </span>
+  {% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
 
-    {% set urlHtml %}
-      {{ govukInput({
-        id: "document-url",
-        name: "documentUrl",
-        type: "url",
-        autocomplete: "url",
-        label: {
-          text: "Web link"
-        },
-        hint: {
-          text: "Enter the full web address, including https://"
-        }
-      }) }}
-    {% endset %}
-
-    {% set fileHtml %}
-      {{ govukFileUpload({
-        id: "document-upload",
-        name: "documentUpload",
-        label: {
-          text: "Upload your " + documentName | lower
-        }
-      }) }}
-    {% endset %}
-
-      <h1 class="govuk-heading-l">
-        {{ title }}
-      </h1>
-
-      <p class="govuk-body">
-        You can upload a file or provide a web link to where the document is published.
-      </p>
-
-      {{ govukRadios({
-        idPrefix: "document-method",
-        name: "documentMethod",
-        fieldset: {
-          legend: {
-            text: "How do you want to provide it?",
-            classes: "govuk-fieldset__legend--m"
-          }
-        },
-        items: [
-          {
-            value: "upload",
-            text: "Upload a file",
-            conditional: {
-              html: fileHtml
-            }
-          },
-          {
-            value: "link",
-            text: "Provide a web link",
-            conditional: {
-              html: urlHtml
-            }
-          }
-        ]
+      {{ multiDocumentUpload({
+      caption: "Procedural documents",
+      heading: title,
+      uploadUrl: "upload-documents"
       }) }}
 
 {% endblock %}

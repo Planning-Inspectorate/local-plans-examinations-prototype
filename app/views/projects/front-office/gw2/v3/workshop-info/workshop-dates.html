@@ -1,12 +1,26 @@
 {% extends "layouts/front-office-v2.html" %}
 
-{% set title = "What dates would you like to suggest for your Gateway 2 workshop?" %}
+{% set title = "Suggest dates for your Gateway 2 workshop" %}
 
 {% block questions %}
 
   <span class="govuk-caption-l">
     Workshop information
   </span>
+
+  {% set workshopHint %}
+    <p class="govuk-body">
+      Give 2 to 3 possible dates. We'll try to arrange the workshop around one of these.
+    </p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>
+        workshops usually last no more than 2 days
+      </li>
+      <li>
+        we aim to hold the workshop 3 weeks after your Gateway 2 submission
+      </li>
+    </ul>
+  {% endset %}
 
   {{ govukTextarea({
     name: "workshopDates",
@@ -17,7 +31,7 @@
       isPageHeading: true
     },
     hint: {
-      text: "Give 2 to 3 options if possible. A workshop is usually expected to last no more than 2 days. The workshop will aim to be held 3 weeks after your Gateway 2 submission."
+      html: workshopHint + "<p class='govuk-hint'>For example, 14 to 16 July 2026</p>"
     }
   }) }}
 
