@@ -25,7 +25,30 @@
     <h1 class="govuk-heading-l">
       {{ title }}
     </h1>
+         {% set version = "5" %}
+    <h2 class="govuk-heading-m">
+      Version {{ version }}
+      {{ govukTag({
+        classes: 'govuk-tag--yellow govuk-!-margin-left-2',
+        text: 'In progress'
+      }) }}
+    </h2>
  
+    <p class="govuk-!-margin-bottom-2">Changes:</p>
+ 
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Alternative document layout showing more document detail</li>
+    </ul>
+    {{ govukButton({
+      html: 'View prototype',
+      href: '/projects/back-office/manage/GW2/v3/gateway-2-alt',
+      isStartButton: true
+    }) }}
+    <br>
+    <br>
+    <hr>
+    <br>
+    <br>
         {% set version = "4" %}
     <h2 class="govuk-heading-m">
       Version {{ version }}
@@ -40,14 +63,15 @@
     <ul class="govuk-list govuk-list--bullet">
       <li>Side navigation version containing the same content as the standard navigation version to gather feedback</li>
     </ul>
-    {{ govukInsetText({
-          html: '<p class="govuk-body"><a href="https://app.mural.co/t/allpins6990/m/allpins6990/1772019468343/735e3b84708bc6f2f8960f2961356d29168aebfb?wid=0-1777567594810">Design Mural board</a></p>'
-        }) }}
+    
     {{ govukButton({
       html: 'View prototype',
       href: '/projects/back-office/manage/GW2/v3/gateway-2-side',
       isStartButton: true
     }) }}
+    <br>
+    <br>
+    <hr>
     <br>
     <br>
     {% set version = "3" %}
