@@ -9,7 +9,7 @@
 {% block beforeContent %}
   {{ govukBackLink({
     text: "Back",
-    href: "/projects/back-office/manage/GW2/v3/upload/v1/upload-bo"
+    href: "/projects/back-office/manage/GW2/v3/upload/v1/upload-bo?returnTo=" ~ (returnTo or 'gateway-2')
   }) }}
 {% endblock %}
 
@@ -31,7 +31,7 @@
             </dd>
             <dd class="govuk-summary-list__actions">
               <a class="govuk-link" href="/projects/back-office/manage/GW2/v3/upload/v1/remove-confirm?filename={{ doc.filename }}&returnTo=check-answers">Remove<span class="govuk-visually-hidden"> {{ doc.originalname }}</span></a> |
-              <a class="govuk-link" href="/projects/back-office/manage/GW2/v3/upload/v1/upload-bo">Change<span class="govuk-visually-hidden"> {{ doc.originalname }}</span></a>
+              <a class="govuk-link" href="/projects/back-office/manage/GW2/v3/upload/v1/upload-bo?returnTo={{ returnTo or 'gateway-2' }}">Change<span class="govuk-visually-hidden"> {{ doc.originalname }}</span></a>
             </dd>
           </div></dl>
       {% endfor %}
@@ -41,6 +41,7 @@
       </p>
 
       <form method="post" action="/projects/back-office/manage/GW2/v3/upload/v1/check-answers">
+        <input type="hidden" name="returnTo" value="{{ returnTo or 'gateway-2' }}">
         {{ govukButton({
           text: "Confirm and continue"
         }) }}
@@ -55,7 +56,7 @@
         <div class="govuk-notification-banner__content">
           <p class="govuk-body">
             You have not uploaded any documents yet.
-            <a class="govuk-link" href="/projects/back-office/manage/GW2/v3/upload/v1/upload-bo">Upload documents</a>
+            <a class="govuk-link" href="/projects/back-office/manage/GW2/v3/upload/v1/upload-bo?returnTo={{ returnTo or 'gateway-2' }}">Upload documents</a>
           </p>
         </div>
       </div>

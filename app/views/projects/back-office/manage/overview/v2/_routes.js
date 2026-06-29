@@ -35,30 +35,72 @@ function buildCaseNote(now, text, userName) {
   };
 }
 
-// GET v2 index
-router.get('/index', function (req, res) {
+function getContactNameParts(contact = {}) {
+  if (contact.firstName || contact.lastName) {
+    return {
+      firstName: contact.firstName || '',
+      lastName: contact.lastName || '',
+      fullName: [contact.firstName, contact.lastName].filter(Boolean).join(' ').trim()
+    };
+  }
+
+  const fullName = contact.name || '';
+  const parts = fullName.trim().split(/\s+/).filter(Boolean);
+
+  return {
+    firstName: parts[0] || '',
+    lastName: parts.slice(1).join(' '),
+    fullName
+  };
+}
+
+function buildOverviewContext(req) {
   const currentCase = getCurrentCase(req);
-  res.render('projects/back-office/manage/overview/v2/index', {
+  const mainContact = req.session.mainContact || {};
+  const mainContactNameParts = getContactNameParts(mainContact);
+  const contacts = Array.isArray(req.session.contacts) ? req.session.contacts : [];
+  const normalizedContacts = contacts.map((contact) => {
+    const nameParts = getContactNameParts(contact);
+    return {
+      ...contact,
+      name: contact.name || nameParts.fullName,
+      firstName: contact.firstName || nameParts.firstName,
+      lastName: contact.lastName || nameParts.lastName
+    };
+  });
+
+  return {
     caseRef: req.session.currentCaseRef || '',
     planTitle: req.session.planTitle || '',
     planType: req.session.planType || '',
     lpas: req.session.lpas || [],
     lpaRegions: req.session.lpaRegions || {},
     caseOfficer: req.session.caseOfficer || '',
-    contacts: req.session.contacts || [],
-    mainContactName: req.session.mainContact ? [req.session.mainContact.firstName, req.session.mainContact.lastName].filter(Boolean).join(' ') : '',
-    mainContactEmail: req.session.mainContact?.email || '',
-    mainContactPhone: req.session.mainContact?.phone || '',
-    mainContactOrg: req.session.mainContact?.organisation || '',
+    contacts: normalizedContacts,
+    mainContactName: mainContactNameParts.fullName,
+    mainContactEmail: mainContact.email || '',
+    mainContactPhone: mainContact.phone || '',
+    mainContactOrg: mainContact.organisation || '',
+    noticeOfIntentionDate: req.session.noticeOfIntentionDate || '',
+    gateway1EstimatedDate: req.session.gateway1EstimatedDate || '',
+    gateway2EstimatedDate: req.session.gateway2EstimatedDate || '',
+    gateway3EstimatedDate: req.session.gateway3EstimatedDate || '',
+    submissionDate: req.session.submissionDate || '',
     planBand: req.session.planBand || '',
     currentCase
-  });
+  };
+}
+
+// GET v2 index
+router.get('/index', function (req, res) {
+  res.render('projects/back-office/manage/overview/v2/index', buildOverviewContext(req));
 });
 
 // POST add case note
 router.post('/index', function (req, res) {
   const comment = (req.body.comment || '').trim();
-  if (!comment) return res.redirect('/projects/back-office/manage/overview/v2/index');
+  const returnTo = req.body.returnTo || '/projects/back-office/manage/overview/v2/index';
+  if (!comment) return res.redirect(returnTo);
 
   const userName = req.session.caseOfficer || 'Case officer';
   const newNote = buildCaseNote(new Date(), comment, userName);
@@ -75,7 +117,34 @@ router.post('/index', function (req, res) {
     req.session.caseNotes.unshift(newNote);
   }
 
-  req.session.save(() => res.redirect('/projects/back-office/manage/overview/v2/index'));
+  req.session.save(() => res.redirect(returnTo));
+});
+
+router.get('/index-side', function (req, res) {
+  res.render('projects/back-office/manage/overview/v2/index-side', buildOverviewContext(req));
+});
+
+router.post('/index-side', function (req, res) {
+  const comment = (req.body.comment || '').trim();
+  const returnTo = req.body.returnTo || '/projects/back-office/manage/overview/v2/index-side';
+  if (!comment) return res.redirect(returnTo);
+
+  const userName = req.session.caseOfficer || 'Case officer';
+  const newNote = buildCaseNote(new Date(), comment, userName);
+
+  const caseRef = req.session.currentCaseRef || '';
+  const cases = Array.isArray(req.session.cases) ? req.session.cases : [];
+  const matchedCase = caseRef ? cases.find(item => item.caseRef === caseRef) : null;
+
+  if (matchedCase) {
+    if (!Array.isArray(matchedCase.caseNotes)) matchedCase.caseNotes = [];
+    matchedCase.caseNotes.unshift(newNote);
+  } else {
+    if (!Array.isArray(req.session.caseNotes)) req.session.caseNotes = [];
+    req.session.caseNotes.unshift(newNote);
+  }
+
+  req.session.save(() => res.redirect(returnTo));
 });
 
 // GET all case notes

@@ -11,6 +11,7 @@ All cases – {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+{% set isSideJourney = journey == 'side' %}
 {% if showEmpty %}
     <h1 class="govuk-heading-l">All cases</h1>
 {% else %}
@@ -19,6 +20,10 @@ All cases – {{ serviceName }}
     {% else %}
         <h1 class="govuk-heading-l">All cases</h1>
     {% endif %}
+{% endif %}
+
+{% if isSideJourney %}
+  <p class="govuk-body">This journey opens each case in the side version with the case data pre-populated.</p>
 {% endif %}
 
 <div class="govuk-grid-row">
@@ -72,6 +77,19 @@ All cases – {{ serviceName }}
     View empty state
   </a>
 {% endif %}
+{% if isSideJourney %}
+  <a href="/projects/back-office/create-case/v2/index"
+     class="govuk-link"
+     style="float:right; padding: 12px 15px;">
+    Use default journey
+  </a>
+{% else %}
+  <a href="/projects/back-office/create-case/v2/index?journey=side"
+     class="govuk-link"
+     style="float:right; padding: 12px 15px;">
+    Use side journey
+  </a>
+{% endif %}
 </div>
 
 {% if showEmpty %}
@@ -100,7 +118,7 @@ All cases – {{ serviceName }}
         {% for case in cases %}
         <tr class="govuk-table__row">
           <td class="govuk-table__cell">
-            <a href="/projects/back-office/create-case/v2/load-case?caseRef={{ case.caseRef }}" class="govuk-link">{{ case.caseRef }}</a>
+            <a href="/projects/back-office/create-case/v2/load-case?caseRef={{ case.caseRef }}{% if isSideJourney %}&destination=overview-side{% endif %}" class="govuk-link">{{ case.caseRef }}</a>
           </td>
           <td class="govuk-table__cell">{{ case.planTitle or '-' }}</td>
           <td class="govuk-table__cell">{% if case.planType == 'local-plan' %}Local Plan{% else %}{{ case.planType or '-' }}{% endif %}</td>

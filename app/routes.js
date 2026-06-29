@@ -6,6 +6,10 @@
 
 const govukPrototypeKit = require('govuk-prototype-kit');
 const router = govukPrototypeKit.requests.setupRouter();
+const {
+  PLAN_STATUS_CLASS_MAP,
+  getPlanStatusClasses
+} = require('./routes/projects/back-office/plan-status-classes');
 
 const defaultWorkflowNavVersions = {
   overview: 'v2',
@@ -55,6 +59,31 @@ router.use((req, res, next) => {
     ...defaultWorkflowNavVersions,
     ...sessionOverrides
   };
+  next();
+});
+
+// Make header data consistent across all back-office pages, including dynamic _routes.
+router.use((req, res, next) => {
+  const sessionData = req.session?.data || {};
+  const resolvedCaseRef = req.session?.currentCaseRef || '';
+  const resolvedPlanTitle = req.session?.planTitle || '';
+  const resolvedStatus = req.session?.planStatus || sessionData.planStatus || 'Submitted';
+  const resolvedStatusClasses = sessionData.planStatusClasses || getPlanStatusClasses(resolvedStatus);
+
+  res.locals.caseRef = resolvedCaseRef;
+  res.locals.planTitle = resolvedPlanTitle;
+  res.locals.headerCaseRef = resolvedCaseRef;
+  res.locals.headerPlanTitle = resolvedPlanTitle;
+  res.locals.planStatus = resolvedStatus;
+  res.locals.planStatusClassMap = sessionData.planStatusClassMap || PLAN_STATUS_CLASS_MAP;
+  res.locals.headerStatus = {
+    text: resolvedStatus,
+    classes: resolvedStatusClasses
+  };
+
+  if (!req.session.data) req.session.data = {};
+  req.session.data.planStatusClassMap = res.locals.planStatusClassMap;
+
   next();
 });
 

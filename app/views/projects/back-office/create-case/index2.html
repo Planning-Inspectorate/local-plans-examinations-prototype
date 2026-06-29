@@ -26,6 +26,29 @@
       {{ title }}
     </h1>
  
+    {% set version = "3" %}
+    <h2 class="govuk-heading-m">Version {{ version }}
+      {{ govukTag({
+        classes: 'govuk-tag--green govuk-!-margin-left-2',
+        text: 'Ready for user testing'
+      }) }}
+    </h2>
+
+    <p class="govuk-!-margin-bottom-2">Changes:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Side navigation version containing the same content as the standard navigation version to gather feedback</li>
+    </ul>
+
+    {{ govukButton({
+      text: "View prototype",
+      href: "/projects/back-office/create-case/v2/index?journey=side",
+      isStartButton: true
+    }) }}
+    <br>
+    <br>
+    <hr>
+    <br>
+    <br>
     {% set version = "2" %}
     <h2 class="govuk-heading-m">
       Version {{ version }}

@@ -8,7 +8,7 @@
 {% block beforeContent %}
   {{ govukBackLink({
   text: "Back",
-  href: "/projects/back-office/manage/GW2/v3/gateway-2"
+  href: returnPath or "/projects/back-office/manage/GW2/v3/gateway-2"
 }) }}
 {% endblock %}
 {% block content %}
@@ -30,6 +30,7 @@
     <h2 class="govuk-heading-m">Upload documents</h2>
 
     <form class="form" action="/projects/back-office/manage/GW2/v3/upload/v1/upload-bo" method="post" id="upload-form">
+      <input type="hidden" name="returnTo" value="{{ returnTo or 'gateway-2' }}">
       <div class="app-multi-file-upload">
         {% include 'includes/back-office/multiple-document-upload.html' %}
       </div>
@@ -42,7 +43,7 @@
           {%- endfor -%}
         </div>
         <p>
-          <a href="/projects/back-office/manage/GW2/v3/upload/v1/clear-uploads">Clear all documents</a>
+          <a href="/projects/back-office/manage/GW2/v3/upload/v1/clear-uploads?returnTo={{ returnTo or 'gateway-2' }}">Clear all documents</a>
         </p>
       {% endif %}
 

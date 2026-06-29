@@ -251,16 +251,20 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
       }
     ];
   }
+
+  const journey = req.query.journey === 'side' ? 'side' : 'default';
   res.render('projects/back-office/create-case/v2/index', {
     cases: req.session.cases.slice().reverse(),
     showEmpty: req.query.showEmpty === 'true',
-    planStatusClassMap: PLAN_STATUS_CLASS_MAP
+    planStatusClassMap: PLAN_STATUS_CLASS_MAP,
+    journey
   });
 });
 
 // Load case - populates session with case data and redirects to manage
 router.get('/projects/back-office/create-case/v2/load-case', (req, res) => {
   const { caseRef } = req.query;
+  const destination = req.query.destination === 'overview-side' ? 'overview-side' : 'overview';
   
   // Find the case in the cases array
   if (!req.session.cases) {
@@ -347,7 +351,15 @@ router.get('/projects/back-office/create-case/v2/load-case', (req, res) => {
   // Populate examination estimated date from gateway3 - stored in D MMMM YYYY format (GOV.UK standard)
   const gateway3Date = caseToLoad.gateway3Date || '';
   req.session.examinationEstimatedDate = (gateway3Date && gateway3Date !== '') ? gateway3Date : '';
-  
+
+  if (destination === 'overview-side') {
+    const selectedOverviewVersion = req.session?.workflowNavVersionOverrides?.overview;
+    const sideOverviewVersion = selectedOverviewVersion === 'v1' || selectedOverviewVersion === 'v2'
+      ? selectedOverviewVersion
+      : 'v2';
+    return res.redirect(`/projects/back-office/manage/overview/${sideOverviewVersion}/index-side`);
+  }
+
   // Redirect to selected overview version from nav tester (defaults to v2).
   const selectedOverviewVersion = req.session?.workflowNavVersionOverrides?.overview || 'v2';
   res.redirect(`/projects/back-office/manage/overview/${selectedOverviewVersion}/index`);

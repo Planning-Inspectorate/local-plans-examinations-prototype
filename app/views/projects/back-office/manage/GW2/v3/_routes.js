@@ -2,6 +2,35 @@ const govukPrototypeKit = require('govuk-prototype-kit');
 const router = govukPrototypeKit.requests.setupRouter();
 const WORKSHOP_DOCS_KEY = 'gw2v3WorkshopDocuments';
 
+const RETURN_TO_FALLBACK = 'gateway-2';
+const RETURN_TO_MAP = {
+  'gateway-2': '/projects/back-office/manage/GW2/v3/gateway-2',
+  'gateway-2-side': '/projects/back-office/manage/GW2/v3/gateway-2-side',
+  'check-answers': '/projects/back-office/manage/GW2/v3/upload/v1/check-answers',
+  'upload-bo': '/projects/back-office/manage/GW2/v3/upload/v1/upload-bo'
+};
+
+function getReturnPath(returnTo) {
+  return RETURN_TO_MAP[returnTo] || RETURN_TO_MAP[RETURN_TO_FALLBACK];
+}
+
+function getReturnTo(req, fallback = RETURN_TO_FALLBACK) {
+  const requestedReturnTo =
+    (req.query && req.query.returnTo) ||
+    (req.body && req.body.returnTo) ||
+    req.session.gw2UploadReturnTo ||
+    fallback;
+
+  return Object.prototype.hasOwnProperty.call(RETURN_TO_MAP, requestedReturnTo)
+    ? requestedReturnTo
+    : RETURN_TO_FALLBACK;
+}
+
+function withReturnTo(path, returnTo) {
+  const separator = path.includes('?') ? '&' : '?';
+  return `${path}${separator}returnTo=${encodeURIComponent(returnTo)}`;
+}
+
 function formatDateForDisplay(dateString) {
   if (!dateString || dateString === '-') return '-';
 
@@ -158,15 +187,10 @@ function getUploadedDocumentsFromFileData(req) {
   return uploadedDocuments;
 }
 
-router.get('/gateway-2', (req, res) => {
+function buildGateway2ViewModel(req, notificationMessage = '') {
   const uploadedDocuments = getUploadedDocuments(req);
-  const showUploadConfirmation = req.query.uploaded === '1';
-  const uploadedCount = parseInt(req.query.uploadedCount || '0', 10);
-  const notificationMessage = showUploadConfirmation
-    ? `${uploadedCount > 0 ? uploadedCount : uploadedDocuments.length} workshop document${(uploadedCount > 0 ? uploadedCount : uploadedDocuments.length) === 1 ? '' : 's'} uploaded`
-    : '';
 
-  res.render('projects/back-office/manage/GW2/v3/gateway-2', {
+  return {
     caseRef: req.session.currentCaseRef || '',
     planTitle: req.session.planTitle || '',
     gateway2EstimatedDate: formatDateForDisplay(req.session.gateway2EstimatedDate) || '-',
@@ -181,18 +205,64 @@ router.get('/gateway-2', (req, res) => {
     uploadedDocuments,
     totalWorkshopDocuments: uploadedDocuments.length,
     notificationMessage
-  });
+  };
+}
+
+router.get('/gateway-2', (req, res) => {
+  const showUploadConfirmation = req.query.uploaded === '1';
+  const uploadedCount = parseInt(req.query.uploadedCount || '0', 10);
+  const uploadedDocuments = getUploadedDocuments(req);
+  const notificationMessage = showUploadConfirmation
+    ? `${uploadedCount > 0 ? uploadedCount : uploadedDocuments.length} workshop document${(uploadedCount > 0 ? uploadedCount : uploadedDocuments.length) === 1 ? '' : 's'} uploaded`
+    : '';
+
+  res.render('projects/back-office/manage/GW2/v3/gateway-2', buildGateway2ViewModel(req, notificationMessage));
 });
 
 router.get('/gateway-2.html', (req, res) => {
   res.redirect('/projects/back-office/manage/GW2/v3/gateway-2');
 });
 
+router.get('/gateway-2-side', (req, res) => {
+  const showUploadConfirmation = req.query.uploaded === '1';
+  const uploadedCount = parseInt(req.query.uploadedCount || '0', 10);
+  const uploadedDocuments = getUploadedDocuments(req);
+  const notificationMessage = showUploadConfirmation
+    ? `${uploadedCount > 0 ? uploadedCount : uploadedDocuments.length} workshop document${(uploadedCount > 0 ? uploadedCount : uploadedDocuments.length) === 1 ? '' : 's'} uploaded`
+    : '';
+
+  res.render('projects/back-office/manage/GW2/v3/gateway-2-side', buildGateway2ViewModel(req, notificationMessage));
+});
+
+router.get('/gateway-2-side.html', (req, res) => {
+  res.redirect('/projects/back-office/manage/GW2/v3/gateway-2-side');
+});
+
+router.get('/gateway-2-alt', (req, res) => {
+  const showUploadConfirmation = req.query.uploaded === '1';
+  const uploadedCount = parseInt(req.query.uploadedCount || '0', 10);
+  const uploadedDocuments = getUploadedDocuments(req);
+  const notificationMessage = showUploadConfirmation
+    ? `${uploadedCount > 0 ? uploadedCount : uploadedDocuments.length} workshop document${(uploadedCount > 0 ? uploadedCount : uploadedDocuments.length) === 1 ? '' : 's'} uploaded`
+    : '';
+
+  res.render('projects/back-office/manage/GW2/v3/gateway-2-alt', buildGateway2ViewModel(req, notificationMessage));
+});
+
+router.get('/gateway-2-alt.html', (req, res) => {
+  res.redirect('/projects/back-office/manage/GW2/v3/gateway-2-alt');
+});
+
 router.get('/upload/v1/upload-bo', (req, res) => {
+  const returnTo = getReturnTo(req);
+  req.session.gw2UploadReturnTo = returnTo;
+
   res.render('projects/back-office/manage/GW2/v3/upload/v1/upload-bo', {
     caseRef: req.session.currentCaseRef || '',
     serviceName: 'Local Plans Examinations',
-    uploadedDocuments: getUploadedDocuments(req)
+    uploadedDocuments: getUploadedDocuments(req),
+    returnTo,
+    returnPath: getReturnPath(returnTo)
   });
 });
 
@@ -201,19 +271,25 @@ router.get('/upload/v1/upload-bo.html', (req, res) => {
 });
 
 router.post('/upload/v1/upload-bo', (req, res) => {
+  const returnTo = getReturnTo(req);
+  req.session.gw2UploadReturnTo = returnTo;
+
   req.session.save(() => {
-    res.redirect('/projects/back-office/manage/GW2/v3/upload/v1/check-answers');
+    res.redirect(withReturnTo('/projects/back-office/manage/GW2/v3/upload/v1/check-answers', returnTo));
   });
 });
 
 router.get('/upload/v1/check-answers', (req, res) => {
+  const returnTo = getReturnTo(req);
+  req.session.gw2UploadReturnTo = returnTo;
   const uploadedDocuments = getUploadedDocumentsFromFileData(req);
 
   res.render('projects/back-office/manage/GW2/v3/upload/v1/check-answers', {
     caseRef: req.session.currentCaseRef || '',
     serviceName: 'Local Plans Examinations',
     uploadedDocuments,
-    totalFiles: uploadedDocuments.length
+    totalFiles: uploadedDocuments.length,
+    returnTo
   });
 });
 
@@ -223,16 +299,12 @@ router.get('/upload/v1/check-answers.html', (req, res) => {
 
 router.get('/upload/v1/remove-confirm', (req, res) => {
   const filename = req.query.filename || '';
-  const returnTo = req.query.returnTo || 'gateway-2';
+  const returnTo = getReturnTo(req);
+  req.session.gw2UploadReturnTo = returnTo;
   const document = findDocumentByFilename(req, filename);
 
   if (!filename || !document) {
-    const redirectMap = {
-      'gateway-2': '/projects/back-office/manage/GW2/v3/gateway-2',
-      'check-answers': '/projects/back-office/manage/GW2/v3/upload/v1/check-answers',
-      'upload-bo': '/projects/back-office/manage/GW2/v3/upload/v1/upload-bo'
-    };
-    return res.redirect(redirectMap[returnTo] || redirectMap['gateway-2']);
+    return res.redirect(getReturnPath(returnTo));
   }
 
   res.render('projects/back-office/manage/GW2/v3/upload/v1/remove-confirm', {
@@ -246,52 +318,46 @@ router.get('/upload/v1/remove-confirm', (req, res) => {
 
 router.post('/upload/v1/remove-confirm', (req, res) => {
   const filename = req.body.filename || '';
-  const returnTo = req.body.returnTo || 'gateway-2';
+  const returnTo = getReturnTo(req);
+  req.session.gw2UploadReturnTo = returnTo;
   const action = req.body.action || 'cancel';
 
   if (action === 'remove') {
     removeDocumentByFilename(req, filename);
   }
 
-  const redirectMap = {
-    'gateway-2': '/projects/back-office/manage/GW2/v3/gateway-2',
-    'check-answers': '/projects/back-office/manage/GW2/v3/upload/v1/check-answers',
-    'upload-bo': '/projects/back-office/manage/GW2/v3/upload/v1/upload-bo'
-  };
-
   req.session.save(() => {
-    res.redirect(redirectMap[returnTo] || redirectMap['gateway-2']);
+    res.redirect(getReturnPath(returnTo));
   });
 });
 
 router.get('/upload/v1/remove', (req, res) => {
   const filename = req.query.filename || '';
-  const returnTo = req.query.returnTo || 'gateway-2';
+  const returnTo = getReturnTo(req);
+  req.session.gw2UploadReturnTo = returnTo;
 
   removeDocumentByFilename(req, filename);
 
-  const redirectMap = {
-    'gateway-2': '/projects/back-office/manage/GW2/v3/gateway-2',
-    'check-answers': '/projects/back-office/manage/GW2/v3/upload/v1/check-answers',
-    'upload-bo': '/projects/back-office/manage/GW2/v3/upload/v1/upload-bo'
-  };
-
   req.session.save(() => {
-    res.redirect(redirectMap[returnTo] || redirectMap['gateway-2']);
+    res.redirect(getReturnPath(returnTo));
   });
 });
 
 router.post('/upload/v1/check-answers', (req, res) => {
+  const returnTo = getReturnTo(req);
+  req.session.gw2UploadReturnTo = returnTo;
   if (!req.session.data) req.session.data = {};
   const currentBatch = getUploadedDocumentsFromFileData(req);
   const uploadedCount = currentBatch.length;
   mergeWorkshopDocuments(req);
   req.session.save(() => {
-    res.redirect(`/projects/back-office/manage/GW2/v3/gateway-2?uploaded=1&uploadedCount=${uploadedCount}`);
+    res.redirect(`${getReturnPath(returnTo)}?uploaded=1&uploadedCount=${uploadedCount}`);
   });
 });
 
 router.get('/upload/v1/clear-uploads', (req, res) => {
+  const returnTo = getReturnTo(req);
+  req.session.gw2UploadReturnTo = returnTo;
   if (req.session && req.session.data) {
     delete req.session.data.fileData;
     delete req.session.data.fileSizeMap;
@@ -302,7 +368,7 @@ router.get('/upload/v1/clear-uploads', (req, res) => {
   }
 
   req.session.save(() => {
-    res.redirect('/projects/back-office/manage/GW2/v3/upload/v1/upload-bo');
+    res.redirect(withReturnTo('/projects/back-office/manage/GW2/v3/upload/v1/upload-bo', returnTo));
   });
 });
 

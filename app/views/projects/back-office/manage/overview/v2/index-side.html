@@ -170,6 +170,9 @@ Plan overview – {{ serviceName }}
 
 
       <h2 class="govuk-heading-m">Contacts</h2>
+      {% set contactOne = contacts[0] or {} %}
+      {% set contactTwo = contacts[1] or {} %}
+      {% set contactThree = contacts[2] or {} %}
       <dl class="govuk-summary-list">
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Main contact</dt>
@@ -187,26 +190,54 @@ Plan overview – {{ serviceName }}
             </ul>
           </dd>
         </div>
-        {% for contact in contacts %}
-          {% if loop.index <= 3 %}
-            <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">Contact {{ loop.index + 1 }}</dt>
-              <dd class="govuk-summary-list__value">
-                {{ contact.firstName or '' }} {{ contact.lastName or '' }}<br>
-                {{ contact.email or '-' }}<br>
-                {{ contact.phone or '-' }}<br>
-                {{ contact.organisation or '-' }}
-              </dd>
-              <dd class="govuk-summary-list__actions">
-                <ul class="govuk-summary-list__actions-list">
-                  <li class="govuk-summary-list__actions-list-item">
-                    <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> contact {{ loop.index + 1 }}</span></a>
-                  </li>
-                </ul>
-              </dd>
-            </div>
-          {% endif %}
-        {% endfor %}
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Contact 2</dt>
+          <dd class="govuk-summary-list__value">
+            {{ contactOne.firstName or '' }} {{ contactOne.lastName or '' }}<br>
+            {{ contactOne.email or '-' }}<br>
+            {{ contactOne.phone or '-' }}<br>
+            {{ contactOne.organisation or '-' }}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <ul class="govuk-summary-list__actions-list">
+              <li class="govuk-summary-list__actions-list-item">
+                <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> contact 2</span></a>
+              </li>
+            </ul>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Contact 3</dt>
+          <dd class="govuk-summary-list__value">
+            {{ contactTwo.firstName or '' }} {{ contactTwo.lastName or '' }}<br>
+            {{ contactTwo.email or '-' }}<br>
+            {{ contactTwo.phone or '-' }}<br>
+            {{ contactTwo.organisation or '-' }}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <ul class="govuk-summary-list__actions-list">
+              <li class="govuk-summary-list__actions-list-item">
+                <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> contact 3</span></a>
+              </li>
+            </ul>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Contact 4</dt>
+          <dd class="govuk-summary-list__value">
+            {{ contactThree.firstName or '' }} {{ contactThree.lastName or '' }}<br>
+            {{ contactThree.email or '-' }}<br>
+            {{ contactThree.phone or '-' }}<br>
+            {{ contactThree.organisation or '-' }}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <ul class="govuk-summary-list__actions-list">
+              <li class="govuk-summary-list__actions-list-item">
+                <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> contact 4</span></a>
+              </li>
+            </ul>
+          </dd>
+        </div>
       </dl>
       <h2 class="govuk-heading-m">Key dates</h2>
       <dl class="govuk-summary-list">

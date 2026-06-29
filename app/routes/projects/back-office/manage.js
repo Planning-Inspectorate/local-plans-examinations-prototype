@@ -3002,6 +3002,12 @@ router.get('/projects/back-office/manage/examination/v1/hearing-dates-clear.html
 
 // --- Gateway 2 v2 Routes ---
 router.get('/projects/back-office/manage/GW2/v2/gateway-2', (req, res) => {
+  const uploadedDocuments = Array.isArray(req.session.gw2v3WorkshopDocuments)
+    ? req.session.gw2v3WorkshopDocuments
+    : Array.isArray(req.session.data?.gw2v3WorkshopDocuments)
+      ? req.session.data.gw2v3WorkshopDocuments
+      : [];
+
   res.render('projects/back-office/manage/GW2/v2/gateway-2', {
     caseRef: req.session.currentCaseRef || '',
     planTitle: req.session.planTitle || '',
@@ -3015,11 +3021,18 @@ router.get('/projects/back-office/manage/GW2/v2/gateway-2', (req, res) => {
     gateway2ReportPublishedDate: formatDateForDisplay(req.session.gateway2ReportPublishedDate) || '-',
     gateway2AssessorName: req.session.gateway2AssessorName || '-',
     gateway2PlanStatus: req.session.gateway2PlanStatus || '-',
-    gateway2Grade: req.session.gateway2Grade || '-'
+    gateway2Grade: req.session.gateway2Grade || '-',
+    uploadedDocuments
   });
 });
 
 router.get('/projects/back-office/manage/GW2/v2/gateway-2-side', (req, res) => {
+  const uploadedDocuments = Array.isArray(req.session.gw2v3WorkshopDocuments)
+    ? req.session.gw2v3WorkshopDocuments
+    : Array.isArray(req.session.data?.gw2v3WorkshopDocuments)
+      ? req.session.data.gw2v3WorkshopDocuments
+      : [];
+
   res.render('projects/back-office/manage/GW2/v2/gateway-2-side', {
     caseRef: req.session.currentCaseRef || '',
     planTitle: req.session.planTitle || '',
@@ -3033,7 +3046,8 @@ router.get('/projects/back-office/manage/GW2/v2/gateway-2-side', (req, res) => {
     gateway2ReportPublishedDate: formatDateForDisplay(req.session.gateway2ReportPublishedDate) || '-',
     gateway2AssessorName: req.session.gateway2AssessorName || '-',
     gateway2PlanStatus: req.session.gateway2PlanStatus || '-',
-    gateway2Grade: req.session.gateway2Grade || '-'
+    gateway2Grade: req.session.gateway2Grade || '-',
+    uploadedDocuments
   });
 });
 

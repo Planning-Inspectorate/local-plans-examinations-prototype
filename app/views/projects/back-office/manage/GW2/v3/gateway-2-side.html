@@ -11,7 +11,18 @@ Gateway 2 overview – {{ serviceName }}
 {% endblock %}
 
 {% block content %}
-
+ {% if notificationMessage %}
+      <div class="govuk-notification-banner govuk-notification-banner--success" role="region" aria-labelledby="gw2-upload-banner-title" data-module="govuk-notification-banner">
+        <div class="govuk-notification-banner__header">
+          <h2 class="govuk-notification-banner__title" id="gw2-upload-banner-title">
+            Success
+          </h2>
+        </div>
+        <div class="govuk-notification-banner__content">
+          <p class="govuk-notification-banner__heading">{{ notificationMessage }}</p>
+        </div>
+      </div>
+    {% endif %}
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
@@ -101,7 +112,33 @@ Gateway 2 overview – {{ serviceName }}
         </div>
         </dl>
         </form>
-   
+                        <h2 class="govuk-heading-l">Workshop documents</h2>
+        {%- if uploadedDocuments and uploadedDocuments.length > 0 -%}
+         
+          <div class="govuk-summary-list govuk-summary-list-timetable">
+            {%- for doc in uploadedDocuments -%}
+              <div class="govuk-summary-list__row">
+                <div class="govuk-summary-list__key">Document {{ loop.index }}</div>
+                <div class="govuk-summary-list__value">
+                  <a class="govuk-hint" href="/projects/back-office/manage/documents/download/{{ doc.filename }}">{{ doc.originalname }}</a>
+                </div>
+                <div class="govuk-summary-list__actions">
+                  <span class="app-inline-actions">
+                    <a class="govuk-link" href="/projects/back-office/manage/GW2/v3/upload/v1/remove-confirm?filename={{ doc.filename }}&returnTo=gateway-2-side">Remove<span class="govuk-visually-hidden"> {{ doc.originalname }}</span></a> |
+                    <a class="govuk-link" href="/projects/back-office/manage/GW2/v3/upload/v1/upload-bo?returnTo=gateway-2-side">Change<span class="govuk-visually-hidden"> {{ doc.originalname }}</span></a>
+                  </span>
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+        {% else %}
+          <p class="govuk-body">No workshop documents uploaded yet.</p>
+        {% endif %}
+         <p class="govuk-body govuk-!-margin-bottom-3">
+          <a href="/projects/back-office/manage/GW2/v3/upload/v1/upload-bo?returnTo=gateway-2-side">Add documentation</a>
+        </p>
+        </form>
+        <br>
         <!--
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Plan status</dt>
@@ -113,16 +150,20 @@ Gateway 2 overview – {{ serviceName }}
         
      <style>
       .app-task-list__section {
-      display: flex; !important;
-      justify-content: space-between; !important;
-      align-items: flex-start; !important;
-      gap: 12px; !important;
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: flex-start !important;
+      gap: 12px !important;
       }
 
       .app-task-list__section .govuk-tag {
       position: static;
       margin-left: 0;
       flex-shrink: 0;
+      }
+
+      .app-inline-actions {
+      white-space: nowrap;
       }
     </style>
     <div class="govuk-grid-row">

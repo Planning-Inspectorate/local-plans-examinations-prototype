@@ -55,11 +55,11 @@
 }
 
 .govuk-summary-list-timetable .govuk-summary-list__value {
-  width: 50%;
+  width: 4cm;
 }
 
 .govuk-summary-list-timetable .govuk-summary-list__actions {
-  width: 20%;
+  width: 30%;
 }
 
 .app-email-break,
@@ -497,18 +497,6 @@ html, body {
   font-weight: 600;
   text-decoration: underline;
   font-size: 1rem;
-}
-
-.app-plan-header__meta {
-  display: inline-flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.app-plan-header__stage {
-  display: inline-block;
-  margin-bottom: 0;
 }
 
 
