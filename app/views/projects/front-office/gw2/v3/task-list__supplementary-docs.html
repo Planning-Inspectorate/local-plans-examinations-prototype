@@ -1,6 +1,6 @@
 <li>
   <h2 class="app-task-list__section">
-    Subsequent work towards a draft Plan
+    Additional documents
   </h2>
 
   {% set supplementaryDocuments %}
@@ -15,7 +15,7 @@
     classes: 'govuk-!-margin-bottom-9',
     rows: [
       {
-        key: { text: 'Other documents' },
+        key: { text: 'Subsequent work towards a draft Plan' },
         value:
           { html: supplementaryDocuments } if data['supplementary-upload-complete']
           else { html: '<span class="govuk-hint">Not added</span>' },

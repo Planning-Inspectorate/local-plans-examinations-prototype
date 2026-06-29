@@ -26,6 +26,17 @@
 
     {# ===================== VERSION 2 ===================== #}
 
+    {% set v2NotesHtml %}
+
+      <h3 class="govuk-heading-s">Key changes</h3>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>Removed guidance content and added a guidance tab to header instead</li>
+        <li>Removed references to 'joint plans' - stripped back metadata</li>
+      </ul>
+
+    {% endset %}
+
+
     <h2 class="govuk-heading-m">
       Version 2
       {{ govukTag({
@@ -41,15 +52,18 @@
     <ul class="govuk-list govuk-list--bullet">
       <li><a class="govuk-link" href="https://app.mural.co/t/allpins6990/m/allpins6990/1765884601123/237bc418b7dd56fd74fe7b0ce600936fbf9aba46">Design Mural board</a></li>
       <li><a class="govuk-link" href="https://app.mural.co/t/allpins6990/m/allpins6990/1776240173187/3c951bd1e9c81a3c6506f51abab0d859c1ff7e10">User research assumption mapping mural</a></li>
-      <li><a class="govuk-link" href="/projects/front-office/plan-details/archive/plan-details7">Riskier option with bespoke timeline component</a></li>
-      <li><a class="govuk-link" href="/projects/front-office/plan-details/archive/plan-details8">Tasklist + guidance in details component</a></li>
-      <li><a class="govuk-link" href="/projects/front-office/plan-details/archive/plan-details9">Accordion-based version</a></li>
+      <li><a class="govuk-link" href="https://app.mural.co/t/allpins6990/m/allpins6990/1781087329494/450608632532f9f252540e6e24da657510944428">Insights into decisions mural</a></li>
     </ul>
 
     {{ govukButton({
       text: "View prototype",
       href: '/projects/front-office/plan-details/v2/plan-details?status=ready',
       isStartButton: true
+    }) }}
+
+    {{ govukDetails({
+      summaryText: "Version 2 notes",
+      html: v2NotesHtml
     }) }}
 
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
@@ -89,6 +103,14 @@
         <li>What happens when deadlines are missed</li>
       </ul>
 
+      <h3 class="govuk-heading-s">Other variations not brought to user testing:</h3>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li><a class="govuk-link" href="/projects/front-office/plan-details/archive/plan-details7">Riskier option with bespoke timeline component</a></li>
+        <li><a class="govuk-link" href="/projects/front-office/plan-details/archive/plan-details8">Tasklist + guidance in details component</a></li>
+        <li><a class="govuk-link" href="/projects/front-office/plan-details/archive/plan-details9">Accordion-based version</a></li>
+      </ul>
+
     {% endset %}
 
     {# ===================== VERSION 1 MAIN CONTENT ===================== #}
@@ -96,18 +118,18 @@
     {% set v1HTML %}
 
       <p class="govuk-body">
-        Older iteration of the plan details dashboard used for research and comparison.
+        First iteration of the plan details dashboard used for research (May/June 2026).
       </p>
-
-      {{ govukDetails({
-        summaryText: "Notes",
-        html: v1NotesHtml
-      }) }}
 
       {{ govukButton({
         text: "View prototype",
         href: '/projects/front-office/plan-details/v1/plan-details?status=ready',
         isStartButton: true
+      }) }}
+
+      {{ govukDetails({
+        summaryText: "Version 1 notes",
+        html: v1NotesHtml
       }) }}
 
     {% endset %}

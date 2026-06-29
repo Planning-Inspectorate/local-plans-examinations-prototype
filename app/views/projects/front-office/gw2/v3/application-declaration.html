@@ -24,14 +24,14 @@
  
     <form action="application-submission-success" method="post" novalidate>
  
-      <p class="govuk-body">By submitting this application, I confirm that:</p>
+      <p class="govuk-body">By submitting this, I confirm that:</p>
  
       {{ govukCheckboxes({
         name: "declaration",
         items: [
           {
             value: "information-true",
-            text: "to the best of my knowledge, the information given in this application and enclosed maps, plans and other documents are true"
+            text: "the information given in this submission is true, to the best of my knowledge, "
           },
           {
             value: "privacy-notice",

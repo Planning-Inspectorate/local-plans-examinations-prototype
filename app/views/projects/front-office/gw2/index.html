@@ -71,11 +71,12 @@
     <ul class="govuk-list govuk-list--bullet">
       <li>Designed so all documents are optional</li>
       <li>Changed "application" wording to "submission"</li>
-      <li>Add option to add links instead of document upload</li>
-      <li>Replaced "Continue" button with "Save and return" button</li>
-      <li>Added a "supplementary documents" section</li>
-      <li>Removed references to "joint" plans</li>
-      <li>Added a "Continue to declaration" button at the bottom</li>
+      <li>Added option to add links instead of document upload</li>
+      <li>Added a "additional documents" section</li>
+      <li>Added a "workshop preferences" section for suggested venue and dates</li>
+      <li>Removed references to "joint plans"</li>
+      <li>Added a "Submit Gateway 2 for assessment" button at the bottom</li>
+      <li>Read-only submitted view now includes workshop details (date, time, venue and shared documents)</li>
     </ul>
 
 {% endset %}
@@ -85,15 +86,7 @@
   html: appDetailsNotesHtml
 }) }}
 
-    {% set v2HTML %}
- 
-      {% set version = "2" %}
-
-          {{ govukButton({
-      html: 'View prototype',
-      href: '/projects/front-office/gw2/v' ~ version ~ '/application-details',
-      isStartButton: true
-    }) }}
+        {% set v2NotesHtml %}
 
       <h3 class="govuk-heading-s">Changes</h3>
  
@@ -129,7 +122,22 @@
   <li>How validation should work for missing or incorrect documents</li>
   <li>How multiple users accessing the service should be managed</li>
 </ul>
+{% endset -%}
+
+    {% set v2HTML %}
  
+      {% set version = "2" %}
+
+          {{ govukButton({
+      html: 'View prototype',
+      href: '/projects/front-office/gw2/v' ~ version ~ '/application-details',
+      isStartButton: true
+    }) }}
+
+    {{ govukDetails({
+  summaryText: "Version 2 notes",
+  html: v2NotesHtml
+}) }}
     {% endset -%}
  
     {% set v1HTML %}

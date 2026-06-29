@@ -26,8 +26,10 @@
 </div>
 
   {% set workshopDocuments %}
-      <p class="govuk-body"><a class="govuk-link" href="#">workshop-agenda.pdf</a> (shared on 8 May 2026)</p>
-      <p class="govuk-body"><a class="govuk-link" href="#">workshop-questions.pdf</a> (shared on 8 May 2026)</p>
+    <ul class="govuk-list">
+      <li><a class="govuk-link" href="#">workshop-agenda.pdf</a> (shared on 8 May 2026)</li>
+      <li><a class="govuk-link" href="#">workshop-questions.pdf</a> (shared on 8 May 2026)</li>
+    </ul>
   {% endset %}
 
 {{ govukSummaryList({
@@ -51,7 +53,7 @@
     },
     {
       key: { text: "Workshop date and time", classes: "govuk-!-width-one-third" },
-      value: { text: "8 May 2026 at 10am" }
+      value: { text: "19 May 2026 at 10am" }
     },
     {
       key: { text: "Workshop documents", classes: "govuk-!-width-one-third" },
