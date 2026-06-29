@@ -3,6 +3,9 @@
     Procedural documents
   </h2>
 
+  {% set timetableValue = { html: "<a href='#'>timetable.pdf</a>" } if data['timetable-type-complete'] else { html: '<span class="govuk-hint">Not added</span>' } %}
+  {% set timetableAction = { href: 'procedural-documents/timetable-type?cya=true', html: 'Change' } if data['timetable-type-complete'] else { href: 'procedural-documents/timetable-type', html: 'Add' } %}
+
   {{ govukSummaryList({
     classes: 'govuk-!-margin-bottom-9',
     rows: [
@@ -20,13 +23,8 @@
 
       {
         key: { text: 'Local plan timetable' },
-        value:
-          { html: "<a href='#'>timetable.pdf</a>" } if data['timetable-type-complete']
-          else { html: '<span class="govuk-hint">Not added</span>' },
-        actions: { items: [
-          { href: 'procedural-documents/timetable-upload?cya=true', html: 'Change' } if data['timetable-upload-complete']
-          else { href: 'procedural-documents/timetable-upload', html: 'Add' }
-        ]}
+        value: timetableValue,
+        actions: { items: [ timetableAction ] }
       },
 
       {
