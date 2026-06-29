@@ -92,7 +92,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '20 June 2026',
         gateway3Date: '10 September 2026',
         submissionDate: '15 September 2026',
-        status: 'Created',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-01-15').toISOString()
       },
       {
@@ -109,7 +109,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '25 May 2026',
         gateway3Date: '15 August 2026',
         submissionDate: '20 August 2026',
-        status: 'Created',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-01-20').toISOString()
       },
       {
@@ -126,7 +126,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '30 April 2026',
         gateway3Date: '20 July 2026',
         submissionDate: '25 July 2026',
-        status: 'Created',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-01-25').toISOString()
       },
       {
@@ -143,7 +143,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '5 April 2026',
         gateway3Date: '25 June 2026',
         submissionDate: '30 June 2026',
-        status: 'Created',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-02-01').toISOString()
       },
       {
@@ -160,7 +160,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '15 June 2026',
         gateway3Date: '5 September 2026',
         submissionDate: '10 September 2026',
-        status: 'Created',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-02-10').toISOString()
       },
       {
@@ -177,7 +177,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '18 May 2026',
         gateway3Date: '8 August 2026',
         submissionDate: '13 August 2026',
-        status: 'Created',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-02-15').toISOString()
       },
       {
@@ -194,7 +194,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '28 June 2026',
         gateway3Date: '18 September 2026',
         submissionDate: '23 September 2026',
-        status: 'Created',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-02-20').toISOString()
       },
       {
@@ -211,7 +211,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '2 June 2026',
         gateway3Date: '22 August 2026',
         submissionDate: '27 August 2026',
-        status: 'Created',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-02-25').toISOString()
       },
       {
@@ -228,7 +228,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '10 July 2026',
         gateway3Date: '30 September 2026',
         submissionDate: '5 October 2026',
-        status: 'Created',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-03-01').toISOString()
       },
       {

@@ -1,7 +1,8 @@
 const PLAN_STATUS_CLASS_MAP = {
   'Submitted': 'govuk-tag--green',
   'In progress': 'govuk-tag--blue',
-  'Created': 'govuk-tag--green',
+    'Created': 'govuk-tag--green',
+  'Awaiting Gateway 2': 'govuk-tag--yellow',
   'Gateway 2 With LPA': 'govuk-tag--yellow',
   'Gateway 2 Validation': 'govuk-tag--blue'
 };

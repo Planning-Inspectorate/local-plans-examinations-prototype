@@ -3055,6 +3055,35 @@ router.get('/projects/back-office/manage/GW2/v2/gateway-2-side.html', (req, res)
   res.redirect('/projects/back-office/manage/GW2/v2/gateway-2-side');
 });
 
+router.get('/projects/back-office/manage/GW2/v4/gateway-2-alt', (req, res) => {
+  const uploadedDocuments = Array.isArray(req.session.gw2v3WorkshopDocuments)
+    ? req.session.gw2v3WorkshopDocuments
+    : Array.isArray(req.session.data?.gw2v3WorkshopDocuments)
+      ? req.session.data.gw2v3WorkshopDocuments
+      : [];
+
+  res.render('projects/back-office/manage/GW2/v4/gateway-2-alt', {
+    caseRef: req.session.currentCaseRef || '',
+    planTitle: req.session.planTitle || '',
+    gateway2EstimatedDate: formatDateForDisplay(req.session.gateway2EstimatedDate) || '-',
+    gateway2ActualDate: formatDateForDisplay(req.session.gateway2ActualDate) || '-',
+    gateway2ValidDate: formatDateForDisplay(req.session.gateway2ValidDate) || '-',
+    gateway2WorkshopDate: formatDateForDisplay(req.session.gateway2WorkshopDate) || '-',
+    gateway2WorkshopVenue: req.session.gateway2WorkshopVenue || '-',
+    gateway2AssessorAppointmentDate: formatDateForDisplay(req.session.gateway2AssessorAppointmentDate) || '-',
+    gateway2ReportIssuedDate: formatDateForDisplay(req.session.gateway2ReportIssuedDate) || '-',
+    gateway2ReportPublishedDate: formatDateForDisplay(req.session.gateway2ReportPublishedDate) || '-',
+    gateway2AssessorName: req.session.gateway2AssessorName || '-',
+    gateway2PlanStatus: req.session.gateway2PlanStatus || '-',
+    gateway2Grade: req.session.gateway2Grade || '-',
+    uploadedDocuments
+  });
+});
+
+router.get('/projects/back-office/manage/GW2/v4/gateway-2-alt.html', (req, res) => {
+  res.redirect('/projects/back-office/manage/GW2/v4/gateway-2-alt');
+});
+
 // --- Gateway 3 v2 Routes ---
 router.get('/projects/back-office/manage/GW3/v2/gateway-3', (req, res) => {
   res.render('projects/back-office/manage/GW3/v2/gateway-3', {
@@ -3070,7 +3099,15 @@ router.get('/projects/back-office/manage/GW3/v2/gateway-3', (req, res) => {
 });
 
 router.get('/projects/back-office/manage/GW3/v2/gateway-3-alt', (req, res) => {
-  res.render('projects/back-office/manage/GW3/v2/gateway-3-alt', {
+  res.redirect('/projects/back-office/manage/GW3/v3/gateway-3-alt');
+});
+
+router.get('/projects/back-office/manage/GW3/v2/gateway-3-alt.html', (req, res) => {
+  res.redirect('/projects/back-office/manage/GW3/v3/gateway-3-alt');
+});
+
+router.get('/projects/back-office/manage/GW3/v3/gateway-3-alt', (req, res) => {
+  res.render('projects/back-office/manage/GW3/v3/gateway-3-alt', {
     caseRef: req.session.currentCaseRef || '',
     planTitle: req.session.planTitle || '',
     gateway3EstimatedDate: formatDateForDisplay(req.session.gateway3EstimatedDate) || '-',
@@ -3082,8 +3119,8 @@ router.get('/projects/back-office/manage/GW3/v2/gateway-3-alt', (req, res) => {
   });
 });
 
-router.get('/projects/back-office/manage/GW3/v2/gateway-3-alt.html', (req, res) => {
-  res.redirect('/projects/back-office/manage/GW3/v2/gateway-3-alt');
+router.get('/projects/back-office/manage/GW3/v3/gateway-3-alt.html', (req, res) => {
+  res.redirect('/projects/back-office/manage/GW3/v3/gateway-3-alt');
 });
 
 router.get('/projects/back-office/manage/GW3/v2/gateway-3-side', (req, res) => {

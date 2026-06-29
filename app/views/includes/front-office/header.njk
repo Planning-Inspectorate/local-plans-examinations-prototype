@@ -1,12 +1,15 @@
 {% include "includes/PINS-header--internal.html" %}
 
-<section aria-label="Service information" class="govuk-service-navigation" data-module="govuk-service-navigation">
+<section aria-label="Service information" class="govuk-service-navigation app-primary-service-nav" data-module="govuk-service-navigation">
   <div class="govuk-width-container">
     <div class="govuk-service-navigation__container">
       <span class="govuk-service-navigation__service-name">
         <a href="/projects/front-office/home/v1/homepage" class="govuk-service-navigation__link">Submit your plan for examination</a>
       </span>
       <nav aria-label="Menu" class="govuk-service-navigation__wrapper">
+        <button type="button" class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle" aria-controls="navigation" hidden>
+          Menu
+        </button>
         <ul class="govuk-service-navigation__list" id="navigation">
           <!--
           <li class="govuk-service-navigation__item">

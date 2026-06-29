@@ -30,6 +30,7 @@
   display: block;
   padding: 16px 0 12px 0;
   color: #1d70b8;
+  white-space: nowrap;
   text-decoration: none;
   border-bottom: 4px solid transparent;
   transition: border-bottom-color 0.2s, color 0.2s;
@@ -46,3 +47,24 @@
   color: #003078;
   border-bottom: 4px solid #003078;
 }
+
+.govuk-service-navigation.app-case-workflow-nav,
+.govuk-service-navigation.app-case-workflow-nav .govuk-service-navigation__container {
+  background-color: #ffffff !important;
+}
+
+/* Keep case workflow nav aligned with native GOV.UK service navigation behavior. */
+.app-case-workflow-nav .govuk-service-navigation__list {
+  display: block;
+}
+
+@media (min-width: 40.0625em) {
+  .app-case-workflow-nav .govuk-service-navigation__list {
+    display: flex;
+  }
+}
+
+.app-case-workflow-nav .govuk-service-navigation__list[hidden] {
+  display: none !important;
+}
+

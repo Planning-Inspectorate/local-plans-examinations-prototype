@@ -11,7 +11,11 @@ Gateway 2 overview – {{ serviceName }}
 {% endblock %}
 
 {% block content %}
- {% if notificationMessage %}
+
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+        {% if notificationMessage %}
       <div class="govuk-notification-banner govuk-notification-banner--success" role="region" aria-labelledby="gw2-upload-banner-title" data-module="govuk-notification-banner">
         <div class="govuk-notification-banner__header">
           <h2 class="govuk-notification-banner__title" id="gw2-upload-banner-title">
@@ -23,43 +27,33 @@ Gateway 2 overview – {{ serviceName }}
         </div>
       </div>
     {% endif %}
-
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
-    <div class="grey-box">
     {% include "includes/back-office/plan-header.njk" %}
-    </div>
-</div>
-  <div class="govuk-grid-column-one-quarter">
-    {% set currentSection = "gw2" %}
-    {% include "includes/back-office/side-secondary-nav.njk" %}
-  </div>
+     {% set currentSection = "gateway-2" %}
+      {% include "includes/back-office/secondary-nav.njk" %}
+   
+      <form method="post" action="">
 
-  <div class="govuk-grid-column-three-quarters">
-
-    <h2 class="govuk-heading-l">
-      Gateway 2
-    </h2>
+      <h2 class="govuk-heading-l">Gateway 2</h2>
       <dl class="govuk-summary-list govuk-summary-list-timetable">
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Gateway 2 estimated date</dt>
           <dd class="govuk-summary-list__value">{{ gateway2EstimatedDate or '-' }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-estimated.html?returnUrl=/projects/back-office/manage/GW2/v2/gateway-2-side">Change<span class="govuk-visually-hidden"> Gateway 2 Estimated Date</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-estimated.html?returnUrl=/projects/back-office/manage/GW2/v4/gateway-2-alt">Change<span class="govuk-visually-hidden"> Gateway 2 Estimated Date</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Gateway 2 actual date</dt>
           <dd class="govuk-summary-list__value">{{ gateway2ActualDate or '-' }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-actual.html?returnUrl=/projects/back-office/manage/GW2/v2/gateway-2-side">Change<span class="govuk-visually-hidden"> Gateway 2 Actual Date</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-actual.html?returnUrl=/projects/back-office/manage/GW2/v4/gateway-2-alt">Change<span class="govuk-visually-hidden"> Gateway 2 Actual Date</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Gateway 2 valid date</dt>
           <dd class="govuk-summary-list__value">{{ gateway2ValidDate or '-' }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-valid.html?returnUrl=/projects/back-office/manage/GW2/v2/gateway-2-side">Change<span class="govuk-visually-hidden"> Gateway 2 Valid Date</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-valid.html?returnUrl=/projects/back-office/manage/GW2/v4/gateway-2-alt">Change<span class="govuk-visually-hidden"> Gateway 2 Valid Date</span></a>
           </dd>
         </div>
         </dl>
@@ -68,30 +62,31 @@ Gateway 2 overview – {{ serviceName }}
           <dt class="govuk-summary-list__key">Gateway 2 assessor name</dt>
           <dd class="govuk-summary-list__value">{{ gateway2AssessorName or '-' }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-assessor-name.html?returnUrl=/projects/back-office/manage/GW2/v2/gateway-2-side">Change<span class="govuk-visually-hidden"> Gateway 2 Assessor Name</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-assessor-name.html?returnUrl=/projects/back-office/manage/GW2/v4/gateway-2-alt">Change<span class="govuk-visually-hidden"> Gateway 2 Assessor Name</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Assessor date of appointment</dt>
           <dd class="govuk-summary-list__value">{{ gateway2AssessorAppointmentDate or '-' }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-assessor-appointment.html?returnUrl=/projects/back-office/manage/GW2/v2/gateway-2-side">Change<span class="govuk-visually-hidden"> Gateway 2 Assessor Date of Appointment</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-assessor-appointment.html?returnUrl=/projects/back-office/manage/GW2/v4/gateway-2-alt">Change<span class="govuk-visually-hidden"> Gateway 2 Assessor Date of Appointment</span></a>
           </dd>
         </div>
         </dl>
+           <h2 class="govuk-heading-l">Workshop</h2>
          <dl class="govuk-summary-list govuk-summary-list-timetable">
                <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Workshop date</dt>
           <dd class="govuk-summary-list__value">{{ gateway2WorkshopDate or '-' }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-workshop-date.html?returnUrl=/projects/back-office/manage/GW2/v2/gateway-2-side">Change<span class="govuk-visually-hidden"> Gateway 2 Dates for Workshop</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-workshop-date.html?returnUrl=/projects/back-office/manage/GW2/v4/gateway-2-alt">Change<span class="govuk-visually-hidden"> Gateway 2 Dates for Workshop</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Workshop venue</dt>
           <dd class="govuk-summary-list__value">{{ gateway2WorkshopVenue or '-' }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-workshop-venue.html?returnUrl=/projects/back-office/manage/GW2/v2/gateway-2-side">Change<span class="govuk-visually-hidden"> Gateway 2 Workshop Venue</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-workshop-venue.html?returnUrl=/projects/back-office/manage/GW2/v4/gateway-2-alt">Change<span class="govuk-visually-hidden"> Gateway 2 Workshop Venue</span></a>
           </dd>
         </div>
         </dl>
@@ -100,33 +95,40 @@ Gateway 2 overview – {{ serviceName }}
           <dt class="govuk-summary-list__key">Report issued date</dt>
           <dd class="govuk-summary-list__value">{{ gateway2ReportIssuedDate or '-' }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-report-issued.html?returnUrl=/projects/back-office/manage/GW2/v2/gateway-2-side">Change<span class="govuk-visually-hidden"> Gateway 2 Report Issued Date</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-report-issued.html?returnUrl=/projects/back-office/manage/GW2/v4/gateway-2-alt">Change<span class="govuk-visually-hidden"> Gateway 2 Report Issued Date</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Report published by LPA date</dt>
           <dd class="govuk-summary-list__value">{{ gateway2ReportPublishedDate or '-' }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-report-published.html?returnUrl=/projects/back-office/manage/GW2/v2/gateway-2-side">Change<span class="govuk-visually-hidden"> Gateway 2 Report Published by LPA Date</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-report-published.html?returnUrl=/projects/back-office/manage/GW2/v4/gateway-2-alt">Change<span class="govuk-visually-hidden"> Gateway 2 Report Published by LPA Date</span></a>
           </dd>
         </div>
         </dl>
-        </form>
-                        <h2 class="govuk-heading-l">Workshop documents</h2>
+        </dl>
+
+        <h2 class="govuk-heading-l">Workshop documents</h2>
         {%- if uploadedDocuments and uploadedDocuments.length > 0 -%}
          
-          <div class="govuk-summary-list govuk-summary-list-timetable">
+           <dl class="govuk-summary-list govuk-summary-list-timetable">
+            <div class="govuk-summary-list__row">
+              <div class="govuk-summary-list__key"><strong>Document</strong></div>
+              <div class="govuk-summary-list__value"><strong>Status</strong></div>
+              <div class="govuk-summary-list__value"><strong>Date</strong></div>
+              <div class="govuk-summary-list__actions"><strong>Action</strong></div>
+            </div>
             {%- for doc in uploadedDocuments -%}
               <div class="govuk-summary-list__row">
                 <div class="govuk-summary-list__key">Document {{ loop.index }}</div>
                 <div class="govuk-summary-list__value">
-                  <a class="govuk-hint" href="/projects/back-office/manage/documents/download/{{ doc.filename }}">{{ doc.originalname }}</a>
+                  Uploaded
+                </div>
+                <div class="govuk-summary-list__value">
+                  {{ doc.uploadedAt or doc.uploadDate or '-' }}
                 </div>
                 <div class="govuk-summary-list__actions">
-                  <span class="app-inline-actions">
-                    <a class="govuk-link" href="/projects/back-office/manage/GW2/v3/upload/v1/remove-confirm?filename={{ doc.filename }}&returnTo=gateway-2-side">Remove<span class="govuk-visually-hidden"> {{ doc.originalname }}</span></a> |
-                    <a class="govuk-link" href="/projects/back-office/manage/GW2/v3/upload/v1/upload-bo?returnTo=gateway-2-side">Change<span class="govuk-visually-hidden"> {{ doc.originalname }}</span></a>
-                  </span>
+                  <a class="govuk-link" href="/projects/back-office/manage/documents/download/{{ doc.filename }}">View<span class="govuk-visually-hidden"> document {{ loop.index }}</span></a>
                 </div>
               </div>
             {%- endfor -%}
@@ -134,54 +136,48 @@ Gateway 2 overview – {{ serviceName }}
         {% else %}
           <p class="govuk-body">No workshop documents uploaded yet.</p>
         {% endif %}
+        </dl>
          <p class="govuk-body govuk-!-margin-bottom-3">
-          <a href="/projects/back-office/manage/GW2/v3/upload/v1/upload-bo?returnTo=gateway-2-side">Add documentation</a>
+          <a href="/projects/back-office/manage/GW2/v3/upload/v1/upload-bo">Add documentation</a>
         </p>
         </form>
         <br>
+      
+   
         <!--
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Plan status</dt>
           <dd class="govuk-summary-list__value">{{ gateway2PlanStatus or '-' }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/GW2/v2/gateway-2-plan-status.html?returnUrl=/projects/back-office/manage/GW2/v2/gateway-2-side.html">Change<span class="govuk-visually-hidden"> Gateway 2 Plan Status</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/GW2/v2/gateway-2-plan-status.html?returnUrl=/projects/back-office/manage/GW2/v2/gateway-2.html">Change<span class="govuk-visually-hidden"> Gateway 2 Plan Status</span></a>
           </dd>
         </div> -->
-        
-     <style>
-      .app-task-list__section {
-      display: flex !important;
-      justify-content: space-between !important;
-      align-items: flex-start !important;
-      gap: 12px !important;
-      }
 
-      .app-task-list__section .govuk-tag {
-      position: static;
-      margin-left: 0;
-      flex-shrink: 0;
-      }
-
-      .app-inline-actions {
-      white-space: nowrap;
-      }
-    </style>
     <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
       <form method="post" action="">
-    <h2 class="app-task-list__section">Procedural documents<!--<strong class="govuk-tag govuk-tag--yellow">For review</strong>--></h2>
-    <hr>
+    <h2 class="govuk-heading-l">Procedural documents<!--<strong class="govuk-tag govuk-tag--yellow">For review</strong>--></h2>
+    
     <dl class="govuk-summary-list govuk-summary-list-timetable">
+          <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key"><strong>Document</strong></dt>
+          <dd class="govuk-summary-list__value"><strong>Status</strong></dd>
+          <dd class="govuk-summary-list__value"><strong>Date</strong></dd>
+          <dd class="govuk-summary-list__actions"><strong>Action</strong></dd>
+      </div>
           <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">
           Gateway 2 covering letter
         </dt>
         <dd class="govuk-summary-list__value">
-          <a class="govuk-hint" href="#">GW2_covering_letter.docx</a>
+          Received
+        </dd>
+        <dd class="govuk-summary-list__value">
+          17 May 2026
         </dd>
         
         <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="#">Manage</a>
+                <a class="govuk-link" href="#">View</a>
           
         </dd>
       </div>
@@ -190,11 +186,14 @@ Gateway 2 overview – {{ serviceName }}
           Local plan timetable
         </dt>
         <dd class="govuk-summary-list__value">
-          <a class="govuk-hint" href="#">plan_timetable.csv</a>
+          Received
+        </dd>
+        <dd class="govuk-summary-list__value">
+          17 May 2026
         </dd>
         
         <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="#">Manage</a>
+                <a class="govuk-link" href="#">View</a>
           
         </dd>
       </div>
@@ -203,11 +202,14 @@ Gateway 2 overview – {{ serviceName }}
           Project initiation document
         </dt>
         <dd class="govuk-summary-list__value">
-          <a class="govuk-hint" href="#">PID.docx</a>
+          Received
+        </dd>
+        <dd class="govuk-summary-list__value">
+          17 May 2026
         </dd>
         
         <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="#">Manage</a>  
+                <a class="govuk-link" href="#">View</a>  
         </dd> 
       </div>
       <div class="govuk-summary-list__row">
@@ -215,11 +217,14 @@ Gateway 2 overview – {{ serviceName }}
           Draft statement of compliance
         </dt>
         <dd class="govuk-summary-list__value">
-          <a class="govuk-hint" href="#">GW2_compliance_statement.docx</a>
+          Received
+        </dd>
+        <dd class="govuk-summary-list__value">
+          17 May 2026
         </dd>
         
         <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="#">Manage</a>
+                <a class="govuk-link" href="#">View</a>
         </dd>
       </div>
       <div class="govuk-summary-list__row">
@@ -227,10 +232,13 @@ Gateway 2 overview – {{ serviceName }}
           Draft statement of soundness
         </dt>
         <dd class="govuk-summary-list__value">
-          <a class="govuk-hint" href="#">GW2_soundness_statement.docx</a>
+          Received
+        </dd>
+        <dd class="govuk-summary-list__value">
+          17 May 2026
         </dd>
         <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="#">Manage</a>
+                <a class="govuk-link" href="#">View</a>
         </dd>
       </div>
     </dl>
@@ -239,19 +247,28 @@ Gateway 2 overview – {{ serviceName }}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <form method="post" action="">
-    <h2 class="app-task-list__section">Consultation documents<!--<strong class="govuk-tag govuk-tag--yellow">For review</strong>--></h2>
-    <hr>  
+    <h2 class="govuk-heading-l">Consultation documents<!--<strong class="govuk-tag govuk-tag--yellow">For review</strong>--></h2>
+  
     <dl class="govuk-summary-list govuk-summary-list-timetable">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key"><strong>Document</strong></dt>
+        <dd class="govuk-summary-list__value"><strong>Status</strong></dd>
+        <dd class="govuk-summary-list__value"><strong>Date</strong></dd>
+        <dd class="govuk-summary-list__actions"><strong>Action</strong></dd>
+      </div>
         <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">
         Consultation statement
       </dt>
       <dd class="govuk-summary-list__value">
-        <a class="govuk-hint" href="#">consultation_statement.pdf</a>
+        Received
+      </dd>
+      <dd class="govuk-summary-list__value">
+        17 May 2026
       </dd>
       
       <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="#">Manage</a>
+              <a class="govuk-link" href="#">View</a>
         
       </dd>
       
@@ -262,11 +279,14 @@ Gateway 2 overview – {{ serviceName }}
         Consultation summary for scoping consultation
       </dt>
       <dd class="govuk-summary-list__value">
-        <a class="govuk-hint" href="#">scoping_summary.pdf</a>
+        Received
+      </dd>
+      <dd class="govuk-summary-list__value">
+        17 May 2026
       </dd>
       
       <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="#">Manage</a>
+              <a class="govuk-link" href="#">View</a>
         
       </dd>
       
@@ -279,11 +299,14 @@ Gateway 2 overview – {{ serviceName }}
         Consultation summary for proposed local plan content and evidence documents
       </dt>
       <dd class="govuk-summary-list__value">
-        <a class="govuk-hint" href="#">proposed_plan_summary.pdf</a>
+        Received
+      </dd>
+      <dd class="govuk-summary-list__value">
+        17 May 2026
       </dd>
       
       <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="#">Manage</a>
+              <a class="govuk-link" href="#">View</a>
         
       </dd>
       
@@ -296,11 +319,14 @@ Gateway 2 overview – {{ serviceName }}
         Notice of intention to commence local plan preparation
       </dt>
       <dd class="govuk-summary-list__value">
-        <a class="govuk-hint" href="#">notice_of_intention.pdf</a>
+        Received
+      </dd>
+      <dd class="govuk-summary-list__value">
+        17 May 2026
       </dd>
       
       <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="#">Manage</a>
+              <a class="govuk-link" href="#">View</a>
         
       </dd>
       
@@ -313,11 +339,14 @@ Gateway 2 overview – {{ serviceName }}
           Scoping consultation documents
         </dt>
         <dd class="govuk-summary-list__value">
-          <a class="govuk-hint" href="#">scoping_full.pdf</a>
+          Received
+        </dd>
+        <dd class="govuk-summary-list__value">
+          17 May 2026
         </dd>
         
         <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="#">Manage</a>
+                <a class="govuk-link" href="#">View</a>
           
         </dd>
         
@@ -327,11 +356,14 @@ Gateway 2 overview – {{ serviceName }}
           Consultation summary of feedback to scoping consultation
         </dt>
         <dd class="govuk-summary-list__value">
-          <a class="govuk-hint" href="#">scoping_feedback_summary.pdf</a>
+          Received
+        </dd>
+        <dd class="govuk-summary-list__value">
+          17 May 2026
         </dd>
         
         <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="#">Manage</a>
+                <a class="govuk-link" href="#">View</a>
           
         </dd>
         
@@ -341,11 +373,14 @@ Gateway 2 overview – {{ serviceName }}
           Gateway 1 – Self assessment of readiness
         </dt>
         <dd class="govuk-summary-list__value">
-          <a class="govuk-hint" href="#">gateway1_self_assessment.pdf</a>
+          Received
+        </dd>
+        <dd class="govuk-summary-list__value">
+          17 May 2026
         </dd>
         
         <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="#">Manage</a>
+                <a class="govuk-link" href="#">View</a>
           
         </dd>
       </div>
@@ -354,11 +389,14 @@ Gateway 2 overview – {{ serviceName }}
           Consultation on proposed local plan content and evidence documents
         </dt>
         <dd class="govuk-summary-list__value">
-          <a class="govuk-hint" href="#">proposed_plan_full.pdf</a>
+        Received
+        </dd>
+        <dd class="govuk-summary-list__value">
+          17 May 2026
         </dd>
         
         <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="#">Manage</a>
+                <a class="govuk-link" href="#">View</a>
           
         </dd>
       </div>
@@ -367,10 +405,13 @@ Gateway 2 overview – {{ serviceName }}
           Consultation summary for the above
         </dt>
         <dd class="govuk-summary-list__value">
-          <a class="govuk-hint" href="#">consultation_summary.pdf</a>
+          Received
+        </dd>
+        <dd class="govuk-summary-list__value">
+          17 May 2026
         </dd>
         <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="#">Manage</a>
+                <a class="govuk-link" href="#">View</a>
         </dd>
       </div>
     </dl>

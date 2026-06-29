@@ -239,18 +239,11 @@ router.get('/gateway-2-side.html', (req, res) => {
 });
 
 router.get('/gateway-2-alt', (req, res) => {
-  const showUploadConfirmation = req.query.uploaded === '1';
-  const uploadedCount = parseInt(req.query.uploadedCount || '0', 10);
-  const uploadedDocuments = getUploadedDocuments(req);
-  const notificationMessage = showUploadConfirmation
-    ? `${uploadedCount > 0 ? uploadedCount : uploadedDocuments.length} workshop document${(uploadedCount > 0 ? uploadedCount : uploadedDocuments.length) === 1 ? '' : 's'} uploaded`
-    : '';
-
-  res.render('projects/back-office/manage/GW2/v3/gateway-2-alt', buildGateway2ViewModel(req, notificationMessage));
+  res.redirect('/projects/back-office/manage/GW2/v4/gateway-2-alt');
 });
 
 router.get('/gateway-2-alt.html', (req, res) => {
-  res.redirect('/projects/back-office/manage/GW2/v3/gateway-2-alt');
+  res.redirect('/projects/back-office/manage/GW2/v4/gateway-2-alt');
 });
 
 router.get('/upload/v1/upload-bo', (req, res) => {

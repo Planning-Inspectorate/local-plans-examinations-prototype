@@ -378,14 +378,24 @@
     border-bottom-color: #000 !important;
 }
 
-// GOV.UK Service Navigation List
-.govuk-service-navigation__list {
-  display: flex;
+// GOV.UK Service Navigation List (primary header nav only)
+.app-primary-service-nav .govuk-service-navigation__list {
+  display: block;
   list-style: none;
   margin: 0;
   padding: 0;
    // Adjust this value for more or less space between links
   align-items: center;
+}
+
+@media (min-width: 40.0625em) {
+  .app-primary-service-nav .govuk-service-navigation__list {
+    display: flex;
+  }
+}
+
+.app-primary-service-nav .govuk-service-navigation__list[hidden] {
+  display: none !important;
 }
 
 // Ensure service name link is bold even if other rules apply
