@@ -1,0 +1,152 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+Gateway 3 overview – {{ serviceName }}
+{% endblock %}
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    {% include "includes/back-office/plan-header.njk" %}
+    {% set currentSection = "GW3" %}
+    {% include "includes/back-office/secondary-nav.njk" %}
+
+    <h2 class="govuk-heading-l">Gateway 3</h2>
+
+    <dl class="govuk-summary-list govuk-summary-list-timetable">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Gateway 3 estimated date</dt>
+        <dd class="govuk-summary-list__value">{{ gateway3EstimatedDate or '-' }}</dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/projects/back-office/manage/GW3/v1/gateway-3-estimated.html?returnUrl=/projects/back-office/manage/GW3/v2/gateway-3-alt">Change<span class="govuk-visually-hidden"> Gateway 3 estimated date</span></a>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Gateway 3 actual date</dt>
+        <dd class="govuk-summary-list__value">{{ gateway3ActualDate or '-' }}</dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/projects/back-office/manage/GW3/v1/gateway-3-actual.html?returnUrl=/projects/back-office/manage/GW3/v2/gateway-3-alt">Change<span class="govuk-visually-hidden"> Gateway 3 actual date</span></a>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Gateway 3 assessor date of appointment</dt>
+        <dd class="govuk-summary-list__value">{{ gateway3AssessorAppointmentDate or '-' }}</dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/projects/back-office/manage/GW3/v1/gateway-3-assessor-appointment.html?returnUrl=/projects/back-office/manage/GW3/v2/gateway-3-alt">Change<span class="govuk-visually-hidden"> Gateway 3 assessor date of appointment</span></a>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Gateway 3 completion date</dt>
+        <dd class="govuk-summary-list__value">{{ gateway3CompletionDate or '-' }}</dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/projects/back-office/manage/GW3/v1/gateway-3-completion-date.html?returnUrl=/projects/back-office/manage/GW3/v2/gateway-3-alt">Change<span class="govuk-visually-hidden"> Gateway 3 completion date</span></a>
+        </dd>
+      </div>
+    </dl>
+
+    <dl class="govuk-summary-list govuk-summary-list-timetable">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Gateway 3 assessor name</dt>
+        <dd class="govuk-summary-list__value">{{ gateway3AssessorName or '-' }}</dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/projects/back-office/manage/GW3/v1/gateway-3-assessor-name.html?returnUrl=/projects/back-office/manage/GW3/v2/gateway-3-alt">Change<span class="govuk-visually-hidden"> Gateway 3 assessor name</span></a>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Programme officer details</dt>
+        <dd class="govuk-summary-list__value">
+          {% if gateway3PoContact.firstName or gateway3PoContact.lastName %}
+            {{ gateway3PoContact.firstName }} {{ gateway3PoContact.lastName }}<br>
+            {% if gateway3PoContact.email %}{{ gateway3PoContact.email }}<br>{% endif %}
+            {% if gateway3PoContact.phone %}{{ gateway3PoContact.phone }}{% endif %}
+          {% else %}
+            -
+          {% endif %}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/projects/back-office/manage/GW3/v1/gateway-3-po-details.html?returnUrl=/projects/back-office/manage/GW3/v2/gateway-3-alt">Change<span class="govuk-visually-hidden"> Gateway 3 programme officer details</span></a>
+        </dd>
+      </div>
+    </dl>
+
+    <h2 class="govuk-heading-m">Submission documents</h2>
+    <dl class="govuk-summary-list govuk-summary-list-timetable">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key"><strong>Document</strong></dt>
+        <dd class="govuk-summary-list__value"><strong>Status</strong></dd>
+        <dd class="govuk-summary-list__value"><strong>Date</strong></dd>
+        <dd class="govuk-summary-list__actions"><strong>Action</strong></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Proposed local plan</dt>
+        <dd class="govuk-summary-list__value">Received</dd>
+        <dd class="govuk-summary-list__value">24 Jun 2026</dd>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="#">View</a></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Map of proposed local plan policies</dt>
+        <dd class="govuk-summary-list__value">Received</dd>
+        <dd class="govuk-summary-list__value">24 Jun 2026</dd>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="#">View</a></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Statement of compliance</dt>
+        <dd class="govuk-summary-list__value">Received</dd>
+        <dd class="govuk-summary-list__value">24 Jun 2026</dd>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="#">View</a></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Statement of soundness</dt>
+        <dd class="govuk-summary-list__value">In review</dd>
+        <dd class="govuk-summary-list__value">26 Jun 2026</dd>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="#">View</a></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Summary of consultation and engagement activities</dt>
+        <dd class="govuk-summary-list__value">Received</dd>
+        <dd class="govuk-summary-list__value">24 Jun 2026</dd>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="#">View</a></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Copies of representations</dt>
+        <dd class="govuk-summary-list__value">Received</dd>
+        <dd class="govuk-summary-list__value">24 Jun 2026</dd>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="#">View</a></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Supplementary plans statement</dt>
+        <dd class="govuk-summary-list__value">Received</dd>
+        <dd class="govuk-summary-list__value">24 Jun 2026</dd>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="#">View</a></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Environmental report</dt>
+        <dd class="govuk-summary-list__value">In review</dd>
+        <dd class="govuk-summary-list__value">26 Jun 2026</dd>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="#">View</a></dd>
+      </div>
+       </dl>
+
+    <h2 class="govuk-heading-m">Supplementary documentation</h2>
+    <dl class="govuk-summary-list govuk-summary-list-timetable">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Any other documents supporting gateway assessment</dt>
+        <dd class="govuk-summary-list__value">Not received</dd>
+        <dd class="govuk-summary-list__value">-</dd>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="#"></a></dd>
+      </div>
+    </dl>
+  </div>
+</div>
+
+{% endblock %}
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

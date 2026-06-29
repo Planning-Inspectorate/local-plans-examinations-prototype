@@ -25,12 +25,35 @@
     <h1 class="govuk-heading-l">
       {{ title }}
     </h1>
- <!--
+ 
+    {% set version = "3" %}
+    <h2 class="govuk-heading-m">
+      Version {{ version }}
+      {{ govukTag({
+        classes: 'govuk-tag--blue govuk-!-margin-left-2',
+        text: 'In progress'
+      }) }}
+    </h2>
+
+    <p class="govuk-!-margin-bottom-2">Changes:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Alternative document layout showing more document detail</li>
+    </ul>
+    {{ govukButton({
+      html: 'View prototype',
+      href: '/projects/back-office/manage/GW3/v3/gateway-3-alt',
+      isStartButton: true
+    }) }}
+    <br>
+    <br>
+    <hr>
+    <br>
+    <br>
     {% set version = "2" %}
     <h2 class="govuk-heading-m">
       Version {{ version }}
       {{ govukTag({
-        classes: 'govuk-tag--yellow govuk-!-margin-left-2',
+        classes: 'govuk-tag--blue govuk-!-margin-left-2',
         text: 'In progress'
       }) }}
     </h2>
@@ -38,10 +61,7 @@
     <p class="govuk-!-margin-bottom-2">Changes:</p>
  
     <ul class="govuk-list govuk-list--bullet">
-      <li>updated layout of application details to match Appeals pattern and loop through each upload page</li>
-      <li>declaration pages merged into 1 declaration page</li>
-      <li>view-only 'application submitted' page added</li>
-      <li>progress tracker added i.e. "You have completed 0 of 3 sections."</li>
+      <li>Addition of gateway documentation submitted from the Front Office</li>
     </ul>
  
     {{ govukButton({
@@ -51,7 +71,7 @@
     }) }}
  
     {% set v1HTML %}
-  -->
+  
       {% set version = "1" %}
  
       <p class="govuk-body">
