@@ -27,6 +27,14 @@
     {# ===================== VERSION 2 ===================== #}
 
     {% set v2NotesHtml %}
+    <h3 class="govuk-heading-s">Prototype states</h3>
+      <ul class="govuk-list govuk-list--bullet">
+        <li><a class="govuk-link" href="/projects/front-office/plan-details/v2/plan-details?status=ready">Ready to start</a></li>
+        <li><a class="govuk-link" href="/projects/front-office/plan-details/v2/plan-details?status=in-progress">In progress</a></li>
+        <li><a class="govuk-link" href="/projects/front-office/plan-details/v2/plan-details?status=with-pins">With PINS</a></li>
+        <li><a class="govuk-link" href="/projects/front-office/plan-details/v2/plan-details?status=validated&stage=gateway-2">With PINS: Workshop scheduled</a></li>
+        <li><a class="govuk-link" href="/projects/front-office/plan-details/v2/plan-details?status=workshop-docs-added&stage=gateway-2">With PINS: Workshop documents shared</a></li>
+    </ul>
 
       <h3 class="govuk-heading-s">Key changes</h3>
       <ul class="govuk-list govuk-list--bullet">
@@ -42,8 +50,8 @@
     <h2 class="govuk-heading-m">
       Version 2
       {{ govukTag({
-        classes: 'govuk-tag--blue govuk-!-margin-left-2',
-        text: 'In progress'
+        classes: 'govuk-tag--yellow govuk-!-margin-left-2',
+        text: 'Ready for research'
       }) }}
     </h2>
 
