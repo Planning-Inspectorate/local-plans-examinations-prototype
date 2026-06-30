@@ -32,39 +32,31 @@
   documents: "/projects/back-office/manage/documents/" ~ versions.documents ~ "/documents",
   updates: "/projects/back-office/manage/updates/" ~ versions.updates ~ "/updates.html"
 } %}
-<h2 id="case-workflow-nav-heading" class="govuk-visually-hidden">Case workflow navigation</h2>
-<section class="govuk-service-navigation app-case-workflow-nav govuk-!-margin-top-6 govuk-!-margin-bottom-6" aria-labelledby="case-workflow-nav-heading" data-module="govuk-service-navigation">
-  <div class="govuk-service-navigation__container">
-    <nav aria-label="Case workflow" class="govuk-service-navigation__wrapper">
-      <button type="button" class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle" aria-controls="case-workflow-navigation" hidden>
-        Menu
-      </button>
-      <ul class="govuk-service-navigation__list" id="case-workflow-navigation">
-        <li class="govuk-service-navigation__item{% if currentSection == 'overview' %} govuk-service-navigation__item--active{% endif %}">
-          <a class="govuk-service-navigation__link" href="{{ links.overview }}"{% if currentSection == 'overview' %} aria-current="page"{% endif %}>Overview</a>
-        </li>
-        <li class="govuk-service-navigation__item{% if currentSection == 'timetable' %} govuk-service-navigation__item--active{% endif %}">
-          <a class="govuk-service-navigation__link" href="{{ links.timetable }}"{% if currentSection == 'timetable' %} aria-current="page"{% endif %}>Timetable</a>
-        </li>
-        <li class="govuk-service-navigation__item{% if currentSection == 'gw1' %} govuk-service-navigation__item--active{% endif %}">
-          <a class="govuk-service-navigation__link" href="{{ links.gw1 }}"{% if currentSection == 'gw1' %} aria-current="page"{% endif %}>Gateway 1</a>
-        </li>
-        <li class="govuk-service-navigation__item{% if currentSection == 'gw2' %} govuk-service-navigation__item--active{% endif %}">
-          <a class="govuk-service-navigation__link" href="{{ links.gw2 }}"{% if currentSection == 'gw2' %} aria-current="page"{% endif %}>Gateway 2</a>
-        </li>
-        <li class="govuk-service-navigation__item{% if currentSection == 'gw3' %} govuk-service-navigation__item--active{% endif %}">
-          <a class="govuk-service-navigation__link" href="{{ links.gw3 }}"{% if currentSection == 'gw3' %} aria-current="page"{% endif %}>Gateway 3</a>
-        </li>
-        <li class="govuk-service-navigation__item{% if currentSection == 'examination' %} govuk-service-navigation__item--active{% endif %}">
-          <a class="govuk-service-navigation__link" href="{{ links.examination }}"{% if currentSection == 'examination' %} aria-current="page"{% endif %}>Examination</a>
-        </li>
-        <li class="govuk-service-navigation__item{% if currentSection == 'documents' %} govuk-service-navigation__item--active{% endif %}">
-          <a class="govuk-service-navigation__link" href="{{ links.documents }}"{% if currentSection == 'documents' %} aria-current="page"{% endif %}>Documents</a>
-        </li>
-        <li class="govuk-service-navigation__item{% if currentSection == 'updates' %} govuk-service-navigation__item--active{% endif %}">
-          <a class="govuk-service-navigation__link" href="{{ links.updates }}"{% if currentSection == 'updates' %} aria-current="page"{% endif %}>Case history</a>
-        </li>
-      </ul>
-    </nav>
-  </div>
-</section>
+<nav class="moj-sub-navigation govuk-!-margin-top-6 govuk-!-margin-bottom-6" aria-label="Case workflow navigation">
+  <ul class="moj-sub-navigation__list">
+    <li class="moj-sub-navigation__item{% if currentSection == 'overview' %} moj-sub-navigation__item--active{% endif %}">
+      <a class="moj-sub-navigation__link" href="{{ links.overview }}"{% if currentSection == 'overview' %} aria-current="page"{% endif %}>Overview</a>
+    </li>
+    <li class="moj-sub-navigation__item{% if currentSection == 'timetable' %} moj-sub-navigation__item--active{% endif %}">
+      <a class="moj-sub-navigation__link" href="{{ links.timetable }}"{% if currentSection == 'timetable' %} aria-current="page"{% endif %}>Timetable</a>
+    </li>
+    <li class="moj-sub-navigation__item{% if currentSection == 'gw1' %} moj-sub-navigation__item--active{% endif %}">
+      <a class="moj-sub-navigation__link" href="{{ links.gw1 }}"{% if currentSection == 'gw1' %} aria-current="page"{% endif %}>Gateway 1</a>
+    </li>
+    <li class="moj-sub-navigation__item{% if currentSection == 'gw2' %} moj-sub-navigation__item--active{% endif %}">
+      <a class="moj-sub-navigation__link" href="{{ links.gw2 }}"{% if currentSection == 'gw2' %} aria-current="page"{% endif %}>Gateway 2</a>
+    </li>
+    <li class="moj-sub-navigation__item{% if currentSection == 'gw3' %} moj-sub-navigation__item--active{% endif %}">
+      <a class="moj-sub-navigation__link" href="{{ links.gw3 }}"{% if currentSection == 'gw3' %} aria-current="page"{% endif %}>Gateway 3</a>
+    </li>
+    <li class="moj-sub-navigation__item{% if currentSection == 'examination' %} moj-sub-navigation__item--active{% endif %}">
+      <a class="moj-sub-navigation__link" href="{{ links.examination }}"{% if currentSection == 'examination' %} aria-current="page"{% endif %}>Examination</a>
+    </li>
+    <li class="moj-sub-navigation__item{% if currentSection == 'documents' %} moj-sub-navigation__item--active{% endif %}">
+      <a class="moj-sub-navigation__link" href="{{ links.documents }}"{% if currentSection == 'documents' %} aria-current="page"{% endif %}>Documents</a>
+    </li>
+    <li class="moj-sub-navigation__item{% if currentSection == 'updates' %} moj-sub-navigation__item--active{% endif %}">
+      <a class="moj-sub-navigation__link" href="{{ links.updates }}"{% if currentSection == 'updates' %} aria-current="page"{% endif %}>Case history</a>
+    </li>
+  </ul>
+</nav>
