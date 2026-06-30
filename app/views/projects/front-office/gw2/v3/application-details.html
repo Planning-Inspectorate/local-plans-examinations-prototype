@@ -1,10 +1,15 @@
 {% extends "layouts/front-office-v2.html" %}
+{% set errorStatus = data['error'] %}
 
 {% block pageTitle %} Application details – {{ serviceName }}
 {% endblock %}
 
 {% set prototypeLinks =
 [
+{
+href: 'application-details?error=true',
+text: 'Error message'
+},
 {
 href: 'application-declaration',
 text: 'Skip to declaration'
@@ -16,6 +21,7 @@ text: 'Skip to confirmation'
 ]
 %}
 
+
 {% block beforeContent %}
 {{ govukBackLink({
 text: "Back",
@@ -25,9 +31,20 @@ href: "/projects/front-office/plan-details/v2/plan-details"
 
 {% block content %}
 
-
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
+
+        {% if errorStatus == 'true' %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: [
+            {
+              text: "Add at least one document before submitting",
+              href: "#procedural-documents"
+            }
+          ]
+        }) }}
+        {% endif %}
 
     {% include "./application-metadata.njk" %}
 

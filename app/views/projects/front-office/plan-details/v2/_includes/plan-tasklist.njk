@@ -16,18 +16,18 @@
       items: [
         {
           title: { text: "Gateway 2 - advisory check" },
-          hint: { text: "Target date: 25 April 2026" },
-          href: "../../gw2/v3/application-details",
+          hint: { text: "Target submission date: 25 April 2026" },
+          href: "../../gw2/v3/application-details?error=",
           status: { tag: { text: "Ready to start", classes: "govuk-tag--green" } }
         },
         {
           title: { text: "Gateway 3 - readiness check" },
-          hint: { html: "Target date: 12 June 2026 <br>(subject to Gateway 2 completion)" },
+          hint: { html: "Target submission date: 12 June 2026" },
           status: { text: "Cannot start yet", classes: "govuk-task-list__status--cannot-start-yet" }
         },
         {
           title: { text: "Examination" },
-          hint: { html: "Target date: 8 August 2026 <br>(subject to Gateway 3 completion)" },
+          hint: { html: "Target submission date: 8 August 2026" },
           status: { text: "Cannot start yet", classes: "govuk-task-list__status--cannot-start-yet" }
         }
       ]
@@ -40,17 +40,17 @@
         {
           title: { text: "Gateway 2 - advisory check" },
           hint: { text: "Target date: 25 April 2026" },
-          href: "../../gw2/v3/application-details",
+          href: "../../gw2/v3/application-details?error=",
           status: { tag: { text: "In progress", classes: "govuk-tag--blue" } }
         },
         {
           title: { text: "Gateway 3 - readiness check" },
-          hint: { html: "Target date: 12 June 2026 <br>(subject to Gateway 2 completion)" },
+          hint: { html: "Target date: 12 June 2026" },
           status: { text: "Cannot start yet", classes: "govuk-task-list__status--cannot-start-yet" }
         },
         {
           title: { text: "Examination" },
-          hint: { html: "Target date: 8 August 2026 <br>(subject to Gateway 3 completion)" },
+          hint: { html: "Target date: 8 August 2026" },
           status: { text: "Cannot start yet", classes: "govuk-task-list__status--cannot-start-yet" }
         }
       ]
@@ -68,35 +68,35 @@
         },
         {
           title: { text: "Gateway 3 - readiness check" },
-          hint: { html: "Target date: 12 June 2026 <br>(subject to Gateway 2 completion)" },
+          hint: { html: "Target date: 12 June 2026" },
           status: { text: "Cannot start yet", classes: "govuk-task-list__status--cannot-start-yet" }
         },
         {
           title: { text: "Examination" },
-          hint: { html: "Target date: 8 August 2026 <br>(subject to Gateway 3 completion)" },
+          hint: { html: "Target date: 8 August 2026" },
           status: { text: "Cannot start yet", classes: "govuk-task-list__status--cannot-start-yet" }
         }
       ]
     }) }}
 
-      {% elif planStatus == 'validated'%}
+      {% elif planStatus == 'validated' or planStatus == 'workshop-docs-added'%}
     {{ govukTaskList({
       idPrefix: "plan-details",
       items: [
         {
           title: { text: "Gateway 2 - advisory check" },
-          hint: { text: "Workshop scheduled: 19 May 2026" },
+          hint: { text: "Submitted on 25 April 2026" },
           href: "../../gw2/v3/application-details-submitted",
           status: { tag: { text: "With PINS", classes: "govuk-tag--yellow" } }
         },
         {
           title: { text: "Gateway 3 - readiness check" },
-          hint: { html: "Target date: 12 June 2026 <br>(subject to Gateway 2 completion)" },
+          hint: { html: "Target date: 12 June 2026" },
           status: { text: "Cannot start yet", classes: "govuk-task-list__status--cannot-start-yet" }
         },
         {
           title: { text: "Examination" },
-          hint: { html: "Target date: 8 August 2026 <br>(subject to Gateway 3 completion)" },
+          hint: { html: "Target date: 8 August 2026" },
           status: { text: "Cannot start yet", classes: "govuk-task-list__status--cannot-start-yet" }
         }
       ]

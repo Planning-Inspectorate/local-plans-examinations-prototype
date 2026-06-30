@@ -1,72 +1,33 @@
 <style>
-  .app-header {
-    margin-bottom: 20px;
-  }
-
-  .app-header__title {
-    margin-bottom: 5px;
-  }
-
-  .app-header__tag {
-    margin-bottom: 15px;
-  }
-
   .app-details .govuk-summary-list__key,
   .app-details .govuk-summary-list__value {
-    padding-top: 6px;
-    padding-bottom: 6px;
+    padding-top: .5rem;
+    padding-bottom: 0;
+  }
+
+  .app-details {
+    margin-bottom: 0;
   }
 </style>
 
-  <!--{% if planStatus == 'validated' %}
+  {% set lpaNames %}
+    <ul class="govuk-list">
+      <li>East Borough District Council</li>
+      <li>Northbridge City Council</li>
+      <li>Vale of Ash District Council</li>
+    </ul>
+  {% endset %}
 
-{{ govukSummaryList({
-  classes: "app-details govuk-summary-list--no-border",
-  rows: [
-    {
-      key: { text: "Plan reference", classes: "govuk-!-width-one-third" },
-      value: { text: "PLAN/000006" }
-    },
-    {
-      key: { text: "Local planning authority", classes: "govuk-!-width-one-third" },
-      value: { text: "Southampton City Council" }
-    },
-    {
-      key: { text: "Gateway 2 workshop", classes: "govuk-!-width-one-third" },
-      value: { text: "18 May (virtual)" }
-    }
-  ]
-}) }}
-
-  {% else %}
   {{ govukSummaryList({
-  classes: "app-details govuk-summary-list--no-border",
-  rows: [
-    {
-      key: { text: "Plan reference", classes: "govuk-!-width-one-third" },
-      value: { text: "PLAN/000006" }
-    },
-    {
-      key: { text: "Local planning authority", classes: "govuk-!-width-one-third" },
-      value: { text: "Southampton City Council" }
-    }
-  ]
-}) }}
-
-  {% endif %}-->
-
-
-
-    {{ govukSummaryList({
-  classes: "app-details govuk-summary-list--no-border",
-  rows: [
-    {
-      key: { text: "Plan reference", classes: "govuk-!-width-one-third" },
-      value: { text: "PLAN/000006" }
-    },
-    {
-      key: { text: "Local planning authority", classes: "govuk-!-width-one-third" },
-      value: { text: "Southampton City Council" }
-    }
-  ]
-}) }}
+    classes: "app-details govuk-summary-list--no-border",
+    rows: [
+      {
+        key: { text: "Plan reference", classes: "govuk-!-width-one-third" },
+        value: { text: "PLAN/000006" }
+      },
+      {
+        key: { text: "Joint local planning authorities", classes: "govuk-!-width-two-thirds" },
+        value: { html: lpaNames }
+      }
+    ]
+  }) }}

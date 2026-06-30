@@ -31,6 +31,18 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters-from-desktop">
 
+        {{ govukNotificationBanner({
+      html: "
+        <h3 class='govuk-notification-banner__heading'>
+          Your Gateway 2 submission is with the Planning Inspectorate
+        </h3>
+
+        <p class='govuk-body'>
+          Gateway 2 assessment usually takes 6 weeks. You will be notified by email if any action is required.
+        </p>
+      "
+    }) }}
+
     {% include "./workshop-metadata.html" %}
 
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible" />

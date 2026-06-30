@@ -7,7 +7,11 @@
 [
 {
 href: 'plan-details?status=validated&stage=gateway-2',
-text: 'GW2 workshop scheduled view'
+text: 'Workshop scheduled'
+},
+{
+href: 'plan-details?status=workshop-docs-added&stage=gateway-2',
+text: 'Workshop documents added'
 }
 ]
 %}
@@ -26,26 +30,7 @@ href: "/projects/front-office/home/v2/homepage"
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    {% if planStatus == 'with-pins' %}
-
-    {{ govukNotificationBanner({
-      html: "
-        <h3 class='govuk-notification-banner__heading'>
-          Gateway 2 is with the Planning Inspectorate
-        </h3>
-
-        <p class='govuk-body'>
-          Your submission is being reviewed. You do not need to do anything right now.
-          You will be notified by email if any action is required.
-        </p>
-
-        <a class='govuk-notification-banner__link' href='../../gw2/v3/application-details-submitted'>
-          View your Gateway 2 submission
-        </a>
-      "
-    }) }}
-
-    {% elif planStatus == 'validated' %}
+    {% if planStatus == 'validated' %}
         {{ govukNotificationBanner({
       html: "
         <h3 class='govuk-notification-banner__heading'>
@@ -54,6 +39,21 @@ href: "/projects/front-office/home/v2/homepage"
 
         <a class='govuk-notification-banner__link' href='../../gw2/v3/application-details-submitted'>
           View your Gateway 2 workshop details
+        </a>
+        </p>
+      "
+    }) }}
+
+    {% elif planStatus == 'workshop-docs-added' %}
+
+    {{ govukNotificationBanner({
+      html: "
+        <h3 class='govuk-notification-banner__heading'>
+          Gateway 2 workshop documents have been shared by the Planning Inspectorate
+        </h3>
+
+        <a class='govuk-notification-banner__link' href='../../gw2/v3/application-details-submitted'>
+          View your workshop documents
         </a>
         </p>
       "

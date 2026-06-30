@@ -49,23 +49,12 @@ href: '/front-office'
 
     {% set v2NotesHtml %}
     <h3 class="govuk-heading-s">Changes</h3>
-<!--
-    <p class="govuk-body">Simplified homepage to reflect user mental model and primary task completion flow. The previous table implied multiple comparable plans per authority, which is not currently true for most LPAs and caused unnecessary selection and interpretation burden.</p>
 
-    <p class="govuk-body">The new design introduces a task-based entry point using MoJ cards:</p>
     <ul class="govuk-list govuk-list--bullet">
-      <li>prioritises the single active Local Plan</li>
-      <li>removes non-essential metadata (lead authority, internal status fields, reference IDs)</li>
-      <li>introduces clearly labelled future plan types in a non-interactive “coming soon” state to maintain scalability without misleading affordance</li>
+      <li>only display this page when there is more than 1 plan for an LPA / user</li>
+      <li>reduce information displayed in the table to only show plan ref, title and type</li>
     </ul>
 
-    <p class="govuk-body">This change aligns with GDS principles of:</p>
-    <ul class="govuk-list govuk-list--bullet">
-      <li>“Start with user needs” (continue working on the local plan)</li>
-      <li>reducing cognitive load</li>
-      <li>avoiding premature exposure of system complexity</li>
-    </ul>
--->
     {% endset %}
 
     {{ govukDetails({

@@ -1,7 +1,14 @@
 <li>
-  <h2 class="app-task-list__section">
+<div class="govuk-form-group{% if errorStatus == 'true' %} govuk-form-group--error{% endif %}">
+  <h2 class="app-task-list__section" id="procedural-documents">
     Procedural documents
   </h2>
+  {% if errorStatus == 'true' %}
+    <p class="govuk-error-message">
+      <span class="govuk-visually-hidden">Error:</span> You must add at least one document
+    </p>
+  {% endif %}
+</div>
 
   {% set timetableValue = { html: "<a href='#'>timetable.pdf</a>" } if data['timetable-type-complete'] else { html: '<span class="govuk-hint">Not added</span>' } %}
   {% set timetableAction = { href: 'procedural-documents/timetable-type?cya=true', html: 'Change' } if data['timetable-type-complete'] else { href: 'procedural-documents/timetable-type', html: 'Add' } %}

@@ -20,25 +20,22 @@
 
 <div class="app-header">
   <h1 class="govuk-heading-xl app-header__title">
-    <span class="govuk-caption-xl">East Borough Local Plan</span>
+    <span class="govuk-caption-xl">East Borough Local Plan 2026</span>
     Gateway 2 submission
   </h1>
 </div>
 
+{% call govukInsetText() %}
+Your target submission date is 25 April 2026. A Gateway 2 assessment usually takes about 6 weeks.
+{% endcall %}
+
+<!--
 {{ govukSummaryList({
   classes: "app-details govuk-summary-list--no-border",
   rows: [
     {
-      key: { text: "Plan reference", classes: "govuk-!-width-one-third" },
-      value: { text: "PLAN/000006" }
-    },
-    {
-      key: { text: "Local planning authority", classes: "govuk-!-width-one-third" },
-      value: { text: "Southampton City Council" }
-    },
-    {
-      key: { text: "Gateway 2 target date", classes: "govuk-!-width-one-third" },
+      key: { text: "Target submission date", classes: "govuk-!-width-one-third" },
       value: { text: "25 April 2026" }
     }
   ]
-}) }}
+}) }}-->
