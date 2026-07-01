@@ -1,0 +1,30 @@
+<li>
+<div class="govuk-form-group{% if errorStatus == 'true' %} govuk-form-group--error{% endif %}">
+  <h2 class="app-task-list__section" id="procedural-documents">
+    Upload your Local Plan
+  </h2>
+  {% if errorStatus == 'true' %}
+    <p class="govuk-error-message">
+      <span class="govuk-visually-hidden">Error:</span> Add the local plan document before submitting
+    </p>
+  {% endif %}
+</div>
+
+  {{ govukSummaryList({
+    classes: 'govuk-!-margin-bottom-9',
+    rows: [
+
+      {
+        key: { text: 'Local Plan' },
+        value:
+          { html: "<a href='#'>local-plan.pdf</a>" } if data['local-plan-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'documents/local-plan-upload?cya=true', html: 'Change' } if data['local-plan-upload-complete']
+          else { href: 'documents/local-plan-upload', html: 'Add' }
+        ]}
+      }
+
+    ]
+  }) }}
+</li>

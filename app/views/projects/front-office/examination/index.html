@@ -1,0 +1,49 @@
+{% extends "layouts/main.html" %}
+ 
+{% set title="Examination" %}
+{% set activeNav = 'front-office' %}
+
+{% block header %}
+  {% include "includes/PINS-header--internal.html" %}
+  {% include "includes/service-navigation.html" %}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    html: 'Back to all prototypes',
+    href: '/front-office.html'
+  }) }}
+{% endblock %}
+ 
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+ 
+    <span class="govuk-caption-l">
+      Submit a local plan
+    </span>
+    <h1 class="govuk-heading-l">
+      {{ title }}
+    </h1>
+ 
+    {% set version = "1" %}
+    <h2 class="govuk-heading-m">
+      Version {{ version }}
+      {{ govukTag({
+        classes: 'govuk-tag govuk-!-margin-left-2',
+        text: 'In progress'
+      }) }}
+    </h2>
+
+    <p class="govuk-body">Allows LPAs to submit their final local plan for examination</p>
+
+     
+    {{ govukButton({
+      html: 'View prototype',
+      href: '/projects/front-office/examination/v' ~ version ~ '/application-details?error=',
+      isStartButton: true
+    }) }}
+
+
+</div>
+{% endblock %}

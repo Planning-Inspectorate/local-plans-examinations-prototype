@@ -39,26 +39,23 @@ href: "/projects/front-office/plan-details/v2/plan-details"
           titleText: "There is a problem",
           errorList: [
             {
-              text: "Add at least one document before submitting",
+              text: "Add the local plan document before submitting",
               href: "#procedural-documents"
             }
           ]
         }) }}
         {% endif %}
 
-    {% include "./application-metadata.njk" %}
+    {% include "./_includes/application-metadata.njk" %}
+
+    {% call govukInsetText() %}
+Your target submission date is 25 April 2026.
+{% endcall %}
 
     <p class="govuk-body"><a href="/projects/front-office/plan-details/v2/plan-details?status=in-progress">Save and come back later</a></p>
 
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible" />
 
-
-    <!--<h2 class="govuk-heading-s govuk-!-margin-bottom-2">
-      {% if completedCount == 2 %}Application ready to submit{% else %}Application incomplete{% endif %}
-    </h2>
-    <p class="govuk-!-margin-bottom-7">You have completed {{ completedCount }} of 2 sections.</p>-->
-
-    <p class="govuk-body">Add the documents that are relevant to your plan.</p>
 
     <style>
       .app-task-list>li {
@@ -81,10 +78,7 @@ href: "/projects/front-office/plan-details/v2/plan-details"
     </style>
 
     <ol class="app-task-list">
-      {% include "./task-list__procedural.html" %}
-      {% include "./task-list__consultation.html" %}
-      {% include "./task-list__supplementary-docs.html" %}
-      {% include "./task-list__workshop.html" %}
+      {% include "./task-list__local-plan.html" %}
       {% include "./task-list__submit.html" %}
     </ol>
 
