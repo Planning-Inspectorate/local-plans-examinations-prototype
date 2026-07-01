@@ -1,0 +1,46 @@
+<style>
+  .app-header {
+    margin-bottom: 20px;
+  }
+
+  .app-header__title {
+    margin-bottom: 5px;
+  }
+
+  .app-header__tag {
+    margin-bottom: 15px;
+  }
+
+  .app-details .govuk-summary-list__key,
+  .app-details .govuk-summary-list__value {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+</style>
+
+<div class="app-header">
+  <h1 class="govuk-heading-xl app-header__title">
+    <span class="govuk-caption-xl">East Borough Local Plan</span>
+    Examination submission
+  </h1>
+</div>
+
+  {% set mainModifications %}
+    <ul class="govuk-list">
+      <li><a class="govuk-link" href="#">main-modifcations.pdf</a> (shared on 8 May 2026)</li>
+    </ul>
+  {% endset %}
+
+{{ govukSummaryList({
+  classes: "app-details govuk-summary-list--no-border",
+  rows: [
+    {
+      key: { text: "Main modifications", classes: "govuk-!-width-one-third" },
+      value: { html: mainModifications }
+    },
+    {
+      key: { text: "Final report", classes: "govuk-!-width-one-third" },
+      value: { html: '<a class="govuk-link" href="#">final-report.pdf</a> (shared on 30 May 2026)' }
+    }
+  ]
+}) }}
