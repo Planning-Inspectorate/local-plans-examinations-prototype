@@ -1,0 +1,117 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+Check workshop details – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">Check your answers</h1>
+    
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Workshop date</dt>
+        <dd class="govuk-summary-list__value">
+          {{ addWorkshop.date.day }}/{{ addWorkshop.date.month }}/{{ addWorkshop.date.year }}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a href="{{ basePath }}/add-workshop">Change<span class="govuk-visually-hidden"> workshop date</span></a>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Workshop time</dt>
+        <dd class="govuk-summary-list__value">
+          {{ addWorkshop.time.hour }}:{{ addWorkshop.time.minute }}
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Do you know the expected number of days?</dt>
+        <dd class="govuk-summary-list__value">
+          {{ addWorkshop.hasEstimates or 'Not answered' }}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a href="{{ basePath }}/add-workshop/has-estimates">Change<span class="govuk-visually-hidden"> whether you know the estimated number of days</span></a>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Estimated number of days</dt>
+        <dd class="govuk-summary-list__value">
+          {% if addWorkshop.hasEstimates == 'Yes' %}
+            {{ addWorkshop.estimatedDays }}
+          {% else %}
+            Not provided
+          {% endif %}
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Is the workshop in-person, hybrid or remote?</dt>
+        <dd class="govuk-summary-list__value">
+          {{ addWorkshop.isVirtual or 'Not answered' }}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a href="{{ basePath }}/add-workshop/is-virtual">Change<span class="govuk-visually-hidden"> workshop type</span></a>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row{% if addWorkshop.isVirtual != 'Remote' and addWorkshop.isVirtual != 'Virtual' and addWorkshop.isVirtual != 'Hybrid' %} govuk-!-display-none{% endif %}">
+        <dt class="govuk-summary-list__key">Do you have a remote meeting link?</dt>
+        <dd class="govuk-summary-list__value">
+          {{ addWorkshop.hasVirtualMeetingLink or 'Not answered' }}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a href="{{ basePath }}/add-workshop/has-virtual-meeting-link">Change<span class="govuk-visually-hidden"> remote meeting link question</span></a>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row{% if (addWorkshop.isVirtual != 'Remote' and addWorkshop.isVirtual != 'Virtual' and addWorkshop.isVirtual != 'Hybrid') or addWorkshop.hasVirtualMeetingLink != 'Yes' %} govuk-!-display-none{% endif %}">
+        <dt class="govuk-summary-list__key">Remote meeting link</dt>
+        <dd class="govuk-summary-list__value">
+          {{ addWorkshop.virtualMeetingLink or 'Not provided' }}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a href="{{ basePath }}/add-workshop/virtual-meeting">Change<span class="govuk-visually-hidden"> remote meeting link</span></a>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row{% if addWorkshop.isVirtual != 'In-person' and addWorkshop.isVirtual != 'Hybrid' %} govuk-!-display-none{% endif %}">
+        <dt class="govuk-summary-list__key">Do you know the venue address?</dt>
+        <dd class="govuk-summary-list__value">
+          {{ addWorkshop.hasAddress or 'Not answered' }}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a href="{{ basePath }}/add-workshop/has-address">Change<span class="govuk-visually-hidden"> whether you know the venue address</span></a>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row{% if addWorkshop.isVirtual != 'In-person' and addWorkshop.isVirtual != 'Hybrid' %} govuk-!-display-none{% endif %}">
+        <dt class="govuk-summary-list__key">Venue address</dt>
+        <dd class="govuk-summary-list__value">
+          {% if addWorkshop.hasAddress == 'Yes' %}
+            {{ addWorkshop.venue }}<br>
+            {{ addWorkshop.address.line1 }}<br>
+            {% if addWorkshop.address.line2 %}{{ addWorkshop.address.line2 }}<br>{% endif %}
+            {{ addWorkshop.address.town }}<br>
+            {{ addWorkshop.address.postcode }}
+          {% else %}
+            Not provided
+          {% endif %}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a href="{{ basePath }}/add-workshop/has-address">Change<span class="govuk-visually-hidden"> venue address</span></a>
+        </dd>
+      </div>
+    </dl>
+
+    <form method="post" action="{{ basePath }}/add-workshop/check">
+      <div class="govuk-button-group">
+        <button type="submit" class="govuk-button">Confirm and save</button>
+        <a href="{{ basePath }}/gateway-2" class="govuk-link">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

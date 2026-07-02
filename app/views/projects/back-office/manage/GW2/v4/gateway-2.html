@@ -73,23 +73,6 @@ Gateway 2 overview – {{ serviceName }}
           </dd>
         </div>
         </dl>
-           <h2 class="govuk-heading-l">Workshop</h2>
-         <dl class="govuk-summary-list govuk-summary-list-timetable">
-               <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Workshop date</dt>
-          <dd class="govuk-summary-list__value">{{ gateway2WorkshopDate or '-' }}</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-workshop-date.html?returnUrl=/projects/back-office/manage/GW2/v4/gateway-2-alt">Change<span class="govuk-visually-hidden"> Gateway 2 Dates for Workshop</span></a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Workshop venue</dt>
-          <dd class="govuk-summary-list__value">{{ gateway2WorkshopVenue or '-' }}</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-workshop-venue.html?returnUrl=/projects/back-office/manage/GW2/v4/gateway-2-alt">Change<span class="govuk-visually-hidden"> Gateway 2 Workshop Venue</span></a>
-          </dd>
-        </div>
-        </dl>
          <dl class="govuk-summary-list govuk-summary-list-timetable">
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Report issued date</dt>
@@ -106,37 +89,140 @@ Gateway 2 overview – {{ serviceName }}
           </dd>
         </div>
         </dl>
-        </dl>
+        
+           <h2 class="govuk-heading-l">Workshop</h2>
+              {% if hearings and hearings.length %}
+        {% for hearing in hearings %}
+          <h3 class="govuk-heading-m">Workshop {{ loop.index }} details</h3>
+          <p class="govuk-body">
+            <a href="cancel-workshop?index={{ loop.index0 }}" class="govuk-link">Cancel workshop {{ loop.index }}</a>
+          </p>
+
+          <dl class="govuk-summary-list govuk-summary-list-timetable">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Workshop start date</dt>
+              <dd class="govuk-summary-list__value">{{ hearing.startDate or '-' }}</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="add-workshop?edit={{ loop.index0 }}&step=index">Change<span class="govuk-visually-hidden"> workshop {{ loop.index }} start date</span></a>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Workshop time</dt>
+              <dd class="govuk-summary-list__value">{{ hearing.time or '-' }}</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="add-workshop?edit={{ loop.index0 }}&step=index">Change<span class="govuk-visually-hidden"> workshop {{ loop.index }} time</span></a>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Estimated number of days</dt>
+              <dd class="govuk-summary-list__value">{{ hearing.estimatedDays or '-' }}</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="add-workshop?edit={{ loop.index0 }}&step=has-estimates">Change<span class="govuk-visually-hidden"> workshop {{ loop.index }} estimated number of days</span></a>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Is the workshop hybrid, virtual or in-person?</dt>
+              <dd class="govuk-summary-list__value">{{ hearing.isVirtual or '-' }}</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="add-workshop?edit={{ loop.index0 }}&step=is-virtual">Change<span class="govuk-visually-hidden"> workshop {{ loop.index }} type</span></a>
+              </dd>
+            </div>
+
+            {% if hearing.isVirtual == 'Remote' or hearing.isVirtual == 'Virtual' or hearing.isVirtual == 'Hybrid' %}
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Do you have a virtual meeting link?</dt>
+              <dd class="govuk-summary-list__value">{{ hearing.hasVirtualMeetingLink or '-' }}</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="add-workshop?edit={{ loop.index0 }}&step=has-virtual-meeting-link">Change<span class="govuk-visually-hidden"> workshop {{ loop.index }} virtual meeting link question</span></a>
+              </dd>
+            </div>
+            {% if hearing.hasVirtualMeetingLink == 'Yes' %}
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Virtual meeting link</dt>
+              <dd class="govuk-summary-list__value">{{ hearing.virtualMeetingLink or '-' }}</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="add-workshop?edit={{ loop.index0 }}&step=virtual-meeting">Change<span class="govuk-visually-hidden"> workshop {{ loop.index }} virtual meeting link</span></a>
+              </dd>
+            </div>
+            {% endif %}
+            {% endif %}
+
+            {% if hearing.isVirtual == 'In-person' or hearing.isVirtual == 'Hybrid' %}
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Venue address</dt>
+              <dd class="govuk-summary-list__value">
+                {% if hearing.hasAddress == 'Yes' and hearing.address %}
+                  {{ hearing.venue or '-' }}<br>
+                  {{ hearing.address.line1 }}<br>
+                  {% if hearing.address.line2 %}{{ hearing.address.line2 }}<br>{% endif %}
+                  {{ hearing.address.town }}<br>
+                  {{ hearing.address.postcode }}
+                {% else %}
+                  -
+                {% endif %}
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="add-workshop?edit={{ loop.index0 }}&step=has-address">Change<span class="govuk-visually-hidden"> workshop {{ loop.index }} venue address</span></a>
+              </dd>
+            </div>
+            {% endif %}
+
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Actual duration</dt>
+              <dd class="govuk-summary-list__value">{{ hearing.actualDuration or '-' }}</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="add-workshop/actual-duration?edit={{ loop.index0 }}">Change<span class="govuk-visually-hidden"> workshop {{ loop.index }} actual duration</span></a>
+              </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Workshop end date</dt>
+              <dd class="govuk-summary-list__value">{{ hearing.endDate or '-' }}</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="add-workshop/end-date?edit={{ loop.index0 }}">Change<span class="govuk-visually-hidden"> workshop {{ loop.index }} end date</span></a>
+              </dd>
+            </div>
+          </dl>
+        {% endfor %}
+
+        <p class="govuk-body">
+          <a href="add-workshop">Add another workshop</a>
+        </p>
+      {% else %}
+        <p class="govuk-body">
+          <a href="add-workshop">Add workshop</a>
+        </p>
+      {% endif %}
+        <br>
+
 
         <h2 class="govuk-heading-l">Workshop documents</h2>
         {%- if uploadedDocuments and uploadedDocuments.length > 0 -%}
          
            <dl class="govuk-summary-list govuk-summary-list-timetable">
             <div class="govuk-summary-list__row">
-              <div class="govuk-summary-list__key"><strong>Document</strong></div>
-              <div class="govuk-summary-list__value"><strong>Status</strong></div>
-              <div class="govuk-summary-list__value"><strong>Date</strong></div>
-              <div class="govuk-summary-list__actions"><strong>Action</strong></div>
+              <dt class="govuk-summary-list__key"><strong>Document</strong></dt>
+              <dd class="govuk-summary-list__value"><strong>Status</strong></dd>
+              <dd class="govuk-summary-list__value"><strong>Date</strong></dd>
+              <dd class="govuk-summary-list__actions"><strong>Action</strong></dd>
             </div>
             {%- for doc in uploadedDocuments -%}
               <div class="govuk-summary-list__row">
-                <div class="govuk-summary-list__key">Document {{ loop.index }}</div>
-                <div class="govuk-summary-list__value">
+                <dt class="govuk-summary-list__key">Document {{ loop.index }}</dt>
+                <dd class="govuk-summary-list__value">
                   Uploaded
-                </div>
-                <div class="govuk-summary-list__value">
+                </dd>
+                <dd class="govuk-summary-list__value">
                   {{ doc.uploadedAt or doc.uploadDate or '-' }}
-                </div>
-                <div class="govuk-summary-list__actions">
+                </dd>
+                <dd class="govuk-summary-list__actions">
                   <a class="govuk-link" href="/projects/back-office/manage/documents/download/{{ doc.filename }}">View<span class="govuk-visually-hidden"> document {{ loop.index }}</span></a>
-                </div>
+                </dd>
               </div>
             {%- endfor -%}
-          </div>
+          </dl>
         {% else %}
           <p class="govuk-body">No workshop documents uploaded yet.</p>
         {% endif %}
-        </dl>
          <p class="govuk-body govuk-!-margin-bottom-3">
           <a href="/projects/back-office/manage/GW2/v3/upload/v1/upload-bo">Add documentation</a>
         </p>
@@ -449,7 +535,7 @@ Gateway 2 overview – {{ serviceName }}
         </dd>
         
         <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="#"></a>
+          <a class="govuk-link" href="#">View</a>
           
         </dd>
       </div>
@@ -462,7 +548,7 @@ Gateway 2 overview – {{ serviceName }}
         </dd>
         
         <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="#"></a>
+          <a class="govuk-link" href="#">View</a>
           
         </dd>
       </div>
