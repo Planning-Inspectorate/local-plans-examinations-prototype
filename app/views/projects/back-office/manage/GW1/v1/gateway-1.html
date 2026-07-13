@@ -30,42 +30,42 @@ Gateway 1 overview – {{ serviceName }}
       <dl class="govuk-summary-list govuk-summary-list-timetable">
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Notice of Intention publish date</dt>
-          <dd class="govuk-summary-list__value">{{ noticeOfIntentionDate }}</dd>
+          <dd class="govuk-summary-list__value">{{ noticeOfIntentionDate if noticeOfIntentionDate and noticeOfIntentionDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/change-notice-date.html?returnUrl=/projects/back-office/manage/GW1/v1/gateway-1.html">Change<span class="govuk-visually-hidden"> Notice of Intention date</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Gateway 1 estimated date</dt>
-          <dd class="govuk-summary-list__value">{{ gateway1EstimatedDate }}</dd>
+          <dd class="govuk-summary-list__value">{{ gateway1EstimatedDate if gateway1EstimatedDate and gateway1EstimatedDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/GW1/v1/gateway-1-estimated.html?returnUrl=/projects/back-office/manage/GW1/v1/gateway-1.html">Change<span class="govuk-visually-hidden"> Gateway 1 Estimated Date</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Gateway 1 actual date</dt>
-          <dd class="govuk-summary-list__value">{{ gateway1ActualDate }}</dd>
+          <dd class="govuk-summary-list__value">{{ gateway1ActualDate if gateway1ActualDate and gateway1ActualDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/GW1/v1/gateway-1-actual.html?returnUrl=/projects/back-office/manage/GW1/v1/gateway-1.html">Change<span class="govuk-visually-hidden"> Gateway 1 Actual Date</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">SLA sent date</dt>
-          <dd class="govuk-summary-list__value">{{ gateway1SlaSentDate }}</dd>
+          <dd class="govuk-summary-list__value">{{ gateway1SlaSentDate if gateway1SlaSentDate and gateway1SlaSentDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/GW1/v1/gateway-1-sla-sent.html?returnUrl=/projects/back-office/manage/GW1/v1/gateway-1.html">Change<span class="govuk-visually-hidden"> SLA Sent Date</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">SLA received date</dt>
-          <dd class="govuk-summary-list__value">{{ gateway1SlaReceivedDate }}</dd>
+          <dd class="govuk-summary-list__value">{{ gateway1SlaReceivedDate if gateway1SlaReceivedDate and gateway1SlaReceivedDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/GW1/v1/gateway-1-sla-received.html?returnUrl=/projects/back-office/manage/GW1/v1/gateway-1.html">Change<span class="govuk-visually-hidden"> SLA Received Date</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Digital Sharing Agreement (DSA) check</dt>
-          <dd class="govuk-summary-list__value">{{ gateway1DsaCheck }}</dd>
+          <dd class="govuk-summary-list__value">{{ gateway1DsaCheck if gateway1DsaCheck and gateway1DsaCheck != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/GW1/v1/gateway-1-dsa-check.html?returnUrl=/projects/back-office/manage/GW1/v1/gateway-1.html">Change<span class="govuk-visually-hidden"> DSA Check</span></a>
           </dd>

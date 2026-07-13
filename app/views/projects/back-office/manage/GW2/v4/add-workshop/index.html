@@ -47,7 +47,7 @@ Add workshop – {{ serviceName }}
 
       <fieldset class="govuk-fieldset">
         <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-          Time
+          Start time
         </legend>
         <div id="hearing-time-hint" class="govuk-hint">
           For example, 14 30
@@ -67,12 +67,29 @@ Add workshop – {{ serviceName }}
           </div>
         </div>
       </fieldset>
-
+      <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+          End time (Optional)
+        </legend>
+        <div class="govuk-date-input" id="hearing-end-time">
+          <div class="govuk-date-input__item">
+            <div class="govuk-form-group">
+              <label class="govuk-label govuk-date-input__label" for="hearing-end-time-hour">Hour</label>
+              <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="hearing-end-time-hour" name="hearing-end-time-hour" type="text" inputmode="numeric" value="{{ addWorkshop.endTime.hour or '' }}">
+            </div>
+          </div>
+          <div class="govuk-date-input__item">
+            <div class="govuk-form-group">
+              <label class="govuk-label govuk-date-input__label" for="hearing-end-time-minute">Minute</label>
+              <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="hearing-end-time-minute" name="hearing-end-time-minute" type="text" inputmode="numeric" value="{{ addWorkshop.endTime.minute or '' }}">
+            </div>
+          </div>
+        </div>
+      </fieldset>
       <div class="govuk-button-group">
         <button type="submit" class="govuk-button">Continue</button>
-        {% if isEditing %}
-          <a href="cancel" class="govuk-link">Cancel</a>
-        {% endif %}
+
+     
       </div>
     </form>
   </div>

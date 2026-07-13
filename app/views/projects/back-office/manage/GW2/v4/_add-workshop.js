@@ -40,12 +40,17 @@ function hydrateAddWorkshopFromRecord(hearingRecord) {
       }
     : { day: '', month: '', year: '' };
   const timeParts = (hearingRecord?.time || '').split(':');
+  const endTimeParts = (hearingRecord?.endTime || '').split(':');
 
   return {
     date,
     time: {
       hour: timeParts[0] || '',
       minute: timeParts[1] || ''
+    },
+    endTime: {
+      hour: endTimeParts[0] || '',
+      minute: endTimeParts[1] || ''
     },
     estimatedDays: hearingRecord?.estimatedDays || '',
     actualDuration: hearingRecord?.actualDuration || '',
@@ -60,6 +65,14 @@ function hydrateAddWorkshopFromRecord(hearingRecord) {
   };
 }
 
+function ensureEditingWorkshopData(req) {
+  const editingHearingIndex = getEditingWorkshopIndex(req);
+  if (editingHearingIndex !== null && !req.session.data.addWorkshop) {
+    req.session.data.addWorkshop = hydrateAddWorkshopFromRecord(req.session.hearings[editingHearingIndex]);
+  }
+  return editingHearingIndex;
+}
+
 function clearWorkingWorkshopData(sessionData) {
   delete sessionData.addWorkshop;
   delete sessionData['hearing-date-day'];
@@ -67,6 +80,8 @@ function clearWorkingWorkshopData(sessionData) {
   delete sessionData['hearing-date-year'];
   delete sessionData['hearing-time-hour'];
   delete sessionData['hearing-time-minute'];
+  delete sessionData['hearing-end-time-hour'];
+  delete sessionData['hearing-end-time-minute'];
   delete sessionData.hearingEstimationDays;
   delete sessionData.actualDuration;
   delete sessionData['hearing-end-date-day'];
@@ -91,6 +106,7 @@ function syncLatestHearingFields(session) {
   if (!latestHearing) {
     delete session.hearingStartDate;
     delete session.hearingTime;
+    delete session.hearingEndTime;
     delete session.hearingEstimatedDays;
     delete session.hearingIsVirtual;
     delete session.hearingHasVirtualMeetingLink;
@@ -103,6 +119,7 @@ function syncLatestHearingFields(session) {
 
   session.hearingStartDate = latestHearing.startDate || '';
   session.hearingTime = latestHearing.time || '';
+  session.hearingEndTime = latestHearing.endTime || '';
   session.hearingEstimatedDays = latestHearing.estimatedDays || '';
   session.hearingActualDuration = latestHearing.actualDuration || '';
   session.hearingEndDate = latestHearing.endDate || '';
@@ -174,6 +191,10 @@ router.get('/add-workshop/index', function (req, res) {
         hour: req.session.data['hearing-time-hour'] || '',
         minute: req.session.data['hearing-time-minute'] || ''
       },
+      endTime: {
+        hour: req.session.data['hearing-end-time-hour'] || '',
+        minute: req.session.data['hearing-end-time-minute'] || ''
+      },
       estimatedDays: req.session.data.hearingEstimationDays || '',
       hasEstimates: req.session.data.hasEstimates || '',
       isVirtual: req.session.data.isVirtual || '',
@@ -194,14 +215,9 @@ router.get('/add-workshop/index', function (req, res) {
   }
   
   // Check if editing existing hearing or adding new
-  let hearingData = req.session.data.addWorkshop || {}
-  const editingHearingIndex = getEditingWorkshopIndex(req);
+  const editingHearingIndex = ensureEditingWorkshopData(req);
+  const hearingData = req.session.data.addWorkshop || {}
   console.log('hearingData being passed to template:', JSON.stringify(hearingData, null, 2));
-
-  if (!req.session.data.addWorkshop && editingHearingIndex !== null) {
-    hearingData = hydrateAddWorkshopFromRecord(req.session.hearings[editingHearingIndex]);
-    req.session.data.addWorkshop = hearingData;
-  }
   
   res.render(getAddWorkshopView(req, 'index'), {
     caseRef: req.session.data.currentCaseRef || '',
@@ -217,10 +233,7 @@ router.get('/add-workshop/actual-duration', function (req, res) {
     req.session.data.editWorkshopIndex = String(requestedEditIndex);
   }
 
-  const editingHearingIndex = getEditingWorkshopIndex(req);
-  if (!req.session.data.addWorkshop && editingHearingIndex !== null) {
-    req.session.data.addWorkshop = hydrateAddWorkshopFromRecord(req.session.hearings[editingHearingIndex]);
-  }
+  const editingHearingIndex = ensureEditingWorkshopData(req);
 
   const hearingData = req.session.data.addWorkshop || {};
 
@@ -247,7 +260,7 @@ router.post('/add-workshop/actual-duration', function (req, res) {
   syncLatestHearingFields(req.session);
   clearWorkingWorkshopData(req.session.data);
   delete req.session.data.editWorkshopIndex;
-  req.session.notificationMessage = 'Workshop updated';
+  req.session.notificationMessage = 'Workshop set up';
 
   req.session.save(() => {
     res.redirect(`${req.baseUrl}/gateway-2`);
@@ -260,10 +273,7 @@ router.get('/add-workshop/end-date', function (req, res) {
     req.session.data.editWorkshopIndex = String(requestedEditIndex);
   }
 
-  const editingHearingIndex = getEditingWorkshopIndex(req);
-  if (!req.session.data.addWorkshop && editingHearingIndex !== null) {
-    req.session.data.addWorkshop = hydrateAddWorkshopFromRecord(req.session.hearings[editingHearingIndex]);
-  }
+  const editingHearingIndex = ensureEditingWorkshopData(req);
 
   const hearingData = req.session.data.addWorkshop || {};
 
@@ -307,7 +317,7 @@ router.post('/add-workshop/end-date', function (req, res) {
   syncLatestHearingFields(req.session);
   clearWorkingWorkshopData(req.session.data);
   delete req.session.data.editWorkshopIndex;
-  req.session.notificationMessage = 'Workshop updated';
+  req.session.notificationMessage = 'Workshop set up';
 
   req.session.save(() => {
     res.redirect(`${req.baseUrl}/gateway-2`);
@@ -332,6 +342,10 @@ router.post('/add-workshop/index', function (req, res) {
     hour: req.session.data['hearing-time-hour'],
     minute: req.session.data['hearing-time-minute']
   }
+  req.session.data.addWorkshop.endTime = {
+    hour: req.session.data['hearing-end-time-hour'],
+    minute: req.session.data['hearing-end-time-minute']
+  }
   
   console.log('addWorkshop object updated:', req.session.data.addWorkshop);
   
@@ -345,32 +359,7 @@ router.get('/add-workshop/has-estimates', function (req, res) {
   console.log('GET /has-estimates - req.session.data.addWorkshop:', JSON.stringify(req.session.data.addWorkshop, null, 2));
   console.log('GET /has-estimates - req.session.hearingStartDate:', req.session.hearingStartDate);
   console.log('GET /has-estimates - req.session.data:', JSON.stringify(req.session.data, null, 2));
-  
-  // If in edit mode and form data is empty, rebuild from saved hearing
-  if (!req.session.data.addWorkshop && req.session.hearingStartDate) {
-    console.log('In edit mode - rebuilding from saved hearing data...');
-    const parsedDate = DateTime.fromFormat(req.session.hearingStartDate, 'd MMMM yyyy');
-    req.session.data.addWorkshop = {
-      date: {
-        day: parsedDate.day.toString(),
-        month: parsedDate.month.toString(),
-        year: parsedDate.year.toString()
-      },
-      time: req.session.hearingTime ? {
-        hour: req.session.hearingTime.split(':')[0],
-        minute: req.session.hearingTime.split(':')[1]
-      } : { hour: '', minute: '' },
-      estimatedDays: req.session.hearingEstimatedDays || '',
-      isVirtual: req.session.hearingIsVirtual || '',
-      hasVirtualMeetingLink: req.session.hearingHasVirtualMeetingLink || 'No',
-      virtualMeetingLink: req.session.hearingVirtualMeetingLink || '',
-      hasEstimates: req.session.hearingEstimatedDays ? 'Yes' : 'No',
-      hasAddress: req.session.hearingHasAddress || 'No',
-      venue: req.session.hearingVenue || '',
-      address: req.session.hearingAddress || {}
-    };
-    console.log('Rebuilt from saved data:', JSON.stringify(req.session.data.addWorkshop, null, 2));
-  }
+  ensureEditingWorkshopData(req);
   
   // Always rebuild addWorkshop object from form field data to ensure current values
   if (req.session.data['hearing-date-day'] || req.session.data.hasEstimates) {
@@ -386,6 +375,10 @@ router.get('/add-workshop/has-estimates', function (req, res) {
     req.session.data.addWorkshop.time = {
       hour: req.session.data['hearing-time-hour'] || '',
       minute: req.session.data['hearing-time-minute'] || ''
+    };
+    req.session.data.addWorkshop.endTime = {
+      hour: req.session.data['hearing-end-time-hour'] || '',
+      minute: req.session.data['hearing-end-time-minute'] || ''
     };
     req.session.data.addWorkshop.estimatedDays = req.session.data.hearingEstimationDays || '';
     req.session.data.addWorkshop.hasEstimates = req.session.data.hasEstimates || req.session.data.addWorkshop.hasEstimates || '';
@@ -431,6 +424,7 @@ router.post('/add-workshop/has-estimates', function (req, res) {
 
 router.get('/add-workshop/is-virtual', function (req, res) {
   console.log('GET /is-virtual - req.session.data.addWorkshop:', JSON.stringify(req.session.data.addWorkshop, null, 2));
+  ensureEditingWorkshopData(req);
   
   const hearingData = req.session.data.addWorkshop || {}
   
@@ -461,6 +455,7 @@ router.post('/add-workshop/is-virtual', function (req, res) {
 
 router.get('/add-workshop/has-virtual-meeting-link', function (req, res) {
   console.log('GET /has-virtual-meeting-link - req.session.data.addWorkshop:', JSON.stringify(req.session.data.addWorkshop, null, 2));
+  ensureEditingWorkshopData(req);
   
   const hearingData = req.session.data.addWorkshop || {}
   
@@ -491,6 +486,7 @@ router.post('/add-workshop/has-virtual-meeting-link', function (req, res) {
 
 router.get('/add-workshop/virtual-meeting', function (req, res) {
   console.log('GET /virtual-meeting - req.session.data.addWorkshop:', JSON.stringify(req.session.data.addWorkshop, null, 2));
+  ensureEditingWorkshopData(req);
   
   const hearingData = req.session.data.addWorkshop || {}
   
@@ -515,29 +511,7 @@ router.post('/add-workshop/virtual-meeting', function (req, res) {
 
 router.get('/add-workshop/has-address', function (req, res) {
   console.log('GET /has-address - req.session.data.addWorkshop:', JSON.stringify(req.session.data.addWorkshop, null, 2));
-  
-  // If in edit mode and form data is empty, rebuild from saved hearing
-  if (!req.session.data.addWorkshop && req.session.hearingStartDate) {
-    console.log('In edit mode - rebuilding from saved hearing data...');
-    const parsedDate = DateTime.fromFormat(req.session.hearingStartDate, 'd MMMM yyyy');
-    req.session.data.addWorkshop = {
-      date: {
-        day: parsedDate.day.toString(),
-        month: parsedDate.month.toString(),
-        year: parsedDate.year.toString()
-      },
-      time: req.session.hearingTime ? {
-        hour: req.session.hearingTime.split(':')[0],
-        minute: req.session.hearingTime.split(':')[1]
-      } : { hour: '', minute: '' },
-      estimatedDays: req.session.hearingEstimatedDays || '',
-      isVirtual: req.session.hearingIsVirtual || '',
-      hasEstimates: req.session.hearingEstimatedDays ? 'Yes' : 'No',
-      hasAddress: req.session.hearingHasAddress || 'No',
-      venue: req.session.hearingVenue || '',
-      address: req.session.hearingAddress || {}
-    };
-  }
+  ensureEditingWorkshopData(req);
   
   // Always rebuild addWorkshop object from form field data to ensure current values
   if (req.session.data['hearing-date-day'] || req.session.data.hasAddress) {
@@ -552,6 +526,10 @@ router.get('/add-workshop/has-address', function (req, res) {
     req.session.data.addWorkshop.time = {
       hour: req.session.data['hearing-time-hour'] || '',
       minute: req.session.data['hearing-time-minute'] || ''
+    };
+    req.session.data.addWorkshop.endTime = {
+      hour: req.session.data['hearing-end-time-hour'] || '',
+      minute: req.session.data['hearing-end-time-minute'] || ''
     };
     req.session.data.addWorkshop.estimatedDays = req.session.data.hearingEstimationDays || '';
     req.session.data.addWorkshop.hasEstimates = req.session.data.hasEstimates || req.session.data.addWorkshop.hasEstimates || '';
@@ -601,29 +579,7 @@ router.post('/add-workshop/has-address', function (req, res) {
 
 router.get('/add-workshop/address', function (req, res) {
   console.log('GET /address - req.session.data.addWorkshop:', JSON.stringify(req.session.data.addWorkshop, null, 2));
-  
-  // If in edit mode and form data is empty, rebuild from saved hearing
-  if (!req.session.data.addWorkshop && req.session.hearingStartDate) {
-    console.log('In edit mode - rebuilding from saved hearing data...');
-    const parsedDate = DateTime.fromFormat(req.session.hearingStartDate, 'd MMMM yyyy');
-    req.session.data.addWorkshop = {
-      date: {
-        day: parsedDate.day.toString(),
-        month: parsedDate.month.toString(),
-        year: parsedDate.year.toString()
-      },
-      time: req.session.hearingTime ? {
-        hour: req.session.hearingTime.split(':')[0],
-        minute: req.session.hearingTime.split(':')[1]
-      } : { hour: '', minute: '' },
-      estimatedDays: req.session.hearingEstimatedDays || '',
-      isVirtual: req.session.hearingIsVirtual || '',
-      hasEstimates: req.session.hearingEstimatedDays ? 'Yes' : 'No',
-      hasAddress: req.session.hearingHasAddress || 'No',
-      venue: req.session.hearingVenue || '',
-      address: req.session.hearingAddress || {}
-    };
-  }
+  ensureEditingWorkshopData(req);
   
   // Always rebuild addWorkshop object from form field data to ensure current values
   if (req.session.data['hearing-date-day'] || req.session.data['hearing-venue']) {
@@ -638,6 +594,10 @@ router.get('/add-workshop/address', function (req, res) {
     req.session.data.addWorkshop.time = {
       hour: req.session.data['hearing-time-hour'] || '',
       minute: req.session.data['hearing-time-minute'] || ''
+    };
+    req.session.data.addWorkshop.endTime = {
+      hour: req.session.data['hearing-end-time-hour'] || '',
+      minute: req.session.data['hearing-end-time-minute'] || ''
     };
     req.session.data.addWorkshop.estimatedDays = req.session.data.hearingEstimationDays || '';
     req.session.data.addWorkshop.hasEstimates = req.session.data.hasEstimates || req.session.data.addWorkshop.hasEstimates || '';
@@ -690,31 +650,7 @@ router.post('/add-workshop/address', function (req, res) {
 
 router.get('/add-workshop/check', function (req, res) {
   console.log('GET /check - req.session.data.addWorkshop:', JSON.stringify(req.session.data.addWorkshop, null, 2));
-  
-  // If in edit mode and form data is empty, rebuild from saved hearing
-  if (!req.session.data.addWorkshop && req.session.hearingStartDate) {
-    console.log('In edit mode - rebuilding from saved hearing data...');
-    const parsedDate = DateTime.fromFormat(req.session.hearingStartDate, 'd MMMM yyyy');
-    req.session.data.addWorkshop = {
-      date: {
-        day: parsedDate.day.toString(),
-        month: parsedDate.month.toString(),
-        year: parsedDate.year.toString()
-      },
-      time: req.session.hearingTime ? {
-        hour: req.session.hearingTime.split(':')[0],
-        minute: req.session.hearingTime.split(':')[1]
-      } : { hour: '', minute: '' },
-      estimatedDays: req.session.hearingEstimatedDays || '',
-      isVirtual: req.session.hearingIsVirtual || '',
-      hasVirtualMeetingLink: req.session.hearingHasVirtualMeetingLink || 'No',
-      virtualMeetingLink: req.session.hearingVirtualMeetingLink || '',
-      hasEstimates: req.session.hearingEstimatedDays ? 'Yes' : 'No',
-      hasAddress: req.session.hearingHasAddress || 'No',
-      venue: req.session.hearingVenue || '',
-      address: req.session.hearingAddress || {}
-    };
-  }
+  ensureEditingWorkshopData(req);
   
   // Always rebuild addWorkshop object from form field data to ensure current values
   if (req.session.data['hearing-date-day']) {
@@ -729,6 +665,10 @@ router.get('/add-workshop/check', function (req, res) {
     req.session.data.addWorkshop.time = {
       hour: req.session.data['hearing-time-hour'] || '',
       minute: req.session.data['hearing-time-minute'] || ''
+    };
+    req.session.data.addWorkshop.endTime = {
+      hour: req.session.data['hearing-end-time-hour'] || '',
+      minute: req.session.data['hearing-end-time-minute'] || ''
     };
     req.session.data.addWorkshop.estimatedDays = req.session.data.hearingEstimationDays || '';
     req.session.data.addWorkshop.isVirtual = req.session.data.isVirtual || req.session.data.addWorkshop.isVirtual || '';
@@ -762,6 +702,7 @@ router.post('/add-workshop/check', function (req, res) {
   }
   
   const { date, time, venue } = req.session.data.addWorkshop
+  const endTime = req.session.data.addWorkshop.endTime || {}
   console.log('Extracted - date:', date, 'time:', time, 'venue:', venue);
 
   // Validate that all fields have values
@@ -808,6 +749,7 @@ router.post('/add-workshop/check', function (req, res) {
   const hearingRecord = {
     startDate: hearingDate.toFormat('d MMMM yyyy'),
     time: `${time.hour}:${time.minute}`,
+    endTime: endTime.hour && endTime.minute ? `${endTime.hour}:${endTime.minute}` : '',
     estimatedDays: req.session.data.addWorkshop.estimatedDays || '',
     actualDuration: req.session.data.addWorkshop.actualDuration || '',
     endDate: endDateValue,
@@ -833,7 +775,7 @@ router.post('/add-workshop/check', function (req, res) {
   syncLatestHearingFields(req.session);
   clearWorkingWorkshopData(req.session.data);
   delete req.session.data.editWorkshopIndex;
-  req.session.notificationMessage = editingHearingIndex !== null ? 'Workshop updated' : 'Workshop created';
+  req.session.notificationMessage = editingHearingIndex !== null ? 'Workshop updated' : 'Workshop set up';
   req.session.save(() => {
     res.redirect(`${req.baseUrl}/gateway-2`)
   })

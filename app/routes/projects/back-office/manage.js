@@ -32,22 +32,37 @@ function getCurrentCase(req, preferredRef) {
 }
 
 function buildCaseNote(now, text, userName) {
+  const normalizeCaseNoteUserName = (rawName) => {
+    const candidate = String(rawName || '').trim();
+    if (!candidate) return 'Alex Morgan';
+
+    const genericNames = new Set([
+      'case officer',
+      'user account',
+      'admin',
+      'administrator',
+      'system'
+    ]);
+
+    if (genericNames.has(candidate.toLowerCase())) {
+      return 'Alex Morgan';
+    }
+
+    return candidate;
+  };
+
   const tableDate = now.toLocaleDateString('en-GB', {
     day: 'numeric',
     month: 'long',
     year: 'numeric'
   });
-  const tableTime = now
-    .toLocaleTimeString('en-GB', { hour: 'numeric', minute: '2-digit' })
-    .toLowerCase()
-    .replace(' ', '');
+  const tableUser = normalizeCaseNoteUserName(userName);
 
   return {
     text,
-    meta: `${tableDate} at ${tableTime} by ${userName}`,
+    meta: `${tableDate} by ${tableUser}`,
     tableDate,
-    tableTime,
-    tableUser: userName
+    tableUser
   };
 }
 
@@ -1013,6 +1028,15 @@ function formatDateForDisplay(dateString) {
   }
   
   return dateString;
+}
+
+function formatTimestampForDisplay(timestamp) {
+  if (!timestamp || timestamp === '-') return '-';
+
+  const date = new Date(timestamp);
+  if (Number.isNaN(date.getTime())) return '-';
+
+  return `${date.getDate()} ${new Intl.DateTimeFormat('en-US', { month: 'long' }).format(date)} ${date.getFullYear()}`;
 }
 
 // Timetable page GET
@@ -2241,8 +2265,50 @@ router.get('/projects/back-office/manage/clear-data.html', (req, res) => {
   delete req.session.gateway1SlaSentDate;
   delete req.session.gateway1SlaReceivedDate;
   delete req.session.gateway1DsaCheck;
-  
-  res.redirect('/projects/back-office/manage/overview/v1/index');
+
+  // Clear GW2 v4 workshop/report journey state
+  delete req.session.gw2v3WorkshopDocuments;
+  delete req.session.gw2v4IssueReportDocuments;
+  delete req.session.gw2v4ReportIssued;
+  delete req.session.gw2v4UploadReturnTo;
+  delete req.session.hearings;
+  delete req.session.notificationMessage;
+
+  // Clear temporary upload/form state that can repopulate cleared data
+  if (req.session.data) {
+    delete req.session.data.gw2v3WorkshopDocuments;
+    delete req.session.data.gw2v4IssueReportDocuments;
+    delete req.session.data.fileData;
+    delete req.session.data.fileSizeMap;
+    delete req.session.data.addWorkshop;
+    delete req.session.data.editWorkshopIndex;
+    delete req.session.data.actualDuration;
+    delete req.session.data.hearingEstimationDays;
+    delete req.session.data.hasEstimates;
+    delete req.session.data.isVirtual;
+    delete req.session.data.hasVirtualMeetingLink;
+    delete req.session.data.virtualMeetingLink;
+    delete req.session.data.hasAddress;
+    delete req.session.data['hearing-date-day'];
+    delete req.session.data['hearing-date-month'];
+    delete req.session.data['hearing-date-year'];
+    delete req.session.data['hearing-time-hour'];
+    delete req.session.data['hearing-time-minute'];
+    delete req.session.data['hearing-end-time-hour'];
+    delete req.session.data['hearing-end-time-minute'];
+    delete req.session.data['hearing-end-date-day'];
+    delete req.session.data['hearing-end-date-month'];
+    delete req.session.data['hearing-end-date-year'];
+    delete req.session.data['hearing-venue'];
+    delete req.session.data['hearing-address-line1'];
+    delete req.session.data['hearing-address-line2'];
+    delete req.session.data['hearing-address-town'];
+    delete req.session.data['hearing-address-postcode'];
+  }
+
+  req.session.save(() => {
+    res.redirect('/projects/back-office/manage/overview/v1/index');
+  });
 });
 
 // Documents page GET
@@ -3056,15 +3122,53 @@ router.get('/projects/back-office/manage/GW2/v2/gateway-2-side.html', (req, res)
 });
 
 router.get('/projects/back-office/manage/GW2/v4/gateway-2-alt', (req, res) => {
-  const uploadedDocuments = Array.isArray(req.session.gw2v3WorkshopDocuments)
+  const uploadedDocumentsRaw = Array.isArray(req.session.gw2v3WorkshopDocuments)
     ? req.session.gw2v3WorkshopDocuments
     : Array.isArray(req.session.data?.gw2v3WorkshopDocuments)
       ? req.session.data.gw2v3WorkshopDocuments
       : [];
+  const issueReportDocumentsRaw = Array.isArray(req.session.gw2v4IssueReportDocuments)
+    ? req.session.gw2v4IssueReportDocuments
+    : Array.isArray(req.session.data?.gw2v4IssueReportDocuments)
+      ? req.session.data.gw2v4IssueReportDocuments
+      : [];
+  const hearings = Array.isArray(req.session.hearings) ? req.session.hearings : [];
+  let notificationMessage = req.session.notificationMessage || '';
+  if (req.query.issueReportSubmitted === '1') {
+    notificationMessage = 'Gateway 2 report issued';
+  }
+  delete req.session.notificationMessage;
+
+  const uploadedDocuments = uploadedDocumentsRaw.map((doc) => ({
+    ...doc,
+    uploadedAtDisplay: formatTimestampForDisplay(doc.uploadedAt)
+  }));
+  const issueReportDocuments = issueReportDocumentsRaw.map((doc) => ({
+    ...doc,
+    uploadedAtDisplay: formatTimestampForDisplay(doc.uploadedAt)
+  }));
+
+  const latestWorkshopDocument = uploadedDocuments.length ? uploadedDocuments[uploadedDocuments.length - 1] : null;
+  const latestIssueReportDocument = issueReportDocuments.length ? issueReportDocuments[issueReportDocuments.length - 1] : null;
+
+  let headerStatusText = null;
+  let headerStatusClasses = null;
+  if (req.session.gw2v4ReportIssued) {
+    headerStatusText = 'Ready for Gateway 3';
+    headerStatusClasses = 'govuk-tag--blue';
+  } else if (uploadedDocuments.length > 0) {
+    headerStatusText = 'Gateway 2 awaiting workshop';
+    headerStatusClasses = 'govuk-tag--yellow';
+  } else {
+    headerStatusText = 'Gateway 2 documents submitted';
+    headerStatusClasses = 'govuk-tag--turquoise';
+  }
 
   res.render('projects/back-office/manage/GW2/v4/gateway-2-alt', {
     caseRef: req.session.currentCaseRef || '',
     planTitle: req.session.planTitle || '',
+    serviceName: 'Local Plans Examinations',
+    notificationMessage,
     gateway2EstimatedDate: formatDateForDisplay(req.session.gateway2EstimatedDate) || '-',
     gateway2ActualDate: formatDateForDisplay(req.session.gateway2ActualDate) || '-',
     gateway2ValidDate: formatDateForDisplay(req.session.gateway2ValidDate) || '-',
@@ -3076,7 +3180,27 @@ router.get('/projects/back-office/manage/GW2/v4/gateway-2-alt', (req, res) => {
     gateway2AssessorName: req.session.gateway2AssessorName || '-',
     gateway2PlanStatus: req.session.gateway2PlanStatus || '-',
     gateway2Grade: req.session.gateway2Grade || '-',
-    uploadedDocuments
+    uploadedDocuments,
+    issueReportDocuments,
+    hearings,
+    pageState: {
+      hasWorkshopDocuments: uploadedDocuments.length > 0,
+      hasIssueReportDocuments: issueReportDocuments.length > 0,
+      hasHearings: hearings.length > 0,
+      reportIssued: !!req.session.gw2v4ReportIssued
+    },
+    workshopDocumentsSummary: {
+      count: uploadedDocuments.length,
+      latestUploadedAtDisplay: latestWorkshopDocument?.uploadedAtDisplay || '-',
+      hasDocuments: uploadedDocuments.length > 0
+    },
+    issueReportSummary: {
+      count: issueReportDocuments.length,
+      latestUploadedAtDisplay: latestIssueReportDocument?.uploadedAtDisplay || '-',
+      hasDocuments: issueReportDocuments.length > 0
+    },
+    headerStatusText,
+    headerStatusClasses
   });
 });
 

@@ -1,0 +1,112 @@
+{% extends "layouts/back-office.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+{% block pageTitle %}
+  Check your answers – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/projects/back-office/manage/GW2/v5/upload/v2/upload-bo?returnTo=" ~ (returnTo or 'gateway-2')
+  }) }}
+{% endblock %}
+
+{% block content %}
+<style>
+  .pins-notify-preview-border {
+    border: 1px solid #b1b4b6;
+    padding: 1rem;
+    margin-top: 1rem;
+  }
+</style>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
+    <h1 class="govuk-heading-l">Check Gateway 2 report details and issue notification</h1>
+
+    {% if uploadedDocuments.length > 0 %}
+      {% for doc in uploadedDocuments %}
+        <dl class="govuk-summary-list"><div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Gateway 2 report
+            </dt>
+            <dd class="govuk-summary-list__value">
+              <a class="govuk-hint" href="/projects/back-office/manage/documents/download/{{ doc.filename }}">{{ doc.originalname }}</a>
+            </dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="/projects/back-office/manage/GW2/v5/upload/v2/upload-bo?returnTo={{ returnTo or 'gateway-2' }}">Change<span class="govuk-visually-hidden"> {{ doc.originalname }}</span></a>
+            </dd>
+          </div>
+          <!--<div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Date uploaded</dt>
+            <dd class="govuk-summary-list__value">{{ doc.uploadedAtDisplay or '-' }}</dd>
+            <dd class="govuk-summary-list__actions"></dd>
+          </div>-->
+        </dl>
+      {% endfor %}
+
+
+  <details class="govuk-details" data-cy="preview-email-to-lpa">
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">
+      Preview notification to LPA
+    </span>
+  </summary>
+  <div class="govuk-details__text">
+    <div class="pins-notify-preview-border"> 
+      <h3>Notification details</h3>
+
+      <div class="govuk-inset-text">
+      Plan reference PLAN0000036 <br>
+      </div>
+      <h3> Gateway 2 report</h3>
+
+      <p>Enclosed is the Gateway 2 report.</p>
+
+      <p><a href="#" class="govuk-link">Sign in to our service</a> to view the report.</p>
+
+      <h3> Feedback</h3>
+
+      <p>We welcome your feedback on our Plans Examination service. Tell us on this short <a href="#" class="govuk-link">feedback form</a>.</p>
+
+      <p>The Planning Inspectorate</p>
+      <p>enquiries@planninginspectorate.gov.uk</p> 
+    </div>
+  </div>
+</details>
+</div>
+<div class="govuk-grid-column-full">
+  <p class="govuk-body">We’ll send a notification to the LPA to tell them that the report is available.</p>
+
+<form method="post" action="/projects/back-office/manage/GW2/v5/upload/v2/check-answers">
+        <input type="hidden" name="returnTo" value="{{ returnTo or 'gateway-2' }}">
+        {{ govukButton({
+          text: "Issue report"
+        }) }}
+      </form>
+    {% else %}
+      <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title">
+        <div class="govuk-notification-banner__header">
+          <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+            No documents uploaded
+          </h2>
+        </div>
+        <div class="govuk-notification-banner__content">
+          <p class="govuk-body">
+            You have not uploaded any documents yet.
+            <a class="govuk-link" href="/projects/back-office/manage/GW2/v5/upload/v2/upload-bo?returnTo={{ returnTo or 'gateway-2' }}">Upload documents</a>
+          </p>
+        </div>
+      </div>
+    {% endif %}
+
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

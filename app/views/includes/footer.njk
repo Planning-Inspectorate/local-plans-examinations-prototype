@@ -7,6 +7,13 @@
           <li class="govuk-footer__inline-list-item">
             <a class="govuk-footer__link" href="/manage-prototype">Manage your prototype</a>
           </li>
+          {% if footerLinks and footerLinks.length > 0 %}
+            {% for link in footerLinks %}
+              <li class="govuk-footer__inline-list-item">
+                <a class="govuk-footer__link" href="{{ link.href }}">{{ link.text }}</a>
+              </li>
+            {% endfor %}
+          {% endif %}
          {# <li class="govuk-footer__inline-list-item">
             <a class="govuk-footer__link" href="/manage-prototype/clear-data">Clear data</a>
           </li> #}

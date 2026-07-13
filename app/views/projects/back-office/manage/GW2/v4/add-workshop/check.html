@@ -12,11 +12,18 @@ Check workshop details – {{ serviceName }}
 {% endblock %}
 
 {% block content %}
+<style> 
+.workshop-check-table .govuk-summary-list__key { width: 55%; } 
+.workshop-check-table .govuk-summary-list__value { width: 25%; } 
+.workshop-check-table .govuk-summary-list__actions { width: 20%; } 
+</style>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l">Check your answers</h1>
     
-    <dl class="govuk-summary-list">
+  
+    <h1 class="govuk-heading-l">Check workshop details and issue notification</h1>
+    
+    <dl class="govuk-summary-list workshop-check-table">
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">Workshop date</dt>
         <dd class="govuk-summary-list__value">
@@ -27,9 +34,15 @@ Check workshop details – {{ serviceName }}
         </dd>
       </div>
       <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">Workshop time</dt>
+        <dt class="govuk-summary-list__key">Workshop start time</dt>
         <dd class="govuk-summary-list__value">
           {{ addWorkshop.time.hour }}:{{ addWorkshop.time.minute }}
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row{% if not addWorkshop.endTime or not addWorkshop.endTime.hour or not addWorkshop.endTime.minute %} govuk-!-display-none{% endif %}">
+        <dt class="govuk-summary-list__key">Workshop end time</dt>
+        <dd class="govuk-summary-list__value">
+          {{ addWorkshop.endTime.hour }}:{{ addWorkshop.endTime.minute }}
         </dd>
       </div>
       <div class="govuk-summary-list__row">
@@ -52,7 +65,7 @@ Check workshop details – {{ serviceName }}
         </dd>
       </div>
       <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">Is the workshop in-person, hybrid or remote?</dt>
+        <dt class="govuk-summary-list__key">Is the workshop in-person, hybrid or virtual?</dt>
         <dd class="govuk-summary-list__value">
           {{ addWorkshop.isVirtual or 'Not answered' }}
         </dd>
@@ -60,8 +73,8 @@ Check workshop details – {{ serviceName }}
           <a href="{{ basePath }}/add-workshop/is-virtual">Change<span class="govuk-visually-hidden"> workshop type</span></a>
         </dd>
       </div>
-      <div class="govuk-summary-list__row{% if addWorkshop.isVirtual != 'Remote' and addWorkshop.isVirtual != 'Virtual' and addWorkshop.isVirtual != 'Hybrid' %} govuk-!-display-none{% endif %}">
-        <dt class="govuk-summary-list__key">Do you have a remote meeting link?</dt>
+      <div class="govuk-summary-list__row{% if addWorkshop.isVirtual != 'Virtual' and addWorkshop.isVirtual != 'Hybrid' %} govuk-!-display-none{% endif %}">
+        <dt class="govuk-summary-list__key">Do you have a virtual meeting link?</dt>
         <dd class="govuk-summary-list__value">
           {{ addWorkshop.hasVirtualMeetingLink or 'Not answered' }}
         </dd>
@@ -105,10 +118,40 @@ Check workshop details – {{ serviceName }}
         </dd>
       </div>
     </dl>
+    <details class="govuk-details" data-cy="preview-email-to-lpa">
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">
+      Preview notification to LPA
+    </span>
+  </summary>
+  <div class="govuk-details__text">
+    <div class="pins-notify-preview-border"> 
+      <h3>Notification details</h3>
+
+      <div class="govuk-inset-text">
+      Plan reference PLAN0000036 <br>
+      </div>
+      <h3> Workshop details</h3>
+
+      <p>Enclosed are the details of the upcoming Gateway 2 workshop.</p>
+
+      <p><a href="#" class="govuk-link">Sign in to our service</a> to view the details.</p>
+
+      <h3> Feedback</h3>
+
+      <p>We welcome your feedback on our Plans Examination service. Tell us on this short <a href="#" class="govuk-link">feedback form</a>.</p>
+
+      <p>The Planning Inspectorate</p>
+      <p>enquiries@planninginspectorate.gov.uk</p> 
+    </div>
+  </div>
+</details>
+
+    <p class="govuk-body">We’ll send a notification to the LPA to tell them that the workshop details are available.</p>
 
     <form method="post" action="{{ basePath }}/add-workshop/check">
       <div class="govuk-button-group">
-        <button type="submit" class="govuk-button">Confirm and save</button>
+        <button type="submit" class="govuk-button">Set up workshop</button>
         <a href="{{ basePath }}/gateway-2" class="govuk-link">Cancel</a>
       </div>
     </form>

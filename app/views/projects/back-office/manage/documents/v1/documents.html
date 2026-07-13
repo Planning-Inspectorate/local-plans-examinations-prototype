@@ -51,10 +51,6 @@ Documents – {{ serviceName }}
       
     </div>
 
-    <p class="govuk-body govuk-!-margin-top-3">
-      <a href="/projects/back-office/manage/documents/v1/documents-empty.html" class="govuk-link">View empty version</a>
-    </p>
-
  
   </div>
 </div>
@@ -217,5 +213,8 @@ Documents – {{ serviceName }}
 
 {% endblock %}
 {% block footer %}
+  {% set footerLinks = [
+    { href: '/projects/back-office/manage/documents/v1/documents-empty.html', text: 'View empty version' }
+  ] %}
   {% include "includes/footer.njk" %}
 {% endblock %}

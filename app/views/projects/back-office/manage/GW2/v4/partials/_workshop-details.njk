@@ -1,0 +1,93 @@
+<h2 class="govuk-heading-l">Workshop</h2>
+{% if hearings and hearings.length %}
+  {% for hearing in hearings %}
+    <h3 class="govuk-heading-m">Workshop {{ loop.index }} details</h3>
+    <p class="govuk-body">
+      <a href="cancel-workshop?index={{ loop.index0 }}" class="govuk-link">Cancel workshop {{ loop.index }}</a>
+    </p>
+
+    <dl class="govuk-summary-list govuk-summary-list-timetable app-summary-list--workshop-details">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Workshop start date</dt>
+        <dd class="govuk-summary-list__value">{{ hearing.startDate or '-' }}</dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="add-workshop?edit={{ loop.index0 }}">Change<span class="govuk-visually-hidden"> workshop {{ loop.index }} details</span></a>
+        </dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Workshop time</dt>
+        <dd class="govuk-summary-list__value">{{ hearing.time or '-' }}</dd>
+        <dd class="govuk-summary-list__actions"></dd>
+      </div>
+      {% if hearing.endTime %}
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Workshop end time</dt>
+          <dd class="govuk-summary-list__value">{{ hearing.endTime }}</dd>
+          <dd class="govuk-summary-list__actions"></dd>
+        </div>
+      {% endif %}
+     <!-- <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Workshop end date</dt>
+        <dd class="govuk-summary-list__value">{{ hearing.endDate or '-' }}</dd>
+        <dd class="govuk-summary-list__actions"></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Actual duration</dt>
+        <dd class="govuk-summary-list__value">{{ hearing.actualDuration or '-' }}</dd>
+        <dd class="govuk-summary-list__actions"></dd>
+      </div>-->
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Estimated number of days</dt>
+        <dd class="govuk-summary-list__value">{{ hearing.estimatedDays or '-' }}</dd>
+        <dd class="govuk-summary-list__actions"></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Is the workshop hybrid, virtual or in-person?</dt>
+        <dd class="govuk-summary-list__value">{{ hearing.isVirtual or '-' }}</dd>
+        <dd class="govuk-summary-list__actions"></dd>
+      </div>
+
+      {% if hearing.isVirtual == 'Remote' or hearing.isVirtual == 'Virtual' or hearing.isVirtual == 'Hybrid' %}
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Do you have a virtual meeting link?</dt>
+          <dd class="govuk-summary-list__value">{{ hearing.hasVirtualMeetingLink or '-' }}</dd>
+          <dd class="govuk-summary-list__actions"></dd>
+        </div>
+        {% if hearing.hasVirtualMeetingLink == 'Yes' %}
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Virtual meeting link</dt>
+            <dd class="govuk-summary-list__value">{{ hearing.virtualMeetingLink or '-' }}</dd>
+            <dd class="govuk-summary-list__actions"></dd>
+          </div>
+        {% endif %}
+      {% endif %}
+
+      {% if hearing.isVirtual == 'In-person' or hearing.isVirtual == 'Hybrid' %}
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Venue address</dt>
+          <dd class="govuk-summary-list__value">
+            {% if hearing.hasAddress == 'Yes' and hearing.address %}
+              {{ hearing.venue or '-' }}<br>
+              {{ hearing.address.line1 }}<br>
+              {% if hearing.address.line2 %}{{ hearing.address.line2 }}<br>{% endif %}
+              {{ hearing.address.town }}<br>
+              {{ hearing.address.postcode }}
+            {% else %}
+              -
+            {% endif %}
+          </dd>
+          <dd class="govuk-summary-list__actions"></dd>
+        </div>
+      {% endif %}
+    </dl>
+  {% endfor %}
+
+  <p class="govuk-body">
+    <a href="add-workshop">Set up workshop</a>
+  </p>
+{% else %}
+  <p class="govuk-body">
+    <a href="add-workshop">Set up workshop</a>
+  </p>
+{% endif %}
+<br>
