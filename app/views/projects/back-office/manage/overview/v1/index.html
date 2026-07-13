@@ -45,9 +45,9 @@ Plan overview – {{ serviceName }}
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Plan band</dt>
-          <dd class="govuk-summary-list__value">{{ planBand or '-' }}</dd>
+          <dd class="govuk-summary-list__value">{{ planBand if planBand and planBand != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/overview/v1/plan-band">Change<span class="govuk-visually-hidden"> Change the plan band</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/overview/v1/plan-band">{{ 'Change' if planBand and planBand != '-' else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if planBand and planBand != '-' else 'Add' }} the plan band</span></a>
           </dd>
         </div>
         {% if lpas and lpas.length > 0 %}
@@ -102,13 +102,13 @@ Plan overview – {{ serviceName }}
               {% if mainContactPhone %}{{ mainContactPhone }}<br>{% endif %}
               {{ mainContactOrg }}
             {% else %}
-              -
+              Not provided
             {% endif %}
           </dd>
           <dd class="govuk-summary-list__actions">
             <ul class="govuk-summary-list__actions-list">
               <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="/projects/back-office/manage/overview/v1/main-contact">Change<span class="govuk-visually-hidden"> main contact</span></a>
+                <a class="govuk-link" href="/projects/back-office/manage/overview/v1/main-contact">{{ 'Change' if mainContactName else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if mainContactName else 'Add' }} main contact</span></a>
               </li>
             </ul>
           </dd>
@@ -122,13 +122,13 @@ Plan overview – {{ serviceName }}
               {% if contacts[0].phone %}{{ contacts[0].phone }}<br>{% endif %}
               {{ contacts[0].organisation or '' }}
             {% else %}
-              -
+              Not provided
             {% endif %}
           </dd>
           <dd class="govuk-summary-list__actions">
             <ul class="govuk-summary-list__actions-list">
               <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="/projects/back-office/manage/overview/v1/additional-contact?index=0">Change<span class="govuk-visually-hidden"> Additional contact 1</span></a>
+                <a class="govuk-link" href="/projects/back-office/manage/overview/v1/additional-contact?index=0">{{ 'Change' if contacts[0] and contacts[0].name else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if contacts[0] and contacts[0].name else 'Add' }} additional contact 1</span></a>
               </li>
             </ul>
           </dd>
@@ -142,13 +142,13 @@ Plan overview – {{ serviceName }}
               {% if contacts[1].phone %}{{ contacts[1].phone }}<br>{% endif %}
               {{ contacts[1].organisation or '' }}
             {% else %}
-              -
+              Not provided
             {% endif %}
           </dd>
           <dd class="govuk-summary-list__actions">
             <ul class="govuk-summary-list__actions-list">
               <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="/projects/back-office/manage/overview/v1/additional-contact?index=1">Change<span class="govuk-visually-hidden"> Additional contact 2</span></a>
+                <a class="govuk-link" href="/projects/back-office/manage/overview/v1/additional-contact?index=1">{{ 'Change' if contacts[1] and contacts[1].name else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if contacts[1] and contacts[1].name else 'Add' }} additional contact 2</span></a>
               </li>
             </ul>
           </dd>
@@ -162,13 +162,13 @@ Plan overview – {{ serviceName }}
               {% if contacts[2].phone %}{{ contacts[2].phone }}<br>{% endif %}
               {{ contacts[2].organisation or '' }}
             {% else %}
-              -
+              Not provided
             {% endif %}
           </dd>
           <dd class="govuk-summary-list__actions">
             <ul class="govuk-summary-list__actions-list">
               <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="/projects/back-office/manage/overview/v1/additional-contact?index=2">Change<span class="govuk-visually-hidden"> Additional contact 3</span></a>
+                <a class="govuk-link" href="/projects/back-office/manage/overview/v1/additional-contact?index=2">{{ 'Change' if contacts[2] and contacts[2].name else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if contacts[2] and contacts[2].name else 'Add' }} additional contact 3</span></a>
               </li>
             </ul>
           </dd>
@@ -182,13 +182,13 @@ Plan overview – {{ serviceName }}
               {% if contacts[3].phone %}{{ contacts[3].phone }}<br>{% endif %}
               {{ contacts[3].organisation or '' }}
             {% else %}
-              -
+              Not provided
             {% endif %}
           </dd>
           <dd class="govuk-summary-list__actions">
             <ul class="govuk-summary-list__actions-list">
               <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="/projects/back-office/manage/overview/v1/additional-contact?index=3">Change<span class="govuk-visually-hidden"> Additional contact 4</span></a>
+                <a class="govuk-link" href="/projects/back-office/manage/overview/v1/additional-contact?index=3">{{ 'Change' if contacts[3] and contacts[3].name else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if contacts[3] and contacts[3].name else 'Add' }} additional contact 4</span></a>
               </li>
             </ul>
           </dd>
@@ -202,13 +202,13 @@ Plan overview – {{ serviceName }}
               {% if contacts[4].phone %}{{ contacts[4].phone }}<br>{% endif %}
               {{ contacts[4].organisation or '' }}
             {% else %}
-              -
+              Not provided
             {% endif %}
           </dd>
           <dd class="govuk-summary-list__actions">
             <ul class="govuk-summary-list__actions-list">
               <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="/projects/back-office/manage/overview/v1/additional-contact?index=4">Change<span class="govuk-visually-hidden"> Additional contact 5</span></a>
+                <a class="govuk-link" href="/projects/back-office/manage/overview/v1/additional-contact?index=4">{{ 'Change' if contacts[4] and contacts[4].name else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if contacts[4] and contacts[4].name else 'Add' }} additional contact 5</span></a>
               </li>
             </ul>
           </dd>
@@ -223,13 +223,13 @@ Plan overview – {{ serviceName }}
               {% if gateway3PoContact.email %}{{ gateway3PoContact.email }}<br>{% endif %}
               {% if gateway3PoContact.phone %}{{ gateway3PoContact.phone }}{% endif %}
             {% else %}
-              -
+              Not provided
             {% endif %}
           </dd>
           <dd class="govuk-summary-list__actions">
             <ul class="govuk-summary-list__actions-list">
               <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="/projects/back-office/manage/GW3/v1/gateway-3-po-details.html?returnUrl=/projects/back-office/manage/overview/v1/index.html">Change<span class="govuk-visually-hidden"> Programme Officer</span></a>
+                <a class="govuk-link" href="/projects/back-office/manage/GW3/v1/gateway-3-po-details.html?returnUrl=/projects/back-office/manage/overview/v1/index.html">{{ 'Change' if gateway3PoContact and (gateway3PoContact.firstName or gateway3PoContact.lastName) else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if gateway3PoContact and (gateway3PoContact.firstName or gateway3PoContact.lastName) else 'Add' }} programme officer</span></a>
               </li>
             </ul>
           </dd>
@@ -237,12 +237,12 @@ Plan overview – {{ serviceName }}
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Examination website</dt>
           <dd class="govuk-summary-list__value">
-            {{ examinationWebsite or '-' }}<br>
+            {{ examinationWebsite if examinationWebsite and examinationWebsite != '-' else 'Not provided' }}
           </dd>
           <dd class="govuk-summary-list__actions">
             <ul class="govuk-summary-list__actions-list">
               <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="/projects/back-office/manage/examination/v1/examination-website.html?returnUrl=/projects/back-office/manage/overview/v1/index.html">Change<span class="govuk-visually-hidden"> Examination website</span></a>
+                <a class="govuk-link" href="/projects/back-office/manage/examination/v1/examination-website.html?returnUrl=/projects/back-office/manage/overview/v1/index.html">{{ 'Change' if examinationWebsite and examinationWebsite != '-' else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if examinationWebsite and examinationWebsite != '-' else 'Add' }} examination website</span></a>
               </li>
             </ul>
           </dd>
@@ -336,11 +336,6 @@ Plan overview – {{ serviceName }}
             Delete case
           </button>
         </form>
-        <form method="get" action="/projects/back-office/manage/clear-data.html" style="display: inline-block; margin-right: 10px;">
-          <button type="submit" class="govuk-button govuk-button--secondary">
-            Clear prototype data
-          </button>
-        </form>
       </div>
     </div>
   </div>
@@ -348,5 +343,8 @@ Plan overview – {{ serviceName }}
   </div>
 {% endblock %}
 {% block footer %}
+  {% set footerLinks = [
+    { href: '/projects/back-office/manage/clear-data.html', text: 'Clear prototype data' }
+  ] %}
   {% include "includes/footer.njk" %}
 {% endblock %}

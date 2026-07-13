@@ -837,6 +837,16 @@ router.get('/projects/back-office/create-case/v2/clear-data', (req, res) => {
   req.session.secondaryLPAContacts = [];
   req.session.cases = []; // Clear all cases
   req.session.latestCaseRef = undefined;
+
+  // Also clear back-office manage journey state (including GW2 v4)
+  req.session.gw2v3WorkshopDocuments = undefined;
+  req.session.gw2v4IssueReportDocuments = undefined;
+  req.session.gw2v4ReportIssued = undefined;
+  req.session.gw2v4UploadReturnTo = undefined;
+  req.session.hearings = undefined;
+  req.session.notificationMessage = undefined;
+  req.session.workflowNavVersionOverrides = undefined;
+
   req.session.data = {}; // Also clear the default data object
   req.session.save(() => {
     res.redirect('/projects/back-office/create-case/v2/index');

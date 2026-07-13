@@ -25,7 +25,7 @@
     <table class="govuk-table" data-cy="case-notes-table">
       <thead class="govuk-table__head">
         <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Date and time</th>
+          <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Date</th>
           <th scope="col" class="govuk-table__header">Details</th>
           <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">User</th>
         </tr>
@@ -37,9 +37,7 @@
           <tr class="govuk-table__row">
             
             <td class="govuk-table__cell">
-              {# Uses the clean structured strings we made in the backend #}
-              {{ note.tableDate | default("23 March 2026") }}<br>
-              {{ note.tableTime | default("9:57am") }}
+              {{ note.tableDate | default("23 March 2026") }}
             </td>
             
             <td class="govuk-table__cell govuk-!-text-break-word">
@@ -47,7 +45,7 @@
             </td>
             
             <td class="govuk-table__cell">
-              {{ note.tableUser | default("User Account") }}
+              {{ note.tableUser | default("Alex Morgan") }}
             </td>
           </tr>
           {% endfor %}

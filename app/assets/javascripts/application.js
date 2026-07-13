@@ -274,6 +274,41 @@ window.GOVUKPrototypeKit.documentReady(() => {
   
   // Initialize multi-file upload v5
   initMultiDocumentUploadV5()
+
+  // For summary-list rows with empty-state text, use Add as the action label.
+  const summaryRows = document.querySelectorAll('.govuk-summary-list__row')
+  summaryRows.forEach((row) => {
+    const valueCell = row.querySelector('.govuk-summary-list__value')
+    const actionLink = row.querySelector('.govuk-summary-list__actions .govuk-link')
+
+    if (!valueCell || !actionLink) {
+      return
+    }
+
+    const normalizedValue = valueCell.textContent.replace(/\s+/g, ' ').trim().toLowerCase()
+    const isEmptyState = normalizedValue === 'not provided' || normalizedValue === '' || normalizedValue === '-'
+    if (!isEmptyState) {
+      return
+    }
+
+    const hiddenText = actionLink.querySelector('.govuk-visually-hidden')
+    if (!hiddenText) {
+      return
+    }
+
+    // Update visible link label while preserving hidden context text.
+    const textNode = Array.from(actionLink.childNodes).find(
+      (node) => node.nodeType === Node.TEXT_NODE && node.textContent.trim().length > 0
+    )
+
+    if (textNode) {
+      textNode.textContent = 'Add'
+    }
+
+    if (/^\s*change\b/i.test(hiddenText.textContent)) {
+      hiddenText.textContent = hiddenText.textContent.replace(/^\s*Change\b/i, 'Add')
+    }
+  })
 })
 
 window.MOJFrontend = require('@ministryofjustice/frontend');

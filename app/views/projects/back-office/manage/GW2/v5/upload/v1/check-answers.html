@@ -39,6 +39,7 @@
       <p class="govuk-body">
         <strong>Total files: {{ totalFiles }}</strong>
       </p>
+<p class="govuk-body">We’ll send a notification to the LPA to tell them that the report is available.</p>
 
       <form method="post" action="/projects/back-office/manage/GW2/v3/upload/v1/check-answers">
         <input type="hidden" name="returnTo" value="{{ returnTo or 'gateway-2' }}">

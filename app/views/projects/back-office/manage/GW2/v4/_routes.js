@@ -3,6 +3,39 @@ const router = govukPrototypeKit.requests.setupRouter();
 const { DateTime } = require('luxon');
 
 const WORKSHOP_DOCS_KEY = 'gw2v3WorkshopDocuments';
+const ISSUE_REPORT_DOCS_KEY = 'gw2v4IssueReportDocuments';
+const ISSUE_REPORT_SUCCESS_MESSAGE = 'Gateway 2 report issued';
+
+const RETURN_TO_FALLBACK = 'gateway-2';
+const RETURN_TO_MAP = {
+  'gateway-2': '/projects/back-office/manage/GW2/v4/gateway-2',
+  'gateway-2-alt': '/projects/back-office/manage/GW2/v4/gateway-2-alt',
+  'check-answers-v1': '/projects/back-office/manage/GW2/v4/upload/v1/check-answers',
+  'upload-bo-v1': '/projects/back-office/manage/GW2/v4/upload/v1/upload-bo',
+  'check-answers-v2': '/projects/back-office/manage/GW2/v4/upload/v2/check-answers',
+  'upload-bo-v2': '/projects/back-office/manage/GW2/v4/upload/v2/upload-bo'
+};
+
+function getReturnPath(returnTo) {
+  return RETURN_TO_MAP[returnTo] || RETURN_TO_MAP[RETURN_TO_FALLBACK];
+}
+
+function getReturnTo(req, fallback = RETURN_TO_FALLBACK) {
+  const requestedReturnTo =
+    (req.query && req.query.returnTo) ||
+    (req.body && req.body.returnTo) ||
+    req.session.gw2v4UploadReturnTo ||
+    fallback;
+
+  return Object.prototype.hasOwnProperty.call(RETURN_TO_MAP, requestedReturnTo)
+    ? requestedReturnTo
+    : RETURN_TO_FALLBACK;
+}
+
+function withReturnTo(path, returnTo) {
+  const separator = path.includes('?') ? '&' : '?';
+  return `${path}${separator}returnTo=${encodeURIComponent(returnTo)}`;
+}
 
 function formatDateForDisplay(dateString) {
   if (!dateString || dateString === '-') return '-';
@@ -13,6 +46,15 @@ function formatDateForDisplay(dateString) {
   }
 
   return dateString;
+}
+
+function formatTimestampForDisplay(timestamp) {
+  if (!timestamp || timestamp === '-') return '-';
+
+  const parsed = DateTime.fromISO(timestamp);
+  if (!parsed.isValid) return '-';
+
+  return parsed.toFormat('d MMMM yyyy');
 }
 
 function getUploadedDocuments(req) {
@@ -28,7 +70,252 @@ function getUploadedDocuments(req) {
   return [];
 }
 
+function getIssueReportDocuments(req) {
+  if (Array.isArray(req.session[ISSUE_REPORT_DOCS_KEY])) {
+    return req.session[ISSUE_REPORT_DOCS_KEY];
+  }
+
+  if (req.session.data && Array.isArray(req.session.data[ISSUE_REPORT_DOCS_KEY])) {
+    req.session[ISSUE_REPORT_DOCS_KEY] = req.session.data[ISSUE_REPORT_DOCS_KEY];
+    return req.session[ISSUE_REPORT_DOCS_KEY];
+  }
+
+  return [];
+}
+
+function getUploadedDocumentsFromFileData(req) {
+  let uploadedDocuments = [];
+
+  if (req.session.data && req.session.data.fileData) {
+    try {
+      const fileData = typeof req.session.data.fileData === 'string'
+        ? JSON.parse(req.session.data.fileData)
+        : req.session.data.fileData;
+
+      if (Array.isArray(fileData)) {
+        uploadedDocuments = fileData.map((file) => {
+          let size = 0;
+          if (req.session.data.fileSizeMap && req.session.data.fileSizeMap[file.name]) {
+            size = req.session.data.fileSizeMap[file.name];
+          }
+
+          return {
+            originalname: file.name,
+            filename: file.id,
+            size
+          };
+        });
+      }
+    } catch (e) {
+      uploadedDocuments = [];
+    }
+  }
+
+  return uploadedDocuments;
+}
+
+function mergeWorkshopDocuments(req) {
+  const existingDocuments = Array.isArray(req.session[WORKSHOP_DOCS_KEY])
+    ? req.session[WORKSHOP_DOCS_KEY]
+    : [];
+  const currentBatch = getUploadedDocumentsFromFileData(req);
+  const nowIso = new Date().toISOString();
+
+  const merged = [...existingDocuments];
+  currentBatch.forEach((doc) => {
+    const existingIndex = merged.findIndex(
+      (item) => item.filename === doc.filename || (item.originalname === doc.originalname && item.size === doc.size)
+    );
+
+    if (existingIndex === -1) {
+      merged.push({
+        ...doc,
+        uploadedAt: nowIso
+      });
+    } else if (!merged[existingIndex].uploadedAt) {
+      merged[existingIndex].uploadedAt = nowIso;
+    }
+  });
+
+  req.session[WORKSHOP_DOCS_KEY] = merged;
+  if (req.session.data) {
+    req.session.data[WORKSHOP_DOCS_KEY] = merged;
+  }
+
+  return merged;
+}
+
+function mergeIssueReportDocuments(req) {
+  const existingDocuments = Array.isArray(req.session[ISSUE_REPORT_DOCS_KEY])
+    ? req.session[ISSUE_REPORT_DOCS_KEY]
+    : [];
+  const currentBatch = getUploadedDocumentsFromFileData(req);
+  const nowIso = new Date().toISOString();
+
+  const merged = [...existingDocuments];
+  currentBatch.forEach((doc) => {
+    const existingIndex = merged.findIndex(
+      (item) => item.filename === doc.filename || (item.originalname === doc.originalname && item.size === doc.size)
+    );
+
+    if (existingIndex === -1) {
+      merged.push({
+        ...doc,
+        uploadedAt: nowIso
+      });
+    } else if (!merged[existingIndex].uploadedAt) {
+      merged[existingIndex].uploadedAt = nowIso;
+    }
+  });
+
+  req.session[ISSUE_REPORT_DOCS_KEY] = merged;
+  if (req.session.data) {
+    req.session.data[ISSUE_REPORT_DOCS_KEY] = merged;
+  }
+
+  return merged;
+}
+
+function parseFileData(req) {
+  if (!(req.session.data && req.session.data.fileData)) return [];
+  try {
+    const fileData = typeof req.session.data.fileData === 'string'
+      ? JSON.parse(req.session.data.fileData)
+      : req.session.data.fileData;
+    return Array.isArray(fileData) ? fileData : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function removeIssueReportDocumentByFilename(req, filename) {
+  if (!filename) return;
+
+  const existingDocuments = Array.isArray(req.session[ISSUE_REPORT_DOCS_KEY])
+    ? req.session[ISSUE_REPORT_DOCS_KEY]
+    : [];
+  const updatedDocuments = existingDocuments.filter((doc) => doc.filename !== filename);
+  req.session[ISSUE_REPORT_DOCS_KEY] = updatedDocuments;
+  if (updatedDocuments.length === 0) {
+    req.session.gw2v4ReportIssued = false;
+  }
+
+  if (req.session.data) {
+    req.session.data[ISSUE_REPORT_DOCS_KEY] = updatedDocuments;
+
+    const fileData = parseFileData(req);
+    const updatedFileData = fileData.filter((file) => file.id !== filename);
+    req.session.data.fileData = updatedFileData;
+  }
+}
+
+function removeWorkshopDocumentByFilename(req, filename) {
+  if (!filename) return;
+
+  const existingDocuments = Array.isArray(req.session[WORKSHOP_DOCS_KEY])
+    ? req.session[WORKSHOP_DOCS_KEY]
+    : [];
+  const updatedDocuments = existingDocuments.filter((doc) => doc.filename !== filename);
+  req.session[WORKSHOP_DOCS_KEY] = updatedDocuments;
+
+  if (req.session.data) {
+    req.session.data[WORKSHOP_DOCS_KEY] = updatedDocuments;
+
+    const fileData = parseFileData(req);
+    const updatedFileData = fileData.filter((file) => file.id !== filename);
+    req.session.data.fileData = updatedFileData;
+  }
+}
+
+function findIssueReportDocumentByFilename(req, filename) {
+  if (!filename) return null;
+
+  const storedDocuments = Array.isArray(req.session[ISSUE_REPORT_DOCS_KEY])
+    ? req.session[ISSUE_REPORT_DOCS_KEY]
+    : [];
+  const storedMatch = storedDocuments.find((doc) => doc.filename === filename);
+  if (storedMatch) return storedMatch;
+
+  const currentBatch = getUploadedDocumentsFromFileData(req);
+  return currentBatch.find((doc) => doc.filename === filename) || null;
+}
+
+function findWorkshopDocumentByFilename(req, filename) {
+  if (!filename) return null;
+
+  const storedDocuments = Array.isArray(req.session[WORKSHOP_DOCS_KEY])
+    ? req.session[WORKSHOP_DOCS_KEY]
+    : [];
+  const storedMatch = storedDocuments.find((doc) => doc.filename === filename);
+  if (storedMatch) return storedMatch;
+
+  const currentBatch = getUploadedDocumentsFromFileData(req);
+  return currentBatch.find((doc) => doc.filename === filename) || null;
+}
+
+function hasProceduralAndConsultationDocuments(req) {
+  const proceduralDocs = Array.isArray(req.session.gw2v4ProceduralDocuments)
+    ? req.session.gw2v4ProceduralDocuments
+    : null;
+  const consultationDocs = Array.isArray(req.session.gw2v4ConsultationDocuments)
+    ? req.session.gw2v4ConsultationDocuments
+    : null;
+
+  if (proceduralDocs && consultationDocs) {
+    return proceduralDocs.length > 0 && consultationDocs.length > 0;
+  }
+
+  // v4 template currently includes both sections with seeded document rows.
+  return true;
+}
+
+function getGateway2Status(req, workshopDocuments) {
+  if (req.session.gw2v4ReportIssued) {
+    return {
+      text: 'Ready for Gateway 3',
+      classes: 'govuk-tag--blue'
+    };
+  }
+
+  if (workshopDocuments.length > 0) {
+    return {
+      text: 'Gateway 2 awaiting workshop',
+      classes: 'govuk-tag--yellow'
+    };
+  }
+
+  if (hasProceduralAndConsultationDocuments(req)) {
+    return {
+      text: 'Gateway 2 validation',
+      classes: 'govuk-tag--turquoise'
+    };
+  }
+
+  return {
+    text: null,
+    classes: null
+  };
+}
+
 function buildGateway2ViewModel(req, notificationMessage = '') {
+  const workshopDocuments = getUploadedDocuments(req);
+  const workshopDocumentsForDisplay = workshopDocuments.map((doc) => ({
+    ...doc,
+    uploadedAtDisplay: formatTimestampForDisplay(doc.uploadedAt)
+  }));
+  const issueReportDocuments = getIssueReportDocuments(req);
+  const gateway2Status = getGateway2Status(req, workshopDocuments);
+  const hearings = Array.isArray(req.session.hearings) ? req.session.hearings : [];
+
+  const pageState = {
+    hasWorkshopDocuments: workshopDocuments.length > 0,
+    hasIssueReportDocuments: issueReportDocuments.length > 0,
+    hasHearings: hearings.length > 0,
+    reportIssued: !!req.session.gw2v4ReportIssued,
+    statusText: gateway2Status.text,
+    statusClasses: gateway2Status.classes
+  };
+
   return {
     caseRef: req.session.data?.currentCaseRef || req.session.currentCaseRef || '',
     planTitle: req.session.data?.planTitle || req.session.planTitle || '',
@@ -40,8 +327,12 @@ function buildGateway2ViewModel(req, notificationMessage = '') {
     gateway2AssessorAppointmentDate: formatDateForDisplay(req.session.gateway2AssessorAppointmentDate),
     gateway2ReportIssuedDate: formatDateForDisplay(req.session.gateway2ReportIssuedDate),
     gateway2ReportPublishedDate: formatDateForDisplay(req.session.gateway2ReportPublishedDate),
-    hearings: Array.isArray(req.session.hearings) ? req.session.hearings : [],
-    uploadedDocuments: getUploadedDocuments(req)
+    hearings,
+    uploadedDocuments: workshopDocumentsForDisplay,
+    issueReportDocuments,
+    pageState,
+    headerStatusText: gateway2Status.text,
+    headerStatusClasses: gateway2Status.classes
   };
 }
 
@@ -51,7 +342,10 @@ router.use((req, res, next) => {
 });
 
 router.get('/gateway-2', (req, res) => {
-  const notificationMessage = req.session.notificationMessage || '';
+  let notificationMessage = req.session.notificationMessage || '';
+  if (req.query.issueReportSubmitted === '1') {
+    notificationMessage = ISSUE_REPORT_SUCCESS_MESSAGE;
+  }
   delete req.session.notificationMessage;
 
   res.render('projects/back-office/manage/GW2/v4/gateway-2', buildGateway2ViewModel(req, notificationMessage));
@@ -60,6 +354,246 @@ router.get('/gateway-2', (req, res) => {
 
 router.get('/gateway-2.html', (req, res) => {
   res.redirect('/projects/back-office/manage/GW2/v4/gateway-2');
+});
+
+router.get('/upload/v1/upload-bo', (req, res) => {
+  const returnTo = getReturnTo(req);
+  req.session.gw2v4UploadReturnTo = returnTo;
+
+  res.render('projects/back-office/manage/GW2/v4/upload/v1/upload-bo', {
+    caseRef: req.session.currentCaseRef || '',
+    serviceName: 'Local Plans Examinations',
+    uploadedDocuments: getUploadedDocuments(req),
+    returnTo,
+    returnPath: getReturnPath(returnTo)
+  });
+});
+
+router.get('/upload/v1/upload-bo.html', (req, res) => {
+  res.redirect('/projects/back-office/manage/GW2/v4/upload/v1/upload-bo');
+});
+
+router.post('/upload/v1/upload-bo', (req, res) => {
+  const returnTo = getReturnTo(req);
+  req.session.gw2v4UploadReturnTo = returnTo;
+
+  req.session.save(() => {
+    res.redirect(withReturnTo('/projects/back-office/manage/GW2/v4/upload/v1/check-answers', returnTo));
+  });
+});
+
+router.get('/upload/v1/check-answers', (req, res) => {
+  const returnTo = getReturnTo(req);
+  req.session.gw2v4UploadReturnTo = returnTo;
+  const transientDocuments = getUploadedDocumentsFromFileData(req);
+  const uploadedDocuments = transientDocuments.length > 0
+    ? transientDocuments
+    : getUploadedDocuments(req);
+
+  res.render('projects/back-office/manage/GW2/v4/upload/v1/check-answers', {
+    caseRef: req.session.currentCaseRef || '',
+    serviceName: 'Local Plans Examinations',
+    uploadedDocuments,
+    totalFiles: uploadedDocuments.length,
+    returnTo
+  });
+});
+
+router.get('/upload/v1/check-answers.html', (req, res) => {
+  res.redirect('/projects/back-office/manage/GW2/v4/upload/v1/check-answers');
+});
+
+router.get('/upload/v1/remove-confirm', (req, res) => {
+  const filename = req.query.filename || '';
+  const returnTo = getReturnTo(req);
+  req.session.gw2v4UploadReturnTo = returnTo;
+  const document = findWorkshopDocumentByFilename(req, filename);
+
+  if (!filename || !document) {
+    return res.redirect(getReturnPath(returnTo));
+  }
+
+  res.render('projects/back-office/manage/GW2/v4/upload/v1/remove-confirm', {
+    caseRef: req.session.currentCaseRef || '',
+    serviceName: 'Local Plans Examinations',
+    filename,
+    returnTo,
+    documentName: document.originalname
+  });
+});
+
+router.post('/upload/v1/remove-confirm', (req, res) => {
+  const filename = req.body.filename || '';
+  const returnTo = getReturnTo(req);
+  req.session.gw2v4UploadReturnTo = returnTo;
+  const action = req.body.action || 'cancel';
+
+  if (action === 'remove') {
+    removeWorkshopDocumentByFilename(req, filename);
+  }
+
+  req.session.save(() => {
+    res.redirect(getReturnPath(returnTo));
+  });
+});
+
+router.get('/upload/v1/clear-uploads', (req, res) => {
+  const returnTo = getReturnTo(req);
+  req.session.gw2v4UploadReturnTo = returnTo;
+  if (req.session && req.session.data) {
+    delete req.session.data.fileData;
+    delete req.session.data.fileSizeMap;
+    delete req.session.data[WORKSHOP_DOCS_KEY];
+  }
+  if (req.session) {
+    delete req.session[WORKSHOP_DOCS_KEY];
+  }
+
+  req.session.save(() => {
+    res.redirect(withReturnTo('/projects/back-office/manage/GW2/v4/upload/v1/upload-bo', returnTo));
+  });
+});
+
+router.post('/upload/v1/check-answers', (req, res) => {
+  const returnTo = getReturnTo(req);
+  req.session.gw2v4UploadReturnTo = returnTo;
+  if (!req.session.data) req.session.data = {};
+  const currentBatch = getUploadedDocumentsFromFileData(req);
+  const uploadedCount = currentBatch.length;
+  mergeWorkshopDocuments(req);
+
+  const safeCount = uploadedCount > 0 ? uploadedCount : 0;
+  req.session.notificationMessage = `${safeCount} workshop document${safeCount === 1 ? '' : 's'} uploaded`;
+
+  delete req.session.data.fileData;
+  delete req.session.data.fileSizeMap;
+
+  req.session.save(() => {
+    res.redirect(getReturnPath(returnTo));
+  });
+});
+
+router.get('/upload/v2/upload-bo', (req, res) => {
+  const returnTo = getReturnTo(req);
+  req.session.gw2v4UploadReturnTo = returnTo;
+
+  res.render('projects/back-office/manage/GW2/v4/upload/v2/upload-bo', {
+    caseRef: req.session.currentCaseRef || '',
+    serviceName: 'Local Plans Examinations',
+    uploadedDocuments: getIssueReportDocuments(req),
+    returnTo,
+    returnPath: getReturnPath(returnTo)
+  });
+});
+
+router.get('/upload/v2/upload-bo.html', (req, res) => {
+  res.redirect('/projects/back-office/manage/GW2/v4/upload/v2/upload-bo');
+});
+
+router.post('/upload/v2/upload-bo', (req, res) => {
+  const returnTo = getReturnTo(req);
+  req.session.gw2v4UploadReturnTo = returnTo;
+
+  req.session.save(() => {
+    res.redirect(withReturnTo('/projects/back-office/manage/GW2/v4/upload/v2/check-answers', returnTo));
+  });
+});
+
+router.get('/upload/v2/check-answers', (req, res) => {
+  const returnTo = getReturnTo(req);
+  req.session.gw2v4UploadReturnTo = returnTo;
+  const transientDocuments = getUploadedDocumentsFromFileData(req);
+  const storedDocuments = getIssueReportDocuments(req);
+  const uploadedDocumentsRaw = transientDocuments.length > 0
+    ? transientDocuments.map((doc) => ({
+      ...doc,
+      uploadedAt: doc.uploadedAt || new Date().toISOString()
+    }))
+    : storedDocuments;
+
+  const uploadedDocuments = uploadedDocumentsRaw.map((doc) => ({
+    ...doc,
+    uploadedAtDisplay: formatTimestampForDisplay(doc.uploadedAt)
+  }));
+
+  res.render('projects/back-office/manage/GW2/v4/upload/v2/check-answers', {
+    caseRef: req.session.currentCaseRef || '',
+    serviceName: 'Local Plans Examinations',
+    uploadedDocuments,
+    totalFiles: uploadedDocuments.length,
+    returnTo
+  });
+});
+
+router.get('/upload/v2/check-answers.html', (req, res) => {
+  res.redirect('/projects/back-office/manage/GW2/v4/upload/v2/check-answers');
+});
+
+router.get('/upload/v2/remove-confirm', (req, res) => {
+  const filename = req.query.filename || '';
+  const returnTo = getReturnTo(req);
+  req.session.gw2v4UploadReturnTo = returnTo;
+  const document = findIssueReportDocumentByFilename(req, filename);
+
+  if (!filename || !document) {
+    return res.redirect(getReturnPath(returnTo));
+  }
+
+  res.render('projects/back-office/manage/GW2/v4/upload/v2/remove-confirm', {
+    caseRef: req.session.currentCaseRef || '',
+    serviceName: 'Local Plans Examinations',
+    filename,
+    returnTo,
+    documentName: document.originalname
+  });
+});
+
+router.post('/upload/v2/remove-confirm', (req, res) => {
+  const filename = req.body.filename || '';
+  const returnTo = getReturnTo(req);
+  req.session.gw2v4UploadReturnTo = returnTo;
+  const action = req.body.action || 'cancel';
+
+  if (action === 'remove') {
+    removeIssueReportDocumentByFilename(req, filename);
+  }
+
+  req.session.save(() => {
+    res.redirect(getReturnPath(returnTo));
+  });
+});
+
+router.get('/upload/v2/clear-uploads', (req, res) => {
+  const returnTo = getReturnTo(req);
+  req.session.gw2v4UploadReturnTo = returnTo;
+
+  if (req.session && req.session.data) {
+    delete req.session.data.fileData;
+    delete req.session.data.fileSizeMap;
+    delete req.session.data[ISSUE_REPORT_DOCS_KEY];
+  }
+  if (req.session) {
+    delete req.session[ISSUE_REPORT_DOCS_KEY];
+    req.session.gw2v4ReportIssued = false;
+  }
+
+  req.session.save(() => {
+    res.redirect(withReturnTo('/projects/back-office/manage/GW2/v4/upload/v2/upload-bo', returnTo));
+  });
+});
+
+router.post('/upload/v2/check-answers', (req, res) => {
+  const returnTo = getReturnTo(req);
+  req.session.gw2v4UploadReturnTo = returnTo;
+  if (!req.session.data) req.session.data = {};
+  mergeIssueReportDocuments(req);
+  req.session.gw2v4ReportIssued = true;
+  delete req.session.data.fileData;
+  delete req.session.data.fileSizeMap;
+
+  req.session.save(() => {
+    res.redirect(`${getReturnPath(returnTo)}?issueReportSubmitted=1`);
+  });
 });
 
 router.use('/', require('./_add-workshop'));

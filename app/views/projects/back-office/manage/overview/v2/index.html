@@ -132,23 +132,23 @@ Plan overview – {{ serviceName }}
       <dl class="govuk-summary-list govuk-summary-list-timetable">
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Plan title</dt>
-          <dd class="govuk-summary-list__value">{{ planTitle or '-' }}</dd>
+          <dd class="govuk-summary-list__value">{{ planTitle if planTitle and planTitle != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/overview/v1/plan-title?returnUrl=/projects/back-office/manage/overview/v1/index.html">Change<span class="govuk-visually-hidden"> Change the plan title</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/overview/v1/plan-title?returnUrl=/projects/back-office/manage/overview/v1/index.html">{{ 'Change' if planTitle and planTitle != '-' else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if planTitle and planTitle != '-' else 'Add' }} the plan title</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Plan type</dt>
-          <dd class="govuk-summary-list__value">{% if planType == 'local-plan' %}Local Plan{% else %}{{ planType or '-' }}{% endif %}</dd>
+          <dd class="govuk-summary-list__value">{% if planType and planType != '-' %}{% if planType == 'local-plan' %}Local Plan{% else %}{{ planType }}{% endif %}{% else %}Not provided{% endif %}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/overview/v1/plan-type">Change<span class="govuk-visually-hidden"> Change the plan type</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/overview/v1/plan-type">{{ 'Change' if planType and planType != '-' else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if planType and planType != '-' else 'Add' }} the plan type</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Plan band</dt>
-          <dd class="govuk-summary-list__value">{{ planBand or '-' }}</dd>
+          <dd class="govuk-summary-list__value">{{ planBand if planBand and planBand != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/overview/v1/plan-band">Change<span class="govuk-visually-hidden"> Change the plan band</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/overview/v1/plan-band">{{ 'Change' if planBand and planBand != '-' else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if planBand and planBand != '-' else 'Add' }} the plan band</span></a>
           </dd>
         </div>
         {% if lpas and lpas.length > 0 %}
@@ -165,27 +165,27 @@ Plan overview – {{ serviceName }}
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Region{% if lpas.length > 1 %} for LPA {{ loop.index }}{% endif %}</dt>
           <dd class="govuk-summary-list__value">
-            {{ lpaRegions[lpa] or '-' }}
+            {{ lpaRegions[lpa] if lpaRegions[lpa] and lpaRegions[lpa] != '-' else 'Not provided' }}
           </dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/overview/v1/LPA-region?index={{ loop.index0 }}">Change<span class="govuk-visually-hidden"> Change region for LPA {{ loop.index }}</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/overview/v1/LPA-region?index={{ loop.index0 }}">{{ 'Change' if lpaRegions[lpa] and lpaRegions[lpa] != '-' else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if lpaRegions[lpa] and lpaRegions[lpa] != '-' else 'Add' }} region for LPA {{ loop.index }}</span></a>
           </dd>
         </div>
           {% endfor %}
         {% else %}
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Local Planning Authority</dt>
-          <dd class="govuk-summary-list__value">-</dd>
+          <dd class="govuk-summary-list__value">Not provided</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/overview/v1/select-LPA">Change<span class="govuk-visually-hidden"> Change LPA</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/overview/v1/select-LPA">Add<span class="govuk-visually-hidden"> Add local planning authority</span></a>
           </dd>
         </div>
         {% endif %}
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Case officer</dt>
-          <dd class="govuk-summary-list__value">{{ caseOfficer or '-' }}</dd>
+          <dd class="govuk-summary-list__value">{{ caseOfficer if caseOfficer and caseOfficer != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/overview/v1/case-officer-name">Change<span class="govuk-visually-hidden"> Change the case officer</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/overview/v1/case-officer-name">{{ 'Change' if caseOfficer and caseOfficer != '-' else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if caseOfficer and caseOfficer != '-' else 'Add' }} the case officer</span></a>
           </dd>
         </div>
           </dl>
@@ -203,13 +203,13 @@ Plan overview – {{ serviceName }}
               {% if mainContactPhone %}{{ mainContactPhone }}<br>{% endif %}
               {{ mainContactOrg }}
             {% else %}
-              -
+              Not provided
             {% endif %}
           </dd>
           <dd class="govuk-summary-list__actions">
             <ul class="govuk-summary-list__actions-list">
               <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="/projects/back-office/manage/overview/v1/main-contact">Change<span class="govuk-visually-hidden"> main contact</span></a>
+                <a class="govuk-link" href="/projects/back-office/manage/overview/v1/main-contact">{{ 'Change' if mainContactName else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if mainContactName else 'Add' }} main contact</span></a>
               </li>
             </ul>
           </dd>
@@ -223,13 +223,13 @@ Plan overview – {{ serviceName }}
               {% if contacts[0].phone %}{{ contacts[0].phone }}<br>{% endif %}
               {{ contacts[0].organisation or '' }}
             {% else %}
-              -
+              Not provided
             {% endif %}
           </dd>
           <dd class="govuk-summary-list__actions">
             <ul class="govuk-summary-list__actions-list">
               <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="/projects/back-office/manage/overview/v1/additional-contact?index=0">Change<span class="govuk-visually-hidden"> Additional contact 1</span></a>
+                <a class="govuk-link" href="/projects/back-office/manage/overview/v1/additional-contact?index=0">{{ 'Change' if contacts[0] and contacts[0].name else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if contacts[0] and contacts[0].name else 'Add' }} additional contact 1</span></a>
               </li>
             </ul>
           </dd>
@@ -243,13 +243,13 @@ Plan overview – {{ serviceName }}
               {% if contacts[1].phone %}{{ contacts[1].phone }}<br>{% endif %}
               {{ contacts[1].organisation or '' }}
             {% else %}
-              -
+              Not provided
             {% endif %}
           </dd>
           <dd class="govuk-summary-list__actions">
             <ul class="govuk-summary-list__actions-list">
               <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="/projects/back-office/manage/overview/v1/additional-contact?index=1">Change<span class="govuk-visually-hidden"> Additional contact 2</span></a>
+                <a class="govuk-link" href="/projects/back-office/manage/overview/v1/additional-contact?index=1">{{ 'Change' if contacts[1] and contacts[1].name else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if contacts[1] and contacts[1].name else 'Add' }} additional contact 2</span></a>
               </li>
             </ul>
           </dd>
@@ -263,13 +263,13 @@ Plan overview – {{ serviceName }}
               {% if contacts[2].phone %}{{ contacts[2].phone }}<br>{% endif %}
               {{ contacts[2].organisation or '' }}
             {% else %}
-              -
+              Not provided
             {% endif %}
           </dd>
           <dd class="govuk-summary-list__actions">
             <ul class="govuk-summary-list__actions-list">
               <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="/projects/back-office/manage/overview/v1/additional-contact?index=2">Change<span class="govuk-visually-hidden"> Additional contact 3</span></a>
+                <a class="govuk-link" href="/projects/back-office/manage/overview/v1/additional-contact?index=2">{{ 'Change' if contacts[2] and contacts[2].name else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if contacts[2] and contacts[2].name else 'Add' }} additional contact 3</span></a>
               </li>
             </ul>
           </dd>
@@ -283,13 +283,13 @@ Plan overview – {{ serviceName }}
               {% if contacts[3].phone %}{{ contacts[3].phone }}<br>{% endif %}
               {{ contacts[3].organisation or '' }}
             {% else %}
-              -
+              Not provided
             {% endif %}
           </dd>
           <dd class="govuk-summary-list__actions">
             <ul class="govuk-summary-list__actions-list">
               <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="/projects/back-office/manage/overview/v1/additional-contact?index=3">Change<span class="govuk-visually-hidden"> Additional contact 4</span></a>
+                <a class="govuk-link" href="/projects/back-office/manage/overview/v1/additional-contact?index=3">{{ 'Change' if contacts[3] and contacts[3].name else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if contacts[3] and contacts[3].name else 'Add' }} additional contact 4</span></a>
               </li>
             </ul>
           </dd>
@@ -303,13 +303,13 @@ Plan overview – {{ serviceName }}
               {% if contacts[4].phone %}{{ contacts[4].phone }}<br>{% endif %}
               {{ contacts[4].organisation or '' }}
             {% else %}
-              -
+              Not provided
             {% endif %}
           </dd>
           <dd class="govuk-summary-list__actions">
             <ul class="govuk-summary-list__actions-list">
               <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="/projects/back-office/manage/overview/v1/additional-contact?index=4">Change<span class="govuk-visually-hidden"> Additional contact 5</span></a>
+                <a class="govuk-link" href="/projects/back-office/manage/overview/v1/additional-contact?index=4">{{ 'Change' if contacts[4] and contacts[4].name else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if contacts[4] and contacts[4].name else 'Add' }} additional contact 5</span></a>
               </li>
             </ul>
           </dd>
@@ -324,13 +324,13 @@ Plan overview – {{ serviceName }}
               {% if gateway3PoContact.email %}{{ gateway3PoContact.email }}<br>{% endif %}
               {% if gateway3PoContact.phone %}{{ gateway3PoContact.phone }}{% endif %}
             {% else %}
-              -
+              Not provided
             {% endif %}
           </dd>
           <dd class="govuk-summary-list__actions">
             <ul class="govuk-summary-list__actions-list">
               <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="/projects/back-office/manage/GW3/v1/gateway-3-po-details.html?returnUrl=/projects/back-office/manage/overview/v1/index.html">Change<span class="govuk-visually-hidden"> Programme Officer</span></a>
+                <a class="govuk-link" href="/projects/back-office/manage/GW3/v1/gateway-3-po-details.html?returnUrl=/projects/back-office/manage/overview/v1/index.html">{{ 'Change' if gateway3PoContact and (gateway3PoContact.firstName or gateway3PoContact.lastName) else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if gateway3PoContact and (gateway3PoContact.firstName or gateway3PoContact.lastName) else 'Add' }} programme officer</span></a>
               </li>
             </ul>
           </dd>
@@ -338,12 +338,12 @@ Plan overview – {{ serviceName }}
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Examination website</dt>
           <dd class="govuk-summary-list__value">
-            {{ examinationWebsite or '-' }}<br>
+            {{ examinationWebsite if examinationWebsite and examinationWebsite != '-' else 'Not provided' }}
           </dd>
           <dd class="govuk-summary-list__actions">
             <ul class="govuk-summary-list__actions-list">
               <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="/projects/back-office/manage/examination/v1/examination-website.html?returnUrl=/projects/back-office/manage/overview/v1/index.html">Change<span class="govuk-visually-hidden"> Examination website</span></a>
+                <a class="govuk-link" href="/projects/back-office/manage/examination/v1/examination-website.html?returnUrl=/projects/back-office/manage/overview/v1/index.html">{{ 'Change' if examinationWebsite and examinationWebsite != '-' else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if examinationWebsite and examinationWebsite != '-' else 'Add' }} examination website</span></a>
               </li>
             </ul>
           </dd>
@@ -352,21 +352,21 @@ Plan overview – {{ serviceName }}
         <dl class="govuk-summary-list govuk-summary-list-timetable">
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Assessor Gateway 2</dt>
-          <dd class="govuk-summary-list__value">{{ gateway2AssessorName }}</dd>
+          <dd class="govuk-summary-list__value">{{ gateway2AssessorName if gateway2AssessorName and gateway2AssessorName != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-assessor-name.html?returnUrl=/projects/back-office/manage/overview/v1/index.html">Change<span class="govuk-visually-hidden"> Gateway 2 Assessor Name</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-assessor-name.html?returnUrl=/projects/back-office/manage/overview/v1/index.html">{{ 'Change' if gateway2AssessorName and gateway2AssessorName != '-' else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if gateway2AssessorName and gateway2AssessorName != '-' else 'Add' }} Gateway 2 assessor name</span></a>
           </dd>
       
         </div>
        <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Assessor Gateway 3</dt>
           <dd class="govuk-summary-list__value">
-            {{ gateway3AssessorName }}<br>
+            {{ gateway3AssessorName if gateway3AssessorName and gateway3AssessorName != '-' else 'Not provided' }}
           </dd>
           <dd class="govuk-summary-list__actions">
             <ul class="govuk-summary-list__actions-list">
               <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="/projects/back-office/manage/GW3/v1/gateway-3-assessor-name.html?returnUrl=/projects/back-office/manage/overview/v1/index.html">Change<span class="govuk-visually-hidden"> Assessor Gateway 3</span></a>
+                <a class="govuk-link" href="/projects/back-office/manage/GW3/v1/gateway-3-assessor-name.html?returnUrl=/projects/back-office/manage/overview/v1/index.html">{{ 'Change' if gateway3AssessorName and gateway3AssessorName != '-' else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if gateway3AssessorName and gateway3AssessorName != '-' else 'Add' }} Gateway 3 assessor name</span></a>
               </li>
             </ul>
           </dd>
@@ -376,55 +376,55 @@ Plan overview – {{ serviceName }}
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Examining Inspector 1</dt>
           <dd class="govuk-summary-list__value">
-            {{ examiningInspector1Name or '-' }}
+            {{ examiningInspector1Name if examiningInspector1Name and examiningInspector1Name != '-' else 'Not provided' }}
           </dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/examining-inspector-1.html?returnUrl=/projects/back-office/manage/overview/v1/index.html">Change<span class="govuk-visually-hidden"> Examining Inspector 1</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/examining-inspector-1.html?returnUrl=/projects/back-office/manage/overview/v1/index.html">{{ 'Change' if examiningInspector1Name and examiningInspector1Name != '-' else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if examiningInspector1Name and examiningInspector1Name != '-' else 'Add' }} Examining Inspector 1</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Examining Inspector 2</dt>
           <dd class="govuk-summary-list__value">
-            {{ examiningInspector2Name or '-' }}
+            {{ examiningInspector2Name if examiningInspector2Name and examiningInspector2Name != '-' else 'Not provided' }}
           </dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/examining-inspector-2.html?returnUrl=/projects/back-office/manage/overview/v1/index.html">Change<span class="govuk-visually-hidden"> Examining Inspector 2</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/examining-inspector-2.html?returnUrl=/projects/back-office/manage/overview/v1/index.html">{{ 'Change' if examiningInspector2Name and examiningInspector2Name != '-' else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if examiningInspector2Name and examiningInspector2Name != '-' else 'Add' }} Examining Inspector 2</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Examining Inspector 3</dt>
           <dd class="govuk-summary-list__value">
-            {{ examiningInspector3Name or '-' }}
+            {{ examiningInspector3Name if examiningInspector3Name and examiningInspector3Name != '-' else 'Not provided' }}
           </dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/examining-inspector-3.html?returnUrl=/projects/back-office/manage/overview/v1/index.html">Change<span class="govuk-visually-hidden"> Examining Inspector 3</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/examining-inspector-3.html?returnUrl=/projects/back-office/manage/overview/v1/index.html">{{ 'Change' if examiningInspector3Name and examiningInspector3Name != '-' else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if examiningInspector3Name and examiningInspector3Name != '-' else 'Add' }} Examining Inspector 3</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">QA Inspector 1</dt>
           <dd class="govuk-summary-list__value">
-            {{ qaInspector1Name or '-' }}
+            {{ qaInspector1Name if qaInspector1Name and qaInspector1Name != '-' else 'Not provided' }}
           </dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/QA-inspector-1.html?returnUrl=/projects/back-office/manage/overview/v1/index.html">Change<span class="govuk-visually-hidden"> QA Inspector 1</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/QA-inspector-1.html?returnUrl=/projects/back-office/manage/overview/v1/index.html">{{ 'Change' if qaInspector1Name and qaInspector1Name != '-' else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if qaInspector1Name and qaInspector1Name != '-' else 'Add' }} QA Inspector 1</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">QA Inspector 2</dt>
           <dd class="govuk-summary-list__value">
-            {{ qaInspector2Name or '-' }}
+            {{ qaInspector2Name if qaInspector2Name and qaInspector2Name != '-' else 'Not provided' }}
           </dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/QA-inspector-2.html?returnUrl=/projects/back-office/manage/overview/v1/index.html">Change<span class="govuk-visually-hidden"> QA Inspector 2</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/QA-inspector-2.html?returnUrl=/projects/back-office/manage/overview/v1/index.html">{{ 'Change' if qaInspector2Name and qaInspector2Name != '-' else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if qaInspector2Name and qaInspector2Name != '-' else 'Add' }} QA Inspector 2</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">QA Inspector 3</dt>
           <dd class="govuk-summary-list__value">
-            {{ qaInspector3Name or '-' }}
+            {{ qaInspector3Name if qaInspector3Name and qaInspector3Name != '-' else 'Not provided' }}
           </dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/QA-inspector-3.html?returnUrl=/projects/back-office/manage/overview/v1/index.html">Change<span class="govuk-visually-hidden"> QA Inspector 3</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/examination/v1/QA-inspector-3.html?returnUrl=/projects/back-office/manage/overview/v1/index.html">{{ 'Change' if qaInspector3Name and qaInspector3Name != '-' else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if qaInspector3Name and qaInspector3Name != '-' else 'Add' }} QA Inspector 3</span></a>
           </dd>
         </div>
       </dl>
@@ -437,11 +437,6 @@ Plan overview – {{ serviceName }}
             Delete case
           </button>
         </form>
-        <form method="get" action="/projects/back-office/manage/clear-data.html" style="display: inline-block; margin-right: 10px;">
-          <button type="submit" class="govuk-button govuk-button--secondary">
-            Clear prototype data
-          </button>
-        </form>
       </div>
     </div>
   </div>
@@ -449,5 +444,8 @@ Plan overview – {{ serviceName }}
   </div>
 {% endblock %}
 {% block footer %}
+  {% set footerLinks = [
+    { href: '/projects/back-office/manage/clear-data.html', text: 'Clear prototype data' }
+  ] %}
   {% include "includes/footer.njk" %}
 {% endblock %}

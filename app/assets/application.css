@@ -62,6 +62,26 @@
   width: 30%;
 }
 
+.app-summary-list--workshop-details .govuk-summary-list__key {
+  width: 45%;
+}
+
+.app-summary-list--workshop-details .govuk-summary-list__value {
+  width: 35%;
+}
+
+.app-summary-list--workshop-details .govuk-summary-list__actions {
+  width: 20%;
+}
+
+.app-summary-list--workshop-documents .govuk-summary-list__key {
+  width: 50%;
+}
+
+.app-summary-list--workshop-documents .govuk-summary-list__value {
+  width: 25%;
+}
+
 .app-email-break,
 .app-break-word {
   word-break: break-word;
@@ -130,6 +150,7 @@
 .app-list__item .app-list__summary-list--grey .govuk-summary-list .govuk-summary-list__row:last-child {
   border-bottom: none;
 }
+
 
 .govuk-tag {
   white-space: nowrap;

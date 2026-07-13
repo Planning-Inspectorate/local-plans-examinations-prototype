@@ -28,6 +28,10 @@ Gateway 2 overview – {{ serviceName }}
       </div>
     {% endif %}
     {% set headerPlanStage = "Gateway 2" %}
+    {% if issueReportDocuments and issueReportDocuments.length > 0 %}
+      {% set headerStatusText = "Gateway 2 report issued" %}
+      {% set headerStatusClasses = "govuk-tag--green" %}
+    {% endif %}
     {% include "includes/back-office/plan-header.njk" %}
      {% set currentSection = "gateway-2" %}
       {% include "includes/back-office/secondary-nav.njk" %}
@@ -38,21 +42,21 @@ Gateway 2 overview – {{ serviceName }}
       <dl class="govuk-summary-list govuk-summary-list-timetable">
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Gateway 2 estimated date</dt>
-          <dd class="govuk-summary-list__value">{{ gateway2EstimatedDate or '-' }}</dd>
+          <dd class="govuk-summary-list__value">{{ gateway2EstimatedDate if gateway2EstimatedDate and gateway2EstimatedDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-estimated.html?returnUrl=/projects/back-office/manage/GW2/v2/gateway-2">Change<span class="govuk-visually-hidden"> Gateway 2 Estimated Date</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Gateway 2 actual date</dt>
-          <dd class="govuk-summary-list__value">{{ gateway2ActualDate or '-' }}</dd>
+          <dd class="govuk-summary-list__value">{{ gateway2ActualDate if gateway2ActualDate and gateway2ActualDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-actual.html?returnUrl=/projects/back-office/manage/GW2/v2/gateway-2">Change<span class="govuk-visually-hidden"> Gateway 2 Actual Date</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Gateway 2 valid date</dt>
-          <dd class="govuk-summary-list__value">{{ gateway2ValidDate or '-' }}</dd>
+          <dd class="govuk-summary-list__value">{{ gateway2ValidDate if gateway2ValidDate and gateway2ValidDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-valid.html?returnUrl=/projects/back-office/manage/GW2/v2/gateway-2">Change<span class="govuk-visually-hidden"> Gateway 2 Valid Date</span></a>
           </dd>
@@ -61,14 +65,14 @@ Gateway 2 overview – {{ serviceName }}
          <dl class="govuk-summary-list govuk-summary-list-timetable">
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Gateway 2 assessor name</dt>
-          <dd class="govuk-summary-list__value">{{ gateway2AssessorName or '-' }}</dd>
+          <dd class="govuk-summary-list__value">{{ gateway2AssessorName if gateway2AssessorName and gateway2AssessorName != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-assessor-name.html?returnUrl=/projects/back-office/manage/GW2/v2/gateway-2">Change<span class="govuk-visually-hidden"> Gateway 2 Assessor Name</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Assessor date of appointment</dt>
-          <dd class="govuk-summary-list__value">{{ gateway2AssessorAppointmentDate or '-' }}</dd>
+          <dd class="govuk-summary-list__value">{{ gateway2AssessorAppointmentDate if gateway2AssessorAppointmentDate and gateway2AssessorAppointmentDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-assessor-appointment.html?returnUrl=/projects/back-office/manage/GW2/v2/gateway-2">Change<span class="govuk-visually-hidden"> Gateway 2 Assessor Date of Appointment</span></a>
           </dd>
@@ -78,14 +82,14 @@ Gateway 2 overview – {{ serviceName }}
          <dl class="govuk-summary-list govuk-summary-list-timetable">
                <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Workshop date</dt>
-          <dd class="govuk-summary-list__value">{{ gateway2WorkshopDate or '-' }}</dd>
+          <dd class="govuk-summary-list__value">{{ gateway2WorkshopDate if gateway2WorkshopDate and gateway2WorkshopDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-workshop-date.html?returnUrl=/projects/back-office/manage/GW2/v2/gateway-2">Change<span class="govuk-visually-hidden"> Gateway 2 Dates for Workshop</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Workshop venue</dt>
-          <dd class="govuk-summary-list__value">{{ gateway2WorkshopVenue or '-' }}</dd>
+          <dd class="govuk-summary-list__value">{{ gateway2WorkshopVenue if gateway2WorkshopVenue and gateway2WorkshopVenue != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-workshop-venue.html?returnUrl=/projects/back-office/manage/GW2/v2/gateway-2">Change<span class="govuk-visually-hidden"> Gateway 2 Workshop Venue</span></a>
           </dd>
@@ -93,15 +97,29 @@ Gateway 2 overview – {{ serviceName }}
         </dl>
          <dl class="govuk-summary-list govuk-summary-list-timetable">
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Report issued date</dt>
-          <dd class="govuk-summary-list__value">{{ gateway2ReportIssuedDate or '-' }}</dd>
+          <dt class="govuk-summary-list__key">Issue Gateway 2 report</dt>
+          <dd class="govuk-summary-list__value">
+            {% if issueReportDocuments and issueReportDocuments.length > 0 %}
+              {% for doc in issueReportDocuments %}
+                <div>
+                  <a class="govuk-hint" href="/projects/back-office/manage/documents/download/{{ doc.filename }}">{{ doc.originalname }}</a>
+                </div>
+              {% endfor %}
+            {% else %}
+              -
+            {% endif %}
+          </dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-report-issued.html?returnUrl=/projects/back-office/manage/GW2/v2/gateway-2">Change<span class="govuk-visually-hidden"> Gateway 2 Report Issued Date</span></a>
+            {% if issueReportDocuments and issueReportDocuments.length > 0 %}
+              <a class="govuk-link" href="/projects/back-office/manage/GW2/v5/upload/v2/check-answers?returnTo=gateway-2">View<span class="govuk-visually-hidden"> Gateway 2 Issue report documents</span></a>
+            {% else %}
+              <a class="govuk-link" href="/projects/back-office/manage/GW2/v5/upload/v2/upload-bo?returnTo=gateway-2">Upload<span class="govuk-visually-hidden"> Gateway 2 Issue report document</span></a>
+            {% endif %}
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Report published by LPA date</dt>
-          <dd class="govuk-summary-list__value">{{ gateway2ReportPublishedDate or '-' }}</dd>
+          <dd class="govuk-summary-list__value">{{ gateway2ReportPublishedDate if gateway2ReportPublishedDate and gateway2ReportPublishedDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-report-published.html?returnUrl=/projects/back-office/manage/GW2/v2/gateway-2">Change<span class="govuk-visually-hidden"> Gateway 2 Report Published by LPA Date</span></a>
           </dd>

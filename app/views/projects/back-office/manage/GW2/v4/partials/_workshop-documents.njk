@@ -1,0 +1,26 @@
+<h2 class="govuk-heading-l">Workshop documents</h2>
+{% if pageState and pageState.hasWorkshopDocuments %}
+  <dl class="govuk-summary-list govuk-summary-list-timetable app-summary-list--workshop-documents">
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key"><strong>Document</strong></dt>
+      <dd class="govuk-summary-list__value"><strong>Status</strong></dd>
+      <dd class="govuk-summary-list__value"><strong>Date</strong></dd>
+    </div>
+    {% for doc in uploadedDocuments %}
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Document {{ loop.index }}</dt>
+        <dd class="govuk-summary-list__value">Uploaded</dd>
+        <dd class="govuk-summary-list__value">{{ doc.uploadedAtDisplay or doc.uploadDate or '-' }}</dd>
+      </div>
+    {% endfor %}
+  </dl>
+  <p class="govuk-body govuk-!-margin-bottom-1">
+    <a href="/projects/back-office/manage/GW2/v4/upload/v1/upload-bo?returnTo=gateway-2">Amend workshop documents</a>
+  </p>
+  <p class="govuk-hint govuk-!-margin-bottom-3">You will need to review the updates and issue an updated notification to the LPA.</p>
+{% else %}
+  <p class="govuk-body govuk-!-margin-bottom-1">
+    <a href="/projects/back-office/manage/GW2/v4/upload/v1/upload-bo?returnTo=gateway-2">Add workshop documents</a>
+  </p>
+{% endif %}
+

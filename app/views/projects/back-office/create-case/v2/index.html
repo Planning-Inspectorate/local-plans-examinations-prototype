@@ -22,9 +22,7 @@ All cases – {{ serviceName }}
     {% endif %}
 {% endif %}
 
-{% if isSideJourney %}
-  <p class="govuk-body">This journey opens each case in the side version with the case data pre-populated.</p>
-{% endif %}
+
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-one-half">
@@ -59,37 +57,6 @@ All cases – {{ serviceName }}
             </form>
         </div>
     </div>
-    <a href="/projects/back-office/create-case/v2/clear-data"
-   class="govuk-button govuk-button--warning govuk-!-margin-bottom-2"
-   style="float:right;">
-  Clear data
-</a>
-{% if showEmpty %}
-  <a href="/projects/back-office/create-case/v2/index"
-     class="govuk-link"
-     style="float:right; padding: 12px 15px;">
-    See all plans
-  </a>
-{% else %}
-  <a href="/projects/back-office/create-case/v2/index?showEmpty=true"
-     class="govuk-link"
-     style="float:right; padding: 12px 15px;">
-    View empty state
-  </a>
-{% endif %}
-{% if isSideJourney %}
-  <a href="/projects/back-office/create-case/v2/index"
-     class="govuk-link"
-     style="float:right; padding: 12px 15px;">
-    Use default journey
-  </a>
-{% else %}
-  <a href="/projects/back-office/create-case/v2/index?journey=side"
-     class="govuk-link"
-     style="float:right; padding: 12px 15px;">
-    Use side journey
-  </a>
-{% endif %}
 </div>
 
 {% if showEmpty %}
@@ -133,4 +100,31 @@ All cases – {{ serviceName }}
 </div>
 {% endif %}
 
+{% endblock %}
+
+{% block footer %}
+  {% set isSideJourney = journey == 'side' %}
+  {% if showEmpty %}
+    {% set emptyStateHref = '/projects/back-office/create-case/v2/index' %}
+    {% set emptyStateText = 'See all plans' %}
+  {% else %}
+    {% set emptyStateHref = '/projects/back-office/create-case/v2/index?showEmpty=true' %}
+    {% set emptyStateText = 'View empty state' %}
+  {% endif %}
+
+  {% if isSideJourney %}
+    {% set journeyHref = '/projects/back-office/create-case/v2/index' %}
+    {% set journeyText = 'Use default journey' %}
+  {% else %}
+    {% set journeyHref = '/projects/back-office/create-case/v2/index?journey=side' %}
+    {% set journeyText = 'Use side journey' %}
+  {% endif %}
+
+  {% set footerLinks = [
+    { href: '/projects/back-office/create-case/v2/clear-data', text: 'Clear data' },
+    { href: emptyStateHref, text: emptyStateText },
+    { href: journeyHref, text: journeyText }
+  ] %}
+
+  {% include "includes/footer.njk" %}
 {% endblock %}

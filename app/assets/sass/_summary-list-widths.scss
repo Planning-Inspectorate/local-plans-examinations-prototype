@@ -7,3 +7,25 @@
 .govuk-summary-list-timetable .govuk-summary-list__actions {
   width: 20%;
 }
+
+/* GW2 v4 workshop details table: keep a dedicated action column for Amend */
+.app-summary-list--workshop-details .govuk-summary-list__key {
+  width: 45%;
+}
+
+.app-summary-list--workshop-details .govuk-summary-list__value {
+  width: 35%;
+}
+
+.app-summary-list--workshop-details .govuk-summary-list__actions {
+  width: 20%;
+}
+
+/* GW2 v4 workshop documents table: three columns (Document, Status, Date) */
+.app-summary-list--workshop-documents .govuk-summary-list__key {
+  width: 40%;
+}
+
+.app-summary-list--workshop-documents .govuk-summary-list__value {
+  width: 25%;
+}
