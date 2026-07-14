@@ -10,7 +10,7 @@
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">Document {{ loop.index }}</dt>
         <dd class="govuk-summary-list__value">Uploaded</dd>
-        <dd class="govuk-summary-list__value">{{ doc.uploadedAtDisplay or doc.uploadDate or '-' }}</dd>
+        <dd class="govuk-summary-list__value">{{ doc.uploadedAtDisplay if doc.uploadedAtDisplay and doc.uploadedAtDisplay != '-' else (doc.uploadDate if doc.uploadDate and doc.uploadDate != '-' else 'Not provided') }}</dd>
       </div>
     {% endfor %}
   </dl>

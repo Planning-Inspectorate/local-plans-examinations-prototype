@@ -150,6 +150,14 @@ function deriveOverallPlanStatus(req, currentCase) {
     }
   }
 
+  // Preserve seeded/default case status unless explicitly deriving from field state.
+  if (currentCase && currentCase.statusStrategy !== 'derived') {
+    const existingStatus = String(currentCase.status || '').trim();
+    if (existingStatus) {
+      return existingStatus;
+    }
+  }
+
   // Default behavior when a case does not define a strategy.
   if (isSetValue(req.session.gateway2ActualDate) || isSetValue(req.session.gateway2ValidDate) || isSetValue(req.session.gateway2WorkshopDate)) {
     return 'In progress';

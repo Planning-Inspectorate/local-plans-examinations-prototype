@@ -10,7 +10,7 @@
     </div>
     <div class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key">Date uploaded</dt>
-      <dd class="govuk-summary-list__value">{{ workshopDocumentsSummary.latestUploadedAtDisplay or '-' }}</dd>
+      <dd class="govuk-summary-list__value">{{ workshopDocumentsSummary.latestUploadedAtDisplay if workshopDocumentsSummary.latestUploadedAtDisplay and workshopDocumentsSummary.latestUploadedAtDisplay != '-' else 'Not provided' }}</dd>
       <dd class="govuk-summary-list__actions"></dd>
     </div>
   </dl>
