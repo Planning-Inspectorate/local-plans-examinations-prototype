@@ -20,8 +20,8 @@
           { html: supplementaryDocuments } if data['supplementary-upload-complete']
           else { html: '<span class="govuk-hint">Not added</span>' },
         actions: { items: [
-          { href: 'supplementary-documents/supplementary-upload?cya=true', text: 'Change' } if data['supplementary-upload-complete']
-          else { href: 'supplementary-documents/supplementary-upload', text: 'Add' }
+          { href: 'supplementary-documents/supplementary-upload?cya=true', text: 'Change', visuallyHiddenText: 'subsequent work towards a draft Plan' } if data['supplementary-upload-complete']
+          else { href: 'supplementary-documents/supplementary-upload', text: 'Add', visuallyHiddenText: 'subsequent work towards a draft Plan' }
         ]}
       }
     ]
