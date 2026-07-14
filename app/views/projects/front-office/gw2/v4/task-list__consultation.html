@@ -1,0 +1,111 @@
+<li>
+  <h2 class="app-task-list__section">
+    Consultation documents
+  </h2>
+
+        <!--{
+        key: { text: 'Consultation statement' },
+        value:
+          { html: "<a href='#'>consultation-statement.pdf</a>" } if data['consultation-statement-upload-complete']
+          else { html: '<span class="govuk-hint">Not provided</span>' },
+        actions: { items: [
+          { href: 'consultation-documents/consultation-statement-upload?cya=true', html: 'Change' } if data['consultation-statement-upload-complete']
+          else { href: 'consultation-documents/consultation-statement-upload', html: 'Add' }
+        ]}
+      },
+
+      {
+        key: { text: 'Consultation summary for scoping consultation' },
+        value:
+          { html: "<a href='#'>scoping-summary.pdf</a>" } if data['scoping-summary-upload-complete']
+          else { html: '<span class="govuk-hint">Not provided</span>' },
+        actions: { items: [
+          { href: 'consultation-documents/scoping-summary-upload?cya=true', html: 'Change' } if data['scoping-summary-upload-complete']
+          else { href: 'consultation-documents/scoping-summary-upload', html: 'Add' }
+        ]}
+      },
+
+      {
+        key: { text: 'Consultation summary for proposed local plan content and evidence documents' },
+        value:
+          { html: "<a href='#'>proposed-plan-summary.pdf</a>" } if data['proposed-plan-summary-upload-complete']
+          else { html: '<span class="govuk-hint">Not provided</span>' },
+        actions: { items: [
+          { href: 'consultation-documents/proposed-plan-summary-upload?cya=true', html: 'Change' } if data['proposed-plan-summary-upload-complete']
+          else { href: 'consultation-documents/proposed-plan-summary-upload', html: 'Add' }
+        ]}
+      },-->
+
+  {{ govukSummaryList({
+    classes: 'govuk-!-margin-bottom-9',
+    rows: [
+
+      {
+        key: { text: 'Notice of intention to commence local plan preparation' },
+        value:
+          { html: "<a href='#'>notice-of-intention.pdf</a>" } if data['notice-of-intention-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'consultation-documents/notice-of-intention-upload?cya=true', html: 'Change', visuallyHiddenText: 'notice of intention to commence local plan preparation' } if data['notice-of-intention-upload-complete']
+          else { href: 'consultation-documents/notice-of-intention-upload', html: 'Add', visuallyHiddenText: 'notice of intention to commence local plan preparation' }
+        ]}
+      },
+
+      {
+        key: { text: 'Scoping consultation documents' },
+        value:
+          { html: "<a href='#'>scoping-full.pdf</a>" } if data['scoping-full-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'consultation-documents/scoping-full-upload?cya=true', html: 'Change', visuallyHiddenText: 'scoping consultation documents' } if data['scoping-full-upload-complete']
+          else { href: 'consultation-documents/scoping-full-upload', html: 'Add', visuallyHiddenText: 'scoping consultation documents' }
+        ]}
+      },
+
+      {
+        key: { text: 'Consultation summary of feedback to scoping consultation' },
+        value:
+          { html: "<a href='#'>scoping-feedback-summary.pdf</a>" } if data['scoping-feedback-summary-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'consultation-documents/scoping-feedback-summary-upload?cya=true', html: 'Change', visuallyHiddenText: 'consultation summary of feedback to scoping consultation' } if data['scoping-feedback-summary-upload-complete']
+          else { href: 'consultation-documents/scoping-feedback-summary-upload', html: 'Add', visuallyHiddenText: 'consultation summary of feedback to scoping consultation' }
+        ]}
+      },
+
+      {
+        key: { text: 'Gateway 1 – Self assessment of readiness' },
+        value:
+          { html: "<a href='#'>gateway1.pdf</a>" } if data['gateway1-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'consultation-documents/gateway1-upload?cya=true', html: 'Change', visuallyHiddenText: 'Gateway 1 – Self assessment of readiness' } if data['gateway1-upload-complete']
+          else { href: 'consultation-documents/gateway1-upload', html: 'Add', visuallyHiddenText: 'Gateway 1 – Self assessment of readiness' }
+        ]}
+      },
+
+      {
+        key: { text: 'Consultation on proposed local plan content and evidence documents' },
+        value:
+          { html: "<a href='#'>proposed-plan-full.pdf</a>" } if data['proposed-plan-full-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'consultation-documents/proposed-plan-full-upload?cya=true', html: 'Change', visuallyHiddenText: 'consultation on proposed local plan content and evidence documents' } if data['proposed-plan-full-upload-complete']
+          else { href: 'consultation-documents/proposed-plan-full-upload', html: 'Add', visuallyHiddenText: 'consultation on proposed local plan content and evidence documents' }
+        ]}
+      },
+
+      {
+        key: { text: 'Summary of consultation on proposed local plan content and evidence documents' },
+        value:
+          { html: "<a href='#'>consultation-summary.pdf</a>" } if data['consultation-summary-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'consultation-documents/consultation-summary-upload?cya=true', html: 'Change', visuallyHiddenText: 'summary of consultation on proposed local plan content and evidence documents' } if data['consultation-summary-upload-complete']
+          else { href: 'consultation-documents/consultation-summary-upload', html: 'Add', visuallyHiddenText: 'summary of consultation on proposed local plan content and evidence documents' }
+        ]}
+      }
+
+    ]
+  }) }}
+</li>

@@ -1,0 +1,51 @@
+<style>
+  .app-header {
+    margin-bottom: 20px;
+  }
+
+  .app-header__title {
+    margin-bottom: 5px;
+  }
+
+  .app-header__tag {
+    margin-bottom: 15px;
+  }
+
+  .app-details .govuk-summary-list__key,
+  .app-details .govuk-summary-list__value {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+</style>
+
+<div class="app-header">
+  <h1 class="govuk-heading-xl app-header__title">
+    <span class="govuk-caption-xl">East Borough Local Plan</span>
+    Gateway 2 submission
+  </h1>
+</div>
+
+  {% set workshopDocuments %}
+    <ul class="govuk-list">
+      <li><a class="govuk-link" href="#">workshop-agenda.pdf</a> (shared on 8 May 2026)</li>
+      <li><a class="govuk-link" href="#">workshop-questions.pdf</a> (shared on 8 May 2026)</li>
+    </ul>
+  {% endset %}
+
+{{ govukSummaryList({
+  classes: "app-details govuk-summary-list--no-border",
+  rows: [
+    {
+      key: { text: "Workshop venue", classes: "govuk-!-width-one-third" },
+      value: { text: "Virtual" }
+    },
+    {
+      key: { text: "Workshop date and time", classes: "govuk-!-width-one-third" },
+      value: { text: "19 May 2026 at 10am" }
+    },
+    {
+      key: { text: "Workshop documents", classes: "govuk-!-width-one-third" },
+      value: { html: workshopDocuments }
+    }
+  ]
+}) }}

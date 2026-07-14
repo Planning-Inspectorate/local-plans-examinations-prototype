@@ -1,0 +1,41 @@
+<style>
+  .app-header {
+    margin-bottom: 20px;
+  }
+
+  .app-header__title {
+    margin-bottom: 5px;
+  }
+
+  .app-header__tag {
+    margin-bottom: 15px;
+  }
+
+  .app-details .govuk-summary-list__key,
+  .app-details .govuk-summary-list__value {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+</style>
+
+<div class="app-header">
+  <h1 class="govuk-heading-xl app-header__title">
+    <span class="govuk-caption-xl">East Borough Local Plan</span>
+    Gateway 2 submission
+  </h1>
+</div>
+
+{% call govukInsetText() %}
+Your target submission date is 25 April 2026. A Gateway 2 assessment usually takes about 6 weeks.
+{% endcall %}
+
+<!--
+{{ govukSummaryList({
+  classes: "app-details govuk-summary-list--no-border",
+  rows: [
+    {
+      key: { text: "Target submission date", classes: "govuk-!-width-one-third" },
+      value: { text: "25 April 2026" }
+    }
+  ]
+}) }}-->

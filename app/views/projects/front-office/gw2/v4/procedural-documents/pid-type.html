@@ -1,0 +1,72 @@
+{% extends "layouts/front-office-v3.html" %}
+
+{% set documentName = "project initiation document" %}
+{% set title = "Upload your " + documentName | lower %}
+
+{% block questions %}
+
+  <span class="govuk-caption-l">
+    Procedural documents
+  </span>
+
+    {% set urlHtml %}
+      {{ govukInput({
+        id: "document-url",
+        name: "documentUrl",
+        type: "url",
+        autocomplete: "url",
+        label: {
+          text: "Web link"
+        },
+        hint: {
+          text: "Enter the full web address, including https://"
+        }
+      }) }}
+    {% endset %}
+
+    {% set fileHtml %}
+      {{ govukFileUpload({
+        id: "document-upload",
+        name: "documentUpload",
+        label: {
+          text: "Upload your " + documentName | lower
+        }
+      }) }}
+    {% endset %}
+
+      <h1 class="govuk-heading-l">
+        {{ title }}
+      </h1>
+
+      <p class="govuk-body">
+        You can upload a file or provide a web link to where the document is published.
+      </p>
+
+      {{ govukRadios({
+        idPrefix: "document-method",
+        name: "documentMethod",
+        fieldset: {
+          legend: {
+            text: "How do you want to provide it?",
+            classes: "govuk-fieldset__legend--m"
+          }
+        },
+        items: [
+          {
+            value: "upload",
+            text: "Upload a file",
+            conditional: {
+              html: fileHtml
+            }
+          },
+          {
+            value: "link",
+            text: "Provide a web link",
+            conditional: {
+              html: urlHtml
+            }
+          }
+        ]
+      }) }}
+
+{% endblock %}

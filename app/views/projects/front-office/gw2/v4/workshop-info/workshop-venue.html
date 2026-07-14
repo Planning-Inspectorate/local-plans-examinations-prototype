@@ -1,0 +1,50 @@
+{% extends "layouts/front-office-v2.html" %}
+{% set title = "How would you like to hold the Gateway 2 workshop?" %}
+
+{% block questions %}
+
+  <span class="govuk-caption-l">
+    Workshop preferences
+  </span>
+
+    {% set venueHtml %}
+      {{ govukInput({
+        id: "workshop-venue",
+        name: "workshopVenue",
+        spellcheck: false,
+        label: {
+          text: "Name the suggested venue"
+        }
+      }) }}
+    {% endset -%}
+
+{{ govukRadios({
+  name: "workshopVenue",
+  fieldset: {
+    legend: {
+      text: title,
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--l"
+    }
+  },
+  items: [
+    {
+      value: "Virtual",
+      text: "Virtual"
+    },
+    {
+      value: "In-person",
+      text: "In-person",
+      conditional: {
+        html: venueHtml
+      }
+    },
+        {
+      value: "nopreference",
+      text: "No preference"
+    }
+  ]
+}) }}
+
+
+{% endblock %}

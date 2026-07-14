@@ -1,0 +1,29 @@
+<li>
+  <h2 class="app-task-list__section">
+    Additional documents
+  </h2>
+
+  {% set supplementaryDocuments %}
+    <ul class="govuk-list govuk-list--bullet">
+      <li><a class="govuk-link" href="#">supplementary-doc-1.pdf</a></li>
+      <li><a class="govuk-link" href="#">supplementary-doc-2.pdf</a></li>
+      <li><a class="govuk-link" href="#">supplementary-doc-3.pdf</a></li>
+    </ul>
+  {% endset %}
+
+  {{ govukSummaryList({
+    classes: 'govuk-!-margin-bottom-9',
+    rows: [
+      {
+        key: { text: 'Subsequent work towards a draft Plan' },
+        value:
+          { html: supplementaryDocuments } if data['supplementary-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'supplementary-documents/supplementary-upload?cya=true', text: 'Change', visuallyHiddenText: 'subsequent work towards a draft Plan' } if data['supplementary-upload-complete']
+          else { href: 'supplementary-documents/supplementary-upload', text: 'Add', visuallyHiddenText: 'subsequent work towards a draft Plan' }
+        ]}
+      }
+    ]
+  }) }}
+</li>

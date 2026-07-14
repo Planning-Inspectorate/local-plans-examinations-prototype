@@ -1,0 +1,53 @@
+{% extends "layouts/front-office-v3.html" %}
+
+{% set documentName = "draft Local Plan timetable" %}
+{% set title = "How do you want to provide your " + documentName + "?" %}
+
+{% block questions %}
+
+  <span class="govuk-caption-l">
+    Procedural documents
+  </span>
+
+  {% set urlHtml %}
+    {{ govukInput({
+      id: "timetable-url",
+      name: "timetable-url",
+      type: "url",
+      autocomplete: "url",
+      label: {
+        text: "Web link"
+      },
+      hint: {
+        text: "Enter the full web address, including https://"
+      },
+      value: data["timetable-url"]
+    }) }}
+  {% endset %}
+
+  {{ govukRadios({
+    idPrefix: "timetable-type",
+    name: "timetable-type",
+    value: data["timetable-type"],
+    fieldset: {
+      legend: {
+        html: title,
+        classes: "govuk-fieldset__legend--l"
+      }
+    },
+    items: [
+      {
+        value: "file upload",
+        text: "Upload a file"
+      },
+      {
+        value: "web link",
+        text: "Provide a web link",
+        conditional: {
+          html: urlHtml
+        }
+      }
+    ]
+  }) }}
+
+{% endblock %}
