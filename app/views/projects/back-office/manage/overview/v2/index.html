@@ -13,6 +13,8 @@ Plan overview – {{ serviceName }}
 
 {% block content %}
 
+{% set showContactOrganisation = lpas and lpas.length > 1 %}
+
 {# Accessibility note:
    Keep one clear page heading (h1), then use h2 for major sections and h3 for subsections.
 #}
@@ -201,7 +203,7 @@ Plan overview – {{ serviceName }}
               {{ mainContactName }}<br>
               {{ mainContactEmail }}<br>
               {% if mainContactPhone %}{{ mainContactPhone }}<br>{% endif %}
-              {{ mainContactOrg }}
+              {% if showContactOrganisation and mainContactOrg %}{{ mainContactOrg }}{% endif %}
             {% else %}
               Not provided
             {% endif %}
@@ -221,7 +223,7 @@ Plan overview – {{ serviceName }}
               {{ contacts[0].name }}<br>
               {{ contacts[0].email }}<br>
               {% if contacts[0].phone %}{{ contacts[0].phone }}<br>{% endif %}
-              {{ contacts[0].organisation or '' }}
+              {% if showContactOrganisation and contacts[0].organisation %}{{ contacts[0].organisation }}{% endif %}
             {% else %}
               Not provided
             {% endif %}
@@ -241,7 +243,7 @@ Plan overview – {{ serviceName }}
               {{ contacts[1].name }}<br>
               {{ contacts[1].email }}<br>
               {% if contacts[1].phone %}{{ contacts[1].phone }}<br>{% endif %}
-              {{ contacts[1].organisation or '' }}
+              {% if showContactOrganisation and contacts[1].organisation %}{{ contacts[1].organisation }}{% endif %}
             {% else %}
               Not provided
             {% endif %}
@@ -261,7 +263,7 @@ Plan overview – {{ serviceName }}
               {{ contacts[2].name }}<br>
               {{ contacts[2].email }}<br>
               {% if contacts[2].phone %}{{ contacts[2].phone }}<br>{% endif %}
-              {{ contacts[2].organisation or '' }}
+              {% if showContactOrganisation and contacts[2].organisation %}{{ contacts[2].organisation }}{% endif %}
             {% else %}
               Not provided
             {% endif %}
@@ -281,7 +283,7 @@ Plan overview – {{ serviceName }}
               {{ contacts[3].name }}<br>
               {{ contacts[3].email }}<br>
               {% if contacts[3].phone %}{{ contacts[3].phone }}<br>{% endif %}
-              {{ contacts[3].organisation or '' }}
+              {% if showContactOrganisation and contacts[3].organisation %}{{ contacts[3].organisation }}{% endif %}
             {% else %}
               Not provided
             {% endif %}
@@ -301,7 +303,7 @@ Plan overview – {{ serviceName }}
               {{ contacts[4].name }}<br>
               {{ contacts[4].email }}<br>
               {% if contacts[4].phone %}{{ contacts[4].phone }}<br>{% endif %}
-              {{ contacts[4].organisation or '' }}
+              {% if showContactOrganisation and contacts[4].organisation %}{{ contacts[4].organisation }}{% endif %}
             {% else %}
               Not provided
             {% endif %}

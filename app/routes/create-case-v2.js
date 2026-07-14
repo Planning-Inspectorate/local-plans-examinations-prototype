@@ -794,6 +794,7 @@ router.post('/projects/back-office/create-case/v2/check-answers', (req, res) => 
     planType: req.session.planType,
     caseOfficer: req.session.caseOfficer,
     lpas: req.session.lpas,
+    lpaRegions: req.session.lpaRegions || {},
     mainContact: req.session.mainContact,
     contacts: req.session.contacts,
     noticeOfIntentionDate: req.session.noticeOfIntentionDate,

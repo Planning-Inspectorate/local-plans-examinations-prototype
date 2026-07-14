@@ -21,15 +21,67 @@
               Select the Local Planning Authority for this plan
             </label>
           </h1>
-          <div id="lpa-hint" class="govuk-hint">Type to search and select an authority.</div>
+       
           <div class="autocomplete__wrapper">
-            <input type="hidden" name="index" value="{{ index }}">
-            <select class="govuk-select" id="lpa" name="lpa" data-module="autocomplete" title="Local Planning Authority" aria-describedby="lpa-hint"
+          <div class="autocomplete__status"
+            style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; margin-bottom: -1px; margin-right: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;">
+            <div id="lpaId__status--A" role="status" aria-atomic="true" aria-live="polite"></div>
+            <div id="lpaId__status--B" role="status" aria-atomic="true" aria-live="polite"></div>
+          </div>
+          <ul aria-labelledby="lpaId" id="lpaId__listbox" role="listbox"
+            class="autocomplete__menu autocomplete__menu--inline autocomplete__menu--hidden"></ul>
+          <span id="lpaId__assistiveHint" style="display: none;">When autocomplete results are available use up and
+            down arrows to review and enter to select. Touch device users, explore by touch or with swipe
+            gestures.</span>
+            <select class="govuk-select" id="lpa" name="lpa" data-module="autocomplete" title="Additional Local Planning Authority" data-autoselect=""
               data-display-menu="" data-min-length="" data-show-all-values="" data-show-no-options-found="">
-              <option value="" disabled {% if not selectedLPA %}selected{% endif %}>Select an option</option>
+              <option value="" selected disabled>Select an option</option>
               {% for lpa in lpaList %}
-                <option value="{{ lpa }}" {% if selectedLPA == lpa %}selected{% endif %}>{{ lpa }}</option>
+                <option value="{{ lpa }}">{{ lpa }}</option>
               {% endfor %}
+              <option value="Bolton Metropolitan Borough Council">Bolton Metropolitan Borough Council</option>
+              <option value="Borough of Poole Council">Borough of Poole Council</option>
+              <option value="Boston Borough Council">Boston Borough Council</option>
+              <option value="Bournemouth Borough Council">Bournemouth Borough Council</option>
+              <option value="Bournemouth Christchurch and Poole Council">Bournemouth Christchurch and Poole Council</option>
+              <option value="Bracknell Forest Borough Council">Bracknell Forest Borough Council</option>
+              <option value="Braintree District Council">Braintree District Council</option>
+              <option value="Breckland Council">Breckland Council</option>
+              <option value="Brentwood Borough Council">Brentwood Borough Council</option>
+              <option value="Bridgnorth District Council">Bridgnorth District Council</option>
+              <option value="Brighton & Hove City Council">Brighton & Hove City Council</option>
+              <option value="Bristol City Council">Bristol City Council</option>
+              <option value="Bristol Urban District Council">Bristol Urban District Council</option>
+              <option value="Broadland District Council">Broadland District Council</option>
+              <option value="Broads Authority">Broads Authority</option>
+              <option value="Bromsgrove District Council">Bromsgrove District Council</option>
+              <option value="Broxbourne Borough Council">Broxbourne Borough Council</option>
+              <option value="Broxtowe Borough Council">Broxtowe Borough Council</option>
+              <option value="Buckinghamshire Council - East Area (Chiltern)">Buckinghamshire Council - East Area (Chiltern)</option>
+              <option value="Buckinghamshire Council - Minerals and Waste (County wide)">Buckinghamshire Council - Minerals and Waste (County wide)</option>
+              <option value="Buckinghamshire Council - North Area (Aylesbury)">Buckinghamshire Council - North Area (Aylesbury)</option>
+              <option value="Buckinghamshire Council - South Area (South Bucks)">Buckinghamshire Council - South Area (South Bucks)</option>
+              <option value="Buckinghamshire Council - West Area (Wycombe)">Buckinghamshire Council - West Area (Wycombe)</option>
+              <option value="Burnley Borough Council">Burnley Borough Council</option>
+              <option value="Bury Metropolitan Borough Council">Bury Metropolitan Borough Council</option>
+              <option value="Calderdale Metropolitan Borough Council">Calderdale Metropolitan Borough Council</option>
+              <option value="Cambridge City Council">Cambridge City Council</option>
+              <option value="Cambridgeshire County Council">Cambridgeshire County Council</option>
+              <option value="Cannock Chase District Council">Cannock Chase District Council</option>
+              <option value="Canterbury City Council">Canterbury City Council</option>
+              <option value="Caradon District Council">Caradon District Council</option>
+              <option value="Carlisle City Council">Carlisle City Council</option>
+              <option value="Carrick District Council">Carrick District Council</option>
+              <option value="Castle Morpeth Borough Council">Castle Morpeth Borough Council</option>
+              <option value="Castle Point Borough Council">Castle Point Borough Council</option>
+              <option value="Central Bedfordshire Council">Central Bedfordshire Council</option>
+              <option value="Central Manchester Urban Development Corporation">Central Manchester Urban Development Corporation</option>
+              <option value="Charnwood Borough Council">Charnwood Borough Council</option>
+              <option value="Chelmsford City Council">Chelmsford City Council</option>
+              <option value="Cheltenham Borough Council">Cheltenham Borough Council</option>
+              <option value="Cherwell District Council">Cherwell District Council</option>
+              <option value="Cheshire County Council">Cheshire County Council</option>
+              <option value="Cheshire East Council">Cheshire East Council</option>
               <option value="Cheshire West and Chester Council">Cheshire West and Chester Council</option>
               <option value="Chester-le-Street District Council">Chester-le-Street District Council</option>
               <option value="Chesterfield Borough Council">Chesterfield Borough Council</option>

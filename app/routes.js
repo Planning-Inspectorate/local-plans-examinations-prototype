@@ -19,7 +19,7 @@ const defaultWorkflowNavVersions = {
   gw3: 'v2',
   examination: 'v3',
   documents: 'v1',
-  updates: 'v1'
+  updates: 'v2'
 };
 
 const workflowNavSections = Object.keys(defaultWorkflowNavVersions);

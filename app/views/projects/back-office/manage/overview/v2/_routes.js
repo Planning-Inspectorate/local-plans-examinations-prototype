@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const lpaToRegionSimple = require('../../../../../../data/lpa-to-region-simple.json');
 
 function getCurrentCase(req, preferredRef) {
   const caseRef = preferredRef || req.session.currentCaseRef || '';
@@ -59,6 +60,24 @@ function buildOverviewContext(req) {
   const mainContact = req.session.mainContact || {};
   const mainContactNameParts = getContactNameParts(mainContact);
   const contacts = Array.isArray(req.session.contacts) ? req.session.contacts : [];
+  const lpas = Array.isArray(req.session.lpas) ? req.session.lpas : [];
+  const lpaRegions = req.session.lpaRegions && typeof req.session.lpaRegions === 'object'
+    ? { ...req.session.lpaRegions }
+    : {};
+
+  // Ensure each selected LPA has a region value for display in overview.
+  lpas.forEach((lpa, index) => {
+    if (!lpaRegions[lpa]) {
+      if (lpaToRegionSimple[lpa]) {
+        lpaRegions[lpa] = lpaToRegionSimple[lpa];
+      } else if (index === 0 && req.session.lpaRegion) {
+        lpaRegions[lpa] = req.session.lpaRegion;
+      }
+    }
+  });
+
+  req.session.lpaRegions = lpaRegions;
+
   const normalizedContacts = contacts.map((contact) => {
     const nameParts = getContactNameParts(contact);
     return {
@@ -73,8 +92,8 @@ function buildOverviewContext(req) {
     caseRef: req.session.currentCaseRef || '',
     planTitle: req.session.planTitle || '',
     planType: req.session.planType || '',
-    lpas: req.session.lpas || [],
-    lpaRegions: req.session.lpaRegions || {},
+    lpas,
+    lpaRegions,
     caseOfficer: req.session.caseOfficer || '',
     contacts: normalizedContacts,
     mainContactName: mainContactNameParts.fullName,

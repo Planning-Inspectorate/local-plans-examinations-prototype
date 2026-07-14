@@ -15,6 +15,7 @@ Plan overview – {{ serviceName }}
 
 
 <div class="govuk-grid-row">
+{% set showContactOrganisation = lpas and lpas.length > 1 %}
   <div class="govuk-grid-column-full">
     <div class="grey-box">
    {% include "includes/back-office/plan-header.njk" %}
@@ -27,7 +28,7 @@ Plan overview – {{ serviceName }}
     {% include "includes/back-office/side-secondary-nav.njk" %}
   </div>
 
-  <div class="govuk-grid-column-three-quarters">
+            {% if showContactOrganisation and mainContactOrg %}{{ mainContactOrg }}{% endif %}
 
     <h2 class="govuk-heading-l">Overview</h2>
   {# Case Notes Section #}
@@ -43,7 +44,7 @@ Plan overview – {{ serviceName }}
                 id: "comment",
                 maxlength: 500,
                 rows: 5,
-                label: {
+            {% if showContactOrganisation and contactOne.organisation %}{{ contactOne.organisation }}{% endif %}
                   text: "Add case note",
                   classes: "govuk-visually-hidden"
                 }
@@ -59,7 +60,7 @@ Plan overview – {{ serviceName }}
         {% if currentCase.caseNotes and currentCase.caseNotes.length > 0 %}
           <div>
             <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-
+            {% if showContactOrganisation and contactTwo.organisation %}{{ contactTwo.organisation }}{% endif %}
             {% for note in currentCase.caseNotes %}
               {% if loop.index <= 4 %}
                 <section>
@@ -75,7 +76,7 @@ Plan overview – {{ serviceName }}
             {% endfor %}
 
             {% if currentCase.caseNotes.length > 4 %}
-              <p class="govuk-body">
+            {% if showContactOrganisation and contactThree.organisation %}{{ contactThree.organisation }}{% endif %}
                 <a class="govuk-link govuk-link--no-visited-state" href="/projects/back-office/manage/overview/v2/case-notes?ref={{ currentCase.reference }}">
                   Show all {{ currentCase.caseNotes.length }} notes
                 </a>
