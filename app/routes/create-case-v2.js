@@ -497,7 +497,7 @@ router.post('/projects/back-office/create-case/v2/3-select-LPA', (req, res) => {
   if (req.body.isEdit === 'true') {
     return res.redirect('/projects/back-office/create-case/v2/check-answers');
   }
-  res.redirect(`/projects/back-office/create-case/v2/LPA-region?index=${index}`);
+  res.redirect('/projects/back-office/create-case/v2/add-additional-lpa');
 });
 
 // Add additional LPA page
@@ -533,8 +533,7 @@ router.get('/projects/back-office/create-case/v2/additional-LPA', (req, res) => 
 router.post('/projects/back-office/create-case/v2/additional-LPA', (req, res) => {
   if (!req.session.lpas) req.session.lpas = [];
   req.session.lpas.push(req.body.lpa); // Add new LPA to array
-  const index = req.session.lpas.length - 1;
-  res.redirect(`/projects/back-office/create-case/v2/LPA-region?index=${index}`);
+  res.redirect('/projects/back-office/create-case/v2/add-additional-lpa');
 });
 
 // Main contact page (single GET route, uses mainContact)
