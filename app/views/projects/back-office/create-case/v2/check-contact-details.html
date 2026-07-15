@@ -19,10 +19,10 @@
 <dl class="govuk-summary-list">
   {% if mainContact %}
     <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key" style="width: 15%;">
+      <dt class="govuk-summary-list__key" style="width: 25%;">
         Main contact
       </dt>
-      <dd class="govuk-summary-list__value" style="width: 35%;">
+      <dd class="govuk-summary-list__value" style="width: 55%;">
         {{ mainContact.firstName }} {{ mainContact.lastName }}<br>
         {{ mainContact.email }}<br>
         {% if mainContact.phone %}{{ mainContact.phone }}<br>{% endif %}
@@ -47,16 +47,16 @@
     {% for contact in contacts %}
       {% if contact.firstName or contact.lastName or contact.email %}
       <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key" style="width: 15%;">
+        <dt class="govuk-summary-list__key" style="width: 25%;">
           Additional contact
         </dt>
-        <dd class="govuk-summary-list__value" style="width: 35%;">
+        <dd class="govuk-summary-list__value" style="width: 55%;">
           {{ contact.firstName }} {{ contact.lastName }}<br>
           {{ contact.email }}<br>
           {% if contact.phone %}{{ contact.phone }}<br>{% endif %}
         </dd>
         <dd class="govuk-summary-list__value">
-          {{ contact.organisation }}
+        <!--{{ contact.organisation }} -->
         </dd>
         <dd class="govuk-summary-list__actions">
           <ul class="govuk-summary-list__actions-list">

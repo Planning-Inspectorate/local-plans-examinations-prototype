@@ -170,7 +170,7 @@ Plan overview – {{ serviceName }}
             {{ lpaRegions[lpa] if lpaRegions[lpa] and lpaRegions[lpa] != '-' else 'Not provided' }}
           </dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/overview/v1/LPA-region?index={{ loop.index0 }}">{{ 'Change' if lpaRegions[lpa] and lpaRegions[lpa] != '-' else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if lpaRegions[lpa] and lpaRegions[lpa] != '-' else 'Add' }} region for LPA {{ loop.index }}</span></a>
+           <!-- <a class="govuk-link" href="/projects/back-office/manage/overview/v1/LPA-region?index={{ loop.index0 }}">{{ 'Change' if lpaRegions[lpa] and lpaRegions[lpa] != '-' else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if lpaRegions[lpa] and lpaRegions[lpa] != '-' else 'Add' }} region for LPA {{ loop.index }}</span></a>-->
           </dd>
         </div>
           {% endfor %}
