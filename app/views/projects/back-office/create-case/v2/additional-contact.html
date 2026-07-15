@@ -14,15 +14,18 @@ Additional contact details – {{ serviceName }}
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-l">
-        {% if editIndex !== '' %}Additional contact details{% else %}Additional contact details{% endif %}
-      </h1>
+      
 
       <form method="post">
         <input type="hidden" name="editIndex" value="{{ editIndex }}">
         <input type="hidden" name="fromCheckAnswers" value="{{ fromCheckAnswers }}">
-        
         <fieldset class="govuk-fieldset">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--l" isPageHeading="true">
+            <h1 class="govuk-fieldset__heading">
+              Additional contact details
+            </h1>
+          </legend>
+   
           <div class="govuk-form-group">
             <label class="govuk-label" for="additional-contact-first-name">
               First name
@@ -49,26 +52,28 @@ Additional contact details – {{ serviceName }}
           </div>
         </fieldset>
         {% set selectedOrganisation = contact.organisation | default(lpas[0]) %}
-        <div class="govuk-form-group">
-          {% if lpas and lpas.length > 1 %}
-            <label class="govuk-label" for="contact-organisation">
+        {% if lpas and lpas.length > 1 %}
+          <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
               Select the organisation for this contact
-            </label>
-            <div class="govuk-radios" data-module="govuk-radios">
-              {% for lpa in lpas %}
-                <div class="govuk-radios__item">
-                  <input class="govuk-radios__input" id="lpa-{{ loop.index }}" name="contactOrganisation" type="radio" value="{{ lpa }}"
-                    {% if selectedOrganisation == lpa %}checked{% endif %}>
-                  <label class="govuk-label govuk-radios__label" for="lpa-{{ loop.index }}">
-                    {{ lpa }}
-                  </label>
-                </div>
-              {% endfor %}
+            </legend>
+            <div class="govuk-form-group">
+              <div class="govuk-radios" data-module="govuk-radios">
+                {% for lpa in lpas %}
+                  <div class="govuk-radios__item">
+                    <input class="govuk-radios__input" id="lpa-{{ loop.index }}" name="contactOrganisation" type="radio" value="{{ lpa }}"
+                      {% if selectedOrganisation == lpa %}checked{% endif %}>
+                    <label class="govuk-label govuk-radios__label" for="lpa-{{ loop.index }}">
+                      {{ lpa }}
+                    </label>
+                  </div>
+                {% endfor %}
+              </div>
             </div>
-          {% elif lpas and lpas.length == 1 %}
-            <input type="hidden" name="contactOrganisation" value="{{ selectedOrganisation }}">
-          {% endif %}
-        </div>
+          </fieldset>
+        {% elif lpas and lpas.length == 1 %}
+          <input type="hidden" name="contactOrganisation" value="{{ selectedOrganisation }}">
+        {% endif %}
         <div class="govuk-button-group">
            {% if isEdit %}
         {{ govukButton({

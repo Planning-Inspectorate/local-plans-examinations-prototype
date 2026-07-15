@@ -75,7 +75,7 @@ Plan overview – {{ serviceName }}
 
             {% if currentCase.caseNotes.length > 4 %}
               <p class="govuk-body">
-                <a class="govuk-link govuk-link--no-visited-state" href="/projects/back-office/manage/overview/v2/case-notes?ref={{ currentCase.reference }}">
+                <a class="govuk-link govuk-link" href="/projects/back-office/manage/overview/v2/case-notes?ref={{ currentCase.reference }}">
                   Show all {{ currentCase.caseNotes.length }} notes
                 </a>
               </p>
@@ -433,7 +433,7 @@ Plan overview – {{ serviceName }}
       </dl>
       <div class="govuk-button-group">
       
-        <form method="get" action="/projects/back-office/manage/delete-case/v1/delete-case-confirmation.html" style="display: inline-block;">
+        <form method="get" action="/projects/back-office/manage/delete-case/v1/delete-case-confirmation.html">
           <input type="hidden" name="caseRef" value="{{ caseRef }}">
           <button type="submit" class="govuk-button govuk-button--warning">
             Delete case

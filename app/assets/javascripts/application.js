@@ -311,8 +311,9 @@ window.GOVUKPrototypeKit.documentReady(() => {
   })
 })
 
-window.MOJFrontend = require('@ministryofjustice/frontend');
-MOJFrontend.initAll();
+if (window.MOJFrontend && typeof window.MOJFrontend.initAll === 'function') {
+  window.MOJFrontend.initAll();
+}
 
 // Initialize MOJ multi-file upload for upload-bo2
 const $multiFileUpload = document.querySelector('[data-module="moj-multi-file-upload"]')
