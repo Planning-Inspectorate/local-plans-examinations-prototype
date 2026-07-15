@@ -58,67 +58,40 @@ router.get('/application-details', function (req, res) {
 router.post('/procedural-documents/cover-letter-upload', function (req, res) {
   req.session.data['procedural-started'] = 'true'
   req.session.data['cover-letter-upload-complete'] = 'true'
-  if (req.query.cya) {
-    res.redirect('../application-details')
-  } else {
-    res.redirect('timetable-type')
-  }
+  res.redirect('../application-details')
 })
 
 // ---- Timetable ----
 router.post('/procedural-documents/timetable-type', function (req, res) {
   req.session.data['procedural-started'] = 'true'
   req.session.data['timetable-type-complete'] = 'true'
-
-  if (req.query.cya) {
-    res.redirect('../application-details')
-  } else if (req.session.data['timetable-type'] === 'file upload') {
-    res.redirect('timetable-upload')
-  } else {
-    res.redirect('pid-upload')
-  }
+  res.redirect('../application-details')
 })
 
 router.post('/procedural-documents/timetable-upload', function (req, res) {
   req.session.data['procedural-started'] = 'true'
   req.session.data['timetable-upload-complete'] = 'true'
   req.session.data['timetable-type-complete'] = 'true'
-  if (req.query.cya) {
-    res.redirect('../application-details')
-  } else {
-    res.redirect('pid-upload')
-  }
+  res.redirect('../application-details')
 })
 
 router.post('/procedural-documents/pid-upload', function (req, res) {
   req.session.data['procedural-started'] = 'true'
   req.session.data['pid-upload-complete'] = 'true'
-  if (req.query.cya) {
-    res.redirect('../application-details')
-  } else {
-    res.redirect('compliance-upload')
-  }
+  res.redirect('../application-details')
 })
 
 router.post('/procedural-documents/compliance-upload', function (req, res) {
   req.session.data['procedural-started'] = 'true'
   req.session.data['compliance-upload-complete'] = 'true'
-  if (req.query.cya) {
-    res.redirect('../application-details')
-  } else {
-    res.redirect('soundness-upload')
-  }
+  res.redirect('../application-details')
 })
 
 router.post('/procedural-documents/soundness-upload', function (req, res) {
   req.session.data['procedural-started'] = 'true'
   req.session.data['soundness-upload-complete'] = 'true'
   req.session.data['procedural-completed'] = 'true'
-  if (req.query.cya) {
-    res.redirect('../application-details')
-  } else {
-    res.redirect('../consultation-documents/notice-of-intention-upload')
-  }
+  res.redirect('../application-details')
 })
 
 // ---- PID ----
@@ -127,23 +100,7 @@ router.post('/procedural-documents/pid-type', function (req, res) {
   if (req.session.data['pid-type'] !== 'file upload') {
     req.session.data['pid-link-complete'] = 'true'
   }
-  if (req.query.cya) {
-    res.redirect('../application-details')
-  } else if (req.session.data['pid-type'] === 'file upload') {
-    res.redirect('pid-upload')
-  } else {
-    res.redirect('compliance-type')
-  }
-})
-
-router.post('/procedural-documents/pid-upload', function (req, res) {
-  req.session.data['procedural-started'] = 'true'
-  req.session.data['pid-upload-complete'] = 'true'
-  if (req.query.cya) {
-    res.redirect('../application-details')
-  } else {
-    res.redirect('compliance-type')
-  }
+  res.redirect('../application-details')
 })
 
 // ---- Compliance ----
@@ -152,23 +109,7 @@ router.post('/procedural-documents/compliance-type', function (req, res) {
   if (req.session.data['compliance-type'] !== 'file upload') {
     req.session.data['compliance-link-complete'] = 'true'
   }
-  if (req.query.cya) {
-    res.redirect('../application-details')
-  } else if (req.session.data['compliance-type'] === 'file upload') {
-    res.redirect('compliance-upload')
-  } else {
-    res.redirect('soundness-type')
-  }
-})
-
-router.post('/procedural-documents/compliance-upload', function (req, res) {
-  req.session.data['procedural-started'] = 'true'
-  req.session.data['compliance-upload-complete'] = 'true'
-  if (req.query.cya) {
-    res.redirect('../application-details')
-  } else {
-    res.redirect('soundness-type')
-  }
+  res.redirect('../application-details')
 })
 
 // ---- Soundness ----
@@ -178,24 +119,7 @@ router.post('/procedural-documents/soundness-type', function (req, res) {
     req.session.data['soundness-link-complete'] = 'true'
     req.session.data['procedural-completed'] = 'true'
   }
-  if (req.query.cya) {
-    res.redirect('../application-details')
-  } else if (req.session.data['soundness-type'] === 'file upload') {
-    res.redirect('soundness-upload')
-  } else {
-    res.redirect('../consultation-documents/notice-of-intention-upload')
-  }
-})
-
-router.post('/procedural-documents/soundness-upload', function (req, res) {
-  req.session.data['procedural-started'] = 'true'
-  req.session.data['soundness-upload-complete'] = 'true'
-  req.session.data['procedural-completed'] = 'true'
-  if (req.query.cya) {
-    res.redirect('../application-details')
-  } else {
-    res.redirect('../consultation-documents/notice-of-intention-upload')
-  }
+  res.redirect('../application-details')
 })
 
 // Fallback for any procedural page not explicitly handled above
@@ -212,62 +136,38 @@ router.post('/procedural-documents/:page', function (req, res) {
 router.post('/consultation-documents/notice-of-intention-upload', function (req, res) {
   req.session.data['consultation-started'] = 'true'
   req.session.data['notice-of-intention-upload-complete'] = 'true'
-  if (req.query.cya) {
-    res.redirect('../application-details')
-  } else {
-    res.redirect('scoping-full-upload')
-  }
+  res.redirect('../application-details')
 })
 
 router.post('/consultation-documents/scoping-full-upload', function (req, res) {
   req.session.data['consultation-started'] = 'true'
   req.session.data['scoping-full-upload-complete'] = 'true'
-  if (req.query.cya) {
-    res.redirect('../application-details')
-  } else {
-    res.redirect('scoping-feedback-summary-upload')
-  }
+  res.redirect('../application-details')
 })
 
 router.post('/consultation-documents/scoping-feedback-summary-upload', function (req, res) {
   req.session.data['consultation-started'] = 'true'
   req.session.data['scoping-feedback-summary-upload-complete'] = 'true'
-  if (req.query.cya) {
-    res.redirect('../application-details')
-  } else {
-    res.redirect('gateway1-upload')
-  }
+  res.redirect('../application-details')
 })
 
 router.post('/consultation-documents/gateway1-upload', function (req, res) {
   req.session.data['consultation-started'] = 'true'
   req.session.data['gateway1-upload-complete'] = 'true'
-  if (req.query.cya) {
-    res.redirect('../application-details')
-  } else {
-    res.redirect('proposed-plan-full-upload')
-  }
+  res.redirect('../application-details')
 })
 
 router.post('/consultation-documents/proposed-plan-full-upload', function (req, res) {
   req.session.data['consultation-started'] = 'true'
   req.session.data['proposed-plan-full-upload-complete'] = 'true'
-  if (req.query.cya) {
-    res.redirect('../application-details')
-  } else {
-    res.redirect('consultation-summary-upload')
-  }
+  res.redirect('../application-details')
 })
 
 router.post('/consultation-documents/consultation-summary-upload', function (req, res) {
   req.session.data['consultation-started'] = 'true'
   req.session.data['consultation-summary-upload-complete'] = 'true'
   req.session.data['consultation-completed'] = 'true'
-  if (req.query.cya) {
-    res.redirect('../application-details')
-  } else {
-    res.redirect('../supplementary-documents/supplementary-upload')
-  }
+  res.redirect('../application-details')
 })
 
 // Fallback for any consultation page not explicitly handled above
@@ -279,12 +179,12 @@ router.post('/consultation-documents/:page', function (req, res) {
 
 router.post('/supplementary-documents/supplementary-upload', function (req, res) {
   req.session.data['supplementary-upload-complete'] = 'true'
-  res.redirect('../workshop-info/workshop-venue')
+  res.redirect('../application-details')
 })
 
 router.post('/workshop-info/workshop-venue', function (req, res) {
   req.session.data['workshop-venue-complete'] = 'true'
-  res.redirect('../workshop-info/workshop-dates')
+  res.redirect('../application-details')
 })
 
 router.post('/workshop-info/workshop-dates', function (req, res) {
