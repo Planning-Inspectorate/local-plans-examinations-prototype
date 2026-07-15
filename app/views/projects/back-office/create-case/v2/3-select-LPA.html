@@ -22,18 +22,7 @@
             </label>
           </h1>
        
-          <div class="autocomplete__wrapper">
-          <div class="autocomplete__status"
-            style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; margin-bottom: -1px; margin-right: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;">
-            <div id="lpaId__status--A" role="status" aria-atomic="true" aria-live="polite"></div>
-            <div id="lpaId__status--B" role="status" aria-atomic="true" aria-live="polite"></div>
-          </div>
-          <ul aria-labelledby="lpaId" id="lpaId__listbox" role="listbox"
-            class="autocomplete__menu autocomplete__menu--inline autocomplete__menu--hidden"></ul>
-          <span id="lpaId__assistiveHint" style="display: none;">When autocomplete results are available use up and
-            down arrows to review and enter to select. Touch device users, explore by touch or with swipe
-            gestures.</span>
-            <select class="govuk-select" id="lpa" name="lpa" data-module="autocomplete" title="Additional Local Planning Authority" data-autoselect=""
+            <select class="govuk-select" id="lpa" name="lpa" data-module="autocomplete" title="Additional Local Planning Authority"
               data-display-menu="" data-min-length="" data-show-all-values="" data-show-no-options-found="">
               <option value="" selected disabled>Select an option</option>
               {% for lpa in lpaList %}
@@ -435,7 +424,6 @@
               <option value="Wyre Forest District Council">Wyre Forest District Council</option>
               <option value="Yorkshire Dales National Park Authority">Yorkshire Dales National Park Authority</option>
             </select>
-          </div>
     </div>
 
        <div class="govuk-button-group">

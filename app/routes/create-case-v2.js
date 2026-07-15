@@ -64,12 +64,16 @@ router.post('/projects/back-office/create-case/v2/LPA-region', (req, res) => {
   if (req.body.action === 'cancel') {
     return res.redirect('/projects/back-office/create-case/v2/check-answers');
   }
+  const isEdit = req.body.isEdit === 'true';
   const index = req.body.index ? parseInt(req.body.index, 10) : 0;
   const lpas = req.session.lpas || [];
   const lpa = lpas[index];
   if (!req.session.lpaRegions) req.session.lpaRegions = {};
   req.session.lpaRegions[lpa] = req.body.region;
-  res.redirect('/projects/back-office/create-case/v2/check-answers');
+  if (isEdit) {
+    return res.redirect('/projects/back-office/create-case/v2/check-answers');
+  }
+  res.redirect('/projects/back-office/create-case/v2/add-additional-lpa');
 });
 
 // Start page
@@ -493,7 +497,7 @@ router.post('/projects/back-office/create-case/v2/3-select-LPA', (req, res) => {
   if (req.body.isEdit === 'true') {
     return res.redirect('/projects/back-office/create-case/v2/check-answers');
   }
-  res.redirect('/projects/back-office/create-case/v2/add-additional-lpa');
+  res.redirect(`/projects/back-office/create-case/v2/LPA-region?index=${index}`);
 });
 
 // Add additional LPA page
@@ -529,7 +533,8 @@ router.get('/projects/back-office/create-case/v2/additional-LPA', (req, res) => 
 router.post('/projects/back-office/create-case/v2/additional-LPA', (req, res) => {
   if (!req.session.lpas) req.session.lpas = [];
   req.session.lpas.push(req.body.lpa); // Add new LPA to array
-  res.redirect('/projects/back-office/create-case/v2/add-additional-lpa');
+  const index = req.session.lpas.length - 1;
+  res.redirect(`/projects/back-office/create-case/v2/LPA-region?index=${index}`);
 });
 
 // Main contact page (single GET route, uses mainContact)

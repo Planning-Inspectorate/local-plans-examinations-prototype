@@ -14,7 +14,7 @@
 {% block content %}
 <h1 class="govuk-heading-l">Check contact details</h1>
 <p>
-<a href="/projects/back-office/create-case/v2/additional-contact" class="govuk-body govuk-link">Add details</a>
+<a href="/projects/back-office/create-case/v2/additional-contact" class="govuk-body govuk-link">Add details<span class="govuk-visually-hidden"> for an additional contact</span></a>
 </p>
 <dl class="govuk-summary-list">
   {% if mainContact %}
@@ -33,10 +33,10 @@
       <dd class="govuk-summary-list__actions">
         <ul class="govuk-summary-list__actions-list">
           <li class="govuk-summary-list__actions-list-item">
-            <a class="govuk-link" href="/projects/back-office/create-case/v2/remove-contact-details-page?type=main">Remove<span class="govuk-visually-hidden"> main contact details</span></a>
+            <a class="govuk-link" href="/projects/back-office/create-case/v2/remove-contact-details-page?type=main">Remove<span class="govuk-visually-hidden"> main contact</span></a>
           </li>
           <li class="govuk-summary-list__actions-list-item">
-            <a class="govuk-link" href="/projects/back-office/create-case/v2/main-contact?edit=true">Change<span class="govuk-visually-hidden"> main contact details</span></a>
+            <a class="govuk-link" href="/projects/back-office/create-case/v2/main-contact?edit=true">Change<span class="govuk-visually-hidden"> main contact</span></a>
           </li>
         </ul>
       </dd>
@@ -61,10 +61,10 @@
         <dd class="govuk-summary-list__actions">
           <ul class="govuk-summary-list__actions-list">
             <li class="govuk-summary-list__actions-list-item">
-              <a class="govuk-link" href="/projects/back-office/create-case/v2/remove-contact-details-page?edit={{ loop.index0 }}">Remove<span class="govuk-visually-hidden"> contact details</span></a>
+              <a class="govuk-link" href="/projects/back-office/create-case/v2/remove-contact-details-page?edit={{ loop.index0 }}">Remove<span class="govuk-visually-hidden"> additional contact {{ loop.index }}</span></a>
             </li>
             <li class="govuk-summary-list__actions-list-item">
-              <a class="govuk-link" href="/projects/back-office/create-case/v2/additional-contact?edit={{ loop.index0 }}&from=check-contact-details">Change<span class="govuk-visually-hidden"> contact details</span></a>
+              <a class="govuk-link" href="/projects/back-office/create-case/v2/additional-contact?edit={{ loop.index0 }}&from=check-contact-details">Change<span class="govuk-visually-hidden"> additional contact {{ loop.index }}</span></a>
             </li>
           </ul>
         </dd>
@@ -74,7 +74,7 @@
   {% endif %}
 </dl>
 
-<a href="/projects/back-office/create-case/v2/enter-key-dates" class="govuk-button">Continue</a>
+<a href="/projects/back-office/create-case/v2/enter-key-dates" class="govuk-button">Continue<span class="govuk-visually-hidden"> to key dates</span></a>
 {% endblock %}
 
 {% block footer %}
