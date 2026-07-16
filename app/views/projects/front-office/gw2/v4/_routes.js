@@ -14,7 +14,7 @@ router.get('*', function(req, res, next){
 
 function proceduralComplete(data) {
   return data['cover-letter-upload-complete'] &&
-         data['timetable-type-complete'] &&
+         data['timetable-upload-complete'] &&
          data['pid-upload-complete'] &&
          data['compliance-upload-complete'] &&
          data['soundness-upload-complete']
@@ -62,11 +62,6 @@ router.post('/procedural-documents/cover-letter-upload', function (req, res) {
 })
 
 // ---- Timetable ----
-router.post('/procedural-documents/timetable-type', function (req, res) {
-  req.session.data['procedural-started'] = 'true'
-  req.session.data['timetable-type-complete'] = 'true'
-  res.redirect('../application-details')
-})
 
 router.post('/procedural-documents/timetable-upload', function (req, res) {
   req.session.data['procedural-started'] = 'true'

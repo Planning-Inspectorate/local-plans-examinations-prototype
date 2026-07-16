@@ -10,8 +10,8 @@
   {% endif %}
 </div>
 
-  {% set timetableValue = { html: "<a href='#'>timetable.pdf</a>" } if data['timetable-type-complete'] else { html: '<span class="govuk-hint">Not added</span>' } %}
-  {% set timetableAction = { href: 'procedural-documents/timetable-type?cya=true', html: 'Change', visuallyHiddenText: 'local plan timetable' } if data['timetable-type-complete'] else { href: 'procedural-documents/timetable-type', html: 'Add', visuallyHiddenText: 'local plan timetable' } %}
+  {% set timetableValue = { html: "<a href='#'>timetable.pdf</a>" } if data['timetable-upload-complete'] else { html: '<span class="govuk-hint">Not added</span>' } %}
+  {% set timetableAction = { href: 'procedural-documents/timetable-upload?cya=true', html: 'Change', visuallyHiddenText: 'local plan timetable' } if data['timetable-upload-complete'] else { href: 'procedural-documents/timetable-upload', html: 'Add', visuallyHiddenText: 'local plan timetable' } %}
 
   {{ govukSummaryList({
     classes: 'govuk-!-margin-bottom-9',
