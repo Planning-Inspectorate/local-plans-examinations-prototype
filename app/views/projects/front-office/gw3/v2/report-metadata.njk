@@ -1,0 +1,19 @@
+  {% set reportStatus = data['report'] %}
+
+  {% set gw3ReportDocument %}
+    <a class="govuk-link" href="#">gateway-3-report.pdf</a> (shared on 8 May 2026)
+  {% endset %}
+
+  {% set summaryRows = [] %}
+
+{% if reportStatus == 'shared' %}
+  {% set summaryRows = summaryRows.concat([{
+    key: { text: "Gateway 3 report", classes: "govuk-!-width-one-third" },
+    value: { html: gw3ReportDocument }
+  }]) %}
+{% endif %}
+
+{{ govukSummaryList({
+  classes: "app-details govuk-summary-list--no-border",
+  rows: summaryRows
+}) }}
