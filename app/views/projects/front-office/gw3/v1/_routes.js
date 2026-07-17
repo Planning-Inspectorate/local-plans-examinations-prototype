@@ -43,6 +43,7 @@ router.get('/application-details', function (req, res) {
   let completedCount = 0
   if (data['procedural-completed'] == 'true') completedCount++
   if (data['consultation-completed'] == 'true') completedCount++
+  if (data['supplementary-completed'] == 'true') completedCount++
 
   res.render('projects/front-office/gw3/v1/application-details', {
     completedCount: completedCount
@@ -131,6 +132,17 @@ router.post('/consultation-documents/plan-content-evidence-consultation-summary-
   res.redirect('../application-details')
 })
 
+router.post('/consultation-documents/representations-check', function (req, res) {
+  req.session.data['consultation-started'] = 'true'
+  req.session.data['representations-check-complete'] = 'true'
+
+  if (req.session.data['representationsDocs'] == 'yes') {
+    res.redirect('representations-upload')
+  } else {
+    res.redirect('../application-details')
+  }
+})
+
 router.post('/consultation-documents/representations-upload', function (req, res) {
   req.session.data['consultation-started'] = 'true'
   req.session.data['representations-upload-complete'] = 'true'
@@ -163,8 +175,21 @@ router.post('/consultation-documents/:page', function (req, res) {
   res.redirect('../application-details')
 })
 
+router.post('/supplementary-documents/supplementary-check', function (req, res) {
+  req.session.data['supplementary-started'] = 'true'
+  req.session.data['supplementary-check-complete'] = 'true'
+
+  if (req.session.data['additionalDocs'] == 'yes') {
+    res.redirect('supplementary-upload')
+  } else {
+    req.session.data['supplementary-completed'] = 'true'
+    res.redirect('../application-details')
+  }
+})
+
 router.post('/supplementary-documents/supplementary-upload', function (req, res) {
   req.session.data['supplementary-upload-complete'] = 'true'
+  req.session.data['supplementary-completed'] = 'true'
   res.redirect('../application-details')
 })
 

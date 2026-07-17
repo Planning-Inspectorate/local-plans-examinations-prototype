@@ -1,6 +1,13 @@
 <li>
   <h2 class="app-task-list__section">
-    Additional documents
+    Additional documents 
+            {% if data['supplementary-completed'] == 'true' %}
+      {{ govukTag({ html: 'Completed', classes: 'govuk-tag--green' }) }}
+    {% elif data['supplementary-started'] == 'true' %}
+      {{ govukTag({ html: 'In progress', classes: 'govuk-tag--blue' }) }}
+    {% else %}
+      {{ govukTag({ html: 'Not started', classes: 'govuk-tag--grey' }) }}
+    {% endif %}
   </h2>
 
   {% set supplementaryDocuments %}
@@ -14,6 +21,16 @@
   {{ govukSummaryList({
     classes: 'govuk-!-margin-bottom-9',
     rows: [
+          {
+        key: { text: 'Do you want to upload any subsequent work towards your Local Plan?' },
+        value:
+          { html: "No" } if data['supplementary-check-complete']
+          else { html: '<span class="govuk-hint">Not answered</span>' },
+        actions: { items: [
+          { href: 'supplementary-documents/supplementary-check?cya=true', text: 'Change', visuallyHiddenText: 'subsequent work towards your Local Plan' } if data['supplementary-check-complete']
+          else { href: 'supplementary-documents/supplementary-check', text: 'Answer', visuallyHiddenText: 'subsequent work towards your Local Plan' }
+        ]}
+      } if not (data['additionalDocs'] == 'yes' and data['supplementary-upload-complete']) else null,
       {
         key: { text: 'Subsequent work towards your Local Plan' },
         value:
@@ -23,7 +40,7 @@
           { href: 'supplementary-documents/supplementary-upload?cya=true', text: 'Change', visuallyHiddenText: 'subsequent work towards your Local Plan' } if data['supplementary-upload-complete']
           else { href: 'supplementary-documents/supplementary-upload', text: 'Add', visuallyHiddenText: 'subsequent work towards your Local Plan' }
         ]}
-      }
+      } if data['additionalDocs'] == 'yes' else null
     ]
   }) }}
 </li>

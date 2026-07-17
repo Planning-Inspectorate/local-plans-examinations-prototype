@@ -2,6 +2,13 @@
 <div class="govuk-form-group{% if errorStatus == 'true' %} govuk-form-group--error{% endif %}">
   <h2 class="app-task-list__section" id="procedural-documents">
     Procedural documents
+        {% if data['procedural-completed'] == 'true' %}
+      {{ govukTag({ html: 'Completed', classes: 'govuk-tag--green' }) }}
+    {% elif data['procedural-started'] == 'true' %}
+      {{ govukTag({ html: 'In progress', classes: 'govuk-tag--blue' }) }}
+    {% else %}
+      {{ govukTag({ html: 'Not started', classes: 'govuk-tag--grey' }) }}
+    {% endif %}
   </h2>
   {% if errorStatus == 'true' %}
     <p class="govuk-error-message">
@@ -15,7 +22,7 @@
     rows: [
 
       {
-        key: { text: 'Proposed local plan' },
+        key: { text: 'Proposed Local Plan' },
         value:
           { html: "<a href='#'>proposed-local-plan.pdf</a>" } if data['proposed-local-plan-upload-complete']
           else { html: '<span class="govuk-hint">Not added</span>' },
@@ -26,7 +33,7 @@
       },
 
       {
-        key: { text: 'Map of proposed local plan policies' },
+        key: { text: 'Map of proposed Local Plan policies' },
         value:
           { html: "<a href='#'>policies-map.pdf</a>" } if data['policies-map-upload-complete']
           else { html: '<span class="govuk-hint">Not added</span>' },
@@ -37,7 +44,7 @@
       },
 
       {
-        key: { text: 'Statement of compliance' },
+        key: { text: 'Statement of Compliance' },
         value:
           { html: "<a href='#'>compliance-statement.pdf</a>" } if data['compliance-statement-upload-complete']
           else { html: '<span class="govuk-hint">Not added</span>' },
@@ -48,7 +55,7 @@
       },
 
       {
-        key: { text: 'Statement of soundness' },
+        key: { text: 'Statement of Soundness' },
         value:
           { html: "<a href='#'>soundness-statement.pdf</a>" } if data['soundness-statement-upload-complete']
           else { html: '<span class="govuk-hint">Not added</span>' },

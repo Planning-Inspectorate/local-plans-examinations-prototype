@@ -38,24 +38,29 @@
     <a class="govuk-link" href="#">gateway-2-report.pdf</a> (shared on 8 May 2026)
   {% endset %}
 
+{% set summaryRows = [
+  {
+    key: { text: "Workshop venue", classes: "govuk-!-width-one-third" },
+    value: { text: "East Borough Civic Centre" }
+  },
+  {
+    key: { text: "Workshop date and time", classes: "govuk-!-width-one-third" },
+    value: { text: "19 May 2026 at 10am" }
+  },
+  {
+    key: { text: "Workshop documents", classes: "govuk-!-width-one-third" },
+    value: { html: workshopDocuments }
+  }
+] %}
+
+{% if reportStatus == 'shared' %}
+  {% set summaryRows = summaryRows.concat([{
+    key: { text: "Gateway 2 report", classes: "govuk-!-width-one-third" },
+    value: { html: gw2ReportDocument }
+  }]) %}
+{% endif %}
+
 {{ govukSummaryList({
   classes: "app-details govuk-summary-list--no-border",
-  rows: [
-    {
-      key: { text: "Workshop venue", classes: "govuk-!-width-one-third" },
-      value: { text: "Virtual" }
-    },
-    {
-      key: { text: "Workshop date and time", classes: "govuk-!-width-one-third" },
-      value: { text: "19 May 2026 at 10am" }
-    },
-    {
-      key: { text: "Workshop documents", classes: "govuk-!-width-one-third" },
-      value: { html: workshopDocuments }
-    },
-    {
-      key: { text: "Gateway 2 report", classes: "govuk-!-width-one-third" },
-      value: { html: gw2ReportDocument } if reportStatus == 'shared' else { text: "Not yet shared" }
-    }
-  ]
+  rows: summaryRows
 }) }}

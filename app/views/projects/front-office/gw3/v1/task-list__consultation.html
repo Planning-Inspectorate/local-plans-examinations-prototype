@@ -1,6 +1,13 @@
 <li>
   <h2 class="app-task-list__section">
     Consultation documents
+        {% if data['consultation-completed'] == 'true' %}
+      {{ govukTag({ html: 'Completed', classes: 'govuk-tag--green' }) }}
+    {% elif data['consultation-started'] == 'true' %}
+      {{ govukTag({ html: 'In progress', classes: 'govuk-tag--blue' }) }}
+    {% else %}
+      {{ govukTag({ html: 'Not started', classes: 'govuk-tag--grey' }) }}
+    {% endif %}
   </h2>
 
   <!--{
@@ -41,7 +48,7 @@
       },
 
       {
-        key: { text: 'Summary of consultation on proposed local plan content and evidence' },
+        key: { text: 'Summary of consultation on proposed Local Plan content and evidence' },
         value:
           { html: "<a href='#'>plan-content-evidence-consultation-summary.pdf</a>" } if data['plan-content-evidence-consultation-summary-upload-complete']
           else { html: '<span class="govuk-hint">Not added</span>' },
@@ -52,7 +59,7 @@
       },
 
       {
-        key: { text: 'Summary of consultation on proposed local plan' },
+        key: { text: 'Summary of consultation on proposed Local Plan' },
         value:
           { html: "<a href='#'>proposed-plan-consultation-summary.pdf</a>" } if data['proposed-plan-consultation-summary-upload-complete']
           else { html: '<span class="govuk-hint">Not added</span>' },
@@ -63,7 +70,7 @@
       },
 
       {
-        key: { text: 'Consultation on proposed local plan content and evidence documents' },
+        key: { text: 'Consultation on proposed Local Plan content and evidence documents' },
         value:
           { html: "<a href='#'>plan-content-evidence-consultation-docs.pdf</a>" } if data['plan-content-evidence-consultation-docs-upload-complete']
           else { html: '<span class="govuk-hint">Not added</span>' },
@@ -74,24 +81,13 @@
       },
 
       {
-        key: { text: 'Consultation summary on proposed local plan content and evidence documents' },
+        key: { text: 'Consultation summary on proposed Local Plan content and evidence documents' },
         value:
           { html: "<a href='#'>plan-content-evidence-consultation-summary-2.pdf</a>" } if data['plan-content-evidence-consultation-summary-2-upload-complete']
           else { html: '<span class="govuk-hint">Not added</span>' },
         actions: { items: [
           { href: 'consultation-documents/plan-content-evidence-consultation-summary-2-upload?cya=true', html: 'Change', visuallyHiddenText: 'consultation summary on proposed local plan content and evidence documents' } if data['plan-content-evidence-consultation-summary-2-upload-complete']
           else { href: 'consultation-documents/plan-content-evidence-consultation-summary-2-upload', html: 'Add', visuallyHiddenText: 'consultation summary on proposed local plan content and evidence documents' }
-        ]}
-      },
-
-      {
-        key: { text: 'Copies of representations (if needed)' },
-        value:
-          { html: "<a href='#'>representations.pdf</a>" } if data['representations-upload-complete']
-          else { html: '<span class="govuk-hint">Not added</span>' },
-        actions: { items: [
-          { href: 'consultation-documents/representations-upload?cya=true', html: 'Change', visuallyHiddenText: 'copies of representations' } if data['representations-upload-complete']
-          else { href: 'consultation-documents/representations-upload', html: 'Add', visuallyHiddenText: 'copies of representations' }
         ]}
       },
 
@@ -126,7 +122,29 @@
           { href: 'consultation-documents/supplementary-plans-statement-upload?cya=true', html: 'Change', visuallyHiddenText: 'supplementary plans statement' } if data['supplementary-plans-statement-upload-complete']
           else { href: 'consultation-documents/supplementary-plans-statement-upload', html: 'Add', visuallyHiddenText: 'supplementary plans statement' }
         ]}
-      }
+      },
+
+       {
+        key: { text: 'Do you have any copies of representations to upload?' },
+        value:
+          { html: "No" } if data['representations-check-complete']
+          else { html: '<span class="govuk-hint">Not answered</span>' },
+        actions: { items: [
+          { href: 'consultation-documents/representations-check?cya=true', html: 'Change', visuallyHiddenText: 'copies of representations' } if data['representations-check-complete']
+          else { href: 'consultation-documents/representations-check', html: 'Answer', visuallyHiddenText: 'copies of representations' }
+        ]}
+      } if not (data['representationsDocs'] == 'yes' and data['representations-upload-complete']) else null,
+
+      {
+        key: { text: 'Copies of representations' },
+        value:
+          { html: "<a href='#'>representations.pdf</a>" } if data['representations-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'consultation-documents/representations-upload?cya=true', html: 'Change', visuallyHiddenText: 'copies of representations' } if data['representations-upload-complete']
+          else { href: 'consultation-documents/representations-upload', html: 'Add', visuallyHiddenText: 'copies of representations' }
+        ]}
+      } if data['representationsDocs'] == 'yes' else null
 
     ]
   }) }}
