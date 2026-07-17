@@ -63,7 +63,29 @@
           { href: 'procedural-documents/soundness-statement-upload?cya=true', html: 'Change', visuallyHiddenText: 'statement of soundness' } if data['soundness-statement-upload-complete']
           else { href: 'procedural-documents/soundness-statement-upload', html: 'Add', visuallyHiddenText: 'statement of soundness' }
         ]}
-      }
+      },
+
+      {
+        key: { text: 'Do you have statement of alterations to upload?' },
+        value:
+          { html: "No" } if data['alterations-statement-check-complete']
+          else { html: '<span class="govuk-hint">Not answered</span>' },
+        actions: { items: [
+          { href: 'procedural-documents/alterations-statement-check?cya=true', html: 'Change', visuallyHiddenText: 'statement of alterations' } if data['alterations-statement-check-complete']
+          else { href: 'procedural-documents/alterations-statement-check', html: 'Answer', visuallyHiddenText: 'statement of alterations' }
+        ]}
+      } if not (data['alterationsDocs'] == 'yes' and data['alterations-statement-upload-complete']) else null,
+
+      {
+        key: { text: 'Statement of alterations' },
+        value:
+          { html: "<a href='#'>alterations-statement.pdf</a>" } if data['alterations-statement-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'procedural-documents/alterations-statement-upload?cya=true', html: 'Change', visuallyHiddenText: 'statement of alterations' } if data['alterations-statement-upload-complete']
+          else { href: 'procedural-documents/alterations-statement-upload', html: 'Add', visuallyHiddenText: 'statement of alterations' }
+        ]}
+      } if data['alterationsDocs'] == 'yes' else null
 
     ]
   }) }}

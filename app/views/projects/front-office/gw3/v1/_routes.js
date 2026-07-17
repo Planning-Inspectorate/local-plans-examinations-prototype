@@ -79,6 +79,17 @@ router.post('/procedural-documents/soundness-statement-upload', function (req, r
   res.redirect('../application-details')
 })
 
+router.post('/procedural-documents/alterations-statement-check', function (req, res) {
+  req.session.data['procedural-started'] = 'true'
+  req.session.data['alterations-statement-check-complete'] = 'true'
+
+  if (req.session.data['alterationsDocs'] == 'yes') {
+    res.redirect('alterations-statement-upload')
+  } else {
+    res.redirect('../application-details')
+  }
+})
+
 // Fallback for any procedural page not explicitly handled above
 router.post('/procedural-documents/:page', function (req, res) {
   req.session.data['procedural-started'] = 'true'
