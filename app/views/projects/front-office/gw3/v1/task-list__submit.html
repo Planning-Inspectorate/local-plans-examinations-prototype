@@ -1,27 +1,37 @@
-<li>
-  <h2 class="app-task-list__section">
-    <span class="app-task-list__section-number">3. </span> Submit
-    {% if data['gw3-documents-completed'] == 'true' and data['supplementary-completed'] == 'true' %}
-      {{ govukTag({ text: 'Ready to submit', classes: 'govuk-tag--blue' }) }}
-    {% else %}
-      {{ govukTag({ text: 'Cannot start yet', classes: 'govuk-tag--grey' }) }}
-    {% endif %}
-  </h2>
+<!--<li>
+<h2 class="app-task-list__section">
+  Submit
+  {% if data['procedural-started'] == 'true' %}
+    {{ govukTag({ text: 'Submission available', classes: 'govuk-tag--blue' }) }}
+  {% else %}
+    {{ govukTag({ text: 'Cannot start yet', classes: 'govuk-tag--grey' }) }}
+  {% endif %}
+</h2>
+  <p class="govuk-body govuk-hint">You must upload at least one document before you can submit</p>
 
-{{ govukSummaryList({
-  classes: 'govuk-!-margin-bottom-9',
-  rows: [
-    {
-      key: { html: 'Accept declaration and submit' },
-      actions: {
-        items: [
-          {
-            href: 'application-declaration',
-            html: 'Continue'
-          }
-        ]
-      } if data['gw3-documents-completed'] == 'true' and data['supplementary-completed'] == 'true'
-    }
-  ]
+
+  {{ govukSummaryList({
+    classes: 'govuk-!-margin-bottom-9',
+    rows: [
+      {
+        key: { html: 'Accept declaration and submit' },
+        actions: {
+          items: [
+            {
+              href: 'application-declaration',
+              html: 'Continue'
+            }
+          ]
+        } if data['procedural-started'] == 'true'
+      }
+    ]
+  }) }}
+</li>-->
+
+<li>
+
+  {{ govukButton({
+  text: "Submit for Gateway 3 assessment",
+  href: "application-declaration"
 }) }}
 </li>

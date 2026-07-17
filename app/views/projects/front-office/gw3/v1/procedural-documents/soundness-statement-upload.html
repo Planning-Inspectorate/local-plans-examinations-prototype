@@ -1,11 +1,11 @@
 {% extends "layouts/front-office-v3.html" %}
 {% from "macros/multi-file-upload.njk" import uploadArea %}
-{% set documentName = "any subsequent work towards your Local Plan" %}
-{% set title = "Upload " + documentName %}
+{% set documentName = "statement of soundness" %}
+{% set title = "Upload your " + documentName %}
 
 {% block questions %}
 
-<span class="govuk-caption-l">Additional documents</span>
+<span class="govuk-caption-l">Procedural documents</span>
 <h1 class="govuk-heading-l">{{ title }}</h1>
 
 {{ uploadArea({
