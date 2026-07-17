@@ -1,0 +1,179 @@
+{% extends "layouts/front-office-v2.html" %}
+
+{% block pageTitle %}
+  Application details – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/projects/front-office/plan-details/v2/plan-details?status=with-pins"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+{% set supplementaryDocuments %}
+    <ul class="govuk-list govuk-list--bullet">
+      <li><a class="govuk-link" href="#">supplementary-doc-1.pdf</a></li>
+      <li><a class="govuk-link" href="#">supplementary-doc-2.pdf</a></li>
+      <li><a class="govuk-link" href="#">supplementary-doc-3.pdf</a></li>
+    </ul>
+  {% endset %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters-from-desktop">
+
+        {{ govukNotificationBanner({
+      html: "
+        <h3 class='govuk-notification-banner__heading'>
+          Your Gateway 3 submission is with the Planning Inspectorate
+        </h3>
+
+        <p class='govuk-body'>
+          You will be notified by email if any action is required.
+        </p>
+      "
+    }) }}
+
+    <h1 class="govuk-heading-xl app-header__title">
+      <span class="govuk-caption-xl">East Borough Local Plan</span>
+      Gateway 3 submission
+    </h1>
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+    <p class="govuk-body">
+      Your submission was sent on 25 April 2026 at 12:00pm by Laura Thornton.
+    </p>
+
+    <h2 class="govuk-heading-m govuk-!-margin-top-6">Procedural documents</h2>
+
+    {{ govukSummaryList({
+      classes: "app-summary-list--narrow-key",
+      rows: [
+        {
+          key: { text: "Proposed Local Plan" },
+          value: {
+            html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">proposed-local-plan.pdf <span class="govuk-visually-hidden">(opens in a new tab)</span></a></li></ul>'
+          }
+        },
+        {
+          key: { text: "Map of proposed Local Plan policies" },
+          value: {
+            html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">policies-map.pdf <span class="govuk-visually-hidden">(opens in a new tab)</span></a></li></ul>'
+          }
+        },
+        {
+          key: { text: "Statement of Compliance" },
+          value: {
+            html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">compliance-statement.pdf <span class="govuk-visually-hidden">(opens in a new tab)</span></a></li></ul>'
+          }
+        },
+        {
+          key: { text: "Statement of Soundness" },
+          value: {
+            html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">soundness-statement.pdf <span class="govuk-visually-hidden">(opens in a new tab)</span></a></li></ul>'
+          }
+        },
+        {
+          key: { text: "Statement of alterations" },
+          value: {
+            html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">alterations-statement.pdf <span class="govuk-visually-hidden">(opens in a new tab)</span></a></li></ul>'
+          }
+        }
+      ]
+    }) }}
+
+    <h2 class="govuk-heading-m govuk-!-margin-top-6">Consultation documents</h2>
+
+    {{ govukSummaryList({
+      classes: "app-summary-list--narrow-key",
+      rows: [
+        {
+          key: { text: "Summary of consultation and engagement activities" },
+          value: {
+            html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">consultation-engagement-summary.pdf <span class="govuk-visually-hidden">(opens in a new tab)</span></a></li></ul>'
+          }
+        },
+        {
+          key: { text: "Summary of scoping consultation" },
+          value: {
+            html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">scoping-consultation-summary.pdf <span class="govuk-visually-hidden">(opens in a new tab)</span></a></li></ul>'
+          }
+        },
+        {
+          key: { text: "Summary of consultation on proposed Local Plan content and evidence" },
+          value: {
+            html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">plan-content-evidence-consultation-summary.pdf <span class="govuk-visually-hidden">(opens in a new tab)</span></a></li></ul>'
+          }
+        },
+        {
+          key: { text: "Summary of consultation on proposed Local Plan" },
+          value: {
+            html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">proposed-plan-consultation-summary.pdf <span class="govuk-visually-hidden">(opens in a new tab)</span></a></li></ul>'
+          }
+        },
+        {
+          key: { text: "Gateway 1 – Self assessment of readiness" },
+          value: {
+            html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">gw1-self-assessment.pdf <span class="govuk-visually-hidden">(opens in a new tab)</span></a></li></ul>'
+          }
+        },
+        {
+          key: { text: "Consultation on proposed Local Plan content and evidence documents" },
+          value: {
+            html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">plan-content-evidence-consultation-docs.pdf <span class="govuk-visually-hidden">(opens in a new tab)</span></a></li></ul>'
+          }
+        },
+        {
+          key: { text: "Consultation summary on proposed Local Plan content and evidence documents" },
+          value: {
+            html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">plan-content-evidence-consultation-summary-2.pdf <span class="govuk-visually-hidden">(opens in a new tab)</span></a></li></ul>'
+          }
+        },
+        {
+          key: { text: "Copies of representations" },
+          value: {
+            html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">representations.pdf <span class="govuk-visually-hidden">(opens in a new tab)</span></a></li></ul>'
+          }
+        },
+        {
+          key: { text: "Statement of practical arrangements demonstrating readiness for examination" },
+          value: {
+            html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">practical-arrangements-statement.pdf <span class="govuk-visually-hidden">(opens in a new tab)</span></a></li></ul>'
+          }
+        },
+        {
+          key: { text: "Environmental report" },
+          value: {
+            html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">environmental-report.pdf <span class="govuk-visually-hidden">(opens in a new tab)</span></a></li></ul>'
+          }
+        },
+        {
+          key: { text: "Supplementary plans statement" },
+          value: {
+            html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">supplementary-plans-statement.pdf <span class="govuk-visually-hidden">(opens in a new tab)</span></a></li></ul>'
+          }
+        }
+      ]
+    }) }}
+
+    <h2 class="govuk-heading-m govuk-!-margin-top-6">Additional documents</h2>
+
+    {{ govukSummaryList({
+      classes: "app-summary-list--narrow-key",
+      rows: [
+        {
+          key: { text: "Subsequent work towards a final Plan" },
+          value: {
+            html: supplementaryDocuments
+          }
+        }
+      ]
+    }) }}
+
+  </div>
+</div>
+
+{% endblock %}

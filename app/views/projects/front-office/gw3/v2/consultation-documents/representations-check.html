@@ -1,0 +1,36 @@
+{% extends "layouts/front-office-v3.html" %}
+{% from "macros/multi-file-upload.njk" import uploadArea %}
+{% set title = "Do you have any copies of representations to upload?" %}
+
+{% block questions %}
+
+<span class="govuk-caption-l">Consultation documents</span>
+
+{{ govukRadios({
+  name: "representationsDocs",
+  fieldset: {
+    legend: {
+      text: title,
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--l"
+    }
+  },
+  items: [
+    {
+      value: "yes",
+      text: "Yes"
+    },
+    {
+      value: "no",
+      text: "No"
+    }
+  ]
+}) }}
+
+{% endblock %}
+
+{% block buttons %}
+  {{ govukButton({
+    text: 'Continue'
+  }) }}
+{% endblock %}
