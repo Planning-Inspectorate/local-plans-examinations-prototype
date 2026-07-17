@@ -1,5 +1,16 @@
 {% extends "layouts/front-office-v2.html" %}
 
+{% set reportStatus = data['report'] %}
+
+{% set prototypeLinks =
+[
+{
+href: 'application-details-submitted?report=shared',
+text: 'GW2 report shared'
+}
+]
+%}
+
 {% block pageTitle %}
   Application details – {{ serviceName }}
 {% endblock %}
@@ -31,6 +42,18 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters-from-desktop">
 
+        {% if reportStatus == 'shared' %}
+
+        {{ govukNotificationBanner({
+      html: "
+        <h3 class='govuk-notification-banner__heading'>
+          Your Gateway 2 report has been shared by the Planning Inspectorate
+        </h3>
+      "
+    }) }}
+
+        {% else %}
+
         {{ govukNotificationBanner({
       html: "
         <h3 class='govuk-notification-banner__heading'>
@@ -42,6 +65,8 @@
         </p>
       "
     }) }}
+
+        {% endif %}
 
     {% include "./workshop-metadata.html" %}
 

@@ -25,11 +25,17 @@
   </h1>
 </div>
 
+  {% set reportStatus = data['report'] %}
+
   {% set workshopDocuments %}
     <ul class="govuk-list">
       <li><a class="govuk-link" href="#">workshop-agenda.pdf</a> (shared on 8 May 2026)</li>
       <li><a class="govuk-link" href="#">workshop-questions.pdf</a> (shared on 8 May 2026)</li>
     </ul>
+  {% endset %}
+
+  {% set gw2ReportDocument %}
+    <a class="govuk-link" href="#">gateway-2-report.pdf</a> (shared on 8 May 2026)
   {% endset %}
 
 {{ govukSummaryList({
@@ -46,6 +52,10 @@
     {
       key: { text: "Workshop documents", classes: "govuk-!-width-one-third" },
       value: { html: workshopDocuments }
+    },
+    {
+      key: { text: "Gateway 2 report", classes: "govuk-!-width-one-third" },
+      value: { html: gw2ReportDocument } if reportStatus == 'shared' else { text: "Not yet shared" }
     }
   ]
 }) }}
