@@ -1,0 +1,89 @@
+{% extends "layouts/front-office-v2.html" %}
+{% set errorStatus = data['error'] %}
+
+{% block pageTitle %} Application details – {{ serviceName }}
+{% endblock %}
+
+{% set prototypeLinks =
+[
+{
+href: 'application-details?error=true',
+text: 'Error message'
+},
+{
+href: 'application-declaration',
+text: 'Skip to declaration'
+},
+{
+href: 'application-submission-success',
+text: 'Skip to confirmation'
+}
+]
+%}
+
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "/projects/front-office/plan-details/v2/plan-details?status=in-progress&stage=gateway-3"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+
+        {% if errorStatus == 'true' %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: [
+            {
+              text: "Add all required documents before submitting",
+              href: "#required-documents"
+            }
+          ]
+        }) }}
+        {% endif %}
+
+    {% include "./application-metadata.njk" %}
+
+    <p class="govuk-body"><a href="/projects/front-office/plan-details/v2/plan-details?status=in-progress&stage=gateway-3">Save and come back later</a></p>
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible" />
+
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-2">
+      {% if requiredCompletedCount == requiredTotalCount %}Ready to submit{% else %}Submission incomplete{% endif %}
+    </h2>
+    <p class="govuk-!-margin-bottom-7">You have completed {{ requiredCompletedCount }} of {{ requiredTotalCount }} required documents.</p>
+
+    <style>
+      .app-task-list>li {
+        position: relative;
+      }
+
+      .app-task-list__section .govuk-tag {
+        position: absolute;
+        top: 3px;
+        right: 0;
+      }
+
+      .app-task-list .govuk-summary-list {
+        border-top: 1px solid #b1b4b6;
+      }
+
+      .app-task-list__section {
+        padding-right: 140px;
+      }
+    </style>
+
+    <ol class="app-task-list">
+      {% include "./task-list__required.html" %}
+      {% include "./task-list__optional.html" %}
+      {% include "./task-list__submit.html" %}
+    </ol>
+
+  </div>
+</div>
+
+{% endblock %}

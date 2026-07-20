@@ -1,0 +1,71 @@
+<li>
+<div class="govuk-form-group{% if errorStatus == 'true' %} govuk-form-group--error{% endif %}">
+  <h2 class="app-task-list__section" id="required-documents">
+    Required documents
+    {% if requiredCompletedCount == requiredTotalCount %}
+      {{ govukTag({ html: 'Completed', classes: 'govuk-tag--green' }) }}
+    {% elif requiredCompletedCount > 0 %}
+      {{ govukTag({ html: 'In progress', classes: 'govuk-tag--blue' }) }}
+    {% else %}
+      {{ govukTag({ html: 'Not started', classes: 'govuk-tag--grey' }) }}
+    {% endif %}
+  </h2>
+  {% if errorStatus == 'true' %}
+    <p class="govuk-error-message">
+      <span class="govuk-visually-hidden">Error:</span> Add all required documents before submitting
+    </p>
+  {% endif %}
+  <p class="govuk-body">You must add these documents before you can submit.</p>
+</div>
+
+  {{ govukSummaryList({
+    classes: 'govuk-!-margin-bottom-9',
+    rows: [
+
+      {
+        key: { text: 'Proposed Local Plan' },
+        value:
+          { html: "<a href='#'>proposed-local-plan.pdf</a>" } if data['proposed-local-plan-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'procedural-documents/proposed-local-plan-upload?cya=true', html: 'Change', visuallyHiddenText: 'proposed local plan' } if data['proposed-local-plan-upload-complete']
+          else { href: 'procedural-documents/proposed-local-plan-upload', html: 'Add', visuallyHiddenText: 'proposed local plan' }
+        ]}
+      },
+
+      {
+        key: { text: 'Statement of Compliance' },
+        value:
+          { html: "<a href='#'>compliance-statement.pdf</a>" } if data['compliance-statement-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'procedural-documents/compliance-statement-upload?cya=true', html: 'Change', visuallyHiddenText: 'statement of compliance' } if data['compliance-statement-upload-complete']
+          else { href: 'procedural-documents/compliance-statement-upload', html: 'Add', visuallyHiddenText: 'statement of compliance' }
+        ]}
+      },
+
+      {
+        key: { text: 'Statement of Soundness' },
+        value:
+          { html: "<a href='#'>soundness-statement.pdf</a>" } if data['soundness-statement-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'procedural-documents/soundness-statement-upload?cya=true', html: 'Change', visuallyHiddenText: 'statement of soundness' } if data['soundness-statement-upload-complete']
+          else { href: 'procedural-documents/soundness-statement-upload', html: 'Add', visuallyHiddenText: 'statement of soundness' }
+        ]}
+      },
+
+      {
+        key: { text: 'Link to examination Library' },
+        value:
+          { html: "<a href='#'>" + data['examination-library-link'] + "</a>" } if data['examination-library-link-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'procedural-documents/examination-library-link?cya=true', html: 'Change', visuallyHiddenText: 'link to examination library' } if data['examination-library-link-complete']
+          else { href: 'procedural-documents/examination-library-link', html: 'Add', visuallyHiddenText: 'link to examination library' }
+        ]}
+      }
+
+    ]
+  }) }}
+</li>

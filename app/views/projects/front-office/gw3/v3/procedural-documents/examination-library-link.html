@@ -1,0 +1,31 @@
+{% extends "layouts/front-office-v3.html" %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% set title = "Link to examination Library" %}
+
+{% block questions %}
+
+<span class="govuk-caption-l">Required documents</span>
+
+{{ govukInput({
+  label: {
+    text: title,
+    isPageHeading: true,
+    classes: "govuk-label--l"
+  },
+  hint: {
+    text: "Enter the web address (URL) where your examination library is published."
+  },
+  id: "examination-library-link",
+  name: "examination-library-link",
+  type: "url",
+  classes: "govuk-!-width-two-thirds",
+  value: data['examination-library-link']
+}) }}
+
+{% endblock %}
+
+{% block buttons %}
+  {{ govukButton({
+    text: 'Continue'
+  }) }}
+{% endblock %}

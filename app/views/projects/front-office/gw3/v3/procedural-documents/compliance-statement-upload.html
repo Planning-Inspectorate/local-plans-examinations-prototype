@@ -1,0 +1,20 @@
+{% extends "layouts/front-office-v3.html" %}
+{% from "macros/multi-file-upload.njk" import uploadArea %}
+{% set documentName = "statement of compliance" %}
+{% set title = "Upload your " + documentName %}
+
+{% block questions %}
+
+<span class="govuk-caption-l">Procedural documents</span>
+<h1 class="govuk-heading-l">{{ title }}</h1>
+
+{{ uploadArea({
+  id: "documents",
+  name: "documents",
+  dataKey: "documents",
+  errorMessage: "The file must be a PDF, DOC, DOCX, PPT, PPTX, XLS, XLSX, MSG, JPG, JPEG, PNG, TIF or TIFF and smaller than 250MB.",
+  allowedExtensions: ["pdf", "doc", "docx", "ppt", "pptx", "xls", "xlsx", "msg", "jpg", "jpeg", "png", "tif", "tiff"],
+  maxFileSizeMB: 250
+}) }}
+
+{% endblock %}
