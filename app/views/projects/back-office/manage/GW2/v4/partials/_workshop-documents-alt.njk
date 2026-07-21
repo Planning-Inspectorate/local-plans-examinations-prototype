@@ -1,22 +1,20 @@
-<h2 class="govuk-heading-l">Workshop documents</h2>
-{% if workshopDocumentsSummary and workshopDocumentsSummary.hasDocuments %}
-  <dl class="govuk-summary-list govuk-summary-list-timetable">
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key">Status</dt>
-      <dd class="govuk-summary-list__value">{{ workshopDocumentsSummary.count }} workshop document{% if workshopDocumentsSummary.count != 1 %}s{% endif %} uploaded</dd>
-      <dd class="govuk-summary-list__actions">
+<dl class="govuk-summary-list govuk-summary-list-timetable">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Workshop documents</dt>
+    <dd class="govuk-summary-list__value">
+      {% if workshopDocumentsSummary and workshopDocumentsSummary.hasDocuments %}
+        Issued on {{ workshopDocumentsSummary.latestUploadedAtDisplay if workshopDocumentsSummary.latestUploadedAtDisplay and workshopDocumentsSummary.latestUploadedAtDisplay != '-' else 'Not provided' }}
+      {% else %}
+        Not provided
+      {% endif %}
+    </dd>
+    <dd class="govuk-summary-list__actions">
+      {% if workshopDocumentsSummary and workshopDocumentsSummary.hasDocuments %}
         <a class="govuk-link" href="/projects/back-office/manage/GW2/v4/upload/v1/check-answers?returnTo=gateway-2-alt">View<span class="govuk-visually-hidden"> workshop document details</span></a>
-      </dd>
-    </div>
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key">Date uploaded</dt>
-      <dd class="govuk-summary-list__value">{{ workshopDocumentsSummary.latestUploadedAtDisplay if workshopDocumentsSummary.latestUploadedAtDisplay and workshopDocumentsSummary.latestUploadedAtDisplay != '-' else 'Not provided' }}</dd>
-      <dd class="govuk-summary-list__actions"></dd>
-    </div>
-  </dl>
-{% else %}
-  <p class="govuk-body">No workshop documents uploaded yet.</p>
-  <p class="govuk-body govuk-!-margin-bottom-3">
-    <a href="/projects/back-office/manage/GW2/v4/upload/v1/upload-bo?returnTo=gateway-2-alt">Upload workshop documents</a>
-  </p>
-{% endif %}
+      {% else %}
+        <a class="govuk-link" href="/projects/back-office/manage/GW2/v4/upload/v1/upload-bo?returnTo=gateway-2-alt">Add<span class="govuk-visually-hidden"> workshop documents</span></a>
+      {% endif %}
+    </dd>
+  </div>
+</dl>
+      

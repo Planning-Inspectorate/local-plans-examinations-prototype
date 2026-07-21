@@ -1,0 +1,53 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+ What is the region of the Local Planning Authority? – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+      <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form method="post" action="/projects/back-office/create-case/v4/LPA-region">
+        <input type="hidden" name="index" value="{{ index }}">
+        <input type="hidden" name="isEdit" value="{{ isEdit }}">
+       
+        <div class="govuk-form-group">
+          <h1 class="govuk-label-wrapper">
+            <label class="govuk-label govuk-label--l" for="region">
+              {% if isEdit %}What is the region of the Local Planning Authority?{% else %}What is the region of the Local Planning Authority?{% endif %}
+            </label>
+          </h1>
+            <select class="govuk-select" id="region" name="region" data-module="autocomplete"
+              data-display-menu="" data-min-length="" data-show-all-values="" data-show-no-options-found="">
+              <option value="" disabled {% if not region %}selected{% endif %}>Select an option</option>
+              {% for option in regionOptions %}
+                <option value="{{ option }}" {% if region == option %}selected{% endif %}>{{ option }}</option>
+              {% endfor %}
+            </select>
+    </div>
+
+      <div class="govuk-button-group">
+        <button class="govuk-button" data-module="govuk-button" type="submit">Save and continue</button>
+        {% if isEdit %}
+          <a href="/projects/back-office/create-case/v4/check-answers" class="govuk-link">Cancel</a>
+        {% else %}
+          <a href="/projects/back-office/create-case/v4/add-additional-lpa" class="govuk-link">Cancel</a>
+        {% endif %}
+      </div>
+    </form>
+  </div>
+
+
+      {% endblock %}
+      {% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}
+  
