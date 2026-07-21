@@ -1,0 +1,59 @@
+{% extends "layouts/front-office-v2.html" %}
+
+{% block pageTitle %}
+  Gateway 3 version history – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters-from-desktop">
+
+    <div class="app-header">
+      <h1 class="govuk-heading-xl app-header__title">
+        <span class="govuk-caption-xl">East Borough Local Plan</span>
+        Gateway 3 version history
+      </h1>
+    </div>
+
+    <p class="govuk-body">You can view the documents and decision for any previous Gateway 3 submission.</p>
+
+    <table class="govuk-table">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">Submission</th>
+          <th scope="col" class="govuk-table__header">Submitted</th>
+          <th scope="col" class="govuk-table__header">Status</th>
+          <th scope="col" class="govuk-table__header"><span class="govuk-visually-hidden">Action</span></th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Submission 2</td>
+          <td class="govuk-table__cell">Not yet submitted</td>
+          <td class="govuk-table__cell">{{ govukTag({ text: "Draft", classes: "govuk-tag--grey" }) }}</td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="application-details?resubmission=true">Continue</a></td>
+        </tr>
+
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Submission 1</td>
+          <td class="govuk-table__cell">20 June 2026</td>
+          <td class="govuk-table__cell">{{ govukTag({ text: "Stop", classes: "govuk-tag--red" }) }}</td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="application-details-decision?decision=stop">View</a></td>
+        </tr>
+
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+{% endblock %}

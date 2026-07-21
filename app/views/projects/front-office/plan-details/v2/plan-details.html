@@ -59,6 +59,17 @@ href: "/projects/front-office/home/v2/homepage"
       "
     }) }}
 
+    {% elif planStatus == 'action-needed' and currentStage == 'gateway-3' %}
+
+    {{ govukNotificationBanner({
+      type: "important",
+      html: "
+        <h3 class='govuk-notification-banner__heading'>Action needed — your Gateway 3 submission has been stopped</h3>
+        <p class='govuk-body'>PINS has reviewed your Gateway 3 submission and made a 'stop' decision. You must review the report and resubmit before your plan can progress.</p>
+        <p class='govuk-body govuk-!-margin-bottom-0'><a class='govuk-link' href='../../gw3/v3/application-details-decision?decision=stop'>View the decision and resubmit</a></p>
+      "
+    }) }}
+
     {% elif planStatus == 'action-needed' %}
 
     {{ govukNotificationBanner({

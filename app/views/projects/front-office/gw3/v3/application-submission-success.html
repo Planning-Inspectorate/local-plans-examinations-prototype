@@ -1,5 +1,6 @@
 {% extends "layouts/front-office-v2.html" %}
 {% set back = false %}
+{% set resubmission = data['resubmission'] %}
 
 {% block pageTitle %}
 Application complete – {{ serviceName }}
@@ -18,7 +19,15 @@ Application complete – {{ serviceName }}
 
     <h2 class="govuk-heading-m">What happens next</h2>
 
+    {% if resubmission == 'true' %}
+
+    <p class="govuk-body">We've sent your resubmission to the Planning Inspectorate. They will check the issues raised in their Gateway 3 report have been addressed before your plan can proceed to examination.</p>
+
+    {% else %}
+
     <p class="govuk-body">We've sent your submission to the Planning Inspectorate. They will check that your submission is complete and that they have all the information required to proceed to the next stage of the plan.</p>
+
+    {% endif %}
 
 <p class="govuk-body">They will contact you directly if any further information is required.</p>
 

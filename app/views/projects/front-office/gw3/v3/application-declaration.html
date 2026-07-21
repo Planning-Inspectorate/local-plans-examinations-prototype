@@ -1,4 +1,5 @@
 {% extends "layouts/front-office-v2.html" %}
+{% set resubmission = data['resubmission'] %}
 
 {% block pageTitle %}
   Confirm declaration – {{ serviceName }}
@@ -22,7 +23,7 @@
       text: "Your declaration will be linked to the email address you used to sign in. This helps us identify who made the submission."
     }) }}
 
-    <form action="application-submission-success" method="post" novalidate>
+    <form action="application-submission-success{% if resubmission == 'true' %}?resubmission=true{% endif %}" method="post" novalidate>
 
       <p class="govuk-body">By submitting this, I confirm that:</p>
 

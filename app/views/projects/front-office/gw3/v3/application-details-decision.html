@@ -1,0 +1,92 @@
+{% extends "layouts/front-office-v2.html" %}
+
+{% set decision = data['decision'] or 'stop' %}
+
+{% set prototypeLinks =
+[
+{
+href: 'application-details-decision?decision=stop',
+text: 'Stop decision'
+},
+{
+href: 'application-details-decision?decision=go',
+text: 'Go decision'
+}
+]
+%}
+
+{% block pageTitle %}
+  Gateway 3 decision – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/projects/front-office/plan-details/v2/plan-details?status=action-needed&stage=gateway-3"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters-from-desktop">
+
+    {% if decision == 'go' %}
+
+      {{ govukNotificationBanner({
+        type: "success",
+        html: "
+          <h3 class='govuk-notification-banner__heading'>Your Gateway 3 submission has been approved</h3>
+          <p class='govuk-body'>The Planning Inspectorate has made a 'go' decision. Your plan can now progress to examination.</p>
+        "
+      }) }}
+
+    {% else %}
+
+      {{ govukNotificationBanner({
+        type: "important",
+        html: "
+          <h3 class='govuk-notification-banner__heading'>Action needed — your Gateway 3 submission has been stopped</h3>
+          <p class='govuk-body'>The Planning Inspectorate has reviewed your Gateway 3 submission and made a 'stop' decision. You must review the report below and resubmit your application.</p>
+        "
+      }) }}
+
+    {% endif %}
+
+    <div class="app-header">
+      <h1 class="govuk-heading-xl app-header__title">
+        <span class="govuk-caption-xl">East Borough Local Plan</span>
+        Gateway 3 decision
+      </h1>
+    </div>
+
+      {% include "./_includes/decision-metadata.njk" %}
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible" />
+
+    <p class="govuk-body">Your submission was sent on 20 June 2026 at 10:32am by Laura Thornton.</p>
+
+    {% include "./_includes/submitted-documents.njk" %}
+
+    {% if decision != 'go' %}
+
+      <h2 class="govuk-heading-m govuk-!-margin-top-6">Version history</h2>
+
+      <p class="govuk-body">You can view your previous Gateway 3 submissions at any time.</p>
+
+      <p class="govuk-body"><a class="govuk-link" href="version-history">View version history</a></p>
+
+      <div class="govuk-button-group govuk-!-margin-top-6">
+        {{ govukButton({
+          text: "Start your resubmission",
+          href: "application-details?resubmission=true"
+        }) }}
+        <a class="govuk-link" href="/projects/front-office/plan-details/v2/plan-details?status=action-needed&stage=gateway-3">Return to plan details</a>
+      </div>
+
+    {% endif %}
+
+  </div>
+</div>
+
+{% endblock %}

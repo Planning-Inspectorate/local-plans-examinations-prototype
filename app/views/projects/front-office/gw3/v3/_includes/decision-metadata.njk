@@ -1,0 +1,41 @@
+<style>
+  .app-header {
+    margin-bottom: 20px;
+  }
+
+  .app-header__title {
+    margin-bottom: 5px;
+  }
+
+  .app-header__tag {
+    margin-bottom: 15px;
+  }
+
+  .app-details .govuk-summary-list__key,
+  .app-details .govuk-summary-list__value {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+</style>
+
+    {{ govukSummaryList({
+      classes: "app-details govuk-summary-list--no-border",
+      rows: [
+        {
+          key: { text: "Decision", classes: "govuk-!-width-one-third" },
+          value: { html: govukTag({ text: "Stop", classes: "govuk-tag--red" }) if decision != 'go' else govukTag({ text: "Go", classes: "govuk-tag--green" }) }
+        },
+        {
+          key: { text: "Case officer", classes: "govuk-!-width-one-third" },
+          value: { text: "Michael Chen" }
+        },
+        {
+          key: { text: "Decision date", classes: "govuk-!-width-one-third" },
+          value: { text: "3 July 2026" }
+        },
+        {
+          key: { text: "Gateway 3 report", classes: "govuk-!-width-one-third" },
+          value: { html: "<a class='govuk-link' href='#'>gateway-3-report.pdf</a>" }
+        }
+      ]
+    }) }}
