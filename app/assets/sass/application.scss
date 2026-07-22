@@ -419,8 +419,8 @@ html, body {
 .govuk-main-wrapper {
     background-color: #fff !important;
 }
-.govuk-back-link {
-    background-color: #fff !important;
+.govuk-back-link:not(:focus):not(:active) {
+  background-color: #fff !important;
 }
 
 .app-summary-list--narrow-key .govuk-summary-list__key {

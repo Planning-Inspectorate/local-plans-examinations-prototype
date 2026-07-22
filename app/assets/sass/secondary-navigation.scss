@@ -39,13 +39,25 @@
 .x-govuk-secondary-navigation__list-item--current .x-govuk-secondary-navigation__link,
 .x-govuk-secondary-navigation__link[aria-current="page"] {
   color: #0b0c0c;
-  border-bottom: 4px solid #1d70b8;
+  border-bottom: 4px solid #10847E;
   font-weight: bold;
 }
 
 .x-govuk-secondary-navigation__link:hover {
   color: #003078;
   border-bottom: 4px solid #003078;
+}
+
+.moj-sub-navigation__item--active .moj-sub-navigation__link,
+.moj-sub-navigation__link[aria-current="page"] {
+  color: #0b0c0c;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.moj-sub-navigation__item--active .moj-sub-navigation__link::before,
+.moj-sub-navigation__link[aria-current="page"]::before {
+  background-color: #10847E;
 }
 
 
