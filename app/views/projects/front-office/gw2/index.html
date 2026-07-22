@@ -26,52 +26,48 @@
       {{ title }}
     </h1>
  
-    {% set version = "3" %}
+    {% set version = "4" %}
     <h2 class="govuk-heading-m">
       Version {{ version }}
       {{ govukTag({
-        classes: 'govuk-tag--yellow govuk-!-margin-left-2',
-        text: 'Ready for research'
+        classes: 'govuk-tag govuk-!-margin-left-2',
+        text: 'In progress'
       }) }}
     </h2>
 
     <p class="govuk-body">Allows LPAs to submit a Gateway 2 application. Users upload required documents, complete a declaration, and confirm submission.</p>
 
-    <h3 class="govuk-heading-s">Mural board workings and other options</h3>
+    {{ govukInsetText({
+    html: '<a href="https://app.mural.co/t/allpins6990/m/allpins6990/1765884601123/237bc418b7dd56fd74fe7b0ce600936fbf9aba46" target="_blank" rel="noopener noreferrer">Design Mural board</a>'
+    }) }}
 
-    <ul class="govuk-list govuk-list--bullet">
-      <li>
-        <a
-        href="https://app.mural.co/t/allpins6990/m/allpins6990/1765884601123/237bc418b7dd56fd74fe7b0ce600936fbf9aba46">Design Mural board</a>
-      </li>
-      <li>
-        <a
-        href="https://app.mural.co/t/allpins6990/m/allpins6990/1776240173187/3c951bd1e9c81a3c6506f51abab0d859c1ff7e10">User research assumption mapping mural board</a>
-      </li>
-      <li>
-        <a
-        href="/projects/front-office/gw2/archive/v4/application-details">Option with hybrid mandatory + optional documents</a>
-      </li>
-      <li>
-        <a
-        href="https://app.mural.co/t/allpins6990/m/allpins6990/1781087329494/450608632532f9f252540e6e24da657510944428">Insights into decisions mural board</a>
-      </li>
-      <li>
-        <a
-        href="https://pins-app-prototype-local-plans.azurewebsites.net/projects/front-office/gw2/v3/application-details?error=true">Validation error state</a>
-      </li>
-    </ul>
-     
     {{ govukButton({
       html: 'View prototype',
-      href: '/projects/front-office/gw2/v' ~ version ~ '/application-details',
+      href: '/projects/front-office/gw2/v' ~ version ~ '/application-details?error=',
       isStartButton: true
     }) }}
 
-    {% set appDetailsNotesHtml %}
+    {% set v4NotesHtml %}
 
     <h3 class="govuk-heading-s">Changes</h3>
- 
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Added the PINS multi-file upload component</li>
+      <li>Simplified the upload flow so each step returns to the task list rather than chaining to the next document</li>
+      <li>Added a "Save and return" button to the upload forms</li>
+    </ul>
+
+{% endset %}
+
+    {{ govukDetails({
+      summaryText: "Version 4 notes",
+      html: v4NotesHtml
+    }) }}
+
+    {% set v3NotesHtml %}
+
+    <h3 class="govuk-heading-s">Changes</h3>
+
     <ul class="govuk-list govuk-list--bullet">
       <li>Designed so all documents are optional</li>
       <li>Changed "application" wording to "submission"</li>
@@ -84,12 +80,44 @@
       <li>Read-only submitted view now includes workshop details (date, time, venue and shared documents)</li>
     </ul>
 
-{% endset %}
+{% endset -%}
 
-{{ govukDetails({
-  summaryText: "Version 3 notes",
-  html: appDetailsNotesHtml
-}) }}
+    {% set v3HTML %}
+
+      {% set version = "3" %}
+
+      <h3 class="govuk-heading-s">Mural board workings and other options</h3>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>
+          <a
+          href="https://app.mural.co/t/allpins6990/m/allpins6990/1776240173187/3c951bd1e9c81a3c6506f51abab0d859c1ff7e10">User research assumption mapping mural board</a>
+        </li>
+        <li>
+          <a
+          href="/projects/front-office/gw2/archive/v4/application-details">Option with hybrid mandatory + optional documents</a>
+        </li>
+        <li>
+          <a
+          href="https://app.mural.co/t/allpins6990/m/allpins6990/1781087329494/450608632532f9f252540e6e24da657510944428">Insights into decisions mural board</a>
+        </li>
+        <li>
+          <a
+          href="/projects/front-office/gw2/v3/application-details?error=true">Validation error state</a>
+        </li>
+      </ul>
+
+      {{ govukButton({
+        html: 'View prototype',
+        href: '/projects/front-office/gw2/v' ~ version ~ '/application-details?error=',
+        isStartButton: true
+      }) }}
+
+      {{ govukDetails({
+        summaryText: "Version 3 notes",
+        html: v3NotesHtml
+      }) }}
+    {% endset -%}
 
         {% set v2NotesHtml %}
 
@@ -171,6 +199,14 @@
       id: 'previous',
       classes: 'govuk-!-margin-top-9',
       items: [
+        {
+          heading: {
+            html: 'Version 3 <strong class="govuk-tag govuk-tag--green govuk-!-margin-left-2">Research complete</strong>'
+          },
+          content: {
+            html: v3HTML
+          }
+        },
         {
           heading: {
             html: 'Version 2 <strong class="govuk-tag govuk-tag--green govuk-!-margin-left-2">Research complete</strong>'

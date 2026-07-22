@@ -1,5 +1,16 @@
 {% extends "layouts/front-office-v2.html" %}
 
+{% set arrivalStatus = data['status'] %}
+{% set arrivalReport = data['report'] %}
+
+{% if arrivalReport == 'shared' %}
+  {% set backHref = "/projects/front-office/plan-details/v2/plan-details?report=shared&status=" %}
+{% elif arrivalStatus == 'validated' or arrivalStatus == 'workshop-docs-added' %}
+  {% set backHref = "/projects/front-office/plan-details/v2/plan-details?status=" + arrivalStatus + "&stage=gateway-2&report=" %}
+{% else %}
+  {% set backHref = "/projects/front-office/plan-details/v2/plan-details?status=with-pins&report=" %}
+{% endif %}
+
 {% block pageTitle %}
   Application details – {{ serviceName }}
 {% endblock %}
@@ -7,7 +18,7 @@
 {% block beforeContent %}
   {{ govukBackLink({
     text: "Back",
-    href: "/projects/front-office/plan-details/v2/plan-details?status=with-pins"
+    href: backHref
   }) }}
 {% endblock %}
 

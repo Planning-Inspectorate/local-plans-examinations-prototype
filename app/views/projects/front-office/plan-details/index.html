@@ -24,6 +24,54 @@
 
     <h1 class="govuk-heading-l">{{ title }}</h1>
 
+    {# ===================== VERSION 3 ===================== #}
+
+    {% set v3NotesHtml %}
+    <h3 class="govuk-heading-s">Prototype states</h3>
+      <ul class="govuk-list govuk-list--bullet">
+        <li><a class="govuk-link" href="/projects/front-office/plan-details/v3/plan-details?status=ready">GW2 ready to start</a></li>
+        <li><a class="govuk-link" href="/projects/front-office/plan-details/v3/plan-details?status=validated&stage=gateway-2">GW2 workshop scheduled</a></li>
+        <li><a class="govuk-link" href="/projects/front-office/plan-details/v3/plan-details?status=workshop-docs-added&stage=gateway-2">GW2 workshop documents added</a></li>
+        <li><a class="govuk-link" href="/projects/front-office/plan-details/v3/plan-details?report=shared&status=ready&stage=gateway-3">GW2 report shared</a></li>
+        <li><a class="govuk-link" href="/projects/front-office/plan-details/v3/plan-details?status=ready&stage=gateway-3">GW3 ready to start</a></li>
+        <li><a class="govuk-link" href="/projects/front-office/plan-details/v3/plan-details?status=action-needed&stage=gateway-3">GW3 action needed</a></li>
+        <li><a class="govuk-link" href="/projects/front-office/plan-details/v3/plan-details?status=ready&stage=examination">Examination ready to start</a></li>
+    </ul>
+
+      <h3 class="govuk-heading-s">Key changes</h3>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>Links through to gateway 2 v4 and gateway 3 v3 prototypes instead of older versions</li>
+        <li>Added prototype states covering gateway 3 and examination stages with new notification banners</li>
+        <li>Accessibility Lab improvements implemented (removeed stray section break)</li>
+      </ul>
+
+    {% endset %}
+
+    <h2 class="govuk-heading-m">
+      Version 3
+      {{ govukTag({
+        classes: 'govuk-tag--blue govuk-!-margin-left-2',
+        text: 'In progress'
+      }) }}
+    </h2>
+
+    <p class="govuk-body">
+      Designed to give LPAs a clear understanding of the current stage of a plan, its status, and what comes next.
+    </p>
+
+    {{ govukButton({
+      text: "View prototype",
+      href: '/projects/front-office/plan-details/v3/plan-details?status=ready',
+      isStartButton: true
+    }) }}
+
+    {{ govukDetails({
+      summaryText: "Version 3 notes",
+      html: v3NotesHtml
+    }) }}
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
     {# ===================== VERSION 2 ===================== #}
 
     {% set v2NotesHtml %}
@@ -46,38 +94,31 @@
 
     {% endset %}
 
+    {% set v2HTML %}
 
-    <h2 class="govuk-heading-m">
-      Version 2
-      {{ govukTag({
-        classes: 'govuk-tag--yellow govuk-!-margin-left-2',
-        text: 'Ready for research'
+      <p class="govuk-body">
+        Designed to give LPAs a clear understanding of the current stage of a plan, its status, and what comes next.
+      </p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li><a class="govuk-link" href="https://app.mural.co/t/allpins6990/m/allpins6990/1765884601123/237bc418b7dd56fd74fe7b0ce600936fbf9aba46">Design Mural board</a></li>
+        <li><a class="govuk-link" href="https://app.mural.co/t/allpins6990/m/allpins6990/1776240173187/3c951bd1e9c81a3c6506f51abab0d859c1ff7e10">User research assumption mapping mural</a></li>
+        <li><a class="govuk-link" href="https://app.mural.co/t/allpins6990/m/allpins6990/1781087329494/450608632532f9f252540e6e24da657510944428">Insights into decisions mural</a></li>
+        <li><a class="govuk-link" href="https://pins-ds.atlassian.net/wiki/spaces/LO/pages/2688188440/Gateway+2+submission+-+changes+after+round+1+testing">Design History Confluence page</a></li>
+      </ul>
+
+      {{ govukButton({
+        text: "View prototype",
+        href: '/projects/front-office/plan-details/v2/plan-details?status=ready',
+        isStartButton: true
       }) }}
-    </h2>
 
-    <p class="govuk-body">
-      Designed to give LPAs a clear understanding of the current stage of a plan, its status, and what comes next.
-    </p>
+      {{ govukDetails({
+        summaryText: "Version 2 notes",
+        html: v2NotesHtml
+      }) }}
 
-    <ul class="govuk-list govuk-list--bullet">
-      <li><a class="govuk-link" href="https://app.mural.co/t/allpins6990/m/allpins6990/1765884601123/237bc418b7dd56fd74fe7b0ce600936fbf9aba46">Design Mural board</a></li>
-      <li><a class="govuk-link" href="https://app.mural.co/t/allpins6990/m/allpins6990/1776240173187/3c951bd1e9c81a3c6506f51abab0d859c1ff7e10">User research assumption mapping mural</a></li>
-      <li><a class="govuk-link" href="https://app.mural.co/t/allpins6990/m/allpins6990/1781087329494/450608632532f9f252540e6e24da657510944428">Insights into decisions mural</a></li>
-      <li><a class="govuk-link" href="https://pins-ds.atlassian.net/wiki/spaces/LO/pages/2688188440/Gateway+2+submission+-+changes+after+round+1+testing">Design History Confluence page</a></li>
-    </ul>
-
-    {{ govukButton({
-      text: "View prototype",
-      href: '/projects/front-office/plan-details/v2/plan-details?status=ready',
-      isStartButton: true
-    }) }}
-
-    {{ govukDetails({
-      summaryText: "Version 2 notes",
-      html: v2NotesHtml
-    }) }}
-
-    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+    {% endset %}
 
     {# ===================== VERSION 1 NOTES (DEFINE FIRST) ===================== #}
 
@@ -148,6 +189,14 @@
     {{ govukAccordion({
       id: "plan-details-accordion",
       items: [
+        {
+          heading: {
+            html: 'Version 2 <strong class="govuk-tag govuk-tag--green govuk-!-margin-left-2">Research complete</strong>'
+          },
+          content: {
+            html: v2HTML
+          }
+        },
         {
           heading: {
             html: 'Version 1 <strong class="govuk-tag govuk-tag--green govuk-!-margin-left-2">Research complete</strong>'

@@ -1,5 +1,5 @@
 {% extends "layouts/front-office-v2.html" %}
- 
+
 {% block pageTitle %}
   Confirm declaration – {{ serviceName }}
 {% endblock %}
@@ -24,10 +24,12 @@
  
     <form action="application-submission-success" method="post" novalidate>
  
-      <p class="govuk-body">By submitting this, I confirm that:</p>
- 
       {{ govukCheckboxes({
         name: "declaration",
+        fieldset: {
+          legend: {
+            text: "By submitting this, I confirm that:"          }
+        },
         items: [
           {
             value: "information-true",
@@ -35,7 +37,7 @@
           },
           {
             value: "privacy-notice",
-            html: "I have read and agree to The Planning Inspectorate's <a href='https://www.gov.uk/government/publications/planning-inspectorate-privacy-notices/customer-privacy-notice' class='govuk-link' target='_blank' rel='noopener noreferrer'>privacy notice <span class='govuk-visually-hidden'>(opens in a new tab)</span></a>"
+            html: "I have read and agree to The Planning Inspectorate's <a href='https://www.gov.uk/government/publications/planning-inspectorate-privacy-notices/customer-privacy-notice' class='govuk-link' target='_blank' rel='noopener noreferrer'>privacy notice (opens in a new tab)</a>"
           }
         ]
       }) }}

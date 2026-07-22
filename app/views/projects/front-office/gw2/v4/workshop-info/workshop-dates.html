@@ -1,37 +1,36 @@
 {% extends "layouts/front-office-v3.html" %}
 
-{% set title = "Suggest dates for your Gateway 2 workshop" %}
+{% set title = "Workshop dates" %}
 
 {% block questions %}
 
-  <span class="govuk-caption-l">
-    Workshop preferences
-  </span>
+  <h1 class="govuk-heading-l">
+    <span class="govuk-caption-l">Workshop preferences</span>
+    {{ title }}
+  </h1>
 
-  {% set workshopHint %}
-    <p class="govuk-body">
-      Give 2 to 3 possible dates. We'll try to arrange the workshop around one of these.
-    </p>
-    <ul class="govuk-list govuk-list--bullet">
-      <li>
-        workshops usually last no more than 2 days
-      </li>
-      <li>
-        we aim to hold the workshop 3 weeks after your Gateway 2 submission
-      </li>
-    </ul>
-  {% endset %}
+  <p class="govuk-body">
+    Give 2 to 3 possible dates. We'll try to arrange the workshop around one of these.
+  </p>
+  <ul class="govuk-list govuk-list--bullet">
+    <li>
+      workshops usually last no more than 2 days
+    </li>
+    <li>
+      we aim to hold the workshop 3 weeks after your Gateway 2 submission
+    </li>
+  </ul>
 
   {{ govukTextarea({
     name: "workshopDates",
     id: "workshop-dates",
     label: {
-      text: title,
-      classes: "govuk-label--l",
-      isPageHeading: true
+      text: "Suggest dates for your Gateway 2 workshop",
+      isPageHeading: false,
+      classes: "govuk-fieldset__legend--m"
     },
     hint: {
-      html: workshopHint + "<p class='govuk-hint'>For example, 14 to 16 July 2026</p>"
+      text: "For example, 14 to 16 July 2026"
     }
   }) }}
 

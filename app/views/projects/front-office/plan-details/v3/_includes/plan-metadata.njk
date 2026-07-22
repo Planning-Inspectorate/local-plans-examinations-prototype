@@ -1,0 +1,33 @@
+<style>
+  .app-details .govuk-summary-list__key,
+  .app-details .govuk-summary-list__value {
+    padding-top: .5rem;
+    padding-bottom: 0;
+  }
+
+  .app-details {
+    margin-bottom: 0;
+  }
+</style>
+
+  {% set lpaNames %}
+    <ul class="govuk-list">
+      <li>East Borough District Council</li>
+      <li>Northbridge City Council</li>
+      <li>Vale of Ash District Council</li>
+    </ul>
+  {% endset %}
+
+  {{ govukSummaryList({
+    classes: "app-details govuk-summary-list--no-border",
+    rows: [
+      {
+        key: { text: "Plan reference", classes: "govuk-!-width-one-third" },
+        value: { text: "PLAN/000006" }
+      },
+      {
+        key: { text: "Joint local planning authorities", classes: "govuk-!-width-two-thirds" },
+        value: { html: lpaNames }
+      }
+    ]
+  }) }}

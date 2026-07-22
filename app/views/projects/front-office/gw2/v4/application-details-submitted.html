@@ -18,7 +18,7 @@ text: 'GW2 report shared'
 {% block beforeContent %}
   {{ govukBackLink({
     text: "Back",
-    href: "/projects/front-office/plan-details/v2/plan-details?status=with-pins"
+    href: "/projects/front-office/plan-details/v2/plan-details?status=with-pins&report="
   }) }}
 {% endblock %}
 
@@ -42,7 +42,7 @@ text: 'GW2 report shared'
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters-from-desktop">
 
-        {% if reportStatus == 'shared' %}
+        <!--{% if reportStatus == 'shared' %}
 
         {{ govukNotificationBanner({
       html: "
@@ -66,7 +66,7 @@ text: 'GW2 report shared'
       "
     }) }}
 
-        {% endif %}
+        {% endif %}-->
 
     {% include "./workshop-metadata.html" %}
 
