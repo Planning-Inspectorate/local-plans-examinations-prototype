@@ -32,9 +32,13 @@
     </ul>
   {% endset %}
 
-{{ govukSummaryList({
-  classes: "app-details govuk-summary-list--no-border",
-  rows: [
+  {% set reportDocuments %}
+    <ul class="govuk-list">
+      <li><a class="govuk-link" href="#">gateway-2-report.pdf</a> (shared on 20 May 2026)</li>
+    </ul>
+  {% endset %}
+
+  {% set metadataRows = [
     {
       key: { text: "Workshop venue", classes: "govuk-!-width-one-third" },
       value: { text: "Virtual" }
@@ -47,5 +51,14 @@
       key: { text: "Workshop documents", classes: "govuk-!-width-one-third" },
       value: { html: workshopDocuments }
     }
-  ]
+  ] %}
+
+  {% set reportRow = {
+    key: { text: "Gateway 2 report", classes: "govuk-!-width-one-third" },
+    value: { html: reportDocuments }
+  } %}
+
+{{ govukSummaryList({
+  classes: "app-details govuk-summary-list--no-border",
+  rows: metadataRows.concat([reportRow]) if arrivalReport == 'shared' else metadataRows
 }) }}

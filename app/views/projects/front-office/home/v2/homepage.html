@@ -15,11 +15,9 @@ Home – {{ serviceName }}
       East Borough District Council
     </span>
 
-    <h1 class="govuk-heading-xl">
-      My plans
-    </h1>
-
 {{ govukTable({
+  caption: "My plans",
+  captionClasses: "govuk-heading-xl",
   firstCellIsHeader: true,
   head: [
     {
@@ -35,7 +33,7 @@ Home – {{ serviceName }}
   rows: [
     [
       {
- html: '<a href="/projects/front-office/plan-details/v2/plan-details?status=ready">PLAN/000006</a>'      },
+ html: '<a href="/projects/front-office/plan-details/v3/plan-details?status=ready&report=">PLAN/000006</a>'      },
       {
         text: "East Borough Local Plan"
       },

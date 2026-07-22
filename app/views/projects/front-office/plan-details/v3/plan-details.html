@@ -7,6 +7,10 @@
 {% set prototypeLinks =
 [
 {
+href: 'plan-details?status=ready&stage=gateway-2&report=',
+text: 'GW2 ready to start (default)'
+},
+{
 href: 'plan-details?status=validated&stage=gateway-2&report=',
 text: 'Workshop scheduled'
 },
@@ -15,8 +19,20 @@ href: 'plan-details?status=workshop-docs-added&stage=gateway-2&report=',
 text: 'Workshop documents added'
 },
 {
-href: 'plan-details?report=shared&status=',
+href: 'plan-details?report=shared&status=ready&stage=gateway-3',
 text: 'GW2 report shared'
+},
+{
+href: 'plan-details?status=ready&stage=gateway-3&report=',
+text: 'GW3 ready to start'
+},
+{
+href: 'plan-details?status=action-needed&stage=gateway-3&report=',
+text: 'GW3 action needed'
+},
+{
+href: 'plan-details?status=ready&stage=examination&report=',
+text: 'Examination ready to start'
 }
 ]
 %}
@@ -75,16 +91,6 @@ href: "/projects/front-office/home/v2/homepage"
       "
     }) }}
 
-    <!--{% elif planStatus == 'action-needed' %}
-
-    {{ govukNotificationBanner({
-      html: "
-        <h3 class='govuk-notification-banner__heading'>Your gateway 2 submission is incomplete</h3>
-        <p class='govuk-body'>PINS has reviewed your submission and found issues with some documents. You must upload corrected files before your plan can progress.</p>
-        <p class='govuk-body govuk-!-margin-bottom-0'><a class='govuk-link' href='/projects/front-office/gw2/v2/application-details-option-a'>Review and correct your documents</a></p>
-      "
-  }) }}-->
-
     {% elif reportStatus == 'shared' %}
 
         {{ govukNotificationBanner({
@@ -101,11 +107,6 @@ href: "/projects/front-office/home/v2/homepage"
     {% include "./_includes/plan-heading.njk" %}
     {% include "./_includes/plan-metadata.njk" %}
     {% include "./_includes/plan-tasklist.njk" %}
-    <hr class="govuk-section-break govuk-section-break--m govuk-section-break">
-    {# {% if currentStage == 'gateway-3' or planStatus == 'validated' %}
-    {% include "./_includes/shared-documents.njk" %}
-    {% endif %}
-    {% include "./_includes/plan-guidance-tabs.njk" %} #}
   </div>
 </div>
 {% endblock %}
