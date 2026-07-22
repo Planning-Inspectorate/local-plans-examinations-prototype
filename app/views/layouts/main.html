@@ -38,6 +38,24 @@ https://prototype-kit.service.gov.uk/docs/how-to-use-layouts
 {% block header %}
   {% include "includes/PINS-header--internal.html" %}
 {% endblock %}
+
+{% block beforeContent %}
+  {% if super %}
+    {% set beforeContentHtml %}{{ super() }}{% endset %}
+  {% else %}
+    {% set beforeContentHtml %}{% endset %}
+  {% endif %}
+  {% if beforeContentHtml | trim %}
+    {% if "govuk-back-link" in beforeContentHtml %}
+      <nav aria-label="Back">
+        {{ beforeContentHtml | safe }}
+      </nav>
+    {% else %}
+      {{ beforeContentHtml | safe }}
+    {% endif %}
+  {% endif %}
+{% endblock %}
+
 {% block footer %}
   {% include "includes/footer.njk" %}
 {% endblock %}

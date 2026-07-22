@@ -72,6 +72,10 @@
         <div class="govuk-summary-card__content">
           <dl class="govuk-summary-list">
             {% if mainContact %}
+              {% set mainContactLabel = (mainContact.firstName ~ ' ' ~ mainContact.lastName) | trim %}
+              {% if not mainContactLabel %}
+                {% set mainContactLabel = mainContact.email or 'main contact' %}
+              {% endif %}
               <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key">Main contact</dt>
                 <dd class="govuk-summary-list__value">
@@ -83,7 +87,7 @@
                 <dd class="govuk-summary-list__actions">
                   <ul class="govuk-summary-list__actions-list">
                     <li class="govuk-summary-list__actions-list-item">
-                      <a class="govuk-link" href="/projects/back-office/create-case/v4/main-contact?edit=true">Change<span class="govuk-visually-hidden"> main contact</span></a>
+                      <a class="govuk-link" href="/projects/back-office/create-case/v4/main-contact?edit=true">Change<span class="govuk-visually-hidden"> {{ mainContactLabel }}</span></a>
                     </li>
                   </ul>
                 </dd>
@@ -91,10 +95,15 @@
             {% endif %}
 
             {% if contacts %}
+              {% set showAdditionalContactIndex = contacts.length > 1 %}
               {% for contact in contacts %}
                 {% if contact.firstName or contact.lastName or contact.email %}
+                {% set contactLabel = (contact.firstName ~ ' ' ~ contact.lastName) | trim %}
+                {% if not contactLabel %}
+                  {% set contactLabel = contact.email or ('contact ' ~ loop.index) %}
+                {% endif %}
                 <div class="govuk-summary-list__row">
-                  <dt class="govuk-summary-list__key">Additional contact</dt>
+                  <dt class="govuk-summary-list__key">Additional contact{% if showAdditionalContactIndex %} {{ loop.index }}{% endif %}</dt>
                   <dd class="govuk-summary-list__value">
                     {{ contact.firstName }} {{ contact.lastName }}<br>
                     {{ contact.email }}<br>
@@ -104,7 +113,7 @@
                   <dd class="govuk-summary-list__actions">
                     <ul class="govuk-summary-list__actions-list">
                       <li class="govuk-summary-list__actions-list-item">
-                        <a class="govuk-link" href="/projects/back-office/create-case/v4/additional-contact?edit={{ loop.index0 }}&from=check-answers">Change<span class="govuk-visually-hidden"> contact {{ loop.index }}</span></a>
+                        <a class="govuk-link" href="/projects/back-office/create-case/v4/additional-contact?edit={{ loop.index0 }}&from=check-answers">Change<span class="govuk-visually-hidden"> {{ contactLabel }}</span></a>
                       </li>
                     </ul>
                   </dd>

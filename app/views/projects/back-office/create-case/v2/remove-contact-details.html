@@ -12,8 +12,18 @@
 {% endblock %}
 
 {% block content %}
+{% set contactLabel = (contact.firstName ~ ' ' ~ contact.lastName) | trim %}
+{% if not contactLabel %}
+  {% if contact.email %}
+    {% set contactLabel = contact.email %}
+  {% elif isMain %}
+    {% set contactLabel = 'main contact' %}
+  {% else %}
+    {% set contactLabel = 'contact' %}
+  {% endif %}
+{% endif %}
 <h1 class="govuk-heading-l">Remove contact details</h1>
-<p>Are you sure you want to remove this contact?</p>
+<p>Are you sure you want to remove {{ contactLabel }}?</p>
 <dl class="govuk-summary-list">
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key" style="width: 15%;">
@@ -33,7 +43,7 @@
   <input type="hidden" name="isMain" value="{{ isMain }}">
   <div class="govuk-button-group">
     {{ govukButton({
-      text: "Remove contact",
+      html: 'Remove contact<span class="govuk-visually-hidden"> ' ~ contactLabel ~ '</span>',
       classes: "govuk-button--warning"
     }) }}
     <a href="/projects/back-office/create-case/v2/check-contact-details" class="govuk-button govuk-button--secondary">

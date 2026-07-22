@@ -26,39 +26,77 @@
       {{ title }}
     </h1>
  
-    {% set version = "5" %}
+    {% set version = "4" %}
     <h2 class="govuk-heading-m">
       Version {{ version }}
       {{ govukTag({
-        classes: 'govuk-tag--green govuk-!-margin-left-2',
-        text: 'Ready for user testing'
+        classes: 'govuk-tag--blue govuk-!-margin-left-2',
+        text: 'In progress'
       }) }}
     </h2>
  
-    <!--<p class="govuk-!-margin-bottom-2">Changes:</p>
+    <p class="govuk-!-margin-bottom-2">Changes:</p>
  
     <ul class="govuk-list govuk-list--bullet">
-      <li>updated layout of application details to match Appeals pattern and loop through each upload page</li>
-      <li>declaration pages merged into 1 declaration page</li>
-      <li>view-only 'application submitted' page added</li>
-      <li>progress tracker added i.e. "You have completed 0 of 3 sections."</li>
-    </ul> -->
- 
-     {{ govukInsetText({
-        html: '<p class="govuk-body"><a href="https://app.mural.co/t/allpins6990/m/allpins6990/1762788535163/3a2c841844dbb96c1cd802902aafd1d9c74d2108?wid=0-1772544795774">Design Mural board</a></p>'
-      }) }}
- 
+      <li>Two stage contacts flow when more than one LPA</li>
+      <li>Uses HMRC pattern for 'Add to a list' for reviewing added contacts</li>
+      <li>Includes error messaging for each screen</li>
+    </ul> 
     {{ govukButton({
       html: 'View prototype',
       href: '/projects/back-office/create-case/v' ~ version ~ '/index',
       isStartButton: true
     }) }}
 
+       <br>
+      <br>
+      <br>
+    {% set version = "3" %}
+    <h2 class="govuk-heading-m">
+      Version {{ version }}
+      {{ govukTag({
+        classes: 'govuk-tag--blue govuk-!-margin-left-2',
+        text: 'In progress'
+      }) }}
+    </h2>
+  <p class="govuk-!-margin-bottom-2">Changes:</p>
  
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Two stage contacts flow when more than one LPA</li>
+      <li>Uses PINS pattern for reviewing added contacts</li>
+    </ul> 
+ 
+      {{ govukButton({
+        html: 'View prototype',
+        href: '/projects/back-office/create-case/v' ~ version ~ '/index',
+        isStartButton: true
+      }) }}
+
+      <br>
+      <br>
+      <br>
+      {% set version = "2" %}
+    <h2 class="govuk-heading-m">
+      Version {{ version }}
+      {{ govukTag({
+        classes: 'govuk-tag--blue govuk-!-margin-left-2',
+        text: 'In progress'
+      }) }}
+    </h2>
+ <p class="govuk-!-margin-bottom-2">Changes:</p>
+ 
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Original flow with radio selection of LPA on the contacts page when there are multiple LPAs</li>
+      <li>It was advised by Solirius Accessibility lab that it was confusing, but keeping it here for reference</li>
+    </ul> 
+      {{ govukButton({
+        html: 'View prototype',
+        href: '/projects/back-office/create-case/v' ~ version ~ '/index',
+        isStartButton: true
+      }) }}
+
     {% set v1HTML %}
- 
       {% set version = "1" %}
- 
       <p class="govuk-body">
         Create a case prototype for testing with Case Officers.
       </p>
@@ -83,7 +121,7 @@
       items: [
         {
           heading: {
-            html: 'Version 1 <strong class="govuk-tag govuk-tag--grey govuk-!-margin-left-2">Superseded</strong>'
+            html: 'Version 1 <strong class="govuk-tag govuk-tag--green govuk-!-margin-left-2">Research complete</strong>'
           },
           content: {
             html: v1HTML

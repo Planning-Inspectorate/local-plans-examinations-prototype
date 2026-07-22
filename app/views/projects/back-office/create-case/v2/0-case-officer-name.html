@@ -16,17 +16,13 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <form action="/projects/back-office/create-case/v2/0-case-officer-name" method="POST" novalidate="">
-      <input type="hidden" name="_csrf" value="">
-      <input type="hidden" name="isEdit" value="{{ isEdit }}">
-
       <div class="govuk-form-group">
         <h1 class="govuk-label-wrapper">
           <label class="govuk-label govuk-label--l" for="caseOfficer">
-            {% if isEdit %}Who is the case officer?{% else %}Who is the case officer?{% endif %}
+             Who is the case officer?
           </label>
         </h1>
-        <select class="govuk-select govuk-!-width-two-thirds" id="caseOfficer" name="caseOfficer" data-module="autocomplete" title="Case officer name"
-          data-display-menu="" data-min-length="" data-show-all-values="" data-show-no-options-found="">
+        <select class="govuk-select govuk-!-width-two-thirds" id="caseOfficer" name="caseOfficer">
           <option value="" {% if not caseOfficer %}selected{% endif %} disabled>Select an option</option>
           <option value="Jane Smith" {% if caseOfficer == "Jane Smith" %}selected{% endif %}>Jane Smith</option>
           <option value="John Doe" {% if caseOfficer == "John Doe" %}selected{% endif %}>John Doe</option>

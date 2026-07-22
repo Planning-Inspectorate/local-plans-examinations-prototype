@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
- Select the Local Planning Authority for this plan – {{ serviceName }}
+  Select the additional Local Planning Authority for this plan – {{ serviceName }} 
 {% endblock %}
 {% block beforeContent %}
   {{ govukBackLink({
@@ -11,17 +11,15 @@
 {% endblock %}
 
 {% block content %}
-
-      <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <form method="post" action="/projects/back-office/create-case/v5/3-select-LPA">
-        <div class="govuk-form-group">
-          <h1 class="govuk-label-wrapper">
-            <label class="govuk-label govuk-label--l" for="lpa">
-              Select the Local Planning Authority for this plan
-            </label>
-          </h1>
-       
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <form method="post" action="/projects/back-office/create-case/v3/additional-LPA">
+      <div class="govuk-form-group">
+        <h1 class="govuk-label-wrapper">
+          <label class="govuk-label govuk-label--l" for="lpa">
+            Select the additional Local Planning Authority for this plan
+          </label>
+        </h1>
             <select class="govuk-select" id="lpa" name="lpa" data-module="autocomplete" title="Additional Local Planning Authority"
               data-display-menu="" data-min-length="" data-show-all-values="" data-show-no-options-found="">
               <option value="" selected disabled>Select an option</option>
@@ -426,20 +424,23 @@
             </select>
     </div>
 
-       <div class="govuk-button-group">
+     <div class="govuk-form-group">
          {% if isEdit %}
-        <button type="submit" class="govuk-button" data-module="govuk-button" name="isEdit" value="true">Save and continue</button>
-        <a href="/projects/back-office/create-case/v5/check-answers" class="govuk-link">Cancel</a>
+        {{ govukButton({
+          text: "Save and continue"
+        }) }}
         {% else %}
-        <button type="submit" class="govuk-button" data-module="govuk-button">Continue</button>
+        {{ govukButton({
+          text: "Continue"
+        }) }}
         {% endif %}
-      </div>
-    </form>
+        </div>
+      </form>
+    </div>
   </div>
 
 
-      {% endblock %}
-      {% block footer %}
+{% endblock %}
+{% block footer %}
   {% include "includes/footer.njk" %}
 {% endblock %}
-  

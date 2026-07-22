@@ -309,6 +309,25 @@ window.GOVUKPrototypeKit.documentReady(() => {
       hiddenText.textContent = hiddenText.textContent.replace(/^\s*Change\b/i, 'Add')
     }
   })
+
+  const singleSelects = document.querySelectorAll('select.govuk-select:not([multiple])')
+  singleSelects.forEach((select) => {
+    select.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter') {
+        return
+      }
+
+      event.preventDefault()
+
+      if (typeof select.showPicker === 'function') {
+        select.showPicker()
+        return
+      }
+
+      select.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true, view: window }))
+      select.click()
+    })
+  })
 })
 
 if (window.MOJFrontend && typeof window.MOJFrontend.initAll === 'function') {

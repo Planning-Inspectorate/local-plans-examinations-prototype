@@ -25,8 +25,7 @@
             {% if isEdit %}Who is the case officer?{% else %}Who is the case officer?{% endif %}
           </label>
         </h1>
-        <select class="govuk-select govuk-!-width-two-thirds" id="caseOfficer" name="caseOfficer" data-module="autocomplete" title="Case officer name"
-          data-display-menu="" data-min-length="" data-show-all-values="" data-show-no-options-found="">
+        <select class="govuk-select govuk-!-width-two-thirds" id="caseOfficer" name="caseOfficer">
           <option value="" {% if not caseOfficer %}selected{% endif %} disabled>Select an option</option>
           <option value="Jane Smith" {% if caseOfficer == "Jane Smith" %}selected{% endif %}>Jane Smith</option>
           <option value="John Doe" {% if caseOfficer == "John Doe" %}selected{% endif %}>John Doe</option>

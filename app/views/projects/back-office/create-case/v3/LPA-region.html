@@ -15,7 +15,7 @@
 
       <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <form method="post" action="/projects/back-office/create-case/v5/LPA-region">
+      <form method="post" action="/projects/back-office/create-case/v3/LPA-region">
         <input type="hidden" name="index" value="{{ index }}">
         <input type="hidden" name="isEdit" value="{{ isEdit }}">
        
@@ -37,9 +37,9 @@
       <div class="govuk-button-group">
         <button class="govuk-button" data-module="govuk-button" type="submit">Save and continue</button>
         {% if isEdit %}
-          <a href="/projects/back-office/create-case/v5/check-answers" class="govuk-link">Cancel</a>
+          <a href="/projects/back-office/create-case/v3/check-answers" class="govuk-link">Cancel</a>
         {% else %}
-          <a href="/projects/back-office/create-case/v5/add-additional-lpa" class="govuk-link">Cancel</a>
+          <a href="/projects/back-office/create-case/v3/add-additional-lpa" class="govuk-link">Cancel</a>
         {% endif %}
       </div>
     </form>

@@ -613,7 +613,7 @@ router.post('/projects/back-office/create-case/v4/main-contact', (req, res) => {
     ? (fromPage === 'check-contact-details'
       ? '/projects/back-office/create-case/v4/check-contact-details'
       : '/projects/back-office/create-case/v4/check-answers')
-    : '/projects/back-office/create-case/v4/add-another-contact';
+    : '/projects/back-office/create-case/v4/check-contact-details';
 
   req.session.pendingContactAssociation = {
     type: 'main',
@@ -725,25 +725,39 @@ router.post('/projects/back-office/create-case/v4/remove-contact', (req, res) =>
 router.get('/projects/back-office/create-case/v4/check-contact-details', (req, res) => {
   res.render('projects/back-office/create-case/v4/check-contact-details', {
     mainContact: req.session.mainContact,
-    contacts: req.session.contacts || []
+    contacts: req.session.contacts || [],
+    addAnotherContact: req.session.addAnotherContact
   });
+});
+
+router.post('/projects/back-office/create-case/v4/check-contact-details', (req, res) => {
+  const addAnotherContact = req.body.addAnotherContact;
+
+  if (!addAnotherContact) {
+    return res.render('projects/back-office/create-case/v4/check-contact-details', {
+      mainContact: req.session.mainContact,
+      contacts: req.session.contacts || [],
+      addAnotherContact: '',
+      error: 'Select yes if you need to add another contact'
+    });
+  }
+
+  req.session.addAnotherContact = addAnotherContact;
+
+  if (addAnotherContact === 'yes') {
+    return res.redirect('/projects/back-office/create-case/v4/additional-contact');
+  }
+
+  return res.redirect('/projects/back-office/create-case/v4/enter-key-dates');
 });
 
 // Add another contact page
 router.get('/projects/back-office/create-case/v4/add-another-contact', (req, res) => {
-  res.render('projects/back-office/create-case/v4/add-another-contact', {
-    addAnotherContact: req.session.addAnotherContact,
-    contacts: req.session.contacts || []
-  });
+  res.redirect('/projects/back-office/create-case/v4/check-contact-details');
 });
 
 router.post('/projects/back-office/create-case/v4/add-another-contact', (req, res) => {
-  req.session.addAnotherContact = req.body.addAnotherContact;
-  if (req.body.addAnotherContact === 'yes') {
-    res.redirect('/projects/back-office/create-case/v4/additional-contact');
-  } else {
-    res.redirect('/projects/back-office/create-case/v4/check-contact-details');
-  }
+  res.redirect('/projects/back-office/create-case/v4/check-contact-details');
 });
 
 // Additional contact add/edit
@@ -784,7 +798,7 @@ router.post('/projects/back-office/create-case/v4/additional-contact', (req, res
     ? '/projects/back-office/create-case/v4/check-contact-details'
     : fromCheckAnswers
       ? '/projects/back-office/create-case/v4/check-answers'
-      : '/projects/back-office/create-case/v4/add-another-contact';
+      : '/projects/back-office/create-case/v4/check-contact-details';
   
   if (req.body.editIndex !== undefined && req.body.editIndex !== '') {
     const editIndex = Number(req.body.editIndex);
