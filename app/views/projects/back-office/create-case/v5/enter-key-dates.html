@@ -26,7 +26,7 @@
                     }) }}
                 {% endif %}
 
-        <form class="form" method="post" action="/projects/back-office/create-case/v2/enter-key-dates">
+        <form class="form" method="post" action="/projects/back-office/create-case/v5/enter-key-dates">
             <input type="hidden" name="isEdit" value="{{ isEdit }}">
             
             {% set noticeOfIntentionParts = noticeOfIntentionDate.split('/') if noticeOfIntentionDate else ['', '', ''] %}
@@ -206,7 +206,7 @@
                 {% endif %}
                 
                 {% if isEdit %}
-                <a href="/projects/back-office/create-case/v2/check-answers" class="govuk-link">Cancel</a>
+                <a href="/projects/back-office/create-case/v5/check-answers" class="govuk-link">Cancel</a>
                 {% endif %}
             </div>
         </form>

@@ -1,4 +1,5 @@
-<h2 class="govuk-heading-l">Workshop preferences</h2>
+<h2 class="govuk-heading-l">From LPA
+<h3 class="govuk-heading-m">Workshop preferences</h3>
 <style>
   .workshop-preferences-table .govuk-summary-list__key {
     width: 40%;
@@ -13,20 +14,18 @@
     white-space: normal;
   }
 </style>
+
+{% set hasWorkshopVenue = gateway2WorkshopVenue and gateway2WorkshopVenue != '-' and (gateway2WorkshopVenue | trim) != '' %}
+{% set hasWorkshopDate = gateway2WorkshopDate and gateway2WorkshopDate != '-' and (gateway2WorkshopDate | trim) != '' %}
+
 <dl class="govuk-summary-list govuk-summary-list-timetable workshop-preferences-table">
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key"><strong>Document</strong></dt>
-    <dd class="govuk-summary-list__value"><strong>Status</strong></dd>
-    <dd class="govuk-summary-list__value"><strong>Preference</strong></dd>
-  </div>
+  
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">Suggested workshop venue</dt>
-    <dd class="govuk-summary-list__value">Received</dd>
-    <dd class="govuk-summary-list__value">Virtual</dd>
+    <dd class="govuk-summary-list__value">{{ gateway2WorkshopVenue if hasWorkshopVenue else 'Not received' }}</dd>
   </div>
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">Suggested workshop dates</dt>
-    <dd class="govuk-summary-list__value">Received</dd>
-    <dd class="govuk-summary-list__value">20 - 23rd if July or we're free the week of July 27th</dd>
+    <dd class="govuk-summary-list__value">{{ gateway2WorkshopDate if hasWorkshopDate else 'Not received' }}</dd>
   </div>
 </dl>

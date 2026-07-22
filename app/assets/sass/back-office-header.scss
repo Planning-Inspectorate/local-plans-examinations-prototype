@@ -30,6 +30,35 @@
     height: 100%;
 }
 
+.back-office-header__logo-link {
+    display: inline-flex;
+    align-items: flex-end;
+    line-height: 0;
+    padding-bottom: 6px;
+    border-bottom: 3px solid transparent;
+}
+
+.back-office-header__logo-link:link,
+.back-office-header__logo-link:visited {
+    color: #0b0c0c;
+    text-decoration: none;
+}
+
+.pins-internal-header .back-office-header__logo-link:link,
+.pins-internal-header .back-office-header__logo-link:visited {
+    color: #ffffff;
+}
+
+.back-office-header__logo-link:hover,
+.back-office-header__logo-link:active {
+    border-bottom-color: currentColor;
+}
+
+.back-office-header__logo-link:focus,
+.back-office-header__logo-link:focus-visible {
+    border-bottom: 0;
+}
+
 
 
 .back-office-header__logo {
@@ -42,6 +71,20 @@
     vertical-align: middle;
     float: none;
     /*border-left: 2px solid #008670;*/
+}
+
+.back-office-header__logo--focus {
+    display: none;
+}
+
+.back-office-header__logo-link:focus .back-office-header__logo--default,
+.back-office-header__logo-link:focus-visible .back-office-header__logo--default {
+    display: none;
+}
+
+.back-office-header__logo-link:focus .back-office-header__logo--focus,
+.back-office-header__logo-link:focus-visible .back-office-header__logo--focus {
+    display: inline-flex;
 }
 
 
