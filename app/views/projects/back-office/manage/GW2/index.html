@@ -37,7 +37,7 @@
     <p class="govuk-!-margin-bottom-2">Changes:</p>
  
     <ul class="govuk-list govuk-list--bullet">
-      <li>Alternative document layout showing more document detail</li>
+      <li>Changes based on last round of testing TBC</li>
     </ul>
     {{ govukButton({
       html: 'View prototype',
@@ -45,41 +45,11 @@
       isStartButton: true
     }) }}
 
-    <br>
-    <br>
-
-    <h2 class="govuk-heading-m">
-      Version 4 B
-      {{ govukTag({
-        classes: 'govuk-tag--blue govuk-!-margin-left-2',
-        text: 'In progress'
-      }) }}
-    </h2>
-
-    <p class="govuk-!-margin-bottom-2">Changes:</p>
-
-    <ul class="govuk-list govuk-list--bullet">
-      <li>Gateway 2 page shows document summary only for issue report and workshop documents</li>
-      <li>Uploaded files are confirmed with date and a single view link back to check answers</li>
-    </ul>
-    {{ govukButton({
-      html: 'View prototype',
-      href: '/projects/back-office/manage/GW2/v4/gateway-2-alt',
-      isStartButton: true
-    }) }}
-   
-    <br>
-    <br>
-    <hr>
-    <br>
-    <br>
+ 
+    {% set v3HTML %}
     {% set version = "3" %}
     <h2 class="govuk-heading-m">
-      Version {{ version }} A
-      {{ govukTag({
-        classes: 'govuk-tag--blue govuk-!-margin-left-2',
-        text: 'In progress'
-      }) }}
+       Version {{ version }} A
     </h2>
  
     <p class="govuk-!-margin-bottom-2">Changes:</p>
@@ -99,10 +69,6 @@
     
     <h2 class="govuk-heading-m">
       Version {{ version }} B
-      {{ govukTag({
-        classes: 'govuk-tag--blue govuk-!-margin-left-2',
-        text: 'In progress'
-      }) }}
     </h2>
  
     <p class="govuk-!-margin-bottom-2">Changes:</p>
@@ -116,8 +82,8 @@
       href: '/projects/back-office/manage/GW2/v3/gateway-2-side',
       isStartButton: true
     }) }}
- 
- 
+ {% endset -%}
+
     {% set v2HTML %}
     {% set version = "2" %}
     <h3 class="govuk-heading-m">
@@ -163,9 +129,17 @@
       id: 'previous',
       classes: 'govuk-!-margin-top-9',
       items: [
+      {
+          heading: {
+            html: 'Version 3 <strong class="govuk-tag govuk-tag--green govuk-!-margin-left-2">Research complete</strong>'
+          },
+          content: {
+            html: v3HTML
+          }
+        },
         {
           heading: {
-            html: 'Version 2 <strong class="govuk-tag govuk-tag--grey govuk-!-margin-left-2">Superseded</strong>'
+            html: 'Version 2 <strong class="govuk-tag govuk-tag--green govuk-!-margin-left-2">Research complete</strong>'
           },
           content: {
             html: v2HTML

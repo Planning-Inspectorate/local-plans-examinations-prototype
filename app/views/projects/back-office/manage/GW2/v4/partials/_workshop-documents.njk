@@ -1,26 +1,20 @@
-{#<h2 class="govuk-heading-l">Workshop documents</h2> #}
-{% if pageState and pageState.hasWorkshopDocuments %}
-  <dl class="govuk-summary-list govuk-summary-list-timetable app-summary-list--workshop-documents">
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key"><strong>Document</strong></dt>
-      <dd class="govuk-summary-list__value"><strong>Status</strong></dd>
-      <dd class="govuk-summary-list__value"><strong>Date</strong></dd>
-    </div>
-    {% for doc in uploadedDocuments %}
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">Document {{ loop.index }}</dt>
-        <dd class="govuk-summary-list__value">Uploaded</dd>
-        <dd class="govuk-summary-list__value">{{ doc.uploadedAtDisplay if doc.uploadedAtDisplay and doc.uploadedAtDisplay != '-' else (doc.uploadDate if doc.uploadDate and doc.uploadDate != '-' else 'Not provided') }}</dd>
-      </div>
-    {% endfor %}
-  </dl>
-  <p class="govuk-body govuk-!-margin-bottom-1">
-    <a href="/projects/back-office/manage/GW2/v4/upload/v1/upload-bo?returnTo=gateway-2">Amend workshop documents</a>
-  </p>
-  <p class="govuk-hint govuk-!-margin-bottom-3">You will need to review the updates and issue an updated notification to the LPA.</p>
-{% else %}
-  <p class="govuk-body govuk-!-margin-bottom-1">
-    <a href="/projects/back-office/manage/GW2/v4/upload/v1/upload-bo?returnTo=gateway-2">Add workshop documents</a>
-  </p>
-{% endif %}
-
+<dl class="govuk-summary-list govuk-summary-list-timetable">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Workshop documents</dt>
+    <dd class="govuk-summary-list__value">
+      {% if workshopDocumentsSummary and workshopDocumentsSummary.hasDocuments %}
+        Issued on {{ workshopDocumentsSummary.latestUploadedAtDisplay if workshopDocumentsSummary.latestUploadedAtDisplay and workshopDocumentsSummary.latestUploadedAtDisplay != '-' else 'Not provided' }}
+      {% else %}
+        Not provided
+      {% endif %}
+    </dd>
+    <dd class="govuk-summary-list__actions">
+      {% if workshopDocumentsSummary and workshopDocumentsSummary.hasDocuments %}
+        <a class="govuk-link" href="/projects/back-office/manage/GW2/v4/upload/v1/check-answers?returnTo=gateway-2">View<span class="govuk-visually-hidden"> workshop documents</span></a>
+      {% else %}
+        <a class="govuk-link" href="/projects/back-office/manage/GW2/v4/upload/v1/upload-bo?returnTo=gateway-2">Add<span class="govuk-visually-hidden"> workshop documents</span></a>
+      {% endif %}
+    </dd>
+  </div>
+</dl>
+      

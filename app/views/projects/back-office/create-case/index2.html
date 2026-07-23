@@ -25,15 +25,30 @@
     <h1 class="govuk-heading-l">
       {{ title }}
     </h1>
- 
-    {% set version = "3" %}
+ {% set version = "4" %}
     <h2 class="govuk-heading-m">Version {{ version }}
       {{ govukTag({
-        classes: 'govuk-tag--green govuk-!-margin-left-2',
-        text: 'Ready for user testing'
+        classes: 'govuk-tag--yellow govuk-!-margin-left-2',
+        text: 'In progress'
       }) }}
     </h2>
 
+    <p class="govuk-!-margin-bottom-2">Changes:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Updates from previous testing round and feedback from stakeholders</li>
+    </ul>
+
+    {{ govukButton({
+      text: "View prototype",
+      href: "/projects/back-office/create-case/v2/index",
+      isStartButton: true
+    }) }}
+
+    {% set v3HTML %}
+    {% set version = "3" %}
+    <p class="govuk-body">
+      Manage a case testing with Ops managers, Leads, Case Officers and Inspectors - July 2026.
+    </p>
     <p class="govuk-!-margin-bottom-2">Changes:</p>
     <ul class="govuk-list govuk-list--bullet">
       <li>Side navigation version containing the same content as the standard navigation version to gather feedback</li>
@@ -41,22 +56,16 @@
 
     {{ govukButton({
       text: "View prototype",
-      href: "/projects/back-office/create-case/v2/index?journey=side",
+      href: "/projects/back-office/create-case/v3/index?journey=side",
       isStartButton: true
     }) }}
-    <br>
-    <br>
-    <hr>
-    <br>
-    <br>
+    {% endset -%}
+
+    {% set v2HTML %}
     {% set version = "2" %}
-    <h2 class="govuk-heading-m">
-      Version {{ version }}
-      {{ govukTag({
-        classes: 'govuk-tag--green govuk-!-margin-left-2',
-        text: 'Ready for user testing'
-      }) }}
-    </h2>
+    <p class="govuk-body">
+      Manage a case testing with Ops managers, Leads, Case Officers and Inspectors - July 2026.
+    </p>
  
     <p class="govuk-!-margin-bottom-2">Changes:</p>
  
@@ -70,9 +79,10 @@
  
     {{ govukButton({
       html: 'View prototype',
-      href: '/projects/back-office/create-case/v2/index',
+      href: '/projects/back-office/create-case/v' ~ version ~ '/index',
       isStartButton: true
   }) }}
+    {% endset -%}
  
     {% set v1HTML %}
  
@@ -91,15 +101,28 @@
         href: '/projects/back-office/create-case/v' ~ version ~ '/index',
         isStartButton: true
       }) }}
-
-     
- 
     {% endset -%}
  
     {{ govukAccordion({
       id: 'previous',
       classes: 'govuk-!-margin-top-9',
       items: [
+      {
+          heading: {
+            html: 'Version 3 <strong class="govuk-tag govuk-tag--blue govuk-!-margin-left-2">Research complete</strong>'
+          },
+          content: {
+            html: v3HTML
+          }
+        },
+        {
+          heading: {
+            html: 'Version 2 <strong class="govuk-tag govuk-tag--blue govuk-!-margin-left-2">Research complete</strong>'
+          },
+          content: {
+            html: v2HTML
+          }
+        },
         {
           heading: {
             html: 'Version 1 <strong class="govuk-tag govuk-tag--grey govuk-!-margin-left-2">Superseded</strong>'

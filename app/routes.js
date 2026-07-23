@@ -15,7 +15,7 @@ const defaultWorkflowNavVersions = {
   overview: 'v2',
   timetable: 'v1',
   gw1: 'v1',
-  gw2: 'v3',
+  gw2: 'v4',
   gw3: 'v2',
   examination: 'v3',
   documents: 'v1',
@@ -103,6 +103,7 @@ const upload = multer({ dest: 'uploads/' });
 
 // Mount feature routers that export an Express Router object
 router.use('/', require('./routes/portal'));
+router.use('/projects/back-office/manage/GW2/v4', require('./views/projects/back-office/manage/GW2/v4/_routes'));
 router.use('/', require('./routes/create-case'));
 router.use('/', require('./routes/create-case-v2'));
 router.use('/', require('./routes/create-case-v3'));

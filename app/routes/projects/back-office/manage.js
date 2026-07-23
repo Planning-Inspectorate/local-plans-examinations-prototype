@@ -3130,6 +3130,11 @@ router.get('/projects/back-office/manage/GW2/v2/gateway-2-side.html', (req, res)
 });
 
 router.get('/projects/back-office/manage/GW2/v4/gateway-2-alt', (req, res) => {
+  console.log('\n=== gateway-2-alt GET ===');
+  console.log('session.gw2v3WorkshopDocuments:', req.session.gw2v3WorkshopDocuments);
+  console.log('session.data.gw2v3WorkshopDocuments:', req.session.data?.gw2v3WorkshopDocuments);
+  console.log('session.notificationMessage:', req.session.notificationMessage);
+  
   const uploadedDocumentsRaw = Array.isArray(req.session.gw2v3WorkshopDocuments)
     ? req.session.gw2v3WorkshopDocuments
     : Array.isArray(req.session.data?.gw2v3WorkshopDocuments)
@@ -3172,10 +3177,22 @@ router.get('/projects/back-office/manage/GW2/v4/gateway-2-alt', (req, res) => {
     headerStatusClasses = 'govuk-tag--turquoise';
   }
 
+  const workshopDocumentsSummary = {
+    count: uploadedDocuments.length,
+    latestUploadedAtDisplay: latestWorkshopDocument?.uploadedAtDisplay || '-',
+    hasDocuments: uploadedDocuments.length > 0
+  };
+
+  console.log('\n=== BEFORE RENDER ===');
+  console.log('uploadedDocuments.length:', uploadedDocuments.length);
+  console.log('workshopDocumentsSummary:', workshopDocumentsSummary);
+  console.log('notificationMessage:', notificationMessage);
+
   res.render('projects/back-office/manage/GW2/v4/gateway-2-alt', {
     caseRef: req.session.currentCaseRef || '',
     planTitle: req.session.planTitle || '',
     serviceName: 'Local Plans Examinations',
+    pageVariant: 'alt',
     notificationMessage,
     gateway2EstimatedDate: formatDateForDisplay(req.session.gateway2EstimatedDate) || '-',
     gateway2ActualDate: formatDateForDisplay(req.session.gateway2ActualDate) || '-',
@@ -3188,8 +3205,6 @@ router.get('/projects/back-office/manage/GW2/v4/gateway-2-alt', (req, res) => {
     gateway2AssessorName: req.session.gateway2AssessorName || '-',
     gateway2PlanStatus: req.session.gateway2PlanStatus || '-',
     gateway2Grade: req.session.gateway2Grade || '-',
-    uploadedDocuments,
-    issueReportDocuments,
     hearings,
     pageState: {
       hasWorkshopDocuments: uploadedDocuments.length > 0,
@@ -3197,11 +3212,7 @@ router.get('/projects/back-office/manage/GW2/v4/gateway-2-alt', (req, res) => {
       hasHearings: hearings.length > 0,
       reportIssued: !!req.session.gw2v4ReportIssued
     },
-    workshopDocumentsSummary: {
-      count: uploadedDocuments.length,
-      latestUploadedAtDisplay: latestWorkshopDocument?.uploadedAtDisplay || '-',
-      hasDocuments: uploadedDocuments.length > 0
-    },
+    workshopDocumentsSummary,
     issueReportSummary: {
       count: issueReportDocuments.length,
       latestUploadedAtDisplay: latestIssueReportDocument?.uploadedAtDisplay || '-',

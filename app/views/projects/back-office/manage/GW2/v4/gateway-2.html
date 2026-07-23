@@ -36,21 +36,33 @@ Gateway 2 overview – {{ serviceName }}
       {% include "projects/back-office/manage/GW2/v4/partials/_workshop-documents.njk" %}
       <br>
       <br>
-      
-      
-   
-        <!--
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Plan status</dt>
-          <dd class="govuk-summary-list__value">{{ gateway2PlanStatus if gateway2PlanStatus and gateway2PlanStatus != '-' else 'Not provided' }}</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/GW2/v2/gateway-2-plan-status.html?returnUrl=/projects/back-office/manage/GW2/v2/gateway-2.html">Change<span class="govuk-visually-hidden"> Gateway 2 Plan Status</span></a>
-          </dd>
-        </div> -->
+      <h2 class="govuk-heading-l">From LPA</h2>
+      <h3 class="govuk-heading-m">Workshop preferences</h3>
 
-    <div class="govuk-grid-row">
+        <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-    {% include "projects/back-office/manage/GW2/v4/partials/_workshop-preferences.njk" %}
+    <dl class="govuk-summary-list govuk-summary-list-timetable">
+          <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key" style="width: 22%;">
+          Suggested workshop venue
+        </dt>
+        <dd class="govuk-summary-list__value">
+          Virtual
+        </dd>
+        
+        
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key" style="width: 22%;">
+          Suggested workshop dates
+        </dt>
+        <dd class="govuk-summary-list__value">
+          20 - 23rd if July or we're free the week of July 27th
+        </dd>
+        
+        
+      </div>
+      </dl>
     
     <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">

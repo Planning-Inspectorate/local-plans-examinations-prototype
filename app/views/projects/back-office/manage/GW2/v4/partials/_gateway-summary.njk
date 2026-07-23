@@ -21,7 +21,7 @@
       <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-valid.html?returnUrl=/projects/back-office/manage/GW2/v4/gateway-2">Change<span class="govuk-visually-hidden"> Gateway 2 Valid Date</span></a>
     </dd>
   </div>
-</dl>
+  </dl>
 <dl class="govuk-summary-list govuk-summary-list-timetable">
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">Gateway 2 assessor name</dt>
@@ -40,26 +40,23 @@
 </dl>
 <dl class="govuk-summary-list govuk-summary-list-timetable">
   <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">Issue Gateway 2 report</dt>
-    <dd class="govuk-summary-list__value">
-      {% if issueReportDocuments and issueReportDocuments.length > 0 %}
-        {% for doc in issueReportDocuments %}
-          <div>
-            <a class="govuk-hint" href="/projects/back-office/manage/documents/download/{{ doc.filename }}">{{ doc.originalname }}</a>
-          </div>
-        {% endfor %}
-      {% else %}
-       Not provided
-      {% endif %}
-    </dd>
-    <dd class="govuk-summary-list__actions">
-      {% if issueReportDocuments and issueReportDocuments.length > 0 %}
-        <a class="govuk-link" href="/projects/back-office/manage/GW2/v4/upload/v2/check-answers?returnTo=gateway-2">View<span class="govuk-visually-hidden"> Gateway 2 Issue report documents</span></a>
-      {% else %}
-        <a class="govuk-link" href="/projects/back-office/manage/GW2/v4/upload/v2/upload-bo?returnTo=gateway-2">Upload<span class="govuk-visually-hidden"> Gateway 2 Issue report document</span></a>
-      {% endif %}
-    </dd>
-  </div>
+          <dt class="govuk-summary-list__key">Issue Gateway 2 report</dt>
+          <dd class="govuk-summary-list__value">
+            {% if issueReportSummary and issueReportSummary.hasDocuments %}
+              Issued on {{ issueReportSummary.latestUploadedAtDisplay if issueReportSummary.latestUploadedAtDisplay and issueReportSummary.latestUploadedAtDisplay != '-' else 'Not provided' }}
+            {% else %}
+              Not provided
+            {% endif %}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            {% if issueReportSummary and issueReportSummary.hasDocuments %}
+              <a class="govuk-link" href="/projects/back-office/manage/GW2/v4/upload/v2/check-answers?returnTo=gateway-2">View<span class="govuk-visually-hidden"> Gateway 2 issue report documents</span></a>
+            {% else %}
+              <a class="govuk-link" href="/projects/back-office/manage/GW2/v4/upload/v2/upload-bo?returnTo=gateway-2">Add<span class="govuk-visually-hidden"> Gateway 2 issue report document</span></a>
+            {% endif %}
+          </dd>
+        </div>
+
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">Report published by LPA date</dt>
     <dd class="govuk-summary-list__value">{{ gateway2ReportPublishedDate if gateway2ReportPublishedDate and gateway2ReportPublishedDate != '-' else 'Not provided' }}</dd>
