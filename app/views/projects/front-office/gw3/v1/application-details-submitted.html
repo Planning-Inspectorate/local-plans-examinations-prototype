@@ -18,7 +18,7 @@ text: 'GW3 report shared'
 {% block beforeContent %}
   {{ govukBackLink({
     text: "Back",
-    href: "/projects/front-office/plan-details/v2/plan-details?status=with-pins"
+    href: "/projects/front-office/plan-details/v3/plan-details?status=with-pins"
   }) }}
 {% endblock %}
 
@@ -35,7 +35,7 @@ text: 'GW3 report shared'
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters-from-desktop">
 
-            {% if reportStatus == 'shared' %}
+    <!--{% if reportStatus == 'shared' %}
 
         {{ govukNotificationBanner({
       html: "
@@ -59,7 +59,7 @@ text: 'GW3 report shared'
       "
     }) }}
 
-        {% endif %}
+        {% endif %}-->
 
     <h1 class="govuk-heading-xl app-header__title">
       <span class="govuk-caption-xl">East Borough Local Plan</span>

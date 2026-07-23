@@ -3,8 +3,8 @@
   {# Set up component parameters with sensible defaults #}
   {% set id = params.id or "documents" %}
   {% set name = params.name or "documents" %}
-  {% set label = params.label or "Drag and drop or choose files" %}
-  {% set hint = params.hint or "Each file must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than 25MB. The total size of your uploaded files must be smaller than 1GB." %}
+  {% set label = params.label or "Upload a file" %}
+  {% set hint = params.hint or "The file must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than 25MB" %}
   {% set allowedExtensions = params.allowedExtensions or ["doc", "docx", "pdf", "tif", "tiff", "jpg", "jpeg", "png"] %}
   {% set accept = params.accept or ("." + (allowedExtensions | join(",."))) %}
   {% set maxFileSizeMB = params.maxFileSizeMB or 25 %}
@@ -48,6 +48,8 @@
         >
       </div>
     </div>
+
+    <div id="{{ id }}-upload-status" class="govuk-visually-hidden" aria-live="polite" role="status"></div>
 
     <p class="govuk-error-message" id="{{ id }}-validation-error" style="display: none; margin-bottom: 10px;">
       <span class="govuk-visually-hidden">Error:</span>
@@ -96,7 +98,17 @@
       const filesAddedLabel = document.getElementById('{{ id }}-files-label');
       const tableBody = document.querySelector('#{{ id }}-files-table tbody');
       const form = uploadArea.closest('form') || document.querySelector('form');
-      
+      const uploadStatus = document.getElementById('{{ id }}-upload-status');
+
+      {# Announce a generic status to screen readers without reading out percentage changes #}
+      function announceUploadStatus(message) {
+        if (!uploadStatus) return;
+        uploadStatus.textContent = '';
+        window.setTimeout(() => {
+          uploadStatus.textContent = message;
+        }, 50);
+      }
+
       {# Component state tracking #}
       const uploadedFiles = new Set();  {# Track names of successfully uploaded files #}
       const allowedExtensions = '{{ allowedExtensions | join(",") }}'.toLowerCase().split(',').map((ext) => ext.trim()).filter(Boolean);
@@ -283,7 +295,7 @@
               Uploading: <span class="progress-percent">0%</span>
             </td>
             <td class="govuk-table__cell">
-              <a href="#" class="govuk-link">Cancel</a>
+              <a href="#" class="govuk-link cancel-link">Cancel</a>
             </td>
           `;
 
@@ -291,6 +303,7 @@
           animateUpload(row, index, file);
         });
 
+        announceUploadStatus('Upload in progress');
         updateFilesSummaryVisibility();
       }
 
@@ -365,7 +378,7 @@
 
       {# Mouse enter - highlight dropzone on hover #}
       uploadArea.addEventListener('mouseenter', function () {
-        uploadArea.style.borderColor = '#1d70b8';
+        uploadArea.style.borderColor = '#858686';
         uploadArea.style.backgroundColor = '#f3f3f3';
         setChooseFilesHoverState();
       });
@@ -379,7 +392,7 @@
       {# Drag over - highlight dropzone when files are dragged over it #}
       uploadArea.addEventListener('dragover', function (e) {
         e.preventDefault();
-        uploadArea.style.borderColor = '#ffdd00';
+        uploadArea.style.borderColor = '#cecece';
         uploadArea.style.backgroundColor = '#f3f3f3';
         setChooseFilesHoverState();
       });
@@ -441,7 +454,7 @@
                 <strong class="govuk-tag govuk-tag--green">Uploaded</strong>
               </td>
               <td class="govuk-table__cell">
-                <a href="#" class="govuk-link remove-link">Remove</a>
+                <a href="#" class="govuk-link remove-link">Remove <span class="govuk-visually-hidden">${fileName}</span></a>
               </td>
             `;
 
@@ -455,6 +468,7 @@
             {# Hide uploading error once all files finish #}
             if (!stillUploading) {
               hideUploadingError();
+              announceUploadStatus('Upload successful');
             }
           }
         }, 40 + index * 20);
@@ -467,8 +481,8 @@
         const link = e.target.closest('.govuk-link');
         if (!link || !tableBody.contains(link)) return;
 
-        const text = link.textContent.trim();
-        if (text === 'Cancel' || text === 'Remove') {
+        const isCancelOrRemove = link.classList.contains('cancel-link') || link.classList.contains('remove-link');
+        if (isCancelOrRemove) {
           e.preventDefault();
 
           const row = link.closest('.govuk-table__row');
@@ -519,3 +533,9 @@
     })();
   </script>
 {% endmacro %}
+
+
+
+
+
+

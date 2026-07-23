@@ -22,7 +22,7 @@ text: 'Go decision'
 {% block beforeContent %}
   {{ govukBackLink({
     text: "Back",
-    href: "/projects/front-office/plan-details/v2/plan-details?status=action-needed&stage=gateway-3"
+    href: "/projects/front-office/plan-details/v3/plan-details?status=action-needed&stage=gateway-3&report="
   }) }}
 {% endblock %}
 
@@ -81,7 +81,7 @@ text: 'Go decision'
           text: "Start your resubmission",
           href: "application-details?resubmission=true"
         }) }}
-        <a class="govuk-link" href="/projects/front-office/plan-details/v2/plan-details?status=action-needed&stage=gateway-3">Return to plan details</a>
+        <a class="govuk-link" href="/projects/front-office/plan-details/v3/plan-details?status=action-needed&stage=gateway-3&report=">Return to plan details</a>
       </div>
 
     {% endif %}
