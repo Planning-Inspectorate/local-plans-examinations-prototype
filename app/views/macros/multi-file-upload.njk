@@ -4,14 +4,14 @@
   {% set id = params.id or "documents" %}
   {% set name = params.name or "documents" %}
   {% set label = params.label or "Upload a file" %}
-  {% set hint = params.hint or "The file must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than 25MB" %}
-  {% set allowedExtensions = params.allowedExtensions or ["doc", "docx", "pdf", "tif", "tiff", "jpg", "jpeg", "png"] %}
+  {% set hint = params.hint or "The file must be a DOC, DOCX, PDF, CSV, JPG or PNG and be smaller than 25MB" %}
+  {% set allowedExtensions = params.allowedExtensions or ["doc", "docx", "pdf", "csv", "jpg", "jpeg", "png"] %}
   {% set accept = params.accept or ("." + (allowedExtensions | join(",."))) %}
   {% set maxFileSizeMB = params.maxFileSizeMB or 25 %}
 
   {% set dataKey = params.dataKey or "uploadedFiles" %}
   {% set errorMessage = params.errorMessage
-    or "The file must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than 25MB" %}
+    or "The file must be a DOC, DOCX, PDF, CSV, JPG or PNG and be smaller than 25MB" %}
 
 
   <div class="govuk-form-group" id="{{ id }}-upload-group">
