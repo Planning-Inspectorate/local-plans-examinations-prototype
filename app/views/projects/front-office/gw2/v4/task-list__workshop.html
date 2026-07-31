@@ -44,7 +44,7 @@
     classes: 'govuk-!-margin-bottom-9',
     rows: [
       {
-        key: { text: 'Suggested workshop venue' },
+        key: { text: 'Suggested workshop venue', classes: 'govuk-!-width-one-half' },
         value:
           { html: workshopInfo } if data['workshop-venue-complete']
           else { html: '<span class="govuk-hint">Not added</span>' },
@@ -54,7 +54,7 @@
         ]}
       },
       {
-        key: { text: 'Suggested workshop dates' },
+        key: { text: 'Suggested workshop dates', classes: 'govuk-!-width-one-half' },
         value:
           { html: workshopDates } if data['workshop-dates-complete']
           else { html: '<span class="govuk-hint">Not added</span>' },

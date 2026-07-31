@@ -18,7 +18,7 @@
     rows: [
 
       {
-        key: { text: 'Gateway 2 covering letter' },
+        key: { text: 'Gateway 2 covering letter', classes: 'govuk-!-width-one-half' },
         value:
           { html: "<a href='#'>cover-letter.pdf</a>" } if data['cover-letter-upload-complete']
           else { html: '<span class="govuk-hint">Not added</span>' },
@@ -29,13 +29,13 @@
       },
 
       {
-        key: { text: 'Local plan timetable' },
+        key: { text: 'Local plan timetable', classes: 'govuk-!-width-one-half' },
         value: timetableValue,
         actions: { items: [ timetableAction ] }
       },
 
       {
-        key: { text: 'Project initiation document' },
+        key: { text: 'Project initiation document', classes: 'govuk-!-width-one-half' },
         value:
           { html: "<a href='#'>pid.pdf</a>" } if data['pid-upload-complete']
           else { html: '<span class="govuk-hint">Not added</span>' },
@@ -46,7 +46,7 @@
       },
 
       {
-        key: { text: 'Draft statement of compliance' },
+        key: { text: 'Draft statement of compliance', classes: 'govuk-!-width-one-half' },
         value:
           { html: "<a href='#'>compliance.pdf</a>" } if data['compliance-upload-complete']
           else { html: '<span class="govuk-hint">Not added</span>' },
@@ -57,7 +57,7 @@
       },
 
       {
-        key: { text: 'Draft statement of soundness' },
+        key: { text: 'Draft statement of soundness', classes: 'govuk-!-width-one-half' },
         value:
           { html: "<a href='#'>soundness.pdf</a>" } if data['soundness-upload-complete']
           else { html: '<span class="govuk-hint">Not added</span>' },
