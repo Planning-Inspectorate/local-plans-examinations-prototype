@@ -1,4 +1,5 @@
 {% extends "layouts/back-office.html" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% block pageTitle %}
  Select the Local Planning Authority for this plan – {{ serviceName }}
@@ -14,19 +15,31 @@
 
       <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+      {% if error %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: [{ text: error, href: "#lpa" }]
+        }) }}
+      {% endif %}
+
       <form method="post" action="/projects/back-office/create-case/v3/3-select-LPA">
-        <div class="govuk-form-group">
+        <div class="govuk-form-group {% if error %}govuk-form-group--error{% endif %}">
           <h1 class="govuk-label-wrapper">
             <label class="govuk-label govuk-label--l" for="lpa">
               Select the Local Planning Authority for this plan
             </label>
           </h1>
+          {% if error %}
+            <p id="lpa-error" class="govuk-error-message">
+              <span class="govuk-visually-hidden">Error:</span> {{ error }}
+            </p>
+          {% endif %}
        
-            <select class="govuk-select" id="lpa" name="lpa" data-module="autocomplete" title="Additional Local Planning Authority"
+            <select class="govuk-select {% if error %}govuk-select--error{% endif %}" id="lpa" name="lpa" {% if error %}aria-describedby="lpa-error"{% endif %} data-module="autocomplete" title="Additional Local Planning Authority"
               data-display-menu="" data-min-length="" data-show-all-values="" data-show-no-options-found="">
-              <option value="" selected disabled>Select an option</option>
+              <option value="" {% if not selectedLPA %}selected{% endif %} disabled>Select an option</option>
               {% for lpa in lpaList %}
-                <option value="{{ lpa }}">{{ lpa }}</option>
+                <option value="{{ lpa }}" {% if selectedLPA == lpa %}selected{% endif %}>{{ lpa }}</option>
               {% endfor %}
               <option value="Bolton Metropolitan Borough Council">Bolton Metropolitan Borough Council</option>
               <option value="Borough of Poole Council">Borough of Poole Council</option>

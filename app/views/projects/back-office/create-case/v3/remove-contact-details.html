@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block content %}
-{% set contactLabel = (contact.firstName ~ ' ' ~ contact.lastName) | trim %}
+{% set contactLabel = contact.fullName or ((contact.firstName ~ ' ' ~ contact.lastName) | trim) %}
 {% if not contactLabel %}
   {% if contact.email %}
     {% set contactLabel = contact.email %}
@@ -30,7 +30,7 @@
       {% if isMain %}Main contact{% else %}Contact{% endif %}
     </dt>
     <dd class="govuk-summary-list__value" style="width: 85%;">
-      {{ contact.firstName }} {{ contact.lastName }}<br>
+      {{ contactLabel }}<br>
       {{ contact.email }}<br>
       {% if contact.phone %}{{ contact.phone }}<br>{% endif %}
       {{ contact.organisation }}
@@ -46,7 +46,7 @@
       html: 'Remove contact<span class="govuk-visually-hidden"> ' ~ contactLabel ~ '</span>',
       classes: "govuk-button--warning"
     }) }}
-    <a href="/projects/back-office/create-case/v3/check-contact-details" class="govuk-button govuk-button--secondary">
+    <a href="/projects/back-office/create-case/v3/check-contact-details" class="govuk-link">
       Cancel
     </a>
   </div>

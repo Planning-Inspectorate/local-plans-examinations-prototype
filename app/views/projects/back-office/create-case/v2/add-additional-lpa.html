@@ -1,4 +1,5 @@
 {% extends "layouts/back-office.html" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% block pageTitle %}
   Is there another Local Planning Authority involved in this plan? – {{ serviceName }} 
@@ -13,23 +14,35 @@
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    {% if error %}
+      {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [{ text: error, href: "#hasAdditionalLPA-yes" }]
+      }) }}
+    {% endif %}
+
     <form method="post" action="/projects/back-office/create-case/v2/add-additional-lpa">
-      <div class="govuk-form-group">
-        <fieldset class="govuk-fieldset">
+      <div class="govuk-form-group {% if error %}govuk-form-group--error{% endif %}">
+        <fieldset class="govuk-fieldset" {% if error %}aria-describedby="hasAdditionalLPA-error"{% endif %}>
           <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
             <h1 class="govuk-fieldset__heading">
               Is there another Local Planning Authority involved in this plan?
             </h1>
           </legend>
+          {% if error %}
+            <p id="hasAdditionalLPA-error" class="govuk-error-message">
+              <span class="govuk-visually-hidden">Error:</span> {{ error }}
+            </p>
+          {% endif %}
           <div class="govuk-radios" data-module="govuk-radios">
             <div class="govuk-radios__item">
-              <input class="govuk-radios__input" id="hasAdditionalLPA-yes" name="hasAdditionalLPA" type="radio" value="yes">
+              <input class="govuk-radios__input" id="hasAdditionalLPA-yes" name="hasAdditionalLPA" type="radio" value="yes" {% if hasAdditionalLPA == 'yes' %}checked{% endif %}>
               <label class="govuk-label govuk-radios__label" for="hasAdditionalLPA-yes">
                 Yes
               </label>
             </div>
             <div class="govuk-radios__item">
-              <input class="govuk-radios__input" id="hasAdditionalLPA-no" name="hasAdditionalLPA" type="radio" value="no">
+              <input class="govuk-radios__input" id="hasAdditionalLPA-no" name="hasAdditionalLPA" type="radio" value="no" {% if hasAdditionalLPA == 'no' %}checked{% endif %}>
               <label class="govuk-label govuk-radios__label" for="hasAdditionalLPA-no">
                 No
               </label>

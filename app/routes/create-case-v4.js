@@ -422,19 +422,28 @@ router.get('/projects/back-office/create-case/v4/load-case', (req, res) => {
 // Case officer
 router.get('/projects/back-office/create-case/v4/0-case-officer-name', (req, res) => {
   const isEdit = req.query.edit === 'true';
+  if (req.session && req.session.data) {
+    delete req.session.data.error;
+    delete req.session.data.caseOfficerError;
+    delete req.session.data.showCaseOfficerError;
+  }
   res.render('projects/back-office/create-case/v4/0-case-officer-name', {
     caseOfficer: req.session.caseOfficer,
     lpa: req.session.lpa,
-    isEdit: isEdit
+    isEdit: isEdit,
+    caseOfficerError: null,
+    showCaseOfficerError: false
   });
 });
 
 router.post('/projects/back-office/create-case/v4/0-case-officer-name', (req, res) => {
   if (!req.body.caseOfficer) {
     return res.render('projects/back-office/create-case/v4/0-case-officer-name', {
-      error: 'Please select a case officer',
-      caseOfficer: req.session.caseOfficer,
-      lpa: req.session.lpa
+      caseOfficerError: 'Please select a case officer',
+      showCaseOfficerError: true,
+      caseOfficer: req.body.caseOfficer || req.session.caseOfficer,
+      lpa: req.session.lpa,
+      isEdit: req.body.isEdit === 'true'
     });
   }
   const isEdit = req.body.isEdit === 'true';
@@ -526,6 +535,26 @@ router.get('/projects/back-office/create-case/v4/3-select-LPA', (req, res) => {
 });
 
 router.post('/projects/back-office/create-case/v4/3-select-LPA', (req, res) => {
+  if (!req.body.lpa) {
+    const path = require('path');
+    const fs = require('fs');
+    const lpaListPath = path.join(__dirname, '../data/lpa-list.json');
+    let lpaList = [];
+    try {
+      lpaList = JSON.parse(fs.readFileSync(lpaListPath, 'utf8'));
+    } catch (e) {
+      lpaList = [];
+    }
+
+    return res.render('projects/back-office/create-case/v4/3-select-LPA', {
+      lpaList,
+      selectedLPA: '',
+      isEdit: req.body.isEdit === 'true',
+      index: req.body.index ? parseInt(req.body.index, 10) : 0,
+      error: 'Select the Local Planning Authority for this plan'
+    });
+  }
+
   const index = req.body.index ? parseInt(req.body.index, 10) : 0;
   if (!req.session.lpas) req.session.lpas = [];
   req.session.lpas[index] = req.body.lpa;
@@ -558,6 +587,13 @@ router.get('/projects/back-office/create-case/v4/add-additional-lpa', (req, res)
 });
 
 router.post('/projects/back-office/create-case/v4/add-additional-lpa', (req, res) => {
+  if (!req.body.hasAdditionalLPA) {
+    return res.render('projects/back-office/create-case/v4/add-additional-lpa', {
+      hasAdditionalLPA: '',
+      error: 'Select yes if another Local Planning Authority is involved in this plan'
+    });
+  }
+
   req.session.hasAdditionalLPA = req.body.hasAdditionalLPA;
   if (req.body.hasAdditionalLPA === 'yes') {
     res.redirect('/projects/back-office/create-case/v4/additional-LPA');
@@ -581,10 +617,59 @@ router.get('/projects/back-office/create-case/v4/additional-LPA', (req, res) => 
 });
 
 router.post('/projects/back-office/create-case/v4/additional-LPA', (req, res) => {
+  if (!req.body.lpa) {
+    const path = require('path');
+    const fs = require('fs');
+    const lpaListPath = path.join(__dirname, '../data/lpa-list.json');
+    let lpaList = [];
+    try {
+      lpaList = JSON.parse(fs.readFileSync(lpaListPath, 'utf8'));
+    } catch (e) {
+      lpaList = [];
+    }
+
+    return res.render('projects/back-office/create-case/v4/additional-LPA', {
+      lpaList,
+      selectedLPA: '',
+      error: 'Select the additional Local Planning Authority for this plan'
+    });
+  }
+
   if (!req.session.lpas) req.session.lpas = [];
   req.session.lpas.push(req.body.lpa); // Add new LPA to array
   res.redirect('/projects/back-office/create-case/v4/add-additional-lpa');
 });
+
+const buildContactOptions = (mainContact, contacts = [], lpas = []) => {
+  const toLabel = (contact) => {
+    const name = `${contact?.firstName || ''} ${contact?.lastName || ''}`.trim();
+    return name || contact?.email || 'Contact';
+  };
+
+  const toHint = (contact) => {
+    return lpas.length > 1 ? (contact?.organisation || '') : '';
+  };
+
+  const options = [];
+
+  if (mainContact) {
+    options.push({
+      value: 'main',
+      text: toLabel(mainContact),
+      hint: toHint(mainContact)
+    });
+  }
+
+  contacts.forEach((contact, index) => {
+    options.push({
+      value: `contact-${index}`,
+      text: toLabel(contact),
+      hint: toHint(contact)
+    });
+  });
+
+  return options;
+};
 
 // Main contact page (single GET route, uses mainContact)
 router.get('/projects/back-office/create-case/v4/main-contact', (req, res) => {
@@ -600,6 +685,22 @@ router.get('/projects/back-office/create-case/v4/main-contact', (req, res) => {
 router.post('/projects/back-office/create-case/v4/main-contact', (req, res) => {
   const isEdit = req.body.isEdit === 'true';
   const fromPage = req.body.from || req.query.from || 'check-answers';
+  const lpas = req.session.lpas || [];
+
+  if (!req.body.mainContactFirstName || !req.body.mainContactLastName || !req.body.mainContactEmail) {
+    return res.render('projects/back-office/create-case/v4/main-contact', {
+      lpas,
+      mainContact: {
+        firstName: req.body.mainContactFirstName || '',
+        lastName: req.body.mainContactLastName || '',
+        email: req.body.mainContactEmail || '',
+        phone: req.body.mainContactPhone || ''
+      },
+      isEdit,
+      from: fromPage,
+      error: 'Enter first name, last name and email address for the contact'
+    });
+  }
   
   req.session.mainContact = {
     firstName: req.body.mainContactFirstName,
@@ -620,7 +721,58 @@ router.post('/projects/back-office/create-case/v4/main-contact', (req, res) => {
     returnTo
   };
 
+  if (lpas.length === 1) {
+    req.session.mainContact.organisation = lpas[0];
+    delete req.session.pendingContactAssociation;
+    return res.redirect(returnTo);
+  }
+
   res.redirect('/projects/back-office/create-case/v4/contact-organisation');
+});
+
+router.get('/projects/back-office/create-case/v4/change-main-contact', (req, res) => {
+  const contacts = req.session.contacts || [];
+  const from = req.query.from === 'check-answers' ? 'check-answers' : '';
+  if (!req.session.mainContact || contacts.length === 0) {
+    return res.redirect('/projects/back-office/create-case/v4/check-contact-details');
+  }
+
+  res.render('projects/back-office/create-case/v4/change-main-contact', {
+    contactOptions: buildContactOptions(req.session.mainContact, contacts, req.session.lpas || []),
+    selectedMainContact: 'main',
+    error: null,
+    from
+  });
+});
+
+router.post('/projects/back-office/create-case/v4/change-main-contact', (req, res) => {
+  const contacts = req.session.contacts || [];
+  const from = req.body.from === 'check-answers' ? 'check-answers' : '';
+  if (!req.session.mainContact || contacts.length === 0) {
+    return res.redirect('/projects/back-office/create-case/v4/check-contact-details');
+  }
+
+  const selectedMainContact = req.body.mainContactSelection;
+
+  if (!selectedMainContact) {
+    return res.render('projects/back-office/create-case/v4/change-main-contact', {
+      contactOptions: buildContactOptions(req.session.mainContact, contacts, req.session.lpas || []),
+      selectedMainContact: '',
+      error: 'Select who should be the main contact for this case',
+      from
+    });
+  }
+
+  if (selectedMainContact !== 'main') {
+    const selectedIndex = Number(selectedMainContact.replace('contact-', ''));
+    if (Number.isInteger(selectedIndex) && contacts[selectedIndex]) {
+      const previousMainContact = req.session.mainContact;
+      req.session.mainContact = contacts[selectedIndex];
+      req.session.contacts[selectedIndex] = previousMainContact;
+    }
+  }
+
+  res.redirect('/projects/back-office/create-case/v4/check-contact-details');
 });
 
 // Contact organisation association page
@@ -631,6 +783,25 @@ router.get('/projects/back-office/create-case/v4/contact-organisation', (req, re
   }
 
   const lpas = req.session.lpas || [];
+  if (lpas.length === 1) {
+    const selectedOrganisation = lpas[0];
+
+    if (pending.type === 'main' && req.session.mainContact) {
+      req.session.mainContact.organisation = selectedOrganisation;
+    } else if (
+      pending.type === 'additional' &&
+      Number.isInteger(pending.index) &&
+      Array.isArray(req.session.contacts) &&
+      req.session.contacts[pending.index]
+    ) {
+      req.session.contacts[pending.index].organisation = selectedOrganisation;
+    }
+
+    const returnTo = pending.returnTo || '/projects/back-office/create-case/v4/check-contact-details';
+    delete req.session.pendingContactAssociation;
+    return res.redirect(returnTo);
+  }
+
   let selectedOrganisation = '';
   let contactLabel = 'contact';
 
@@ -757,6 +928,14 @@ router.get('/projects/back-office/create-case/v4/add-another-contact', (req, res
 });
 
 router.post('/projects/back-office/create-case/v4/add-another-contact', (req, res) => {
+  if (!req.body.addAnotherContact) {
+    return res.render('projects/back-office/create-case/v4/add-another-contact', {
+      addAnotherContact: '',
+      contacts: req.session.contacts || [],
+      error: 'Select yes if you want to add another contact'
+    });
+  }
+
   res.redirect('/projects/back-office/create-case/v4/check-contact-details');
 });
 
@@ -794,11 +973,28 @@ router.post('/projects/back-office/create-case/v4/additional-contact', (req, res
   if (!req.session.contacts) req.session.contacts = [];
   const fromCheckAnswers = req.body.fromCheckAnswers === 'true';
   const fromCheckContactDetails = req.body.from === 'check-contact-details';
+  const lpas = req.session.lpas || [];
   const returnTo = fromCheckContactDetails
     ? '/projects/back-office/create-case/v4/check-contact-details'
     : fromCheckAnswers
       ? '/projects/back-office/create-case/v4/check-answers'
       : '/projects/back-office/create-case/v4/check-contact-details';
+
+  if (!req.body.firstName || !req.body.lastName || !req.body.email) {
+    return res.render('projects/back-office/create-case/v4/additional-contact', {
+      lpas,
+      contact: {
+        firstName: req.body.firstName || '',
+        lastName: req.body.lastName || '',
+        email: req.body.email || '',
+        phone: req.body.phone || ''
+      },
+      editIndex: req.body.editIndex !== undefined ? req.body.editIndex : '',
+      fromCheckAnswers,
+      from: req.body.from || '',
+      error: 'Enter first name, last name and email address for the additional contact'
+    });
+  }
   
   if (req.body.editIndex !== undefined && req.body.editIndex !== '') {
     const editIndex = Number(req.body.editIndex);
@@ -818,6 +1014,12 @@ router.post('/projects/back-office/create-case/v4/additional-contact', (req, res
       returnTo
     };
 
+    if (lpas.length === 1) {
+      req.session.contacts[editIndex].organisation = lpas[0];
+      delete req.session.pendingContactAssociation;
+      return res.redirect(returnTo);
+    }
+
     return res.redirect('/projects/back-office/create-case/v4/contact-organisation');
   } else {
     const newIndex = req.session.contacts.push({
@@ -833,6 +1035,12 @@ router.post('/projects/back-office/create-case/v4/additional-contact', (req, res
       index: newIndex,
       returnTo
     };
+
+    if (lpas.length === 1) {
+      req.session.contacts[newIndex].organisation = lpas[0];
+      delete req.session.pendingContactAssociation;
+      return res.redirect(returnTo);
+    }
 
     return res.redirect('/projects/back-office/create-case/v4/contact-organisation');
   }

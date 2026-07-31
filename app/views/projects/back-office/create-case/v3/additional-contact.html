@@ -1,4 +1,5 @@
 {% extends "layouts/back-office.html" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% block pageTitle %}
 Additional contact details – {{ serviceName }}
@@ -14,6 +15,12 @@ Additional contact details – {{ serviceName }}
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+      {% if error %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: [{ text: error, href: "#additional-contact-full-name" }]
+        }) }}
+      {% endif %}
       
 
       <form method="post">
@@ -27,23 +34,22 @@ Additional contact details – {{ serviceName }}
             </h1>
           </legend>
    
-          <div class="govuk-form-group">
-            <label class="govuk-label" for="additional-contact-first-name">
-              First name
+          <div class="govuk-form-group {% if error %}govuk-form-group--error{% endif %}">
+            <label class="govuk-label" for="additional-contact-full-name">
+              Full name
             </label>
-            <input class="govuk-input" id="additional-contact-first-name" name="firstName" type="text" autocomplete="given-name" value="{{ contact.firstName | default('') }}">
-          </div>
-          <div class="govuk-form-group">
-            <label class="govuk-label" for="additional-contact-last-name">
-              Last name
-            </label>
-            <input class="govuk-input" id="additional-contact-last-name" name="lastName" type="text" autocomplete="family-name" value="{{ contact.lastName | default('') }}">
+            {% if error %}
+              <p id="additional-contact-full-name-error" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> {{ error }}
+              </p>
+            {% endif %}
+            <input class="govuk-input govuk-!-width-two-thirds" id="additional-contact-full-name" name="fullName" type="text" autocomplete="name" value="{{ contact.fullName | default('') }}">
           </div>
           <div class="govuk-form-group">
             <label class="govuk-label" for="additional-contact-email">
               Email address
             </label>
-            <input class="govuk-input" id="additional-contact-email" name="email" type="email" autocomplete="email" value="{{ contact.email | default('') }}">
+            <input class="govuk-input govuk-!-width-two-thirds" id="additional-contact-email" name="email" type="email" autocomplete="email" value="{{ contact.email | default('') }}">
           </div>
           <div class="govuk-form-group">
             <label class="govuk-label" for="additional-contact-phone">
@@ -51,6 +57,29 @@ Additional contact details – {{ serviceName }}
             </label>
             <input class="govuk-input govuk-!-width-one-half" id="additional-contact-phone" name="phone" type="text" autocomplete="tel" value="{{ contact.phone | default('') }}">
           </div>
+
+          {% if lpas and lpas.length > 1 %}
+            <fieldset class="govuk-fieldset">
+              <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                Select the organisation for this contact
+              </legend>
+              <div class="govuk-form-group">
+                <div class="govuk-radios" data-module="govuk-radios">
+                  {% for lpa in lpas %}
+                    <div class="govuk-radios__item">
+                      <input class="govuk-radios__input" id="lpa-{{ loop.index }}" name="contactOrganisation" type="radio" value="{{ lpa }}"
+                        {% if contact.organisation == lpa %}checked{% endif %}>
+                      <label class="govuk-label govuk-radios__label" for="lpa-{{ loop.index }}">
+                        {{ lpa }}
+                      </label>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </fieldset>
+          {% elif lpas and lpas.length == 1 %}
+            <input type="hidden" name="contactOrganisation" value="{{ contact.organisation }}">
+          {% endif %}
         </fieldset>
         <div class="govuk-button-group">
            {% if isEdit %}

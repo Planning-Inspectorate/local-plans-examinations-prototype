@@ -25,8 +25,7 @@
     <h1 class="govuk-heading-l">
       {{ title }}
     </h1>
- 
-    {% set version = "4" %}
+ {% set version = "5" %}
     <h2 class="govuk-heading-m">
       Version {{ version }}
       {{ govukTag({
@@ -38,9 +37,41 @@
     <p class="govuk-!-margin-bottom-2">Changes:</p>
  
     <ul class="govuk-list govuk-list--bullet">
+      <li>Full name + LPA on separate pages</li>
+      <li>Simplified contact details page header</li>
+      <li>Updated application of main contact</li>
+      <li>Add to list functionality added to manage contacts</li>
+      <li>Includes error messaging for each screen</li>
+      <li>Region removed and inferred in the back end</li>
+    </ul> 
+    {{ govukButton({
+      html: 'View prototype',
+      href: '/projects/back-office/create-case/v' ~ version ~ '/index',
+      isStartButton: true
+    }) }}
+
+       <br>
+      <br>
+      <br>
+    {% set version = "4" %}
+    <h2 class="govuk-heading-m">
+      Version {{ version }}
+      {{ govukTag({
+        classes: 'govuk-tag--grey govuk-!-margin-left-2',
+        text: 'Superseded'
+      }) }}
+    </h2>
+ 
+    <p class="govuk-!-margin-bottom-2">Changes:</p>
+ 
+    <ul class="govuk-list govuk-list--bullet">
       <li>Two stage contacts flow when more than one LPA</li>
       <li>Uses HMRC pattern for 'Add to a list' for reviewing added contacts</li>
       <li>Includes error messaging for each screen</li>
+      <li>Region removed and inferred in the back end</li>
+      <li>Pattern requires users to answer a yes/no question before performing an action, introducing an additional interaction without a clear benefit over an "Add another contact" action link.</li>
+      <li>Decision: Proceed with add-to-a-list pattern.</li>
+
     </ul> 
     {{ govukButton({
       html: 'View prototype',
@@ -62,8 +93,12 @@
   <p class="govuk-!-margin-bottom-2">Changes:</p>
  
     <ul class="govuk-list govuk-list--bullet">
-      <li>Two stage contacts flow when more than one LPA</li>
-      <li>Uses PINS pattern for reviewing added contacts</li>
+      <li>Full name + LPA on same page</li>
+      <li>Simplified contact details page header</li>
+      <li>Updated application of main contact</li>
+      <li>Add to list functionality added to manage contacts</li>
+      <li>Includes error messaging for each screen</li>
+      <li>Region removed and inferred in the back end</li>
     </ul> 
  
       {{ govukButton({
@@ -86,8 +121,12 @@
  <p class="govuk-!-margin-bottom-2">Changes:</p>
  
     <ul class="govuk-list govuk-list--bullet">
-      <li>Original flow with radio selection of LPA on the contacts page when there are multiple LPAs</li>
-      <li>It was advised by Solirius Accessibility lab that it was confusing, but keeping it here for reference</li>
+      <li>First name + last name + LPA on same page</li> 
+      <li>Simplified contact details page header</li>
+      <li>Updated application of main contact</li>
+      <li>Add to list functionality added to manage contacts</li>
+      <li>Includes error messaging for each screen</li>
+      <li>Region removed and inferred in the back end</li>
     </ul> 
       {{ govukButton({
         html: 'View prototype',

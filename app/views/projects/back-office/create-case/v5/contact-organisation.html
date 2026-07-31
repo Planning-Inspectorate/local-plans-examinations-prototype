@@ -1,0 +1,73 @@
+{% extends "layouts/back-office.html" %}
+
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
+{% block pageTitle %}
+Which Local Planning Authority is this contact associated with? – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if error %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: [
+            {
+              text: error,
+              href: "#contact-organisation"
+            }
+          ]
+        }) }}
+      {% endif %}
+
+      <form method="post" action="/projects/back-office/create-case/v5/contact-organisation">
+        <div class="govuk-form-group {% if error %}govuk-form-group--error{% endif %}">
+          <fieldset class="govuk-fieldset" aria-describedby="contact-organisation-hint{% if error %} contact-organisation-error{% endif %}">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+              <h1 class="govuk-fieldset__heading">
+                Which Local Planning Authority is this contact associated with?
+              </h1>
+            </legend>
+            <div id="contact-organisation-hint" class="govuk-hint">
+              Contact: {{ contactLabel }}
+            </div>
+
+            {% if error %}
+              <p id="contact-organisation-error" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> {{ error }}
+              </p>
+            {% endif %}
+
+            <div class="govuk-radios" data-module="govuk-radios" id="contact-organisation">
+              {% for lpa in lpas %}
+                <div class="govuk-radios__item">
+                  <input
+                    class="govuk-radios__input"
+                    id="contact-organisation-{{ loop.index }}"
+                    name="contactOrganisation"
+                    type="radio"
+                    value="{{ lpa }}"
+                    {% if selectedOrganisation == lpa %}checked{% endif %}
+                  >
+                  <label class="govuk-label govuk-radios__label" for="contact-organisation-{{ loop.index }}">
+                    {{ lpa }}
+                  </label>
+                </div>
+              {% endfor %}
+            </div>
+          </fieldset>
+        </div>
+
+        {{ govukButton({ text: "Continue" }) }}
+      </form>
+    </div>
+  </div>
+{% endblock %}
