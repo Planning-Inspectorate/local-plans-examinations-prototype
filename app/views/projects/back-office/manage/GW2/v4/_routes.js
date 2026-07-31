@@ -1,6 +1,7 @@
 const govukPrototypeKit = require('govuk-prototype-kit');
 const router = govukPrototypeKit.requests.setupRouter();
 const { DateTime } = require('luxon');
+const { applyStatusEvent } = require('../../../../../../routes/projects/back-office/status-flow');
 
 const WORKSHOP_DOCS_KEY = 'gw2v3WorkshopDocuments';
 const ISSUE_REPORT_DOCS_KEY = 'gw2v4IssueReportDocuments';
@@ -517,6 +518,9 @@ router.post('/upload/v1/check-answers', (req, res) => {
 
   const safeCount = uploadedCount > 0 ? uploadedCount : 0;
   req.session.notificationMessage = `${safeCount} workshop document${safeCount === 1 ? '' : 's'} uploaded`;
+  if (safeCount > 0) {
+    applyStatusEvent(req, 'GW2_SUBMISSION_RECEIVED', { source: 'GW2 workshop docs check answers POST' });
+  }
 
   delete req.session.data.fileData;
   delete req.session.data.fileSizeMap;
@@ -656,6 +660,7 @@ router.post('/upload/v2/check-answers', (req, res) => {
   
   mergeIssueReportDocuments(req);
   req.session.gw2v4ReportIssued = true;
+  applyStatusEvent(req, 'GW2_REPORT_ISSUED', { source: 'GW2 issue report check answers POST' });
   
   // Ensure workshop docs are preserved in both locations
   if (preservedWorkshopDocs) {

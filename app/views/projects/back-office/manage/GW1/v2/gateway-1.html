@@ -1,0 +1,94 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+Gateway 1 overview – {{ serviceName }}
+{% endblock %}
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    {% if notificationMessage %}
+    <div class="govuk-notification-banner govuk-notification-banner--success" role="region" aria-labelledby="gw1-notification-banner-title" data-module="govuk-notification-banner">
+      <div class="govuk-notification-banner__header">
+        <h2 class="govuk-notification-banner__title" id="gw1-notification-banner-title">Success</h2>
+      </div>
+      <div class="govuk-notification-banner__content">
+        <p class="govuk-notification-banner__heading">{{ notificationMessage }}</p>
+      </div>
+    </div>
+    {% endif %}
+    {% include "includes/back-office/plan-header.njk" %}
+
+     {% set currentSection = "gateway-1" %}
+      {% include "includes/back-office/secondary-nav.njk" %}
+    </div>
+  </div>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <form method="post" action="">
+
+      <h2 class="govuk-heading-l">Gateway 1</h2>
+      <dl class="govuk-summary-list govuk-summary-list-timetable">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Notice of Intention publish date</dt>
+          <dd class="govuk-summary-list__value">{{ noticeOfIntentionDate if noticeOfIntentionDate and noticeOfIntentionDate != '-' else 'Not provided' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/change-notice-date.html?returnUrl=/projects/back-office/manage/GW1/v1/gateway-1.html">Change<span class="govuk-visually-hidden"> Notice of Intention date</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Gateway 1 estimated date</dt>
+          <dd class="govuk-summary-list__value">{{ gateway1EstimatedDate if gateway1EstimatedDate and gateway1EstimatedDate != '-' else 'Not provided' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/GW1/v1/gateway-1-estimated.html?returnUrl=/projects/back-office/manage/GW1/v1/gateway-1.html">Change<span class="govuk-visually-hidden"> Gateway 1 Estimated Date</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Gateway 1 actual date</dt>
+          <dd class="govuk-summary-list__value">{{ gateway1ActualDate if gateway1ActualDate and gateway1ActualDate != '-' else 'Not provided' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/GW1/v1/gateway-1-actual.html?returnUrl=/projects/back-office/manage/GW1/v1/gateway-1.html">Change<span class="govuk-visually-hidden"> Gateway 1 Actual Date</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">SLA sent date</dt>
+          <dd class="govuk-summary-list__value">{{ gateway1SlaSentDate if gateway1SlaSentDate and gateway1SlaSentDate != '-' else 'Not provided' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/GW1/v1/gateway-1-sla-sent.html?returnUrl=/projects/back-office/manage/GW1/v1/gateway-1.html">Change<span class="govuk-visually-hidden"> SLA Sent Date</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">SLA received date</dt>
+          <dd class="govuk-summary-list__value">{{ gateway1SlaReceivedDate if gateway1SlaReceivedDate and gateway1SlaReceivedDate != '-' else 'Not provided' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/GW1/v1/gateway-1-sla-received.html?returnUrl=/projects/back-office/manage/GW1/v1/gateway-1.html">Change<span class="govuk-visually-hidden"> SLA Received Date</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Signed SLA</dt>
+          <dd class="govuk-summary-list__value">{{ signedSlaFilename if signedSlaFilename and signedSlaFilename != '-' else 'Not uploaded' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/GW1/v2/gateway-1-signed-sla-upload.html?returnUrl=/projects/back-office/manage/GW1/v2/gateway-1">{{ 'Change' if signedSlaFilename and signedSlaFilename != '-' else 'Upload' }}<span class="govuk-visually-hidden"> signed SLA</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Digital Sharing Agreement (DSA) check</dt>
+          <dd class="govuk-summary-list__value">{{ gateway1DsaCheck if gateway1DsaCheck and gateway1DsaCheck != '-' else 'Not provided' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/GW1/v1/gateway-1-dsa-check.html?returnUrl=/projects/back-office/manage/GW1/v1/gateway-1.html">Change<span class="govuk-visually-hidden"> DSA Check</span></a>
+          </dd>
+        </div>
+        </dl>
+{% endblock %}
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

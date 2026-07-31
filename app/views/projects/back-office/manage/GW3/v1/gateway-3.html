@@ -30,7 +30,7 @@ Gateway 3 overview – {{ serviceName }}
       <dl class="govuk-summary-list govuk-summary-list-timetable">
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Gateway 3 estimated date</dt>
-          <dd class="govuk-summary-list__value">{{ gateway3EstimatedDate or '-' }}</dd>
+          <dd class="govuk-summary-list__value">{{ gateway3EstimatedDate if gateway3EstimatedDate and gateway3EstimatedDate != '-' else '2 Jun 2026' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/GW3/v1/gateway-3-estimated.html?returnUrl=/projects/back-office/manage/GW3/v1/gateway-3.html">Change<span class="govuk-visually-hidden">Gateway 3 estimated date</span></a>
           </dd>

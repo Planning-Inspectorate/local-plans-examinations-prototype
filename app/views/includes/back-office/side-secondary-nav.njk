@@ -121,11 +121,13 @@
         Examination
       </a>
     </li>
+    {% if not hideDocumentsNav %}
     <li>
       <a href="{{ links.documents }}"{% if currentSection == 'documents' %} class="selected" aria-current="page"{% endif %}>
         Documents
       </a>
     </li>
+    {% endif %}
     <li>
       <a href="{{ links.updates }}"{% if currentSection == 'updates' %} class="selected" aria-current="page"{% endif %}>
         Case history

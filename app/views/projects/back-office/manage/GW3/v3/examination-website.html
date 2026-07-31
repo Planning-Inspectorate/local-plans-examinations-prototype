@@ -1,0 +1,30 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+  What is the address of the examination website? - {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: returnUrl or "/projects/back-office/manage/GW3/v3/gateway-3"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="form" method="post" action="/projects/back-office/manage/GW3/v3/examination-website">
+        <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
+        <div class="govuk-form-group">
+          <label class="govuk-label govuk-label--l" for="examination-website">What is the address of the examination website?</label>
+          <input class="govuk-input" id="examination-website" name="examination-website" type="text" value="{{ examinationWebsite }}">
+        </div>
+        <div class="govuk-button-group">
+          <button class="govuk-button" data-module="govuk-button" type="submit">Save and continue</button>
+          <a href="{{ returnUrl or '/projects/back-office/manage/GW3/v3/gateway-3' }}" class="govuk-link">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

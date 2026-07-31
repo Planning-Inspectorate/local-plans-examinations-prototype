@@ -1,0 +1,64 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+Status debug - {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      {% include "includes/back-office/plan-header.njk" %}
+
+      <h1 class="govuk-heading-l">Status debug</h1>
+
+      <dl class="govuk-summary-list govuk-!-margin-bottom-6">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Current status</dt>
+          <dd class="govuk-summary-list__value">{{ currentStatus or '-' }}</dd>
+        </div>
+      </dl>
+
+      <h2 class="govuk-heading-m">Transition history</h2>
+
+      {% if statusHistory and statusHistory.length > 0 %}
+        <table class="govuk-table">
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header">Time</th>
+              <th scope="col" class="govuk-table__header">Event</th>
+              <th scope="col" class="govuk-table__header">From</th>
+              <th scope="col" class="govuk-table__header">To</th>
+              <th scope="col" class="govuk-table__header">Applied</th>
+              <th scope="col" class="govuk-table__header">Source</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+            {% for item in statusHistory %}
+              <tr class="govuk-table__row">
+                <td class="govuk-table__cell">{{ item.timestamp }}</td>
+                <td class="govuk-table__cell">{{ item.event }}</td>
+                <td class="govuk-table__cell">{{ item.from }}</td>
+                <td class="govuk-table__cell">{{ item.to }}</td>
+                <td class="govuk-table__cell">{{ 'Yes' if item.applied else 'No' }}</td>
+                <td class="govuk-table__cell">{{ item.source or '-' }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p class="govuk-body">No status transitions recorded yet.</p>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

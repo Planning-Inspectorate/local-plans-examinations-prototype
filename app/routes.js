@@ -14,15 +14,16 @@ const {
 const defaultWorkflowNavVersions = {
   overview: 'v2',
   timetable: 'v1',
-  gw1: 'v1',
+  gw1: 'v2',
   gw2: 'v4',
-  gw3: 'v2',
+  gw3: 'v3',
   examination: 'v3',
-  documents: 'v1',
+  documents: 'v0',
   updates: 'v2'
 };
 
 const workflowNavSections = Object.keys(defaultWorkflowNavVersions);
+const hideDocumentsNav = true;
 
 function getWorkflowNavQueryOverrides(query = {}) {
   return workflowNavSections.reduce((overrides, section) => {
@@ -59,6 +60,7 @@ router.use((req, res, next) => {
     ...defaultWorkflowNavVersions,
     ...sessionOverrides
   };
+  res.locals.hideDocumentsNav = hideDocumentsNav;
   next();
 });
 

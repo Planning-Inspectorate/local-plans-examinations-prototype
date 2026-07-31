@@ -297,7 +297,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         noticeOfIntentionDate: '22 January 2026',
         gateway1Date: '8 March 2026',
         gateway2Date: '12 May 2026',
-        gateway3Date: '2 August 2026',
+        gateway3Date: '2 June 2026',
         submissionDate: '7 August 2026',
         statusStrategy: 'fixed',
         status: 'Gateway 2 Validation',

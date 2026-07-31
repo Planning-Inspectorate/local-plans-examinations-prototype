@@ -1,0 +1,54 @@
+{% extends "layouts/back-office.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block pageTitle %}
+  Check your document and issue notification - {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/projects/back-office/manage/GW1/v2/gateway-1-signed-sla-upload?returnUrl=" ~ (returnUrl or '/projects/back-office/manage/GW1/v2/gateway-1')
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
+      <h1 class="govuk-heading-l">Check signed SLA and issue notification</h1>
+
+      {% for doc in uploadedDocuments %}
+        <dl class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Document {{ loop.index }}</dt>
+            <dd class="govuk-summary-list__value">{{ doc.originalname }}</dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="/projects/back-office/manage/GW1/v2/gateway-1-signed-sla-upload?returnUrl={{ returnUrl }}">Change<span class="govuk-visually-hidden"> {{ doc.originalname }}</span></a>
+            </dd>
+          </div>
+        </dl>
+      {% endfor %}
+
+      <details class="govuk-details" data-cy="preview-notification-to-lpa">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">Preview notification to LPA</span>
+        </summary>
+        <div class="govuk-details__text">
+          <div class="pins-notify-preview-border">
+            <h3>Notification details</h3>
+            <p>The signed SLA has been received.</p>
+            <p>The LPA can now proceed to Gateway 2 submission.</p>
+          </div>
+        </div>
+      </details>
+
+      <p class="govuk-body">We will send a notification to the LPA when you confirm.</p>
+
+      <form method="post" action="/projects/back-office/manage/GW1/v2/gateway-1-signed-sla-check">
+        <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
+        {{ govukButton({ text: "Confirm and issue notification" }) }}
+      </form>
+    </div>
+  </div>
+{% endblock %}

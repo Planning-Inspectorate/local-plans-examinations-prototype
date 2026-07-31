@@ -52,9 +52,11 @@
     <li class="moj-sub-navigation__item{% if currentSection == 'examination' %} moj-sub-navigation__item--active{% endif %}">
       <a class="moj-sub-navigation__link" href="{{ links.examination }}"{% if currentSection == 'examination' %} aria-current="page"{% endif %}>Examination</a>
     </li>
+    {% if not hideDocumentsNav %}
     <li class="moj-sub-navigation__item{% if currentSection == 'documents' %} moj-sub-navigation__item--active{% endif %}">
       <a class="moj-sub-navigation__link" href="{{ links.documents }}"{% if currentSection == 'documents' %} aria-current="page"{% endif %}>Documents</a>
     </li>
+    {% endif %}
     <li class="moj-sub-navigation__item{% if currentSection == 'updates' %} moj-sub-navigation__item--active{% endif %}">
       <a class="moj-sub-navigation__link" href="{{ links.updates }}"{% if currentSection == 'updates' %} aria-current="page"{% endif %}>Case history</a>
     </li>

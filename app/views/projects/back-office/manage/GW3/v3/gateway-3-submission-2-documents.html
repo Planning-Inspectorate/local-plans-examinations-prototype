@@ -1,0 +1,124 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+Gateway 3 submission 2 documents - {{ serviceName }}
+{% endblock %}
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "/projects/back-office/manage/GW3/v3/gateway-3"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+ 
+    <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }} - Submission {{ submissionNumber or '2' }} - {{ submissionDateSubmitted or '21 July 2026' }}</span>
+    <h2 class="govuk-heading-l">Gateway 3 documents</h2>
+
+    <h2 class="govuk-heading-m">Procedural documents</h2>
+    <dl class="govuk-summary-list govuk-summary-list-timetable">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key"><strong>Document</strong></dt>
+        <dd class="govuk-summary-list__actions"><strong>Action</strong></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Proposed local plan</dt>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="#">View</a></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Map of proposed local plan policies</dt>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="#">View</a></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Statement of compliance</dt>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="#">View</a></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Statement of soundness</dt>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="#">View</a></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Statement of alterations</dt>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="#">View</a></dd>
+      </div>
+    </dl>
+
+    <h2 class="govuk-heading-m">Consultation documents</h2>
+    <dl class="govuk-summary-list govuk-summary-list-timetable">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key"><strong>Document</strong></dt>
+        <dd class="govuk-summary-list__actions"><strong>Action</strong></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Summary of consultation and engagement activities</dt>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="#">View</a></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Summary of scoping consultation</dt>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="#">View</a></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Summary of consultation on proposed Local Plan</dt>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="#">View</a></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Consultation on proposed Local Plan content and evidence documents</dt>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="#">View</a></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Consultation summary on proposed Local Plan content and evidence documents</dt>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="#">View</a></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Statement of practical arrangements demonstrating readiness for examination</dt>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="#">View</a></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Environmental report</dt>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="#">View</a></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Supplementary plans statement</dt>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="#">View</a></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Copies of representations</dt>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="#">View</a></dd>
+      </div>
+    </dl>
+
+    <h2 class="govuk-heading-m">Additional documents</h2>
+    <dl class="govuk-summary-list govuk-summary-list-timetable">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key"><strong>Document</strong></dt>
+        <dd class="govuk-summary-list__actions"><strong>Action</strong></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Schedule of proposed changes</dt>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="#">View</a></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Updated sustainability appraisal</dt>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="#">View</a></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Summary of response to resubmission</dt>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="#">View</a></dd>
+      </div>
+    </dl>
+
+    <div class="govuk-button-group">
+      <a class="govuk-button" data-module="govuk-button" href="/projects/back-office/manage/GW3/v3/gateway-3-decision.html?submissionVersion=2&returnUrl={{ returnUrl or '/projects/back-office/manage/GW3/v3/gateway-3-submission-2-documents' }}">
+        Issue decision
+      </a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

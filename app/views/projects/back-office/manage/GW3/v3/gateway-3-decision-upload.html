@@ -1,0 +1,80 @@
+{% extends "layouts/back-office.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block pageTitle %}
+  Upload a document – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/projects/back-office/manage/GW3/v3/gateway-3-decision.html?submissionVersion=" ~ (submissionVersion or '1') ~ "&returnUrl=" ~ (returnUrl or '/projects/back-office/manage/GW3/v3/gateway-3')
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if showUploadError %}
+        <div class="govuk-error-summary" data-module="govuk-error-summary" role="alert" aria-labelledby="error-summary-title" tabindex="-1">
+          <h2 class="govuk-error-summary__title" id="error-summary-title">There is a problem</h2>
+          <div class="govuk-error-summary__body">
+            <ul class="govuk-list govuk-error-summary__list">
+              <li><a href="#filesTable">Upload at least one Gateway 3 report before continuing</a></li>
+            </ul>
+          </div>
+        </div>
+      {% endif %}
+
+      <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}{% if hasMultipleSubmissions %} - {{ submissionLabel | capitalize }}{% endif %}</span>
+      <h1 class="govuk-heading-l">Upload Gateway 3 report{% if hasMultipleSubmissions %} for {{ submissionLabel }}{% endif %}</h1>
+
+      <p>
+        Each file must be a PDF, DOC, DOCX, PPT, PPTX, XLS, XLSX, MSG, JPG, JPEG, MPEG, MP3, MP4, MOV, PNG, TIF or TIFF
+        and smaller than 250MB.
+      </p>
+
+      <p>
+        The total size of your uploaded files must be smaller than 1GB.
+      </p>
+
+      <h2 class="govuk-heading-m">Upload documents</h2>
+
+      <form class="form" method="post" action="/projects/back-office/manage/GW3/v3/gateway-3-decision-upload">
+        <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
+        <input type="hidden" name="submissionVersion" value="{{ submissionVersion }}">
+
+        <div class="app-multi-file-upload">
+          {% include 'includes/back-office/multiple-document-upload.html' %}
+        </div>
+
+        {% if showUploadError %}
+          <p class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Upload at least one Gateway 3 report before continuing
+          </p>
+        {% endif %}
+
+        {% if uploadedDocuments and uploadedDocuments.length > 0 %}
+          <h3 class="govuk-heading-s">Previously uploaded files</h3>
+          <div class="govuk-body">
+            {%- for doc in uploadedDocuments -%}
+              <div>{{ doc.originalname }}{% if doc.size %} ({{ doc.size }} bytes){% endif %}</div>
+            {%- endfor -%}
+          </div>
+          <p>
+            <a href="/projects/back-office/manage/GW3/v3/gateway-3-decision-upload/clear-uploads?submissionVersion={{ submissionVersion }}&returnUrl={{ returnUrl }}">Clear all documents</a>
+          </p>
+        {% endif %}
+
+        <div class="govuk-button-group">
+          {{ govukButton({
+            text: "Continue"
+          }) }}
+          
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/public/javascripts/multi-file-upload.js"></script>
+{% endblock %}

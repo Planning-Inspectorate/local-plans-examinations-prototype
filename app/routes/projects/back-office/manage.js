@@ -4,6 +4,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const { PLAN_STATUS_CLASS_MAP, getPlanStatusClasses } = require('./plan-status-classes');
+const { FLOW_STATUSES, getStatusHistory } = require('./status-flow');
 
 function getCurrentCase(req, preferredRef) {
   const caseRef = preferredRef || req.session.currentCaseRef || '';
@@ -158,6 +159,12 @@ function deriveOverallPlanStatus(req, currentCase) {
     }
   }
 
+  // Keep explicit status flow states stable across page loads.
+  const explicitSessionStatus = String(req.session.planStatus || '').trim();
+  if (FLOW_STATUSES.includes(explicitSessionStatus)) {
+    return explicitSessionStatus;
+  }
+
   // Default behavior when a case does not define a strategy.
   if (isSetValue(req.session.gateway2ActualDate) || isSetValue(req.session.gateway2ValidDate) || isSetValue(req.session.gateway2WorkshopDate)) {
     return 'In progress';
@@ -205,6 +212,17 @@ router.use((req, res, next) => {
   res.locals.planStatusClassMap = PLAN_STATUS_CLASS_MAP;
 
   next();
+});
+
+router.get('/projects/back-office/manage/status-debug', (req, res) => {
+  const history = getStatusHistory(req).slice().reverse();
+
+  res.render('projects/back-office/manage/status-debug', {
+    caseRef: req.session.currentCaseRef || '',
+    planTitle: req.session.planTitle || '',
+    currentStatus: req.session.planStatus || 'Submitted',
+    statusHistory: history
+  });
 });
 
 // Index overview page GET (display all case data)
@@ -1047,18 +1065,19 @@ function formatTimestampForDisplay(timestamp) {
   return `${date.getDate()} ${new Intl.DateTimeFormat('en-US', { month: 'long' }).format(date)} ${date.getFullYear()}`;
 }
 
-// Timetable page GET
-router.get('/projects/back-office/manage/timetable.html', (req, res) => {
-  res.render('projects/back-office/manage/timetable/v1/timetable', {
+function buildTimetableViewModel(req, defaultReturnUrl) {
+  return {
     caseRef: req.session.currentCaseRef || '',
     planTitle: req.session.planTitle || '',
     noticeOfIntentionDate: formatDateForDisplay(req.session.noticeOfIntentionDate) || '-',
     gateway1ActualDate: formatDateForDisplay(req.session.gateway1ActualDate) || '-',
     gateway1EstimatedDate: formatDateForDisplay(req.session.gateway1EstimatedDate) || '-',
+    gateway1ExpectedDate: formatDateForDisplay(req.session.gateway1EstimatedDate) || '-',
     gateway1SlaSentDate: formatDateForDisplay(req.session.gateway1SlaSentDate) || '-',
     gateway1SlaReceivedDate: formatDateForDisplay(req.session.gateway1SlaReceivedDate) || '-',
     gateway1DsaCheck: req.session.gateway1DsaCheck || '-',
     gateway2EstimatedDate: formatDateForDisplay(req.session.gateway2EstimatedDate) || '-',
+    gateway2ExpectedDate: formatDateForDisplay(req.session.gateway2EstimatedDate) || '-',
     gateway2ActualDate: formatDateForDisplay(req.session.gateway2ActualDate) || '-',
     gateway2ValidDate: formatDateForDisplay(req.session.gateway2ValidDate) || '-',
     gateway2WorkshopDate: formatDateForDisplay(req.session.gateway2WorkshopDate) || '-',
@@ -1070,10 +1089,12 @@ router.get('/projects/back-office/manage/timetable.html', (req, res) => {
     gateway2PlanStatus: req.session.gateway2PlanStatus || '-',
     gateway2Grade: req.session.gateway2Grade || '-',
     gateway3EstimatedDate: formatDateForDisplay(req.session.gateway3EstimatedDate) || '-',
+    gateway3ExpectedDate: formatDateForDisplay(req.session.gateway3EstimatedDate) || '-',
     gateway3ActualDate: formatDateForDisplay(req.session.gateway3ActualDate) || '-',
     gateway3AssessorAppointmentDate: formatDateForDisplay(req.session.gateway3AssessorAppointmentDate) || '-',
     gateway3CompletionDate: formatDateForDisplay(req.session.gateway3CompletionDate) || '-',
     examinationEstimatedDate: formatDateForDisplay(req.session.examinationEstimatedDate) || '-',
+    examinationExpectedDate: formatDateForDisplay(req.session.examinationEstimatedDate) || '-',
     examinationActualDate: formatDateForDisplay(req.session.examinationActualDate) || '-',
     examiningInspectorAppointmentDate: formatDateForDisplay(req.session.examiningInspectorAppointmentDate) || '-',
     hearingStartDate: formatDateForDisplay(req.session.hearingStartDate) || '-',
@@ -1096,61 +1117,48 @@ router.get('/projects/back-office/manage/timetable.html', (req, res) => {
     soundUnsoundDate: formatDateForDisplay(req.session.soundUnsoundDate) || '-',
     adoptionDate: formatDateForDisplay(req.session.adoptionDate) || '-',
     approvedForCilDate: formatDateForDisplay(req.session.approvedForCilDate) || '-',
-    returnUrl: req.query.returnUrl || '/projects/back-office/manage/timetable.html'
-  });
+    returnUrl: req.query.returnUrl || defaultReturnUrl
+  };
+}
+
+// Timetable page GET
+router.get('/projects/back-office/manage/timetable.html', (req, res) => {
+  res.render(
+    'projects/back-office/manage/timetable/v1/timetable',
+    buildTimetableViewModel(req, '/projects/back-office/manage/timetable.html')
+  );
+});
+
+// Timetable page GET (v1 path without .html)
+router.get('/projects/back-office/manage/timetable/v1/timetable', (req, res) => {
+  res.render(
+    'projects/back-office/manage/timetable/v1/timetable',
+    buildTimetableViewModel(req, '/projects/back-office/manage/timetable/v1/timetable')
+  );
 });
 
 // Timetable page GET (v1 path)
 router.get('/projects/back-office/manage/timetable/v1/timetable.html', (req, res) => {
-  res.render('projects/back-office/manage/timetable/v1/timetable', {
-    caseRef: req.session.currentCaseRef || '',
-    planTitle: req.session.planTitle || '',
-    noticeOfIntentionDate: formatDateForDisplay(req.session.noticeOfIntentionDate) || '-',
-    gateway1ActualDate: formatDateForDisplay(req.session.gateway1ActualDate) || '-',
-    gateway1EstimatedDate: formatDateForDisplay(req.session.gateway1EstimatedDate) || '-',
-    gateway1SlaSentDate: formatDateForDisplay(req.session.gateway1SlaSentDate) || '-',
-    gateway1SlaReceivedDate: formatDateForDisplay(req.session.gateway1SlaReceivedDate) || '-',
-    gateway1DsaCheck: req.session.gateway1DsaCheck || '-',
-    gateway2EstimatedDate: formatDateForDisplay(req.session.gateway2EstimatedDate) || '-',
-    gateway2ActualDate: formatDateForDisplay(req.session.gateway2ActualDate) || '-',
-    gateway2ValidDate: formatDateForDisplay(req.session.gateway2ValidDate) || '-',
-    gateway2WorkshopDate: formatDateForDisplay(req.session.gateway2WorkshopDate) || '-',
-    gateway2WorkshopVenue: req.session.gateway2WorkshopVenue || '-',
-    gateway2AssessorAppointmentDate: formatDateForDisplay(req.session.gateway2AssessorAppointmentDate) || '-',
-    gateway2ReportIssuedDate: formatDateForDisplay(req.session.gateway2ReportIssuedDate) || '-',
-    gateway2ReportPublishedDate: formatDateForDisplay(req.session.gateway2ReportPublishedDate) || '-',
-    gateway2AssessorName: req.session.gateway2AssessorName || '-',
-    gateway2PlanStatus: req.session.gateway2PlanStatus || '-',
-    gateway2Grade: req.session.gateway2Grade || '-',
-    gateway3EstimatedDate: formatDateForDisplay(req.session.gateway3EstimatedDate) || '-',
-    gateway3ActualDate: formatDateForDisplay(req.session.gateway3ActualDate) || '-',
-    gateway3AssessorAppointmentDate: formatDateForDisplay(req.session.gateway3AssessorAppointmentDate) || '-',
-    gateway3CompletionDate: formatDateForDisplay(req.session.gateway3CompletionDate) || '-',
-    examinationEstimatedDate: formatDateForDisplay(req.session.examinationEstimatedDate) || '-',
-    examinationActualDate: formatDateForDisplay(req.session.examinationActualDate) || '-',
-    examiningInspectorAppointmentDate: formatDateForDisplay(req.session.examiningInspectorAppointmentDate) || '-',
-    hearingStartDate: formatDateForDisplay(req.session.hearingStartDate) || '-',
-    hearingCloseDate: formatDateForDisplay(req.session.hearingCloseDate) || '-',
-    furtherHearingDates: formatDateForDisplay(req.session.furtherHearingDates) || '-',
-    letterSentToMhclgDate: formatDateForDisplay(req.session.letterSentToMhclgDate) || '-',
-    letterIssueDate: formatDateForDisplay(req.session.letterIssueDate) || '-',
-    qaDate: formatDateForDisplay(req.session.qaDate) || '-',
-    qaReportSentDate: formatDateForDisplay(req.session.qaReportSentDate) || '-',
-    qaPanelResponseDate: formatDateForDisplay(req.session.qaPanelResponseDate) || '-',
-    factCheckReceivedDate: formatDateForDisplay(req.session.factCheckReceivedDate) || '-',
-    factCheckDueDate: formatDateForDisplay(req.session.factCheckDueDate) || '-',
-    factCheckActualDate: formatDateForDisplay(req.session.factCheckActualDate) || '-',
-    factCheckReceivedFromLpaDate: formatDateForDisplay(req.session.factCheckReceivedFromLpaDate) || '-',
-    finalReportIssueDate: formatDateForDisplay(req.session.finalReportIssueDate) || '-',
-    planPauseDate: formatDateForDisplay(req.session.planPauseDate) || '-',
-    planPauseEndDate: formatDateForDisplay(req.session.planPauseEndDate) || '-',
-    withdrawnDate: formatDateForDisplay(req.session.withdrawnDate) || '-',
-    planSoundness: req.session.planSoundness || '-',
-    soundUnsoundDate: formatDateForDisplay(req.session.soundUnsoundDate) || '-',
-    adoptionDate: formatDateForDisplay(req.session.adoptionDate) || '-',
-    approvedForCilDate: formatDateForDisplay(req.session.approvedForCilDate) || '-',
-    returnUrl: req.query.returnUrl || '/projects/back-office/manage/timetable/v1/timetable.html'
-  });
+  res.render(
+    'projects/back-office/manage/timetable/v1/timetable',
+    buildTimetableViewModel(req, '/projects/back-office/manage/timetable/v1/timetable.html')
+  );
+});
+
+// Timetable page GET (v2 path without .html)
+router.get('/projects/back-office/manage/timetable/v2/timetable', (req, res) => {
+  res.render(
+    'projects/back-office/manage/timetable/v2/timetable',
+    buildTimetableViewModel(req, '/projects/back-office/manage/timetable/v2/timetable')
+  );
+});
+
+// Timetable page GET (v2 path)
+router.get('/projects/back-office/manage/timetable/v2/timetable.html', (req, res) => {
+  res.render(
+    'projects/back-office/manage/timetable/v2/timetable',
+    buildTimetableViewModel(req, '/projects/back-office/manage/timetable/v2/timetable.html')
+  );
 });
 
 
@@ -3225,6 +3233,449 @@ router.get('/projects/back-office/manage/GW2/v4/gateway-2-alt', (req, res) => {
 
 router.get('/projects/back-office/manage/GW2/v4/gateway-2-alt.html', (req, res) => {
   res.redirect('/projects/back-office/manage/GW2/v4/gateway-2-alt');
+});
+
+function getGw3SubmissionVersion(rawVersion) {
+  return String(rawVersion || '1') === '2' ? '2' : '1';
+}
+
+function getGw3SubmissionLabel(submissionVersion) {
+  return `submission ${submissionVersion}`;
+}
+
+function getGw3DecisionKeys(submissionVersion) {
+  return {
+    decisionKey: `gateway3DecisionSubmission${submissionVersion}`,
+    decisionDateKey: `gateway3DecisionSubmission${submissionVersion}Date`,
+    outcomeKey: `gateway3DecisionSubmission${submissionVersion}Outcome`,
+    documentsKey: `gw3DecisionSubmission${submissionVersion}Documents`,
+    reportFilenameKey: `gateway3DecisionSubmission${submissionVersion}ReportFilename`
+  };
+}
+
+function hasGw3Submission2Context(req) {
+  const hasSubmission2Documents = Array.isArray(req.session.gw3DecisionSubmission2Documents)
+    && req.session.gw3DecisionSubmission2Documents.length > 0;
+
+  const submission2Signals = [
+    req.session.gateway3DecisionSubmission2,
+    req.session.gateway3DecisionSubmission2Outcome,
+    req.session.gateway3DecisionSubmission2Date,
+    req.session.gateway3DecisionSubmission2ReportFilename
+  ];
+
+  const hasSubmission2Data = submission2Signals.some((value) => value && value !== '-');
+  return hasSubmission2Documents || hasSubmission2Data;
+}
+
+function isGw3ProceedOutcome(value) {
+  return value === 'Proceed to examination' || value === 'Pass';
+}
+
+// --- Gateway 3 v3 Routes ---
+router.get('/projects/back-office/manage/GW3/v3/gateway-3', (req, res) => {
+  const rawNotificationMessage = req.session.notificationMessage || '';
+  delete req.session.notificationMessage;
+  const hasSubmission2Context = hasGw3Submission2Context(req);
+  const hasSubmission2Decision = !!(req.session.gateway3DecisionSubmission2 && req.session.gateway3DecisionSubmission2 !== '-');
+  const hasProceedDecision = isGw3ProceedOutcome(req.session.gateway3DecisionSubmission2 || req.session.gateway3DecisionSubmission2Outcome)
+    || isGw3ProceedOutcome(req.session.gateway3DecisionSubmission1 || req.session.gateway3DecisionSubmission1Outcome);
+  const gateway3OverviewState = req.query.gateway3OverviewState === 'initial' || req.query.gateway3OverviewState === 'submitted' || req.query.gateway3OverviewState === 'resubmission' || req.query.gateway3OverviewState === 'resubmission-no-docs' || req.query.gateway3OverviewState === 'pass'
+    ? req.query.gateway3OverviewState
+    : (hasProceedDecision
+      ? 'pass'
+      : (req.session.planStatus === 'Awaiting Gateway 3 resubmission'
+        ? 'resubmission-no-docs'
+        : (req.session.planStatus === 'In examination'
+          ? 'pass'
+          : (hasSubmission2Decision ? 'resubmission' : 'submitted'))));
+  const isResubmissionRequired = gateway3OverviewState === 'resubmission' || gateway3OverviewState === 'resubmission-no-docs' || hasSubmission2Context;
+  const isResubmissionNoDocs = gateway3OverviewState === 'resubmission-no-docs';
+  const isInitialOverviewState = gateway3OverviewState === 'initial';
+  const isSubmittedOverviewState = gateway3OverviewState === 'submitted';
+  const isPassOverviewState = gateway3OverviewState === 'pass';
+  const isResubmissionOverviewState = gateway3OverviewState === 'resubmission' || gateway3OverviewState === 'resubmission-no-docs';
+  const isPreCompletionOverviewState = isInitialOverviewState || isSubmittedOverviewState || isResubmissionOverviewState;
+
+
+  if (isResubmissionOverviewState) {
+    delete req.session.gw3DecisionSubmission2Documents;
+    req.session.gateway3DecisionSubmission2ReportFilename = '-';
+  }
+
+  const sessionSubmission1Decision = req.session.gateway3DecisionSubmission1 || req.session.gateway3DecisionSubmission1Outcome || '-';
+  const sessionSubmission1DecisionDate = formatDateForDisplay(
+    req.session.gateway3DecisionSubmission1Date || req.session.gateway3DecisionIssuedDate
+  ) || '-';
+  const sessionSubmission2Decision = req.session.gateway3DecisionSubmission2 || req.session.gateway3DecisionSubmission2Outcome || '-';
+  const sessionSubmission2DecisionDate = formatDateForDisplay(req.session.gateway3DecisionSubmission2Date) || '-';
+  const submission1FallbackDecisionDate = '01 Jul 2026';
+  const submission2FallbackDecisionDate = '01 Jul 2026';
+  const submission1DocumentsCount = isInitialOverviewState ? 0 : 14;
+  const submission2DocumentsCount = isResubmissionNoDocs ? 0 : 17;
+  const resolvedSubmission1Decision = isInitialOverviewState || isSubmittedOverviewState
+    ? '-'
+    : (hasSubmission2Context
+      ? 'Resubmission required'
+      : (gateway3OverviewState === 'resubmission' && sessionSubmission1Decision === '-'
+        ? 'Resubmission required'
+        : sessionSubmission1Decision));
+  const resolvedSubmission1DecisionDate = sessionSubmission1DecisionDate !== '-'
+    ? sessionSubmission1DecisionDate
+    : (resolvedSubmission1Decision !== '-' ? submission1FallbackDecisionDate : '-');
+  const resolvedSubmission2Decision = isInitialOverviewState
+    ? '-'
+    : (isPassOverviewState && sessionSubmission2Decision === '-' ? 'Proceed to examination' : sessionSubmission2Decision);
+  const resolvedSubmission2DecisionDateBase = sessionSubmission2DecisionDate !== '-'
+    ? sessionSubmission2DecisionDate
+    : (resolvedSubmission2Decision !== '-' ? submission2FallbackDecisionDate : '-');
+  const resolvedSubmission2DecisionDate = resolvedSubmission2Decision !== '-' && resolvedSubmission2DecisionDateBase === resolvedSubmission1DecisionDate
+    ? submission2FallbackDecisionDate
+    : resolvedSubmission2DecisionDateBase;
+  const fixedDecisionDateValue = '01/07/2026';
+  const derivedCompletionDateFromDecision = isGw3ProceedOutcome(resolvedSubmission2Decision)
+    ? fixedDecisionDateValue
+    : (isGw3ProceedOutcome(resolvedSubmission1Decision)
+      ? fixedDecisionDateValue
+      : '');
+  if (!isPreCompletionOverviewState && derivedCompletionDateFromDecision) {
+    req.session.gateway3CompletionDate = derivedCompletionDateFromDecision;
+  }
+  const resolvedGateway3CompletionDate = isPreCompletionOverviewState
+    ? '-'
+    : (formatDateForDisplay(req.session.gateway3CompletionDate || derivedCompletionDateFromDecision) || '-');
+  const resolvedGateway3EstimatedDate = formatDateForDisplay(req.session.gateway3EstimatedDate) || '-';
+  const notificationMessage = isInitialOverviewState ? '' : rawNotificationMessage;
+
+  res.render('projects/back-office/manage/GW3/v3/gateway-3', {
+    caseRef: req.session.currentCaseRef || '',
+    planTitle: req.session.planTitle || '',
+    headerStatusText: isInitialOverviewState ? 'Ready for Gateway 3' : undefined,
+    headerStatusClasses: isInitialOverviewState ? getPlanStatusClasses('Ready for Gateway 3') : undefined,
+    notificationMessage,
+    isResubmissionRequired,
+    isResubmissionNoDocs,
+    gateway3OverviewState,
+    submission1Decision: resolvedSubmission1Decision,
+    submission1DecisionDate: resolvedSubmission1DecisionDate,
+    submission1DocumentsCount,
+    submission2DocumentsCount,
+    submission2Decision: resolvedSubmission2Decision,
+    submission2DecisionDate: resolvedSubmission2DecisionDate,
+    gateway3EstimatedDate: resolvedGateway3EstimatedDate,
+    gateway3ActualDate: formatDateForDisplay(req.session.gateway3ActualDate) || '-',
+    gateway3AssessorAppointmentDate: formatDateForDisplay(req.session.gateway3AssessorAppointmentDate) || '-',
+    gateway3CompletionDate: resolvedGateway3CompletionDate,
+    examinationWebsite: req.session.examinationWebsite || '-',
+    gateway3Decision: req.session.gateway3Decision || '-',
+    gateway3AssessorName: req.session.gateway3AssessorName || '-',
+    gateway3PoContact: req.session.gateway3PoContact || {}
+  });
+});
+
+router.get('/projects/back-office/manage/GW3/v3/gateway-3.html', (req, res) => {
+  res.redirect('/projects/back-office/manage/GW3/v3/gateway-3');
+});
+
+router.get('/projects/back-office/manage/GW3/v3/gateway-3-assessor-name.html', (req, res) => {
+  res.render('projects/back-office/manage/GW3/v3/gateway-3-assessor-name', {
+    gateway3AssessorName: req.session.gateway3AssessorName || '',
+    returnUrl: req.query.returnUrl || '/projects/back-office/manage/GW3/v3/gateway-3'
+  });
+});
+
+router.post('/projects/back-office/manage/GW3/v3/gateway-3-assessor-name', (req, res) => {
+  const { 'gateway-3-assessor-name': value, returnUrl } = req.body;
+  req.session.gateway3AssessorName = value && value.trim() !== '' ? value : '-';
+  res.redirect(returnUrl || '/projects/back-office/manage/GW3/v3/gateway-3');
+});
+
+router.get('/projects/back-office/manage/GW3/v3/gateway-3-po-details.html', (req, res) => {
+  res.render('projects/back-office/manage/GW3/v3/gateway-3-po-details', {
+    contact: req.session.gateway3PoContact || {},
+    returnUrl: req.query.returnUrl || '/projects/back-office/manage/GW3/v3/gateway-3'
+  });
+});
+
+router.post('/projects/back-office/manage/GW3/v3/gateway-3-po-details', (req, res) => {
+  const { firstName, lastName, email, phone, returnUrl } = req.body;
+  req.session.gateway3PoContact = {
+    firstName: firstName && firstName.trim() !== '' ? firstName : '',
+    lastName: lastName && lastName.trim() !== '' ? lastName : '',
+    email: email && email.trim() !== '' ? email : '',
+    phone: phone && phone.trim() !== '' ? phone : ''
+  };
+  res.redirect(returnUrl || '/projects/back-office/manage/GW3/v3/gateway-3');
+});
+
+router.get('/projects/back-office/manage/GW3/v3/examination-website.html', (req, res) => {
+  res.render('projects/back-office/manage/GW3/v3/examination-website', {
+    examinationWebsite: (req.session.examinationWebsite && req.session.examinationWebsite !== '-') ? req.session.examinationWebsite : '',
+    returnUrl: req.query.returnUrl || '/projects/back-office/manage/GW3/v3/gateway-3'
+  });
+});
+
+router.post('/projects/back-office/manage/GW3/v3/examination-website', (req, res) => {
+  const { 'examination-website': website, returnUrl } = req.body;
+  req.session.examinationWebsite = website && website.trim() !== '' ? website : '-';
+  res.redirect(returnUrl || '/projects/back-office/manage/GW3/v3/gateway-3');
+});
+
+router.get('/examination-website.html', (req, res) => {
+  const nextReturnUrl = encodeURIComponent(req.query.returnUrl || '/projects/back-office/manage/GW3/v3/gateway-3');
+  res.redirect(`/projects/back-office/manage/GW3/v3/examination-website.html?returnUrl=${nextReturnUrl}`);
+});
+
+router.post('/examination-website', (req, res) => {
+  const { 'examination-website': website, returnUrl } = req.body;
+  req.session.examinationWebsite = website && website.trim() !== '' ? website : '-';
+  res.redirect(returnUrl || '/projects/back-office/manage/GW3/v3/gateway-3');
+});
+
+router.get('/projects/back-office/manage/GW3/v3/gateway-3-decision.html', (req, res) => {
+  const submissionVersion = getGw3SubmissionVersion(req.query.submissionVersion);
+  const submissionLabel = getGw3SubmissionLabel(submissionVersion);
+  const keys = getGw3DecisionKeys(submissionVersion);
+  const hasMultipleSubmissions = submissionVersion === '2' || hasGw3Submission2Context(req);
+
+  res.render('projects/back-office/manage/GW3/v3/gateway-3-decision', {
+    caseRef: req.session.currentCaseRef || '',
+    submissionVersion,
+    submissionLabel,
+    hasMultipleSubmissions,
+    gateway3DecisionOutcome: req.session[keys.outcomeKey] || req.session[keys.decisionKey] || '-',
+    returnUrl: req.query.returnUrl || '/projects/back-office/manage/GW3/v3/gateway-3'
+  });
+});
+
+router.post('/projects/back-office/manage/GW3/v3/gateway-3-decision', (req, res) => {
+  const { 'gateway-3-decision-outcome': value, returnUrl } = req.body;
+  const submissionVersion = getGw3SubmissionVersion(req.body.submissionVersion);
+  const keys = getGw3DecisionKeys(submissionVersion);
+
+  req.session[keys.outcomeKey] = value && value.trim() !== '' ? value : '-';
+  const nextReturnUrl = encodeURIComponent(returnUrl || '/projects/back-office/manage/GW3/v3/gateway-3');
+  res.redirect(`/projects/back-office/manage/GW3/v3/gateway-3-decision-upload?returnUrl=${nextReturnUrl}&submissionVersion=${submissionVersion}`);
+});
+
+router.get('/projects/back-office/manage/GW3/v3/gateway-3-decision-upload', (req, res) => {
+  const submissionVersion = getGw3SubmissionVersion(req.query.submissionVersion);
+  const submissionLabel = getGw3SubmissionLabel(submissionVersion);
+  const keys = getGw3DecisionKeys(submissionVersion);
+  const hasMultipleSubmissions = submissionVersion === '2' || hasGw3Submission2Context(req);
+
+  const uploadedDocuments = Array.isArray(req.session[keys.documentsKey])
+    ? req.session[keys.documentsKey]
+    : [];
+  const showUploadError = req.query.error === 'missing-docs';
+
+  res.render('projects/back-office/manage/GW3/v3/gateway-3-decision-upload', {
+    caseRef: req.session.currentCaseRef || '',
+    submissionVersion,
+    submissionLabel,
+    hasMultipleSubmissions,
+    gateway3DecisionOutcome: req.session[keys.outcomeKey] || '-',
+    gateway3DecisionReportFilename: req.session[keys.reportFilenameKey] || '-',
+    uploadedDocuments,
+    showUploadError,
+    returnUrl: req.query.returnUrl || '/projects/back-office/manage/GW3/v3/gateway-3'
+  });
+});
+
+router.get('/projects/back-office/manage/GW3/v3/gateway-3-decision-upload.html', (req, res) => {
+  const nextReturnUrl = encodeURIComponent(req.query.returnUrl || '/projects/back-office/manage/GW3/v3/gateway-3');
+  const submissionVersion = getGw3SubmissionVersion(req.query.submissionVersion);
+  res.redirect(`/projects/back-office/manage/GW3/v3/gateway-3-decision-upload?returnUrl=${nextReturnUrl}&submissionVersion=${submissionVersion}`);
+});
+
+router.post('/projects/back-office/manage/GW3/v3/gateway-3-decision-upload', (req, res) => {
+  const { returnUrl } = req.body;
+  const submissionVersion = getGw3SubmissionVersion(req.body.submissionVersion);
+  const keys = getGw3DecisionKeys(submissionVersion);
+  let uploadedDocuments = [];
+
+  if (req.body.fileData) {
+    try {
+      const fileData = typeof req.body.fileData === 'string'
+        ? JSON.parse(req.body.fileData)
+        : req.body.fileData;
+
+      if (Array.isArray(fileData)) {
+        uploadedDocuments = fileData.map((file) => {
+          let size = 0;
+          if (req.session.data && req.session.data.fileSizeMap && req.session.data.fileSizeMap[file.name]) {
+            size = req.session.data.fileSizeMap[file.name];
+          }
+
+          return {
+            originalname: file.name,
+            filename: file.id,
+            size
+          };
+        });
+      }
+    } catch (error) {
+      uploadedDocuments = [];
+    }
+  }
+
+  if (uploadedDocuments.length > 0) {
+    req.session[keys.documentsKey] = uploadedDocuments;
+    req.session[keys.reportFilenameKey] = uploadedDocuments[0].originalname;
+  }
+
+  const existingDocuments = Array.isArray(req.session[keys.documentsKey])
+    ? req.session[keys.documentsKey]
+    : [];
+
+  if (existingDocuments.length === 0) {
+    const nextReturnUrl = encodeURIComponent(returnUrl || '/projects/back-office/manage/GW3/v3/gateway-3');
+    return res.redirect(`/projects/back-office/manage/GW3/v3/gateway-3-decision-upload?returnUrl=${nextReturnUrl}&submissionVersion=${submissionVersion}&error=missing-docs`);
+  }
+
+  const nextReturnUrl = encodeURIComponent(returnUrl || '/projects/back-office/manage/GW3/v3/gateway-3');
+  res.redirect(`/projects/back-office/manage/GW3/v3/gateway-3-decision-check-answers?returnUrl=${nextReturnUrl}&submissionVersion=${submissionVersion}`);
+});
+
+router.get('/projects/back-office/manage/GW3/v3/gateway-3-decision-upload/clear-uploads', (req, res) => {
+  const submissionVersion = getGw3SubmissionVersion(req.query.submissionVersion);
+  const keys = getGw3DecisionKeys(submissionVersion);
+
+  if (req.session && req.session.data) {
+    req.session.data.fileData = '';
+    req.session.data.fileSizeMap = {};
+  }
+
+  delete req.session[keys.documentsKey];
+  req.session[keys.reportFilenameKey] = '-';
+
+  const nextReturnUrl = encodeURIComponent(req.query.returnUrl || '/projects/back-office/manage/GW3/v3/gateway-3');
+  res.redirect(`/projects/back-office/manage/GW3/v3/gateway-3-decision-upload?returnUrl=${nextReturnUrl}&submissionVersion=${submissionVersion}`);
+});
+
+router.get('/projects/back-office/manage/GW3/v3/gateway-3-decision-check-answers', (req, res) => {
+  const submissionVersion = getGw3SubmissionVersion(req.query.submissionVersion);
+  const submissionLabel = getGw3SubmissionLabel(submissionVersion);
+  const keys = getGw3DecisionKeys(submissionVersion);
+  const hasMultipleSubmissions = submissionVersion === '2' || hasGw3Submission2Context(req);
+
+  const uploadedDocuments = Array.isArray(req.session[keys.documentsKey])
+    ? req.session[keys.documentsKey]
+    : [];
+
+  if (uploadedDocuments.length === 0) {
+    const nextReturnUrl = encodeURIComponent(req.query.returnUrl || '/projects/back-office/manage/GW3/v3/gateway-3');
+    return res.redirect(`/projects/back-office/manage/GW3/v3/gateway-3-decision-upload?returnUrl=${nextReturnUrl}&submissionVersion=${submissionVersion}&error=missing-docs`);
+  }
+
+  res.render('projects/back-office/manage/GW3/v3/gateway-3-decision-check-answers', {
+    caseRef: req.session.currentCaseRef || '',
+    submissionVersion,
+    submissionLabel,
+    hasMultipleSubmissions,
+    gateway3DecisionOutcome: req.session[keys.outcomeKey] || '-',
+    gateway3DecisionReportFilename: req.session[keys.reportFilenameKey] || '-',
+    uploadedDocuments,
+    returnUrl: req.query.returnUrl || '/projects/back-office/manage/GW3/v3/gateway-3'
+  });
+});
+
+router.get('/projects/back-office/manage/GW3/v3/gateway-3-decision-check-answers.html', (req, res) => {
+  const nextReturnUrl = encodeURIComponent(req.query.returnUrl || '/projects/back-office/manage/GW3/v3/gateway-3');
+  const submissionVersion = getGw3SubmissionVersion(req.query.submissionVersion);
+  res.redirect(`/projects/back-office/manage/GW3/v3/gateway-3-decision-check-answers?returnUrl=${nextReturnUrl}&submissionVersion=${submissionVersion}`);
+});
+
+router.post('/projects/back-office/manage/GW3/v3/gateway-3-decision-check-answers', (req, res) => {
+  const submissionVersion = getGw3SubmissionVersion(req.body.submissionVersion);
+  const keys = getGw3DecisionKeys(submissionVersion);
+
+  req.session[keys.decisionKey] = req.session[keys.outcomeKey] || '-';
+  req.session[keys.decisionDateKey] = '01/07/2026';
+
+  if (submissionVersion === '1') {
+    req.session.gateway3Decision = req.session[keys.decisionKey];
+    req.session.gateway3DecisionIssuedDate = req.session[keys.decisionDateKey];
+  }
+
+  req.session.notificationMessage = 'Gateway 3 decision issued';
+
+  if (isGw3ProceedOutcome(req.session[keys.outcomeKey])) {
+    req.session.gateway3CompletionDate = req.session[keys.decisionDateKey];
+    setOverallPlanStatus(req, 'In examination');
+  } else {
+    setOverallPlanStatus(req, 'Awaiting Gateway 3 resubmission');
+  }
+
+  if (req.session && req.session.data) {
+    req.session.data.fileData = '';
+    req.session.data.fileSizeMap = {};
+  }
+
+  res.redirect('/projects/back-office/manage/GW3/v3/gateway-3');
+});
+
+const gw3V3DateFields = [
+  { key: 'EstimatedDate', file: 'gateway-3-estimated' },
+  { key: 'ActualDate', file: 'gateway-3-actual' },
+  { key: 'AssessorAppointmentDate', file: 'gateway-3-assessor-appointment' },
+  { key: 'CompletionDate', file: 'gateway-3-completion-date' }
+];
+
+gw3V3DateFields.forEach(({ key, file }) => {
+  router.get(`/projects/back-office/manage/GW3/v3/${file}.html`, (req, res) => {
+    let day = '', month = '', year = '';
+    const sessionKey = `gateway3${key}`;
+    if (req.session[sessionKey] && req.session[sessionKey] !== '-') {
+      const parts = req.session[sessionKey].includes('/')
+        ? req.session[sessionKey].split('/')
+        : req.session[sessionKey].split(' ');
+      day = parts[0] || '';
+      month = parts[1] || '';
+      year = parts[2] || '';
+      const monthMap = {
+        'January': '01', 'February': '02', 'March': '03', 'April': '04', 'May': '05', 'June': '06',
+        'July': '07', 'August': '08', 'September': '09', 'October': '10', 'November': '11', 'December': '12'
+      };
+      if (monthMap[month]) month = monthMap[month];
+      else if (month.length === 1) month = '0' + month;
+    }
+
+    const noticeOfIntentionDate = `${day}/${month}/${year}`;
+    const returnUrl = req.query.returnUrl || '/projects/back-office/manage/GW3/v3/gateway-3';
+    res.render(`projects/back-office/manage/GW3/v3/${file}.html`, {
+      noticeOfIntentionDate,
+      returnUrl
+    });
+  });
+
+  router.post(`/projects/back-office/manage/GW3/v3/${file}`, (req, res) => {
+    const { 'notice-of-intention-date-day': day, 'notice-of-intention-date-month': month, 'notice-of-intention-date-year': year, returnUrl } = req.body;
+    const sessionKey = `gateway3${key}`;
+
+    let prevDay = '', prevMonth = '', prevYear = '';
+    if (req.session[sessionKey] && req.session[sessionKey] !== '-') {
+      const prevParts = req.session[sessionKey].includes('/')
+        ? req.session[sessionKey].split('/')
+        : req.session[sessionKey].split(' ');
+      prevDay = prevParts[0] || '';
+      prevMonth = prevParts[1] || '';
+      prevYear = prevParts[2] || '';
+    }
+
+    const newDay = day && day.trim() !== '' ? day.padStart(2, '0') : prevDay;
+    const newMonth = month && month.trim() !== '' ? month.padStart(2, '0') : prevMonth;
+    const newYear = year && year.trim() !== '' ? year : prevYear;
+
+    if (newDay && newMonth && newYear) {
+      req.session[sessionKey] = `${newDay}/${newMonth}/${newYear}`;
+      if (key === 'EstimatedDate') {
+        req.session.examinationEstimatedDate = `${newDay}/${newMonth}/${newYear}`;
+      }
+    }
+
+    res.redirect(returnUrl || '/projects/back-office/manage/GW3/v3/gateway-3');
+  });
 });
 
 // --- Gateway 3 v2 Routes ---
