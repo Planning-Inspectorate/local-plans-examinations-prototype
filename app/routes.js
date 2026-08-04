@@ -13,7 +13,7 @@ const {
 
 const defaultWorkflowNavVersions = {
   overview: 'v2',
-  timetable: 'v1',
+  timetable: 'v2',
   gw1: 'v2',
   gw2: 'v4',
   gw3: 'v3',

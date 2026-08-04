@@ -46,7 +46,7 @@ Gateway 1 overview – {{ serviceName }}
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Gateway 1 estimated date</dt>
+          <dt class="govuk-summary-list__key">Gateway 1 expected date</dt>
           <dd class="govuk-summary-list__value">{{ gateway1EstimatedDate if gateway1EstimatedDate and gateway1EstimatedDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/GW1/v1/gateway-1-estimated.html?returnUrl=/projects/back-office/manage/GW1/v1/gateway-1.html">Change<span class="govuk-visually-hidden"> Gateway 1 Estimated Date</span></a>
@@ -59,6 +59,13 @@ Gateway 1 overview – {{ serviceName }}
             <a class="govuk-link" href="/projects/back-office/manage/GW1/v1/gateway-1-actual.html?returnUrl=/projects/back-office/manage/GW1/v1/gateway-1.html">Change<span class="govuk-visually-hidden"> Gateway 1 Actual Date</span></a>
           </dd>
         </div>
+         <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Digital Sharing Agreement (DSA) check</dt>
+          <dd class="govuk-summary-list__value">{{ gateway1DsaCheck if gateway1DsaCheck and gateway1DsaCheck != '-' else 'Not provided' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/GW1/v1/gateway-1-dsa-check.html?returnUrl=/projects/back-office/manage/GW1/v1/gateway-1.html">Change<span class="govuk-visually-hidden"> DSA Check</span></a>
+          </dd>
+        </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">SLA sent date</dt>
           <dd class="govuk-summary-list__value">{{ gateway1SlaSentDate if gateway1SlaSentDate and gateway1SlaSentDate != '-' else 'Not provided' }}</dd>
@@ -66,27 +73,21 @@ Gateway 1 overview – {{ serviceName }}
             <a class="govuk-link" href="/projects/back-office/manage/GW1/v1/gateway-1-sla-sent.html?returnUrl=/projects/back-office/manage/GW1/v1/gateway-1.html">Change<span class="govuk-visually-hidden"> SLA Sent Date</span></a>
           </dd>
         </div>
+         <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Signed SLA</dt>
+          <dd class="govuk-summary-list__value">{{ signedSlaFilename if signedSlaFilename and signedSlaFilename != '-' else 'Not uploaded' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/GW1/v2/gateway-1-signed-sla-upload.html?returnUrl=/projects/back-office/manage/GW1/v2/gateway-1">{{ 'Change' if signedSlaFilename and signedSlaFilename != '-' else 'Add' }}<span class="govuk-visually-hidden"> signed SLA</span></a>
+          </dd>
+        </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">SLA received date</dt>
           <dd class="govuk-summary-list__value">{{ gateway1SlaReceivedDate if gateway1SlaReceivedDate and gateway1SlaReceivedDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/GW1/v1/gateway-1-sla-received.html?returnUrl=/projects/back-office/manage/GW1/v1/gateway-1.html">Change<span class="govuk-visually-hidden"> SLA Received Date</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/GW1/v2/gateway-1-sla-received-date?returnUrl=/projects/back-office/manage/GW1/v2/gateway-1">Change<span class="govuk-visually-hidden"> SLA received date</span></a>
           </dd>
         </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Signed SLA</dt>
-          <dd class="govuk-summary-list__value">{{ signedSlaFilename if signedSlaFilename and signedSlaFilename != '-' else 'Not uploaded' }}</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/GW1/v2/gateway-1-signed-sla-upload.html?returnUrl=/projects/back-office/manage/GW1/v2/gateway-1">{{ 'Change' if signedSlaFilename and signedSlaFilename != '-' else 'Upload' }}<span class="govuk-visually-hidden"> signed SLA</span></a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Digital Sharing Agreement (DSA) check</dt>
-          <dd class="govuk-summary-list__value">{{ gateway1DsaCheck if gateway1DsaCheck and gateway1DsaCheck != '-' else 'Not provided' }}</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/GW1/v1/gateway-1-dsa-check.html?returnUrl=/projects/back-office/manage/GW1/v1/gateway-1.html">Change<span class="govuk-visually-hidden"> DSA Check</span></a>
-          </dd>
-        </div>
+       
         </dl>
 {% endblock %}
 {% block footer %}

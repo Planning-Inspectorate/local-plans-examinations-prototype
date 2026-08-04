@@ -37,13 +37,13 @@ Gateway 2 overview – {{ serviceName }}
       <br>
       <br>
 
-      <h3 class="govuk-heading-m">Workshop preferences</h3>
+      <h3 class="govuk-heading-m">Gateway 2 submission</h3>
 
         <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
     <dl class="govuk-summary-list govuk-summary-list-timetable">
           <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key" style="width: 22%;">
+          <dt class="govuk-summary-list__key" style="width: 42%;">
           Suggested workshop venue
         </dt>
         <dd class="govuk-summary-list__value">
@@ -53,22 +53,57 @@ Gateway 2 overview – {{ serviceName }}
         
       </div>
       <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key" style="width: 22%;">
+        <dt class="govuk-summary-list__key" style="width: 42%;">
           Suggested workshop dates
         </dt>
         <dd class="govuk-summary-list__value">
           20 - 23rd if July or we're free the week of July 27th
         </dd>
-        
-        
       </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key" style="width: 42%;">
+          Gateway 2 submission documents
+          <dd class="govuk-summary-list__value">
+            {% if gateway2DocumentsSummary and gateway2DocumentsSummary.hasDocuments %}
+              {{ gateway2DocumentsSummary.count }} documents
+            {% else %}
+              Not provided
+            {% endif %}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            {% if gateway2DocumentsSummary and gateway2DocumentsSummary.hasDocuments %}
+              <a class="govuk-link" href="/projects/back-office/manage/GW2/v4/gateway-2-documents">Review</a>
+            {% endif %}
+          </dd>
+        </div>
       </dl>
-    
-    <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-      {% include "projects/back-office/manage/GW2/v4/partials/_procedural-documents.njk" %}
-      {% include "projects/back-office/manage/GW2/v4/partials/_consultation-documents.njk" %}
-      {% include "projects/back-office/manage/GW2/v4/partials/_additional-documents.njk" %}
+       <h3 class="govuk-heading-m">Gateway 2 report</h3>
+      <dl class="govuk-summary-list govuk-summary-list-timetable">
+  <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key" style="width: 39%;">Issue Gateway 2 report</dt>
+          <dd class="govuk-summary-list__value">
+            {% if issueReportSummary and issueReportSummary.hasDocuments %}
+              Issued on {{ issueReportSummary.latestUploadedAtDisplay if issueReportSummary.latestUploadedAtDisplay and issueReportSummary.latestUploadedAtDisplay != '-' else 'Not provided' }}
+            {% else %}
+              Not provided
+            {% endif %}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            {% if issueReportSummary and issueReportSummary.hasDocuments %}
+              <a class="govuk-link" href="/projects/back-office/manage/GW2/v4/upload/v2/check-answers?returnTo=gateway-2">View<span class="govuk-visually-hidden"> Gateway 2 issue report documents</span></a>
+            {% else %}
+              <a class="govuk-link" href="/projects/back-office/manage/GW2/v4/upload/v2/upload-bo?returnTo=gateway-2">Add<span class="govuk-visually-hidden"> Gateway 2 issue report document</span></a>
+            {% endif %}
+          </dd>
+        </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key" style="width: 39%;">Report published by LPA date</dt>
+    <dd class="govuk-summary-list__value">{{ gateway2ReportPublishedDate if gateway2ReportPublishedDate and gateway2ReportPublishedDate != '-' else 'Not provided' }}</dd>
+    <dd class="govuk-summary-list__actions">
+      <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-report-published.html?returnUrl=/projects/back-office/manage/GW2/v4/gateway-2">Change<span class="govuk-visually-hidden"> Gateway 2 Report Published by LPA Date</span></a>
+    </dd>
+  </div>
+</dl>
     </div>
     </div>
     </div>

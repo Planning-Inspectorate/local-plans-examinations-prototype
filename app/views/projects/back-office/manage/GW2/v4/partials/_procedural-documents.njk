@@ -1,23 +1,15 @@
 <h3 class="govuk-heading-m">Procedural documents<!--<strong class="govuk-tag govuk-tag--yellow">For review</strong>--></h3>
 
   <dl class="govuk-summary-list govuk-summary-list-timetable">
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key"><strong>Document</strong></dt>
-      <dd class="govuk-summary-list__value"><strong>Status</strong></dd>
-      <dd class="govuk-summary-list__value"><strong>Date</strong></dd>
-      <dd class="govuk-summary-list__actions"><strong>Action</strong></dd>
-    </div>
     {% for doc in proceduralDocuments %}
     <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key">{{ doc.title }}</dt>
-      <dd class="govuk-summary-list__value"><strong class="{{ doc.statusTagClass }}">{{ doc.status }}</strong></dd>
-      <dd class="govuk-summary-list__value">{{ doc.latestUploadedAtDisplay }}</dd>
+      <dt class="govuk-summary-list__key">{{ doc.title }}</dt>  
       <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/GW2/v4/document/{{ doc.id }}">View</a></dd>
     </div>
     {% endfor %}
     {% if proceduralDocuments.length == 0 %}
     <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key">No procedural documents added yet</dt>
+      <dt class="govuk-summary-list__key">Not received</dt>
       <dd class="govuk-summary-list__value">-</dd>
       <dd class="govuk-summary-list__value">-</dd>
       <dd class="govuk-summary-list__actions">-</dd>

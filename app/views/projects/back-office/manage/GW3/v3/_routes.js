@@ -32,18 +32,31 @@ function getGateway3OverviewState(req) {
 }
 
 function getGateway3ExaminationWebsite(req, gateway3OverviewState) {
+  if (gateway3OverviewState === 'initial') {
+    return '-';
+  }
+
   const submittedExaminationWebsite = req.session.data?.['examination-library-link'] || 'eastborough.gov.uk/examination-library';
 
   if (req.session.examinationWebsite && req.session.examinationWebsite !== '-') {
     return req.session.examinationWebsite;
   }
 
-  if (gateway3OverviewState !== 'initial') {
-    req.session.examinationWebsite = submittedExaminationWebsite;
-    return submittedExaminationWebsite;
+  req.session.examinationWebsite = submittedExaminationWebsite;
+  return submittedExaminationWebsite;
+}
+
+function getWebsiteHref(value) {
+  if (!value || value === '-') return '';
+
+  const trimmed = String(value).trim();
+  if (!trimmed) return '';
+
+  if (/^https?:\/\//i.test(trimmed)) {
+    return trimmed;
   }
 
-  return '-';
+  return `https://${trimmed}`;
 }
 
 router.get('/projects/back-office/manage/GW3/v3/gateway-3', (req, res) => {
@@ -51,6 +64,7 @@ router.get('/projects/back-office/manage/GW3/v3/gateway-3', (req, res) => {
   const isResubmissionRequired = ['resubmission-no-docs', 'resubmission', 'pass'].includes(gateway3OverviewState);
   const isResubmissionNoDocs = gateway3OverviewState === 'resubmission-no-docs';
   const examinationWebsite = getGateway3ExaminationWebsite(req, gateway3OverviewState);
+  const examinationWebsiteHref = getWebsiteHref(examinationWebsite);
 
   res.render('projects/back-office/manage/GW3/v3/gateway-3', {
     caseRef: req.session.currentCaseRef || '',
@@ -66,6 +80,7 @@ router.get('/projects/back-office/manage/GW3/v3/gateway-3', (req, res) => {
     gateway3AssessorName: req.session.gateway3AssessorName || '-',
     gateway3PoContact: req.session.gateway3PoContact || {},
     examinationWebsite,
+    examinationWebsiteHref,
     submission1Decision: req.session.submission1Decision || '-',
     submission1DecisionDate: formatDateForDisplay(req.session.submission1DecisionDate) || '-',
     submission2Decision: req.session.submission2Decision || '-',

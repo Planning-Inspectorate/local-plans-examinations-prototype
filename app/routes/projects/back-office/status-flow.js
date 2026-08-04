@@ -2,36 +2,33 @@ const { getPlanStatusClasses } = require('./plan-status-classes');
 
 const FLOW_STATUSES = [
   'Awaiting signed SLA',
-  'Awaiting Gateway 2 submission',
-  'Gateway 2 submission received',
-  'Gateway 2 workshop confirmed',
-  'Gateway 2 report in progress',
-  'Awaiting Gateway 3 submission'
+  'Awaiting GW2 submission',
+  'GW2 submission received',
+  'GW2 workshop to be arranged',
+  'GW2 workshop confirmed',
+  'GW2 report in progress',
+  'Awaiting GW3 submission'
 ];
 
 const BASELINE_STATUSES = new Set([
   '',
-  '-',
-  'Submitted',
-  'Draft',
-  'In progress',
-  'Created',
-  'Awaiting Gateway 2',
-  'Gateway 2 With LPA',
-  'Gateway 2 Validation',
-  'Ready for Gateway 2',
-  'Ready for Gateway 3',
-  'Gateway 2 awaiting workshop',
-  'Gateway 2 documents submitted'
+  'Awaiting signed SLA',
+  'Awaiting GW2',
+  'GW2 With LPA',
+  'GW2 Validation',
+  'Ready for GW2',
+  'Awaiting GW3 submission',
+  'GW2 awaiting workshop',
+  'GW2 documents submitted'
 ]);
 
 const STATUS_EVENT_TARGET = {
   SLA_PENDING: 'Awaiting signed SLA',
-  SLA_CONFIRMED: 'Awaiting Gateway 2 submission',
-  GW2_SUBMISSION_RECEIVED: 'Gateway 2 submission received',
-  WORKSHOP_CONFIRMED: 'Gateway 2 workshop confirmed',
-  WORKSHOP_COMPLETED: 'Gateway 2 report in progress',
-  GW2_REPORT_ISSUED: 'Awaiting Gateway 3 submission',
+  SLA_CONFIRMED: 'Awaiting GW2 submission',
+  GW2_SUBMISSION_RECEIVED: 'GW2 submission received',
+  WORKSHOP_CONFIRMED: 'GW2 workshop confirmed',
+  WORKSHOP_COMPLETED: 'GW2 report in progress',
+  GW2_REPORT_ISSUED: 'Awaiting GW3 submission',
   FLOW_RESET: 'Awaiting signed SLA'
 };
 

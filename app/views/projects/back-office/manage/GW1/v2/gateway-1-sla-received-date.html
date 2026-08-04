@@ -1,0 +1,57 @@
+{% extends "layouts/back-office.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block pageTitle %}
+  SLA received date - {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: returnUrl or "/projects/back-office/manage/GW1/v2/gateway-1-signed-sla-check?returnUrl=/projects/back-office/manage/GW1/v2/gateway-1"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
+      <h1 class="govuk-heading-l">SLA received date</h1>
+
+      <form method="post" action="/projects/back-office/manage/GW1/v2/gateway-1-sla-received-date">
+        <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
+
+        <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset" role="group" aria-describedby="sla-received-date-hint">
+            <div id="sla-received-date-hint" class="govuk-visually-hidden">For example, 05 8 2026</div>
+            <div class="govuk-date-input" id="sla-received-date">
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="sla-received-day">Day</label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="sla-received-day" name="sla-received-day" type="text" inputmode="numeric" value="{{ slaReceivedDateValues.day }}">
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="sla-received-month">Month</label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="sla-received-month" name="sla-received-month" type="text" inputmode="numeric" value="{{ slaReceivedDateValues.month }}">
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="sla-received-year">Year</label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="sla-received-year" name="sla-received-year" type="text" inputmode="numeric" value="{{ slaReceivedDateValues.year }}">
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="govuk-button-group">
+          {{ govukButton({ text: "Save and continue" }) }}
+          <a class="govuk-link" href="{{ returnUrl or '/projects/back-office/manage/GW1/v2/gateway-1-signed-sla-check?returnUrl=/projects/back-office/manage/GW1/v2/gateway-1' }}">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

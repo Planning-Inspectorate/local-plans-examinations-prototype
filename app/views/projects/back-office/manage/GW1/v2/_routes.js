@@ -17,6 +17,19 @@ function formatDateForDisplay(dateString) {
 	return dateString;
 }
 
+function formatTimestampForDisplay(timestamp) {
+	if (!timestamp || timestamp === '-') return '-';
+
+	const parsed = new Date(timestamp);
+	if (Number.isNaN(parsed.getTime())) return '-';
+
+	return parsed.toLocaleDateString('en-GB', {
+		day: 'numeric',
+		month: 'long',
+		year: 'numeric'
+	});
+}
+
 function getSignedSlaDocumentsFromFileData(req) {
 	let uploadedDocuments = [];
 	const fileDataSource = (req.session && req.session.data && req.session.data.fileData)
@@ -40,7 +53,7 @@ function getSignedSlaDocumentsFromFileData(req) {
 					originalname: file.name,
 					filename: file.id,
 					size,
-					uploadedAt: new Date().toISOString()
+					uploadedAt: file.uploadedAt || new Date().toISOString()
 				};
 			});
 		}
@@ -62,6 +75,43 @@ function buildFooterLinks() {
 			href: '/projects/back-office/manage/status-debug'
 		}
 	];
+}
+
+function getSignedSlaReceivedDateFromUpload(req, uploadedDocuments) {
+	const uploadTimestamp = req.session.gw1v2SignedSlaUploadedAt
+		|| (uploadedDocuments[0] && uploadedDocuments[0].uploadedAt)
+		|| new Date().toISOString();
+
+	const uploadDate = new Date(uploadTimestamp);
+	const effectiveDate = Number.isNaN(uploadDate.getTime()) ? new Date() : uploadDate;
+	const day = String(effectiveDate.getDate()).padStart(2, '0');
+	const month = String(effectiveDate.getMonth() + 1).padStart(2, '0');
+	const year = String(effectiveDate.getFullYear());
+
+	return `${day}/${month}/${year}`;
+}
+
+function getDateInputValues(dateString) {
+	const match = String(dateString || '').match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+	if (!match) {
+		return { day: '', month: '', year: '' };
+	}
+
+	return {
+		day: match[1],
+		month: match[2],
+		year: match[3]
+	};
+}
+
+function getDateFromValues(day, month, year) {
+	if (!day || !month || !year) return '';
+
+	const parsedDay = parseInt(day, 10);
+	const parsedMonth = parseInt(month, 10);
+	if (Number.isNaN(parsedDay) || Number.isNaN(parsedMonth)) return '';
+
+	return `${String(parsedDay).padStart(2, '0')}/${String(parsedMonth).padStart(2, '0')}/${year}`;
 }
 
 router.get('/gateway-1', (req, res) => {
@@ -123,6 +173,9 @@ router.post('/gateway-1-signed-sla-upload', (req, res) => {
 		return res.redirect(`/projects/back-office/manage/GW1/v2/gateway-1-signed-sla-upload?returnUrl=${nextReturnUrl}&error=missing-docs`);
 	}
 
+	req.session.gw1v2PendingSignedSlaDocuments = uploadedDocuments;
+	req.session.gw1v2SignedSlaUploadedAt = uploadedDocuments[0].uploadedAt || new Date().toISOString();
+
 	const nextReturnUrl = encodeURIComponent(returnUrl);
 	res.redirect(`/projects/back-office/manage/GW1/v2/gateway-1-signed-sla-check?returnUrl=${nextReturnUrl}`);
 });
@@ -130,10 +183,23 @@ router.post('/gateway-1-signed-sla-upload', (req, res) => {
 router.get('/gateway-1-signed-sla-check', (req, res) => {
 	const returnUrl = req.query.returnUrl || '/projects/back-office/manage/GW1/v2/gateway-1';
 	const transientDocuments = getSignedSlaDocumentsFromFileData(req);
+	const pendingDocuments = Array.isArray(req.session.gw1v2PendingSignedSlaDocuments)
+		? req.session.gw1v2PendingSignedSlaDocuments
+		: [];
 	const storedDocuments = Array.isArray(req.session.gw1v2SignedSlaDocuments)
 		? req.session.gw1v2SignedSlaDocuments
 		: [];
-	const uploadedDocuments = transientDocuments.length > 0 ? transientDocuments : storedDocuments;
+	const uploadedDocuments = pendingDocuments.length > 0
+		? pendingDocuments
+		: (transientDocuments.length > 0 ? transientDocuments : storedDocuments);
+	const uploadedDocumentsForDisplay = uploadedDocuments.map((doc) => ({
+		...doc,
+		uploadedAtDisplay: formatTimestampForDisplay(doc.uploadedAt)
+	}));
+	const slaReceivedDateRaw = req.session.gw1v2PendingSlaReceivedDate
+		|| getSignedSlaReceivedDateFromUpload(req, uploadedDocuments);
+	const encodedReturnUrl = encodeURIComponent(returnUrl);
+	const checkPageUrl = `/projects/back-office/manage/GW1/v2/gateway-1-signed-sla-check?returnUrl=${encodedReturnUrl}`;
 
 	if (uploadedDocuments.length === 0) {
 		const nextReturnUrl = encodeURIComponent(returnUrl);
@@ -144,9 +210,63 @@ router.get('/gateway-1-signed-sla-check', (req, res) => {
 		caseRef: req.session.currentCaseRef || '',
 		footerLinks: buildFooterLinks(),
 		returnUrl,
-		uploadedDocuments,
+		uploadedDocuments: uploadedDocumentsForDisplay,
+		slaReceivedDatePreview: formatDateForDisplay(slaReceivedDateRaw),
+		slaReceivedDateValues: getDateInputValues(slaReceivedDateRaw),
+		slaReceivedDateChangeUrl: `/projects/back-office/manage/GW1/v2/gateway-1-sla-received-date?returnUrl=${encodeURIComponent(checkPageUrl)}`,
 		totalFiles: uploadedDocuments.length
 	});
+});
+
+router.get('/gateway-1-sla-received-date', (req, res) => {
+	const returnUrl = req.query.returnUrl || '/projects/back-office/manage/GW1/v2/gateway-1-signed-sla-check?returnUrl=/projects/back-office/manage/GW1/v2/gateway-1';
+	const transientDocuments = getSignedSlaDocumentsFromFileData(req);
+	const pendingDocuments = Array.isArray(req.session.gw1v2PendingSignedSlaDocuments)
+		? req.session.gw1v2PendingSignedSlaDocuments
+		: [];
+	const storedDocuments = Array.isArray(req.session.gw1v2SignedSlaDocuments)
+		? req.session.gw1v2SignedSlaDocuments
+		: [];
+	const uploadedDocuments = pendingDocuments.length > 0
+		? pendingDocuments
+		: (transientDocuments.length > 0 ? transientDocuments : storedDocuments);
+
+	if (uploadedDocuments.length === 0) {
+		const nextReturnUrl = encodeURIComponent(returnUrl);
+		return res.redirect(`/projects/back-office/manage/GW1/v2/gateway-1-signed-sla-upload?returnUrl=${nextReturnUrl}&error=missing-docs`);
+	}
+
+	const baseDate = req.session.gw1v2PendingSlaReceivedDate
+		|| req.session.gateway1SlaReceivedDate
+		|| getSignedSlaReceivedDateFromUpload(req, uploadedDocuments);
+
+	res.render('projects/back-office/manage/GW1/v2/gateway-1-sla-received-date', {
+		caseRef: req.session.currentCaseRef || '',
+		footerLinks: buildFooterLinks(),
+		returnUrl,
+		slaReceivedDateValues: getDateInputValues(baseDate)
+	});
+});
+
+router.get('/gateway-1-sla-received-date.html', (req, res) => {
+	const returnUrl = encodeURIComponent(req.query.returnUrl || '/projects/back-office/manage/GW1/v2/gateway-1-signed-sla-check?returnUrl=/projects/back-office/manage/GW1/v2/gateway-1');
+	res.redirect(`/projects/back-office/manage/GW1/v2/gateway-1-sla-received-date?returnUrl=${returnUrl}`);
+});
+
+router.post('/gateway-1-sla-received-date', (req, res) => {
+	const returnUrl = req.body.returnUrl || '/projects/back-office/manage/GW1/v2/gateway-1-signed-sla-check?returnUrl=/projects/back-office/manage/GW1/v2/gateway-1';
+	const day = (req.body['sla-received-day'] || '').trim();
+	const month = (req.body['sla-received-month'] || '').trim();
+	const year = (req.body['sla-received-year'] || '').trim();
+	const overrideDate = getDateFromValues(day, month, year);
+
+	if (overrideDate) {
+		req.session.gw1v2PendingSlaReceivedDate = overrideDate;
+	} else {
+		delete req.session.gw1v2PendingSlaReceivedDate;
+	}
+
+	res.redirect(returnUrl);
 });
 
 router.get('/gateway-1-signed-sla-check.html', (req, res) => {
@@ -157,10 +277,15 @@ router.get('/gateway-1-signed-sla-check.html', (req, res) => {
 router.post('/gateway-1-signed-sla-check', (req, res) => {
 	const returnUrl = req.body.returnUrl || '/projects/back-office/manage/GW1/v2/gateway-1';
 	const transientDocuments = getSignedSlaDocumentsFromFileData(req);
+	const pendingDocuments = Array.isArray(req.session.gw1v2PendingSignedSlaDocuments)
+		? req.session.gw1v2PendingSignedSlaDocuments
+		: [];
 	const storedDocuments = Array.isArray(req.session.gw1v2SignedSlaDocuments)
 		? req.session.gw1v2SignedSlaDocuments
 		: [];
-	const uploadedDocuments = transientDocuments.length > 0 ? transientDocuments : storedDocuments;
+	const uploadedDocuments = pendingDocuments.length > 0
+		? pendingDocuments
+		: (transientDocuments.length > 0 ? transientDocuments : storedDocuments);
 
 	if (uploadedDocuments.length === 0) {
 		const nextReturnUrl = encodeURIComponent(returnUrl);
@@ -170,11 +295,23 @@ router.post('/gateway-1-signed-sla-check', (req, res) => {
 	req.session.gw1v2SignedSlaDocuments = uploadedDocuments;
 	req.session.gateway1SignedSlaFilename = uploadedDocuments[0].originalname;
 
-	const now = new Date();
-	const day = String(now.getDate()).padStart(2, '0');
-	const month = String(now.getMonth() + 1).padStart(2, '0');
-	const year = String(now.getFullYear());
-	req.session.gateway1SlaReceivedDate = `${day}/${month}/${year}`;
+	const overrideDay = (req.body['sla-received-day'] || '').trim();
+	const overrideMonth = (req.body['sla-received-month'] || '').trim();
+	const overrideYear = (req.body['sla-received-year'] || '').trim();
+	const postedOverrideDate = getDateFromValues(overrideDay, overrideMonth, overrideYear);
+	const sessionOverrideDate = req.session.gw1v2PendingSlaReceivedDate;
+
+	if (postedOverrideDate) {
+		req.session.gateway1SlaReceivedDate = postedOverrideDate;
+	} else if (sessionOverrideDate) {
+		req.session.gateway1SlaReceivedDate = sessionOverrideDate;
+	} else {
+		req.session.gateway1SlaReceivedDate = getSignedSlaReceivedDateFromUpload(req, uploadedDocuments);
+	}
+
+	delete req.session.gw1v2PendingSignedSlaDocuments;
+	delete req.session.gw1v2SignedSlaUploadedAt;
+	delete req.session.gw1v2PendingSlaReceivedDate;
 	applyStatusEvent(req, 'SLA_CONFIRMED', { res, source: 'GW1 signed SLA confirmation POST' });
 
 	req.session.notificationMessage = 'Signed SLA uploaded. LPA can proceed to Gateway 2 submission.';
@@ -192,6 +329,9 @@ router.get('/reset-status-flow', (req, res) => {
 	applyStatusEvent(req, 'FLOW_RESET', { res, source: 'GW1 reset status flow GET' });
 
 	delete req.session.gw1v2SignedSlaDocuments;
+	delete req.session.gw1v2PendingSignedSlaDocuments;
+	delete req.session.gw1v2SignedSlaUploadedAt;
+	delete req.session.gw1v2PendingSlaReceivedDate;
 	delete req.session.gateway1SignedSlaFilename;
 	delete req.session.gateway1SlaReceivedDate;
 
@@ -223,6 +363,9 @@ router.get('/reset-status-flow', (req, res) => {
 		req.session.data.planStatus = 'Awaiting signed SLA';
 		delete req.session.data.planStatusClasses;
 		delete req.session.data.gw1v2SignedSlaDocuments;
+		delete req.session.data.gw1v2PendingSignedSlaDocuments;
+		delete req.session.data.gw1v2SignedSlaUploadedAt;
+		delete req.session.data.gw1v2PendingSlaReceivedDate;
 		delete req.session.data.gateway1SignedSlaFilename;
 		delete req.session.data.gateway1SlaReceivedDate;
 

@@ -1,0 +1,29 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+Gateway 2 documents - {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/projects/back-office/manage/GW2/v4/gateway-2"
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
+    <h2 class="govuk-heading-l">Gateway 2 documents</h2>
+
+    {% include "projects/back-office/manage/GW2/v4/partials/_procedural-documents.njk" %}
+    {% include "projects/back-office/manage/GW2/v4/partials/_consultation-documents.njk" %}
+    {% include "projects/back-office/manage/GW2/v4/partials/_additional-documents.njk" %}
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

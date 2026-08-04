@@ -21,15 +21,21 @@
       {% for doc in uploadedDocuments %}
         <dl class="govuk-summary-list">
           <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">Document {{ loop.index }}</dt>
+            <dt class="govuk-summary-list__key">Document</dt>
             <dd class="govuk-summary-list__value">{{ doc.originalname }}</dd>
             <dd class="govuk-summary-list__actions">
               <a class="govuk-link" href="/projects/back-office/manage/GW1/v2/gateway-1-signed-sla-upload?returnUrl={{ returnUrl }}">Change<span class="govuk-visually-hidden"> {{ doc.originalname }}</span></a>
             </dd>
           </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Date received</dt>
+            <dd class="govuk-summary-list__value">{{ slaReceivedDatePreview }}</dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="{{ slaReceivedDateChangeUrl }}">Change<span class="govuk-visually-hidden"> {{ slaReceivedDatePreview }}</span></a>
+            </dd>
+          </div>
         </dl>
       {% endfor %}
-
       <details class="govuk-details" data-cy="preview-notification-to-lpa">
         <summary class="govuk-details__summary">
           <span class="govuk-details__summary-text">Preview notification to LPA</span>
@@ -47,6 +53,7 @@
 
       <form method="post" action="/projects/back-office/manage/GW1/v2/gateway-1-signed-sla-check">
         <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
+
         {{ govukButton({ text: "Confirm and issue notification" }) }}
       </form>
     </div>

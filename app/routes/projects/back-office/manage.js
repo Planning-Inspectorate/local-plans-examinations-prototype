@@ -3272,19 +3272,32 @@ function isGw3ProceedOutcome(value) {
   return value === 'Proceed to examination' || value === 'Pass';
 }
 
+function getWebsiteHref(value) {
+  if (!value || value === '-') return '';
+
+  const trimmed = String(value).trim();
+  if (!trimmed) return '';
+
+  if (/^https?:\/\//i.test(trimmed)) {
+    return trimmed;
+  }
+
+  return `https://${trimmed}`;
+}
+
 function getGw3ExaminationWebsite(req, gateway3OverviewState) {
+  if (gateway3OverviewState === 'initial') {
+    return '-';
+  }
+
   const submittedExaminationWebsite = req.session.data?.['examination-library-link'] || 'eastborough.gov.uk/examination-library';
 
   if (req.session.examinationWebsite && req.session.examinationWebsite !== '-') {
     return req.session.examinationWebsite;
   }
 
-  if (gateway3OverviewState !== 'initial') {
-    req.session.examinationWebsite = submittedExaminationWebsite;
-    return submittedExaminationWebsite;
-  }
-
-  return '-';
+  req.session.examinationWebsite = submittedExaminationWebsite;
+  return submittedExaminationWebsite;
 }
 
 // --- Gateway 3 v3 Routes ---
@@ -3312,6 +3325,7 @@ router.get('/projects/back-office/manage/GW3/v3/gateway-3', (req, res) => {
   const isResubmissionOverviewState = gateway3OverviewState === 'resubmission' || gateway3OverviewState === 'resubmission-no-docs';
   const isPreCompletionOverviewState = isInitialOverviewState || isSubmittedOverviewState || isResubmissionOverviewState;
   const examinationWebsite = getGw3ExaminationWebsite(req, gateway3OverviewState);
+  const examinationWebsiteHref = getWebsiteHref(examinationWebsite);
 
 
   if (isResubmissionOverviewState) {
@@ -3383,6 +3397,7 @@ router.get('/projects/back-office/manage/GW3/v3/gateway-3', (req, res) => {
     gateway3AssessorAppointmentDate: formatDateForDisplay(req.session.gateway3AssessorAppointmentDate) || '-',
     gateway3CompletionDate: resolvedGateway3CompletionDate,
     examinationWebsite,
+    examinationWebsiteHref,
     gateway3Decision: req.session.gateway3Decision || '-',
     gateway3AssessorName: req.session.gateway3AssessorName || '-',
     gateway3PoContact: req.session.gateway3PoContact || {}

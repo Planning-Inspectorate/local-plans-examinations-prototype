@@ -474,6 +474,7 @@ function buildGateway2ViewModel(req, notificationMessage = '') {
   const proceduralDocuments = documents.filter((doc) => doc.category === 'procedural');
   const consultationDocuments = documents.filter((doc) => doc.category === 'consultation');
   const additionalDocuments = documents.filter((doc) => doc.category === 'additional');
+  const gateway2DocumentsCount = proceduralDocuments.length + consultationDocuments.length + additionalDocuments.length;
   const workshopDocuments = getUploadedDocuments(req);
   const workshopDocumentsForDisplay = workshopDocuments.map((doc) => ({
     ...doc,
@@ -521,6 +522,10 @@ function buildGateway2ViewModel(req, notificationMessage = '') {
       count: issueReportDocumentsForDisplay.length,
       latestUploadedAtDisplay: issueReportDocumentsForDisplay.length ? issueReportDocumentsForDisplay[issueReportDocumentsForDisplay.length - 1].uploadedAtDisplay : '-',
       hasDocuments: issueReportDocumentsForDisplay.length > 0
+    },
+    gateway2DocumentsSummary: {
+      count: gateway2DocumentsCount,
+      hasDocuments: gateway2DocumentsCount > 0
     },
     proceduralDocuments,
     consultationDocuments,
@@ -580,6 +585,14 @@ router.get('/gateway-2', (req, res) => {
 
 router.get('/gateway-2.html', (req, res) => {
   res.redirect('/projects/back-office/manage/GW2/v4/gateway-2');
+});
+
+router.get('/gateway-2-documents', (req, res) => {
+  res.render('projects/back-office/manage/GW2/v4/gateway-2-documents', buildGateway2ViewModel(req));
+});
+
+router.get('/gateway-2-documents.html', (req, res) => {
+  res.redirect('/projects/back-office/manage/GW2/v4/gateway-2-documents');
 });
 
 router.get('/document/:documentId', (req, res) => {

@@ -103,7 +103,7 @@ Gateway 3 overview - {{ serviceName }}
           {% if gateway3OverviewState == 'initial' %}
             
           {% else %}
-            <a class="govuk-link" href="/projects/back-office/manage/GW3/v4/gateway-3-submission-1-documents">View</a>
+            <a class="govuk-link" href="/projects/back-office/manage/GW3/v4/gateway-3-submission-1-documents">{{ 'View' if submission1Decision and submission1Decision != '-' else 'Review' }}</a>
           {% endif %}
         </div>
       </div>
@@ -135,7 +135,7 @@ Gateway 3 overview - {{ serviceName }}
         </div>
         <div class="govuk-summary-list__actions">
           {% if not isResubmissionNoDocs %}
-            <a class="govuk-link" href="/projects/back-office/manage/GW3/v4/gateway-3-submission-2-documents">View</a>
+            <a class="govuk-link" href="/projects/back-office/manage/GW3/v4/gateway-3-submission-2-documents">{{ 'View' if submission2Decision and submission2Decision != '-' else 'Review' }}</a>
           {% endif %}
         </div>
       </div>
