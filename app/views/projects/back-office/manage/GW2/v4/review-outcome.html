@@ -1,0 +1,65 @@
+{% extends "layouts/back-office.html" %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block pageTitle %}
+  What is the outcome of your review? - {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/projects/back-office/manage/GW2/v4/document/" ~ document.id
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
+    <h1 class="govuk-heading-l">What is the outcome of your review?</h1>
+
+    <p class="govuk-body">Document: {{ document.title }}</p>
+
+    <form method="post" action="/projects/back-office/manage/GW2/v4/document/{{ document.id }}/review/outcome" novalidate>
+      {{ govukRadios({
+        idPrefix: "reviewOutcome",
+        name: "reviewOutcome",
+        fieldset: {
+          legend: {
+            text: "Select one option",
+            classes: "govuk-fieldset__legend--m"
+          }
+        },
+        value: values.reviewOutcome,
+        errorMessage: {
+          text: errors.reviewOutcome
+        } if errors and errors.reviewOutcome,
+        items: [
+          {
+            value: "valid",
+            text: "Valid"
+          },
+          {
+            value: "invalid",
+            text: "Invalid"
+          },
+          {
+            value: "incomplete",
+            text: "Incomplete"
+          }
+        ]
+      }) }}
+
+      {{ govukButton({
+        text: "Continue"
+      }) }}
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

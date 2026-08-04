@@ -7,34 +7,20 @@
       <dd class="govuk-summary-list__value"><strong>Date</strong></dd>
       <dd class="govuk-summary-list__actions"><strong>Action</strong></dd>
     </div>
+    {% for doc in proceduralDocuments %}
     <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key">Gateway 2 covering letter</dt>
-      <dd class="govuk-summary-list__value">Received</dd>
-      <dd class="govuk-summary-list__value">17 May 2026</dd>
-      <dd class="govuk-summary-list__actions"><a class="govuk-link" href="#">View</a></dd>
+      <dt class="govuk-summary-list__key">{{ doc.title }}</dt>
+      <dd class="govuk-summary-list__value"><strong class="{{ doc.statusTagClass }}">{{ doc.status }}</strong></dd>
+      <dd class="govuk-summary-list__value">{{ doc.latestUploadedAtDisplay }}</dd>
+      <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/GW2/v4/document/{{ doc.id }}">View</a></dd>
     </div>
+    {% endfor %}
+    {% if proceduralDocuments.length == 0 %}
     <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key">Local plan timetable</dt>
-      <dd class="govuk-summary-list__value">Received</dd>
-      <dd class="govuk-summary-list__value">17 May 2026</dd>
-      <dd class="govuk-summary-list__actions"><a class="govuk-link" href="#">View</a></dd>
+      <dt class="govuk-summary-list__key">No procedural documents added yet</dt>
+      <dd class="govuk-summary-list__value">-</dd>
+      <dd class="govuk-summary-list__value">-</dd>
+      <dd class="govuk-summary-list__actions">-</dd>
     </div>
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key">Project initiation document</dt>
-      <dd class="govuk-summary-list__value">Received</dd>
-      <dd class="govuk-summary-list__value">17 May 2026</dd>
-      <dd class="govuk-summary-list__actions"><a class="govuk-link" href="#">View</a></dd>
-    </div>
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key">Draft statement of compliance</dt>
-      <dd class="govuk-summary-list__value">Received</dd>
-      <dd class="govuk-summary-list__value">17 May 2026</dd>
-      <dd class="govuk-summary-list__actions"><a class="govuk-link" href="#">View</a></dd>
-    </div>
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key">Draft statement of soundness</dt>
-      <dd class="govuk-summary-list__value">Received</dd>
-      <dd class="govuk-summary-list__value">17 May 2026</dd>
-      <dd class="govuk-summary-list__actions"><a class="govuk-link" href="#">View</a></dd>
-    </div>
+    {% endif %}
   </dl>

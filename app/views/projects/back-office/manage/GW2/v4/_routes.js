@@ -5,6 +5,8 @@ const { applyStatusEvent } = require('../../../../../../routes/projects/back-off
 
 const WORKSHOP_DOCS_KEY = 'gw2v3WorkshopDocuments';
 const ISSUE_REPORT_DOCS_KEY = 'gw2v4IssueReportDocuments';
+const DOCUMENTS_SESSION_KEY = 'gw2v4Documents';
+const REVIEW_DRAFT_SESSION_KEY = 'gw2v4DocumentReviewDraft';
 const ISSUE_REPORT_SUCCESS_MESSAGE = 'Gateway 2 report issued';
 
 const RETURN_TO_FALLBACK = 'gateway-2';
@@ -55,6 +57,176 @@ function formatTimestampForDisplay(timestamp) {
   if (!parsed.isValid) return '-';
 
   return parsed.toFormat('d MMMM yyyy');
+}
+
+function cloneDeep(value) {
+  return JSON.parse(JSON.stringify(value));
+}
+
+function getDefaultGateway2Documents() {
+  const seedDate = '2026-05-17T10:00:00.000Z';
+
+  return [
+    {
+      id: 'gw2-covering-letter',
+      category: 'procedural',
+      title: 'Gateway 2 covering letter',
+      status: 'Received',
+      versions: [{ versionNumber: 1, fileName: 'GW2_covering_letter.docx', uploadedAt: seedDate }]
+    },
+    {
+      id: 'local-plan-timetable',
+      category: 'procedural',
+      title: 'Local plan timetable',
+      status: 'Received',
+      versions: [{ versionNumber: 1, fileName: 'plan_timetable.csv', uploadedAt: seedDate }]
+    },
+    {
+      id: 'project-initiation-document',
+      category: 'procedural',
+      title: 'Project initiation document',
+      status: 'Received',
+      versions: [{ versionNumber: 1, fileName: 'PID.docx', uploadedAt: seedDate }]
+    },
+    {
+      id: 'draft-statement-compliance',
+      category: 'procedural',
+      title: 'Draft statement of compliance',
+      status: 'Received',
+      versions: [{ versionNumber: 1, fileName: 'GW2_compliance_statement.docx', uploadedAt: seedDate }]
+    },
+    {
+      id: 'draft-statement-soundness',
+      category: 'procedural',
+      title: 'Draft statement of soundness',
+      status: 'Received',
+      versions: [{ versionNumber: 1, fileName: 'GW2_soundness_statement.docx', uploadedAt: seedDate }]
+    },
+    {
+      id: 'consultation-statement',
+      category: 'consultation',
+      title: 'Consultation statement',
+      status: 'Received',
+      versions: [{ versionNumber: 1, fileName: 'consultation_statement.pdf', uploadedAt: seedDate }]
+    },
+    {
+      id: 'consultation-summary-scoping',
+      category: 'consultation',
+      title: 'Consultation summary for scoping consultation',
+      status: 'Received',
+      versions: [{ versionNumber: 1, fileName: 'scoping_summary.pdf', uploadedAt: seedDate }]
+    },
+    {
+      id: 'consultation-summary-proposed-plan',
+      category: 'consultation',
+      title: 'Consultation summary for proposed local plan content and evidence documents',
+      status: 'Received',
+      versions: [{ versionNumber: 1, fileName: 'proposed_plan_summary.pdf', uploadedAt: seedDate }]
+    },
+    {
+      id: 'notice-of-intention',
+      category: 'consultation',
+      title: 'Notice of intention to commence local plan preparation',
+      status: 'Received',
+      versions: [{ versionNumber: 1, fileName: 'notice_of_intention.pdf', uploadedAt: seedDate }]
+    },
+    {
+      id: 'scoping-consultation-documents',
+      category: 'consultation',
+      title: 'Scoping consultation documents',
+      status: 'Received',
+      versions: [{ versionNumber: 1, fileName: 'scoping_full.pdf', uploadedAt: seedDate }]
+    },
+    {
+      id: 'scoping-feedback-summary',
+      category: 'consultation',
+      title: 'Consultation summary of feedback to scoping consultation',
+      status: 'Received',
+      versions: [{ versionNumber: 1, fileName: 'scoping_feedback_summary.pdf', uploadedAt: seedDate }]
+    },
+    {
+      id: 'gateway1-self-assessment',
+      category: 'consultation',
+      title: 'Gateway 1 - Self assessment of readiness',
+      status: 'Received',
+      versions: [{ versionNumber: 1, fileName: 'gateway1_self_assessment.pdf', uploadedAt: seedDate }]
+    },
+    {
+      id: 'consultation-proposed-plan-evidence',
+      category: 'consultation',
+      title: 'Consultation on proposed local plan content and evidence documents',
+      status: 'Received',
+      versions: [{ versionNumber: 1, fileName: 'proposed_plan_full.pdf', uploadedAt: seedDate }]
+    },
+    {
+      id: 'consultation-summary-above',
+      category: 'consultation',
+      title: 'Consultation summary for the above',
+      status: 'Received',
+      versions: [{ versionNumber: 1, fileName: 'consultation_summary.pdf', uploadedAt: seedDate }]
+    },
+    {
+      id: 'subsequent-work-draft-plan',
+      category: 'additional',
+      title: 'Subsequent work towards a draft plan',
+      status: 'Received',
+      versions: [{ versionNumber: 1, fileName: 'subsequent_work_draft_plan.pdf', uploadedAt: seedDate }]
+    }
+  ];
+}
+
+function getDocumentStatusTagClass(status) {
+  if (status === 'Validated') return 'govuk-tag govuk-tag--green';
+  if (status === 'Invalid') return 'govuk-tag govuk-tag--red';
+  if (status === 'Incomplete') return 'govuk-tag govuk-tag--blue';
+  if (status === 'Ready to validate') return 'govuk-tag govuk-tag--yellow';
+  return 'govuk-tag govuk-tag--grey';
+}
+
+function getGateway2Documents(req) {
+  if (Array.isArray(req.session[DOCUMENTS_SESSION_KEY])) {
+    return req.session[DOCUMENTS_SESSION_KEY];
+  }
+
+  const seededDocuments = getDefaultGateway2Documents();
+  req.session[DOCUMENTS_SESSION_KEY] = cloneDeep(seededDocuments);
+  return req.session[DOCUMENTS_SESSION_KEY];
+}
+
+function getGateway2DocumentById(req, documentId) {
+  const documents = getGateway2Documents(req);
+  return documents.find((doc) => doc.id === documentId) || null;
+}
+
+function getLatestDocumentVersion(document) {
+  if (!document || !Array.isArray(document.versions) || document.versions.length === 0) {
+    return null;
+  }
+
+  return document.versions[document.versions.length - 1];
+}
+
+function buildDocumentForView(document) {
+  const latestVersion = getLatestDocumentVersion(document);
+  return {
+    ...document,
+    currentVersionNumber: latestVersion ? latestVersion.versionNumber : '-',
+    latestFileName: latestVersion ? latestVersion.fileName : '-',
+    latestUploadedAtDisplay: latestVersion ? formatTimestampForDisplay(latestVersion.uploadedAt) : '-',
+    statusTagClass: getDocumentStatusTagClass(document.status || 'Received')
+  };
+}
+
+function getReviewDraft(req) {
+  if (!req.session[REVIEW_DRAFT_SESSION_KEY] || typeof req.session[REVIEW_DRAFT_SESSION_KEY] !== 'object') {
+    return {};
+  }
+
+  return req.session[REVIEW_DRAFT_SESSION_KEY];
+}
+
+function clearReviewDraft(req) {
+  delete req.session[REVIEW_DRAFT_SESSION_KEY];
 }
 
 function getUploadedDocuments(req) {
@@ -298,6 +470,10 @@ function getGateway2Status(req, workshopDocuments) {
 }
 
 function buildGateway2ViewModel(req, notificationMessage = '') {
+  const documents = getGateway2Documents(req).map(buildDocumentForView);
+  const proceduralDocuments = documents.filter((doc) => doc.category === 'procedural');
+  const consultationDocuments = documents.filter((doc) => doc.category === 'consultation');
+  const additionalDocuments = documents.filter((doc) => doc.category === 'additional');
   const workshopDocuments = getUploadedDocuments(req);
   const workshopDocumentsForDisplay = workshopDocuments.map((doc) => ({
     ...doc,
@@ -346,6 +522,9 @@ function buildGateway2ViewModel(req, notificationMessage = '') {
       latestUploadedAtDisplay: issueReportDocumentsForDisplay.length ? issueReportDocumentsForDisplay[issueReportDocumentsForDisplay.length - 1].uploadedAtDisplay : '-',
       hasDocuments: issueReportDocumentsForDisplay.length > 0
     },
+    proceduralDocuments,
+    consultationDocuments,
+    additionalDocuments,
     pageState,
     headerStatusText: gateway2Status.text,
     headerStatusClasses: gateway2Status.classes
@@ -401,6 +580,303 @@ router.get('/gateway-2', (req, res) => {
 
 router.get('/gateway-2.html', (req, res) => {
   res.redirect('/projects/back-office/manage/GW2/v4/gateway-2');
+});
+
+router.get('/document/:documentId', (req, res) => {
+  const document = getGateway2DocumentById(req, req.params.documentId);
+
+  if (!document) {
+    req.session.notificationMessage = 'Document not found';
+    return res.redirect('/projects/back-office/manage/GW2/v4/gateway-2');
+  }
+
+  const viewDocument = buildDocumentForView(document);
+  const versions = (Array.isArray(document.versions) ? document.versions : []).map((version) => ({
+    ...version,
+    uploadedAtDisplay: formatTimestampForDisplay(version.uploadedAt)
+  })).reverse();
+
+  res.render('projects/back-office/manage/GW2/v4/document-detail', {
+    caseRef: req.session.data?.currentCaseRef || req.session.currentCaseRef || '',
+    serviceName: 'Local Plans Examinations',
+    document: viewDocument,
+    versions
+  });
+});
+
+router.get('/document/:documentId/upload-new-version', (req, res) => {
+  const document = getGateway2DocumentById(req, req.params.documentId);
+
+  if (!document) {
+    req.session.notificationMessage = 'Document not found';
+    return res.redirect('/projects/back-office/manage/GW2/v4/gateway-2');
+  }
+
+  const latestVersion = getLatestDocumentVersion(document);
+  const nextVersionNumber = latestVersion ? latestVersion.versionNumber + 1 : 1;
+
+  res.render('projects/back-office/manage/GW2/v4/upload-new-version', {
+    caseRef: req.session.data?.currentCaseRef || req.session.currentCaseRef || '',
+    serviceName: 'Local Plans Examinations',
+    document: buildDocumentForView(document),
+    nextVersionNumber,
+    values: {
+      fileName: req.body && req.body.fileName ? req.body.fileName : ''
+    },
+    errors: null
+  });
+});
+
+router.post('/document/:documentId/upload-new-version', (req, res) => {
+  const document = getGateway2DocumentById(req, req.params.documentId);
+
+  if (!document) {
+    req.session.notificationMessage = 'Document not found';
+    return res.redirect('/projects/back-office/manage/GW2/v4/gateway-2');
+  }
+
+  const rawFileName = (req.body.fileName || '').trim();
+  const latestVersion = getLatestDocumentVersion(document);
+  const nextVersionNumber = latestVersion ? latestVersion.versionNumber + 1 : 1;
+
+  if (!rawFileName) {
+    return res.render('projects/back-office/manage/GW2/v4/upload-new-version', {
+      caseRef: req.session.data?.currentCaseRef || req.session.currentCaseRef || '',
+      serviceName: 'Local Plans Examinations',
+      document: buildDocumentForView(document),
+      nextVersionNumber,
+      values: {
+        fileName: rawFileName
+      },
+      errors: {
+        fileName: 'Enter a file name for the new version'
+      }
+    });
+  }
+
+  if (!Array.isArray(document.versions)) {
+    document.versions = [];
+  }
+
+  document.versions.push({
+    versionNumber: nextVersionNumber,
+    fileName: rawFileName,
+    uploadedAt: new Date().toISOString()
+  });
+  document.status = 'Ready to validate';
+  document.review = null;
+  clearReviewDraft(req);
+  req.session.notificationMessage = `New version uploaded for ${document.title}`;
+
+  req.session.save(() => {
+    res.redirect(`/projects/back-office/manage/GW2/v4/document/${document.id}`);
+  });
+});
+
+router.get('/document/:documentId/review/outcome', (req, res) => {
+  const document = getGateway2DocumentById(req, req.params.documentId);
+
+  if (!document) {
+    req.session.notificationMessage = 'Document not found';
+    return res.redirect('/projects/back-office/manage/GW2/v4/gateway-2');
+  }
+
+  const reviewDraft = getReviewDraft(req);
+
+  res.render('projects/back-office/manage/GW2/v4/review-outcome', {
+    caseRef: req.session.data?.currentCaseRef || req.session.currentCaseRef || '',
+    serviceName: 'Local Plans Examinations',
+    document: buildDocumentForView(document),
+    values: {
+      reviewOutcome:
+        reviewDraft.documentId === document.id && reviewDraft.reviewOutcome
+          ? reviewDraft.reviewOutcome
+          : ''
+    },
+    errors: null
+  });
+});
+
+router.post('/document/:documentId/review/outcome', (req, res) => {
+  const document = getGateway2DocumentById(req, req.params.documentId);
+
+  if (!document) {
+    req.session.notificationMessage = 'Document not found';
+    return res.redirect('/projects/back-office/manage/GW2/v4/gateway-2');
+  }
+
+  const reviewOutcome = (req.body.reviewOutcome || '').trim();
+
+  if (!reviewOutcome) {
+    return res.render('projects/back-office/manage/GW2/v4/review-outcome', {
+      caseRef: req.session.data?.currentCaseRef || req.session.currentCaseRef || '',
+      serviceName: 'Local Plans Examinations',
+      document: buildDocumentForView(document),
+      values: {
+        reviewOutcome
+      },
+      errors: {
+        reviewOutcome: 'Select the outcome of your review'
+      }
+    });
+  }
+
+  req.session[REVIEW_DRAFT_SESSION_KEY] = {
+    documentId: document.id,
+    reviewOutcome,
+    reviewReason: ''
+  };
+
+  if (reviewOutcome === 'invalid' || reviewOutcome === 'incomplete') {
+    return req.session.save(() => {
+      res.redirect(`/projects/back-office/manage/GW2/v4/document/${document.id}/review/reason`);
+    });
+  }
+
+  req.session.save(() => {
+    res.redirect(`/projects/back-office/manage/GW2/v4/document/${document.id}/review/check-answers`);
+  });
+});
+
+router.get('/document/:documentId/review/reason', (req, res) => {
+  const document = getGateway2DocumentById(req, req.params.documentId);
+
+  if (!document) {
+    req.session.notificationMessage = 'Document not found';
+    return res.redirect('/projects/back-office/manage/GW2/v4/gateway-2');
+  }
+
+  const reviewDraft = getReviewDraft(req);
+  if (reviewDraft.documentId !== document.id || (reviewDraft.reviewOutcome !== 'invalid' && reviewDraft.reviewOutcome !== 'incomplete')) {
+    return res.redirect(`/projects/back-office/manage/GW2/v4/document/${document.id}/review/outcome`);
+  }
+
+  res.render('projects/back-office/manage/GW2/v4/review-reason', {
+    caseRef: req.session.data?.currentCaseRef || req.session.currentCaseRef || '',
+    serviceName: 'Local Plans Examinations',
+    document: buildDocumentForView(document),
+    reviewOutcome: reviewDraft.reviewOutcome,
+    values: {
+      reviewReason: reviewDraft.reviewReason || ''
+    },
+    errors: null
+  });
+});
+
+router.post('/document/:documentId/review/reason', (req, res) => {
+  const document = getGateway2DocumentById(req, req.params.documentId);
+
+  if (!document) {
+    req.session.notificationMessage = 'Document not found';
+    return res.redirect('/projects/back-office/manage/GW2/v4/gateway-2');
+  }
+
+  const reviewDraft = getReviewDraft(req);
+  if (reviewDraft.documentId !== document.id || (reviewDraft.reviewOutcome !== 'invalid' && reviewDraft.reviewOutcome !== 'incomplete')) {
+    return res.redirect(`/projects/back-office/manage/GW2/v4/document/${document.id}/review/outcome`);
+  }
+
+  const reviewReason = (req.body.reviewReason || '').trim();
+
+  if (!reviewReason) {
+    return res.render('projects/back-office/manage/GW2/v4/review-reason', {
+      caseRef: req.session.data?.currentCaseRef || req.session.currentCaseRef || '',
+      serviceName: 'Local Plans Examinations',
+      document: buildDocumentForView(document),
+      reviewOutcome: reviewDraft.reviewOutcome,
+      values: {
+        reviewReason
+      },
+      errors: {
+        reviewReason: 'Enter why you reached this decision'
+      }
+    });
+  }
+
+  req.session[REVIEW_DRAFT_SESSION_KEY] = {
+    ...reviewDraft,
+    reviewReason
+  };
+
+  req.session.save(() => {
+    res.redirect(`/projects/back-office/manage/GW2/v4/document/${document.id}/review/check-answers`);
+  });
+});
+
+router.get('/document/:documentId/review/check-answers', (req, res) => {
+  const document = getGateway2DocumentById(req, req.params.documentId);
+
+  if (!document) {
+    req.session.notificationMessage = 'Document not found';
+    return res.redirect('/projects/back-office/manage/GW2/v4/gateway-2');
+  }
+
+  const reviewDraft = getReviewDraft(req);
+  if (!reviewDraft.reviewOutcome || reviewDraft.documentId !== document.id) {
+    return res.redirect(`/projects/back-office/manage/GW2/v4/document/${document.id}/review/outcome`);
+  }
+
+  if ((reviewDraft.reviewOutcome === 'invalid' || reviewDraft.reviewOutcome === 'incomplete') && !reviewDraft.reviewReason) {
+    return res.redirect(`/projects/back-office/manage/GW2/v4/document/${document.id}/review/reason`);
+  }
+
+  const outcomeLabelMap = {
+    valid: 'Valid',
+    invalid: 'Invalid',
+    incomplete: 'Incomplete'
+  };
+  const latestVersion = getLatestDocumentVersion(document);
+
+  res.render('projects/back-office/manage/GW2/v4/review-check-answers', {
+    caseRef: req.session.data?.currentCaseRef || req.session.currentCaseRef || '',
+    serviceName: 'Local Plans Examinations',
+    document: buildDocumentForView(document),
+    latestVersion,
+    review: {
+      outcome: reviewDraft.reviewOutcome,
+      outcomeLabel: outcomeLabelMap[reviewDraft.reviewOutcome] || reviewDraft.reviewOutcome,
+      reason: reviewDraft.reviewReason || ''
+    }
+  });
+});
+
+router.post('/document/:documentId/review/check-answers', (req, res) => {
+  const document = getGateway2DocumentById(req, req.params.documentId);
+
+  if (!document) {
+    req.session.notificationMessage = 'Document not found';
+    return res.redirect('/projects/back-office/manage/GW2/v4/gateway-2');
+  }
+
+  const reviewDraft = getReviewDraft(req);
+  if (!reviewDraft.reviewOutcome || reviewDraft.documentId !== document.id) {
+    return res.redirect(`/projects/back-office/manage/GW2/v4/document/${document.id}/review/outcome`);
+  }
+
+  const statusMap = {
+    valid: 'Validated',
+    invalid: 'Invalid',
+    incomplete: 'Incomplete'
+  };
+  const notificationOutcomeMap = {
+    valid: 'valid',
+    invalid: 'invalid',
+    incomplete: 'incomplete'
+  };
+
+  document.status = statusMap[reviewDraft.reviewOutcome] || 'Validated';
+  document.review = {
+    outcome: reviewDraft.reviewOutcome,
+    reason: reviewDraft.reviewReason || '',
+    reviewedAt: new Date().toISOString()
+  };
+
+  clearReviewDraft(req);
+  req.session.notificationMessage = `${document.title} marked as ${notificationOutcomeMap[document.review.outcome] || 'valid'} and notification sent to LPA`;
+
+  req.session.save(() => {
+    res.redirect('/projects/back-office/manage/GW2/v4/gateway-2');
+  });
 });
 
 router.get('/upload/v1/upload-bo', (req, res) => {

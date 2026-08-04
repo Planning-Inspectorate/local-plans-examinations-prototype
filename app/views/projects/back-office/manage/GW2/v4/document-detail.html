@@ -1,0 +1,93 @@
+{% extends "layouts/back-office.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+{% block pageTitle %}
+  {{ document.title }} - {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/projects/back-office/manage/GW2/v4/gateway-2"
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
+    <h1 class="govuk-heading-l">{{ document.title }}</h1>
+
+    <table class="govuk-table">
+      <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">Status</th>
+          <td class="govuk-table__cell"><strong class="{{ document.statusTagClass }}">{{ document.status }}</strong></td>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">Current version</th>
+          <td class="govuk-table__cell">Version {{ document.currentVersionNumber }}</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">Latest file</th>
+          <td class="govuk-table__cell">{{ document.latestFileName }}</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">Date uploaded</th>
+          <td class="govuk-table__cell">{{ document.latestUploadedAtDisplay }}</td>
+        </tr>
+        {% if document.review %}
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">Last review outcome</th>
+          <td class="govuk-table__cell">{{ document.review.outcome | capitalize }}</td>
+        </tr>
+        {% if document.review.reason %}
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">Review reason</th>
+          <td class="govuk-table__cell">{{ document.review.reason }}</td>
+        </tr>
+        {% endif %}
+        {% endif %}
+      </tbody>
+    </table>
+
+    <div class="govuk-button-group">
+      <a href="/projects/back-office/manage/GW2/v4/document/{{ document.id }}/upload-new-version" role="button" draggable="false" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+        Upload a new version
+      </a>
+      <a href="/projects/back-office/manage/GW2/v4/document/{{ document.id }}/review/outcome" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
+        Validate document
+      </a>
+    </div>
+
+    <h2 class="govuk-heading-m">Version history</h2>
+    {% if versions.length > 0 %}
+    <table class="govuk-table">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">Version</th>
+          <th scope="col" class="govuk-table__header">File name</th>
+          <th scope="col" class="govuk-table__header">Date uploaded</th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        {% for version in versions %}
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">{{ version.versionNumber }}</td>
+          <td class="govuk-table__cell">{{ version.fileName }}</td>
+          <td class="govuk-table__cell">{{ version.uploadedAtDisplay }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="govuk-body">No versions have been uploaded yet.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

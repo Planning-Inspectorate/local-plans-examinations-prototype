@@ -3272,6 +3272,21 @@ function isGw3ProceedOutcome(value) {
   return value === 'Proceed to examination' || value === 'Pass';
 }
 
+function getGw3ExaminationWebsite(req, gateway3OverviewState) {
+  const submittedExaminationWebsite = req.session.data?.['examination-library-link'] || 'eastborough.gov.uk/examination-library';
+
+  if (req.session.examinationWebsite && req.session.examinationWebsite !== '-') {
+    return req.session.examinationWebsite;
+  }
+
+  if (gateway3OverviewState !== 'initial') {
+    req.session.examinationWebsite = submittedExaminationWebsite;
+    return submittedExaminationWebsite;
+  }
+
+  return '-';
+}
+
 // --- Gateway 3 v3 Routes ---
 router.get('/projects/back-office/manage/GW3/v3/gateway-3', (req, res) => {
   const rawNotificationMessage = req.session.notificationMessage || '';
@@ -3296,6 +3311,7 @@ router.get('/projects/back-office/manage/GW3/v3/gateway-3', (req, res) => {
   const isPassOverviewState = gateway3OverviewState === 'pass';
   const isResubmissionOverviewState = gateway3OverviewState === 'resubmission' || gateway3OverviewState === 'resubmission-no-docs';
   const isPreCompletionOverviewState = isInitialOverviewState || isSubmittedOverviewState || isResubmissionOverviewState;
+  const examinationWebsite = getGw3ExaminationWebsite(req, gateway3OverviewState);
 
 
   if (isResubmissionOverviewState) {
@@ -3366,7 +3382,7 @@ router.get('/projects/back-office/manage/GW3/v3/gateway-3', (req, res) => {
     gateway3ActualDate: formatDateForDisplay(req.session.gateway3ActualDate) || '-',
     gateway3AssessorAppointmentDate: formatDateForDisplay(req.session.gateway3AssessorAppointmentDate) || '-',
     gateway3CompletionDate: resolvedGateway3CompletionDate,
-    examinationWebsite: req.session.examinationWebsite || '-',
+    examinationWebsite,
     gateway3Decision: req.session.gateway3Decision || '-',
     gateway3AssessorName: req.session.gateway3AssessorName || '-',
     gateway3PoContact: req.session.gateway3PoContact || {}
@@ -3409,8 +3425,14 @@ router.post('/projects/back-office/manage/GW3/v3/gateway-3-po-details', (req, re
 });
 
 router.get('/projects/back-office/manage/GW3/v3/examination-website.html', (req, res) => {
+  const gateway3OverviewState = req.query.gateway3OverviewState === 'initial' || req.query.gateway3OverviewState === 'submitted' || req.query.gateway3OverviewState === 'resubmission' || req.query.gateway3OverviewState === 'resubmission-no-docs' || req.query.gateway3OverviewState === 'pass'
+    ? req.query.gateway3OverviewState
+    : 'submitted';
+
   res.render('projects/back-office/manage/GW3/v3/examination-website', {
-    examinationWebsite: (req.session.examinationWebsite && req.session.examinationWebsite !== '-') ? req.session.examinationWebsite : '',
+    examinationWebsite: getGw3ExaminationWebsite(req, gateway3OverviewState) !== '-'
+      ? getGw3ExaminationWebsite(req, gateway3OverviewState)
+      : '',
     returnUrl: req.query.returnUrl || '/projects/back-office/manage/GW3/v3/gateway-3'
   });
 });

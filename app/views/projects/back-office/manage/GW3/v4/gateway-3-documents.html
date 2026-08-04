@@ -6,7 +6,7 @@ Gateway 3 documents – {{ serviceName }}
 {% block beforeContent %}
   {{ govukBackLink({
   text: "Back",
-  href: "/projects/back-office/manage/GW3/v3/gateway-3"
+  href: "/projects/back-office/manage/GW3/v4/gateway-3"
 }) }}
 {% endblock %}
 
@@ -14,10 +14,14 @@ Gateway 3 documents – {{ serviceName }}
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }} - Submission {{ submissionNumber or '1' }} - Submitted {{ submissionDateSubmitted or 'Not provided' }}</span>
+    <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }} - Submission {{ submissionNumber or '1' }} - {{ submissionDateSubmitted or 'Not provided' }}</span>
     <h2 class="govuk-heading-l">Gateway 3 documents</h2>
-  <h2 class="govuk-heading-m">Required documents</h2>
+  <h2 class="govuk-heading-m">Procedural documents</h2>
     <dl class="govuk-summary-list govuk-summary-list-timetable">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key"><strong>Document</strong></dt>
+        <dd class="govuk-summary-list__actions"><strong>Action</strong></dd>
+      </div>
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">Proposed local plan</dt>
         <dd class="govuk-summary-list__actions"><a class="govuk-link" href="#">View</a></dd>
