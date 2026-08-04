@@ -1,5 +1,5 @@
 {
-  "serviceName": "Local Plans",
+  "serviceName": "Submit your plan for examination",
   "plugins": {
     "govuk-frontend": {
       "rebrand": true
