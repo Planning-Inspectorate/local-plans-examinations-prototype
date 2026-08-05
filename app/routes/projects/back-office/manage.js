@@ -169,7 +169,7 @@ function deriveOverallPlanStatus(req, currentCase) {
   if (isSetValue(req.session.gateway2ActualDate) || isSetValue(req.session.gateway2ValidDate) || isSetValue(req.session.gateway2WorkshopDate)) {
     return 'In progress';
   }
-  return 'Submitted';
+  return 'Awaiting Gateway 2';
 }
 
 function setOverallPlanStatus(req, statusText) {

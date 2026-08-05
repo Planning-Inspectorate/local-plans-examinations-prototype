@@ -46,7 +46,7 @@ router.post('/projects/back-office/create-case/v2/LPA-region', (req, res) => {
 // Start page
 router.get('/projects/back-office/create-case/v2/index', (req, res) => {
   // Reinitialize if cases don't exist or are in old format (missing lpas field)
-  const needsReinit = !req.session.cases || req.session.cases.length === 0 || (req.session.cases.length > 0 && !req.session.cases[0].lpas);
+  const needsReinit = !req.session.cases || req.session.cases.length === 0 || (req.session.cases.length > 0 && !req.session.cases[0].lpas) || (req.session.cases.length > 0 && req.session.cases[0].status === 'Submitted');
   if (needsReinit) {
     req.session.cases = [
       {
@@ -63,7 +63,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '20 June 2024',
         gateway3Date: '10 September 2024',
         submissionDate: '15 September 2024',
-        status: 'Submitted',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-01-15').toISOString()
       },
       {
@@ -80,7 +80,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '25 May 2024',
         gateway3Date: '15 August 2024',
         submissionDate: '20 August 2024',
-        status: 'Submitted',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-01-20').toISOString()
       },
       {
@@ -97,7 +97,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '30 April 2024',
         gateway3Date: '20 July 2024',
         submissionDate: '25 July 2024',
-        status: 'Submitted',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-01-25').toISOString()
       },
       {
@@ -114,7 +114,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '5 April 2024',
         gateway3Date: '25 June 2024',
         submissionDate: '30 June 2024',
-        status: 'Submitted',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-02-01').toISOString()
       },
       {
@@ -131,7 +131,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '15 June 2024',
         gateway3Date: '5 September 2024',
         submissionDate: '10 September 2024',
-        status: 'Submitted',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-02-10').toISOString()
       },
       {
@@ -148,7 +148,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '18 May 2024',
         gateway3Date: '8 August 2024',
         submissionDate: '13 August 2024',
-        status: 'Submitted',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-02-15').toISOString()
       },
       {
@@ -165,7 +165,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '28 June 2024',
         gateway3Date: '18 September 2024',
         submissionDate: '23 September 2024',
-        status: 'Submitted',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-02-20').toISOString()
       },
       {
@@ -182,7 +182,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '2 June 2024',
         gateway3Date: '22 August 2024',
         submissionDate: '27 August 2024',
-        status: 'Submitted',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-02-25').toISOString()
       },
       {
@@ -199,7 +199,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '10 July 2024',
         gateway3Date: '30 September 2024',
         submissionDate: '5 October 2024',
-        status: 'Submitted',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-03-01').toISOString()
       },
       {
@@ -216,7 +216,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '12 May 2024',
         gateway3Date: '2 August 2024',
         submissionDate: '7 August 2024',
-        status: 'Submitted',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-03-05').toISOString()
       }
     ];
@@ -750,7 +750,7 @@ router.post('/projects/back-office/create-case/v2/check-answers', (req, res) => 
     gateway2Date: req.session.gateway2Date,
     gateway3Date: req.session.gateway3Date,
     submissionDate: req.session.submissionDate,
-    status: 'Submitted',
+    status: 'Awaiting Gateway 2',
     createdDate: new Date().toISOString()
   };
   

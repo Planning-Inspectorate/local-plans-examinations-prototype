@@ -69,7 +69,7 @@ router.use((req, res, next) => {
   const sessionData = req.session?.data || {};
   const resolvedCaseRef = req.session?.currentCaseRef || '';
   const resolvedPlanTitle = req.session?.planTitle || '';
-  const resolvedStatus = req.session?.planStatus || sessionData.planStatus || 'Submitted';
+  const resolvedStatus = req.session?.planStatus || sessionData.planStatus || 'Awaiting Gateway 2';
   const resolvedStatusClasses = sessionData.planStatusClasses || getPlanStatusClasses(resolvedStatus);
 
   res.locals.caseRef = resolvedCaseRef;
