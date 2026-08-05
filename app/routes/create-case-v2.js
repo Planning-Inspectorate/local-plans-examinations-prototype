@@ -16,13 +16,13 @@ const REGION_OPTIONS = [
 ];
 
 // Edit LPA region page
-router.get('/projects/back-office/create-case-v2/LPA-region', (req, res) => {
+router.get('/projects/back-office/create-case/v2/LPA-region', (req, res) => {
   const isEdit = req.query.edit === 'true';
   const index = req.query.index ? parseInt(req.query.index, 10) : 0;
   const lpas = req.session.lpas || [];
   const lpa = lpas[index];
   const lpaRegions = req.session.lpaRegions || {};
-  res.render('projects/back-office/create-case-v2/LPA-region', {
+  res.render('projects/back-office/create-case/v2/LPA-region', {
     region: lpaRegions[lpa] || '',
     regionOptions: REGION_OPTIONS,
     isEdit,
@@ -31,20 +31,20 @@ router.get('/projects/back-office/create-case-v2/LPA-region', (req, res) => {
   });
 });
 
-router.post('/projects/back-office/create-case-v2/LPA-region', (req, res) => {
+router.post('/projects/back-office/create-case/v2/LPA-region', (req, res) => {
   if (req.body.action === 'cancel') {
-    return res.redirect('/projects/back-office/create-case-v2/check-answers');
+    return res.redirect('/projects/back-office/create-case/v2/check-answers');
   }
   const index = req.body.index ? parseInt(req.body.index, 10) : 0;
   const lpas = req.session.lpas || [];
   const lpa = lpas[index];
   if (!req.session.lpaRegions) req.session.lpaRegions = {};
   req.session.lpaRegions[lpa] = req.body.region;
-  res.redirect('/projects/back-office/create-case-v2/check-answers');
+  res.redirect('/projects/back-office/create-case/v2/check-answers');
 });
 
 // Start page
-router.get('/projects/back-office/create-case-v2/index', (req, res) => {
+router.get('/projects/back-office/create-case/v2/index', (req, res) => {
   // Reinitialize if cases don't exist or are in old format (missing lpas field)
   const needsReinit = !req.session.cases || req.session.cases.length === 0 || (req.session.cases.length > 0 && !req.session.cases[0].lpas);
   if (needsReinit) {
@@ -221,24 +221,24 @@ router.get('/projects/back-office/create-case-v2/index', (req, res) => {
       }
     ];
   }
-  res.render('projects/back-office/create-case-v2/index', {
+  res.render('projects/back-office/create-case/v2/index', {
     cases: req.session.cases.slice().reverse()
   });
 });
 
 // Load case - populates session with case data and redirects to manage
-router.get('/projects/back-office/create-case-v2/load-case', (req, res) => {
+router.get('/projects/back-office/create-case/v2/load-case', (req, res) => {
   const { caseRef } = req.query;
   
   // Find the case in the cases array
   if (!req.session.cases) {
-    return res.redirect('/projects/back-office/create-case-v2/index');
+    return res.redirect('/projects/back-office/create-case/v2/index');
   }
   
   const caseToLoad = req.session.cases.find(c => c.caseRef === caseRef);
   
   if (!caseToLoad) {
-    return res.redirect('/projects/back-office/create-case-v2/index');
+    return res.redirect('/projects/back-office/create-case/v2/index');
   }
   
   // Clear all manage-specific fields first
@@ -315,18 +315,18 @@ router.get('/projects/back-office/create-case-v2/load-case', (req, res) => {
 });
 
 // Case officer
-router.get('/projects/back-office/create-case-v2/0-case-officer-name', (req, res) => {
+router.get('/projects/back-office/create-case/v2/0-case-officer-name', (req, res) => {
   const isEdit = req.query.edit === 'true';
-  res.render('projects/back-office/create-case-v2/0-case-officer-name', {
+  res.render('projects/back-office/create-case/v2/0-case-officer-name', {
     caseOfficer: req.session.caseOfficer,
     lpa: req.session.lpa,
     isEdit: isEdit
   });
 });
 
-router.post('/projects/back-office/create-case-v2/0-case-officer-name', (req, res) => {
+router.post('/projects/back-office/create-case/v2/0-case-officer-name', (req, res) => {
   if (!req.body.caseOfficer) {
-    return res.render('projects/back-office/create-case-v2/0-case-officer-name', {
+    return res.render('projects/back-office/create-case/v2/0-case-officer-name', {
       error: 'Please select a case officer',
       caseOfficer: req.session.caseOfficer,
       lpa: req.session.lpa
@@ -337,24 +337,24 @@ router.post('/projects/back-office/create-case-v2/0-case-officer-name', (req, re
   req.session.lpa = req.body.lpa;
   
   if (isEdit) {
-    res.redirect('/projects/back-office/create-case-v2/check-answers');
+    res.redirect('/projects/back-office/create-case/v2/check-answers');
   } else {
-    res.redirect('/projects/back-office/create-case-v2/1-plan-title');
+    res.redirect('/projects/back-office/create-case/v2/1-plan-title');
   }
 });
 
 // Plan title page
-router.get('/projects/back-office/create-case-v2/1-plan-title', (req, res) => {
+router.get('/projects/back-office/create-case/v2/1-plan-title', (req, res) => {
   const isEdit = req.query.edit === 'true';
-  res.render('projects/back-office/create-case-v2/1-plan-title', {
+  res.render('projects/back-office/create-case/v2/1-plan-title', {
     planTitle: req.session.planTitle,
     isEdit: isEdit
   });
 });
 
-router.post('/projects/back-office/create-case-v2/1-plan-title', (req, res) => {
+router.post('/projects/back-office/create-case/v2/1-plan-title', (req, res) => {
   if (!req.body['plan-title']) {
-    return res.render('projects/back-office/create-case-v2/1-plan-title', {
+    return res.render('projects/back-office/create-case/v2/1-plan-title', {
       error: 'Please enter a plan title',
       planTitle: req.session.planTitle
     });
@@ -363,24 +363,24 @@ router.post('/projects/back-office/create-case-v2/1-plan-title', (req, res) => {
   req.session.planTitle = req.body['plan-title'];
   
   if (isEdit) {
-    res.redirect('/projects/back-office/create-case-v2/check-answers');
+    res.redirect('/projects/back-office/create-case/v2/check-answers');
   } else {
-    res.redirect('/projects/back-office/create-case-v2/2-plan-type');
+    res.redirect('/projects/back-office/create-case/v2/2-plan-type');
   }
 });
 
 // Plan type page
-router.get('/projects/back-office/create-case-v2/2-plan-type', (req, res) => {
+router.get('/projects/back-office/create-case/v2/2-plan-type', (req, res) => {
   const isEdit = req.query.edit === 'true';
-  res.render('projects/back-office/create-case-v2/2-plan-type', {
+  res.render('projects/back-office/create-case/v2/2-plan-type', {
     planType: req.session.planType,
     isEdit: isEdit
   });
 });
 
-router.post('/projects/back-office/create-case-v2/2-plan-type', (req, res) => {
+router.post('/projects/back-office/create-case/v2/2-plan-type', (req, res) => {
   if (!req.body['plan-type']) {
-    return res.render('projects/back-office/create-case-v2/2-plan-type', {
+    return res.render('projects/back-office/create-case/v2/2-plan-type', {
       error: 'Please select a plan type',
       planType: req.session.planType
     });
@@ -389,14 +389,14 @@ router.post('/projects/back-office/create-case-v2/2-plan-type', (req, res) => {
   req.session.planType = req.body['plan-type'];
   
   if (isEdit) {
-    res.redirect('/projects/back-office/create-case-v2/check-answers');
+    res.redirect('/projects/back-office/create-case/v2/check-answers');
   } else {
-    res.redirect('/projects/back-office/create-case-v2/3-select-LPA');
+    res.redirect('/projects/back-office/create-case/v2/3-select-LPA');
   }
 });
 
 // Select LPA page
-router.get('/projects/back-office/create-case-v2/3-select-LPA', (req, res) => {
+router.get('/projects/back-office/create-case/v2/3-select-LPA', (req, res) => {
   const path = require('path');
   const fs = require('fs');
   const lpaListPath = path.join(__dirname, '../data/lpa-list.json');
@@ -412,7 +412,7 @@ router.get('/projects/back-office/create-case-v2/3-select-LPA', (req, res) => {
   if (req.session.lpas && req.session.lpas.length > index) {
     selectedLPA = req.session.lpas[index];
   }
-  res.render('projects/back-office/create-case-v2/3-select-LPA', {
+  res.render('projects/back-office/create-case/v2/3-select-LPA', {
     lpaList,
     selectedLPA,
     isEdit,
@@ -420,7 +420,7 @@ router.get('/projects/back-office/create-case-v2/3-select-LPA', (req, res) => {
   });
 });
 
-router.post('/projects/back-office/create-case-v2/3-select-LPA', (req, res) => {
+router.post('/projects/back-office/create-case/v2/3-select-LPA', (req, res) => {
   const index = req.body.index ? parseInt(req.body.index, 10) : 0;
   if (!req.session.lpas) req.session.lpas = [];
   req.session.lpas[index] = req.body.lpa;
@@ -440,29 +440,29 @@ router.post('/projects/back-office/create-case-v2/3-select-LPA', (req, res) => {
 
   // If editing, return to check-answers, else continue as normal
   if (req.body.isEdit === 'true') {
-    return res.redirect('/projects/back-office/create-case-v2/check-answers');
+    return res.redirect('/projects/back-office/create-case/v2/check-answers');
   }
-  res.redirect('/projects/back-office/create-case-v2/add-additional-lpa');
+  res.redirect('/projects/back-office/create-case/v2/add-additional-lpa');
 });
 
 // Add additional LPA page
-router.get('/projects/back-office/create-case-v2/add-additional-lpa', (req, res) => {
-  res.render('projects/back-office/create-case-v2/add-additional-lpa', {
+router.get('/projects/back-office/create-case/v2/add-additional-lpa', (req, res) => {
+  res.render('projects/back-office/create-case/v2/add-additional-lpa', {
     hasAdditionalLPA: req.session.hasAdditionalLPA
   });
 });
 
-router.post('/projects/back-office/create-case-v2/add-additional-lpa', (req, res) => {
+router.post('/projects/back-office/create-case/v2/add-additional-lpa', (req, res) => {
   req.session.hasAdditionalLPA = req.body.hasAdditionalLPA;
   if (req.body.hasAdditionalLPA === 'yes') {
-    res.redirect('/projects/back-office/create-case-v2/additional-LPA');
+    res.redirect('/projects/back-office/create-case/v2/additional-LPA');
   } else {
-    res.redirect('/projects/back-office/create-case-v2/main-contact');
+    res.redirect('/projects/back-office/create-case/v2/main-contact');
   }
 });
 
 // Additional LPA page
-router.get('/projects/back-office/create-case-v2/additional-LPA', (req, res) => {
+router.get('/projects/back-office/create-case/v2/additional-LPA', (req, res) => {
   const path = require('path');
   const fs = require('fs');
   const lpaListPath = path.join(__dirname, '../data/lpa-list.json');
@@ -472,26 +472,26 @@ router.get('/projects/back-office/create-case-v2/additional-LPA', (req, res) => 
   } catch (e) {
     lpaList = [];
   }
-  res.render('projects/back-office/create-case-v2/additional-LPA', { lpaList });
+  res.render('projects/back-office/create-case/v2/additional-LPA', { lpaList });
 });
 
-router.post('/projects/back-office/create-case-v2/additional-LPA', (req, res) => {
+router.post('/projects/back-office/create-case/v2/additional-LPA', (req, res) => {
   if (!req.session.lpas) req.session.lpas = [];
   req.session.lpas.push(req.body.lpa); // Add new LPA to array
-  res.redirect('/projects/back-office/create-case-v2/add-additional-lpa');
+  res.redirect('/projects/back-office/create-case/v2/add-additional-lpa');
 });
 
 // Main contact page (single GET route, uses mainContact)
-router.get('/projects/back-office/create-case-v2/main-contact', (req, res) => {
+router.get('/projects/back-office/create-case/v2/main-contact', (req, res) => {
   const isEdit = req.query.edit === 'true';
-  res.render('projects/back-office/create-case-v2/main-contact', {
+  res.render('projects/back-office/create-case/v2/main-contact', {
     lpas: req.session.lpas || [],
     mainContact: req.session.mainContact,
     isEdit: isEdit
   });
 });
 
-router.post('/projects/back-office/create-case-v2/main-contact', (req, res) => {
+router.post('/projects/back-office/create-case/v2/main-contact', (req, res) => {
   const isEdit = req.body.isEdit === 'true';
   
   req.session.mainContact = {
@@ -505,56 +505,56 @@ router.post('/projects/back-office/create-case-v2/main-contact', (req, res) => {
   if (isEdit) {
     const fromPage = req.query.from || 'check-answers';
     if (fromPage === 'check-contact-details') {
-      res.redirect('/projects/back-office/create-case-v2/check-contact-details');
+      res.redirect('/projects/back-office/create-case/v2/check-contact-details');
     } else {
-      res.redirect('/projects/back-office/create-case-v2/check-answers');
+      res.redirect('/projects/back-office/create-case/v2/check-answers');
     }
   } else {
-    res.redirect('/projects/back-office/create-case-v2/add-another-contact');
+    res.redirect('/projects/back-office/create-case/v2/add-another-contact');
   }
 });
 
 // Remove main contact
-router.post('/projects/back-office/create-case-v2/remove-main-contact', (req, res) => {
+router.post('/projects/back-office/create-case/v2/remove-main-contact', (req, res) => {
   req.session.mainContact = null;
-  res.redirect('/projects/back-office/create-case-v2/main-contact');
+  res.redirect('/projects/back-office/create-case/v2/main-contact');
 });
 
 // Remove additional contact
-router.post('/projects/back-office/create-case-v2/remove-contact', (req, res) => {
+router.post('/projects/back-office/create-case/v2/remove-contact', (req, res) => {
   const idx = parseInt(req.body.index, 10);
   if (Array.isArray(req.session.contacts)) {
     req.session.contacts.splice(idx, 1);
   }
-  res.redirect('/projects/back-office/create-case-v2/check-contact-details');
+  res.redirect('/projects/back-office/create-case/v2/check-contact-details');
 });
 // Check contact details page
-router.get('/projects/back-office/create-case-v2/check-contact-details', (req, res) => {
-  res.render('projects/back-office/create-case-v2/check-contact-details', {
+router.get('/projects/back-office/create-case/v2/check-contact-details', (req, res) => {
+  res.render('projects/back-office/create-case/v2/check-contact-details', {
     mainContact: req.session.mainContact,
     contacts: req.session.contacts || []
   });
 });
 
 // Add another contact page
-router.get('/projects/back-office/create-case-v2/add-another-contact', (req, res) => {
-  res.render('projects/back-office/create-case-v2/add-another-contact', {
+router.get('/projects/back-office/create-case/v2/add-another-contact', (req, res) => {
+  res.render('projects/back-office/create-case/v2/add-another-contact', {
     addAnotherContact: req.session.addAnotherContact,
     contacts: req.session.contacts || []
   });
 });
 
-router.post('/projects/back-office/create-case-v2/add-another-contact', (req, res) => {
+router.post('/projects/back-office/create-case/v2/add-another-contact', (req, res) => {
   req.session.addAnotherContact = req.body.addAnotherContact;
   if (req.body.addAnotherContact === 'yes') {
-    res.redirect('/projects/back-office/create-case-v2/additional-contact');
+    res.redirect('/projects/back-office/create-case/v2/additional-contact');
   } else {
-    res.redirect('/projects/back-office/create-case-v2/check-contact-details');
+    res.redirect('/projects/back-office/create-case/v2/check-contact-details');
   }
 });
 
 // Additional contact add/edit
-router.get('/projects/back-office/create-case-v2/additional-contact', (req, res) => {
+router.get('/projects/back-office/create-case/v2/additional-contact', (req, res) => {
   let contact = {};
   let editIndex = req.query.edit;
   let fromCheckAnswers = req.query.from === 'check-answers';
@@ -574,7 +574,7 @@ router.get('/projects/back-office/create-case-v2/additional-contact', (req, res)
     }
     editIndex = '';
   }
-  res.render('projects/back-office/create-case-v2/additional-contact', {
+  res.render('projects/back-office/create-case/v2/additional-contact', {
     lpas: req.session.lpas || [],
     contact,
     editIndex,
@@ -582,7 +582,7 @@ router.get('/projects/back-office/create-case-v2/additional-contact', (req, res)
   });
 });
 
-router.post('/projects/back-office/create-case-v2/additional-contact', (req, res) => {
+router.post('/projects/back-office/create-case/v2/additional-contact', (req, res) => {
   if (!req.session.contacts) req.session.contacts = [];
   const fromCheckAnswers = req.body.fromCheckAnswers === 'true';
   const fromCheckContactDetails = req.query.from === 'check-contact-details' || req.body.from === 'check-contact-details';
@@ -598,9 +598,9 @@ router.post('/projects/back-office/create-case-v2/additional-contact', (req, res
     };
     
     if (fromCheckContactDetails) {
-      return res.redirect('/projects/back-office/create-case-v2/check-contact-details');
+      return res.redirect('/projects/back-office/create-case/v2/check-contact-details');
     } else {
-      return res.redirect('/projects/back-office/create-case-v2/check-answers');
+      return res.redirect('/projects/back-office/create-case/v2/check-answers');
     }
   } else {
     // Adding a new contact
@@ -614,17 +614,17 @@ router.post('/projects/back-office/create-case-v2/additional-contact', (req, res
     
     if (fromCheckAnswers || fromCheckContactDetails) {
       if (fromCheckContactDetails) {
-        return res.redirect('/projects/back-office/create-case-v2/check-contact-details');
+        return res.redirect('/projects/back-office/create-case/v2/check-contact-details');
       } else {
-        return res.redirect('/projects/back-office/create-case-v2/check-answers');
+        return res.redirect('/projects/back-office/create-case/v2/check-answers');
       }
     } else {
-      return res.redirect('/projects/back-office/create-case-v2/add-another-contact');
+      return res.redirect('/projects/back-office/create-case/v2/add-another-contact');
     }
   }
 });
 
-router.get('/projects/back-office/create-case-v2/remove-contact-details-page', (req, res) => {
+router.get('/projects/back-office/create-case/v2/remove-contact-details-page', (req, res) => {
   const editIndex = req.query.edit;
   const type = req.query.type;
   let contact = null;
@@ -643,21 +643,21 @@ router.get('/projects/back-office/create-case-v2/remove-contact-details-page', (
     contact = req.session.contacts[Number(editIndex)];
   }
 
-  res.render('projects/back-office/create-case-v2/remove-contact-details', {
+  res.render('projects/back-office/create-case/v2/remove-contact-details', {
     contact,
     editIndex,
     isMain
   });
 });
 
-router.post('/projects/back-office/create-case-v2/remove-contact-details-page', (req, res) => {
+router.post('/projects/back-office/create-case/v2/remove-contact-details-page', (req, res) => {
   const editIndex = req.body.editIndex;
   const isMain = req.body.isMain === 'true';
 
   if (isMain) {
     req.session.mainContact = undefined;
     // Redirect to main contact page to force user to add a new one
-    return res.redirect('/projects/back-office/create-case-v2/main-contact');
+    return res.redirect('/projects/back-office/create-case/v2/main-contact');
   } else if (
     typeof editIndex !== 'undefined' &&
     req.session.contacts &&
@@ -667,13 +667,13 @@ router.post('/projects/back-office/create-case-v2/remove-contact-details-page', 
     req.session.contacts.splice(Number(editIndex), 1);
   }
 
-  res.redirect('/projects/back-office/create-case-v2/check-contact-details');
+  res.redirect('/projects/back-office/create-case/v2/check-contact-details');
 });
 
 // Enter key dates page
-router.get('/projects/back-office/create-case-v2/enter-key-dates', (req, res) => {
+router.get('/projects/back-office/create-case/v2/enter-key-dates', (req, res) => {
   const isEdit = req.query.edit === 'true';
-  res.render('projects/back-office/create-case-v2/enter-key-dates', {
+  res.render('projects/back-office/create-case/v2/enter-key-dates', {
     mainContact: req.session.mainContact,
     contacts: req.session.contacts || [],
     noticeOfIntentionDate: req.session.noticeOfIntentionDate,
@@ -685,7 +685,7 @@ router.get('/projects/back-office/create-case-v2/enter-key-dates', (req, res) =>
   });
 });
 
-router.post('/projects/back-office/create-case-v2/enter-key-dates', (req, res) => {
+router.post('/projects/back-office/create-case/v2/enter-key-dates', (req, res) => {
   const isEdit = req.body.isEdit === 'true';
   // Helper to format date as D MMMM YYYY (GOV.UK standard)
   const formatDate = (day, month, year) => {
@@ -702,17 +702,17 @@ router.post('/projects/back-office/create-case-v2/enter-key-dates', (req, res) =
   req.session.submissionDate = formatDate(req.body['submission-date-day'], req.body['submission-date-month'], req.body['submission-date-year']);
   
   if (isEdit) {
-    res.redirect('/projects/back-office/create-case-v2/check-answers');
+    res.redirect('/projects/back-office/create-case/v2/check-answers');
   } else {
-    res.redirect('/projects/back-office/create-case-v2/check-answers');
+    res.redirect('/projects/back-office/create-case/v2/check-answers');
   }
 });
 
 // Check answers page
-router.get('/projects/back-office/create-case-v2/check-answers', (req, res) => {
+router.get('/projects/back-office/create-case/v2/check-answers', (req, res) => {
   if (!req.session.contacts) req.session.contacts = [];
   if (!req.session.secondaryLPAContacts) req.session.secondaryLPAContacts = [];
-  res.render('/projects/back-office/create-case-v2/check-answers', {
+  res.render('/projects/back-office/create-case/v2/check-answers', {
     mainContact: req.session.mainContact,
     contacts: req.session.contacts,
     secondaryLPAContacts: req.session.secondaryLPAContacts,
@@ -729,7 +729,7 @@ router.get('/projects/back-office/create-case-v2/check-answers', (req, res) => {
   });
 });
 
-router.post('/projects/back-office/create-case-v2/check-answers', (req, res) => {
+router.post('/projects/back-office/create-case/v2/check-answers', (req, res) => {
   // Initialize cases array if it doesn't exist
   if (!req.session.cases) req.session.cases = [];
   
@@ -760,17 +760,17 @@ router.post('/projects/back-office/create-case-v2/check-answers', (req, res) => 
   // Store the latest case reference for the confirmation page
   req.session.latestCaseRef = caseRef;
   
-  res.redirect('/projects/back-office/create-case-v2/confirmation');
+  res.redirect('/projects/back-office/create-case/v2/confirmation');
 });
 
 // Confirmation page
-router.get('/projects/back-office/create-case-v2/confirmation', (req, res) => {
-  res.render('projects/back-office/create-case-v2/confirmation', {
+router.get('/projects/back-office/create-case/v2/confirmation', (req, res) => {
+  res.render('projects/back-office/create-case/v2/confirmation', {
     caseRef: req.session.latestCaseRef || 'PLAN/000001'
   });
 });
 
-router.get('/projects/back-office/create-case-v2/clear-data', (req, res) => {
+router.get('/projects/back-office/create-case/v2/clear-data', (req, res) => {
   req.session.contacts = [];
   req.session.mainContact = undefined;
   req.session.lpas = [];
@@ -787,7 +787,7 @@ router.get('/projects/back-office/create-case-v2/clear-data', (req, res) => {
   req.session.latestCaseRef = undefined;
   req.session.data = {}; // Also clear the default data object
   req.session.save(() => {
-    res.redirect('/projects/back-office/create-case-v2/index');
+    res.redirect('/projects/back-office/create-case/v2/index');
   });
 });
 
