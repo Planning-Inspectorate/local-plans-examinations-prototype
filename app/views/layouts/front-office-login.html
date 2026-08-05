@@ -1,15 +1,8 @@
-{% extends "layouts/main.html" %} 
-{% from "govuk/components/pagination/macro.njk" import govukPagination %} 
-{% from "govuk/components/radios/macro.njk" import govukRadios %} 
+{% extends "layouts/main.html" %}
+{% from "govuk/components/pagination/macro.njk" import govukPagination %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
 
-{% block header %} 
-  {#{% include "includes/PINS-header--internal.html" %}#}
-  {{ govukHeader({
-  homepageUrl: "/"
-}) }}
-{% endblock %} 
-
-{% block content %} 
+{% block content %}
   {{ super() }} 
 {% endblock %}
 

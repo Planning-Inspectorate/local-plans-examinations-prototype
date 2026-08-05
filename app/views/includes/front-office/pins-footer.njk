@@ -1,5 +1,4 @@
-
-<footer class="govuk-footer govuk-footer--back-office" role="contentinfo">
+<footer class="govuk-footer pins-footer" role="contentinfo">
   <div class="govuk-width-container">
     <div class="govuk-footer__meta" style="display: flex; justify-content: space-between; align-items: center;">
       <div style="text-align: left;">
@@ -7,16 +6,16 @@
           <li class="govuk-footer__inline-list-item">
             <a class="govuk-footer__link" href="/manage-prototype">Manage your prototype</a>
           </li>
-          {% if footerLinks and footerLinks.length > 0 %}
-            {% for link in footerLinks %}
+          <li class="govuk-footer__inline-list-item">
+            <a class="govuk-footer__link" href="/manage-prototype/clear-data">Clear data</a>
+          </li>
+          {% if prototypeLinks %}
+            {% for link in prototypeLinks %}
               <li class="govuk-footer__inline-list-item">
                 <a class="govuk-footer__link" href="{{ link.href }}">{{ link.text }}</a>
               </li>
             {% endfor %}
           {% endif %}
-          <li class="govuk-footer__inline-list-item">
-            <a class="govuk-footer__link" href="/manage-prototype/clear-data">Clear data</a>
-          </li> 
         </ul>
       </div>
       <div style="text-align: right;">

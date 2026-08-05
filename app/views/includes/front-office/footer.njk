@@ -1,26 +1,13 @@
-<footer class="govuk-footer" role="contentinfo">
-  <div class="govuk-width-container">
-    <div class="govuk-footer__meta" style="display: flex; justify-content: space-between; align-items: center;">
-      <div style="text-align: left;">
-        <ul class="govuk-footer__inline-list" style="margin-left: 0;">
-          <li class="govuk-footer__inline-list-item">
-            <a class="govuk-footer__link" href="/manage-prototype">Manage your prototype</a>
-          </li>
-          <li class="govuk-footer__inline-list-item">
-            <a class="govuk-footer__link" href="/manage-prototype/clear-data">Clear data</a>
-          </li>
-          {% if prototypeLinks %}
-            {% for link in prototypeLinks %}
-              <li class="govuk-footer__inline-list-item">
-                <a class="govuk-footer__link" href="{{ link.href }}">{{ link.text }}</a>
-              </li>
-            {% endfor %}
-          {% endif %}
-        </ul>
-      </div>
-      <div style="text-align: right;">
-        <span class="govuk-footer__copyright">© Planning Inspectorate</span>
-      </div>
-    </div>
-  </div>
-</footer>
+{% from "govuk/components/footer/macro.njk" import govukFooter %}
+
+{% set footerLinks = [
+  { href: "/manage-prototype", text: "Manage your prototype" },
+  { href: "/manage-prototype/clear-data", text: "Clear data" }
+] %}
+{% set footerLinks = footerLinks.concat(prototypeLinks if prototypeLinks else []) %}
+
+{{ govukFooter({
+  meta: {
+    items: footerLinks
+  }
+}) }}
