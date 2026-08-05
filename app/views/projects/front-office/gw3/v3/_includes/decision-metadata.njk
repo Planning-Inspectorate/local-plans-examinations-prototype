@@ -23,7 +23,7 @@
       rows: [
         {
           key: { text: "Decision", classes: "govuk-!-width-one-third" },
-          value: { html: govukTag({ text: "Stop", classes: "govuk-tag--red" }) if decision != 'go' else govukTag({ text: "Go", classes: "govuk-tag--green" }) }
+          value: { html: govukTag({ text: "Resubmission required", classes: "govuk-tag--red" }) if decision != 'go' else govukTag({ text: "Proceed to examination", classes: "govuk-tag--green" }) }
         },
         {
           key: { text: "Decision date", classes: "govuk-!-width-one-third" },
