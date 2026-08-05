@@ -60,7 +60,9 @@ Gateway 1 overview – {{ serviceName }}
           <dt class="govuk-summary-list__key">SLA received date</dt>
           <dd class="govuk-summary-list__value">{{ gateway1SlaReceivedDate if gateway1SlaReceivedDate and gateway1SlaReceivedDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/GW1/v1/gateway-1-sla-received.html?returnUrl=/projects/back-office/manage/GW1/v1/gateway-1.html">Change<span class="govuk-visually-hidden"> SLA Received Date</span></a>
+            {% if signedSlaFilename and signedSlaFilename != '-' %}
+              <a class="govuk-link" href="/projects/back-office/manage/GW1/v1/gateway-1-sla-received.html?returnUrl=/projects/back-office/manage/GW1/v1/gateway-1.html">Change<span class="govuk-visually-hidden"> SLA Received Date</span></a>
+            {% endif %}
           </dd>
         </div>
         <div class="govuk-summary-list__row">

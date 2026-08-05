@@ -55,7 +55,9 @@
           <h2 class="govuk-heading-s">Previously uploaded files</h2>
           <div class="govuk-body">
             {%- for doc in signedSlaDocuments -%}
-              <div>{{ doc.originalname }}{% if doc.size %} ({{ doc.size }} bytes){% endif %}</div>
+              <div>
+                <a class="govuk-link" href="/projects/back-office/manage/documents/download/{{ doc.filename }}">{{ doc.originalname }}</a>{% if doc.size %} ({{ doc.size }} bytes){% endif %}
+              </div>
             {%- endfor -%}
           </div>
         {% endif %}
