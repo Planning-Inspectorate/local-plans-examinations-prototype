@@ -67,8 +67,16 @@ function getSignedSlaDocumentsFromFileData(req) {
 function buildFooterLinks() {
 	return [
 		{
-			text: 'Reset status flow',
+			text: 'Initial',
+			href: '/projects/back-office/manage/GW1/v2/set-state?state=initial&returnUrl=/projects/back-office/manage/GW1/v2/gateway-1'
+		},
+				{
+			text: 'Pre upload',
 			href: '/projects/back-office/manage/GW1/v2/reset-status-flow?returnUrl=/projects/back-office/manage/GW1/v2/gateway-1'
+		},
+		{
+			text: 'SLA uploaded',
+			href: '/projects/back-office/manage/GW1/v2/set-state?state=confirmed&returnUrl=/projects/back-office/manage/GW1/v2/gateway-1'
 		},
 		{
 			text: 'View status debug',
@@ -114,6 +122,108 @@ function getDateFromValues(day, month, year) {
 	return `${String(parsedDay).padStart(2, '0')}/${String(parsedMonth).padStart(2, '0')}/${year}`;
 }
 
+function getInputDateFromStoredValue(storedValue) {
+	const value = String(storedValue || '').trim();
+	if (!value || value === '-') return '';
+
+	if (/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(value)) {
+		return value;
+	}
+
+	const parts = value.split(' ');
+	if (parts.length !== 3) return '';
+
+	const monthMap = {
+		January: '01',
+		February: '02',
+		March: '03',
+		April: '04',
+		May: '05',
+		June: '06',
+		July: '07',
+		August: '08',
+		September: '09',
+		October: '10',
+		November: '11',
+		December: '12'
+	};
+
+	const day = String(parseInt(parts[0], 10)).padStart(2, '0');
+	const month = monthMap[parts[1]] || '';
+	const year = parts[2];
+
+	if (!month || Number.isNaN(parseInt(day, 10)) || !/^\d{4}$/.test(year)) return '';
+
+	return `${day}/${month}/${year}`;
+}
+
+function setGw1V2ScenarioState(req, state) {
+	const noticeOfIntentionDate = '01/08/2026';
+	const expectedDate = '15/08/2026';
+	const slaSentDate = '16/08/2026';
+	const receivedDate = '18/08/2026';
+	const uploadedAt = '2026-08-18T10:30:00.000Z';
+	const demoDocument = {
+		originalname: 'signed-sla.pdf',
+		filename: 'signed-sla-demo',
+		size: 245760,
+		uploadedAt
+	};
+
+	delete req.session.gw1v2SignedSlaDocuments;
+	delete req.session.gw1v2PendingSignedSlaDocuments;
+	delete req.session.gw1v2SignedSlaUploadedAt;
+	delete req.session.gw1v2PendingSlaReceivedDate;
+	delete req.session.gateway1SignedSlaFilename;
+	delete req.session.noticeOfIntentionDate;
+	delete req.session.gateway1EstimatedDate;
+	delete req.session.gateway1ActualDate;
+	delete req.session.gateway1SlaSentDate;
+	delete req.session.gateway1SlaReceivedDate;
+	delete req.session.gateway1DsaCheck;
+	delete req.session.gateway1DsaCheck;
+
+	req.session.noticeOfIntentionDate = noticeOfIntentionDate;
+	req.session.gateway1EstimatedDate = expectedDate;
+
+	if (!req.session.data) {
+		req.session.data = {};
+	}
+
+	if (state === 'initial') {
+		applyStatusEvent(req, 'SLA_PENDING', { force: true, source: 'GW1 scenario initial' });
+		return;
+	}
+
+	if (state === 'uploaded-pending-confirm') {
+		req.session.gw1v2PendingSignedSlaDocuments = [demoDocument];
+		req.session.gw1v2SignedSlaUploadedAt = uploadedAt;
+		req.session.gateway1SignedSlaFilename = demoDocument.originalname;
+		applyStatusEvent(req, 'SLA_PENDING', { force: true, source: 'GW1 scenario uploaded pending confirm' });
+		return;
+	}
+
+	if (state === 'confirmed') {
+		req.session.gw1v2SignedSlaDocuments = [demoDocument];
+		req.session.gateway1SignedSlaFilename = demoDocument.originalname;
+		req.session.gateway1SlaSentDate = slaSentDate;
+		req.session.gateway1SlaReceivedDate = receivedDate;
+		req.session.gateway1DsaCheck = 'Yes';
+		applyStatusEvent(req, 'SLA_CONFIRMED', { force: true, source: 'GW1 scenario confirmed' });
+		return;
+	}
+
+	applyStatusEvent(req, 'SLA_PENDING', { force: true, source: 'GW1 scenario defaulted to initial' });
+}
+
+router.get('/set-state', (req, res) => {
+	const state = String(req.query.state || 'initial');
+	const returnUrl = req.query.returnUrl || '/projects/back-office/manage/GW1/v2/gateway-1';
+
+	setGw1V2ScenarioState(req, state);
+	res.redirect(returnUrl);
+});
+
 router.get('/gateway-1', (req, res) => {
 	const notificationMessage = req.session.notificationMessage || '';
 	delete req.session.notificationMessage;
@@ -144,6 +254,104 @@ router.get('/gateway-1', (req, res) => {
 
 router.get('/gateway-1.html', (req, res) => {
 	res.redirect('/projects/back-office/manage/GW1/v2/gateway-1');
+});
+
+router.get('/change-notice-date', (req, res) => {
+	res.render('projects/back-office/manage/GW1/v2/change-notice-date', {
+		caseRef: req.session.currentCaseRef || '',
+		footerLinks: buildFooterLinks(),
+		returnUrl: req.query.returnUrl || '/projects/back-office/manage/GW1/v2/gateway-1',
+		noticeOfIntentionDate: getInputDateFromStoredValue(req.session.noticeOfIntentionDate)
+	});
+});
+
+router.get('/change-notice-date.html', (req, res) => {
+	const returnUrl = encodeURIComponent(req.query.returnUrl || '/projects/back-office/manage/GW1/v2/gateway-1');
+	res.redirect(`/projects/back-office/manage/GW1/v2/change-notice-date?returnUrl=${returnUrl}`);
+});
+
+router.post('/change-notice-date', (req, res) => {
+	const returnUrl = req.body.returnUrl || '/projects/back-office/manage/GW1/v2/gateway-1';
+	const dateValue = getDateFromValues(
+		(req.body['notice-of-intention-date-day'] || '').trim(),
+		(req.body['notice-of-intention-date-month'] || '').trim(),
+		(req.body['notice-of-intention-date-year'] || '').trim()
+	);
+
+	req.session.noticeOfIntentionDate = dateValue || '-';
+	res.redirect(returnUrl);
+});
+
+router.get('/gateway-1-estimated', (req, res) => {
+	res.render('projects/back-office/manage/GW1/v2/gateway-1-estimated', {
+		caseRef: req.session.currentCaseRef || '',
+		footerLinks: buildFooterLinks(),
+		returnUrl: req.query.returnUrl || '/projects/back-office/manage/GW1/v2/gateway-1',
+		noticeOfIntentionDate: getInputDateFromStoredValue(req.session.gateway1EstimatedDate)
+	});
+});
+
+router.get('/gateway-1-estimated.html', (req, res) => {
+	const returnUrl = encodeURIComponent(req.query.returnUrl || '/projects/back-office/manage/GW1/v2/gateway-1');
+	res.redirect(`/projects/back-office/manage/GW1/v2/gateway-1-estimated?returnUrl=${returnUrl}`);
+});
+
+router.post('/gateway-1-estimated', (req, res) => {
+	const returnUrl = req.body.returnUrl || '/projects/back-office/manage/GW1/v2/gateway-1';
+	const dateValue = getDateFromValues(
+		(req.body['notice-of-intention-date-day'] || '').trim(),
+		(req.body['notice-of-intention-date-month'] || '').trim(),
+		(req.body['notice-of-intention-date-year'] || '').trim()
+	);
+
+	req.session.gateway1EstimatedDate = dateValue || '-';
+	res.redirect(returnUrl);
+});
+
+router.get('/gateway-1-sla-sent', (req, res) => {
+	res.render('projects/back-office/manage/GW1/v2/gateway-1-sla-sent', {
+		caseRef: req.session.currentCaseRef || '',
+		footerLinks: buildFooterLinks(),
+		returnUrl: req.query.returnUrl || '/projects/back-office/manage/GW1/v2/gateway-1',
+		noticeOfIntentionDate: getInputDateFromStoredValue(req.session.gateway1SlaSentDate)
+	});
+});
+
+router.get('/gateway-1-sla-sent.html', (req, res) => {
+	const returnUrl = encodeURIComponent(req.query.returnUrl || '/projects/back-office/manage/GW1/v2/gateway-1');
+	res.redirect(`/projects/back-office/manage/GW1/v2/gateway-1-sla-sent?returnUrl=${returnUrl}`);
+});
+
+router.post('/gateway-1-sla-sent', (req, res) => {
+	const returnUrl = req.body.returnUrl || '/projects/back-office/manage/GW1/v2/gateway-1';
+	const dateValue = getDateFromValues(
+		(req.body['notice-of-intention-date-day'] || '').trim(),
+		(req.body['notice-of-intention-date-month'] || '').trim(),
+		(req.body['notice-of-intention-date-year'] || '').trim()
+	);
+
+	req.session.gateway1SlaSentDate = dateValue || '-';
+	res.redirect(returnUrl);
+});
+
+router.get('/gateway-1-dsa-check', (req, res) => {
+	res.render('projects/back-office/manage/GW1/v2/gateway-1-dsa-check', {
+		caseRef: req.session.currentCaseRef || '',
+		footerLinks: buildFooterLinks(),
+		returnUrl: req.query.returnUrl || '/projects/back-office/manage/GW1/v2/gateway-1',
+		gateway1DsaCheck: req.session.gateway1DsaCheck || ''
+	});
+});
+
+router.get('/gateway-1-dsa-check.html', (req, res) => {
+	const returnUrl = encodeURIComponent(req.query.returnUrl || '/projects/back-office/manage/GW1/v2/gateway-1');
+	res.redirect(`/projects/back-office/manage/GW1/v2/gateway-1-dsa-check?returnUrl=${returnUrl}`);
+});
+
+router.post('/gateway-1-dsa-check', (req, res) => {
+	const returnUrl = req.body.returnUrl || '/projects/back-office/manage/GW1/v2/gateway-1';
+	req.session.gateway1DsaCheck = req.body['dsa-check'] || '-';
+	res.redirect(returnUrl);
 });
 
 router.get('/gateway-1-signed-sla-upload', (req, res) => {
@@ -367,7 +575,12 @@ router.get('/reset-status-flow', (req, res) => {
 		delete req.session.data.gw1v2SignedSlaUploadedAt;
 		delete req.session.data.gw1v2PendingSlaReceivedDate;
 		delete req.session.data.gateway1SignedSlaFilename;
+		delete req.session.data.noticeOfIntentionDate;
+		delete req.session.data.gateway1EstimatedDate;
+		delete req.session.data.gateway1ActualDate;
+		delete req.session.data.gateway1SlaSentDate;
 		delete req.session.data.gateway1SlaReceivedDate;
+		delete req.session.data.gateway1DsaCheck;
 
 		delete req.session.data.gw2v3WorkshopDocuments;
 		delete req.session.data.gw2v4IssueReportDocuments;
