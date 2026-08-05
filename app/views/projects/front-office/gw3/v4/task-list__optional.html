@@ -1,0 +1,14 @@
+<li>
+  <h2 class="app-task-list__section" id="optional-documents">
+    Optional documents
+    {% if optionalActionNeededCount > 0 %}
+      {{ govukTag({ text: 'Action needed', classes: 'govuk-tag--orange' }) }}
+    {% endif %}
+  </h2>
+  <p class="govuk-body">Add the documents that are relevant to your plan.</p>
+
+  {{ govukSummaryList({
+    classes: 'govuk-!-margin-bottom-9',
+    rows: optionalDocumentRows
+  }) }}
+</li>

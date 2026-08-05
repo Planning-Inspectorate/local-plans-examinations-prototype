@@ -1,4 +1,4 @@
-{% include "includes/PINS-header--internal.html" %}
+{#{% include "includes/PINS-header--internal.html" %}
 
 <section aria-label="Service information" class="govuk-service-navigation app-primary-service-nav" data-module="govuk-service-navigation">
   <div class="govuk-width-container">
@@ -45,4 +45,30 @@
       What do you think of this service? Help us improve it and <a class="govuk-link" href="#">give your feedback by email</a>.
     </span>
   </p>
-</div>
+</div>#}
+
+{{ govukHeader({
+  homepageUrl: "/"
+}) }}
+
+{{ govukServiceNavigation({
+  serviceName: serviceName,
+  serviceUrl: "/projects/front-office/home/v2/homepage",
+  navigation: [
+    {
+      href: "/projects/front-office/guidance/v1/guidance-page",
+      text: "Guidance",
+      current: activeNav == 'guidance'
+    },
+    {
+      href: "/projects/front-office/user-login/v2/start",
+      text: "Sign out"
+    }
+  ]
+}) }}
+{{ govukPhaseBanner({
+  tag: {
+    text: "Beta"
+  },
+  html: 'This is a new service. Help us improve it and <a class="govuk-link" href="#">give your feedback (opens in new tab)</a>.'
+}) }}

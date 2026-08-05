@@ -1,0 +1,62 @@
+{% extends "layouts/front-office-v2.html" %}
+
+{% block pageTitle %}
+  Your updated Gateway 3 submission – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/projects/front-office/plan-details/v3/plan-details?status=with-pins&stage=gateway-3"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters-from-desktop">
+
+    {{ govukNotificationBanner({
+      html: "
+        <h3 class='govuk-notification-banner__heading'>Your updated Gateway 3 submission is with the Planning Inspectorate</h3>
+        <p class='govuk-body'>They will check the documents you replaced against the feedback below before your plan can proceed to examination.</p>
+      "
+    }) }}
+
+    <div class="app-header">
+      <h1 class="govuk-heading-xl app-header__title">
+        <span class="govuk-caption-xl">East Borough Local Plan</span>
+        Gateway 3 resubmission
+      </h1>
+    </div>
+
+    {% include "./_includes/feedback-summary.njk" %}
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible" />
+
+    <p class="govuk-body">Your resubmission was sent by Laura Thornton.</p>
+
+    <h2 class="govuk-heading-m govuk-!-margin-top-6">Required documents</h2>
+
+    {{ govukTable({
+      head: documentTableHeadReadOnly,
+      rows: requiredDocumentRows
+    }) }}
+
+    <h2 class="govuk-heading-m govuk-!-margin-top-6">Optional documents</h2>
+
+    {{ govukTable({
+      head: documentTableHeadReadOnly,
+      rows: optionalDocumentRows
+    }) }}
+
+    <p class="govuk-body govuk-!-margin-top-6"><a class="govuk-link" href="version-history">View version history</a></p>
+
+  </div>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

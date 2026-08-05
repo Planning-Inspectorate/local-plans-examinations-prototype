@@ -1,0 +1,18 @@
+<li>
+
+  {% if resubmission == 'true' and actionNeededCount > 0 %}
+    {{ govukWarningText({
+      text: "You must update all documents marked 'Action needed' before you can resubmit.",
+      iconFallbackText: "Warning"
+    }) }}
+    {{ govukButton({
+      text: "Submit for Gateway 3 assessment",
+      disabled: true
+    }) }}
+  {% else %}
+    {{ govukButton({
+      text: "Submit for Gateway 3 assessment",
+      href: "application-declaration?resubmission=true" if resubmission == 'true' else "application-declaration"
+    }) }}
+  {% endif %}
+</li>

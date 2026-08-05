@@ -1,0 +1,105 @@
+{% extends "layouts/front-office-v2.html" %}
+{% set errorStatus = data['error'] %}
+{% set resubmission = data['resubmission'] %}
+
+{% block pageTitle %} Application details – {{ serviceName }}
+{% endblock %}
+
+{% set prototypeLinks =
+[
+{
+href: 'application-details?error=true',
+text: 'Error message'
+},
+{
+href: 'application-declaration',
+text: 'Skip to declaration'
+},
+{
+href: 'application-submission-success',
+text: 'Skip to confirmation'
+}
+]
+%}
+
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "/projects/front-office/plan-details/v3/plan-details?status=in-progress&stage=gateway-3&report="
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+        {% if errorStatus == 'true' %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: [
+            {
+              text: "Add all required documents before submitting",
+              href: "#required-documents"
+            }
+          ]
+        }) }}
+        {% endif %}
+
+        {% if resubmission == 'true' %}
+        {{ govukNotificationBanner({
+          type: "important",
+          html: "
+            <h3 class='govuk-notification-banner__heading'>You are resubmitting your Gateway 3 application</h3>
+            <p class='govuk-body'>The Planning Inspectorate made a 'stop' decision on your previous submission. The documents you added before have been kept below.</p>
+            " + ("<p class='govuk-body'>" + actionNeededCount + (" document needs" if actionNeededCount == 1 else " documents need") + " action, marked <strong class='govuk-tag govuk-tag--orange'>Action needed</strong> below. Check the Gateway 3 report to see what the inspector found, then upload a new version of each one.</p>" if actionNeededCount > 0 else "<p class='govuk-body'>No further action is needed on the documents below, but you can update any of them before you resubmit.</p>") + "
+            <p class='govuk-body govuk-!-margin-bottom-0'>
+              <a class='govuk-link' href='application-details-decision?decision=stop'>View the decision and Gateway 3 report</a><br>
+              <a class='govuk-link' href='version-history'>View version history</a>
+            </p>
+          "
+        }) }}
+        {% endif %}
+
+    {% include "./_includes/application-metadata.njk" %}
+
+    <p class="govuk-body"><a href="/projects/front-office/plan-details/v3/plan-details?status=in-progress&stage=gateway-3&report=">Save and come back later</a></p>
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible" />
+
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-2">
+      {% if requiredCompletedCount == requiredTotalCount %}Ready to submit{% else %}Submission incomplete{% endif %}
+    </h2>
+    <p class="govuk-!-margin-bottom-7">You have completed {{ requiredCompletedCount }} of {{ requiredTotalCount }} required documents.</p>
+
+    <style>
+      .app-task-list>li {
+        position: relative;
+      }
+
+      .app-task-list__section .govuk-tag {
+        position: absolute;
+        top: 3px;
+        right: 0;
+      }
+
+      .app-task-list .govuk-summary-list {
+        border-top: 1px solid #b1b4b6;
+      }
+
+      .app-task-list__section {
+        padding-right: 140px;
+      }
+    </style>
+
+    <ol class="app-task-list">
+      {% include "./task-list__required.html" %}
+      {% include "./task-list__optional.html" %}
+      {% include "./task-list__submit.html" %}
+    </ol>
+
+  </div>
+</div>
+
+{% endblock %}

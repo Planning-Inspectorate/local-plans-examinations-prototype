@@ -1,0 +1,15 @@
+<li>
+  <h2 class="app-task-list__section" id="optional-documents">
+    Optional documents
+    {% if optionalNeedsUpdatingCount > 0 %}
+      {{ govukTag({ text: 'Needs updating', classes: 'govuk-tag--orange' }) }}
+    {% endif %}
+  </h2>
+  <p class="govuk-body">Add the documents that are relevant to your plan.</p>
+
+  {{ govukTable({
+    classes: 'govuk-!-margin-bottom-9',
+    head: documentTableHead,
+    rows: optionalDocumentRows
+  }) }}
+</li>

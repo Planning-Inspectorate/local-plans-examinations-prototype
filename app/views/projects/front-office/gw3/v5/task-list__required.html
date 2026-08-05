@@ -1,0 +1,28 @@
+<li>
+<div class="govuk-form-group{% if errorStatus == 'true' %} govuk-form-group--error{% endif %}">
+  <h2 class="app-task-list__section" id="required-documents">
+    Required documents
+    {% if requiredNeedsUpdatingCount > 0 %}
+      {{ govukTag({ text: 'Needs updating', classes: 'govuk-tag--orange' }) }}
+    {% elif requiredCompletedCount == requiredTotalCount %}
+      {{ govukTag({ html: 'Completed', classes: 'govuk-tag--green' }) }}
+    {% elif requiredCompletedCount > 0 %}
+      {{ govukTag({ html: 'In progress', classes: 'govuk-tag--blue' }) }}
+    {% else %}
+      {{ govukTag({ html: 'Not started', classes: 'govuk-tag--grey' }) }}
+    {% endif %}
+  </h2>
+  {% if errorStatus == 'true' %}
+    <p class="govuk-error-message">
+      <span class="govuk-visually-hidden">Error:</span> Add all required documents before submitting
+    </p>
+  {% endif %}
+  <p class="govuk-body">You must add these documents before you can submit.</p>
+</div>
+
+  {{ govukTable({
+    classes: 'govuk-!-margin-bottom-9',
+    head: documentTableHead,
+    rows: requiredDocumentRows
+  }) }}
+</li>
