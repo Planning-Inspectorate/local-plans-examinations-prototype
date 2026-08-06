@@ -1,7 +1,15 @@
 {% extends "layouts/front-office-login.html" %}
 
 {% block header %}
-  {% include "includes/front-office/header-v2.njk" %}
+  {{ govukHeader({
+    homepageUrl: "/"
+  }) }}
+  {{ govukPhaseBanner({
+    tag: {
+      text: "Beta"
+    },
+    html: 'This is a new service. Help us improve it and <a class="govuk-link" href="#">give your feedback (opens in new tab)</a>.'
+  }) }}
 {% endblock %}
 
 {% block footer %}

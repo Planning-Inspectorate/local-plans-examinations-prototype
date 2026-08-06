@@ -1,7 +1,17 @@
 {% extends "layouts/front-office-login.html" %}
 
 {% block header %}
-  {% include "includes/front-office/header.njk" %}
+  {% include "includes/PINS-header--internal.html" %}
+  <div class="govuk-phase-banner govuk-width-container">
+    <p class="govuk-phase-banner__content">
+      <strong class="govuk-tag govuk-phase-banner__content__tag">
+        Alpha
+      </strong>
+      <span class="govuk-phase-banner__text">
+        What do you think of this service? Help us improve it and <a class="govuk-link" href="#">give your feedback by email</a>.
+      </span>
+    </p>
+  </div>
 {% endblock %}
 
 {% block footer %}
