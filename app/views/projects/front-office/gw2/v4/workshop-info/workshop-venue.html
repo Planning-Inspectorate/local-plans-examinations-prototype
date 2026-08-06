@@ -1,5 +1,5 @@
 {% extends "layouts/front-office-v3.html" %}
-{% set title = "How would you like to hold the Gateway 2 workshop?" %}
+{% set title = "Where would you like to hold the workshop?" %}
 
 {% block questions %}
 
@@ -27,14 +27,17 @@
       classes: "govuk-fieldset__legend--l"
     }
   },
+    hint: {
+    text: "We'll do our best to accommodate your suggestions"
+  },
   items: [
     {
       value: "Virtual",
-      text: "Virtual"
+      text: "Online (for example, Microsoft Teams)"
     },
     {
       value: "In-person",
-      text: "In-person",
+      text: "In person",
       conditional: {
         html: venueHtml
       }

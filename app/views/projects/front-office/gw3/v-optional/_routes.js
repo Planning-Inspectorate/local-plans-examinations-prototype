@@ -45,7 +45,7 @@ router.get('/application-details', function (req, res) {
   if (data['consultation-completed'] == 'true') completedCount++
   if (data['supplementary-completed'] == 'true') completedCount++
 
-  res.render('projects/front-office/gw3/v2/application-details', {
+  res.render('projects/front-office/gw3/v-optional/application-details', {
     completedCount: completedCount
   })
 })

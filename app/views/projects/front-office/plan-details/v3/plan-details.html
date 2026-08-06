@@ -11,24 +11,12 @@ href: 'plan-details?status=ready&stage=gateway-2&report=',
 text: 'GW2 ready to start (default)'
 },
 {
-href: 'plan-details?status=validated&stage=gateway-2&report=',
-text: 'Workshop scheduled'
-},
-{
-href: 'plan-details?status=workshop-docs-added&stage=gateway-2&report=',
-text: 'Workshop documents added'
-},
-{
-href: 'plan-details?report=shared&status=ready&stage=gateway-3',
-text: 'GW2 report shared'
-},
-{
 href: 'plan-details?status=ready&stage=gateway-3&report=',
 text: 'GW3 ready to start'
 },
 {
 href: 'plan-details?status=action-needed&stage=gateway-3&report=',
-text: 'GW3 action needed'
+text: 'GW3 resubmission required'
 },
 {
 href: 'plan-details?status=ready&stage=examination&report=',
@@ -51,7 +39,7 @@ href: "/projects/front-office/home/v2/homepage"
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    {% if planStatus == 'validated' %}
+    <!--{% if planStatus == 'validated' %}
         {{ govukNotificationBanner({
       html: "
         <h3 class='govuk-notification-banner__heading'>
@@ -78,7 +66,7 @@ href: "/projects/front-office/home/v2/homepage"
         </a>
         </p>
       "
-    }) }}
+      }) }}
 
     {% elif planStatus == 'action-needed' and currentStage == 'gateway-3' %}
 
@@ -102,7 +90,7 @@ href: "/projects/front-office/home/v2/homepage"
       "
     }) }}
 
-    {% endif %}
+    {% endif %}-->
 
     {% include "./_includes/plan-heading.njk" %}
     {% include "./_includes/plan-metadata.njk" %}

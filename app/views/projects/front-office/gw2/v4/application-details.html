@@ -46,19 +46,20 @@ href: "/projects/front-office/plan-details/v3/plan-details"
         }) }}
         {% endif %}
 
+       <!--{% call govukNotificationBanner({
+        }) %}
+          <h3 class="govuk-notification-banner__heading">
+            Virus scan in progress
+          </h3>
+          <p class="govuk-body"><a class="govuk-notification-banner__link" href="#">Refresh the page to see if scan has finished</a></p>
+        {% endcall %}-->
+
+
     {% include "./_includes/application-metadata.njk" %}
 
     <p class="govuk-body"><a href="/projects/front-office/plan-details/v3/plan-details?status=in-progress">Save and come back later</a></p>
 
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible" />
-
-
-    <!--<h2 class="govuk-heading-s govuk-!-margin-bottom-2">
-      {% if completedCount == 2 %}Application ready to submit{% else %}Application incomplete{% endif %}
-    </h2>
-    <p class="govuk-!-margin-bottom-7">You have completed {{ completedCount }} of 2 sections.</p>-->
-
-    <p class="govuk-body">Add the documents that are relevant to your plan.</p>
 
     <style>
       .app-task-list>li {

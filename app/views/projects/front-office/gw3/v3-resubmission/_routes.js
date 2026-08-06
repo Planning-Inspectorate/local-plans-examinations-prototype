@@ -146,7 +146,7 @@ router.get('/application-details', function (req, res) {
   const requiredNeedsUpdatingCount = requiredDocuments.filter(doc => data[`${doc.key}-status`] === 'needs-updating').length
   const optionalNeedsUpdatingCount = optionalDocuments.filter(doc => data[`${doc.key}-status`] === 'needs-updating').length
 
-  res.render('projects/front-office/gw3/v5/application-details', {
+  res.render('projects/front-office/gw3/v3-resubmission/application-details', {
     requiredCompletedCount: requiredCompletedCount,
     requiredTotalCount: requiredDocuments.length,
     requiredNeedsUpdatingCount: requiredNeedsUpdatingCount,

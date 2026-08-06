@@ -1,0 +1,63 @@
+{% extends "layouts/front-office-v2.html" %}
+{% set back = false %}
+
+{% block pageTitle %}
+Home – {{ serviceName }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+
+  <div class="govuk-grid-column-full">
+
+    <span class="govuk-caption-xl">
+      East Borough District Council
+    </span>
+
+{{ govukTable({
+  caption: "My plans",
+  captionClasses: "govuk-heading-xl",
+  firstCellIsHeader: true,
+  head: [
+    {
+      text: "Reference"
+    },
+    {
+    text: "Title"
+    },
+    {
+    text: "Type"
+    }
+  ],
+  rows: [
+    [
+      {
+ html: '<a href="/projects/front-office/plan-details/v3/plan-details?stage=gateway-2&status=ready&report=">PLAN/000006</a>'      },
+      {
+        text: "East Borough Local Plan"
+      },
+      {
+        text: "Local plan"
+      }
+    ],
+    [
+      {
+            html: '<a href="#">PLAN/000005</a>'
+      },
+      {
+        text: "Southampton Spatial Development Strategy"
+      },
+      {
+        text: "Spatial development strategy"
+      }
+    ]
+  ]
+}) }}           
+
+
+  </div>
+
+</div>
+
+{% endblock %}
