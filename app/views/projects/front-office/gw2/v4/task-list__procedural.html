@@ -1,17 +1,28 @@
 <li>
-<div class="govuk-form-group{% if errorStatus == 'true' %} govuk-form-group--error{% endif %}">
   <h2 class="app-task-list__section" id="procedural-documents">
     Procedural documents
   </h2>
-  {% if errorStatus == 'true' %}
-    <p class="govuk-error-message">
-      <span class="govuk-visually-hidden">Error:</span> Select a document to upload
-    </p>
-  {% endif %}
-</div>
+  <p class="govuk-body">We highly recommend including all these documents in your submission. Your assessor may request them if not submitted. They should be final versions except where drafts are specified.</p>
 
   {% set timetableValue = { html: "<a href='#'>timetable.pdf</a>" } if data['timetable-upload-complete'] else { html: '<span class="govuk-hint">Not added</span>' } %}
   {% set timetableAction = { href: 'procedural-documents/timetable-upload?cya=true', html: 'Change', visuallyHiddenText: 'local plan timetable' } if data['timetable-upload-complete'] else { href: 'procedural-documents/timetable-upload', html: 'Add', visuallyHiddenText: 'local plan timetable' } %}
+
+     <!--{
+        key: { text: 'Gateway 2 covering letter' },
+        value: { html: 'cover-letter.pdf  <strong class="govuk-tag govuk-tag--yellow">Virus scanning</strong>' },
+        actions: { items: [
+          { href: 'procedural-documents/cover-letter-upload?cya=true', html: 'Change' }
+        ]}
+      },
+
+      {
+        key: { text: 'Local plan timetable' },
+        value: { html: 'timetable.pdf  <strong class="govuk-tag govuk-tag--red">Virus detected</strong>' },
+        actions: { items: [
+          { href: 'procedural-documents/timetable-upload?cya=true', html: 'Change' }
+        ]}
+      },-->
+
 
   {{ govukSummaryList({
     classes: 'govuk-!-margin-bottom-9',

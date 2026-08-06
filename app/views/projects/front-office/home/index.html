@@ -26,9 +26,9 @@ href: '/front-office'
       {{ title }}
     </h1>
 
-    {% set version = "2" %}
+    {% set version = "3" %}
     <h2 class="govuk-heading-m">
-      Version {{ version }} - July 2026
+      Version {{ version }} - August 2026
       {{ govukTag({
       classes: 'govuk-tag--yellow govuk-!-margin-left-2',
       text: 'Ready for research'
@@ -41,9 +41,23 @@ href: '/front-office'
     html: '<a href="https://app.mural.co/t/allpins6990/m/allpins6990/1765884601123/237bc418b7dd56fd74fe7b0ce600936fbf9aba46" target="_blank" rel="noopener noreferrer">Design Mural board</a>'
     }) }}
 
+     <h3 class="govuk-heading-s">Changes</h3>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Removed "Plan" from column headings</li>
+      <li>Changed plan types to sentence case</li>
+    </ul>
+
     {{ govukButton({
     html: 'View prototype',
     href: '/projects/front-office/home/v' ~ version ~ '/homepage',
+    isStartButton: true
+    }) }}
+
+    {% set v2HTML %}
+    {{ govukButton({
+    html: 'View prototype',
+    href: '/projects/front-office/home/v2/homepage',
     isStartButton: true
     }) }}
 
@@ -62,6 +76,7 @@ href: '/front-office'
     summaryText: "Version 2 notes",
     html: v2NotesHtml
     }) }}
+    {% endset %}
 
     {% set version = "1" %}
 
@@ -117,6 +132,14 @@ href: '/front-office'
     id: 'previous',
     classes: 'govuk-!-margin-top-9',
     items: [
+      {
+        heading: {
+          html: 'Version 2 - July 2026<strong class="govuk-tag govuk-tag--green govuk-!-margin-left-2">Research complete</strong>'
+        },
+        content: {
+          html: v2HTML
+        }
+      },
       {
         heading: {
           html: 'Version 1 - May 2026<strong class="govuk-tag govuk-tag--green govuk-!-margin-left-2">Research complete</strong>'

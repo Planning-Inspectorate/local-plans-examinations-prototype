@@ -1,36 +1,8 @@
-<!--<li>
-<h2 class="app-task-list__section">
-  Submit
-  {% if data['procedural-started'] == 'true' %}
-    {{ govukTag({ text: 'Submission available', classes: 'govuk-tag--blue' }) }}
-  {% else %}
-    {{ govukTag({ text: 'Cannot start yet', classes: 'govuk-tag--grey' }) }}
-  {% endif %}
-</h2>
-  <p class="govuk-body govuk-hint">You must upload at least one document before you can submit</p>
-
-
-  {{ govukSummaryList({
-    classes: 'govuk-!-margin-bottom-9',
-    rows: [
-      {
-        key: { html: 'Accept declaration and submit' },
-        actions: {
-          items: [
-            {
-              href: 'application-declaration',
-              html: 'Continue'
-            }
-          ]
-        } if data['procedural-started'] == 'true'
-      }
-    ]
-  }) }}
-</li>-->
-
 <li>
 
   <h2 class="govuk-heading-m">Workshop preferences</h2>
+  
+  <p class="govuk-body">We'll do our best to accommodate your suggestions.</p>
 
  {% set workshopInfo %}
 <p class="govuk-body">East Borough Civic Centre</p>
@@ -44,7 +16,7 @@
     classes: 'govuk-!-margin-bottom-9',
     rows: [
       {
-        key: { text: 'Suggested workshop venue' },
+        key: { text: 'Location' },
         value:
           { html: workshopInfo } if data['workshop-venue-complete']
           else { html: '<span class="govuk-hint">Not added</span>' },
@@ -54,7 +26,7 @@
         ]}
       },
       {
-        key: { text: 'Suggested workshop dates' },
+        key: { text: 'Dates' },
         value:
           { html: workshopDates } if data['workshop-dates-complete']
           else { html: '<span class="govuk-hint">Not added</span>' },
