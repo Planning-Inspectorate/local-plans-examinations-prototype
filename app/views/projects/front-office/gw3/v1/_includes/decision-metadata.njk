@@ -8,6 +8,7 @@
   }
 
   .app-header__tag {
+    margin-top: 15px;
     margin-bottom: 15px;
   }
 
@@ -22,11 +23,11 @@
       classes: "app-details govuk-summary-list--no-border",
       rows: [
         {
-          key: { text: "Decision", classes: "govuk-!-width-one-third" },
-          value: { html: govukTag({ text: "Resubmission required", classes: "govuk-tag--red" }) if decision != 'go' else govukTag({ text: "Proceed to examination", classes: "govuk-tag--green" }) }
+          key: { text: "Outcome", classes: "govuk-!-width-one-third" },
+          value: { text: "Proceed to examination" if decision == 'go' else "Resubmission required" }
         },
         {
-          key: { text: "Decision date", classes: "govuk-!-width-one-third" },
+          key: { text: "Outcome date", classes: "govuk-!-width-one-third" },
           value: { text: "3 July 2026" }
         },
         {

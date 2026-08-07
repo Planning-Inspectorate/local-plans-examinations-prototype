@@ -5,18 +5,22 @@
 {% set prototypeLinks =
 [
 {
+href: 'application-details-submitted',
+text: 'Awaiting outcome'
+},
+{
 href: 'application-details-decision?decision=stop',
-text: 'Stop decision'
+text: 'Resubmission required outcome'
 },
 {
 href: 'application-details-decision?decision=go',
-text: 'Go decision'
+text: 'Proceed to examination outcome'
 }
 ]
 %}
 
 {% block pageTitle %}
-  Gateway 3 decision – {{ serviceName }}
+  Gateway 3 submission – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -56,8 +60,13 @@ text: 'Go decision'
     <div class="app-header">
       <h1 class="govuk-heading-xl app-header__title">
         <span class="govuk-caption-xl">East Borough Local Plan</span>
-        Gateway 3 decision
+        Gateway 3 submission
       </h1>
+      {% if decision == 'go' %}
+        <strong class="govuk-tag app-header__tag">Completed</strong>
+      {% else %}
+        <strong class="govuk-tag govuk-tag--red app-header__tag">Resubmission required</strong>
+      {% endif %}
     </div>
 
       {% include "./_includes/decision-metadata.njk" %}
@@ -72,14 +81,14 @@ text: 'Go decision'
 
       <h2 class="govuk-heading-m govuk-!-margin-top-6">Version history</h2>
 
-      <p class="govuk-body">You can view your previous Gateway 3 submissions at any time.</p>
+      <!--<p class="govuk-body">You can view your previous Gateway 3 submissions at any time.</p>-->
 
       <p class="govuk-body"><a class="govuk-link" href="version-history">View version history</a></p>
 
       <div class="govuk-button-group govuk-!-margin-top-6">
         {{ govukButton({
           text: "Start your resubmission",
-          href: "application-details?resubmission=true"
+          href: "application-details?resubmission=true&error="
         }) }}
         <a class="govuk-link" href="/projects/front-office/plan-details/v3/plan-details?status=action-needed&stage=gateway-3&report=">Return to plan details</a>
       </div>
