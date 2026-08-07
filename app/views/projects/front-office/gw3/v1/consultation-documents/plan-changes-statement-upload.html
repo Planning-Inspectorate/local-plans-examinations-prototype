@@ -1,11 +1,11 @@
 {% extends "layouts/front-office-v3.html" %}
 {% from "macros/multi-file-upload.njk" import uploadArea %}
-{% set documentName = "Statement of Soundness" %}
-{% set title = "Upload your " + documentName %}
+{% set documentName = "statement explaining changes since the proposed local plan consultation, reasons for those changes, and any additional consultation" %}
+{% set title = "Upload " + documentName %}
 
 {% block questions %}
 
-<span class="govuk-caption-l">Procedural documents</span>
+<span class="govuk-caption-l">Optional documents</span>
 <h1 class="govuk-heading-l">{{ title }}</h1>
 
 {{ uploadArea({

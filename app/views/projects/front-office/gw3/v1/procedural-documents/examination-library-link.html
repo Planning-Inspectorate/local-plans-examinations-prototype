@@ -1,6 +1,6 @@
 {% extends "layouts/front-office-v3.html" %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
-{% set title = "Link to examination Library" %}
+{% set title = "Add a link to your examination website" %}
 
 {% block questions %}
 
@@ -13,7 +13,7 @@
     classes: "govuk-label--l"
   },
   hint: {
-    text: "Enter the web address (URL) where your examination library is published."
+    text: "Enter the web address (URL) where your examination library is published"
   },
   id: "examination-library-link",
   name: "examination-library-link",
@@ -22,10 +22,4 @@
   value: data['examination-library-link']
 }) }}
 
-{% endblock %}
-
-{% block buttons %}
-  {{ govukButton({
-    text: 'Continue'
-  }) }}
 {% endblock %}

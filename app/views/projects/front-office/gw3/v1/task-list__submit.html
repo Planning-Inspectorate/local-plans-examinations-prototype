@@ -1,7 +1,12 @@
 <li>
 
+  <h2 class="govuk-heading-m">Now submit for gateway 3 assessment</h2>
+
+  <p class="govuk-body">By submitting this application you are confirming that, to the best of your knowledge, the details you are providing are correct.</p>
+
   {{ govukButton({
-  text: "Submit for Gateway 3 assessment",
-  href: "application-declaration?resubmission=true" if resubmission == 'true' else "application-declaration"
-}) }}
+    text: "Submit",
+    href: "application-declaration?resubmission=true" if resubmission == 'true' else "application-declaration"
+  }) }}
+  
 </li>

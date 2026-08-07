@@ -1,0 +1,68 @@
+<li>
+<div class="govuk-form-group">
+  <h2 class="app-task-list__section" id="about-your-plan">
+    About your plan
+    {% if aboutYourPlanCompletedCount == aboutYourPlanTotalCount %}
+      {{ govukTag({ html: 'Completed', classes: 'govuk-tag--green' }) }}
+    {% elif aboutYourPlanCompletedCount > 0 %}
+      {{ govukTag({ html: 'In progress', classes: 'govuk-tag--blue' }) }}
+    {% else %}
+      {{ govukTag({ html: 'Not started', classes: 'govuk-tag--grey' }) }}
+    {% endif %}
+  </h2>
+  <p class="govuk-body">Your answers affect which documents you need to submit.</p>
+</div>
+
+  {% set notAnswered = '<span class="govuk-hint">Not answered</span>' %}
+  {% set reg28Value = notAnswered %}
+  {% if data['reg28-representations'] == 'yes' %}{% set reg28Value = 'Yes' %}{% elif data['reg28-representations'] == 'no' %}{% set reg28Value = 'No' %}{% endif %}
+  {% set reg29Value = notAnswered %}
+  {% if data['reg29-supplementary-plan'] == 'yes' %}{% set reg29Value = 'Yes' %}{% elif data['reg29-supplementary-plan'] == 'no' %}{% set reg29Value = 'No' %}{% endif %}
+  {% set reg12Value = notAnswered %}
+  {% if data['reg12-environmental-report'] == 'yes' %}{% set reg12Value = 'Yes' %}{% elif data['reg12-environmental-report'] == 'no' %}{% set reg12Value = 'No' %}{% endif %}
+  {% set reg9Value = notAnswered %}
+  {% if data['reg9-screening-determination'] == 'yes' %}{% set reg9Value = 'Yes' %}{% elif data['reg9-screening-determination'] == 'no' %}{% set reg9Value = 'No' %}{% endif %}
+
+  {{ govukSummaryList({
+    classes: 'govuk-!-margin-bottom-9',
+    rows: [
+
+      {
+        key: { text: 'Reg 28 — did representations get made?' },
+        value: { html: reg28Value },
+        actions: { items: [
+          { href: 'about-your-plan/reg28-representations?cya=true', html: 'Change', visuallyHiddenText: 'whether representations were made under Reg 28' } if data['reg28-representations']
+          else { href: 'about-your-plan/reg28-representations', html: 'Answer', visuallyHiddenText: 'whether representations were made under Reg 28' }
+        ]}
+      },
+
+      {
+        key: { text: 'Reg 29 — does the supplementary plan route apply?' },
+        value: { html: reg29Value },
+        actions: { items: [
+          { href: 'about-your-plan/reg29-supplementary-plan?cya=true', html: 'Change', visuallyHiddenText: 'whether the supplementary plan route applies under Reg 29' } if data['reg29-supplementary-plan']
+          else { href: 'about-your-plan/reg29-supplementary-plan', html: 'Answer', visuallyHiddenText: 'whether the supplementary plan route applies under Reg 29' }
+        ]}
+      },
+
+      {
+        key: { text: 'Reg 12 (Environmental Assessment of Plans and Programmes Regs 2004) — was an environmental report prepared?' },
+        value: { html: reg12Value },
+        actions: { items: [
+          { href: 'about-your-plan/reg12-environmental-report?cya=true', html: 'Change', visuallyHiddenText: 'whether an environmental report was prepared under Reg 12' } if data['reg12-environmental-report']
+          else { href: 'about-your-plan/reg12-environmental-report', html: 'Answer', visuallyHiddenText: 'whether an environmental report was prepared under Reg 12' }
+        ]}
+      },
+
+      {
+        key: { text: "Reg 9(1) — was a screening determination made that assessment isn't required?" },
+        value: { html: reg9Value },
+        actions: { items: [
+          { href: 'about-your-plan/reg9-screening-determination?cya=true', html: 'Change', visuallyHiddenText: "whether a screening determination was made under Reg 9(1)" } if data['reg9-screening-determination']
+          else { href: 'about-your-plan/reg9-screening-determination', html: 'Answer', visuallyHiddenText: "whether a screening determination was made under Reg 9(1)" }
+        ]}
+      }
+
+    ]
+  }) }}
+</li>
