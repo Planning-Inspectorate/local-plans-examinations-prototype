@@ -32,7 +32,7 @@ href: "/projects/front-office/plan-details/v3/plan-details?status=in-progress&st
 {% block content %}
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
+  <div class="govuk-grid-column-two-thirds">
 
         {% if errorStatus == 'true' %}
         {{ govukErrorSummary({
@@ -96,10 +96,20 @@ href: "/projects/front-office/plan-details/v3/plan-details?status=in-progress&st
 
       .app-document-list__value {
         margin: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        font-size: 19px;
+        line-height: 1.3157894737;
+      }
+
+      .app-document-list__value .govuk-hint {
+        margin: 0;
       }
 
       .app-document-list__action {
         margin-left: 15px;
+        flex-shrink: 0;
       }
     </style>
 

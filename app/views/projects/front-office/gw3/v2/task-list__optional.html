@@ -99,15 +99,23 @@
 
     <div class="app-document-list__row">
       <p class="app-document-list__label">Other documents</p>
-      <p class="app-document-list__value">
-        {% if data['other-documents-upload-complete'] %}
-          <a class="govuk-link" href="#">other-documents.pdf</a>
+      {% if data['other-documents-upload-complete'] %}
+        <div class="app-document-list__value">
+          <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-0">
+            <li><a class="govuk-link" href="#">other-document-1.pdf</a></li>
+            <li><a class="govuk-link" href="#">other-document-2.pdf</a></li>
+            <li><a class="govuk-link" href="#">other-document-3.pdf</a></li>
+            <li><a class="govuk-link" href="#">other-document-4.pdf</a></li>
+            <li><a class="govuk-link" href="#">other-document-5.pdf</a></li>
+          </ul>
           <a class="govuk-link app-document-list__action" href="consultation-documents/other-documents-upload?cya=true">Change<span class="govuk-visually-hidden"> other documents</span></a>
-        {% else %}
+        </div>
+      {% else %}
+        <p class="app-document-list__value">
           <span class="govuk-hint">Not added</span>
           <a class="govuk-link app-document-list__action" href="consultation-documents/other-documents-upload">Add<span class="govuk-visually-hidden"> other documents</span></a>
-        {% endif %}
-      </p>
+        </p>
+      {% endif %}
     </div>
 
   </div>
