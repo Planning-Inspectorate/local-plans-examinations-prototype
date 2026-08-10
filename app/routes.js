@@ -13,17 +13,16 @@ const {
 
 const defaultWorkflowNavVersions = {
   overview: 'v2',
-  timetable: 'v2',
-  gw1: 'v2',
+  timetable: 'v1',
+  gw1: 'v1',
   gw2: 'v4',
-  gw3: 'v3',
+  gw3: 'v2',
   examination: 'v3',
-  documents: 'v0',
+  documents: 'v1',
   updates: 'v2'
 };
 
 const workflowNavSections = Object.keys(defaultWorkflowNavVersions);
-const hideDocumentsNav = true;
 
 function getWorkflowNavQueryOverrides(query = {}) {
   return workflowNavSections.reduce((overrides, section) => {
@@ -60,7 +59,6 @@ router.use((req, res, next) => {
     ...defaultWorkflowNavVersions,
     ...sessionOverrides
   };
-  res.locals.hideDocumentsNav = hideDocumentsNav;
   next();
 });
 
@@ -69,7 +67,7 @@ router.use((req, res, next) => {
   const sessionData = req.session?.data || {};
   const resolvedCaseRef = req.session?.currentCaseRef || '';
   const resolvedPlanTitle = req.session?.planTitle || '';
-  const resolvedStatus = req.session?.planStatus || sessionData.planStatus || 'Awaiting Gateway 2';
+  const resolvedStatus = req.session?.planStatus || sessionData.planStatus || 'Submitted';
   const resolvedStatusClasses = sessionData.planStatusClasses || getPlanStatusClasses(resolvedStatus);
 
   res.locals.caseRef = resolvedCaseRef;
@@ -110,7 +108,6 @@ router.use('/', require('./routes/create-case'));
 router.use('/', require('./routes/create-case-v2'));
 router.use('/', require('./routes/create-case-v3'));
 router.use('/', require('./routes/create-case-v4'));
-router.use('/', require('./routes/create-case-v5'));
 router.use('/', require('./routes/projects/back-office/manage'));
 router.use('/', require('./routes/reps'));
 router.use('/', require('./views/projects/front-office/gw2/archive/test-1/_routes'));
