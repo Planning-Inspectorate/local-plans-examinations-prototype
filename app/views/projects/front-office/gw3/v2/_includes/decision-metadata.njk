@@ -1,0 +1,36 @@
+<style>
+  .app-header {
+    margin-bottom: 20px;
+  }
+
+  .app-header__title {
+    margin-bottom: 5px;
+  }
+
+  .app-header__tag {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+
+  .app-details .govuk-summary-list__key,
+  .app-details .govuk-summary-list__value {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+</style>
+
+    {{ govukSummaryList({
+      classes: "app-details govuk-summary-list--no-border",
+      rows: [
+        {
+          key: { text: "Gateway 3 report", classes: "govuk-!-width-one-third" },
+          value: { html: "<a class='govuk-link' href='#'>gateway-3-report.pdf</a> (shared on 3 July 2026)" }
+        }
+      ]
+    }) }}
+
+<p class="govuk-body">Review your Gateway 3 report to find out what changes are required for your resubmission.</p>
+
+
+
+

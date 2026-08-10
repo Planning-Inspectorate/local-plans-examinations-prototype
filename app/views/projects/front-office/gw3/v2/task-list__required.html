@@ -1,0 +1,142 @@
+<li>
+<div>
+  <h2 class="app-task-list__section" id="required-documents">
+    Required information
+  </h2>
+  <p class="govuk-body">You must add each of these documents as a link or an attachment before submitting.</p>
+</div>
+
+  <div class="app-document-list govuk-!-margin-bottom-9">
+
+    <div class="app-document-list__row">
+      <p class="app-document-list__label">Examination website</p>
+      <p class="app-document-list__value">
+        {% if data['examination-library-link-complete'] %}
+          <a class="govuk-link" href="#">{{ data['examination-library-link'] }}</a>
+          <a class="govuk-link app-document-list__action" href="procedural-documents/examination-library-link?cya=true">Change<span class="govuk-visually-hidden"> examination website</span></a>
+        {% else %}
+          <span class="govuk-hint">Not added</span>
+          <a class="govuk-link app-document-list__action" href="procedural-documents/examination-library-link">Add<span class="govuk-visually-hidden"> examination website</span></a>
+        {% endif %}
+      </p>
+    </div>
+
+    <div class="app-document-list__row">
+      <p class="app-document-list__label">Proposed local plan intended for submission for examination</p>
+      <p class="app-document-list__value">
+        {% if data['proposed-local-plan-upload-complete'] %}
+          <a class="govuk-link" href="#">proposed-local-plan.pdf</a>
+          <a class="govuk-link app-document-list__action" href="procedural-documents/proposed-local-plan-upload?cya=true">Change<span class="govuk-visually-hidden"> proposed local plan intended for submission for examination</span></a>
+        {% else %}
+          <span class="govuk-hint">Not added</span>
+          <a class="govuk-link app-document-list__action" href="procedural-documents/proposed-local-plan-upload">Add<span class="govuk-visually-hidden"> proposed local plan intended for submission for examination</span></a>
+        {% endif %}
+      </p>
+    </div>
+
+    <div class="app-document-list__row">
+      <p class="app-document-list__label">Map of proposed local plan policies</p>
+      <p class="app-document-list__value">
+        {% if data['policies-map-upload-complete'] %}
+          <a class="govuk-link" href="#">policies-map.pdf</a>
+          <a class="govuk-link app-document-list__action" href="procedural-documents/policies-map-upload?cya=true">Change<span class="govuk-visually-hidden"> map of proposed local plan policies</span></a>
+        {% else %}
+          <span class="govuk-hint">Not added</span>
+          <a class="govuk-link app-document-list__action" href="procedural-documents/policies-map-upload">Add<span class="govuk-visually-hidden"> map of proposed local plan policies</span></a>
+        {% endif %}
+      </p>
+    </div>
+
+    <div class="app-document-list__row">
+      <p class="app-document-list__label">Statement of Compliance</p>
+      <p class="app-document-list__value">
+        {% if data['compliance-statement-upload-complete'] %}
+          <a class="govuk-link" href="#">compliance-statement.pdf</a>
+          <a class="govuk-link app-document-list__action" href="procedural-documents/compliance-statement-upload?cya=true">Change<span class="govuk-visually-hidden"> statement of compliance</span></a>
+        {% else %}
+          <span class="govuk-hint">Not added</span>
+          <a class="govuk-link app-document-list__action" href="procedural-documents/compliance-statement-upload">Add<span class="govuk-visually-hidden"> statement of compliance</span></a>
+        {% endif %}
+      </p>
+    </div>
+
+    <div class="app-document-list__row">
+      <p class="app-document-list__label">Statement of Soundness</p>
+      <p class="app-document-list__value">
+        {% if data['soundness-statement-upload-complete'] %}
+          <a class="govuk-link" href="#">soundness-statement.pdf</a>
+          <a class="govuk-link app-document-list__action" href="procedural-documents/soundness-statement-upload?cya=true">Change<span class="govuk-visually-hidden"> statement of soundness</span></a>
+        {% else %}
+          <span class="govuk-hint">Not added</span>
+          <a class="govuk-link app-document-list__action" href="procedural-documents/soundness-statement-upload">Add<span class="govuk-visually-hidden"> statement of soundness</span></a>
+        {% endif %}
+      </p>
+    </div>
+
+    <div class="app-document-list__row">
+      <p class="app-document-list__label">Summary of consultation and engagement activities undertaken in preparing the proposed local plan</p>
+      <p class="app-document-list__value">
+        {% if data['consultation-engagement-summary-upload-complete'] %}
+          <a class="govuk-link" href="#">consultation-engagement-summary.pdf</a>
+          <a class="govuk-link app-document-list__action" href="consultation-documents/consultation-engagement-summary-upload?cya=true">Change<span class="govuk-visually-hidden"> summary of consultation and engagement activities undertaken in preparing the proposed local plan</span></a>
+        {% else %}
+          <span class="govuk-hint">Not added</span>
+          <a class="govuk-link app-document-list__action" href="consultation-documents/consultation-engagement-summary-upload">Add<span class="govuk-visually-hidden"> summary of consultation and engagement activities undertaken in preparing the proposed local plan</span></a>
+        {% endif %}
+      </p>
+    </div>
+
+    <div class="app-document-list__row">
+      <p class="app-document-list__label">Summary of scoping consultation</p>
+      <p class="app-document-list__value">
+        {% if data['scoping-consultation-summary-upload-complete'] %}
+          <a class="govuk-link" href="#">scoping-consultation-summary.pdf</a>
+          <a class="govuk-link app-document-list__action" href="consultation-documents/scoping-consultation-summary-upload?cya=true">Change<span class="govuk-visually-hidden"> summary of scoping consultation</span></a>
+        {% else %}
+          <span class="govuk-hint">Not added</span>
+          <a class="govuk-link app-document-list__action" href="consultation-documents/scoping-consultation-summary-upload">Add<span class="govuk-visually-hidden"> summary of scoping consultation</span></a>
+        {% endif %}
+      </p>
+    </div>
+
+    <div class="app-document-list__row">
+      <p class="app-document-list__label">Summary of consultation on proposed local plan content and evidence</p>
+      <p class="app-document-list__value">
+        {% if data['plan-content-evidence-consultation-summary-upload-complete'] %}
+          <a class="govuk-link" href="#">plan-content-evidence-consultation-summary.pdf</a>
+          <a class="govuk-link app-document-list__action" href="consultation-documents/plan-content-evidence-consultation-summary-upload?cya=true">Change<span class="govuk-visually-hidden"> summary of consultation on proposed local plan content and evidence</span></a>
+        {% else %}
+          <span class="govuk-hint">Not added</span>
+          <a class="govuk-link app-document-list__action" href="consultation-documents/plan-content-evidence-consultation-summary-upload">Add<span class="govuk-visually-hidden"> summary of consultation on proposed local plan content and evidence</span></a>
+        {% endif %}
+      </p>
+    </div>
+
+    <div class="app-document-list__row">
+      <p class="app-document-list__label">Summary of consultation on proposed local plan</p>
+      <p class="app-document-list__value">
+        {% if data['proposed-plan-consultation-summary-upload-complete'] %}
+          <a class="govuk-link" href="#">proposed-plan-consultation-summary.pdf</a>
+          <a class="govuk-link app-document-list__action" href="consultation-documents/proposed-plan-consultation-summary-upload?cya=true">Change<span class="govuk-visually-hidden"> summary of consultation on proposed local plan</span></a>
+        {% else %}
+          <span class="govuk-hint">Not added</span>
+          <a class="govuk-link app-document-list__action" href="consultation-documents/proposed-plan-consultation-summary-upload">Add<span class="govuk-visually-hidden"> summary of consultation on proposed local plan</span></a>
+        {% endif %}
+      </p>
+    </div>
+
+    <div class="app-document-list__row">
+      <p class="app-document-list__label">Statement setting out practical arrangements demonstrating readiness for examination</p>
+      <p class="app-document-list__value">
+        {% if data['practical-arrangements-statement-upload-complete'] %}
+          <a class="govuk-link" href="#">practical-arrangements-statement.pdf</a>
+          <a class="govuk-link app-document-list__action" href="consultation-documents/practical-arrangements-statement-upload?cya=true">Change<span class="govuk-visually-hidden"> statement setting out practical arrangements demonstrating readiness for examination</span></a>
+        {% else %}
+          <span class="govuk-hint">Not added</span>
+          <a class="govuk-link app-document-list__action" href="consultation-documents/practical-arrangements-statement-upload">Add<span class="govuk-visually-hidden"> statement setting out practical arrangements demonstrating readiness for examination</span></a>
+        {% endif %}
+      </p>
+    </div>
+
+  </div>
+</li>

@@ -1,0 +1,55 @@
+{% extends "layouts/front-office-v2.html" %}
+{% set back = false %}
+{% set resubmission = data['resubmission'] %}
+
+{% block pageTitle %}
+Application complete – {{ serviceName }}
+{% endblock %}
+
+{% set mainClasses = "govuk-main-wrapper--l" %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {{ govukPanel({
+    titleText: "Gateway 3 submission complete"    }) }}
+
+    <p class="govuk-body">We've sent you a confirmation email.</p>
+
+    <h2 class="govuk-heading-m">What happens next</h2>
+
+   <!-- {% if resubmission == 'true' %}
+
+    <p class="govuk-body">We've sent your resubmission to the Planning Inspectorate. They will check the issues raised in their Gateway 3 report have been addressed before your plan can proceed to examination.</p>
+
+    {% else %}
+
+    <p class="govuk-body">We've sent your submission to the Planning Inspectorate. They will check that your submission is complete and that they have all the information required to proceed to the next stage of the plan.</p>
+
+    {% endif %}-->
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>
+        The Planning Inspectorate will check that your submission is complete and your plan is ready for the next round of assessment
+      </li>
+      <li>
+       They will contact you if any further information is required
+      </li>
+      <li>
+        At any point you can <a class="govuk-link" href="/projects/front-office/plan-details/v3/plan-details?status=with-pins&stage=gateway-3">check your submission status</a>
+      </li>
+    </ul>
+
+    <p class="govuk-body">
+      If you need to adjust your submission or change your workshop preferences, send an email to
+      <a href="mailto:support@planninginspectorate.gov.uk" class="govuk-link">
+        support@planninginspectorate.gov.uk</a>.</p>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% include "includes/front-office/footer.njk" %}
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "layouts/front-office-v2.html" %}
+{% set resubmission = data['resubmission'] %}
+
+{% block pageTitle %}
+  Confirm declaration – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <form action="application-submission-success{% if resubmission == 'true' %}?resubmission=true{% endif %}" method="post" novalidate>
+
+    {% call govukPanel({
+        titleText: "Are you sure you're ready to submit?",
+        classes: "govuk-panel--interruption",
+        actions: {
+          items: [
+            {
+              text: "Yes, send my submission",
+              href: "application-submission-success",
+              type: "button"
+            }, {
+              text: "No, go back",
+              href: "application-details"
+            }
+          ]
+        }
+      }) %}
+      <p class="govuk-body">This can't be undone.</p>
+      {% endcall %}
+
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+  {% include "includes/front-office/footer.njk" %}
+{% endblock %}

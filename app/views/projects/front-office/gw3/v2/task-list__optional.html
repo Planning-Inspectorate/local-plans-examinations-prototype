@@ -1,0 +1,114 @@
+<li>
+  <h2 class="app-task-list__section" id="optional-documents">
+    Optional documents
+  </h2>
+  <p class="govuk-body">You can add these additional documents if they are relevant to your plan.</p>
+
+  <div class="app-document-list govuk-!-margin-bottom-9">
+
+    <div class="app-document-list__row">
+      <p class="app-document-list__label">Copies of representations</p>
+      <p class="app-document-list__value">
+        {% if data['representations-upload-complete'] %}
+          <a class="govuk-link" href="#">representations.pdf</a>
+          <a class="govuk-link app-document-list__action" href="consultation-documents/representations-upload?cya=true">Change<span class="govuk-visually-hidden"> copies of representations</span></a>
+        {% else %}
+          <span class="govuk-hint">Not added</span>
+          <a class="govuk-link app-document-list__action" href="consultation-documents/representations-upload">Add<span class="govuk-visually-hidden"> copies of representations</span></a>
+        {% endif %}
+      </p>
+    </div>
+
+    <div class="app-document-list__row">
+      <p class="app-document-list__label">Supplementary plans statement</p>
+      <p class="app-document-list__value">
+        {% if data['supplementary-plans-statement-upload-complete'] %}
+          <a class="govuk-link" href="#">supplementary-plans-statement.pdf</a>
+          <a class="govuk-link app-document-list__action" href="consultation-documents/supplementary-plans-statement-upload?cya=true">Change<span class="govuk-visually-hidden"> supplementary plans statement</span></a>
+        {% else %}
+          <span class="govuk-hint">Not added</span>
+          <a class="govuk-link app-document-list__action" href="consultation-documents/supplementary-plans-statement-upload">Add<span class="govuk-visually-hidden"> supplementary plans statement</span></a>
+        {% endif %}
+      </p>
+    </div>
+
+    <div class="app-document-list__row">
+      <p class="app-document-list__label">Environmental report</p>
+      <p class="app-document-list__value">
+        {% if data['environmental-report-upload-complete'] %}
+          <a class="govuk-link" href="#">environmental-report.pdf</a>
+          <a class="govuk-link app-document-list__action" href="consultation-documents/environmental-report-upload?cya=true">Change<span class="govuk-visually-hidden"> environmental report</span></a>
+        {% else %}
+          <span class="govuk-hint">Not added</span>
+          <a class="govuk-link app-document-list__action" href="consultation-documents/environmental-report-upload">Add<span class="govuk-visually-hidden"> environmental report</span></a>
+        {% endif %}
+      </p>
+    </div>
+
+    <div class="app-document-list__row">
+      <p class="app-document-list__label">Statement of reasons for a determination that the proposed local plan is unlikely to have significant environmental effects</p>
+      <p class="app-document-list__value">
+        {% if data['screening-determination-statement-upload-complete'] %}
+          <a class="govuk-link" href="#">screening-determination-statement.pdf</a>
+          <a class="govuk-link app-document-list__action" href="consultation-documents/screening-determination-statement-upload?cya=true">Change<span class="govuk-visually-hidden"> statement of reasons for a determination that the proposed local plan is unlikely to have significant environmental effects</span></a>
+        {% else %}
+          <span class="govuk-hint">Not added</span>
+          <a class="govuk-link app-document-list__action" href="consultation-documents/screening-determination-statement-upload">Add<span class="govuk-visually-hidden"> statement of reasons for a determination that the proposed local plan is unlikely to have significant environmental effects</span></a>
+        {% endif %}
+      </p>
+    </div>
+
+    <div class="app-document-list__row">
+      <p class="app-document-list__label">Summary of representations relating to progress towards meeting prescribed requirements and the LPA response</p>
+      <p class="app-document-list__value">
+        {% if data['progress-representations-summary-upload-complete'] %}
+          <a class="govuk-link" href="#">progress-representations-summary.pdf</a>
+          <a class="govuk-link app-document-list__action" href="consultation-documents/progress-representations-summary-upload?cya=true">Change<span class="govuk-visually-hidden"> summary of representations relating to progress towards meeting prescribed requirements and the LPA response</span></a>
+        {% else %}
+          <span class="govuk-hint">Not added</span>
+          <a class="govuk-link app-document-list__action" href="consultation-documents/progress-representations-summary-upload">Add<span class="govuk-visually-hidden"> summary of representations relating to progress towards meeting prescribed requirements and the LPA response</span></a>
+        {% endif %}
+      </p>
+    </div>
+
+    <div class="app-document-list__row">
+      <p class="app-document-list__label">Summary of how Gateway 2 assessor issues have been addressed</p>
+      <p class="app-document-list__value">
+        {% if data['gateway-2-issues-summary-upload-complete'] %}
+          <a class="govuk-link" href="#">gateway-2-issues-summary.pdf</a>
+          <a class="govuk-link app-document-list__action" href="consultation-documents/gateway-2-issues-summary-upload?cya=true">Change<span class="govuk-visually-hidden"> summary of how Gateway 2 assessor issues have been addressed</span></a>
+        {% else %}
+          <span class="govuk-hint">Not added</span>
+          <a class="govuk-link app-document-list__action" href="consultation-documents/gateway-2-issues-summary-upload">Add<span class="govuk-visually-hidden"> summary of how Gateway 2 assessor issues have been addressed</span></a>
+        {% endif %}
+      </p>
+    </div>
+
+    <div class="app-document-list__row">
+      <p class="app-document-list__label">Statement explaining changes since the proposed local plan consultation, reasons for those changes, and any additional consultation</p>
+      <p class="app-document-list__value">
+        {% if data['plan-changes-statement-upload-complete'] %}
+          <a class="govuk-link" href="#">plan-changes-statement.pdf</a>
+          <a class="govuk-link app-document-list__action" href="consultation-documents/plan-changes-statement-upload?cya=true">Change<span class="govuk-visually-hidden"> statement explaining changes since the proposed local plan consultation, reasons for those changes, and any additional consultation</span></a>
+        {% else %}
+          <span class="govuk-hint">Not added</span>
+          <a class="govuk-link app-document-list__action" href="consultation-documents/plan-changes-statement-upload">Add<span class="govuk-visually-hidden"> statement explaining changes since the proposed local plan consultation, reasons for those changes, and any additional consultation</span></a>
+        {% endif %}
+      </p>
+    </div>
+
+    <div class="app-document-list__row">
+      <p class="app-document-list__label">Other documents</p>
+      <p class="app-document-list__value">
+        {% if data['other-documents-upload-complete'] %}
+          <a class="govuk-link" href="#">other-documents.pdf</a>
+          <a class="govuk-link app-document-list__action" href="consultation-documents/other-documents-upload?cya=true">Change<span class="govuk-visually-hidden"> other documents</span></a>
+        {% else %}
+          <span class="govuk-hint">Not added</span>
+          <a class="govuk-link app-document-list__action" href="consultation-documents/other-documents-upload">Add<span class="govuk-visually-hidden"> other documents</span></a>
+        {% endif %}
+      </p>
+    </div>
+
+  </div>
+</li>

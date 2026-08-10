@@ -1,0 +1,31 @@
+{% extends "layouts/front-office-v3.html" %}
+{% set title = "Reg 12 (Environmental Assessment of Plans and Programmes Regulations 2004) — was an environmental report prepared?" %}
+
+{% block questions %}
+
+<span class="govuk-caption-l">About your plan</span>
+
+{{ govukRadios({
+  name: "reg12-environmental-report",
+  fieldset: {
+    legend: {
+      text: title,
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--l"
+    }
+  },
+  items: [
+    {
+      value: "yes",
+      text: "Yes",
+      checked: true if data['reg12-environmental-report'] == 'yes'
+    },
+    {
+      value: "no",
+      text: "No",
+      checked: true if data['reg12-environmental-report'] == 'no'
+    }
+  ]
+}) }}
+
+{% endblock %}
