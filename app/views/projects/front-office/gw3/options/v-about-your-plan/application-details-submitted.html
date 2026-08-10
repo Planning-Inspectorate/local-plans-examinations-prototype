@@ -1,0 +1,61 @@
+{% extends "layouts/front-office-v2.html" %}
+
+{% set reportStatus = data['report'] %}
+
+{% set prototypeLinks =
+[
+{
+href: 'application-details-decision?decision=stop',
+text: 'Resubmission required'
+},
+{
+href: 'application-details-decision?decision=go',
+text: 'Go decision'
+}
+]
+%}
+
+{% block pageTitle %}
+Application details – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "/projects/front-office/plan-details/v3/plan-details?status=with-pins"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+{% set supplementaryDocuments %}
+<ul class="govuk-list govuk-list--bullet">
+  <li><a class="govuk-link" href="#">supplementary-doc-1.pdf</a></li>
+  <li><a class="govuk-link" href="#">supplementary-doc-2.pdf</a></li>
+  <li><a class="govuk-link" href="#">supplementary-doc-3.pdf</a></li>
+</ul>
+{% endset %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters-from-desktop">
+
+
+    {% include "./_includes/heading.njk" %}
+    {% include "./_includes/report-metadata.njk" %}
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible" />
+
+    <p class="govuk-body">
+      Your submission was sent on 20 June 2026 at 13:22pm by Laura Thornton.
+    </p>
+
+    {% include "./_includes/submitted-documents.njk" %}
+
+    <!--<h2 class="govuk-heading-m govuk-!-margin-top-6">Version history</h2>
+
+    <p class="govuk-body"><a class="govuk-link" href="version-history">View version history</a></p>-->
+
+  </div>
+</div>
+
+{% endblock %}

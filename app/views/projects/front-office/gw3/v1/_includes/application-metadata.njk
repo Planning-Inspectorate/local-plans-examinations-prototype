@@ -24,7 +24,7 @@
     <span class="govuk-caption-xl">East Borough Local Plan</span>
     Gateway 3 submission
   </h1>
-  {% if requiredCompletedCount > 0 or aboutYourPlanCompletedCount > 0 %}
+  {% if requiredCompletedCount > 0 %}
     <strong class="govuk-tag govuk-tag--blue app-header__tag">
       In progress
     </strong>
@@ -36,5 +36,9 @@
 </div>
 
 {% call govukInsetText() %}
-Your target submission date is 25 April 2026. A Gateway 3 assessment usually takes about 6 weeks.
+  <p class="govuk-body">Gateway 3 is a more formal step in the development of your local plan. At this point some documents are mandatory to submit.</p>
+  <p class="govuk-body">You have provided the expected submission date of 12 June 2026. The assessment usually takes between 4 and 6 weeks from submission. 
+  
+    <p class="govuk-body">If you'd like to change your expected submission date, send an email to
+    <a href="mailto:support@planninginspectorate.gov.uk" class="govuk-link">support@planninginspectorate.gov.uk</a>.</p>
 {% endcall %}

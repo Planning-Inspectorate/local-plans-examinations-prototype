@@ -1,0 +1,57 @@
+<li>
+  <h2 class="app-task-list__section" id="optional-documents">
+    Optional documents
+  </h2>
+  <p class="govuk-body">Add the documents that are relevant to your plan.</p>
+
+  {{ govukSummaryList({
+    classes: 'govuk-!-margin-bottom-9',
+    rows: [
+
+      {
+        key: { text: 'Summary of representations relating to progress towards meeting prescribed requirements and the LPA response' },
+        value:
+          { html: "<a href='#'>progress-representations-summary.pdf</a>" } if data['progress-representations-summary-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'consultation-documents/progress-representations-summary-upload?cya=true', html: 'Change', visuallyHiddenText: 'summary of representations relating to progress towards meeting prescribed requirements and the LPA response' } if data['progress-representations-summary-upload-complete']
+          else { href: 'consultation-documents/progress-representations-summary-upload', html: 'Add', visuallyHiddenText: 'summary of representations relating to progress towards meeting prescribed requirements and the LPA response' }
+        ]}
+      },
+
+      {
+        key: { text: 'Summary of how Gateway 2 assessor issues have been addressed' },
+        value:
+          { html: "<a href='#'>gateway-2-issues-summary.pdf</a>" } if data['gateway-2-issues-summary-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'consultation-documents/gateway-2-issues-summary-upload?cya=true', html: 'Change', visuallyHiddenText: 'summary of how Gateway 2 assessor issues have been addressed' } if data['gateway-2-issues-summary-upload-complete']
+          else { href: 'consultation-documents/gateway-2-issues-summary-upload', html: 'Add', visuallyHiddenText: 'summary of how Gateway 2 assessor issues have been addressed' }
+        ]}
+      },
+
+      {
+        key: { text: 'Statement explaining changes since the proposed local plan consultation, reasons for those changes, and any additional consultation' },
+        value:
+          { html: "<a href='#'>plan-changes-statement.pdf</a>" } if data['plan-changes-statement-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'consultation-documents/plan-changes-statement-upload?cya=true', html: 'Change', visuallyHiddenText: 'statement explaining changes since the proposed local plan consultation, reasons for those changes, and any additional consultation' } if data['plan-changes-statement-upload-complete']
+          else { href: 'consultation-documents/plan-changes-statement-upload', html: 'Add', visuallyHiddenText: 'statement explaining changes since the proposed local plan consultation, reasons for those changes, and any additional consultation' }
+        ]}
+      },
+
+      {
+        key: { text: 'Other documents' },
+        value:
+          { html: "<a href='#'>other-documents.pdf</a>" } if data['other-documents-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'consultation-documents/other-documents-upload?cya=true', html: 'Change', visuallyHiddenText: 'other documents' } if data['other-documents-upload-complete']
+          else { href: 'consultation-documents/other-documents-upload', html: 'Add', visuallyHiddenText: 'other documents' }
+        ]}
+      }
+
+    ]
+  }) }}
+</li>

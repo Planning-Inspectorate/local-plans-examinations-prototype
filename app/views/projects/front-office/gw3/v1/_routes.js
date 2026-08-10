@@ -25,7 +25,7 @@ const requiredDocumentKeys = [
   'practical-arrangements-statement-upload-complete'
 ]
 
-const aboutYourPlanKeys = [
+const requiredQuestionKeys = [
   'reg28-representations',
   'reg29-supplementary-plan',
   'reg12-environmental-report',
@@ -51,15 +51,13 @@ router.get('/application-details', function (req, res) {
     .map(doc => doc.key)
 
   const requiredCompletedCount = requiredDocumentKeys.filter(key => data[key] == 'true').length +
-    applicableConditionalKeys.filter(key => data[key] == 'true').length
-  const requiredTotalCount = requiredDocumentKeys.length + applicableConditionalKeys.length
-  const aboutYourPlanCompletedCount = aboutYourPlanKeys.filter(key => data[key]).length
+    applicableConditionalKeys.filter(key => data[key] == 'true').length +
+    requiredQuestionKeys.filter(key => data[key]).length
+  const requiredTotalCount = requiredDocumentKeys.length + applicableConditionalKeys.length + requiredQuestionKeys.length
 
   res.render('projects/front-office/gw3/v1/application-details', {
     requiredCompletedCount: requiredCompletedCount,
-    requiredTotalCount: requiredTotalCount,
-    aboutYourPlanCompletedCount: aboutYourPlanCompletedCount,
-    aboutYourPlanTotalCount: aboutYourPlanKeys.length
+    requiredTotalCount: requiredTotalCount
   })
 })
 

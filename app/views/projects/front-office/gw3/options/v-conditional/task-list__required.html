@@ -1,0 +1,222 @@
+<li>
+<div>
+  <h2 class="app-task-list__section" id="required-documents">
+    Required documents
+    {% if requiredCompletedCount == requiredTotalCount %}
+      {{ govukTag({ html: 'Completed', classes: 'govuk-tag--green' }) }}
+    {% elif requiredCompletedCount > 0 %}
+      {{ govukTag({ html: 'In progress', classes: 'govuk-tag--blue' }) }}
+    {% else %}
+      {{ govukTag({ html: 'Not started', classes: 'govuk-tag--grey' }) }}
+    {% endif %}
+  </h2>
+  <p class="govuk-body">You must add these documents before you can submit.</p>
+</div>
+
+  {% set notAnswered = '<span class="govuk-hint">Not answered</span>' %}
+  {% set reg28Value = notAnswered %}
+  {% if data['reg28-representations'] == 'yes' %}{% set reg28Value = 'Yes' %}{% elif data['reg28-representations'] == 'no' %}{% set reg28Value = 'No' %}{% endif %}
+  {% set reg29Value = notAnswered %}
+  {% if data['reg29-supplementary-plan'] == 'yes' %}{% set reg29Value = 'Yes' %}{% elif data['reg29-supplementary-plan'] == 'no' %}{% set reg29Value = 'No' %}{% endif %}
+  {% set reg12Value = notAnswered %}
+  {% if data['reg12-environmental-report'] == 'yes' %}{% set reg12Value = 'Yes' %}{% elif data['reg12-environmental-report'] == 'no' %}{% set reg12Value = 'No' %}{% endif %}
+  {% set reg9Value = notAnswered %}
+  {% if data['reg9-screening-determination'] == 'yes' %}{% set reg9Value = 'Yes' %}{% elif data['reg9-screening-determination'] == 'no' %}{% set reg9Value = 'No' %}{% endif %}
+
+  {{ govukSummaryList({
+    classes: 'govuk-!-margin-bottom-9',
+    rows: [
+
+      {
+        key: { text: 'Examination website' },
+        value:
+          { html: "<a href='#'>" + data['examination-library-link'] + "</a>" } if data['examination-library-link-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'procedural-documents/examination-library-link?cya=true', html: 'Change', visuallyHiddenText: 'examination website' } if data['examination-library-link-complete']
+          else { href: 'procedural-documents/examination-library-link', html: 'Add', visuallyHiddenText: 'examination website' }
+        ]}
+      },
+
+      {
+        key: { text: 'Proposed local plan intended for submission for examination' },
+        value:
+          { html: "<a href='#'>proposed-local-plan.pdf</a>" } if data['proposed-local-plan-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'procedural-documents/proposed-local-plan-upload?cya=true', html: 'Change', visuallyHiddenText: 'proposed local plan intended for submission for examination' } if data['proposed-local-plan-upload-complete']
+          else { href: 'procedural-documents/proposed-local-plan-upload', html: 'Add', visuallyHiddenText: 'proposed local plan intended for submission for examination' }
+        ]}
+      },
+
+      {
+        key: { text: 'Map of proposed local plan policies' },
+        value:
+          { html: "<a href='#'>policies-map.pdf</a>" } if data['policies-map-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'procedural-documents/policies-map-upload?cya=true', html: 'Change', visuallyHiddenText: 'map of proposed local plan policies' } if data['policies-map-upload-complete']
+          else { href: 'procedural-documents/policies-map-upload', html: 'Add', visuallyHiddenText: 'map of proposed local plan policies' }
+        ]}
+      },
+
+      {
+        key: { text: 'Statement of Compliance' },
+        value:
+          { html: "<a href='#'>compliance-statement.pdf</a>" } if data['compliance-statement-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'procedural-documents/compliance-statement-upload?cya=true', html: 'Change', visuallyHiddenText: 'statement of compliance' } if data['compliance-statement-upload-complete']
+          else { href: 'procedural-documents/compliance-statement-upload', html: 'Add', visuallyHiddenText: 'statement of compliance' }
+        ]}
+      },
+
+      {
+        key: { text: 'Statement of Soundness' },
+        value:
+          { html: "<a href='#'>soundness-statement.pdf</a>" } if data['soundness-statement-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'procedural-documents/soundness-statement-upload?cya=true', html: 'Change', visuallyHiddenText: 'statement of soundness' } if data['soundness-statement-upload-complete']
+          else { href: 'procedural-documents/soundness-statement-upload', html: 'Add', visuallyHiddenText: 'statement of soundness' }
+        ]}
+      },
+
+      {
+        key: { text: 'Summary of consultation and engagement activities undertaken in preparing the proposed local plan' },
+        value:
+          { html: "<a href='#'>consultation-engagement-summary.pdf</a>" } if data['consultation-engagement-summary-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'consultation-documents/consultation-engagement-summary-upload?cya=true', html: 'Change', visuallyHiddenText: 'summary of consultation and engagement activities undertaken in preparing the proposed local plan' } if data['consultation-engagement-summary-upload-complete']
+          else { href: 'consultation-documents/consultation-engagement-summary-upload', html: 'Add', visuallyHiddenText: 'summary of consultation and engagement activities undertaken in preparing the proposed local plan' }
+        ]}
+      },
+
+      {
+        key: { text: 'Summary of scoping consultation' },
+        value:
+          { html: "<a href='#'>scoping-consultation-summary.pdf</a>" } if data['scoping-consultation-summary-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'consultation-documents/scoping-consultation-summary-upload?cya=true', html: 'Change', visuallyHiddenText: 'summary of scoping consultation' } if data['scoping-consultation-summary-upload-complete']
+          else { href: 'consultation-documents/scoping-consultation-summary-upload', html: 'Add', visuallyHiddenText: 'summary of scoping consultation' }
+        ]}
+      },
+
+      {
+        key: { text: 'Summary of consultation on proposed local plan content and evidence' },
+        value:
+          { html: "<a href='#'>plan-content-evidence-consultation-summary.pdf</a>" } if data['plan-content-evidence-consultation-summary-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'consultation-documents/plan-content-evidence-consultation-summary-upload?cya=true', html: 'Change', visuallyHiddenText: 'summary of consultation on proposed local plan content and evidence' } if data['plan-content-evidence-consultation-summary-upload-complete']
+          else { href: 'consultation-documents/plan-content-evidence-consultation-summary-upload', html: 'Add', visuallyHiddenText: 'summary of consultation on proposed local plan content and evidence' }
+        ]}
+      },
+
+      {
+        key: { text: 'Summary of consultation on proposed local plan' },
+        value:
+          { html: "<a href='#'>proposed-plan-consultation-summary.pdf</a>" } if data['proposed-plan-consultation-summary-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'consultation-documents/proposed-plan-consultation-summary-upload?cya=true', html: 'Change', visuallyHiddenText: 'summary of consultation on proposed local plan' } if data['proposed-plan-consultation-summary-upload-complete']
+          else { href: 'consultation-documents/proposed-plan-consultation-summary-upload', html: 'Add', visuallyHiddenText: 'summary of consultation on proposed local plan' }
+        ]}
+      },
+
+      {
+        key: { text: 'Statement setting out practical arrangements demonstrating readiness for examination' },
+        value:
+          { html: "<a href='#'>practical-arrangements-statement.pdf</a>" } if data['practical-arrangements-statement-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'consultation-documents/practical-arrangements-statement-upload?cya=true', html: 'Change', visuallyHiddenText: 'statement setting out practical arrangements demonstrating readiness for examination' } if data['practical-arrangements-statement-upload-complete']
+          else { href: 'consultation-documents/practical-arrangements-statement-upload', html: 'Add', visuallyHiddenText: 'statement setting out practical arrangements demonstrating readiness for examination' }
+        ]}
+      },
+
+      {
+        key: { text: 'Reg 28 — did representations get made?' },
+        value: { html: reg28Value },
+        actions: { items: [
+          { href: 'about-your-plan/reg28-representations?cya=true', html: 'Change', visuallyHiddenText: 'whether representations were made under Reg 28' } if data['reg28-representations']
+          else { href: 'about-your-plan/reg28-representations', html: 'Answer', visuallyHiddenText: 'whether representations were made under Reg 28' }
+        ]}
+      },
+
+      {
+        key: { text: 'Copies of representations' },
+        value:
+          { html: "<a href='#'>representations.pdf</a>" } if data['representations-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'consultation-documents/representations-upload?cya=true', html: 'Change', visuallyHiddenText: 'copies of representations' } if data['representations-upload-complete']
+          else { href: 'consultation-documents/representations-upload', html: 'Add', visuallyHiddenText: 'copies of representations' }
+        ]}
+      } if data['reg28-representations'] == 'yes' else null,
+
+      {
+        key: { text: 'Reg 29 — does the supplementary plan route apply?' },
+        value: { html: reg29Value },
+        actions: { items: [
+          { href: 'about-your-plan/reg29-supplementary-plan?cya=true', html: 'Change', visuallyHiddenText: 'whether the supplementary plan route applies under Reg 29' } if data['reg29-supplementary-plan']
+          else { href: 'about-your-plan/reg29-supplementary-plan', html: 'Answer', visuallyHiddenText: 'whether the supplementary plan route applies under Reg 29' }
+        ]}
+      },
+
+      {
+        key: { text: 'Supplementary plans statement' },
+        value:
+          { html: "<a href='#'>supplementary-plans-statement.pdf</a>" } if data['supplementary-plans-statement-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'consultation-documents/supplementary-plans-statement-upload?cya=true', html: 'Change', visuallyHiddenText: 'supplementary plans statement' } if data['supplementary-plans-statement-upload-complete']
+          else { href: 'consultation-documents/supplementary-plans-statement-upload', html: 'Add', visuallyHiddenText: 'supplementary plans statement' }
+        ]}
+      } if data['reg29-supplementary-plan'] == 'yes' else null,
+
+      {
+        key: { text: 'Reg 12 (Environmental Assessment of Plans and Programmes Regs 2004) — was an environmental report prepared?' },
+        value: { html: reg12Value },
+        actions: { items: [
+          { href: 'about-your-plan/reg12-environmental-report?cya=true', html: 'Change', visuallyHiddenText: 'whether an environmental report was prepared under Reg 12' } if data['reg12-environmental-report']
+          else { href: 'about-your-plan/reg12-environmental-report', html: 'Answer', visuallyHiddenText: 'whether an environmental report was prepared under Reg 12' }
+        ]}
+      },
+
+      {
+        key: { text: 'Environmental report' },
+        value:
+          { html: "<a href='#'>environmental-report.pdf</a>" } if data['environmental-report-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'consultation-documents/environmental-report-upload?cya=true', html: 'Change', visuallyHiddenText: 'environmental report' } if data['environmental-report-upload-complete']
+          else { href: 'consultation-documents/environmental-report-upload', html: 'Add', visuallyHiddenText: 'environmental report' }
+        ]}
+      } if data['reg12-environmental-report'] == 'yes' else null,
+
+      {
+        key: { text: "Reg 9(1) — was a screening determination made that assessment isn't required?" },
+        value: { html: reg9Value },
+        actions: { items: [
+          { href: 'about-your-plan/reg9-screening-determination?cya=true', html: 'Change', visuallyHiddenText: "whether a screening determination was made under Reg 9(1)" } if data['reg9-screening-determination']
+          else { href: 'about-your-plan/reg9-screening-determination', html: 'Answer', visuallyHiddenText: "whether a screening determination was made under Reg 9(1)" }
+        ]}
+      },
+
+      {
+        key: { text: 'Statement of reasons for a determination that the proposed local plan is unlikely to have significant environmental effects' },
+        value:
+          { html: "<a href='#'>screening-determination-statement.pdf</a>" } if data['screening-determination-statement-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'consultation-documents/screening-determination-statement-upload?cya=true', html: 'Change', visuallyHiddenText: 'statement of reasons for a determination that the proposed local plan is unlikely to have significant environmental effects' } if data['screening-determination-statement-upload-complete']
+          else { href: 'consultation-documents/screening-determination-statement-upload', html: 'Add', visuallyHiddenText: 'statement of reasons for a determination that the proposed local plan is unlikely to have significant environmental effects' }
+        ]}
+      } if data['reg9-screening-determination'] == 'yes' else null
+
+    ]
+  }) }}
+</li>
