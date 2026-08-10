@@ -11,7 +11,7 @@
       {
         key: { text: 'Copies of representations' },
         value:
-          { html: "<a href='#'>representations.pdf</a>" } if data['representations-upload-complete']
+          { html: "<a href='#'>really-long-list-of-representations-for-review.pdf</a>" } if data['representations-upload-complete']
           else { html: '<span class="govuk-hint">Not added</span>' },
         actions: { items: [
           { href: 'consultation-documents/representations-upload?cya=true', html: 'Change', visuallyHiddenText: 'copies of representations' } if data['representations-upload-complete']
@@ -77,7 +77,7 @@
       {
         key: { text: 'Statement explaining changes since the proposed local plan consultation, reasons for those changes, and any additional consultation' },
         value:
-          { html: "<a href='#'>plan-changes-statement.pdf</a>" } if data['plan-changes-statement-upload-complete']
+          { html: "<a href='#'>plan-changes-statement-this-is-a-really-long-file-name.pdf</a>" } if data['plan-changes-statement-upload-complete']
           else { html: '<span class="govuk-hint">Not added</span>' },
         actions: { items: [
           { href: 'consultation-documents/plan-changes-statement-upload?cya=true', html: 'Change', visuallyHiddenText: 'statement explaining changes since the proposed local plan consultation, reasons for those changes, and any additional consultation' } if data['plan-changes-statement-upload-complete']
@@ -88,7 +88,7 @@
       {
         key: { text: 'Other documents' },
         value:
-          { html: "<a href='#'>other-documents.pdf</a>" } if data['other-documents-upload-complete']
+          { html: '<ul class="govuk-list govuk-list--bullet"><li><a href="#">other-document-1.pdf</a></li><li><a href="#">other-document-2.pdf</a></li><li><a href="#">other-document-3.pdf</a></li><li><a href="#">other-document-4.pdf</a></li><li><a href="#">other-document-5.pdf</a></li></ul>' } if data['other-documents-upload-complete']
           else { html: '<span class="govuk-hint">Not added</span>' },
         actions: { items: [
           { href: 'consultation-documents/other-documents-upload?cya=true', html: 'Change', visuallyHiddenText: 'other documents' } if data['other-documents-upload-complete']
