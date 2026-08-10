@@ -32,7 +32,7 @@ href: "/projects/front-office/plan-details/v3/plan-details"
 {% block content %}
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
+  <div class="govuk-grid-column-full">
 
         {% if errorStatus == 'true' %}
         {{ govukErrorSummary({
@@ -74,6 +74,18 @@ href: "/projects/front-office/plan-details/v3/plan-details"
 
       .app-task-list .govuk-summary-list {
         border-top: 1px solid #b1b4b6;
+      }
+
+      .app-task-list .govuk-summary-list__key {
+        width: 50%;
+      }
+
+      .app-task-list .govuk-summary-list__value {
+        width: 40%;
+      }
+
+      .app-task-list .govuk-summary-list__actions {
+        width: 10%;
       }
 
       .app-task-list__section {
