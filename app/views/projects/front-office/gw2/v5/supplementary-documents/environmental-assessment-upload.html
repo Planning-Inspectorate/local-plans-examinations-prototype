@@ -1,22 +1,12 @@
 {% extends "layouts/front-office-v3.html" %}
 {% from "macros/multi-file-upload.njk" import uploadArea %}
-{% set documentName = "draft plan documents" %}
+{% set documentName = "progress on assessments required by the Environmental Assessment Regulations" %}
 {% set title = "Upload " + documentName %}
 
 {% block questions %}
 
 <span class="govuk-caption-l">Subsequent work towards a draft plan</span>
 <h1 class="govuk-heading-l">{{ title }}</h1>
-
-<p class="govuk-body">This could include documents on:</p>
-<ul class="govuk-list govuk-list--bullet">
-  <li>Draft vision, aims and objectives, 10 draft outcomes</li>
-  <li>Policies map</li>
-  <li>Spatial strategy options or draft spatial strategy</li>
-  <li>Progress towards setting a housing requirement and associated evidence a such as a housing needs assessment and strategic housing market assessment</li>
-  <li>Site selection approach / evidence</li>
-  <li>Progress on assessments required by the Habitats Regulations</li>
-</ul>
 
 {{ uploadArea({
   id: "documents",

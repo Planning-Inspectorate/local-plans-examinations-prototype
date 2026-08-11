@@ -189,6 +189,11 @@ router.post('/supplementary-documents/draft-plan-upload', function (req, res) {
   res.redirect('../application-details')
 })
 
+router.post('/supplementary-documents/environmental-assessment-upload', function (req, res) {
+  req.session.data['environmental-assessment-upload-complete'] = 'true'
+  res.redirect('../application-details')
+})
+
 router.post('/workshop-info/workshop-venue', function (req, res) {
   req.session.data['workshop-venue-complete'] = 'true'
   res.redirect('../application-details')

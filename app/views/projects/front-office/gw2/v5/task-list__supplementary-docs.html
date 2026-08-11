@@ -1,6 +1,6 @@
 <li>
   <h2 class="app-task-list__section">
-    Subsequent work towards a draft Plan
+    Subsequent work towards a draft plan
   </h2>
 
   {{ govukSummaryList({
@@ -19,13 +19,24 @@
       },
 
       {
-        key: { text: 'Latest version of your draft Plan' },
+        key: { text: 'Draft plan documents' },
         value:
           { html: "<a class='govuk-link' href='#'>draft-plan.pdf</a>" } if data['draft-plan-upload-complete']
           else { html: '<span class="govuk-hint">Not added</span>' },
         actions: { items: [
           { href: 'supplementary-documents/draft-plan-upload?cya=true', text: 'Change', visuallyHiddenText: 'latest version of your draft plan' } if data['draft-plan-upload-complete']
           else { href: 'supplementary-documents/draft-plan-upload', text: 'Add', visuallyHiddenText: 'latest version of your draft plan' }
+        ]}
+      },
+
+      {
+        key: { text: 'Progress on assessments required by the Environmental Assessment Regulations' },
+        value:
+          { html: "<a class='govuk-link' href='#'>environmental-assessment.pdf</a>" } if data['environmental-assessment-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'supplementary-documents/environmental-assessment-upload?cya=true', text: 'Change', visuallyHiddenText: 'progress on assessments required by the Environmental Assessment Regulations' } if data['environmental-assessment-upload-complete']
+          else { href: 'supplementary-documents/environmental-assessment-upload', text: 'Add', visuallyHiddenText: 'progress on assessments required by the Environmental Assessment Regulations' }
         ]}
       }
 
