@@ -177,6 +177,8 @@ function setGw2V4StatusState(req, state) {
     req.session.gateway2EstimatedDate = req.session.gateway2EstimatedDate || defaultEstimatedDate;
     req.session.gateway2WorkshopVenue = defaultWorkshopVenue;
     req.session.gateway2WorkshopDate = defaultWorkshopDate;
+    req.session.gateway2AssessorName = 'Alex Morgan';
+    req.session.gateway2AssessorAppointmentDate = '10 July 2026';
     req.session.hearings = [demoWorkshopHearing];
     req.session.hearingStartDate = demoWorkshopHearing.startDate;
     req.session.hearingTime = demoWorkshopHearing.time;
@@ -195,6 +197,8 @@ function setGw2V4StatusState(req, state) {
       req.session.data.gateway2EstimatedDate = req.session.gateway2EstimatedDate;
       req.session.data.gateway2WorkshopVenue = req.session.gateway2WorkshopVenue;
       req.session.data.gateway2WorkshopDate = req.session.gateway2WorkshopDate;
+      req.session.data.gateway2AssessorName = req.session.gateway2AssessorName;
+      req.session.data.gateway2AssessorAppointmentDate = req.session.gateway2AssessorAppointmentDate;
       req.session.data.hearings = req.session.hearings;
       req.session.data.hearingStartDate = req.session.hearingStartDate;
       req.session.data.hearingTime = req.session.hearingTime;
@@ -220,7 +224,7 @@ function setGw2V4StatusState(req, state) {
     req.session.gateway2WorkshopVenue = defaultWorkshopVenue;
     req.session.gateway2WorkshopDate = defaultWorkshopDate;
     req.session.gateway2AssessorName = 'Alex Morgan';
-    req.session.gateway2AssessorAppointmentDate = '1 September 2026';
+    req.session.gateway2AssessorAppointmentDate = '10 July 2026';
     req.session.gateway2ReportIssuedDate = '5 September 2026';
     req.session.gateway2ReportPublishedDate = '7 September 2026';
 
