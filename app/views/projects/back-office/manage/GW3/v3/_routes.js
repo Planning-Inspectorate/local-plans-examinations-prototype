@@ -61,10 +61,14 @@ function getWebsiteHref(value) {
 
 router.get('/projects/back-office/manage/GW3/v3/gateway-3', (req, res) => {
   const gateway3OverviewState = getGateway3OverviewState(req);
+  const isPassState = gateway3OverviewState === 'pass';
   const isResubmissionRequired = ['resubmission-no-docs', 'resubmission', 'pass'].includes(gateway3OverviewState);
   const isResubmissionNoDocs = gateway3OverviewState === 'resubmission-no-docs';
   const examinationWebsite = getGateway3ExaminationWebsite(req, gateway3OverviewState);
   const examinationWebsiteHref = getWebsiteHref(examinationWebsite);
+  const gateway3CompletionDate = isPassState
+    ? (formatDateForDisplay(req.session.gateway3CompletionDate) || '-')
+    : '-';
 
   res.render('projects/back-office/manage/GW3/v3/gateway-3', {
     caseRef: req.session.currentCaseRef || '',
@@ -76,7 +80,7 @@ router.get('/projects/back-office/manage/GW3/v3/gateway-3', (req, res) => {
     gateway3EstimatedDate: formatDateForDisplay(req.session.gateway3EstimatedDate) || '-',
     gateway3ActualDate: formatDateForDisplay(req.session.gateway3ActualDate) || '-',
     gateway3AssessorAppointmentDate: formatDateForDisplay(req.session.gateway3AssessorAppointmentDate) || '-',
-    gateway3CompletionDate: formatDateForDisplay(req.session.gateway3CompletionDate) || '-',
+    gateway3CompletionDate,
     gateway3AssessorName: req.session.gateway3AssessorName || '-',
     gateway3PoContact: req.session.gateway3PoContact || {},
     examinationWebsite,

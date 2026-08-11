@@ -21,6 +21,10 @@ function buildFooterLinks() {
       href: '/projects/back-office/manage/GW2/v4/set-status?state=workshop-confirmed&returnUrl=/projects/back-office/manage/GW2/v4/gateway-2'
     },
     {
+      text: 'GW2 report',
+      href: '/projects/back-office/manage/GW2/v4/set-status?state=gw2-report&returnUrl=/projects/back-office/manage/GW2/v4/gateway-2'
+    },
+    {
       text: 'GW3 submission',
       href: '/projects/back-office/manage/GW2/v4/set-status?state=gw3-submission&returnUrl=/projects/back-office/manage/GW2/v4/gateway-2'
     }
@@ -214,6 +218,58 @@ function setGw2V4StatusState(req, state) {
       req.session.data.hearingHasAddress = req.session.hearingHasAddress;
       req.session.data[WORKSHOP_DOCS_KEY] = req.session[WORKSHOP_DOCS_KEY];
     }
+    return;
+  }
+
+  if (state === 'gw2-report') {
+    req.session.gw2v4StatusOverride = 'GW2 report';
+    req.session.gateway2EstimatedDate = req.session.gateway2EstimatedDate || defaultEstimatedDate;
+    req.session.gateway2WorkshopVenue = defaultWorkshopVenue;
+    req.session.gateway2WorkshopDate = defaultWorkshopDate;
+    req.session.gateway2AssessorName = 'Alex Morgan';
+    req.session.gateway2AssessorAppointmentDate = '10 July 2026';
+    req.session.hearings = [{
+      ...demoWorkshopHearing,
+      actualDuration: '2 days',
+      endDate: '21 July 2026'
+    }];
+    req.session.hearingStartDate = req.session.hearings[0].startDate;
+    req.session.hearingTime = req.session.hearings[0].time;
+    req.session.hearingEndTime = req.session.hearings[0].endTime;
+    req.session.hearingEstimatedDays = req.session.hearings[0].estimatedDays;
+    req.session.hearingActualDuration = req.session.hearings[0].actualDuration;
+    req.session.hearingEndDate = req.session.hearings[0].endDate;
+    req.session.hearingIsVirtual = req.session.hearings[0].isVirtual;
+    req.session.hearingHasVirtualMeetingLink = req.session.hearings[0].hasVirtualMeetingLink;
+    req.session.hearingVirtualMeetingLink = req.session.hearings[0].virtualMeetingLink;
+    req.session.hearingVenue = req.session.hearings[0].venue;
+    req.session.hearingAddress = req.session.hearings[0].address;
+    req.session.hearingHasAddress = req.session.hearings[0].hasAddress;
+    req.session[WORKSHOP_DOCS_KEY] = [demoWorkshopDoc];
+
+    if (req.session.data) {
+      req.session.data.gw2v4StatusOverride = req.session.gw2v4StatusOverride;
+      req.session.data.gateway2EstimatedDate = req.session.gateway2EstimatedDate;
+      req.session.data.gateway2WorkshopVenue = req.session.gateway2WorkshopVenue;
+      req.session.data.gateway2WorkshopDate = req.session.gateway2WorkshopDate;
+      req.session.data.gateway2AssessorName = req.session.gateway2AssessorName;
+      req.session.data.gateway2AssessorAppointmentDate = req.session.gateway2AssessorAppointmentDate;
+      req.session.data.hearings = req.session.hearings;
+      req.session.data.hearingStartDate = req.session.hearingStartDate;
+      req.session.data.hearingTime = req.session.hearingTime;
+      req.session.data.hearingEndTime = req.session.hearingEndTime;
+      req.session.data.hearingEstimatedDays = req.session.hearingEstimatedDays;
+      req.session.data.hearingActualDuration = req.session.hearingActualDuration;
+      req.session.data.hearingEndDate = req.session.hearingEndDate;
+      req.session.data.hearingIsVirtual = req.session.hearingIsVirtual;
+      req.session.data.hearingHasVirtualMeetingLink = req.session.hearingHasVirtualMeetingLink;
+      req.session.data.hearingVirtualMeetingLink = req.session.hearingVirtualMeetingLink;
+      req.session.data.hearingVenue = req.session.hearingVenue;
+      req.session.data.hearingAddress = req.session.hearingAddress;
+      req.session.data.hearingHasAddress = req.session.hearingHasAddress;
+      req.session.data[WORKSHOP_DOCS_KEY] = req.session[WORKSHOP_DOCS_KEY];
+    }
+
     return;
   }
 
@@ -559,6 +615,13 @@ function getGateway2Status(req, workshopDocuments) {
     return {
       text: 'GW2 submitted',
       classes: 'govuk-tag--turquoise'
+    };
+  }
+
+  if (req.session.gw2v4StatusOverride === 'GW2 report') {
+    return {
+      text: 'GW2 report',
+      classes: 'govuk-tag--blue'
     };
   }
 

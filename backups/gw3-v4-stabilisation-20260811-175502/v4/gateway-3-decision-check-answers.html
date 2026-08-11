@@ -1,0 +1,83 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+  Check your answers - {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/projects/back-office/manage/GW3/v4/gateway-3-decision-upload?submissionVersion=" ~ (submissionVersion or '1') ~ "&returnUrl=" ~ (returnUrl or '/projects/back-office/manage/GW3/v4/gateway-3')
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}{% if hasMultipleSubmissions %} - {{ submissionLabel | capitalize }}{% endif %}</span>
+      <h1 class="govuk-heading-l">Check Gateway 3 decision and report details{% if hasMultipleSubmissions %} for {{ submissionLabel }}{% endif %}</h1>
+
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Outcome</dt>
+          <dd class="govuk-summary-list__value">{{ gateway3DecisionOutcome if gateway3DecisionOutcome and gateway3DecisionOutcome != '-' else 'Not provided' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/GW3/v4/gateway-3-decision.html?submissionVersion={{ submissionVersion }}&returnUrl={{ returnUrl }}">Change<span class="govuk-visually-hidden"> outcome</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Gateway 3 report</dt>
+          <dd class="govuk-summary-list__value">
+            {% if uploadedDocuments and uploadedDocuments.length > 0 %}
+              {% for doc in uploadedDocuments %}
+                {{ doc.originalname }}{% if not loop.last %}<br>{% endif %}
+              {% endfor %}
+            {% else %}
+              {{ gateway3DecisionReportFilename if gateway3DecisionReportFilename and gateway3DecisionReportFilename != '-' else 'Not provided' }}
+            {% endif %}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/projects/back-office/manage/GW3/v4/gateway-3-decision-upload?submissionVersion={{ submissionVersion }}&returnUrl={{ returnUrl }}">Change<span class="govuk-visually-hidden"> report</span></a>
+          </dd>
+        </div>
+      </dl>
+
+      <details class="govuk-details" data-cy="preview-email-to-lpa">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            Preview notification to LPA
+          </span>
+        </summary>
+        <div class="govuk-details__text">
+          <div class="pins-notify-preview-border">
+            <h3>Notification details</h3>
+
+            <div class="govuk-inset-text">
+            Plan reference {{ caseRef or 'PLAN/000001' }} <br>
+            </div>
+            <h3>Gateway 3 report</h3>
+
+            <p>Enclosed is the Gateway 3 report.</p>
+
+            <p><a href="#" class="govuk-link">Sign in to our service</a> to view the report.</p>
+
+            <h3>Feedback</h3>
+
+            <p>We welcome your feedback on our Plans Examination service. Tell us on this short <a href="#" class="govuk-link">feedback form</a>.</p>
+
+            <p>The Planning Inspectorate</p>
+            <p>enquiries@planninginspectorate.gov.uk</p>
+          </div>
+        </div>
+      </details>
+
+      <p class="govuk-body">We'll send a notification to the LPA to tell them that the report is available.</p>
+
+      <form class="form" method="post" action="/projects/back-office/manage/GW3/v4/gateway-3-decision-check-answers">
+        <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
+        <input type="hidden" name="submissionVersion" value="{{ submissionVersion }}">
+        <button class="govuk-button" data-module="govuk-button" type="submit">Issue decision</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}

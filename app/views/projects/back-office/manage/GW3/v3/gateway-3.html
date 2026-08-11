@@ -160,19 +160,23 @@ Gateway 3 overview – {{ serviceName }}
           {% endif %}
         </div>
       </div> 
+      {% if gateway3OverviewState == 'pass' %}
       <div class="govuk-summary-list__row">
         <div class="govuk-summary-list__key">Gateway 3 completion date</div>
         <div class="govuk-summary-list__value">{{ gateway3CompletionDate if gateway3CompletionDate and gateway3CompletionDate != '-' else 'Not provided' }}</div>
         <div class="govuk-summary-list__actions"></div>
       </div>
+      {% endif %}
     </div>
     {% else %}
     <div class="govuk-summary-list govuk-summary-list-timetable">
+      {% if gateway3OverviewState == 'pass' %}
       <div class="govuk-summary-list__row">
         <div class="govuk-summary-list__key">Gateway 3 completion date</div>
         <div class="govuk-summary-list__value">{{ gateway3CompletionDate if gateway3CompletionDate and gateway3CompletionDate != '-' else 'Not provided' }}</div>
         <div class="govuk-summary-list__actions"></div>
       </div>
+      {% endif %}
     </div>
     {% endif %}
   </div>

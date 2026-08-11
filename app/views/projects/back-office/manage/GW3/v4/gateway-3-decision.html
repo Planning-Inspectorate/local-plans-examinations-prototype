@@ -1,0 +1,50 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+  What is the outcome of your decision? - {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: returnUrl or "/projects/back-office/manage/GW3/v4/gateway-3"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="form" method="post" action="/projects/back-office/manage/GW3/v4/gateway-3-decision">
+        <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
+        <input type="hidden" name="submissionVersion" value="{{ submissionVersion }}">
+        <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}{% if hasMultipleSubmissions %} - {{ submissionLabel | capitalize }}{% endif %}</span>
+        {{ govukRadios({
+          name: "gateway-3-decision-outcome",
+          fieldset: {
+            legend: {
+              text: "What is the outcome of your Gateway 3 decision?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          items: [
+            {
+              value: "Proceed to examination",
+              text: "Proceed to examination",
+              checked: gateway3DecisionOutcome == "Proceed to examination"
+            },
+            {
+              value: "Resubmission required",
+              text: "Resubmission required",
+              checked: gateway3DecisionOutcome == "Resubmission required"
+            }
+          ]
+        }) }}
+
+        <div class="govuk-button-group">
+          <button class="govuk-button" data-module="govuk-button" type="submit">Continue</button>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

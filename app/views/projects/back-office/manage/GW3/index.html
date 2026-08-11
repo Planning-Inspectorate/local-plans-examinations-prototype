@@ -76,19 +76,36 @@
       href: '/projects/back-office/manage/GW3/v' ~ version ~ '/gateway-3',
       isStartButton: true
     }) }}
-    <br>
-    <br>
-    <hr>
-    <br>
-    <br>
-    {% set version = "2" %}
-    <h2 class="govuk-heading-m">
-      Version {{ version }}
+    {% set v2HTML %}
+      {% set version = "2" %}
+      <h2 class="govuk-heading-m">
+        Tested with Case Officers - July 2026</h2>  
+        <h2 class="govuk-heading-m">
+        Version {{ version }} A
+        {{ govukTag({
+          classes: 'govuk-tag--blue govuk-!-margin-left-2',
+          text: 'In progress'
+        }) }}
+      </h2>
+ 
+      <p class="govuk-!-margin-bottom-2">Changes:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>Alternative document layout showing more document detail</li>
+      </ul>
+      {{ govukButton({
+        html: 'View prototype',
+        href: '/projects/back-office/manage/GW3/v2/gateway-3-alt',
+        isStartButton: true
+      }) }}
+      <br>
+      <br>
+      <h2 class="govuk-heading-m">
+      Version {{ version }} B
       {{ govukTag({
         classes: 'govuk-tag--blue govuk-!-margin-left-2',
         text: 'In progress'
       }) }}
-    </h2>
+      </h2>
  
     <p class="govuk-!-margin-bottom-2">Changes:</p>
  
@@ -102,6 +119,7 @@
       isStartButton: true
     }) }}
  
+  {% endset -%}
     {% set v1HTML %}
   
       {% set version = "1" %}
@@ -126,6 +144,14 @@
       id: 'previous',
       classes: 'govuk-!-margin-top-9',
       items: [
+          {
+          heading: {
+            html: 'Version 2 <strong class="govuk-tag govuk-tag--grey govuk-!-margin-left-2">Superseded</strong>'
+          },
+          content: {
+            html: v2HTML
+          }
+        },
         {
           heading: {
             html: 'Version 1 <strong class="govuk-tag govuk-tag--grey govuk-!-margin-left-2">Superseded</strong>'

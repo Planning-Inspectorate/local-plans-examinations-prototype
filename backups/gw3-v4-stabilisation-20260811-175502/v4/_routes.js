@@ -229,12 +229,6 @@ function getDecisionReportFilenameKey(submissionVersion) {
     : 'gw3v4Submission1DecisionReportFilename';
 }
 
-function getDecisionReportStoredFilenameKey(submissionVersion) {
-  return submissionVersion === '2'
-    ? 'gw3v4Submission2DecisionReportStoredFilename'
-    : 'gw3v4Submission1DecisionReportStoredFilename';
-}
-
 function getDecisionReportUploadedDateKey(submissionVersion) {
   return submissionVersion === '2'
     ? 'gw3v4Submission2DecisionReportUploadedDate'
@@ -277,40 +271,15 @@ function getWebsiteHref(value) {
   return `https://${trimmed}`;
 }
 
-function withGateway3OverviewState(returnUrl, overviewState) {
-  if (!returnUrl || !overviewState) return returnUrl;
-
-  try {
-    const parsed = new URL(returnUrl, 'http://localhost');
-    const isGateway3OverviewPath = parsed.pathname === '/projects/back-office/manage/GW3/v4/gateway-3'
-      || parsed.pathname === '/projects/back-office/manage/GW3/v4/gateway-3.html';
-
-    if (!isGateway3OverviewPath) {
-      return returnUrl;
-    }
-
-    parsed.pathname = '/projects/back-office/manage/GW3/v4/gateway-3.html';
-    parsed.searchParams.set('gateway3OverviewState', overviewState);
-    return `${parsed.pathname}${parsed.search}`;
-  } catch (e) {
-    return returnUrl;
-  }
-}
-
-const GW3_V4_OVERVIEW_URL = '/projects/back-office/manage/GW3/v4/gateway-3.html';
-
 function buildGateway3ViewModel(req, notificationMessage = '') {
-  const gateway3OverviewState = String(req.query.gateway3OverviewState || 'initial');
+  const gateway3OverviewState = String(req.query.gateway3OverviewState || req.session.gw3v4OverviewState || 'submitted');
   const documents = getGateway3Documents(req).map(buildDocumentForView);
   const submissionDocuments = documents.filter((doc) => doc.category === 'submission');
   const supplementaryDocuments = documents.filter((doc) => doc.category === 'supplementary');
   const defaultSubmissionCount = submissionDocuments.length;
   const isInitial = gateway3OverviewState === 'initial';
-  const isResubmissionRequired = gateway3OverviewState === 'resubmission-no-docs'
-    || gateway3OverviewState === 'resubmission'
-    || gateway3OverviewState === 'pass';
+  const isResubmissionRequired = gateway3OverviewState === 'resubmission-no-docs' || gateway3OverviewState === 'resubmission';
   const isResubmissionNoDocs = gateway3OverviewState === 'resubmission-no-docs';
-  const isPassState = gateway3OverviewState === 'pass';
 
   const submission1DocumentsCount = isInitial ? 0 : defaultSubmissionCount;
   const submission2DocumentsCount = isResubmissionNoDocs ? 0 : defaultSubmissionCount;
@@ -338,9 +307,6 @@ function buildGateway3ViewModel(req, notificationMessage = '') {
     ? req.session.examinationWebsite
     : '-';
   const examinationWebsiteHref = getWebsiteHref(examinationWebsite);
-  const gateway3CompletionDate = isPassState && req.session.gateway3CompletionDate && req.session.gateway3CompletionDate !== '-'
-    ? req.session.gateway3CompletionDate
-    : 'Not provided';
 
   return {
     caseRef: req.session.currentCaseRef || '',
@@ -348,7 +314,7 @@ function buildGateway3ViewModel(req, notificationMessage = '') {
     gateway3EstimatedDate: req.session.gateway3EstimatedDate && req.session.gateway3EstimatedDate !== '-' ? req.session.gateway3EstimatedDate : '2 Jun 2026',
     gateway3ActualDate: req.session.gateway3ActualDate && req.session.gateway3ActualDate !== '-' ? req.session.gateway3ActualDate : 'Not provided',
     gateway3AssessorAppointmentDate: req.session.gateway3AssessorAppointmentDate && req.session.gateway3AssessorAppointmentDate !== '-' ? req.session.gateway3AssessorAppointmentDate : 'Not provided',
-    gateway3CompletionDate,
+    gateway3CompletionDate: req.session.gateway3CompletionDate && req.session.gateway3CompletionDate !== '-' ? req.session.gateway3CompletionDate : 'Not provided',
     gateway3AssessorName: req.session.gateway3AssessorName && req.session.gateway3AssessorName !== '-' ? req.session.gateway3AssessorName : 'Not provided',
     gateway3PoContact: req.session.gateway3PoContact || {},
     examinationWebsite,
@@ -369,21 +335,15 @@ function buildGateway3ViewModel(req, notificationMessage = '') {
   };
 }
 
-function renderGateway3Overview(req, res) {
+router.get('/gateway-3', (req, res) => {
   const notificationMessage = req.session.notificationMessage || '';
   delete req.session.notificationMessage;
 
   res.render('projects/back-office/manage/GW3/v4/gateway-3', buildGateway3ViewModel(req, notificationMessage));
-}
-
-router.get('/gateway-3', (req, res) => {
-  const search = new URLSearchParams(req.query || {}).toString();
-  const suffix = search ? `?${search}` : '';
-  res.redirect(`/projects/back-office/manage/GW3/v4/gateway-3.html${suffix}`);
 });
 
 router.get('/gateway-3.html', (req, res) => {
-  renderGateway3Overview(req, res);
+  res.redirect('/projects/back-office/manage/GW3/v4/gateway-3');
 });
 
 router.get('/gateway-3-documents', (req, res) => {
@@ -398,43 +358,30 @@ router.get('/gateway-3-documents', (req, res) => {
   });
 });
 
-router.get('/gateway-3-submission-1-documents', (req, res) => {
-  const submissionDateSubmitted = formatDateForDisplay(req.session.submissionDate) || formatDateForDisplay(new Date().toISOString());
+router.get('/gateway-3-documents-updated', (req, res) => {
+  const notificationMessage = req.session.notificationMessage || '';
+  delete req.session.notificationMessage;
+  const documents = getGateway3Documents(req).map(buildDocumentForView);
+  const submissionDocuments = documents.filter((doc) => doc.category === 'submission');
+  const supplementaryDocuments = documents.filter((doc) => doc.category === 'supplementary');
 
-  res.render('projects/back-office/manage/GW3/v4/gateway-3-submission-1-documents', {
+  res.render('projects/back-office/manage/GW3/v4/gateway-3-documents-updated', {
     caseRef: req.session.currentCaseRef || '',
-    submissionNumber: '1',
-    submissionDateSubmitted,
-    returnUrl: GW3_V4_OVERVIEW_URL
+    notificationMessage,
+    submissionNumber: req.query.submissionNumber || '1',
+    submissionDateSubmitted: req.query.submissionDateSubmitted || formatDateForDisplay(new Date().toISOString()),
+    submissionDocuments,
+    supplementaryDocuments,
+    requiredCompletedCount: submissionDocuments.length,
+    requiredTotalCount: submissionDocuments.length,
+    optionalCompletedCount: supplementaryDocuments.length,
+    optionalTotalCount: supplementaryDocuments.length
   });
-});
-
-router.get('/gateway-3-submission-1-documents.html', (req, res) => {
-  res.redirect('/projects/back-office/manage/GW3/v4/gateway-3-submission-1-documents');
-});
-
-router.get('/gateway-3-submission-2-documents', (req, res) => {
-  if (req.session.gw3v4OverviewState === 'resubmission-no-docs') {
-    req.session.gw3v4OverviewState = 'resubmission';
-  }
-
-  const submissionDateSubmitted = formatDateForDisplay(new Date().toISOString());
-
-  res.render('projects/back-office/manage/GW3/v4/gateway-3-submission-2-documents', {
-    caseRef: req.session.currentCaseRef || '',
-    submissionNumber: '2',
-    submissionDateSubmitted,
-    returnUrl: GW3_V4_OVERVIEW_URL
-  });
-});
-
-router.get('/gateway-3-submission-2-documents.html', (req, res) => {
-  res.redirect('/projects/back-office/manage/GW3/v4/gateway-3-submission-2-documents');
 });
 
 router.get('/gateway-3-decision.html', (req, res) => {
   const submissionVersion = getSubmissionVersion(req.query.submissionVersion);
-  const returnUrl = req.query.returnUrl || GW3_V4_OVERVIEW_URL;
+  const returnUrl = req.query.returnUrl || '/projects/back-office/manage/GW3/v4/gateway-3';
 
   res.render('projects/back-office/manage/GW3/v4/gateway-3-decision', {
     caseRef: req.session.currentCaseRef || '',
@@ -449,7 +396,7 @@ router.get('/gateway-3-decision.html', (req, res) => {
 
 router.post('/gateway-3-decision', (req, res) => {
   const submissionVersion = getSubmissionVersion(req.body.submissionVersion);
-  const returnUrl = req.body.returnUrl || GW3_V4_OVERVIEW_URL;
+  const returnUrl = req.body.returnUrl || '/projects/back-office/manage/GW3/v4/gateway-3';
   const decisionOutcome = String(req.body['gateway-3-decision-outcome'] || '').trim();
 
   req.session[getDecisionOutcomeKey(submissionVersion)] = decisionOutcome || '-';
@@ -461,7 +408,7 @@ router.post('/gateway-3-decision', (req, res) => {
 
 router.get('/gateway-3-decision-upload', (req, res) => {
   const submissionVersion = getSubmissionVersion(req.query.submissionVersion);
-  const returnUrl = req.query.returnUrl || GW3_V4_OVERVIEW_URL;
+  const returnUrl = req.query.returnUrl || '/projects/back-office/manage/GW3/v4/gateway-3';
 
   res.render('projects/back-office/manage/GW3/v4/gateway-3-decision-upload', {
     caseRef: req.session.currentCaseRef || '',
@@ -477,7 +424,7 @@ router.get('/gateway-3-decision-upload', (req, res) => {
 
 router.post('/gateway-3-decision-upload', (req, res) => {
   const submissionVersion = getSubmissionVersion(req.body.submissionVersion);
-  const returnUrl = req.body.returnUrl || GW3_V4_OVERVIEW_URL;
+  const returnUrl = req.body.returnUrl || '/projects/back-office/manage/GW3/v4/gateway-3';
   const uploadedDocuments = getUploadedDocumentsFromSessionData(req);
 
   if (!uploadedDocuments.length) {
@@ -485,7 +432,6 @@ router.post('/gateway-3-decision-upload', (req, res) => {
   }
 
   req.session[getDecisionReportFilenameKey(submissionVersion)] = uploadedDocuments[0].originalname || '-';
-  req.session[getDecisionReportStoredFilenameKey(submissionVersion)] = uploadedDocuments[0].filename || '';
   req.session[getDecisionReportUploadedDateKey(submissionVersion)] = new Date().toLocaleDateString('en-GB', {
     day: 'numeric',
     month: 'long',
@@ -499,7 +445,7 @@ router.post('/gateway-3-decision-upload', (req, res) => {
 
 router.get('/gateway-3-decision-upload/clear-uploads', (req, res) => {
   const submissionVersion = getSubmissionVersion(req.query.submissionVersion);
-  const returnUrl = req.query.returnUrl || GW3_V4_OVERVIEW_URL;
+  const returnUrl = req.query.returnUrl || '/projects/back-office/manage/GW3/v4/gateway-3';
 
   if (!req.session.data) req.session.data = {};
   req.session.data.fileData = '';
@@ -512,7 +458,7 @@ router.get('/gateway-3-decision-upload/clear-uploads', (req, res) => {
 
 router.get('/gateway-3-decision-check-answers.html', (req, res) => {
   const submissionVersion = getSubmissionVersion(req.query.submissionVersion);
-  const returnUrl = req.query.returnUrl || GW3_V4_OVERVIEW_URL;
+  const returnUrl = req.query.returnUrl || '/projects/back-office/manage/GW3/v4/gateway-3';
 
   res.render('projects/back-office/manage/GW3/v4/gateway-3-decision-check-answers', {
     caseRef: req.session.currentCaseRef || '',
@@ -523,23 +469,20 @@ router.get('/gateway-3-decision-check-answers.html', (req, res) => {
     returnUrl,
     gateway3DecisionOutcome: req.session[getDecisionOutcomeKey(submissionVersion)] || '-',
     gateway3DecisionReportFilename: req.session[getDecisionReportFilenameKey(submissionVersion)] || '-',
-    gateway3DecisionReportStoredFilename: req.session[getDecisionReportStoredFilenameKey(submissionVersion)] || '',
     uploadedDocuments: getUploadedDocumentsFromSessionData(req)
   });
 });
 
 router.post('/gateway-3-decision-check-answers', (req, res) => {
   const submissionVersion = getSubmissionVersion(req.body.submissionVersion);
-  const returnUrl = req.body.returnUrl || GW3_V4_OVERVIEW_URL;
+  const returnUrl = req.body.returnUrl || '/projects/back-office/manage/GW3/v4/gateway-3';
   const decisionOutcome = req.session[getDecisionOutcomeKey(submissionVersion)] || '-';
-  const normalizedDecisionOutcome = String(decisionOutcome).trim().toLowerCase();
   const reportUploadedDate = req.session[getDecisionReportUploadedDateKey(submissionVersion)] || '-';
   const decisionDate = new Date().toLocaleDateString('en-GB', {
     day: 'numeric',
     month: 'long',
     year: 'numeric'
   });
-  let nextOverviewState = req.session.gw3v4OverviewState || 'initial';
 
   if (submissionVersion === '2') {
     req.session.gw3v4Submission2DecisionOutcome = decisionOutcome;
@@ -550,42 +493,36 @@ router.post('/gateway-3-decision-check-answers', (req, res) => {
   }
 
   // Keep GW3 overview aligned with issued decision outcome.
-  if (submissionVersion === '1' && normalizedDecisionOutcome === 'resubmission required') {
-    nextOverviewState = 'resubmission-no-docs';
+  if (submissionVersion === '1' && decisionOutcome === 'Resubmission required') {
+    req.session.gw3v4OverviewState = 'resubmission-no-docs';
     req.session.gw3v4Submission2DecisionOutcome = '-';
     req.session.gw3v4Submission2DecisionDate = '-';
     req.session.gw3v4Submission2DecisionReportFilename = '-';
-    req.session.gw3v4Submission2DecisionReportStoredFilename = '';
     req.session.gw3v4Submission2DecisionReportUploadedDate = '-';
-    req.session.gateway3CompletionDate = '-';
-    if (!req.session.data) req.session.data = {};
-    req.session.data.gateway3CompletionDate = '-';
   }
 
-  if (submissionVersion === '1' && (normalizedDecisionOutcome === 'proceed to examination' || normalizedDecisionOutcome === 'pass')) {
-    nextOverviewState = 'pass';
+  if (submissionVersion === '1' && (decisionOutcome === 'Proceed to examination' || decisionOutcome === 'Pass')) {
+    req.session.gw3v4OverviewState = 'pass';
   }
 
-  if (submissionVersion === '2' && normalizedDecisionOutcome === 'resubmission required') {
-    nextOverviewState = 'resubmission';
+  if (submissionVersion === '2' && decisionOutcome === 'Resubmission required') {
+    req.session.gw3v4OverviewState = 'resubmission';
   }
 
-  if (submissionVersion === '2' && (normalizedDecisionOutcome === 'proceed to examination' || normalizedDecisionOutcome === 'pass')) {
-    nextOverviewState = 'pass';
+  if (submissionVersion === '2' && (decisionOutcome === 'Proceed to examination' || decisionOutcome === 'Pass')) {
+    req.session.gw3v4OverviewState = 'pass';
   }
 
-  if (normalizedDecisionOutcome === 'proceed to examination' && reportUploadedDate !== '-') {
+  if ((decisionOutcome === 'Proceed to examination' || decisionOutcome === 'Pass') && reportUploadedDate !== '-') {
     req.session.gateway3CompletionDate = reportUploadedDate;
     if (!req.session.data) req.session.data = {};
     req.session.data.gateway3CompletionDate = reportUploadedDate;
   }
 
-  req.session.gw3v4OverviewState = nextOverviewState;
-
   req.session.notificationMessage = 'Gateway 3 decision issued and notification sent to LPA';
 
   req.session.save(() => {
-    res.redirect(withGateway3OverviewState(GW3_V4_OVERVIEW_URL, nextOverviewState));
+    res.redirect(returnUrl);
   });
 });
 
