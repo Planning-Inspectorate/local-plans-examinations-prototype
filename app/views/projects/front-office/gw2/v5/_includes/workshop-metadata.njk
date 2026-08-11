@@ -24,9 +24,15 @@
     <span class="govuk-caption-xl">East Borough local plan</span>
     Gateway 2 submission
   </h1>
+  {% if currentStage == 'gateway-2' %}
     <strong class="govuk-tag govuk-tag--yellow app-header__tag">
-      Submitted, under assessment
+      Under review
     </strong>
+  {% else %}
+    <strong class="govuk-tag app-header__tag">
+      Completed
+    </strong>
+  {% endif %}
 </div>
 
   {% set reportStatus = data['report'] %}
