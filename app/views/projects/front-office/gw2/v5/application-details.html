@@ -1,0 +1,108 @@
+{% extends "layouts/front-office-v2.html" %}
+{% set errorStatus = data['error'] %}
+
+{% block pageTitle %} Application details – {{ serviceName }}
+{% endblock %}
+
+{% set prototypeLinks =
+[
+{
+href: 'application-details?error=true',
+text: 'Error message'
+},
+{
+href: 'application-declaration',
+text: 'Skip to declaration'
+},
+{
+href: 'application-submission-success',
+text: 'Skip to confirmation'
+}
+]
+%}
+
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "/projects/front-office/plan-details/v3/plan-details"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+
+        {% if errorStatus == 'true' %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: [
+            {
+              text: "Select a document to upload",
+              href: "#procedural-documents"
+            }
+          ]
+        }) }}
+        {% endif %}
+
+       <!--{% call govukNotificationBanner({
+        }) %}
+          <h3 class="govuk-notification-banner__heading">
+            Virus scan in progress
+          </h3>
+          <p class="govuk-body"><a class="govuk-notification-banner__link" href="#">Refresh the page to see if scan has finished</a></p>
+        {% endcall %}-->
+
+
+    {% include "./_includes/application-metadata.njk" %}
+
+    <p class="govuk-body"><a href="/projects/front-office/plan-details/v3/plan-details?status=in-progress">Save and come back later</a></p>
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible" />
+
+    <style>
+      .app-task-list>li {
+        position: relative;
+      }
+
+      .app-task-list__section .govuk-tag {
+        position: absolute;
+        top: 3px;
+        right: 0;
+      }
+
+      .app-task-list .govuk-summary-list {
+        border-top: 1px solid #b1b4b6;
+      }
+
+      .app-task-list .govuk-summary-list__key {
+        width: 50%;
+      }
+
+      .app-task-list .govuk-summary-list__value {
+        width: 40%;
+      }
+
+      .app-task-list .govuk-summary-list__actions {
+        width: 10%;
+      }
+
+      .app-task-list__section {
+        padding-right: 140px;
+      }
+    </style>
+
+    <ol class="app-task-list">
+      {% include "./task-list__procedural.html" %}
+      {% include "./task-list__consultation.html" %}
+      {% include "./task-list__supplementary-docs.html" %}
+      {% include "./task-list__additional.html" %}
+      {% include "./task-list__workshop.html" %}
+      {% include "./task-list__submit.html" %}
+    </ol>
+
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,41 @@
+<!--<li>
+<h2 class="app-task-list__section">
+  Submit
+  {% if data['procedural-started'] == 'true' %}
+    {{ govukTag({ text: 'Submission available', classes: 'govuk-tag--blue' }) }}
+  {% else %}
+    {{ govukTag({ text: 'Cannot start yet', classes: 'govuk-tag--grey' }) }}
+  {% endif %}
+</h2>
+  <p class="govuk-body govuk-hint">You must upload at least one document before you can submit</p>
+
+
+  {{ govukSummaryList({
+    classes: 'govuk-!-margin-bottom-9',
+    rows: [
+      {
+        key: { html: 'Accept declaration and submit' },
+        actions: {
+          items: [
+            {
+              href: 'application-declaration',
+              html: 'Continue'
+            }
+          ]
+        } if data['procedural-started'] == 'true'
+      }
+    ]
+  }) }}
+</li>-->
+
+<li>
+
+  <h2 class="govuk-heading-m">Now submit for gateway 2 assessment</h2>
+
+      <p class="govuk-body">By submitting this application you are confirming that, to the best of your knowledge, the details you are providing are correct.</p>
+
+  {{ govukButton({
+  text: "Submit",
+  href: "application-declaration"
+}) }}
+</li>

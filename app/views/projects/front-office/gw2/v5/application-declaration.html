@@ -1,0 +1,41 @@
+{% extends "layouts/front-office-v2.html" %}
+
+{% block pageTitle %}
+  Confirm declaration – {{ serviceName }}
+{% endblock %}
+ 
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+ 
+{% block content %}
+ 
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+ 
+    {% call govukPanel({
+        titleText: "Are you sure you're ready to submit?",
+        classes: "govuk-panel--interruption",
+        actions: {
+          items: [
+            {
+              text: "Yes, send my submission",
+              href: "application-submission-success",
+              type: "button"
+            }, {
+              text: "No, go back",
+              href: "application-details"
+            }
+          ]
+        }
+      }) %}
+        <!-- <p class="govuk-body">You entered your age as <strong>109</strong>.</p> -->
+      {% endcall %}
+  
+  </div>
+</div>
+ 
+{% endblock %}

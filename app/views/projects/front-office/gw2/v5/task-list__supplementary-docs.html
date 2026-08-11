@@ -1,0 +1,34 @@
+<li>
+  <h2 class="app-task-list__section">
+    Subsequent work towards a draft Plan
+  </h2>
+
+  {{ govukSummaryList({
+    classes: 'govuk-!-margin-bottom-9',
+    rows: [
+
+      {
+        key: { text: 'Full list of evidence base documents (dates for completion)' },
+        value:
+          { html: "<a class='govuk-link' href='#'>evidence-base-documents.pdf</a>" } if data['evidence-base-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'supplementary-documents/evidence-base-upload?cya=true', text: 'Change', visuallyHiddenText: 'full list of evidence base documents' } if data['evidence-base-upload-complete']
+          else { href: 'supplementary-documents/evidence-base-upload', text: 'Add', visuallyHiddenText: 'full list of evidence base documents' }
+        ]}
+      },
+
+      {
+        key: { text: 'Latest version of your draft Plan' },
+        value:
+          { html: "<a class='govuk-link' href='#'>draft-plan.pdf</a>" } if data['draft-plan-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'supplementary-documents/draft-plan-upload?cya=true', text: 'Change', visuallyHiddenText: 'latest version of your draft plan' } if data['draft-plan-upload-complete']
+          else { href: 'supplementary-documents/draft-plan-upload', text: 'Add', visuallyHiddenText: 'latest version of your draft plan' }
+        ]}
+      }
+
+    ]
+  }) }}
+</li>

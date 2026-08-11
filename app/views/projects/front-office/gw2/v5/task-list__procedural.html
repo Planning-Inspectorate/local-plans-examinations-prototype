@@ -1,0 +1,83 @@
+<li>
+  <h2 class="app-task-list__section" id="procedural-documents">
+    Procedural documents
+  </h2>
+  <p class="govuk-body">We highly recommend including all these documents in your submission. Your assessor may request them if not submitted. They should be final versions except where drafts are specified.</p>
+
+  {% set timetableValue = { html: "<a href='#'>timetable.pdf</a>" } if data['timetable-upload-complete'] else { html: '<span class="govuk-hint">Not added</span>' } %}
+  {% set timetableAction = { href: 'procedural-documents/timetable-upload?cya=true', html: 'Change', visuallyHiddenText: 'local plan timetable' } if data['timetable-upload-complete'] else { href: 'procedural-documents/timetable-upload', html: 'Add', visuallyHiddenText: 'local plan timetable' } %}
+
+     <!--{
+        key: { text: 'Gateway 2 covering letter' },
+        value: { html: 'cover-letter.pdf  <strong class="govuk-tag govuk-tag--yellow">Virus scanning</strong>' },
+        actions: { items: [
+          { href: 'procedural-documents/cover-letter-upload?cya=true', html: 'Change' }
+        ]}
+      },
+
+      {
+        key: { text: 'Local plan timetable' },
+        value: { html: 'timetable.pdf  <strong class="govuk-tag govuk-tag--red">Virus detected</strong>' },
+        actions: { items: [
+          { href: 'procedural-documents/timetable-upload?cya=true', html: 'Change' }
+        ]}
+      },-->
+
+
+  {{ govukSummaryList({
+    classes: 'govuk-!-margin-bottom-9',
+    rows: [
+
+      {
+        key: { text: 'Gateway 2 covering letter' },
+        value:
+          { html: "<a href='#'>cover-letter.pdf</a>" } if data['cover-letter-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'procedural-documents/cover-letter-upload?cya=true', html: 'Change', visuallyHiddenText: 'Gateway 2 covering letter' } if data['cover-letter-upload-complete']
+          else { href: 'procedural-documents/cover-letter-upload', html: 'Add', visuallyHiddenText: 'Gateway 2 covering letter' }
+        ]}
+      },
+
+      {
+        key: { text: 'Local plan timetable' },
+        value: timetableValue,
+        actions: { items: [ timetableAction ] }
+      },
+
+      {
+        key: { text: 'Project initiation document' },
+        value:
+          { html: "<a href='#'>pid.pdf</a>" } if data['pid-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'procedural-documents/pid-upload?cya=true', html: 'Change', visuallyHiddenText: 'project initiation document' } if data['pid-upload-complete']
+          else { href: 'procedural-documents/pid-upload', html: 'Add', visuallyHiddenText: 'project initiation document' }
+        ]}
+      },
+
+      {
+        key: { text: 'Draft statement of compliance' },
+        value:
+          { html: "<a href='#'>compliance.pdf</a>" } if data['compliance-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'procedural-documents/compliance-upload?cya=true', html: 'Change', visuallyHiddenText: 'draft statement of compliance' } if data['compliance-upload-complete']
+          else { href: 'procedural-documents/compliance-upload', html: 'Add', visuallyHiddenText: 'draft statement of compliance' }
+        ]}
+      },
+
+      {
+        key: { text: 'Draft statement of soundness' },
+        value:
+          { html: "<a href='#'>soundness.pdf</a>" } if data['soundness-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'procedural-documents/soundness-upload?cya=true', html: 'Change', visuallyHiddenText: 'draft statement of soundness' } if data['soundness-upload-complete']
+          else { href: 'procedural-documents/soundness-upload', html: 'Add', visuallyHiddenText: 'draft statement of soundness' }
+        ]}
+      }
+
+    ]
+  }) }}
+</li>

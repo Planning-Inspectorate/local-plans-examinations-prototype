@@ -1,0 +1,65 @@
+{% extends "layouts/front-office-v2.html" %}
+
+{% set reportStatus = data['report'] %}
+
+{% set prototypeLinks =
+[
+{
+href: 'application-details-submitted?report=shared',
+text: 'GW2 report shared'
+}
+]
+%}
+
+{% block pageTitle %}
+  Application details – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/projects/front-office/plan-details/v3/plan-details?stage=gateway-3&status=ready&report="
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+{% set supplementaryDocuments %}
+    <ul class="govuk-list govuk-list--bullet">
+      <li><a class="govuk-link" href="#">supplementary-doc-1.pdf</a></li>
+      <li><a class="govuk-link" href="#">supplementary-doc-2.pdf</a></li>
+      <li><a class="govuk-link" href="#">supplementary-doc-3.pdf</a></li>
+    </ul>
+  {% endset %}
+
+  {% set workshopDocuments %}
+    <ul class="govuk-list govuk-list--bullet">
+      <li><a class="govuk-link" href="#">workshop-agenda.pdf</a><br>Shared by the Planning Inspectorate on 8 May 2026</li>
+      <li><a class="govuk-link" href="#">workshop-questions.pdf</a><br>Shared by the Planning Inspectorate on 8 May 2026</li>
+    </ul>
+  {% endset %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters-from-desktop">
+
+    {% include "./_includes/workshop-metadata.html" %}
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible" />
+
+    <p class="govuk-body">
+      Your submission was sent on 25 April 2026 at 12:00pm by Laura Thornton.
+    </p>
+
+    <!--<p class="govuk-body">
+      If you need to make any changes, send an email to:
+      <a href="mailto:support@planninginspectorate.gov.uk" class="govuk-link">
+        support@planninginspectorate.gov.uk
+      </a>
+    </p>-->
+
+    {% include "./_includes/application-details-submitted.njk" %}
+
+  </div>
+</div>
+
+{% endblock %}
