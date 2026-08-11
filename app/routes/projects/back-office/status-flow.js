@@ -1,21 +1,19 @@
 const { getPlanStatusClasses } = require('./plan-status-classes');
 
 const FLOW_STATUSES = [
-  'Awaiting signed SLA',
-  'Awaiting GW2 submission',
-  'GW2 submission received',
-  'GW2 workshop to be arranged',
+  'Awaiting SLA',
+  'GW2 submission',
+  'GW2 submitted',
   'GW2 workshop confirmed',
-  'GW2 report in progress',
-  'Awaiting GW3 submission'
+  'GW2 report',
+  'GW3 submission'
 ];
 
 const BASELINE_STATUSES = new Set([
   '',
-  'Awaiting signed SLA',
-  'Awaiting GW2',
-  'GW2 With LPA',
-  'GW2 Validation',
+  'Awaiting SLA',
+  'GW2 submission',
+  'GW2 submitted',
   'Ready for GW2',
   'Awaiting GW3 submission',
   'GW2 awaiting workshop',
@@ -23,14 +21,24 @@ const BASELINE_STATUSES = new Set([
 ]);
 
 const STATUS_EVENT_TARGET = {
-  SLA_PENDING: 'Awaiting signed SLA',
-  SLA_CONFIRMED: 'Awaiting GW2 submission',
-  GW2_SUBMISSION_RECEIVED: 'GW2 submission received',
+  SLA_PENDING: 'Awaiting SLA',
+  SLA_CONFIRMED: 'GW2 submission',
+  GW2_SUBMISSION_RECEIVED: 'GW2 submission',
   WORKSHOP_CONFIRMED: 'GW2 workshop confirmed',
-  WORKSHOP_COMPLETED: 'GW2 report in progress',
-  GW2_REPORT_ISSUED: 'Awaiting GW3 submission',
-  FLOW_RESET: 'Awaiting signed SLA'
+  WORKSHOP_COMPLETED: 'GW2 report',
+  GW2_REPORT_ISSUED: 'GW3 submission',
+  FLOW_RESET: 'Awaiting SLA'
 };
+
+function normalizeStatusLabel(statusText) {
+  if (!statusText) return '';
+
+  const normalized = String(statusText).trim();
+  if (normalized === 'Awaiting GW3') return 'GW3 submission';
+  if (normalized === 'Awaiting GW3 submission') return 'GW2 submission';
+
+  return normalized;
+}
 
 function ensureSessionData(req) {
   if (!req.session.data) req.session.data = {};
@@ -65,10 +73,10 @@ function setStatus(req, statusText, options = {}) {
     res
   } = options;
 
-  const targetStatus = String(statusText || '').trim();
+  const targetStatus = normalizeStatusLabel(statusText);
   if (!targetStatus) return false;
 
-  const fromStatus = String(req.session.planStatus || '').trim();
+  const fromStatus = normalizeStatusLabel(req.session.planStatus || '');
   const targetIndex = FLOW_STATUSES.indexOf(targetStatus);
   const currentIndex = FLOW_STATUSES.indexOf(fromStatus);
 

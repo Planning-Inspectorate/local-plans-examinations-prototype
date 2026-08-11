@@ -204,10 +204,32 @@ function clearReviewDraft(req) {
 }
 
 function buildGateway3ViewModel(req, notificationMessage = '') {
+  const gateway3OverviewState = String(req.query.gateway3OverviewState || 'submitted');
   const documents = getGateway3Documents(req).map(buildDocumentForView);
   const submissionDocuments = documents.filter((doc) => doc.category === 'submission');
   const supplementaryDocuments = documents.filter((doc) => doc.category === 'supplementary');
-  const submissionDocumentsCount = submissionDocuments.length;
+  const defaultSubmissionCount = submissionDocuments.length;
+  const isInitial = gateway3OverviewState === 'initial';
+  const isResubmissionRequired = gateway3OverviewState === 'resubmission-no-docs' || gateway3OverviewState === 'resubmission';
+  const isResubmissionNoDocs = gateway3OverviewState === 'resubmission-no-docs';
+
+  const submission1DocumentsCount = isInitial ? 0 : defaultSubmissionCount;
+  const submission2DocumentsCount = isResubmissionNoDocs ? 0 : defaultSubmissionCount;
+
+  let submission1Decision = '-';
+  let submission1DecisionDate = '-';
+  let submission2Decision = '-';
+  let submission2DecisionDate = '-';
+
+  if (gateway3OverviewState === 'resubmission-no-docs' || gateway3OverviewState === 'resubmission') {
+    submission1Decision = 'Resubmission required';
+    submission1DecisionDate = '10 June 2026';
+  }
+
+  if (gateway3OverviewState === 'pass') {
+    submission1Decision = 'Pass';
+    submission1DecisionDate = '12 June 2026';
+  }
 
   return {
     caseRef: req.session.currentCaseRef || '',
@@ -220,10 +242,17 @@ function buildGateway3ViewModel(req, notificationMessage = '') {
     gateway3PoContact: req.session.gateway3PoContact || {},
     submissionDocuments,
     supplementaryDocuments,
-    submissionDocumentsCount,
+    submissionDocumentsCount: submission1DocumentsCount,
+    gateway3OverviewState,
+    isResubmissionRequired,
+    isResubmissionNoDocs,
+    submission1Decision,
+    submission1DecisionDate,
+    submission2Decision,
+    submission2DecisionDate,
     // Compatibility keys used by the current v4 template.
-    submission1DocumentsCount: submissionDocumentsCount,
-    submission2DocumentsCount: submissionDocumentsCount
+    submission1DocumentsCount,
+    submission2DocumentsCount
   };
 }
 

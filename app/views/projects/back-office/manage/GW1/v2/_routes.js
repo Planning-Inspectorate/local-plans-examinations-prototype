@@ -71,7 +71,7 @@ function buildFooterLinks() {
 			href: '/projects/back-office/manage/GW1/v2/set-state?state=initial&returnUrl=/projects/back-office/manage/GW1/v2/gateway-1'
 		},
 				{
-			text: 'Pre upload',
+			text: 'Reset status flow',
 			href: '/projects/back-office/manage/GW1/v2/reset-status-flow?returnUrl=/projects/back-office/manage/GW1/v2/gateway-1'
 		},
 		{

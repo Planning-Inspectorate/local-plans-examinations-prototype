@@ -8,6 +8,7 @@
   {% include "includes/service-navigation.html" %}
 {% endblock %}
 
+
 {% block beforeContent %}
   {{ govukBackLink({
     html: 'Back to all prototypes',
@@ -25,7 +26,8 @@
     <h1 class="govuk-heading-l">
       {{ title }}
     </h1>
-    {# {% set version = "4" %}
+
+    {% set version = "4" %}
     <h2 class="govuk-heading-m">
       Version {{ version }}
       {{ govukTag({
@@ -36,13 +38,24 @@
 
     <p class="govuk-!-margin-bottom-2">Changes:</p>
     <ul class="govuk-list govuk-list--bullet">
-      <li>Validation per document</li>
+      <li>Gateway 3 v4 submission review and decision flow</li>
     </ul>
     {{ govukButton({
       html: 'View prototype',
       href: '/projects/back-office/manage/GW3/v' ~ version ~ '/gateway-3',
       isStartButton: true
-    }) }} #}
+    }) }}
+
+    <p class="govuk-body">
+      Status scenarios (v4):
+      <a class="govuk-link" href="/projects/back-office/manage/GW3/v4/gateway-3?gateway3OverviewState=initial">Initial state</a>,
+      <a class="govuk-link" href="/projects/back-office/manage/GW3/v4/gateway-3?gateway3OverviewState=submitted">Submitted state</a>,
+      <a class="govuk-link" href="/projects/back-office/manage/GW3/v4/gateway-3?gateway3OverviewState=resubmission-no-docs">Resubmission no documents state</a>,
+      <a class="govuk-link" href="/projects/back-office/manage/GW3/v4/gateway-3?gateway3OverviewState=resubmission">Resubmission state</a>,
+      <a class="govuk-link" href="/projects/back-office/manage/GW3/v4/gateway-3?gateway3OverviewState=pass">Pass state</a>
+    </p>
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
     {% set version = "3" %}
     <h2 class="govuk-heading-m">

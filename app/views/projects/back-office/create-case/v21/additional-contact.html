@@ -1,4 +1,5 @@
 {% extends "layouts/back-office.html" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% block pageTitle %}
 Additional contact details – {{ serviceName }}
@@ -14,6 +15,12 @@ Additional contact details – {{ serviceName }}
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+      {% if error %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: [{ text: error, href: "#additional-contact-first-name" }]
+        }) }}
+      {% endif %}
       
 
       <form method="post">
@@ -26,10 +33,15 @@ Additional contact details – {{ serviceName }}
             </h1>
           </legend>
    
-          <div class="govuk-form-group">
+          <div class="govuk-form-group {% if error %}govuk-form-group--error{% endif %}">
             <label class="govuk-label" for="additional-contact-first-name">
               First name
             </label>
+            {% if error %}
+              <p id="additional-contact-first-name-error" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> {{ error }}
+              </p>
+            {% endif %}
             <input class="govuk-input" id="additional-contact-first-name" name="firstName" type="text" autocomplete="given-name" value="{{ contact.firstName | default('') }}">
           </div>
           <div class="govuk-form-group">
@@ -86,7 +98,7 @@ Additional contact details – {{ serviceName }}
         {% endif %}
           
           {% if editIndex !== '' or fromCheckAnswers %}
-          <a href="/projects/back-office/create-case/v2/check-answers" class="govuk-link">Cancel</a>
+          <a href="/projects/back-office/create-case/v21/check-answers" class="govuk-link">Cancel</a>
           {% endif %}
         </div>
       </form>

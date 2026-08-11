@@ -8,6 +8,7 @@
   {% include "includes/service-navigation.html" %}
 {% endblock %}
 
+
 {% block beforeContent %}
   {{ govukBackLink({
     html: 'Back to all prototypes',
@@ -25,7 +26,8 @@
     <h1 class="govuk-heading-l">
       {{ title }}
     </h1>
-    {# {% set version = "4" %} 
+
+    {% set version = "4" %}
     <h2 class="govuk-heading-m">
       Version {{ version }}
       {{ govukTag({
@@ -37,14 +39,23 @@
     <p class="govuk-!-margin-bottom-2">Changes:</p>
  
     <ul class="govuk-list govuk-list--bullet">
-      <li>Alternative document layout showing more document detail</li>
+      <li>Gateway 2 v4 workflow and status scenarios</li>
     </ul>
     {{ govukButton({
       html: 'View prototype',
       href: '/projects/back-office/manage/GW2/v4/gateway-2',
       isStartButton: true
     }) }}
-   #}
+
+    <p class="govuk-body">
+      Status scenarios (v4):
+      <a class="govuk-link" href="/projects/back-office/manage/GW2/v4/set-status?state=none&returnUrl=/projects/back-office/manage/GW2/v4/gateway-2">GW2 submission</a>,
+      <a class="govuk-link" href="/projects/back-office/manage/GW2/v4/set-status?state=submission-received&returnUrl=/projects/back-office/manage/GW2/v4/gateway-2">GW2 submitted</a>,
+      <a class="govuk-link" href="/projects/back-office/manage/GW2/v4/set-status?state=workshop-confirmed&returnUrl=/projects/back-office/manage/GW2/v4/gateway-2">GW2 workshop confirmed</a>,
+      <a class="govuk-link" href="/projects/back-office/manage/GW2/v4/set-status?state=gw3-submission&returnUrl=/projects/back-office/manage/GW2/v4/gateway-2">GW3 submission</a>
+    </p>
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
     {% set version = "3" %}
     <h2 class="govuk-heading-m">

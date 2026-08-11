@@ -1,4 +1,5 @@
 {% extends "layouts/back-office.html" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% block pageTitle %}
   {% if isEdit %}Who is the case officer?{% else %}Who is the case officer?{% endif %} – {{ serviceName }}
@@ -15,14 +16,28 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <form action="/projects/back-office/create-case/v2/0-case-officer-name" method="POST" novalidate="">
-      <div class="govuk-form-group">
+    {% if showCaseOfficerError and caseOfficerError %}
+      {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [{ text: caseOfficerError, href: "#caseOfficer" }]
+      }) }}
+    {% endif %}
+
+    <form action="/projects/back-office/create-case/v21/0-case-officer-name" method="POST" novalidate="">
+      <input type="hidden" name="isEdit" value="{{ isEdit }}">
+
+      <div class="govuk-form-group {% if showCaseOfficerError and caseOfficerError %}govuk-form-group--error{% endif %}">
         <h1 class="govuk-label-wrapper">
           <label class="govuk-label govuk-label--l" for="caseOfficer">
              Who is the case officer?
           </label>
         </h1>
-        <select class="govuk-select govuk-!-width-two-thirds" id="caseOfficer" name="caseOfficer">
+        {% if showCaseOfficerError and caseOfficerError %}
+          <p id="caseOfficer-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> {{ caseOfficerError }}
+          </p>
+        {% endif %}
+        <select class="govuk-select govuk-!-width-two-thirds {% if showCaseOfficerError and caseOfficerError %}govuk-select--error{% endif %}" id="caseOfficer" name="caseOfficer" {% if showCaseOfficerError and caseOfficerError %}aria-describedby="caseOfficer-error"{% endif %}>
           <option value="" {% if not caseOfficer %}selected{% endif %} disabled>Select an option</option>
           <option value="Jane Smith" {% if caseOfficer == "Jane Smith" %}selected{% endif %}>Jane Smith</option>
           <option value="John Doe" {% if caseOfficer == "John Doe" %}selected{% endif %}>John Doe</option>
@@ -43,7 +58,7 @@
         {% endif %}
         
         {% if isEdit %}
-        <a href="/projects/back-office/create-case/v2/check-answers" class="govuk-link">Cancel</a>
+        <a href="/projects/back-office/create-case/v21/check-answers" class="govuk-link">Cancel</a>
         {% endif %}
       </div>
     </form>

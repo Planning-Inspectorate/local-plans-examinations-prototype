@@ -30,6 +30,14 @@ Gateway 2 overview – {{ serviceName }}
     {% include "includes/back-office/plan-header.njk" %}
      {% set currentSection = "gateway-2" %}
       {% include "includes/back-office/secondary-nav.njk" %}
+
+      <p class="govuk-body">
+        Status scenarios:
+        <a class="govuk-link" href="/projects/back-office/manage/GW2/v4/set-status?state=none&returnUrl=/projects/back-office/manage/GW2/v4/gateway-2">GW2 submission</a>,
+        <a class="govuk-link" href="/projects/back-office/manage/GW2/v4/set-status?state=submission-received&returnUrl=/projects/back-office/manage/GW2/v4/gateway-2">GW2 submitted</a>,
+        <a class="govuk-link" href="/projects/back-office/manage/GW2/v4/set-status?state=workshop-confirmed&returnUrl=/projects/back-office/manage/GW2/v4/gateway-2">GW2 workshop confirmed</a>,
+        <a class="govuk-link" href="/projects/back-office/manage/GW2/v4/set-status?state=gw3-submission&returnUrl=/projects/back-office/manage/GW2/v4/gateway-2">GW3 submission</a>
+      </p>
    
       {% include "projects/back-office/manage/GW2/v4/partials/_gateway-summary.njk" %}
       {% include "projects/back-office/manage/GW2/v4/partials/_workshop-details.njk" %}
@@ -47,7 +55,7 @@ Gateway 2 overview – {{ serviceName }}
           Suggested workshop venue
         </dt>
         <dd class="govuk-summary-list__value">
-          Virtual
+              {{ gateway2WorkshopVenue if gateway2WorkshopVenue and gateway2WorkshopVenue != '-' else 'Not provided' }}
         </dd>
         
         
@@ -57,7 +65,7 @@ Gateway 2 overview – {{ serviceName }}
           Suggested workshop dates
         </dt>
         <dd class="govuk-summary-list__value">
-          20 - 23rd if July or we're free the week of July 27th
+          {{ gateway2WorkshopDate if gateway2WorkshopDate and gateway2WorkshopDate != '-' else 'Not provided' }}
         </dd>
       </div>
       <div class="govuk-summary-list__row">

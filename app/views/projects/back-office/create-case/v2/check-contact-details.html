@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-  Check contact details – {{ serviceName }}
+  Check contact details – {{ serviceName }} 
 {% endblock %}
 
 {% block beforeContent %}
@@ -12,77 +12,76 @@
 {% endblock %}
 
 {% block content %}
-{% set totalContacts = (1 if mainContact else 0) + (contacts.length if contacts else 0) %}
-{% set summaryRowsHtml %}
-  {%- if mainContact -%}
+<h1 class="govuk-heading-l">Check contact details</h1>
+
+<p>
+<a href="/projects/back-office/create-case/v2/additional-contact" class="govuk-body govuk-link">Add details<span class="govuk-visually-hidden"> for an additional contact</span></a>
+</p>
+<dl class="govuk-summary-list">
+  {% if mainContact %}
     {% set mainContactLabel = (mainContact.firstName ~ ' ' ~ mainContact.lastName) | trim %}
     {% if not mainContactLabel %}
       {% set mainContactLabel = mainContact.email or 'main contact' %}
     {% endif %}
     <div class="govuk-summary-list__row">
-      <div class="govuk-summary-list__key">Main contact</div>
-      <div class="govuk-summary-list__value">
+      <dt class="govuk-summary-list__key" style="width: 25%;">
+        Main contact
+      </dt>
+      <dd class="govuk-summary-list__value" style="width: 55%;">
         {{ mainContact.firstName }} {{ mainContact.lastName }}<br>
         {{ mainContact.email }}<br>
         {% if mainContact.phone %}{{ mainContact.phone }}<br>{% endif %}
+      </dd>
+      <dd class="govuk-summary-list__value"style="width: 15%;">
         {{ mainContact.organisation }}
-      </div>
-      <div class="govuk-summary-list__actions">
+      </dd>
+      <dd class="govuk-summary-list__actions" style="width: 25%;">
         <ul class="govuk-summary-list__actions-list">
           <li class="govuk-summary-list__actions-list-item">
             <a class="govuk-link" href="/projects/back-office/create-case/v2/remove-contact-details-page?type=main">Remove<span class="govuk-visually-hidden"> {{ mainContactLabel }} from the list</span></a>
           </li>
           <li class="govuk-summary-list__actions-list-item">
-            <a class="govuk-link" href="/projects/back-office/create-case/v2/main-contact?edit=true&from=check-contact-details">Change<span class="govuk-visually-hidden"> {{ mainContactLabel }}</span></a>
+            <a class="govuk-link" href="/projects/back-office/create-case/v2/main-contact?edit=true">Change<span class="govuk-visually-hidden"> {{ mainContactLabel }}</span></a>
           </li>
         </ul>
-      </div>
+      </dd>
     </div>
-  {%- endif -%}
-  {%- if contacts -%}
-    {%- for contact in contacts -%}
-      {%- if contact.firstName or contact.lastName or contact.email -%}
-        {% set contactLabel = (contact.firstName ~ ' ' ~ contact.lastName) | trim %}
-        {% if not contactLabel %}
-          {% set contactLabel = contact.email or ('contact ' ~ loop.index) %}
-        {% endif %}
-        <div class="govuk-summary-list__row">
-          <div class="govuk-summary-list__key">Contact</div>
-          <div class="govuk-summary-list__value">
-            {{ contact.firstName }} {{ contact.lastName }}<br>
-            {{ contact.email }}<br>
-            {% if contact.phone %}{{ contact.phone }}<br>{% endif %}
-            {{ contact.organisation or 'Not provided' }}
-          </div>
-          <div class="govuk-summary-list__actions">
-            <ul class="govuk-summary-list__actions-list">
-              <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="/projects/back-office/create-case/v2/remove-contact-details-page?edit={{ loop.index0 }}">Remove<span class="govuk-visually-hidden"> {{ contactLabel }} from the list</span></a>
-              </li>
-              <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="/projects/back-office/create-case/v2/additional-contact?edit={{ loop.index0 }}&from=check-contact-details">Change<span class="govuk-visually-hidden"> {{ contactLabel }}</span></a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      {%- endif -%}
-    {%- endfor -%}
-  {%- endif -%}
-{% endset %}
+  {% endif %}
 
-<h1 class="govuk-heading-l">Check contact details</h1>
-
-<div class="govuk-summary-list">{{ summaryRowsHtml | safe }}</div>
-
-{% if totalContacts > 1 %}
-  <p class="govuk-!-margin-bottom-2">
-    <a href="/projects/back-office/create-case/v2/change-main-contact" class="govuk-link">Change main contact</a>
-  </p>
-{% endif %}
-
-<p>
-  <a href="/projects/back-office/create-case/v2/additional-contact?from=check-contact-details" class="govuk-link">Add another contact</a>
-</p>
+  {% if contacts %}
+    {% for contact in contacts %}
+      {% if contact.firstName or contact.lastName or contact.email %}
+      {% set contactLabel = (contact.firstName ~ ' ' ~ contact.lastName) | trim %}
+      {% if not contactLabel %}
+        {% set contactLabel = contact.email or ('additional contact ' ~ loop.index) %}
+      {% endif %}
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key" style="width: 25%;">
+          Additional contact 
+        </dt>
+        <dd class="govuk-summary-list__value" style="width: 55%;">
+          {{ contact.firstName }} {{ contact.lastName }}<br>
+          {{ contact.email }}<br>
+          {% if contact.phone %}{{ contact.phone }}<br>{% endif %}
+        </dd>
+        <dd class="govuk-summary-list__value">
+          {{ contact.organisation or 'No LPA selected' }}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <ul class="govuk-summary-list__actions-list">
+            <li class="govuk-summary-list__actions-list-item">
+              <a class="govuk-link" href="/projects/back-office/create-case/v2/remove-contact-details-page?edit={{ loop.index0 }}">Remove<span class="govuk-visually-hidden"> {{ contactLabel }} from the list</span></a>
+            </li>
+            <li class="govuk-summary-list__actions-list-item">
+              <a class="govuk-link" href="/projects/back-office/create-case/v2/additional-contact?edit={{ loop.index0 }}&from=check-contact-details">Change<span class="govuk-visually-hidden"> {{ contactLabel }}</span></a>
+            </li>
+          </ul>
+        </dd>
+      </div>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+</dl>
 
 <a href="/projects/back-office/create-case/v2/enter-key-dates" class="govuk-button">Continue<span class="govuk-visually-hidden"> to key dates</span></a>
 {% endblock %}

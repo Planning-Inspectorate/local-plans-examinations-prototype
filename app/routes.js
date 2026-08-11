@@ -13,8 +13,8 @@ const {
 
 const defaultWorkflowNavVersions = {
   overview: 'v2',
-  timetable: 'v1',
-  gw1: 'v1',
+  timetable: 'v2',
+  gw1: 'v2',
   gw2: 'v4',
   gw3: 'v2',
   examination: 'v3',
@@ -106,6 +106,7 @@ router.use('/', require('./routes/portal'));
 router.use('/projects/back-office/manage/GW2/v4', require('./views/projects/back-office/manage/GW2/v4/_routes'));
 router.use('/', require('./routes/create-case'));
 router.use('/', require('./routes/create-case-v2'));
+router.use('/', require('./routes/create-case-v21'));
 router.use('/', require('./routes/create-case-v3'));
 router.use('/', require('./routes/create-case-v4'));
 router.use('/', require('./routes/projects/back-office/manage'));

@@ -1,4 +1,5 @@
 {% extends "layouts/back-office.html" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% block pageTitle %}
   {% if isEdit %}What is the plan type?{% else %}What is the plan type?{% endif %} – {{ serviceName }}
@@ -15,7 +16,14 @@
      
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <form class="form" action="/projects/back-office/create-case/v2/2-plan-type" method="post">
+      {% if error %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: [{ text: error, href: "#plan-type" }]
+        }) }}
+      {% endif %}
+
+      <form class="form" action="/projects/back-office/create-case/v21/2-plan-type" method="post">
       
       <input type="hidden" name="isEdit" value="{{ isEdit }}">
 
@@ -34,6 +42,8 @@
 {% endset -%}
 {{ govukRadios({
   name: "plan-type",
+  idPrefix: "plan-type",
+  errorMessage: { text: error } if error else null,
   fieldset: {
     legend: {
       text: "What is the plan type?" if not isEdit else "What is the plan type?",
@@ -70,7 +80,7 @@
         {% endif %}
         
         {% if isEdit %}
-        <a href="/projects/back-office/create-case/v2/check-answers" class="govuk-link">Cancel</a>
+        <a href="/projects/back-office/create-case/v21/check-answers" class="govuk-link">Cancel</a>
         {% endif %}
       </div>
 
