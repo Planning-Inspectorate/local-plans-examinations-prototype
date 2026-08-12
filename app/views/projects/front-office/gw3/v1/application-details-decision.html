@@ -9,7 +9,7 @@ href: 'application-details-submitted',
 text: 'Awaiting outcome'
 },
 {
-href: 'application-details-decision?decision=stop',
+href: 'application-details-decision?decision=stop&viewOnly=false',
 text: 'Resubmission required outcome'
 },
 {
@@ -77,7 +77,7 @@ text: 'Proceed to examination outcome'
 
     {% include "./_includes/submitted-documents.njk" %}
 
-    {% if decision != 'go' %}
+    {% if decision != 'go' and data['viewOnly'] != 'true' %}
 
       <!--<h2 class="govuk-heading-m govuk-!-margin-top-6">Version history</h2>
 
@@ -101,7 +101,7 @@ text: 'Proceed to examination outcome'
 
       <h2 class="govuk-heading-m">Previous submissions</h2>
 
-      <p class="govuk-body"><a class="govuk-link" href="#">Submission 1 - 20 June 2026</a></p>
+      <p class="govuk-body"><a class="govuk-link" href="/projects/front-office/gw3/v1/application-details-decision?decision=stop&viewOnly=true">Submission 1 - 20 June 2026</a></p>
 
     {% endif %}
 
