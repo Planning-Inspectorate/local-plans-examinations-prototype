@@ -1,9 +1,14 @@
 <li>
-<div>
+<div class="govuk-form-group{% if errorStatus == 'true' %} govuk-form-group--error{% endif %}">
   <h2 class="app-task-list__section" id="required-documents">
     Required information
   </h2>
-  <p class="govuk-body">You must add each of these documents as a link or an attachment before submitting.</p>
+    <p class="govuk-body">You must add each of these documents as a link or an attachment before submitting.</p>
+    {% if errorStatus == 'true' %}
+    <p class="govuk-error-message">
+      <span class="govuk-visually-hidden">Error:</span> Add all required documents before submitting
+    </p>
+  {% endif %}
 </div>
 
   {{ govukSummaryList({
