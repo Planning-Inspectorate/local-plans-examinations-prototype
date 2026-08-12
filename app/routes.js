@@ -16,7 +16,7 @@ const defaultWorkflowNavVersions = {
   timetable: 'v2',
   gw1: 'v2',
   gw2: 'v4',
-  gw3: 'v2',
+  gw3: 'v4',
   examination: 'v3',
   documents: 'v1',
   updates: 'v2'
@@ -41,6 +41,7 @@ router.use((req, res, next) => {
   res.locals.currentPath = req.originalUrl || req.url || '';
   const versionMatch = (res.locals.currentPath || '').match(/\/v(\d+)(?:\/|$)/);
   res.locals.urlVersion = versionMatch ? `v${versionMatch[1]}` : '';
+  res.locals.hideDocumentsNav = true; // Default to hiding the documents nav unless explicitly enabled in a route
 
   if (req.query.clearNavVersions === '1' && req.session) {
     delete req.session.workflowNavVersionOverrides;
