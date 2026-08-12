@@ -93,6 +93,9 @@ href: "/projects/front-office/plan-details/v3/plan-details?status=in-progress&st
       {% include "./task-list__required.html" %}
       {% include "./task-list__optional.html" %}
       {% include "./task-list__submit.html" %}
+      {% if resubmission == 'true' %}
+        {% include "./task-list__version-history.html" %}
+      {% endif %}
     </ol>
 
   </div>

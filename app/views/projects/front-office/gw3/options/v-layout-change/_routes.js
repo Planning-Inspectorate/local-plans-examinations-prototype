@@ -55,7 +55,7 @@ router.get('/application-details', function (req, res) {
     requiredQuestionKeys.filter(key => data[key]).length
   const requiredTotalCount = requiredDocumentKeys.length + applicableConditionalKeys.length + requiredQuestionKeys.length
 
-  res.render('projects/front-office/gw3/v2/application-details', {
+  res.render('projects/front-office/gw3/options/v-layout-change/application-details', {
     requiredCompletedCount: requiredCompletedCount,
     requiredTotalCount: requiredTotalCount
   })
