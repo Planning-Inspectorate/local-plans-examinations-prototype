@@ -109,5 +109,23 @@ Gateway 2 overview – {{ serviceName }}
     </div>
 {% endblock %}
 {% block footer %}
+{% set footerLinks = [
+  {
+    text: 'GW2 submission',
+    href: '/projects/back-office/manage/GW2/v4/set-status?state=none&returnUrl=/projects/back-office/manage/GW2/v4/gateway-2'
+  },
+  {
+    text: 'GW2 submitted',
+    href: '/projects/back-office/manage/GW2/v4/set-status?state=submission-received&returnUrl=/projects/back-office/manage/GW2/v4/gateway-2'
+  },
+  {
+    text: 'GW2 workshop confirmed',
+    href: '/projects/back-office/manage/GW2/v4/set-status?state=workshop-confirmed&returnUrl=/projects/back-office/manage/GW2/v4/gateway-2'
+  },
+  {
+    text: 'GW3 submission',
+    href: '/projects/back-office/manage/GW2/v4/set-status?state=gw3-submission&returnUrl=/projects/back-office/manage/GW2/v4/gateway-2'
+  }
+] %}
   {% include "includes/footer.njk" %}
 {% endblock %}

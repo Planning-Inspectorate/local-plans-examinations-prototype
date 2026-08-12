@@ -3242,34 +3242,14 @@ router.get('/projects/back-office/manage/GW3/v2/gateway-3', (req, res) => {
 });
 
 router.get('/projects/back-office/manage/GW3/v2/gateway-3-alt', (req, res) => {
-  res.render('projects/back-office/manage/GW3/v2/gateway-3-alt', {
-    caseRef: req.session.currentCaseRef || '',
-    planTitle: req.session.planTitle || '',
-    gateway3EstimatedDate: formatDateForDisplay(req.session.gateway3EstimatedDate) || '-',
-    gateway3ActualDate: formatDateForDisplay(req.session.gateway3ActualDate) || '-',
-    gateway3AssessorAppointmentDate: formatDateForDisplay(req.session.gateway3AssessorAppointmentDate) || '-',
-    gateway3CompletionDate: formatDateForDisplay(req.session.gateway3CompletionDate) || '-',
-    gateway3AssessorName: req.session.gateway3AssessorName || '-',
-    gateway3PoContact: req.session.gateway3PoContact || {}
-  });
+  res.redirect('/projects/back-office/manage/GW3/v2/gateway-3-alt');
 });
 
 router.get('/projects/back-office/manage/GW3/v2/gateway-3-alt.html', (req, res) => {
   res.redirect('/projects/back-office/manage/GW3/v2/gateway-3-alt');
 });
 
-router.get('/projects/back-office/manage/GW3/v3/gateway-3-alt', (req, res) => {
-  res.render('projects/back-office/manage/GW3/v3/gateway-3-alt', {
-    caseRef: req.session.currentCaseRef || '',
-    planTitle: req.session.planTitle || '',
-    gateway3EstimatedDate: formatDateForDisplay(req.session.gateway3EstimatedDate) || '-',
-    gateway3ActualDate: formatDateForDisplay(req.session.gateway3ActualDate) || '-',
-    gateway3AssessorAppointmentDate: formatDateForDisplay(req.session.gateway3AssessorAppointmentDate) || '-',
-    gateway3CompletionDate: formatDateForDisplay(req.session.gateway3CompletionDate) || '-',
-    gateway3AssessorName: req.session.gateway3AssessorName || '-',
-    gateway3PoContact: req.session.gateway3PoContact || {}
-  });
-});
+
 
 router.get('/projects/back-office/manage/GW3/v3/gateway-3-alt.html', (req, res) => {
   res.redirect('/projects/back-office/manage/GW3/v3/gateway-3-alt');
@@ -3289,7 +3269,7 @@ router.get('/projects/back-office/manage/GW3/v2/gateway-3-side', (req, res) => {
 });
 
 router.get('/projects/back-office/manage/GW3/v2/gateway-3-side.html', (req, res) => {
-  res.redirect('/projects/back-office/manage/GW3/v2/gateway-3-side');
+  res.redirect('/projects/back-office/manage/GW2/v2/gateway-3-side');
 });
 
 module.exports = router;

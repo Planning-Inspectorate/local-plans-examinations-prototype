@@ -6,341 +6,6 @@ const WORKSHOP_DOCS_KEY = 'gw2v3WorkshopDocuments';
 const ISSUE_REPORT_DOCS_KEY = 'gw2v4IssueReportDocuments';
 const ISSUE_REPORT_SUCCESS_MESSAGE = 'Gateway 2 report issued';
 
-function buildFooterLinks() {
-  return [
-    {
-      text: 'Clear GW2 status',
-      href: '/projects/back-office/manage/GW2/v4/set-status?state=none&returnUrl=/projects/back-office/manage/GW2/v4/gateway-2'
-    },
-    {
-      text: 'GW2 submitted',
-      href: '/projects/back-office/manage/GW2/v4/set-status?state=submission-received&returnUrl=/projects/back-office/manage/GW2/v4/gateway-2'
-    },
-    {
-      text: 'GW2 workshop confirmed',
-      href: '/projects/back-office/manage/GW2/v4/set-status?state=workshop-confirmed&returnUrl=/projects/back-office/manage/GW2/v4/gateway-2'
-    },
-    {
-      text: 'GW2 report',
-      href: '/projects/back-office/manage/GW2/v4/set-status?state=gw2-report&returnUrl=/projects/back-office/manage/GW2/v4/gateway-2'
-    },
-    {
-      text: 'GW3 submission',
-      href: '/projects/back-office/manage/GW2/v4/set-status?state=gw3-submission&returnUrl=/projects/back-office/manage/GW2/v4/gateway-2'
-    }
-  ];
-}
-
-function setGw2V4StatusState(req, state) {
-  const uploadedAt = new Date().toISOString();
-  const defaultEstimatedDate = '15/08/2026';
-  const defaultWorkshopVenue = 'Virtual';
-  const defaultWorkshopDate = '20 July 2026 to 23 July 2026';
-  const demoWorkshopDoc = {
-    originalname: 'workshop-doc.pdf',
-    filename: 'gw2-v4-workshop-demo',
-    size: 102400,
-    uploadedAt
-  };
-  const demoIssueReportDoc = {
-    originalname: 'gateway-2-report.pdf',
-    filename: 'gw2-v4-issue-report-demo',
-    size: 153600,
-    uploadedAt
-  };
-  const demoProceduralDocs = [
-    { id: 'gw2-covering-letter', title: 'Gateway 2 covering letter', originalname: 'GW2_covering_letter.docx', filename: 'gw2-v4-procedural-1', size: 81920, uploadedAt },
-    { id: 'local-plan-timetable', title: 'Local plan timetable', originalname: 'plan_timetable.csv', filename: 'gw2-v4-procedural-2', size: 61440, uploadedAt },
-    { id: 'project-initiation-document', title: 'Project initiation document', originalname: 'PID.docx', filename: 'gw2-v4-procedural-3', size: 92160, uploadedAt },
-    { id: 'draft-statement-compliance', title: 'Draft statement of compliance', originalname: 'GW2_compliance_statement.docx', filename: 'gw2-v4-procedural-4', size: 87040, uploadedAt },
-    { id: 'draft-statement-soundness', title: 'Draft statement of soundness', originalname: 'GW2_soundness_statement.docx', filename: 'gw2-v4-procedural-5', size: 90112, uploadedAt }
-  ];
-  const demoConsultationDocs = [
-    { id: 'consultation-statement', title: 'Consultation statement', originalname: 'consultation_statement.pdf', filename: 'gw2-v4-consultation-1', size: 122880, uploadedAt },
-    { id: 'scoping-consultation-summary', title: 'Consultation summary for scoping consultation', originalname: 'scoping_summary.pdf', filename: 'gw2-v4-consultation-2', size: 112640, uploadedAt },
-    { id: 'proposed-plan-summary', title: 'Consultation summary for proposed local plan content and evidence documents', originalname: 'proposed_plan_summary.pdf', filename: 'gw2-v4-consultation-3', size: 153600, uploadedAt },
-    { id: 'notice-intention', title: 'Notice of intention to commence local plan preparation', originalname: 'notice_of_intention.pdf', filename: 'gw2-v4-consultation-4', size: 92160, uploadedAt },
-    { id: 'scoping-documents', title: 'Scoping consultation documents', originalname: 'scoping_full.pdf', filename: 'gw2-v4-consultation-5', size: 194560, uploadedAt },
-    { id: 'scoping-feedback-summary', title: 'Consultation summary of feedback to scoping consultation', originalname: 'scoping_feedback_summary.pdf', filename: 'gw2-v4-consultation-6', size: 102400, uploadedAt },
-    { id: 'gateway1-self-assessment', title: 'Gateway 1 – Self assessment of readiness', originalname: 'gateway1_self_assessment.pdf', filename: 'gw2-v4-consultation-7', size: 133120, uploadedAt },
-    { id: 'proposed-plan-full', title: 'Consultation on proposed local plan content and evidence documents', originalname: 'proposed_plan_full.pdf', filename: 'gw2-v4-consultation-8', size: 215040, uploadedAt },
-    { id: 'consultation-summary-above', title: 'Consultation summary for the above', originalname: 'consultation_summary.pdf', filename: 'gw2-v4-consultation-9', size: 81920, uploadedAt }
-  ];
-  const demoAdditionalDocs = [
-    { id: 'subsequent-work-draft-plan', title: 'Subsequent work towards a draft plan', originalname: 'Additional_documents.pdf', filename: 'gw2-v4-additional-1', size: 143360, uploadedAt }
-  ];
-  const demoWorkshopHearing = {
-    startDate: '20 July 2026',
-    time: '10:00',
-    endTime: '12:00',
-    estimatedDays: '2',
-    actualDuration: '',
-    endDate: '',
-    isVirtual: 'Virtual',
-    hasVirtualMeetingLink: 'Yes',
-    virtualMeetingLink: 'https://meet.example/gw2-workshop',
-    venue: '-',
-    address: {},
-    hasAddress: 'No'
-  };
-
-  delete req.session[WORKSHOP_DOCS_KEY];
-  delete req.session[ISSUE_REPORT_DOCS_KEY];
-  delete req.session.gw2v4ReportIssued;
-  delete req.session.gw2v4StatusOverride;
-  delete req.session.gw2v4ProceduralDocuments;
-  delete req.session.gw2v4ConsultationDocuments;
-  delete req.session.gw2v4AdditionalDocuments;
-  delete req.session.gateway2ActualDate;
-  delete req.session.gateway2ValidDate;
-  delete req.session.gateway2WorkshopVenue;
-  delete req.session.gateway2WorkshopDate;
-  delete req.session.gateway2AssessorName;
-  delete req.session.gateway2AssessorAppointmentDate;
-  delete req.session.gateway2ReportIssuedDate;
-  delete req.session.gateway2ReportPublishedDate;
-  delete req.session.hearings;
-  delete req.session.hearingStartDate;
-  delete req.session.hearingTime;
-  delete req.session.hearingEndTime;
-  delete req.session.hearingEstimatedDays;
-  delete req.session.hearingActualDuration;
-  delete req.session.hearingEndDate;
-  delete req.session.hearingIsVirtual;
-  delete req.session.hearingHasVirtualMeetingLink;
-  delete req.session.hearingVirtualMeetingLink;
-  delete req.session.hearingVenue;
-  delete req.session.hearingAddress;
-  delete req.session.hearingHasAddress;
-
-  if (req.session.data) {
-    delete req.session.data[WORKSHOP_DOCS_KEY];
-    delete req.session.data[ISSUE_REPORT_DOCS_KEY];
-    delete req.session.data.gw2v4StatusOverride;
-    delete req.session.data.gw2v4ProceduralDocuments;
-    delete req.session.data.gw2v4ConsultationDocuments;
-    delete req.session.data.gw2v4AdditionalDocuments;
-    delete req.session.data.gateway2ActualDate;
-    delete req.session.data.gateway2ValidDate;
-    delete req.session.data.gateway2WorkshopVenue;
-    delete req.session.data.gateway2WorkshopDate;
-    delete req.session.data.gateway2AssessorName;
-    delete req.session.data.gateway2AssessorAppointmentDate;
-    delete req.session.data.gateway2ReportIssuedDate;
-    delete req.session.data.gateway2ReportPublishedDate;
-    delete req.session.data.hearings;
-    delete req.session.data.hearingStartDate;
-    delete req.session.data.hearingTime;
-    delete req.session.data.hearingEndTime;
-    delete req.session.data.hearingEstimatedDays;
-    delete req.session.data.hearingActualDuration;
-    delete req.session.data.hearingEndDate;
-    delete req.session.data.hearingIsVirtual;
-    delete req.session.data.hearingHasVirtualMeetingLink;
-    delete req.session.data.hearingVirtualMeetingLink;
-    delete req.session.data.hearingVenue;
-    delete req.session.data.hearingAddress;
-    delete req.session.data.hearingHasAddress;
-  }
-
-  if (state === 'none') {
-    req.session.gw2v4StatusOverride = 'GW2 submission';
-    req.session.gateway2EstimatedDate = req.session.gateway2EstimatedDate || defaultEstimatedDate;
-
-    if (req.session.data) {
-      req.session.data.gw2v4StatusOverride = req.session.gw2v4StatusOverride;
-      req.session.data.gateway2EstimatedDate = req.session.gateway2EstimatedDate;
-    }
-
-    return;
-  }
-
-  if (state === 'submission-received') {
-    req.session.gw2v4StatusOverride = 'GW2 submitted';
-    req.session.gateway2EstimatedDate = req.session.gateway2EstimatedDate || defaultEstimatedDate;
-    req.session.gateway2WorkshopVenue = defaultWorkshopVenue;
-    req.session.gateway2WorkshopDate = defaultWorkshopDate;
-    req.session.gw2v4ProceduralDocuments = demoProceduralDocs;
-    req.session.gw2v4ConsultationDocuments = demoConsultationDocs;
-    req.session.gw2v4AdditionalDocuments = demoAdditionalDocs;
-
-    if (req.session.data) {
-      req.session.data.gw2v4StatusOverride = req.session.gw2v4StatusOverride;
-      req.session.data.gateway2EstimatedDate = req.session.gateway2EstimatedDate;
-      req.session.data.gateway2WorkshopVenue = req.session.gateway2WorkshopVenue;
-      req.session.data.gateway2WorkshopDate = req.session.gateway2WorkshopDate;
-      req.session.data.gw2v4ProceduralDocuments = req.session.gw2v4ProceduralDocuments;
-      req.session.data.gw2v4ConsultationDocuments = req.session.gw2v4ConsultationDocuments;
-      req.session.data.gw2v4AdditionalDocuments = req.session.gw2v4AdditionalDocuments;
-    }
-
-    return;
-  }
-
-  if (state === 'workshop-confirmed') {
-    req.session.gateway2EstimatedDate = req.session.gateway2EstimatedDate || defaultEstimatedDate;
-    req.session.gateway2WorkshopVenue = defaultWorkshopVenue;
-    req.session.gateway2WorkshopDate = defaultWorkshopDate;
-    req.session.gateway2AssessorName = 'Alex Morgan';
-    req.session.gateway2AssessorAppointmentDate = '10 July 2026';
-    req.session.hearings = [demoWorkshopHearing];
-    req.session.hearingStartDate = demoWorkshopHearing.startDate;
-    req.session.hearingTime = demoWorkshopHearing.time;
-    req.session.hearingEndTime = demoWorkshopHearing.endTime;
-    req.session.hearingEstimatedDays = demoWorkshopHearing.estimatedDays;
-    req.session.hearingActualDuration = demoWorkshopHearing.actualDuration;
-    req.session.hearingEndDate = demoWorkshopHearing.endDate;
-    req.session.hearingIsVirtual = demoWorkshopHearing.isVirtual;
-    req.session.hearingHasVirtualMeetingLink = demoWorkshopHearing.hasVirtualMeetingLink;
-    req.session.hearingVirtualMeetingLink = demoWorkshopHearing.virtualMeetingLink;
-    req.session.hearingVenue = demoWorkshopHearing.venue;
-    req.session.hearingAddress = demoWorkshopHearing.address;
-    req.session.hearingHasAddress = demoWorkshopHearing.hasAddress;
-    req.session[WORKSHOP_DOCS_KEY] = [demoWorkshopDoc];
-    if (req.session.data) {
-      req.session.data.gateway2EstimatedDate = req.session.gateway2EstimatedDate;
-      req.session.data.gateway2WorkshopVenue = req.session.gateway2WorkshopVenue;
-      req.session.data.gateway2WorkshopDate = req.session.gateway2WorkshopDate;
-      req.session.data.gateway2AssessorName = req.session.gateway2AssessorName;
-      req.session.data.gateway2AssessorAppointmentDate = req.session.gateway2AssessorAppointmentDate;
-      req.session.data.hearings = req.session.hearings;
-      req.session.data.hearingStartDate = req.session.hearingStartDate;
-      req.session.data.hearingTime = req.session.hearingTime;
-      req.session.data.hearingEndTime = req.session.hearingEndTime;
-      req.session.data.hearingEstimatedDays = req.session.hearingEstimatedDays;
-      req.session.data.hearingActualDuration = req.session.hearingActualDuration;
-      req.session.data.hearingEndDate = req.session.hearingEndDate;
-      req.session.data.hearingIsVirtual = req.session.hearingIsVirtual;
-      req.session.data.hearingHasVirtualMeetingLink = req.session.hearingHasVirtualMeetingLink;
-      req.session.data.hearingVirtualMeetingLink = req.session.hearingVirtualMeetingLink;
-      req.session.data.hearingVenue = req.session.hearingVenue;
-      req.session.data.hearingAddress = req.session.hearingAddress;
-      req.session.data.hearingHasAddress = req.session.hearingHasAddress;
-      req.session.data[WORKSHOP_DOCS_KEY] = req.session[WORKSHOP_DOCS_KEY];
-    }
-    return;
-  }
-
-  if (state === 'gw2-report') {
-    req.session.gw2v4StatusOverride = 'GW2 report';
-    req.session.gateway2EstimatedDate = req.session.gateway2EstimatedDate || defaultEstimatedDate;
-    req.session.gateway2WorkshopVenue = defaultWorkshopVenue;
-    req.session.gateway2WorkshopDate = defaultWorkshopDate;
-    req.session.gateway2AssessorName = 'Alex Morgan';
-    req.session.gateway2AssessorAppointmentDate = '10 July 2026';
-    req.session.hearings = [{
-      ...demoWorkshopHearing,
-      actualDuration: '2 days',
-      endDate: '21 July 2026'
-    }];
-    req.session.hearingStartDate = req.session.hearings[0].startDate;
-    req.session.hearingTime = req.session.hearings[0].time;
-    req.session.hearingEndTime = req.session.hearings[0].endTime;
-    req.session.hearingEstimatedDays = req.session.hearings[0].estimatedDays;
-    req.session.hearingActualDuration = req.session.hearings[0].actualDuration;
-    req.session.hearingEndDate = req.session.hearings[0].endDate;
-    req.session.hearingIsVirtual = req.session.hearings[0].isVirtual;
-    req.session.hearingHasVirtualMeetingLink = req.session.hearings[0].hasVirtualMeetingLink;
-    req.session.hearingVirtualMeetingLink = req.session.hearings[0].virtualMeetingLink;
-    req.session.hearingVenue = req.session.hearings[0].venue;
-    req.session.hearingAddress = req.session.hearings[0].address;
-    req.session.hearingHasAddress = req.session.hearings[0].hasAddress;
-    req.session[WORKSHOP_DOCS_KEY] = [demoWorkshopDoc];
-
-    if (req.session.data) {
-      req.session.data.gw2v4StatusOverride = req.session.gw2v4StatusOverride;
-      req.session.data.gateway2EstimatedDate = req.session.gateway2EstimatedDate;
-      req.session.data.gateway2WorkshopVenue = req.session.gateway2WorkshopVenue;
-      req.session.data.gateway2WorkshopDate = req.session.gateway2WorkshopDate;
-      req.session.data.gateway2AssessorName = req.session.gateway2AssessorName;
-      req.session.data.gateway2AssessorAppointmentDate = req.session.gateway2AssessorAppointmentDate;
-      req.session.data.hearings = req.session.hearings;
-      req.session.data.hearingStartDate = req.session.hearingStartDate;
-      req.session.data.hearingTime = req.session.hearingTime;
-      req.session.data.hearingEndTime = req.session.hearingEndTime;
-      req.session.data.hearingEstimatedDays = req.session.hearingEstimatedDays;
-      req.session.data.hearingActualDuration = req.session.hearingActualDuration;
-      req.session.data.hearingEndDate = req.session.hearingEndDate;
-      req.session.data.hearingIsVirtual = req.session.hearingIsVirtual;
-      req.session.data.hearingHasVirtualMeetingLink = req.session.hearingHasVirtualMeetingLink;
-      req.session.data.hearingVirtualMeetingLink = req.session.hearingVirtualMeetingLink;
-      req.session.data.hearingVenue = req.session.hearingVenue;
-      req.session.data.hearingAddress = req.session.hearingAddress;
-      req.session.data.hearingHasAddress = req.session.hearingHasAddress;
-      req.session.data[WORKSHOP_DOCS_KEY] = req.session[WORKSHOP_DOCS_KEY];
-    }
-
-    return;
-  }
-
-  if (state === 'gw3-submission') {
-    req.session.gateway2EstimatedDate = req.session.gateway2EstimatedDate || defaultEstimatedDate;
-    req.session.gateway2ActualDate = '30/08/2026';
-    req.session.gateway2ValidDate = '31/08/2026';
-    req.session.gateway2WorkshopVenue = defaultWorkshopVenue;
-    req.session.gateway2WorkshopDate = defaultWorkshopDate;
-    req.session.gateway2AssessorName = 'Alex Morgan';
-    req.session.gateway2AssessorAppointmentDate = '10 July 2026';
-    req.session.gateway2ReportIssuedDate = '5 September 2026';
-    req.session.gateway2ReportPublishedDate = '7 September 2026';
-
-    req.session.gw2v4ProceduralDocuments = demoProceduralDocs;
-    req.session.gw2v4ConsultationDocuments = demoConsultationDocs;
-    req.session.gw2v4AdditionalDocuments = demoAdditionalDocs;
-
-    req.session.hearings = [{
-      ...demoWorkshopHearing,
-      actualDuration: '2 days',
-      endDate: '21 July 2026'
-    }];
-    req.session.hearingStartDate = req.session.hearings[0].startDate;
-    req.session.hearingTime = req.session.hearings[0].time;
-    req.session.hearingEndTime = req.session.hearings[0].endTime;
-    req.session.hearingEstimatedDays = req.session.hearings[0].estimatedDays;
-    req.session.hearingActualDuration = req.session.hearings[0].actualDuration;
-    req.session.hearingEndDate = req.session.hearings[0].endDate;
-    req.session.hearingIsVirtual = req.session.hearings[0].isVirtual;
-    req.session.hearingHasVirtualMeetingLink = req.session.hearings[0].hasVirtualMeetingLink;
-    req.session.hearingVirtualMeetingLink = req.session.hearings[0].virtualMeetingLink;
-    req.session.hearingVenue = req.session.hearings[0].venue;
-    req.session.hearingAddress = req.session.hearings[0].address;
-    req.session.hearingHasAddress = req.session.hearings[0].hasAddress;
-
-    req.session[WORKSHOP_DOCS_KEY] = [demoWorkshopDoc];
-    req.session[ISSUE_REPORT_DOCS_KEY] = [demoIssueReportDoc];
-    req.session.gw2v4ReportIssued = true;
-    if (req.session.data) {
-      req.session.data.gateway2EstimatedDate = req.session.gateway2EstimatedDate;
-      req.session.data.gateway2ActualDate = req.session.gateway2ActualDate;
-      req.session.data.gateway2ValidDate = req.session.gateway2ValidDate;
-      req.session.data.gateway2WorkshopVenue = req.session.gateway2WorkshopVenue;
-      req.session.data.gateway2WorkshopDate = req.session.gateway2WorkshopDate;
-      req.session.data.gateway2AssessorName = req.session.gateway2AssessorName;
-      req.session.data.gateway2AssessorAppointmentDate = req.session.gateway2AssessorAppointmentDate;
-      req.session.data.gateway2ReportIssuedDate = req.session.gateway2ReportIssuedDate;
-      req.session.data.gateway2ReportPublishedDate = req.session.gateway2ReportPublishedDate;
-      req.session.data.gw2v4ProceduralDocuments = req.session.gw2v4ProceduralDocuments;
-      req.session.data.gw2v4ConsultationDocuments = req.session.gw2v4ConsultationDocuments;
-      req.session.data.gw2v4AdditionalDocuments = req.session.gw2v4AdditionalDocuments;
-      req.session.data.hearings = req.session.hearings;
-      req.session.data.hearingStartDate = req.session.hearingStartDate;
-      req.session.data.hearingTime = req.session.hearingTime;
-      req.session.data.hearingEndTime = req.session.hearingEndTime;
-      req.session.data.hearingEstimatedDays = req.session.hearingEstimatedDays;
-      req.session.data.hearingActualDuration = req.session.hearingActualDuration;
-      req.session.data.hearingEndDate = req.session.hearingEndDate;
-      req.session.data.hearingIsVirtual = req.session.hearingIsVirtual;
-      req.session.data.hearingHasVirtualMeetingLink = req.session.hearingHasVirtualMeetingLink;
-      req.session.data.hearingVirtualMeetingLink = req.session.hearingVirtualMeetingLink;
-      req.session.data.hearingVenue = req.session.hearingVenue;
-      req.session.data.hearingAddress = req.session.hearingAddress;
-      req.session.data.hearingHasAddress = req.session.hearingHasAddress;
-      req.session.data[WORKSHOP_DOCS_KEY] = req.session[WORKSHOP_DOCS_KEY];
-      req.session.data[ISSUE_REPORT_DOCS_KEY] = req.session[ISSUE_REPORT_DOCS_KEY];
-    }
-  }
-}
-
 const RETURN_TO_FALLBACK = 'gateway-2';
 const RETURN_TO_MAP = {
   'gateway-2': '/projects/back-office/manage/GW2/v4/gateway-2',
@@ -587,6 +252,285 @@ function findWorkshopDocumentByFilename(req, filename) {
   return currentBatch.find((doc) => doc.filename === filename) || null;
 }
 
+function buildFooterLinks() {
+  return [
+    {
+      text: 'Clear GW2 status',
+      href: '/projects/back-office/manage/GW2/v4/set-status?state=none&returnUrl=/projects/back-office/manage/GW2/v4/gateway-2'
+    },
+    {
+      text: 'GW2 submitted',
+      href: '/projects/back-office/manage/GW2/v4/set-status?state=submission-received&returnUrl=/projects/back-office/manage/GW2/v4/gateway-2'
+    },
+    {
+      text: 'GW2 workshop confirmed',
+      href: '/projects/back-office/manage/GW2/v4/set-status?state=workshop-confirmed&returnUrl=/projects/back-office/manage/GW2/v4/gateway-2'
+    },
+    {
+      text: 'GW2 report',
+      href: '/projects/back-office/manage/GW2/v4/set-status?state=gw2-report&returnUrl=/projects/back-office/manage/GW2/v4/gateway-2'
+    },
+    {
+      text: 'GW3 submission',
+      href: '/projects/back-office/manage/GW2/v4/set-status?state=gw3-submission&returnUrl=/projects/back-office/manage/GW2/v4/gateway-2'
+    }
+  ];
+}
+
+function setGw2V4StatusState(req, state) {
+  const uploadedAt = new Date().toISOString();
+  const defaultEstimatedDate = '15/08/2026';
+  const defaultWorkshopVenue = 'Virtual';
+  const defaultWorkshopDate = '20 July 2026 to 23 July 2026';
+
+  const demoWorkshopDoc = {
+    originalname: 'workshop-doc.pdf',
+    filename: 'gw2-v4-workshop-demo',
+    size: 102400,
+    uploadedAt
+  };
+  const demoIssueReportDoc = {
+    originalname: 'gateway-2-report.pdf',
+    filename: 'gw2-v4-issue-report-demo',
+    size: 153600,
+    uploadedAt
+  };
+
+  const demoProceduralDocs = [
+    { id: 'gw2-covering-letter', title: 'Gateway 2 covering letter', originalname: 'GW2_covering_letter.docx', filename: 'gw2-v4-procedural-1', size: 81920, uploadedAt },
+    { id: 'local-plan-timetable', title: 'Local plan timetable', originalname: 'plan_timetable.csv', filename: 'gw2-v4-procedural-2', size: 61440, uploadedAt },
+    { id: 'project-initiation-document', title: 'Project initiation document', originalname: 'PID.docx', filename: 'gw2-v4-procedural-3', size: 92160, uploadedAt },
+    { id: 'draft-statement-compliance', title: 'Draft statement of compliance', originalname: 'GW2_compliance_statement.docx', filename: 'gw2-v4-procedural-4', size: 87040, uploadedAt },
+    { id: 'draft-statement-soundness', title: 'Draft statement of soundness', originalname: 'GW2_soundness_statement.docx', filename: 'gw2-v4-procedural-5', size: 90112, uploadedAt }
+  ];
+  const demoConsultationDocs = [
+    { id: 'consultation-statement', title: 'Consultation statement', originalname: 'consultation_statement.pdf', filename: 'gw2-v4-consultation-1', size: 122880, uploadedAt },
+    { id: 'scoping-consultation-summary', title: 'Consultation summary for scoping consultation', originalname: 'scoping_summary.pdf', filename: 'gw2-v4-consultation-2', size: 112640, uploadedAt },
+    { id: 'proposed-plan-summary', title: 'Consultation summary for proposed local plan content and evidence documents', originalname: 'proposed_plan_summary.pdf', filename: 'gw2-v4-consultation-3', size: 153600, uploadedAt },
+    { id: 'notice-intention', title: 'Notice of intention to commence local plan preparation', originalname: 'notice_of_intention.pdf', filename: 'gw2-v4-consultation-4', size: 92160, uploadedAt },
+    { id: 'scoping-documents', title: 'Scoping consultation documents', originalname: 'scoping_full.pdf', filename: 'gw2-v4-consultation-5', size: 194560, uploadedAt },
+    { id: 'scoping-feedback-summary', title: 'Consultation summary of feedback to scoping consultation', originalname: 'scoping_feedback_summary.pdf', filename: 'gw2-v4-consultation-6', size: 102400, uploadedAt },
+    { id: 'gateway1-self-assessment', title: 'Gateway 1 - Self assessment of readiness', originalname: 'gateway1_self_assessment.pdf', filename: 'gw2-v4-consultation-7', size: 133120, uploadedAt },
+    { id: 'proposed-plan-full', title: 'Consultation on proposed local plan content and evidence documents', originalname: 'proposed_plan_full.pdf', filename: 'gw2-v4-consultation-8', size: 215040, uploadedAt },
+    { id: 'consultation-summary-above', title: 'Consultation summary for the above', originalname: 'consultation_summary.pdf', filename: 'gw2-v4-consultation-9', size: 81920, uploadedAt }
+  ];
+  const demoAdditionalDocs = [
+    { id: 'subsequent-work-draft-plan', title: 'Subsequent work towards a draft plan', originalname: 'Additional_documents.pdf', filename: 'gw2-v4-additional-1', size: 143360, uploadedAt }
+  ];
+  const demoWorkshopHearing = {
+    startDate: '20 July 2026',
+    time: '10:00',
+    endTime: '12:00',
+    estimatedDays: '2',
+    actualDuration: '',
+    endDate: '',
+    isVirtual: 'Virtual',
+    hasVirtualMeetingLink: 'Yes',
+    virtualMeetingLink: 'https://meet.example/gw2-workshop',
+    venue: '-',
+    address: {},
+    hasAddress: 'No'
+  };
+
+  const clearKeys = [
+    WORKSHOP_DOCS_KEY,
+    ISSUE_REPORT_DOCS_KEY,
+    'gw2v4ReportIssued',
+    'gw2v4StatusOverride',
+    'gw2v4ProceduralDocuments',
+    'gw2v4ConsultationDocuments',
+    'gw2v4AdditionalDocuments',
+    'gateway2ActualDate',
+    'gateway2ValidDate',
+    'gateway2WorkshopVenue',
+    'gateway2WorkshopDate',
+    'gateway2AssessorName',
+    'gateway2AssessorAppointmentDate',
+    'gateway2ReportIssuedDate',
+    'gateway2ReportPublishedDate',
+    'hearings',
+    'hearingStartDate',
+    'hearingTime',
+    'hearingEndTime',
+    'hearingEstimatedDays',
+    'hearingActualDuration',
+    'hearingEndDate',
+    'hearingIsVirtual',
+    'hearingHasVirtualMeetingLink',
+    'hearingVirtualMeetingLink',
+    'hearingVenue',
+    'hearingAddress',
+    'hearingHasAddress'
+  ];
+
+  clearKeys.forEach((key) => delete req.session[key]);
+  if (req.session.data) {
+    clearKeys.forEach((key) => delete req.session.data[key]);
+  }
+
+  if (state === 'none') {
+    req.session.gw2v4StatusOverride = 'GW2 submission';
+    req.session.gateway2EstimatedDate = req.session.gateway2EstimatedDate || defaultEstimatedDate;
+    if (req.session.data) {
+      req.session.data.gw2v4StatusOverride = req.session.gw2v4StatusOverride;
+      req.session.data.gateway2EstimatedDate = req.session.gateway2EstimatedDate;
+    }
+    return;
+  }
+
+  if (state === 'submission-received') {
+    req.session.gw2v4StatusOverride = 'GW2 submitted';
+    req.session.gateway2EstimatedDate = req.session.gateway2EstimatedDate || defaultEstimatedDate;
+    req.session.gateway2WorkshopVenue = defaultWorkshopVenue;
+    req.session.gateway2WorkshopDate = defaultWorkshopDate;
+    req.session.gw2v4ProceduralDocuments = demoProceduralDocs;
+    req.session.gw2v4ConsultationDocuments = demoConsultationDocs;
+    req.session.gw2v4AdditionalDocuments = demoAdditionalDocs;
+
+    if (req.session.data) {
+      req.session.data.gw2v4StatusOverride = req.session.gw2v4StatusOverride;
+      req.session.data.gateway2EstimatedDate = req.session.gateway2EstimatedDate;
+      req.session.data.gateway2WorkshopVenue = req.session.gateway2WorkshopVenue;
+      req.session.data.gateway2WorkshopDate = req.session.gateway2WorkshopDate;
+      req.session.data.gw2v4ProceduralDocuments = req.session.gw2v4ProceduralDocuments;
+      req.session.data.gw2v4ConsultationDocuments = req.session.gw2v4ConsultationDocuments;
+      req.session.data.gw2v4AdditionalDocuments = req.session.gw2v4AdditionalDocuments;
+    }
+    return;
+  }
+
+  if (state === 'workshop-confirmed') {
+    req.session.gw2v4StatusOverride = 'GW2 workshop confirmed';
+    req.session.gateway2EstimatedDate = req.session.gateway2EstimatedDate || defaultEstimatedDate;
+    req.session.gateway2WorkshopVenue = defaultWorkshopVenue;
+    req.session.gateway2WorkshopDate = defaultWorkshopDate;
+    req.session.data.gw2v4ProceduralDocuments = req.session.gw2v4ProceduralDocuments;
+    req.session.data.gw2v4ConsultationDocuments = req.session.gw2v4ConsultationDocuments;
+    req.session.data.gw2v4AdditionalDocuments = req.session.gw2v4AdditionalDocuments;
+    req.session.gw2v4ProceduralDocuments = demoProceduralDocs;
+    req.session.gw2v4ConsultationDocuments = demoConsultationDocs;
+    req.session.gw2v4AdditionalDocuments = demoAdditionalDocs;
+    req.session.hearings = [demoWorkshopHearing];
+    req.session.hearingStartDate = demoWorkshopHearing.startDate;
+    req.session.hearingTime = demoWorkshopHearing.time;
+    req.session.hearingEndTime = demoWorkshopHearing.endTime;
+    req.session.hearingEstimatedDays = demoWorkshopHearing.estimatedDays;
+    req.session.hearingActualDuration = demoWorkshopHearing.actualDuration;
+    req.session.hearingEndDate = demoWorkshopHearing.endDate;
+    req.session.hearingIsVirtual = demoWorkshopHearing.isVirtual;
+    req.session.hearingHasVirtualMeetingLink = demoWorkshopHearing.hasVirtualMeetingLink;
+    req.session.hearingVirtualMeetingLink = demoWorkshopHearing.virtualMeetingLink;
+    req.session.hearingVenue = demoWorkshopHearing.venue;
+    req.session.hearingAddress = demoWorkshopHearing.address;
+    req.session.hearingHasAddress = demoWorkshopHearing.hasAddress;
+    req.session[WORKSHOP_DOCS_KEY] = [demoWorkshopDoc];
+
+    if (req.session.data) {
+      req.session.data.gw2v4StatusOverride = req.session.gw2v4StatusOverride;
+      req.session.data.gateway2EstimatedDate = req.session.gateway2EstimatedDate;
+      req.session.data.gateway2WorkshopVenue = req.session.gateway2WorkshopVenue;
+      req.session.data.gateway2WorkshopDate = req.session.gateway2WorkshopDate;
+      req.session.data.hearings = req.session.hearings;
+      req.session.data.hearingStartDate = req.session.hearingStartDate;
+      req.session.data.hearingTime = req.session.hearingTime;
+      req.session.data.hearingEndTime = req.session.hearingEndTime;
+      req.session.data.hearingEstimatedDays = req.session.hearingEstimatedDays;
+      req.session.data.hearingActualDuration = req.session.hearingActualDuration;
+      req.session.data.hearingEndDate = req.session.hearingEndDate;
+      req.session.data.hearingIsVirtual = req.session.hearingIsVirtual;
+      req.session.data.hearingHasVirtualMeetingLink = req.session.hearingHasVirtualMeetingLink;
+      req.session.data.hearingVirtualMeetingLink = req.session.hearingVirtualMeetingLink;
+      req.session.data.hearingVenue = req.session.hearingVenue;
+      req.session.data.hearingAddress = req.session.hearingAddress;
+      req.session.data.hearingHasAddress = req.session.hearingHasAddress;
+      req.session.data[WORKSHOP_DOCS_KEY] = req.session[WORKSHOP_DOCS_KEY];
+    }
+    return;
+  }
+
+  if (state === 'gw2-report') {
+    req.session.gw2v4StatusOverride = 'GW2 report';
+    req.session.gateway2EstimatedDate = req.session.gateway2EstimatedDate || defaultEstimatedDate;
+    req.session.gateway2WorkshopVenue = defaultWorkshopVenue;
+    req.session.gateway2WorkshopDate = defaultWorkshopDate;
+    req.session[WORKSHOP_DOCS_KEY] = [demoWorkshopDoc];
+
+    if (req.session.data) {
+      req.session.data.gw2v4StatusOverride = req.session.gw2v4StatusOverride;
+      req.session.data.gateway2EstimatedDate = req.session.gateway2EstimatedDate;
+      req.session.data.gateway2WorkshopVenue = req.session.gateway2WorkshopVenue;
+      req.session.data.gateway2WorkshopDate = req.session.gateway2WorkshopDate;
+      req.session.data[WORKSHOP_DOCS_KEY] = req.session[WORKSHOP_DOCS_KEY];
+    }
+    return;
+  }
+
+  if (state === 'gw3-submission') {
+    req.session.gateway2EstimatedDate = req.session.gateway2EstimatedDate || defaultEstimatedDate;
+    req.session.gateway2ActualDate = '30/08/2026';
+    req.session.gateway2ValidDate = '31/08/2026';
+    req.session.gateway2WorkshopVenue = defaultWorkshopVenue;
+    req.session.gateway2WorkshopDate = defaultWorkshopDate;
+    req.session.gateway2AssessorName = 'Alex Morgan';
+    req.session.gateway2AssessorAppointmentDate = '1 September 2026';
+    req.session.gateway2ReportIssuedDate = '5 September 2026';
+    req.session.gateway2ReportPublishedDate = '7 September 2026';
+    req.session.gw2v4ProceduralDocuments = demoProceduralDocs;
+    req.session.gw2v4ConsultationDocuments = demoConsultationDocs;
+    req.session.gw2v4AdditionalDocuments = demoAdditionalDocs;
+    req.session.hearings = [{
+      ...demoWorkshopHearing,
+      actualDuration: '2 days',
+      endDate: '21 July 2026'
+    }];
+    req.session.hearingStartDate = req.session.hearings[0].startDate;
+    req.session.hearingTime = req.session.hearings[0].time;
+    req.session.hearingEndTime = req.session.hearings[0].endTime;
+    req.session.hearingEstimatedDays = req.session.hearings[0].estimatedDays;
+    req.session.hearingActualDuration = req.session.hearings[0].actualDuration;
+    req.session.hearingEndDate = req.session.hearings[0].endDate;
+    req.session.hearingIsVirtual = req.session.hearings[0].isVirtual;
+    req.session.hearingHasVirtualMeetingLink = req.session.hearings[0].hasVirtualMeetingLink;
+    req.session.hearingVirtualMeetingLink = req.session.hearings[0].virtualMeetingLink;
+    req.session.hearingVenue = req.session.hearings[0].venue;
+    req.session.hearingAddress = req.session.hearings[0].address;
+    req.session.hearingHasAddress = req.session.hearings[0].hasAddress;
+    req.session[WORKSHOP_DOCS_KEY] = [demoWorkshopDoc];
+    req.session[ISSUE_REPORT_DOCS_KEY] = [demoIssueReportDoc];
+    req.session.gw2v4ReportIssued = true;
+
+    if (req.session.data) {
+      req.session.data.gateway2EstimatedDate = req.session.gateway2EstimatedDate;
+      req.session.data.gateway2ActualDate = req.session.gateway2ActualDate;
+      req.session.data.gateway2ValidDate = req.session.gateway2ValidDate;
+      req.session.data.gateway2WorkshopVenue = req.session.gateway2WorkshopVenue;
+      req.session.data.gateway2WorkshopDate = req.session.gateway2WorkshopDate;
+      req.session.data.gateway2AssessorName = req.session.gateway2AssessorName;
+      req.session.data.gateway2AssessorAppointmentDate = req.session.gateway2AssessorAppointmentDate;
+      req.session.data.gateway2ReportIssuedDate = req.session.gateway2ReportIssuedDate;
+      req.session.data.gateway2ReportPublishedDate = req.session.gateway2ReportPublishedDate;
+      req.session.data.gw2v4ProceduralDocuments = req.session.gw2v4ProceduralDocuments;
+      req.session.data.gw2v4ConsultationDocuments = req.session.gw2v4ConsultationDocuments;
+      req.session.data.gw2v4AdditionalDocuments = req.session.gw2v4AdditionalDocuments;
+      req.session.data.hearings = req.session.hearings;
+      req.session.data.hearingStartDate = req.session.hearingStartDate;
+      req.session.data.hearingTime = req.session.hearingTime;
+      req.session.data.hearingEndTime = req.session.hearingEndTime;
+      req.session.data.hearingEstimatedDays = req.session.hearingEstimatedDays;
+      req.session.data.hearingActualDuration = req.session.hearingActualDuration;
+      req.session.data.hearingEndDate = req.session.hearingEndDate;
+      req.session.data.hearingIsVirtual = req.session.hearingIsVirtual;
+      req.session.data.hearingHasVirtualMeetingLink = req.session.hearingHasVirtualMeetingLink;
+      req.session.data.hearingVirtualMeetingLink = req.session.hearingVirtualMeetingLink;
+      req.session.data.hearingVenue = req.session.hearingVenue;
+      req.session.data.hearingAddress = req.session.hearingAddress;
+      req.session.data.hearingHasAddress = req.session.hearingHasAddress;
+      req.session.data[WORKSHOP_DOCS_KEY] = req.session[WORKSHOP_DOCS_KEY];
+      req.session.data[ISSUE_REPORT_DOCS_KEY] = req.session[ISSUE_REPORT_DOCS_KEY];
+    }
+  }
+}
+
 function hasProceduralAndConsultationDocuments(req) {
   const proceduralDocs = Array.isArray(req.session.gw2v4ProceduralDocuments)
     ? req.session.gw2v4ProceduralDocuments
@@ -599,7 +543,6 @@ function hasProceduralAndConsultationDocuments(req) {
     return proceduralDocs.length > 0 && consultationDocs.length > 0;
   }
 
-  // v4 template currently includes both sections with seeded document rows.
   return true;
 }
 
@@ -615,6 +558,13 @@ function getGateway2Status(req, workshopDocuments) {
     return {
       text: 'GW2 submitted',
       classes: 'govuk-tag--turquoise'
+    };
+  }
+
+  if (req.session.gw2v4StatusOverride === 'GW2 workshop confirmed') {
+    return {
+      text: 'GW2 workshop confirmed',
+      classes: 'govuk-tag--blue'
     };
   }
 
@@ -731,15 +681,13 @@ function buildGateway2ViewModel(req, notificationMessage = '') {
 router.get('/set-status', (req, res) => {
   const state = String(req.query.state || 'none');
   const returnUrl = req.query.returnUrl || '/projects/back-office/manage/GW2/v4/gateway-2';
-
   setGw2V4StatusState(req, state);
   res.redirect(returnUrl);
 });
 
 router.use((req, res, next) => {
   res.locals.basePath = req.baseUrl || '';
-  
-  // Preserve workshop/report docs before prototype kit potentially overwrites them
+
   if (!req.session._preservedDocs) {
     req.session._preservedDocs = {};
   }
@@ -749,8 +697,7 @@ router.use((req, res, next) => {
   if (req.session[ISSUE_REPORT_DOCS_KEY]) {
     req.session._preservedDocs[ISSUE_REPORT_DOCS_KEY] = JSON.parse(JSON.stringify(req.session[ISSUE_REPORT_DOCS_KEY]));
   }
-  
-  // Wrap res.json to restore docs after responses
+
   const originalJson = res.json.bind(res);
   res.json = function(data) {
     if (req.session._preservedDocs[WORKSHOP_DOCS_KEY] && !req.session[WORKSHOP_DOCS_KEY]) {
@@ -761,7 +708,7 @@ router.use((req, res, next) => {
     }
     return originalJson(data);
   };
-  
+
   next();
 });
 
@@ -772,7 +719,7 @@ router.get('/gateway-2', (req, res) => {
   console.log('  req.session[WORKSHOP_DOCS_KEY]:', req.session[WORKSHOP_DOCS_KEY]);
   console.log('  req.session.gateway2WorkshopDate:', req.session.gateway2WorkshopDate);
   console.log('  req.session.gw2v4ReportIssued:', req.session.gw2v4ReportIssued);
-  
+
   let notificationMessage = req.session.notificationMessage || '';
   if (req.query.issueReportSubmitted === '1') {
     notificationMessage = ISSUE_REPORT_SUCCESS_MESSAGE;
@@ -1056,35 +1003,32 @@ router.post('/upload/v2/check-answers', (req, res) => {
   console.log('  req.session[WORKSHOP_DOCS_KEY]:', req.session[WORKSHOP_DOCS_KEY]);
   console.log('  req.session.gateway2WorkshopDate:', req.session.gateway2WorkshopDate);
   console.log('  req.session.gw2v4ReportIssued:', req.session.gw2v4ReportIssued);
-  
-  // Preserve workshop docs in case prototype kit clears them
+
   const preservedWorkshopDocs = req.session[WORKSHOP_DOCS_KEY];
-  
+
   const returnTo = getReturnTo(req);
   req.session.gw2v4UploadReturnTo = returnTo;
   if (!req.session.data) req.session.data = {};
-  
-  // Restore workshop docs if they got wiped
+
   if (preservedWorkshopDocs && !req.session[WORKSHOP_DOCS_KEY]) {
     req.session[WORKSHOP_DOCS_KEY] = preservedWorkshopDocs;
   }
-  
+
   mergeIssueReportDocuments(req);
   req.session.gw2v4ReportIssued = true;
-  
-  // Ensure workshop docs are preserved in both locations
+
   if (preservedWorkshopDocs) {
     req.session[WORKSHOP_DOCS_KEY] = preservedWorkshopDocs;
     if (req.session.data) {
       req.session.data[WORKSHOP_DOCS_KEY] = preservedWorkshopDocs;
     }
   }
-  
+
   console.log('AFTER merge:');
   console.log('  req.session[WORKSHOP_DOCS_KEY]:', req.session[WORKSHOP_DOCS_KEY]);
   console.log('  req.session.gateway2WorkshopDate:', req.session.gateway2WorkshopDate);
   console.log('  req.session.gw2v4ReportIssued:', req.session.gw2v4ReportIssued);
-  
+
   delete req.session.data.fileData;
   delete req.session.data.fileSizeMap;
 
