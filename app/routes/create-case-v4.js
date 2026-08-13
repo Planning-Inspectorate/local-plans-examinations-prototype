@@ -129,9 +129,9 @@ router.post('/projects/back-office/create-case/v4/LPA-region', (req, res) => {
 // Start page
 router.get('/projects/back-office/create-case/v4/index', (req, res) => {
   // Reinitialize if cases don't exist or are in old format (missing lpas field)
-  const needsReinit = !req.session.cases || req.session.cases.length === 0 || (req.session.cases.length > 0 && !req.session.cases[0].lpas);
+  const needsReinit = !req.session.casesV4 || req.session.casesV4.length === 0 || (req.session.casesV4.length > 0 && !req.session.casesV4[0].lpas);
   if (needsReinit) {
-    req.session.cases = [
+    req.session.casesV4 = [
       {
         caseRef: 'PLAN/000001',
         planTitle: 'Central City Local Plan',
@@ -306,9 +306,22 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
     ];
   }
 
+  // Keep v4 list status labels aligned when cases were created via other journeys.
+  const statusMap = {
+    'Submitted': 'Awaiting SLA',
+    'Awaiting Gateway 2': 'GW2 submission',
+    'Gateway 2 Validation': 'GW2 submission'
+  };
+  if (Array.isArray(req.session.casesV4)) {
+    req.session.casesV4.forEach((item) => {
+      if (!item || !item.status) return;
+      item.status = statusMap[item.status] || item.status;
+    });
+  }
+
   const journey = req.query.journey === 'side' ? 'side' : 'default';
   res.render('projects/back-office/create-case/v4/index', {
-    cases: req.session.cases.slice().reverse(),
+    cases: req.session.casesV4.slice().reverse(),
     showEmpty: req.query.showEmpty === 'true',
     planStatusClassMap: PLAN_STATUS_CLASS_MAP,
     journey
@@ -317,7 +330,7 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
 
 router.get('/projects/back-office/create-case/v4/index-assigned', (req, res) => {
   const myCaseOfficer = req.session.caseOfficer || 'Jane Smith';
-  const cases = Array.isArray(req.session.cases) ? req.session.cases : [];
+  const cases = Array.isArray(req.session.casesV4) ? req.session.casesV4 : [];
   const assignedCases = cases.filter((item) => item.caseOfficer === myCaseOfficer).slice().reverse();
 
   res.render('projects/back-office/create-case/v4/index-assigned', {
@@ -333,11 +346,11 @@ router.get('/projects/back-office/create-case/v4/load-case', (req, res) => {
   const destination = req.query.destination === 'overview-side' ? 'overview-side' : 'overview';
   
   // Find the case in the cases array
-  if (!req.session.cases) {
+  if (!req.session.casesV4) {
     return res.redirect('/projects/back-office/create-case/v4/index');
   }
   
-  const caseToLoad = req.session.cases.find(c => c.caseRef === caseRef);
+  const caseToLoad = req.session.casesV4.find(c => c.caseRef === caseRef);
   
   if (!caseToLoad) {
     return res.redirect('/projects/back-office/create-case/v4/index');
@@ -395,6 +408,7 @@ router.get('/projects/back-office/create-case/v4/load-case', (req, res) => {
   
   // Populate the session with the case data
   req.session.currentCaseRef = caseRef;
+  req.session.currentCaseRefV4 = caseRef;
   req.session.planTitle = caseToLoad.planTitle || '';
   req.session.planType = caseToLoad.planType || '';
   req.session.caseOfficer = caseToLoad.caseOfficer || '';
@@ -1212,10 +1226,10 @@ router.get('/projects/back-office/create-case/v4/check-answers', (req, res) => {
 
 router.post('/projects/back-office/create-case/v4/check-answers', (req, res) => {
   // Initialize cases array if it doesn't exist
-  if (!req.session.cases) req.session.cases = [];
+  if (!req.session.casesV4) req.session.casesV4 = [];
   
   // Generate case reference number
-  const caseRef = `PLAN/${String(req.session.cases.length + 1).padStart(6, '0')}`;
+  const caseRef = `PLAN/${String(req.session.casesV4.length + 1).padStart(6, '0')}`;
   
   // Create the case object
   const newCase = {
@@ -1237,10 +1251,10 @@ router.post('/projects/back-office/create-case/v4/check-answers', (req, res) => 
   };
   
   // Add case to the array
-  req.session.cases.push(newCase);
+  req.session.casesV4.push(newCase);
   
   // Store the latest case reference for the confirmation page
-  req.session.latestCaseRef = caseRef;
+  req.session.latestCaseRefV4 = caseRef;
   
   res.redirect('/projects/back-office/create-case/v4/confirmation');
 });
@@ -1248,7 +1262,7 @@ router.post('/projects/back-office/create-case/v4/check-answers', (req, res) => 
 // Confirmation page
 router.get('/projects/back-office/create-case/v4/confirmation', (req, res) => {
   res.render('projects/back-office/create-case/v4/confirmation', {
-    caseRef: req.session.latestCaseRef || 'PLAN/000001'
+    caseRef: req.session.latestCaseRefV4 || 'PLAN/000001'
   });
 });
 
@@ -1266,8 +1280,9 @@ router.get('/projects/back-office/create-case/v4/clear-data', (req, res) => {
   req.session.submissionDate = undefined;
   req.session.planStatus = undefined;
   req.session.secondaryLPAContacts = [];
-  req.session.cases = []; // Clear all cases
-  req.session.latestCaseRef = undefined;
+  req.session.casesV4 = []; // Clear v4 cases only
+  req.session.latestCaseRefV4 = undefined;
+  req.session.currentCaseRefV4 = undefined;
 
   // Also clear back-office manage journey state (including GW2 v4)
   req.session.gw2v3WorkshopDocuments = undefined;

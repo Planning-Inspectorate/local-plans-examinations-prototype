@@ -48,7 +48,7 @@ All cases – {{ serviceName }}
     </div>
     <div class="govuk-grid-column-one-half">
         <div class="bo-panel">
-            <form autocomplete="off" class="form" action="/projects/back-office/create-case/v4/0-case-officer-name"
+            <form autocomplete="off" class="form" action="/projects/back-office/create-case/v2/0-case-officer-name"
               method="get">
                 <button type="submit" class="reset govuk-button govuk-button--secondary govuk-!-margin-bottom-0 govuk-!-margin-top-0"
                     data-module="govuk-button">
@@ -107,28 +107,5 @@ All cases – {{ serviceName }}
 {% endblock %}
 
 {% block footer %}
-  {% set isSideJourney = journey == 'side' %}
-  {% if showEmpty %}
-    {% set emptyStateHref = '/projects/back-office/create-case/v4/index' %}
-    {% set emptyStateText = 'See all plans' %}
-  {% else %}
-    {% set emptyStateHref = '/projects/back-office/create-case/v4/index?showEmpty=true' %}
-    {% set emptyStateText = 'View empty state' %}
-  {% endif %}
-
-  {% if isSideJourney %}
-    {% set journeyHref = '/projects/back-office/create-case/v4/index' %}
-    {% set journeyText = 'Use default journey' %}
-  {% else %}
-    {% set journeyHref = '/projects/back-office/create-case/v4/index?journey=side' %}
-    {% set journeyText = 'Use side journey' %}
-  {% endif %}
-
-  {% set footerLinks = [
-    { href: '/projects/back-office/create-case/v4/clear-data', text: 'Clear data' },
-    { href: emptyStateHref, text: emptyStateText },
-    { href: journeyHref, text: journeyText }
-  ] %}
-
   {% include "includes/footer.njk" %}
 {% endblock %}
