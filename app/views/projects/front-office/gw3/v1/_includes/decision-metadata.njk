@@ -29,7 +29,7 @@
       ]
     }) }}
 
-{% if decision != 'go' %}
+{% if decision != 'go' and data['viewOnly'] != 'true' %}
 <p class="govuk-body">Review your Gateway 3 report to find out what changes are required for your resubmission.</p>
 {% endif %}
 
