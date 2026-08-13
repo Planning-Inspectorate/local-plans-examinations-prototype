@@ -96,7 +96,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '20 June 2026',
         gateway3Date: '10 September 2026',
         submissionDate: '15 September 2026',
-        status: 'Awaiting SLA',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-01-15').toISOString()
       },
       {
@@ -113,7 +113,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '25 May 2026',
         gateway3Date: '15 August 2026',
         submissionDate: '20 August 2026',
-        status: 'GW2 workshop confirmed',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-01-20').toISOString()
       },
       {
@@ -130,7 +130,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '30 April 2026',
         gateway3Date: '20 July 2026',
         submissionDate: '25 July 2026',
-        status: 'Awaiting SLA',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-01-25').toISOString()
       },
       {
@@ -147,7 +147,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '5 April 2026',
         gateway3Date: '25 June 2026',
         submissionDate: '30 June 2026',
-        status: 'GW2 submitted',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-02-01').toISOString()
       },
       {
@@ -164,7 +164,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '15 June 2026',
         gateway3Date: '5 September 2026',
         submissionDate: '10 September 2026',
-        status: 'GW3 submission',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-02-10').toISOString()
       },
       {
@@ -181,7 +181,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '18 May 2026',
         gateway3Date: '8 August 2026',
         submissionDate: '13 August 2026',
-        status: 'GW2 report',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-02-15').toISOString()
       },
       {
@@ -198,7 +198,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '28 June 2026',
         gateway3Date: '18 September 2026',
         submissionDate: '23 September 2026',
-        status: 'Awaiting SLA',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-02-20').toISOString()
       },
       {
@@ -215,7 +215,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '2 June 2026',
         gateway3Date: '22 August 2026',
         submissionDate: '27 August 2026',
-        status: 'GW2 submission',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-02-25').toISOString()
       },
       {
@@ -232,7 +232,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '10 July 2026',
         gateway3Date: '30 September 2026',
         submissionDate: '5 October 2026',
-        status: 'GW3 submission',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-03-01').toISOString()
       },
       {
@@ -250,7 +250,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway3Date: '2 August 2026',
         submissionDate: '7 August 2026',
         statusStrategy: 'fixed',
-        status: 'GW2 submission',
+        status: 'Gateway 2 Validation',
         createdDate: new Date('2024-03-05').toISOString()
       }
     ];
@@ -262,18 +262,6 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
     showEmpty: req.query.showEmpty === 'true',
     planStatusClassMap: PLAN_STATUS_CLASS_MAP,
     journey
-  });
-});
-
-router.get('/projects/back-office/create-case/v2/index-assigned', (req, res) => {
-  const myCaseOfficer = req.session.caseOfficer || 'Jane Smith';
-  const cases = Array.isArray(req.session.cases) ? req.session.cases : [];
-  const assignedCases = cases.filter((item) => item.caseOfficer === myCaseOfficer).slice().reverse();
-
-  res.render('projects/back-office/create-case/v2/index-assigned', {
-    myCaseOfficer,
-    assignedCases,
-    planStatusClassMap: PLAN_STATUS_CLASS_MAP
   });
 });
 
@@ -358,7 +346,7 @@ router.get('/projects/back-office/create-case/v2/load-case', (req, res) => {
   req.session.gateway2EstimatedDate = caseToLoad.gateway2Date || '';
   req.session.gateway3EstimatedDate = caseToLoad.gateway3Date || '';
   req.session.submissionDate = caseToLoad.submissionDate || '';
-  req.session.planStatus = caseToLoad.status || 'Awaiting SLA';
+  req.session.planStatus = caseToLoad.status || 'Submitted';
   caseToLoad.status = req.session.planStatus;
   if (!req.session.data) req.session.data = {};
   req.session.data.planStatus = req.session.planStatus;
@@ -818,7 +806,7 @@ router.post('/projects/back-office/create-case/v2/check-answers', (req, res) => 
     gateway2Date: req.session.gateway2Date,
     gateway3Date: req.session.gateway3Date,
     submissionDate: req.session.submissionDate,
-    status: 'Awaiting SLA',
+    status: 'Submitted',
     createdDate: new Date().toISOString()
   };
   

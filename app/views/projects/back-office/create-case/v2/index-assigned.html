@@ -11,7 +11,32 @@ Assigned to me – {{ serviceName }}
 {% endblock %}
 
 {% block content %}
-{% if assignedCases and assignedCases.length > 0 %}
+{% set myCaseOfficer = "Jane Smith" %}
+        {% set assignedCases = [
+          {
+            caseRef: 'PLAN/000001',
+            planTitle: 'Central City Local Plan',
+            planType: 'Local Plan',
+            caseOfficer: 'Jane Smith',
+            status: 'Submitted'
+          },
+          {
+            caseRef: 'PLAN/000004',
+            planTitle: 'West End Local Plan',
+            planType: 'Local Plan',
+            caseOfficer: 'Jane Smith',
+            status: 'Submitted'
+          },
+          {
+            caseRef: 'PLAN/000011',
+            planTitle: 'Harbour Local Plan',
+            planType: 'Local Plan',
+            caseOfficer: 'Jane Smith',
+            status: 'In progress'
+          }
+        ] %}
+
+        {% if assignedCases and assignedCases.length > 0 %}
 <h1 class="govuk-heading-l">
      Assigned to {{ myCaseOfficer }} ({{ assignedCases.length }})
 </h1>
@@ -45,7 +70,7 @@ Assigned to me – {{ serviceName }}
               <td class="govuk-table__cell">{{ case.planType or '-' }}</td>
               <td class="govuk-table__cell">{{ case.caseOfficer or '-' }}</td>
               <td class="govuk-table__cell">
-                <strong class="govuk-tag {{ (planStatusClassMap and planStatusClassMap[case.status]) or 'govuk-tag--turquoise' }}">{{ case.status }}</strong>
+                <strong class="govuk-tag govuk-tag--blue">{{ case.status }}</strong>
               </td>
             </tr>
             {% endfor %}
