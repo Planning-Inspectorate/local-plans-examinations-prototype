@@ -30,56 +30,6 @@ function convertToSlashFormat(dateStr) {
   return '';
 }
 
-// Format dates for check-answers as "D Month YYYY".
-// Only show a value when at least month and year are present.
-function formatDateForCheckAnswers(dateStr) {
-  if (!dateStr || dateStr === '-') return '';
-
-  const monthNames = {
-    '1': 'January', '01': 'January',
-    '2': 'February', '02': 'February',
-    '3': 'March', '03': 'March',
-    '4': 'April', '04': 'April',
-    '5': 'May', '05': 'May',
-    '6': 'June', '06': 'June',
-    '7': 'July', '07': 'July',
-    '8': 'August', '08': 'August',
-    '9': 'September', '09': 'September',
-    '10': 'October',
-    '11': 'November',
-    '12': 'December'
-  };
-
-  // Handle slash format: D/M/YYYY or partials.
-  if (dateStr.includes('/')) {
-    const parts = dateStr.split('/');
-    const day = (parts[0] || '').trim();
-    const monthRaw = (parts[1] || '').trim();
-    const year = (parts[2] || '').trim();
-
-    // Requirement: only show if month and year exist.
-    if (!monthRaw || !year) return '';
-
-    const month = monthNames[monthRaw];
-    if (!month) return '';
-
-    if (!day) return `${month} ${year}`;
-    const dayNum = parseInt(day, 10);
-    return Number.isNaN(dayNum) ? '' : `${dayNum} ${month} ${year}`;
-  }
-
-  // Handle already formatted values like "17 May 2026".
-  const parts = dateStr.trim().split(/\s+/);
-  if (parts.length === 3) {
-    const dayNum = parseInt(parts[0], 10);
-    const month = parts[1];
-    const year = parts[2];
-    return Number.isNaN(dayNum) ? '' : `${dayNum} ${month} ${year}`;
-  }
-
-  return '';
-}
-
 // ...existing code...
 
 const REGION_OPTIONS = [
@@ -146,7 +96,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '20 June 2026',
         gateway3Date: '10 September 2026',
         submissionDate: '15 September 2026',
-        status: 'Awaiting Gateway 2',
+        status: 'Awaiting SLA',
         createdDate: new Date('2024-01-15').toISOString()
       },
       {
@@ -163,7 +113,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '25 May 2026',
         gateway3Date: '15 August 2026',
         submissionDate: '20 August 2026',
-        status: 'Awaiting Gateway 2',
+        status: 'GW2 workshop confirmed',
         createdDate: new Date('2024-01-20').toISOString()
       },
       {
@@ -180,7 +130,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '30 April 2026',
         gateway3Date: '20 July 2026',
         submissionDate: '25 July 2026',
-        status: 'Awaiting Gateway 2',
+        status: 'Awaiting SLA',
         createdDate: new Date('2024-01-25').toISOString()
       },
       {
@@ -197,7 +147,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '5 April 2026',
         gateway3Date: '25 June 2026',
         submissionDate: '30 June 2026',
-        status: 'Awaiting Gateway 2',
+        status: 'GW2 submitted',
         createdDate: new Date('2024-02-01').toISOString()
       },
       {
@@ -214,7 +164,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '15 June 2026',
         gateway3Date: '5 September 2026',
         submissionDate: '10 September 2026',
-        status: 'Awaiting Gateway 2',
+        status: 'GW3 submission',
         createdDate: new Date('2024-02-10').toISOString()
       },
       {
@@ -231,7 +181,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '18 May 2026',
         gateway3Date: '8 August 2026',
         submissionDate: '13 August 2026',
-        status: 'Awaiting Gateway 2',
+        status: 'GW2 report',
         createdDate: new Date('2024-02-15').toISOString()
       },
       {
@@ -248,7 +198,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '28 June 2026',
         gateway3Date: '18 September 2026',
         submissionDate: '23 September 2026',
-        status: 'Awaiting Gateway 2',
+        status: 'Awaiting SLA',
         createdDate: new Date('2024-02-20').toISOString()
       },
       {
@@ -265,7 +215,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '2 June 2026',
         gateway3Date: '22 August 2026',
         submissionDate: '27 August 2026',
-        status: 'Awaiting Gateway 2',
+        status: 'GW2 submission',
         createdDate: new Date('2024-02-25').toISOString()
       },
       {
@@ -282,7 +232,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway2Date: '10 July 2026',
         gateway3Date: '30 September 2026',
         submissionDate: '5 October 2026',
-        status: 'Awaiting Gateway 2',
+        status: 'GW3 submission',
         createdDate: new Date('2024-03-01').toISOString()
       },
       {
@@ -300,7 +250,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         gateway3Date: '2 August 2026',
         submissionDate: '7 August 2026',
         statusStrategy: 'fixed',
-        status: 'Gateway 2 Validation',
+        status: 'GW2 submission',
         createdDate: new Date('2024-03-05').toISOString()
       }
     ];
@@ -312,6 +262,18 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
     showEmpty: req.query.showEmpty === 'true',
     planStatusClassMap: PLAN_STATUS_CLASS_MAP,
     journey
+  });
+});
+
+router.get('/projects/back-office/create-case/v2/index-assigned', (req, res) => {
+  const myCaseOfficer = req.session.caseOfficer || 'Jane Smith';
+  const cases = Array.isArray(req.session.cases) ? req.session.cases : [];
+  const assignedCases = cases.filter((item) => item.caseOfficer === myCaseOfficer).slice().reverse();
+
+  res.render('projects/back-office/create-case/v2/index-assigned', {
+    myCaseOfficer,
+    assignedCases,
+    planStatusClassMap: PLAN_STATUS_CLASS_MAP
   });
 });
 
@@ -396,7 +358,7 @@ router.get('/projects/back-office/create-case/v2/load-case', (req, res) => {
   req.session.gateway2EstimatedDate = caseToLoad.gateway2Date || '';
   req.session.gateway3EstimatedDate = caseToLoad.gateway3Date || '';
   req.session.submissionDate = caseToLoad.submissionDate || '';
-  req.session.planStatus = caseToLoad.status || 'Submitted';
+  req.session.planStatus = caseToLoad.status || 'Awaiting SLA';
   caseToLoad.status = req.session.planStatus;
   if (!req.session.data) req.session.data = {};
   req.session.data.planStatus = req.session.planStatus;
@@ -792,66 +754,19 @@ router.get('/projects/back-office/create-case/v2/enter-key-dates', (req, res) =>
 
 router.post('/projects/back-office/create-case/v2/enter-key-dates', (req, res) => {
   const isEdit = req.body.isEdit === 'true';
-  const readDateParts = (prefix) => {
-    const day = (req.body[`${prefix}-day`] || '').trim();
-    const month = (req.body[`${prefix}-month`] || '').trim();
-    const year = (req.body[`${prefix}-year`] || '').trim();
-    const hasAnyValue = Boolean(day || month || year);
-
-    return {
-      day,
-      month,
-      year,
-      hasAnyValue,
-      value: hasAnyValue ? `${day}/${month}/${year}` : ''
-    };
+  // Helper to format date as D MMMM YYYY (GOV.UK standard)
+  const formatDate = (day, month, year) => {
+    if (!day || !month || !year) return '';
+    const months = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const monthName = months[parseInt(month, 10)] || month;
+    return `${parseInt(day, 10)} ${monthName} ${year}`;
   };
-
-  const notice = readDateParts('notice-of-intention-date');
-  const gateway1 = readDateParts('gateway-1-date');
-  const gateway2 = readDateParts('gateway-2-date');
-  const gateway3 = readDateParts('gateway-3-date');
-  const submission = readDateParts('submission-date');
-
-  const errors = {};
-  const errorList = [];
-
-  const addDateErrorIfInvalid = (fieldKey, fieldLabel, fieldId, dateParts) => {
-    if (!dateParts.hasAnyValue) return;
-
-    if (!dateParts.month || !dateParts.year) {
-      const message = `Enter a month and year for ${fieldLabel}`;
-      errors[fieldKey] = message;
-      errorList.push({ text: message, href: `#${fieldId}` });
-    }
-  };
-
-  addDateErrorIfInvalid('noticeOfIntentionDate', 'Notice of Intention to Commence Local Plan Preparation', 'notice-of-intention-date-month', notice);
-  addDateErrorIfInvalid('gateway1Date', 'Gateway 1 estimated date', 'gateway-1-date-month', gateway1);
-  addDateErrorIfInvalid('gateway2Date', 'Gateway 2 estimated date', 'gateway-2-date-month', gateway2);
-  addDateErrorIfInvalid('gateway3Date', 'Gateway 3 estimated date', 'gateway-3-date-month', gateway3);
-  addDateErrorIfInvalid('submissionDate', 'Submission for examination estimated date', 'submission-date-month', submission);
-
-  if (errorList.length > 0) {
-    return res.render('projects/back-office/create-case/v2/enter-key-dates', {
-      mainContact: req.session.mainContact,
-      contacts: req.session.contacts || [],
-      noticeOfIntentionDate: notice.value,
-      gateway1Date: gateway1.value,
-      gateway2Date: gateway2.value,
-      gateway3Date: gateway3.value,
-      submissionDate: submission.value,
-      isEdit,
-      errors,
-      errorList
-    });
-  }
-
-  req.session.noticeOfIntentionDate = notice.value;
-  req.session.gateway1Date = gateway1.value;
-  req.session.gateway2Date = gateway2.value;
-  req.session.gateway3Date = gateway3.value;
-  req.session.submissionDate = submission.value;
+  
+  req.session.noticeOfIntentionDate = formatDate(req.body['notice-of-intention-date-day'], req.body['notice-of-intention-date-month'], req.body['notice-of-intention-date-year']);
+  req.session.gateway1Date = formatDate(req.body['gateway-1-date-day'], req.body['gateway-1-date-month'], req.body['gateway-1-date-year']);
+  req.session.gateway2Date = formatDate(req.body['gateway-2-date-day'], req.body['gateway-2-date-month'], req.body['gateway-2-date-year']);
+  req.session.gateway3Date = formatDate(req.body['gateway-3-date-day'], req.body['gateway-3-date-month'], req.body['gateway-3-date-year']);
+  req.session.submissionDate = formatDate(req.body['submission-date-day'], req.body['submission-date-month'], req.body['submission-date-year']);
   
   if (isEdit) {
     res.redirect('/projects/back-office/create-case/v2/check-answers');
@@ -873,11 +788,11 @@ router.get('/projects/back-office/create-case/v2/check-answers', (req, res) => {
     lpas: req.session.lpas,
     lpaRegions: req.session.lpaRegions || {},
     caseOfficer: req.session.caseOfficer,
-    noticeOfIntentionDate: formatDateForCheckAnswers(req.session.noticeOfIntentionDate),
-    gateway1Date: formatDateForCheckAnswers(req.session.gateway1Date),
-    gateway2Date: formatDateForCheckAnswers(req.session.gateway2Date),
-    gateway3Date: formatDateForCheckAnswers(req.session.gateway3Date),
-    submissionDate: formatDateForCheckAnswers(req.session.submissionDate)
+    noticeOfIntentionDate: req.session.noticeOfIntentionDate,
+    gateway1Date: req.session.gateway1Date,
+    gateway2Date: req.session.gateway2Date,
+    gateway3Date: req.session.gateway3Date,
+    submissionDate: req.session.submissionDate
   });
 });
 
@@ -903,7 +818,7 @@ router.post('/projects/back-office/create-case/v2/check-answers', (req, res) => 
     gateway2Date: req.session.gateway2Date,
     gateway3Date: req.session.gateway3Date,
     submissionDate: req.session.submissionDate,
-    status: 'Submitted',
+    status: 'Awaiting SLA',
     createdDate: new Date().toISOString()
   };
   

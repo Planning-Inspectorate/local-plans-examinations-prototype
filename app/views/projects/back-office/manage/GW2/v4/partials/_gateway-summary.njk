@@ -1,7 +1,7 @@
 <h2 class="govuk-heading-l">Gateway 2</h2>
 <dl class="govuk-summary-list govuk-summary-list-timetable">
   <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">Gateway 2 expected date</dt>
+    <dt class="govuk-summary-list__key">Gateway 2 estimated date</dt>
     <dd class="govuk-summary-list__value">{{ gateway2EstimatedDate if gateway2EstimatedDate and gateway2EstimatedDate != '-' else 'Not provided' }}</dd>
     <dd class="govuk-summary-list__actions">
       <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-estimated.html?returnUrl=/projects/back-office/manage/GW2/v4/gateway-2">Change<span class="govuk-visually-hidden"> Gateway 2 Estimated Date</span></a>
@@ -13,15 +13,24 @@
     <dd class="govuk-summary-list__actions">
       <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-actual.html?returnUrl=/projects/back-office/manage/GW2/v4/gateway-2">Change<span class="govuk-visually-hidden"> Gateway 2 Actual Date</span></a>
     </dd>
-  </div>
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">Gateway 2 valid date</dt>
-    <dd class="govuk-summary-list__value">{{ gateway2ValidDate if gateway2ValidDate and gateway2ValidDate != '-' else 'Not provided' }}</dd>
-    <dd class="govuk-summary-list__actions">
-      <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-valid.html?returnUrl=/projects/back-office/manage/GW2/v4/gateway-2">Change<span class="govuk-visually-hidden"> Gateway 2 Valid Date</span></a>
-    </dd>
-  </div>
-  </dl>
+    </div>
+    <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key" style="width: 42%;">
+          Gateway 2 submission documents
+          <dd class="govuk-summary-list__value">
+            {% if gateway2DocumentsSummary and gateway2DocumentsSummary.hasDocuments %}
+              {{ gateway2DocumentsSummary.count }} documents
+            {% else %}
+              Not provided
+            {% endif %}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            {% if gateway2DocumentsSummary and gateway2DocumentsSummary.hasDocuments %}
+              <a class="govuk-link" href="/projects/back-office/manage/GW2/v4/gateway-2-documents">Review</a>
+            {% endif %}
+          </dd>
+        </div>
+</dl>
 <dl class="govuk-summary-list govuk-summary-list-timetable">
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">Gateway 2 assessor name</dt>
@@ -38,30 +47,5 @@
     </dd>
   </div>
 </dl>
-<dl class="govuk-summary-list govuk-summary-list-timetable">
-  <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Issue Gateway 2 report</dt>
-          <dd class="govuk-summary-list__value">
-            {% if issueReportSummary and issueReportSummary.hasDocuments %}
-              Issued on {{ issueReportSummary.latestUploadedAtDisplay if issueReportSummary.latestUploadedAtDisplay and issueReportSummary.latestUploadedAtDisplay != '-' else 'Not provided' }}
-            {% else %}
-              Not provided
-            {% endif %}
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            {% if issueReportSummary and issueReportSummary.hasDocuments %}
-              <a class="govuk-link" href="/projects/back-office/manage/GW2/v4/upload/v2/check-answers?returnTo=gateway-2">View<span class="govuk-visually-hidden"> Gateway 2 issue report documents</span></a>
-            {% else %}
-              <a class="govuk-link" href="/projects/back-office/manage/GW2/v4/upload/v2/upload-bo?returnTo=gateway-2">Add<span class="govuk-visually-hidden"> Gateway 2 issue report document</span></a>
-            {% endif %}
-          </dd>
-        </div>
 
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">Report published by LPA date</dt>
-    <dd class="govuk-summary-list__value">{{ gateway2ReportPublishedDate if gateway2ReportPublishedDate and gateway2ReportPublishedDate != '-' else 'Not provided' }}</dd>
-    <dd class="govuk-summary-list__actions">
-      <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-report-published.html?returnUrl=/projects/back-office/manage/GW2/v4/gateway-2">Change<span class="govuk-visually-hidden"> Gateway 2 Report Published by LPA Date</span></a>
-    </dd>
-  </div>
 </dl>

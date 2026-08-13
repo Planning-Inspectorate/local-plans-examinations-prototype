@@ -15,6 +15,7 @@ Plan overview – {{ serviceName }}
 
 
 <div class="govuk-grid-row">
+{% set showContactOrganisation = lpas and lpas.length > 1 %}
   <div class="govuk-grid-column-full">
     <div class="grey-box">
    {% include "includes/back-office/plan-header.njk" %}
@@ -26,7 +27,9 @@ Plan overview – {{ serviceName }}
     {% set currentSection = "overview" %}
     {% include "includes/back-office/side-secondary-nav.njk" %}
   </div>
-  <div class="govuk-grid-column-three-quarters">
+
+            {% if showContactOrganisation and mainContactOrg %}{{ mainContactOrg }}{% endif %}
+
     <h2 class="govuk-heading-l">Overview</h2>
   {# Case Notes Section #}
       <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Case note actions</h2>
@@ -41,10 +44,10 @@ Plan overview – {{ serviceName }}
                 id: "comment",
                 maxlength: 500,
                 rows: 5,
-         
+            {% if showContactOrganisation and contactOne.organisation %}{{ contactOne.organisation }}{% endif %}
                   text: "Add case note",
                   classes: "govuk-visually-hidden"
-                
+                }
               }) }}
             </div>
           </div>
