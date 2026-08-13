@@ -1,29 +1,35 @@
 <li>
   <h2 class="app-task-list__section">
-    Additional documents
+    Plan content and evidence
   </h2>
-
-  {% set supplementaryDocuments %}
-    <ul class="govuk-list govuk-list--bullet">
-      <li><a class="govuk-link" href="#">supplementary-doc-1.pdf</a></li>
-      <li><a class="govuk-link" href="#">supplementary-doc-2.pdf</a></li>
-      <li><a class="govuk-link" href="#">supplementary-doc-3.pdf</a></li>
-    </ul>
-  {% endset %}
+  <p class="govuk-body">You should include any available documents that will form part of your local plan and show progress towards completion. These can all be in draft form.</p>
 
   {{ govukSummaryList({
     classes: 'govuk-!-margin-bottom-9',
     rows: [
+
       {
-        key: { text: 'Subsequent work towards a draft plan' },
+        key: { text: 'Plan content' },
         value:
-          { html: supplementaryDocuments } if data['supplementary-upload-complete']
+          { html: "<a class='govuk-link' href='#'>draft-plan.pdf</a>" } if data['draft-plan-upload-complete']
           else { html: '<span class="govuk-hint">Not added</span>' },
         actions: { items: [
-          { href: 'supplementary-documents/supplementary-upload?cya=true', text: 'Change', visuallyHiddenText: 'subsequent work towards a draft Plan' } if data['supplementary-upload-complete']
-          else { href: 'supplementary-documents/supplementary-upload', text: 'Add', visuallyHiddenText: 'subsequent work towards a draft Plan' }
+          { href: 'supplementary-documents/draft-plan-upload?cya=true', text: 'Change', visuallyHiddenText: 'latest version of your draft plan' } if data['draft-plan-upload-complete']
+          else { href: 'supplementary-documents/draft-plan-upload', text: 'Add', visuallyHiddenText: 'latest version of your draft plan' }
+        ]}
+      },  
+    
+      {
+        key: { text: 'Evidence and progress documents' },
+        value:
+          { html: "<a class='govuk-link' href='#'>evidence-base-documents.pdf</a>" } if data['evidence-base-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'supplementary-documents/evidence-base-upload?cya=true', text: 'Change', visuallyHiddenText: 'full list of evidence base documents' } if data['evidence-base-upload-complete']
+          else { href: 'supplementary-documents/evidence-base-upload', text: 'Add', visuallyHiddenText: 'full list of evidence base documents' }
         ]}
       }
+
     ]
   }) }}
 </li>

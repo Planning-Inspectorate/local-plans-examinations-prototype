@@ -26,8 +26,7 @@ function consultationComplete(data) {
          data['scoping-feedback-summary-upload-complete'] &&
          data['gateway1-upload-complete'] &&
          data['proposed-plan-full-upload-complete'] &&
-         data['consultation-summary-upload-complete'] &&
-         data['engagement-evidence-upload-complete']
+         data['consultation-summary-upload-complete']
 }
 
 function workshopComplete(data) {
@@ -46,7 +45,7 @@ router.get('/application-details', function (req, res) {
   if (data['procedural-completed'] == 'true') completedCount++
   if (data['consultation-completed'] == 'true') completedCount++
 
-  res.render('projects/front-office/gw2/v5/application-details', {
+  res.render('projects/front-office/gw2/archive/v5/application-details', {
     completedCount: completedCount
   })
 })
@@ -162,12 +161,6 @@ router.post('/consultation-documents/proposed-plan-full-upload', function (req, 
 router.post('/consultation-documents/consultation-summary-upload', function (req, res) {
   req.session.data['consultation-started'] = 'true'
   req.session.data['consultation-summary-upload-complete'] = 'true'
-  res.redirect('../application-details')
-})
-
-router.post('/consultation-documents/engagement-evidence-upload', function (req, res) {
-  req.session.data['consultation-started'] = 'true'
-  req.session.data['engagement-evidence-upload-complete'] = 'true'
   req.session.data['consultation-completed'] = 'true'
   res.redirect('../application-details')
 })
@@ -179,18 +172,8 @@ router.post('/consultation-documents/:page', function (req, res) {
   res.redirect('../application-details')
 })
 
-router.post('/supplementary-documents/evidence-base-upload', function (req, res) {
-  req.session.data['evidence-base-upload-complete'] = 'true'
-  res.redirect('../application-details')
-})
-
-router.post('/supplementary-documents/draft-plan-upload', function (req, res) {
-  req.session.data['draft-plan-upload-complete'] = 'true'
-  res.redirect('../application-details')
-})
-
-router.post('/supplementary-documents/environmental-assessment-upload', function (req, res) {
-  req.session.data['environmental-assessment-upload-complete'] = 'true'
+router.post('/supplementary-documents/supplementary-upload', function (req, res) {
+  req.session.data['supplementary-upload-complete'] = 'true'
   res.redirect('../application-details')
 })
 

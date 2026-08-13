@@ -2,7 +2,7 @@
   <h2 class="app-task-list__section" id="procedural-documents">
     Procedural documents
   </h2>
-  <p class="govuk-body">We highly recommend including all these documents in your submission. Your assessor may request them if not submitted. They should be final versions except where drafts are specified.</p>
+  <p class="govuk-body">You should include all these documents in your submission. Your assessor may request them if not submitted. They should be final versions except where drafts are specified.</p>
 
   {% set timetableValue = { html: "<a href='#'>timetable.pdf</a>" } if data['timetable-upload-complete'] else { html: '<span class="govuk-hint">Not added</span>' } %}
   {% set timetableAction = { href: 'procedural-documents/timetable-upload?cya=true', html: 'Change', visuallyHiddenText: 'local plan timetable' } if data['timetable-upload-complete'] else { href: 'procedural-documents/timetable-upload', html: 'Add', visuallyHiddenText: 'local plan timetable' } %}
@@ -29,7 +29,7 @@
     rows: [
 
       {
-        key: { text: 'Gateway 2 cover letter' },
+        key: { text: 'Gateway 2 covering letter' },
         value:
           { html: "<a href='#'>cover-letter.pdf</a>" } if data['cover-letter-upload-complete']
           else { html: '<span class="govuk-hint">Not added</span>' },
@@ -57,7 +57,7 @@
       },
 
       {
-        key: { text: 'Draft statement of Compliance' },
+        key: { text: 'Draft statement of compliance' },
         value:
           { html: "<a href='#'>compliance.pdf</a>" } if data['compliance-upload-complete']
           else { html: '<span class="govuk-hint">Not added</span>' },
@@ -68,7 +68,7 @@
       },
 
       {
-        key: { text: 'Draft statement of Soundness' },
+        key: { text: 'Draft statement of soundness' },
         value:
           { html: "<a href='#'>soundness.pdf</a>" } if data['soundness-upload-complete']
           else { html: '<span class="govuk-hint">Not added</span>' },

@@ -1,22 +1,22 @@
 {% extends "layouts/front-office-v3.html" %}
 {% from "macros/multi-file-upload.njk" import uploadArea %}
-{% set documentName = "further context" %}
+{% set documentName = "plan evidence and progress documents" %}
 {% set title = "Upload " + documentName %}
 
 {% block questions %}
 
-<span class="govuk-caption-l">Optional documents</span>
+<span class="govuk-caption-l">Plan content and evidence</span>
 <h1 class="govuk-heading-l">{{ title }}</h1>
 
-<p class="govuk-body">You can add any of these documents to provide further context if relevant for your area. This may include the following:</p>
+<p class="govuk-body">You should add at least one of these documents that provide evidence to demonstrate the progress of your local plan. This may include the following:</p>
 <ul class="govuk-list govuk-list--bullet">
-        <li>Up to 5 issues of soundness topic papers (2,000 word limit per paper)</li>
-        <li>Evidence relevant to the matters of soundness to be discussed</li>
-        <li>Progress towards setting other development needs and supply (employment, retail etc)</li>
-        <li>Draft Green Belt Review</li>
+        <li>Policies map</li>
+        <li>Full list of evidence base documents (dates for completion)</li>
         <li>Progress and evidence towards setting a housing requirement and associated housing needs assessment and strategic housing market assessment</li>
+        <li>Progress towards identifying needs for Traveller accommodation and associated evidence such as accommodation assessment</li>
+        <li>Progress on assessments required by the Environmental Assessment Regulations and Habitats Regulations</li>
       </ul>
-<p class="govuk-body">The document name must describe what it is, for example "Green belt review 2026 draft".</p>
+<p class="govuk-body">The document name must describe what it is, for example "Policies map 2026 draft".</p>
 
 {{ uploadArea({
   id: "documents",

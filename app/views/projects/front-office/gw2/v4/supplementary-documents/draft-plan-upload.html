@@ -1,20 +1,20 @@
 {% extends "layouts/front-office-v3.html" %}
 {% from "macros/multi-file-upload.njk" import uploadArea %}
-{% set documentName = "draft plan documents" %}
+{% set documentName = "plan content documents" %}
 {% set title = "Upload " + documentName %}
 
 {% block questions %}
 
-<span class="govuk-caption-l">Subsequent work towards a draft plan</span>
+<span class="govuk-caption-l">Plan content and evidence</span>
 <h1 class="govuk-heading-l">{{ title }}</h1>
 
-<p class="govuk-body">This could include documents on:</p>
+<p class="govuk-body">You should add at least one of these documents that will form part of your local plan. This could include documents on:</p>
 <ul class="govuk-list govuk-list--bullet">
-  <li>Draft vision, aims and objectives, 10 draft outcomes</li>
-  <li>Policies map</li>
-  <li>Spatial strategy options or draft spatial strategy</li>
-  <li>Progress towards setting a housing requirement and associated evidence a such as a housing needs assessment and strategic housing market assessment</li>
-  <li>Site selection approach / evidence</li>
+  <li>Vision</li>
+  <li>Site allocations</li>
+  <li>Locally-specific policies</li>
+  <li>List of superseded policies</li>
+  <li>How you will monitor and review the plan</li>
 </ul>
 
 {{ uploadArea({

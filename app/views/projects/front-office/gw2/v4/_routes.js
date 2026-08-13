@@ -26,7 +26,8 @@ function consultationComplete(data) {
          data['scoping-feedback-summary-upload-complete'] &&
          data['gateway1-upload-complete'] &&
          data['proposed-plan-full-upload-complete'] &&
-         data['consultation-summary-upload-complete']
+         data['consultation-summary-upload-complete'] &&
+         data['engagement-evidence-upload-complete']
 }
 
 function workshopComplete(data) {
@@ -161,6 +162,12 @@ router.post('/consultation-documents/proposed-plan-full-upload', function (req, 
 router.post('/consultation-documents/consultation-summary-upload', function (req, res) {
   req.session.data['consultation-started'] = 'true'
   req.session.data['consultation-summary-upload-complete'] = 'true'
+  res.redirect('../application-details')
+})
+
+router.post('/consultation-documents/engagement-evidence-upload', function (req, res) {
+  req.session.data['consultation-started'] = 'true'
+  req.session.data['engagement-evidence-upload-complete'] = 'true'
   req.session.data['consultation-completed'] = 'true'
   res.redirect('../application-details')
 })
@@ -172,8 +179,29 @@ router.post('/consultation-documents/:page', function (req, res) {
   res.redirect('../application-details')
 })
 
+router.post('/supplementary-documents/evidence-base-upload', function (req, res) {
+  req.session.data['evidence-base-upload-complete'] = 'true'
+  res.redirect('../application-details')
+})
+
+router.post('/supplementary-documents/draft-plan-upload', function (req, res) {
+  req.session.data['draft-plan-upload-complete'] = 'true'
+  res.redirect('../application-details')
+})
+
+router.post('/supplementary-documents/environmental-assessment-upload', function (req, res) {
+  req.session.data['environmental-assessment-upload-complete'] = 'true'
+  res.redirect('../application-details')
+})
+
 router.post('/supplementary-documents/supplementary-upload', function (req, res) {
   req.session.data['supplementary-upload-complete'] = 'true'
+  res.redirect('../application-details')
+})
+
+// Fallback for any supplementary document page not explicitly handled above
+router.post('/supplementary-documents/:page', function (req, res) {
+  req.session.data[`${req.params.page}-complete`] = 'true'
   res.redirect('../application-details')
 })
 

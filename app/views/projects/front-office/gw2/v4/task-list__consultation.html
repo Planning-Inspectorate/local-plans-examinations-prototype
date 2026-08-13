@@ -2,7 +2,7 @@
   <h2 class="app-task-list__section">
     Consultation documents
   </h2>
-    <p class="govuk-body">We highly recommend including all these documents in your submission. Your assessor may request them if not submitted. They should be final versions.</p>
+    <p class="govuk-body">You should include all these documents in your submission. Your assessor may request them if not submitted. They should be final versions.</p>
 
   {{ govukSummaryList({
     classes: 'govuk-!-margin-bottom-9',
@@ -87,6 +87,17 @@
         actions: { items: [
           { href: 'consultation-documents/consultation-summary-upload?cya=true', html: 'Change', visuallyHiddenText: 'summary of consultation on proposed local plan content and evidence documents' } if data['consultation-summary-upload-complete']
           else { href: 'consultation-documents/consultation-summary-upload', html: 'Add', visuallyHiddenText: 'summary of consultation on proposed local plan content and evidence documents' }
+        ]}
+      },
+
+      {
+        key: { text: 'Evidence on engagement between plan making authorities and relevant bodies' },
+        value:
+          { html: "<a href='#'>engagement-evidence.pdf</a>" } if data['engagement-evidence-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'consultation-documents/engagement-evidence-upload?cya=true', html: 'Change', visuallyHiddenText: 'evidence on engagement between plan making authorities and relevant bodies' } if data['engagement-evidence-upload-complete']
+          else { href: 'consultation-documents/engagement-evidence-upload', html: 'Add', visuallyHiddenText: 'evidence on engagement between plan making authorities and relevant bodies' }
         ]}
       }
 
