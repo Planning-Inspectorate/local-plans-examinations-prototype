@@ -139,7 +139,7 @@ function deriveOverallPlanStatus(req, currentCase) {
 
   // Per-case fixed status for deterministic test scenarios.
   if (currentCase && currentCase.statusStrategy === 'fixed') {
-    return currentCase.status || 'Submitted';
+    return currentCase.status || 'Awaiting SLA';
   }
 
   // Per-case rule set for nuanced field-based test scenarios.
@@ -162,11 +162,11 @@ function deriveOverallPlanStatus(req, currentCase) {
   if (isSetValue(req.session.gateway2ActualDate) || isSetValue(req.session.gateway2ValidDate) || isSetValue(req.session.gateway2WorkshopDate)) {
     return 'In progress';
   }
-  return 'Submitted';
+  return 'Awaiting SLA';
 }
 
 function setOverallPlanStatus(req, statusText) {
-  const resolvedStatus = statusText && statusText.trim() !== '' ? statusText.trim() : 'Submitted';
+  const resolvedStatus = statusText && statusText.trim() !== '' ? statusText.trim() : 'Awaiting SLA';
   const currentCase = getCurrentCaseRecord(req);
 
   req.session.planStatus = resolvedStatus;
