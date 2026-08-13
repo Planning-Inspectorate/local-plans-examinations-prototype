@@ -77,10 +77,6 @@ function buildFooterLinks() {
 		{
 			text: 'SLA uploaded',
 			href: '/projects/back-office/manage/GW1/v2/set-state?state=confirmed&returnUrl=/projects/back-office/manage/GW1/v2/gateway-1'
-		},
-		{
-			text: 'View status debug',
-			href: '/projects/back-office/manage/status-debug'
 		}
 	];
 }

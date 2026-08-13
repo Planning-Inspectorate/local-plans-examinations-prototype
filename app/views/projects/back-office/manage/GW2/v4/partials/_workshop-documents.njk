@@ -1,12 +1,12 @@
 <dl class="govuk-summary-list govuk-summary-list-timetable">
-  <div class="govuk-summary-list__row">
+      <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">Workshop documents</dt>
     <dd class="govuk-summary-list__value">
       {% if workshopDocumentsSummary and workshopDocumentsSummary.hasDocuments %}
         Issued on {{ workshopDocumentsSummary.latestUploadedAtDisplay if workshopDocumentsSummary.latestUploadedAtDisplay and workshopDocumentsSummary.latestUploadedAtDisplay != '-' else 'Not provided' }}
-      {% else %}
+{% else %}
         Not provided
-      {% endif %}
+{% endif %}
     </dd>
     <dd class="govuk-summary-list__actions">
       {% if workshopDocumentsSummary and workshopDocumentsSummary.hasDocuments %}
@@ -17,4 +17,3 @@
     </dd>
   </div>
 </dl>
-      

@@ -32,52 +32,12 @@ Gateway 2 overview – {{ serviceName }}
       {% include "includes/back-office/secondary-nav.njk" %}
    
       {% include "projects/back-office/manage/GW2/v4/partials/_gateway-summary.njk" %}
+      <h3 class="govuk-heading-l">Workshop</h3>
+         {% include "projects/back-office/manage/GW2/v4/partials/_workshop-documents.njk" %}
       {% include "projects/back-office/manage/GW2/v4/partials/_workshop-details.njk" %}
-      {% include "projects/back-office/manage/GW2/v4/partials/_workshop-documents.njk" %}
-      <br>
-      <br>
+   
 
-      <h3 class="govuk-heading-m">Gateway 2 submission</h3>
-
-        <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-    <dl class="govuk-summary-list govuk-summary-list-timetable">
-          <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key" style="width: 42%;">
-          Suggested workshop venue
-        </dt>
-        <dd class="govuk-summary-list__value">
-              {{ gateway2WorkshopVenue if gateway2WorkshopVenue and gateway2WorkshopVenue != '-' else 'Not provided' }}
-        </dd>
-        
-        
-      </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key" style="width: 42%;">
-          Suggested workshop dates
-        </dt>
-        <dd class="govuk-summary-list__value">
-          {{ gateway2WorkshopDate if gateway2WorkshopDate and gateway2WorkshopDate != '-' else 'Not provided' }}
-        </dd>
-      </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key" style="width: 42%;">
-          Gateway 2 submission documents
-          <dd class="govuk-summary-list__value">
-            {% if gateway2DocumentsSummary and gateway2DocumentsSummary.hasDocuments %}
-              {{ gateway2DocumentsSummary.count }} documents
-            {% else %}
-              Not provided
-            {% endif %}
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            {% if gateway2DocumentsSummary and gateway2DocumentsSummary.hasDocuments %}
-              <a class="govuk-link" href="/projects/back-office/manage/GW2/v4/gateway-2-documents">Review</a>
-            {% endif %}
-          </dd>
-        </div>
-      </dl>
-       <h3 class="govuk-heading-m">Gateway 2 report</h3>
+       <h3 class="govuk-heading-l">Gateway 2 report</h3>
       <dl class="govuk-summary-list govuk-summary-list-timetable">
   <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key" style="width: 39%;">Issue Gateway 2 report</dt>
