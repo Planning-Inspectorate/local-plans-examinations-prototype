@@ -2,12 +2,26 @@
 
 {% set footerLinks = [
   { href: "/manage-prototype", text: "Manage your prototype" },
-  { href: "/manage-prototype/clear-data", text: "Clear data" }
+  { href: "/manage-prototype/clear-data", text: "Clear data" },
+  { href: "#", text: "Contact" }
 ] %}
-{% set footerLinks = footerLinks.concat(prototypeLinks if prototypeLinks else []) %}
+
+{% set prototypeLinksHtml %}
+  {% if prototypeLinks and prototypeLinks.length %}
+    <span>Prototype links and page states:</span>
+    <ul class="govuk-footer__inline-list">
+      {% for link in prototypeLinks %}
+        <li class="govuk-footer__inline-list-item">
+          <a class="govuk-footer__link" href="{{ link.href }}">{{ link.text }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endset %}
 
 {{ govukFooter({
   meta: {
-    items: footerLinks
+    items: footerLinks,
+    html: prototypeLinksHtml
   }
 }) }}
