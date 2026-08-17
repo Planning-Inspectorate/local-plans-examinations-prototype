@@ -1,6 +1,9 @@
 const govukPrototypeKit = require('govuk-prototype-kit');
 const router = govukPrototypeKit.requests.setupRouter();
 
+// Wire in set-status route handler
+router.use('/projects/back-office/manage/GW3/v3', require('./_set-status'));
+
 function formatDateForDisplay(dateValue) {
   if (!dateValue || dateValue === '-') return '';
 
@@ -22,6 +25,10 @@ function getGateway3OverviewState(req) {
 
   if (validStates.includes(stateFromQuery)) {
     return stateFromQuery;
+  }
+
+  if (validStates.includes(req.session.gateway3OverviewState)) {
+    return req.session.gateway3OverviewState;
   }
 
   if (req.session.planStatus === 'Awaiting Gateway 3 resubmission') {
@@ -70,6 +77,15 @@ router.get('/projects/back-office/manage/GW3/v3/gateway-3', (req, res) => {
     ? (formatDateForDisplay(req.session.gateway3CompletionDate) || '-')
     : '-';
 
+  const statusMap = {
+    'initial': { text: 'GW3 submission', classes: 'govuk-tag--turquoise' },
+    'submitted': { text: 'GW3 submitted', classes: 'govuk-tag--yellow' },
+    'resubmission-no-docs': { text: 'GW3 resubmission', classes: 'govuk-tag--yellow' },
+    'resubmission': { text: 'GW3 resubmission', classes: 'govuk-tag--yellow' },
+    'pass': { text: 'GW3 pass', classes: 'govuk-tag--green' }
+  };
+  const pageStatus = statusMap[gateway3OverviewState] || statusMap['submitted'];
+
   res.render('projects/back-office/manage/GW3/v3/gateway-3', {
     caseRef: req.session.currentCaseRef || '',
     gateway3OverviewState,
@@ -88,7 +104,9 @@ router.get('/projects/back-office/manage/GW3/v3/gateway-3', (req, res) => {
     submission1Decision: req.session.submission1Decision || '-',
     submission1DecisionDate: formatDateForDisplay(req.session.submission1DecisionDate) || '-',
     submission2Decision: req.session.submission2Decision || '-',
-    submission2DecisionDate: formatDateForDisplay(req.session.submission2DecisionDate) || '-'
+    submission2DecisionDate: formatDateForDisplay(req.session.submission2DecisionDate) || '-',
+    headerStatusText: pageStatus.text,
+    headerStatusClasses: pageStatus.classes
   });
 });
 

@@ -40,7 +40,7 @@ Gateway 2 overview – {{ serviceName }}
        <h3 class="govuk-heading-l">Gateway 2 report</h3>
       <dl class="govuk-summary-list govuk-summary-list-timetable">
   <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key" style="width: 39%;">Issue Gateway 2 report</dt>
+          <dt class="govuk-summary-list__key" style="width: 39%;">Report issued</dt>
           <dd class="govuk-summary-list__value">
             {% if issueReportSummary and issueReportSummary.hasDocuments %}
               Issued on {{ issueReportSummary.latestUploadedAtDisplay if issueReportSummary.latestUploadedAtDisplay and issueReportSummary.latestUploadedAtDisplay != '-' else 'Not provided' }}
@@ -57,7 +57,7 @@ Gateway 2 overview – {{ serviceName }}
           </dd>
         </div>
   <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key" style="width: 39%;">Report published by LPA date</dt>
+    <dt class="govuk-summary-list__key" style="width: 39%;">Report published</dt>
     <dd class="govuk-summary-list__value">{{ gateway2ReportPublishedDate if gateway2ReportPublishedDate and gateway2ReportPublishedDate != '-' else 'Not provided' }}</dd>
     <dd class="govuk-summary-list__actions">
       <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-report-published.html?returnUrl=/projects/back-office/manage/GW2/v4/gateway-2">Change<span class="govuk-visually-hidden"> Gateway 2 Report Published by LPA Date</span></a>

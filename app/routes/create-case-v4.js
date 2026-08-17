@@ -135,7 +135,7 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
       {
         caseRef: 'PLAN/000001',
         planTitle: 'Central City Local Plan',
-        planType: 'Local Plan',
+        planType: 'Local plan',
         caseOfficer: 'Jane Smith',
         lpas: ['Birmingham City Council'],
         lpaRegions: {'Birmingham City Council': 'West Midlands'},
@@ -152,7 +152,7 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
       {
         caseRef: 'PLAN/000002',
         planTitle: 'North District Local Plan',
-        planType: 'Local Plan',
+        planType: 'Local plan',
         caseOfficer: 'John Doe',
         lpas: ['Leeds City Council'],
         lpaRegions: {'Leeds City Council': 'Yorkshire and the Humber'},
@@ -169,7 +169,7 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
       {
         caseRef: 'PLAN/000003',
         planTitle: 'Southside Local Plan',
-        planType: 'Local Plan',
+        planType: 'Local plan',
         caseOfficer: 'Alex Johnson',
         lpas: ['Brighton and Hove City Council'],
         lpaRegions: {'Brighton and Hove City Council': 'South East'},
@@ -186,7 +186,7 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
       {
         caseRef: 'PLAN/000004',
         planTitle: 'West End Local Plan',
-        planType: 'Local Plan',
+        planType: 'Local plan',
         caseOfficer: 'Jane Smith',
         lpas: ['Manchester City Council'],
         lpaRegions: {'Manchester City Council': 'North West'},
@@ -203,7 +203,7 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
       {
         caseRef: 'PLAN/000005',
         planTitle: 'East Borough Local Plan',
-        planType: 'Local Plan',
+        planType: 'Local plan',
         caseOfficer: 'Michael Brown',
         lpas: ['Norwich City Council'],
         lpaRegions: {'Norwich City Council': 'East of England'},
@@ -220,7 +220,7 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
       {
         caseRef: 'PLAN/000006',
         planTitle: 'Riverside Local Plan',
-        planType: 'Local Plan',
+        planType: 'Local plan',
         caseOfficer: 'Sophie Green',
         lpas: ['Nottingham City Council'],
         lpaRegions: {'Nottingham City Council': 'East Midlands'},
@@ -237,7 +237,7 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
       {
         caseRef: 'PLAN/000007',
         planTitle: 'Hilltop Local Plan',
-        planType: 'Local Plan',
+        planType: 'Local plan',
         caseOfficer: 'Chris White',
         lpas: ['Coventry City Council'],
         lpaRegions: {'Coventry City Council': 'West Midlands'},
@@ -254,7 +254,7 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
       {
         caseRef: 'PLAN/000008',
         planTitle: 'Market Town Local Plan',
-        planType: 'Local Plan',
+        planType: 'Local plan',
         caseOfficer: 'Rachel Black',
         lpas: ['Bristol City Council'],
         lpaRegions: {'Bristol City Council': 'South West'},
@@ -271,7 +271,7 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
       {
         caseRef: 'PLAN/000009',
         planTitle: 'Greenfield Local Plan',
-        planType: 'Local Plan',
+        planType: 'Local plan',
         caseOfficer: 'Tom Harris',
         lpas: ['York City Council'],
         lpaRegions: {'York City Council': 'Yorkshire and the Humber'},
@@ -288,7 +288,7 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
       {
         caseRef: 'PLAN/000010',
         planTitle: 'Seaside Local Plan',
-        planType: 'Local Plan',
+        planType: 'Local plan',
         caseOfficer: 'Anna Lee',
         lpas: ['Southampton City Council'],
         lpaRegions: {'Southampton City Council': 'South East'},

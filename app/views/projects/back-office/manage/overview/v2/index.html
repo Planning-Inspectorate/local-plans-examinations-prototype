@@ -43,8 +43,8 @@ Plan overview – {{ serviceName }}
                 maxlength: 500,
                 rows: 5,
                 label: {
-                  text: "Add case note",
-                  classes: "govuk-visually-hidden"
+                  text: "These notes are only visible to PINS staff and should be used to share informal progress updates"
+                  
                 }
               }) }}
             </div>
@@ -129,25 +129,25 @@ Plan overview – {{ serviceName }}
       </script>
 
     </div>
-  </div> 
- 
-      <dl class="govuk-summary-list govuk-summary-list-timetable">
+  </div>
+
+  <dl class="govuk-summary-list govuk-summary-list-timetable">
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Plan title</dt>
+          <dt class="govuk-summary-list__key">Title</dt>
           <dd class="govuk-summary-list__value">{{ planTitle if planTitle and planTitle != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/overview/v1/plan-title?returnUrl=/projects/back-office/manage/overview/v1/index.html">{{ 'Change' if planTitle and planTitle != '-' else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if planTitle and planTitle != '-' else 'Add' }} the plan title</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Plan type</dt>
-          <dd class="govuk-summary-list__value">{% if planType and planType != '-' %}{% if planType == 'local-plan' %}Local Plan{% else %}{{ planType }}{% endif %}{% else %}Not provided{% endif %}</dd>
+          <dt class="govuk-summary-list__key">Type</dt>
+          <dd class="govuk-summary-list__value">{% if planType and planType != '-' %}{% if planType == 'local-plan' %}Local plan{% else %}{{ planType }}{% endif %}{% else %}Not provided{% endif %}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/overview/v1/plan-type">{{ 'Change' if planType and planType != '-' else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if planType and planType != '-' else 'Add' }} the plan type</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Plan band</dt>
+          <dt class="govuk-summary-list__key">Band</dt>
           <dd class="govuk-summary-list__value">{{ planBand if planBand and planBand != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/overview/v1/plan-band">{{ 'Change' if planBand and planBand != '-' else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if planBand and planBand != '-' else 'Add' }} the plan band</span></a>
@@ -156,7 +156,7 @@ Plan overview – {{ serviceName }}
         {% if lpas and lpas.length > 0 %}
           {% for lpa in lpas %}
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Local Planning Authority{% if lpas.length > 1 %} {{ loop.index }}{% endif %}</dt>
+          <dt class="govuk-summary-list__key">Planning authority{% if lpas.length > 1 %} {{ loop.index }}{% endif %}</dt>
           <dd class="govuk-summary-list__value">
             {{ lpa }}
           </dd>
@@ -165,7 +165,7 @@ Plan overview – {{ serviceName }}
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Region{% if lpas.length > 1 %} for LPA {{ loop.index }}{% endif %}</dt>
+          <dt class="govuk-summary-list__key">Region{% if lpas.length > 1 %}{{ loop.index }}{% endif %}</dt>
           <dd class="govuk-summary-list__value">
             {{ lpaRegions[lpa] if lpaRegions[lpa] and lpaRegions[lpa] != '-' else 'Not provided' }}
           </dd>
@@ -176,10 +176,10 @@ Plan overview – {{ serviceName }}
           {% endfor %}
         {% else %}
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Local Planning Authority</dt>
+          <dt class="govuk-summary-list__key">Planning authority</dt>
           <dd class="govuk-summary-list__value">Not provided</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/overview/v1/select-LPA">Add<span class="govuk-visually-hidden"> Add local planning authority</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/overview/v1/select-LPA">Add<span class="govuk-visually-hidden"> Add planning authority</span></a>
           </dd>
         </div>
         {% endif %}
@@ -319,7 +319,7 @@ Plan overview – {{ serviceName }}
         </dl>
           <dl class="govuk-summary-list govuk-summary-list-timetable">
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Programme Officer</dt>
+          <dt class="govuk-summary-list__key">Programme officer</dt>
           <dd class="govuk-summary-list__value">
             {% if gateway3PoContact and (gateway3PoContact.firstName or gateway3PoContact.lastName) %}
               {{ gateway3PoContact.firstName }} {{ gateway3PoContact.lastName }}<br>
@@ -353,7 +353,7 @@ Plan overview – {{ serviceName }}
         </dl>
         <dl class="govuk-summary-list govuk-summary-list-timetable">
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Assessor Gateway 2</dt>
+          <dt class="govuk-summary-list__key">GW2 assessor</dt>
           <dd class="govuk-summary-list__value">{{ gateway2AssessorName if gateway2AssessorName and gateway2AssessorName != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-assessor-name.html?returnUrl=/projects/back-office/manage/overview/v1/index.html">{{ 'Change' if gateway2AssessorName and gateway2AssessorName != '-' else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if gateway2AssessorName and gateway2AssessorName != '-' else 'Add' }} Gateway 2 assessor name</span></a>
@@ -361,7 +361,7 @@ Plan overview – {{ serviceName }}
       
         </div>
        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Assessor Gateway 3</dt>
+          <dt class="govuk-summary-list__key">GW3 assessor</dt>
           <dd class="govuk-summary-list__value">
             {{ gateway3AssessorName if gateway3AssessorName and gateway3AssessorName != '-' else 'Not provided' }}
           </dd>
@@ -376,7 +376,7 @@ Plan overview – {{ serviceName }}
 
 
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Examining Inspector 1</dt>
+          <dt class="govuk-summary-list__key">Examining inspector 1</dt>
           <dd class="govuk-summary-list__value">
             {{ examiningInspector1Name if examiningInspector1Name and examiningInspector1Name != '-' else 'Not provided' }}
           </dd>
@@ -385,7 +385,7 @@ Plan overview – {{ serviceName }}
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Examining Inspector 2</dt>
+          <dt class="govuk-summary-list__key">Examining inspector 2</dt>
           <dd class="govuk-summary-list__value">
             {{ examiningInspector2Name if examiningInspector2Name and examiningInspector2Name != '-' else 'Not provided' }}
           </dd>
@@ -394,7 +394,7 @@ Plan overview – {{ serviceName }}
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Examining Inspector 3</dt>
+          <dt class="govuk-summary-list__key">Examining inspector 3</dt>
           <dd class="govuk-summary-list__value">
             {{ examiningInspector3Name if examiningInspector3Name and examiningInspector3Name != '-' else 'Not provided' }}
           </dd>
@@ -403,7 +403,7 @@ Plan overview – {{ serviceName }}
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">QA Inspector 1</dt>
+          <dt class="govuk-summary-list__key">QA inspector 1</dt>
           <dd class="govuk-summary-list__value">
             {{ qaInspector1Name if qaInspector1Name and qaInspector1Name != '-' else 'Not provided' }}
           </dd>
@@ -412,7 +412,7 @@ Plan overview – {{ serviceName }}
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">QA Inspector 2</dt>
+          <dt class="govuk-summary-list__key">QA inspector 2</dt>
           <dd class="govuk-summary-list__value">
             {{ qaInspector2Name if qaInspector2Name and qaInspector2Name != '-' else 'Not provided' }}
           </dd>
@@ -421,7 +421,7 @@ Plan overview – {{ serviceName }}
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">QA Inspector 3</dt>
+          <dt class="govuk-summary-list__key">QA inspector 3</dt>
           <dd class="govuk-summary-list__value">
             {{ qaInspector3Name if qaInspector3Name and qaInspector3Name != '-' else 'Not provided' }}
           </dd>

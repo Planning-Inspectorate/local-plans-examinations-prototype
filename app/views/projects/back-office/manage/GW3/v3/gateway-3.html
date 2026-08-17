@@ -185,12 +185,11 @@ Gateway 3 overview – {{ serviceName }}
 {% endblock %}
 {% block footer %}
   {% set footerLinks = [
-    { href: '/projects/back-office/manage/GW3/v3/gateway-3?gateway3OverviewState=initial', text: 'Initial state' },
-    { href: '/projects/back-office/manage/GW3/v3/gateway-3?gateway3OverviewState=submitted', text: 'Submitted state' },
-    { href: '/projects/back-office/manage/GW3/v3/gateway-3?gateway3OverviewState=resubmission-no-docs', text: 'Resubmission no documents state' },
-    { href: '/projects/back-office/manage/GW3/v3/gateway-3?gateway3OverviewState=resubmission', text: 'Resubmission state' },
-    { href: '/projects/back-office/manage/GW3/v3/gateway-3?gateway3OverviewState=pass', text: 'Pass state' }
-    
+    { href: '/projects/back-office/manage/GW3/v3/set-status?state=initial&returnUrl=/projects/back-office/manage/GW3/v3/gateway-3', text: 'Initial state' },
+    { href: '/projects/back-office/manage/GW3/v3/set-status?state=submitted&returnUrl=/projects/back-office/manage/GW3/v3/gateway-3', text: 'Submitted state' },
+    { href: '/projects/back-office/manage/GW3/v3/set-status?state=resubmission-no-docs&returnUrl=/projects/back-office/manage/GW3/v3/gateway-3', text: 'Resubmission no documents state' },
+    { href: '/projects/back-office/manage/GW3/v3/set-status?state=resubmission&returnUrl=/projects/back-office/manage/GW3/v3/gateway-3', text: 'Resubmission state' },
+    { href: '/projects/back-office/manage/GW3/v3/set-status?state=pass&returnUrl=/projects/back-office/manage/GW3/v3/gateway-3', text: 'Pass state' }
   ] %}
   {% include "includes/footer.njk" %}
 {% endblock %}

@@ -32,37 +32,22 @@ function getCurrentCase(req, preferredRef) {
 }
 
 function buildCaseNote(now, text, userName) {
-  const normalizeCaseNoteUserName = (rawName) => {
-    const candidate = String(rawName || '').trim();
-    if (!candidate) return 'Alex Morgan';
-
-    const genericNames = new Set([
-      'case officer',
-      'user account',
-      'admin',
-      'administrator',
-      'system'
-    ]);
-
-    if (genericNames.has(candidate.toLowerCase())) {
-      return 'Alex Morgan';
-    }
-
-    return candidate;
-  };
-
   const tableDate = now.toLocaleDateString('en-GB', {
     day: 'numeric',
     month: 'long',
     year: 'numeric'
   });
-  const tableUser = normalizeCaseNoteUserName(userName);
+  const tableTime = now
+    .toLocaleTimeString('en-GB', { hour: 'numeric', minute: '2-digit' })
+    .toLowerCase()
+    .replace(' ', '');
 
   return {
     text,
-    meta: `${tableDate} by ${tableUser}`,
+    meta: `${tableDate} at ${tableTime} by ${userName}`,
     tableDate,
-    tableUser
+    tableTime,
+    tableUser: userName
   };
 }
 
@@ -70,8 +55,9 @@ function buildCaseNote(now, text, userName) {
 function formatPlanType(planType) {
   if (!planType) return '';
   const planTypeMap = {
-    'local-plan': 'Local Plan',
-    'Local Plan': 'Local Plan'
+    'local-plan': 'Local plan',
+    'Local Plan': 'Local plan',
+    'Local plan': 'Local plan'
   };
   return planTypeMap[planType] || planType;
 }
@@ -139,7 +125,7 @@ function deriveOverallPlanStatus(req, currentCase) {
 
   // Per-case fixed status for deterministic test scenarios.
   if (currentCase && currentCase.statusStrategy === 'fixed') {
-    return currentCase.status || 'Awaiting SLA';
+    return currentCase.status || 'Submitted';
   }
 
   // Per-case rule set for nuanced field-based test scenarios.
@@ -150,23 +136,15 @@ function deriveOverallPlanStatus(req, currentCase) {
     }
   }
 
-  // Preserve seeded/default case status unless explicitly deriving from field state.
-  if (currentCase && currentCase.statusStrategy !== 'derived') {
-    const existingStatus = String(currentCase.status || '').trim();
-    if (existingStatus) {
-      return existingStatus;
-    }
-  }
-
   // Default behavior when a case does not define a strategy.
   if (isSetValue(req.session.gateway2ActualDate) || isSetValue(req.session.gateway2ValidDate) || isSetValue(req.session.gateway2WorkshopDate)) {
     return 'In progress';
   }
-  return 'Awaiting SLA';
+  return 'Submitted';
 }
 
 function setOverallPlanStatus(req, statusText) {
-  const resolvedStatus = statusText && statusText.trim() !== '' ? statusText.trim() : 'Awaiting SLA';
+  const resolvedStatus = statusText && statusText.trim() !== '' ? statusText.trim() : 'Submitted';
   const currentCase = getCurrentCaseRecord(req);
 
   req.session.planStatus = resolvedStatus;
@@ -900,16 +878,16 @@ router.post('/projects/back-office/manage/GW1/v1/gateway-1-dsa-check', (req, res
 
 
 // Show delete confirmation page
-router.get('/projects/back-office/manage/delete-case-confirmation.html', (req, res) => {
+router.get('/projects/back-office/manage/delete-case/v1/delete-case-confirmation.html', (req, res) => {
   const caseRef = req.query.caseRef || '';
   
   // Build case object from session data
   const caseToDelete = {
     caseRef: caseRef,
-    planTitle: req.session.planTitle || '-',
-    planType: req.session.planType || '-',
-    lpaName: (req.session.lpas && req.session.lpas.length > 0) ? req.session.lpas[0] : '-',
-    caseOfficer: req.session.caseOfficer || '-'
+    planTitle: req.session.planTitle || 'Not provided',
+    planType: req.session.planType || 'Not provided',
+    lpaName: (req.session.lpas && req.session.lpas.length > 0) ? req.session.lpas[0] : 'Not provided',
+    caseOfficer: req.session.caseOfficer || 'Not provided'
   };
   
   res.render('projects/back-office/manage/delete-case/v1/delete-case-confirmation', {
@@ -922,7 +900,7 @@ router.get('/projects/back-office/manage/delete-case-confirmation.html', (req, r
 });
 
 // Handle delete POST and show complete page
-router.post('/projects/back-office/manage/delete-case-complete.html', (req, res) => {
+router.post('/projects/back-office/manage/delete-case/v1/delete-case-complete.html', (req, res) => {
   const { caseRef } = req.body;
   
   // Clear all case data from session (soft delete)
@@ -1007,12 +985,12 @@ router.get('/projects/back-office/manage/GW1/v1/gateway-1', (req, res) => {
   res.render('projects/back-office/manage/GW1/v1/gateway-1', {
     caseRef: req.session.currentCaseRef || '',
     planTitle: req.session.planTitle || '',
-    noticeOfIntentionDate: formatDateForDisplay(req.session.noticeOfIntentionDate) || '-',
-    gateway1ActualDate: formatDateForDisplay(req.session.gateway1ActualDate) || '-',
-    gateway1EstimatedDate: formatDateForDisplay(req.session.gateway1EstimatedDate) || '-',
-    gateway1SlaSentDate: formatDateForDisplay(req.session.gateway1SlaSentDate) || '-',
-    gateway1SlaReceivedDate: formatDateForDisplay(req.session.gateway1SlaReceivedDate) || '-',
-    gateway1DsaCheck: req.session.gateway1DsaCheck || '-'
+    noticeOfIntentionDate: formatDateForDisplay(req.session.noticeOfIntentionDate) || 'Not provided',
+    gateway1ActualDate: formatDateForDisplay(req.session.gateway1ActualDate) || 'Not provided',
+    gateway1EstimatedDate: formatDateForDisplay(req.session.gateway1EstimatedDate) || 'Not provided',
+    gateway1SlaSentDate: formatDateForDisplay(req.session.gateway1SlaSentDate) || 'Not provided',
+    gateway1SlaReceivedDate: formatDateForDisplay(req.session.gateway1SlaReceivedDate) || 'Not provided',
+    gateway1DsaCheck: req.session.gateway1DsaCheck || 'Not provided'
   });
 });
 
@@ -1292,70 +1270,70 @@ router.get('/projects/back-office/manage/index-filter', (req, res) => {
       {
         caseRef: 'PLAN/000001',
         planTitle: 'Central City Local Plan',
-        planType: 'Local Plan',
+        planType: 'Local plan',
         caseOfficer: 'Jane Smith',
         status: 'Draft'
       },
       {
         caseRef: 'PLAN/000002',
         planTitle: 'North District Local Plan',
-        planType: 'Local Plan',
+        planType: 'Local plan',
         caseOfficer: 'John Doe',
         status: 'Draft'
       },
       {
         caseRef: 'PLAN/000003',
         planTitle: 'Southside Local Plan',
-        planType: 'Local Plan',
+        planType: 'Local plan',
         caseOfficer: 'Alex Johnson',
         status: 'Draft'
       },
       {
         caseRef: 'PLAN/000004',
         planTitle: 'West End Local Plan',
-        planType: 'Local Plan',
+        planType: 'Local plan',
         caseOfficer: 'Jane Smith',
         status: 'Draft'
       },
       {
         caseRef: 'PLAN/000005',
         planTitle: 'East Borough Local Plan',
-        planType: 'Local Plan',
+        planType: 'Local plan',
         caseOfficer: 'Michael Brown',
         status: 'Draft'
       },
       {
         caseRef: 'PLAN/000006',
         planTitle: 'Riverside Local Plan',
-        planType: 'Local Plan',
+        planType: 'Local plan',
         caseOfficer: 'Sophie Green',
         status: 'Draft'
       },
       {
         caseRef: 'PLAN/000007',
         planTitle: 'Hilltop Local Plan',
-        planType: 'Local Plan',
+        planType: 'Local plan',
         caseOfficer: 'Chris White',
         status: 'Draft'
       },
       {
         caseRef: 'PLAN/000008',
         planTitle: 'Market Town Local Plan',
-        planType: 'Local Plan',
+        planType: 'Local plan',
         caseOfficer: 'Rachel Black',
         status: 'Draft'
       },
       {
         caseRef: 'PLAN/000009',
         planTitle: 'Greenfield Local Plan',
-        planType: 'Local Plan',
+        planType: 'Local plan',
         caseOfficer: 'Tom Harris',
         status: 'Draft'
       },
       {
         caseRef: 'PLAN/000010',
         planTitle: 'Seaside Local Plan',
-        planType: 'Local Plan',
+        planType: 'Local plan',
         caseOfficer: 'Anna Lee',
         status: 'Draft'
       }
@@ -2340,7 +2318,7 @@ router.get('/projects/back-office/manage/documents/v1/documents-side', (req, res
     caseRef: req.session.currentCaseRef || '',
     planTitle: req.session.planTitle || '',
     planStage: req.session.planStage || 'Gateway 2',
-    serviceName: 'Local Plans Examinations'
+    serviceName: 'Manage a local plan'
   });
 });
 
@@ -2353,7 +2331,7 @@ router.get('/projects/back-office/manage/documents/v1/documents-empty.html', (re
     caseRef: req.session.currentCaseRef || '',
     planTitle: req.session.planTitle || '',
     planStage: req.session.planStage || 'Gateway 2',
-    serviceName: 'Local Plans Examinations'
+    serviceName: 'Manage a local plan'
   });
 });
 
@@ -2690,7 +2668,7 @@ if (Array.isArray(fileData)) {
   
   res.render('projects/back-office/manage/documents/upload/v1/upload-bo', {
     caseRef: req.session.currentCaseRef || '',
-    serviceName: 'Local Plans Examinations',
+    serviceName: 'Manage a local plan',
     uploadedDocuments: uploadedDocuments
   });
 });
@@ -2783,7 +2761,7 @@ router.get('/projects/back-office/manage/documents/upload/v1/check-answers', (re
   
   res.render('projects/back-office/manage/documents/upload/v1/check-answers', {
     caseRef: req.session.currentCaseRef || '',
-    serviceName: 'Local Plans Examinations',
+    serviceName: 'Manage a local plan',
     uploadedDocuments: uploadedDocuments,
     totalFiles: uploadedDocuments.length
   });
@@ -2799,7 +2777,7 @@ router.get('/projects/back-office/manage/documents/v1/check-answers', (req, res)
 // Pattern A: Add Another Day (non-consecutive dates)
 router.get('/projects/back-office/manage/examination/v1/hearing-dates-pattern-a.html', (req, res) => {
   res.render('projects/back-office/manage/examination/v1/hearing-dates-pattern-a', {
-    serviceName: 'Local Plans Examinations'
+    serviceName: 'Manage a local plan'
   });
 });
 
@@ -2901,7 +2879,7 @@ router.post('/projects/back-office/manage/examination/v1/hearing-dates-pattern-a
 // Pattern B: Consecutive Days Option (start + end)
 router.get('/projects/back-office/manage/examination/v1/hearing-dates-pattern-b.html', (req, res) => {
   res.render('projects/back-office/manage/examination/v1/hearing-dates-pattern-b', {
-    serviceName: 'Local Plans Examinations'
+    serviceName: 'Manage a local plan'
   });
 });
 
@@ -2969,7 +2947,7 @@ router.get('/projects/back-office/manage/examination/v1/hearing-dates-pattern-c'
   
   res.render('projects/back-office/manage/examination/v1/hearing-date-ranges', {
     blocks: blocks,
-    serviceName: 'Local Plans Examinations'
+    serviceName: 'Manage a local plan'
   });
 });
 
@@ -3056,7 +3034,7 @@ router.post('/projects/back-office/manage/examination/v1/hearing-dates-pattern-c
 router.get('/projects/back-office/manage/examination/v1/hearing-dates-results', (req, res) => {
   res.render('projects/back-office/manage/examination/v1/hearing-dates-results', {
     data: req.session.data,
-    serviceName: 'Local Plans Examinations'
+    serviceName: 'Manage a local plan'
   });
 });
 
@@ -3175,19 +3153,19 @@ router.get('/projects/back-office/manage/GW2/v4/gateway-2-alt', (req, res) => {
   res.render('projects/back-office/manage/GW2/v4/gateway-2-alt', {
     caseRef: req.session.currentCaseRef || '',
     planTitle: req.session.planTitle || '',
-    serviceName: 'Local Plans Examinations',
+    serviceName: 'Manage a local plan',
     notificationMessage,
-    gateway2EstimatedDate: formatDateForDisplay(req.session.gateway2EstimatedDate) || '-',
-    gateway2ActualDate: formatDateForDisplay(req.session.gateway2ActualDate) || '-',
-    gateway2ValidDate: formatDateForDisplay(req.session.gateway2ValidDate) || '-',
-    gateway2WorkshopDate: formatDateForDisplay(req.session.gateway2WorkshopDate) || '-',
-    gateway2WorkshopVenue: req.session.gateway2WorkshopVenue || '-',
-    gateway2AssessorAppointmentDate: formatDateForDisplay(req.session.gateway2AssessorAppointmentDate) || '-',
-    gateway2ReportIssuedDate: formatDateForDisplay(req.session.gateway2ReportIssuedDate) || '-',
-    gateway2ReportPublishedDate: formatDateForDisplay(req.session.gateway2ReportPublishedDate) || '-',
-    gateway2AssessorName: req.session.gateway2AssessorName || '-',
-    gateway2PlanStatus: req.session.gateway2PlanStatus || '-',
-    gateway2Grade: req.session.gateway2Grade || '-',
+    gateway2EstimatedDate: formatDateForDisplay(req.session.gateway2EstimatedDate) || 'Not provided',
+    gateway2ActualDate: formatDateForDisplay(req.session.gateway2ActualDate) || 'Not provided',
+    gateway2ValidDate: formatDateForDisplay(req.session.gateway2ValidDate) || 'Not provided',
+    gateway2WorkshopDate: formatDateForDisplay(req.session.gateway2WorkshopDate) || 'Not provided',
+    gateway2WorkshopVenue: req.session.gateway2WorkshopVenue || 'Not provided',
+    gateway2AssessorAppointmentDate: formatDateForDisplay(req.session.gateway2AssessorAppointmentDate) || 'Not provided',
+    gateway2ReportIssuedDate: formatDateForDisplay(req.session.gateway2ReportIssuedDate) || 'Not provided',
+    gateway2ReportPublishedDate: formatDateForDisplay(req.session.gateway2ReportPublishedDate) || 'Not provided',
+    gateway2AssessorName: req.session.gateway2AssessorName || 'Not provided',
+    gateway2PlanStatus: req.session.gateway2PlanStatus || 'Not provided',
+    gateway2Grade: req.session.gateway2Grade || 'Not provided',
     uploadedDocuments,
     issueReportDocuments,
     hearings,
@@ -3221,11 +3199,11 @@ router.get('/projects/back-office/manage/GW3/v2/gateway-3', (req, res) => {
   res.render('projects/back-office/manage/GW3/v2/gateway-3', {
     caseRef: req.session.currentCaseRef || '',
     planTitle: req.session.planTitle || '',
-    gateway3EstimatedDate: formatDateForDisplay(req.session.gateway3EstimatedDate) || '-',
-    gateway3ActualDate: formatDateForDisplay(req.session.gateway3ActualDate) || '-',
-    gateway3AssessorAppointmentDate: formatDateForDisplay(req.session.gateway3AssessorAppointmentDate) || '-',
-    gateway3CompletionDate: formatDateForDisplay(req.session.gateway3CompletionDate) || '-',
-    gateway3AssessorName: req.session.gateway3AssessorName || '-',
+    gateway3EstimatedDate: formatDateForDisplay(req.session.gateway3EstimatedDate) || 'Not provided',
+    gateway3ActualDate: formatDateForDisplay(req.session.gateway3ActualDate) || 'Not provided',
+    gateway3AssessorAppointmentDate: formatDateForDisplay(req.session.gateway3AssessorAppointmentDate) || 'Not provided',
+    gateway3CompletionDate: formatDateForDisplay(req.session.gateway3CompletionDate) || 'Not provided',
+    gateway3AssessorName: req.session.gateway3AssessorName || 'Not provided',
     gateway3PoContact: req.session.gateway3PoContact || {}
   });
 });

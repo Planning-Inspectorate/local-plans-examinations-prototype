@@ -25,9 +25,9 @@ Assigned to me – {{ serviceName }}
           <caption class="govuk-visually-hidden">Cases assigned to {{ myCaseOfficer }}</caption>
           <thead class="govuk-table__head">
             <tr class="govuk-table__row">
-              <th scope="col" class="govuk-table__header">Case reference</th>
-              <th scope="col" class="govuk-table__header">Plan title</th>
-              <th scope="col" class="govuk-table__header">Plan type</th>
+              <th scope="col" class="govuk-table__header">Reference</th>
+              <th scope="col" class="govuk-table__header">Title</th>
+              <th scope="col" class="govuk-table__header">Type</th>
               <th scope="col" class="govuk-table__header">Case officer</th>
               <th scope="col" class="govuk-table__header">Status</th>
             </tr>
@@ -41,9 +41,9 @@ Assigned to me – {{ serviceName }}
                   <span class="govuk-visually-hidden">, status {{ case.status }}</span>
                 </a>
               </td>
-              <td class="govuk-table__cell">{{ case.planTitle or '-' }}</td>
-              <td class="govuk-table__cell">{{ case.planType or '-' }}</td>
-              <td class="govuk-table__cell">{{ case.caseOfficer or '-' }}</td>
+              <td class="govuk-table__cell">{{ case.planTitle or 'Not provided' }}</td>
+              <td class="govuk-table__cell">{{ case.planType or 'Not provided' }}</td>
+              <td class="govuk-table__cell">{{ case.caseOfficer or 'Not provided' }}</td>
               <td class="govuk-table__cell">
                 <strong class="govuk-tag {{ (planStatusClassMap and planStatusClassMap[case.status]) or 'govuk-tag--turquoise' }}">{{ case.status }}</strong>
               </td>

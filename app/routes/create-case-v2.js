@@ -64,16 +64,12 @@ router.post('/projects/back-office/create-case/v2/LPA-region', (req, res) => {
   if (req.body.action === 'cancel') {
     return res.redirect('/projects/back-office/create-case/v2/check-answers');
   }
-  const isEdit = req.body.isEdit === 'true';
   const index = req.body.index ? parseInt(req.body.index, 10) : 0;
   const lpas = req.session.lpas || [];
   const lpa = lpas[index];
   if (!req.session.lpaRegions) req.session.lpaRegions = {};
   req.session.lpaRegions[lpa] = req.body.region;
-  if (isEdit) {
-    return res.redirect('/projects/back-office/create-case/v2/check-answers');
-  }
-  res.redirect('/projects/back-office/create-case/v2/add-additional-lpa');
+  res.redirect('/projects/back-office/create-case/v2/check-answers');
 });
 
 // Start page
@@ -798,7 +794,6 @@ router.post('/projects/back-office/create-case/v2/check-answers', (req, res) => 
     planType: req.session.planType,
     caseOfficer: req.session.caseOfficer,
     lpas: req.session.lpas,
-    lpaRegions: req.session.lpaRegions || {},
     mainContact: req.session.mainContact,
     contacts: req.session.contacts,
     noticeOfIntentionDate: req.session.noticeOfIntentionDate,

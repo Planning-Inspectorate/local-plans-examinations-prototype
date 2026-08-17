@@ -27,35 +27,38 @@ Plan timetable – {{ serviceName }}
       <h2 class="govuk-heading-l">Timetable</h2>
       <dl class="govuk-summary-list govuk-summary-list-timetable">
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Notice of Intention publish date</dt>
+          <dt class="govuk-summary-list__key">Notice of Intention published</dt>
           <dd class="govuk-summary-list__value">{{ noticeOfIntentionDate if noticeOfIntentionDate and noticeOfIntentionDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/overview/v2/change-notice-date.html?returnUrl=/projects/back-office/manage/timetable/v1/timetable.html">Change<span class="govuk-visually-hidden"> Notice of Intention date</span></a>
           </dd>
         </div>
+         </dl>
+        <h2 class="govuk-heading-m">Gateway 1</h2>
+      <dl class="govuk-summary-list govuk-summary-list-timetable">
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Gateway 1 expected date</dt>
+          <dt class="govuk-summary-list__key">Expected</dt>
           <dd class="govuk-summary-list__value">{{ gateway1ExpectedDate if gateway1ExpectedDate and gateway1ExpectedDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/GW1/v2/gateway-1-expected.html?returnUrl=/projects/back-office/manage/timetable/v2/timetable.html">Change<span class="govuk-visually-hidden"> Gateway 1 Expected Date</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Gateway 1 actual date</dt>
+          <dt class="govuk-summary-list__key">Submission received</dt>
           <dd class="govuk-summary-list__value">{{ gateway1ActualDate if gateway1ActualDate and gateway1ActualDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/GW1/v2/gateway-1-actual.html?returnUrl=/projects/back-office/manage/timetable/v2/timetable.html">Change<span class="govuk-visually-hidden"> Gateway 1 Actual Date</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">SLA sent date</dt>
+          <dt class="govuk-summary-list__key">SLA sent</dt>
           <dd class="govuk-summary-list__value">{{ gateway1SlaSentDate if gateway1SlaSentDate and gateway1SlaSentDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/GW1/v2/gateway-1-sla-sent.html?returnUrl=/projects/back-office/manage/timetable/v1/timetable.html">Change<span class="govuk-visually-hidden"> Date SLA Sent to LPA</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">SLA received date</dt>
+          <dt class="govuk-summary-list__key">SLA received</dt>
           <dd class="govuk-summary-list__value">{{ gateway1SlaReceivedDate if gateway1SlaReceivedDate and gateway1SlaReceivedDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/GW1/v2/gateway-1-sla-received.html?returnUrl=/projects/back-office/manage/timetable/v1/timetable.html">Change<span class="govuk-visually-hidden"> Date SLA Received from LPA</span></a>
@@ -66,49 +69,35 @@ Plan timetable – {{ serviceName }}
         <h2 class="govuk-heading-m">Gateway 2</h2>
       <dl class="govuk-summary-list govuk-summary-list-timetable">
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Gateway 2 expected date</dt>
+          <dt class="govuk-summary-list__key">Expected</dt>
           <dd class="govuk-summary-list__value">{{ gateway2ExpectedDate if gateway2ExpectedDate and gateway2ExpectedDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/GW2/v2/gateway-2-expected.html?returnUrl=/projects/back-office/manage/timetable/v1/timetable.html">Change<span class="govuk-visually-hidden"> Gateway 2 Expected Date</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Gateway 2 actual date</dt>
+          <dt class="govuk-summary-list__key">Submission received</dt>
           <dd class="govuk-summary-list__value">{{ gateway2ActualDate if gateway2ActualDate and gateway2ActualDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/GW2/v2/gateway-2-actual.html?returnUrl=/projects/back-office/manage/timetable/v1/timetable.html">Change<span class="govuk-visually-hidden"> Gateway 2 Actual Date</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Gateway 2 valid date</dt>
-          <dd class="govuk-summary-list__value">{{ gateway2ValidDate if gateway2ValidDate and gateway2ValidDate != '-' else 'Not provided' }}</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/GW2/v2/gateway-2-valid.html?returnUrl=/projects/back-office/manage/timetable/v1/timetable.html">Change<span class="govuk-visually-hidden"> Gateway 2 Valid Date</span></a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Gateway 2 dates for workshop</dt>
+          <dt class="govuk-summary-list__key">Workshop dates</dt>
           <dd class="govuk-summary-list__value">{{ gateway2WorkshopDate if gateway2WorkshopDate and gateway2WorkshopDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/GW2/v2/gateway-2-workshop-date.html?returnUrl=/projects/back-office/manage/timetable/v1/timetable.html">Change<span class="govuk-visually-hidden"> Gateway 2 Dates for Workshop</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Gateway 2 assessor date of appointment</dt>
-          <dd class="govuk-summary-list__value">{{ gateway2AssessorAppointmentDate if gateway2AssessorAppointmentDate and gateway2AssessorAppointmentDate != '-' else 'Not provided' }}</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/GW2/v2/gateway-2-assessor-appointment.html?returnUrl=/projects/back-office/manage/timetable/v1/timetable.html">Change<span class="govuk-visually-hidden"> Gateway 2 Assessor Date of Appointment</span></a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Gateway 2 report issued date</dt>
+          <dt class="govuk-summary-list__key">Report issued</dt>
           <dd class="govuk-summary-list__value">{{ gateway2ReportIssuedDate if gateway2ReportIssuedDate and gateway2ReportIssuedDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/GW2/v2/gateway-2-report-issued.html?returnUrl=/projects/back-office/manage/timetable/v1/timetable.html">Change<span class="govuk-visually-hidden"> Gateway 2 Report Issued Date</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Gateway 2 report published by LPA date</dt>
+          <dt class="govuk-summary-list__key">Report published</dt>
           <dd class="govuk-summary-list__value">{{ gateway2ReportPublishedDate if gateway2ReportPublishedDate and gateway2ReportPublishedDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/GW2/v2/gateway-2-report-published.html?returnUrl=/projects/back-office/manage/timetable/v1/timetable.html">Change<span class="govuk-visually-hidden"> Gateway 2 Report Published by LPA Date</span></a>
@@ -118,28 +107,21 @@ Plan timetable – {{ serviceName }}
         <h2 class="govuk-heading-m">Gateway 3</h2>
       <dl class="govuk-summary-list govuk-summary-list-timetable">
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Expected submission date for gateway 3</dt>
+          <dt class="govuk-summary-list__key">Expected</dt>
           <dd class="govuk-summary-list__value">{{ gateway3ExpectedDate if gateway3ExpectedDate and gateway3ExpectedDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/GW3/v2/gateway-3-expected.html?returnUrl=/projects/back-office/manage/timetable/v2/timetable.html">Change<span class="govuk-visually-hidden">Expected Submission Date for Examination</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Gateway 3 actual date</dt>
+          <dt class="govuk-summary-list__key">Submission received</dt>
           <dd class="govuk-summary-list__value">{{ gateway3ActualDate if gateway3ActualDate and gateway3ActualDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/GW3/v2/gateway-3-actual.html?returnUrl=/projects/back-office/manage/timetable/v2/timetable.html">Change<span class="govuk-visually-hidden">Submission for Examination date</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Gateway 3 assessor date of appointment</dt>
-          <dd class="govuk-summary-list__value">{{ gateway3AssessorAppointmentDate if gateway3AssessorAppointmentDate and gateway3AssessorAppointmentDate != '-' else 'Not provided' }}</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/GW3/v2/gateway-3-assessor-appointment.html?returnUrl=/projects/back-office/manage/timetable/v1/timetable.html">Change<span class="govuk-visually-hidden"> Gateway 3 Assessor Date of Appointment</span></a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Gateway 3 completion date</dt>
+          <dt class="govuk-summary-list__key">Completed</dt>
           <dd class="govuk-summary-list__value">{{ gateway3CompletionDate if gateway3CompletionDate and gateway3CompletionDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/GW3/v2/gateway-3-completion-date.html?returnUrl=/projects/back-office/manage/timetable/v1/timetable.html">Change<span class="govuk-visually-hidden"> Gateway 3 Completion Date</span></a>
@@ -149,24 +131,17 @@ Plan timetable – {{ serviceName }}
     <h2 class="govuk-heading-m">Examination</h2>
       <dl class="govuk-summary-list govuk-summary-list-timetable">
          <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Expected submission date</dt>
+          <dt class="govuk-summary-list__key">Expected</dt>
           <dd class="govuk-summary-list__value">{{ examinationExpectedDate if examinationExpectedDate and examinationExpectedDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/examination/v2/examination-estimated.html?returnUrl=/projects/back-office/manage/timetable/v2/timetable.html">Change<span class="govuk-visually-hidden">Expected Submission Date</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Actual submission date</dt>
+          <dt class="govuk-summary-list__key">Submission received</dt>
           <dd class="govuk-summary-list__value">{{ examinationActualDate if examinationActualDate and examinationActualDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/examination/v2/examination-actual.html?returnUrl=/projects/back-office/manage/timetable/v2/timetable.html">Change<span class="govuk-visually-hidden">Actual Submission Date</span></a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Examining Inspector appointment date</dt>
-          <dd class="govuk-summary-list__value">{{ examiningInspectorAppointmentDate if examiningInspectorAppointmentDate and examiningInspectorAppointmentDate != '-' else 'Not provided' }}</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/examination/v2/examining-inspector-date.html?returnUrl=/projects/back-office/manage/timetable/v2/timetable.html">Change<span class="govuk-visually-hidden">Examining Inspector Appointment Date</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">

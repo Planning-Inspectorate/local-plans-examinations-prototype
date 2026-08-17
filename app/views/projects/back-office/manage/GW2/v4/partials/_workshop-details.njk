@@ -1,4 +1,3 @@
-
 {% if hearings and hearings.length %}
   {% for hearing in hearings %}
     <h3 class="govuk-heading-m">Workshop {{ loop.index }} details</h3>
@@ -8,14 +7,14 @@
 
     <dl class="govuk-summary-list govuk-summary-list-timetable app-summary-list--workshop-details">
       <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">Workshop start date</dt>
+        <dt class="govuk-summary-list__key">Start date</dt>
         <dd class="govuk-summary-list__value">{{ hearing.startDate if hearing.startDate and hearing.startDate != '-' else 'Not provided' }}</dd>
         <dd class="govuk-summary-list__actions">
           <a class="govuk-link" href="add-workshop?edit={{ loop.index0 }}">Change<span class="govuk-visually-hidden"> workshop {{ loop.index }} details</span></a>
         </dd>
       </div>
       <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">Workshop time</dt>
+        <dt class="govuk-summary-list__key">Start time</dt>
         <dd class="govuk-summary-list__value">{{ hearing.time if hearing.time and hearing.time != '-' else 'Not provided' }}</dd>
         <dd class="govuk-summary-list__actions"></dd>
       </div>
@@ -42,7 +41,7 @@
         <dd class="govuk-summary-list__actions"></dd>
       </div>
       <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">Is the workshop hybrid, virtual or in-person?</dt>
+        <dt class="govuk-summary-list__key">Format</dt>
         <dd class="govuk-summary-list__value">{{ hearing.isVirtual if hearing.isVirtual and hearing.isVirtual != '-' else 'Not provided' }}</dd>
         <dd class="govuk-summary-list__actions"></dd>
       </div>
@@ -64,7 +63,7 @@
 
       {% if hearing.isVirtual == 'In-person' or hearing.isVirtual == 'Hybrid' %}
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Venue address</dt>
+          <dt class="govuk-summary-list__key">Location</dt>
           <dd class="govuk-summary-list__value">
             {% if hearing.hasAddress == 'Yes' and hearing.address %}
               {{ hearing.venue if hearing.venue and hearing.venue != '-' else 'Not provided' }}<br>
