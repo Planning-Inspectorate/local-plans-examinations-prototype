@@ -29,8 +29,8 @@
     <h2 class="govuk-heading-m">
       Version {{ version }}
       {{ govukTag({
-        classes: 'govuk-tag--yellow govuk-!-margin-left-2',
-        text: 'In progress'
+        classes: 'govuk-tag--grey govuk-!-margin-left-2',
+        text: 'Experimental'
       }) }}
     </h2>
  
@@ -45,15 +45,17 @@
       <li>Includes error messaging for each screen</li>
       <li>Region removed and inferred in the back end</li>
     </ul> 
+    {{ govukWarningText({
+      text: 'Do not use for development or testing purposes. This version is for research purposes only.',
+      iconFallbackText: 'Warning'
+    }) }}
+
     {{ govukButton({
       html: 'View prototype',
       href: '/projects/back-office/create-case/v' ~ version ~ '/index',
       isStartButton: true
     }) }}
-
-       <br>
-      <br>
-      <br>
+    {% set HTMLv4 %}
     {% set version = "4" %}
     <h2 class="govuk-heading-m">
       Version {{ version }}
@@ -78,7 +80,7 @@
       href: '/projects/back-office/create-case/v' ~ version ~ '/index',
       isStartButton: true
     }) }}
-
+    {% endset -%}
        <br>
       <br>
       <br>
@@ -86,8 +88,8 @@
     <h2 class="govuk-heading-m">
       Version {{ version }}
       {{ govukTag({
-        classes: 'govuk-tag--yellow govuk-!-margin-left-2',
-        text: 'In progress'
+        classes: 'govuk-tag--grey govuk-!-margin-left-2',
+        text: 'Experimental'
       }) }}
     </h2>
  
@@ -101,7 +103,10 @@
       <li>Includes error messaging for each screen</li>
       <li>Region removed and inferred in the back end</li>
     </ul> 
- 
+ {{ govukWarningText({
+      text: 'Do not use for development or testing purposes. This version is for research purposes only.',
+      iconFallbackText: 'Warning'
+    }) }}
       {{ govukButton({
         html: 'View prototype',
         href: '/projects/back-office/create-case/v' ~ version ~ '/index',
@@ -114,8 +119,8 @@
     <h2 class="govuk-heading-m">
       Version 2.1
       {{ govukTag({
-        classes: 'govuk-tag--yellow govuk-!-margin-left-2',
-        text: 'Design exploration'
+        classes: 'govuk-tag--grey govuk-!-margin-left-2',
+        text: 'Experimental'
       }) }}
     </h2>
  
@@ -129,7 +134,10 @@
       <li>Includes error messaging for each screen</li>
       <li>Region removed and inferred in the back end</li>
     </ul>
-
+{{ govukWarningText({
+      text: 'Do not use for development or testing purposes. This version is for research purposes only.',
+      iconFallbackText: 'Warning'
+    }) }}
     {{ govukButton({
       html: 'View prototype',
       href: '/projects/back-office/create-case/v21/index',
@@ -186,6 +194,14 @@
       id: 'previous',
       classes: 'govuk-!-margin-top-9',
       items: [
+      {
+          heading: {
+            html: 'Version 4 <strong class="govuk-tag govuk-tag--grey govuk-!-margin-left-2">Superseded</strong>'
+          },
+          content: {
+            html: v4HTML
+          }
+        },
         {
           heading: {
             html: 'Version 1 <strong class="govuk-tag govuk-tag--blue govuk-!-margin-left-2">Research complete</strong>'
