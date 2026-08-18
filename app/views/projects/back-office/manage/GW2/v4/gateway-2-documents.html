@@ -35,6 +35,17 @@ Gateway 2 documents - {{ serviceName }}
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
+    {% if notificationMessage %}
+      <div class="govuk-notification-banner govuk-notification-banner--success" role="region" aria-labelledby="gw2-documents-notification-banner-title" data-module="govuk-notification-banner">
+        <div class="govuk-notification-banner__header">
+          <h2 class="govuk-notification-banner__title" id="gw2-documents-notification-banner-title">Success</h2>
+        </div>
+        <div class="govuk-notification-banner__content">
+          <p class="govuk-notification-banner__heading">{{ notificationMessage }}</p>
+        </div>
+      </div>
+    {% endif %}
+
     <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
     <h2 class="govuk-heading-l">Submitted GW2 documents</h2>
 
@@ -43,6 +54,9 @@ Gateway 2 documents - {{ serviceName }}
     </p>
 
     <h3 class="govuk-heading-m">Procedural documents</h3>
+    {% if proceduralUploadedDocumentRows.length > 0 %}
+      {{ govukSummaryList({ classes: "govuk-summary-list-timetable", rows: proceduralUploadedDocumentRows }) }}
+    {% endif %}
     <dl class="govuk-summary-list govuk-summary-list-timetable">
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">Gateway 2 covering letter</dt>
@@ -70,11 +84,12 @@ Gateway 2 documents - {{ serviceName }}
         <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/GW2/v4/document/draft-statement-of-soundness">View</a></dd>
       </div>
     </dl>
-    {% if proceduralUploadedDocumentRows.length > 0 %}
-      {{ govukSummaryList({ classes: "govuk-summary-list-timetable", rows: proceduralUploadedDocumentRows }) }}
-    {% endif %}
+    
 
     <h3 class="govuk-heading-m">Consultation documents</h3>
+    {% if consultationUploadedDocumentRows.length > 0 %}
+      {{ govukSummaryList({ classes: "govuk-summary-list-timetable", rows: consultationUploadedDocumentRows }) }}
+    {% endif %}
     <dl class="govuk-summary-list govuk-summary-list-timetable">
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">Notice of intention to commence local plan preparation</dt>
@@ -107,11 +122,12 @@ Gateway 2 documents - {{ serviceName }}
         <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/GW2/v4/document/consultation-summary-pack">View</a></dd>
       </div>
     </dl>
-    {% if consultationUploadedDocumentRows.length > 0 %}
-      {{ govukSummaryList({ classes: "govuk-summary-list-timetable", rows: consultationUploadedDocumentRows }) }}
-    {% endif %}
+    
 
     <h3 class="govuk-heading-m">Additional documents</h3>
+    {% if additionalUploadedDocumentRows.length > 0 %}
+      {{ govukSummaryList({ classes: "govuk-summary-list-timetable", rows: additionalUploadedDocumentRows }) }}
+    {% endif %}
     <dl class="govuk-summary-list govuk-summary-list-timetable">
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">Subsequent work towards a draft plan</dt>
@@ -119,9 +135,7 @@ Gateway 2 documents - {{ serviceName }}
         <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/GW2/v4/document/subsequent-work-draft-plan">View</a></dd>
       </div>
     </dl>
-    {% if additionalUploadedDocumentRows.length > 0 %}
-      {{ govukSummaryList({ classes: "govuk-summary-list-timetable", rows: additionalUploadedDocumentRows }) }}
-    {% endif %}
+    
   </div>
 </div>
 {% endblock %}

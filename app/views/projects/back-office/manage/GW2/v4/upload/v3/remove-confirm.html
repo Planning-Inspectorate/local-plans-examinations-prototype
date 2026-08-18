@@ -1,0 +1,39 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+  Remove document - {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/projects/back-office/manage/GW2/v4/upload/v3/document/" ~ document.id
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
+    <h1 class="govuk-heading-l">Remove document</h1>
+
+    <p class="govuk-body">Are you sure you want to remove {{ document.latestFileName }}?</p>
+
+    <form method="post" action="/projects/back-office/manage/GW2/v4/upload/v3/document/{{ document.id }}/remove-confirm">
+      <div class="govuk-button-group">
+        {{ govukButton({
+        text: "Remove",
+        classes: "govuk-button--warning",
+        attributes: { name: "action", value: "remove" }
+      }) }}
+
+        <a class="govuk-link" href="/projects/back-office/manage/GW2/v4/upload/v3/document/{{ document.id }}">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

@@ -191,8 +191,8 @@ function getGateway2DocumentStatusTagClass(status) {
 function buildGateway2DocumentForView(document) {
   const latestVersion = getLatestGateway2DocumentVersion(document);
   const isV3UploadedDocument = document.id && document.id.startsWith('v3-upload-');
-  const latestFileHref = latestVersion && latestVersion.storedFilename
-    ? `/projects/back-office/manage/documents/download/${encodeURIComponent(latestVersion.storedFilename)}`
+  const latestFileHref = latestVersion
+    ? `/projects/back-office/manage/documents/download/${encodeURIComponent(latestVersion.storedFilename || latestVersion.fileName)}`
     : '';
 
   return {
@@ -239,7 +239,9 @@ function escapeHtml(value) {
 function buildV3UploadedDocumentRows(documents) {
   return documents.map((doc) => {
     const downloadHref = `/projects/back-office/manage/documents/download/${encodeURIComponent(doc.filename)}`;
-    const viewHref = `/projects/back-office/manage/GW2/v4/upload/v3/document/${encodeURIComponent(getV3UploadedDocumentId(doc))}`;
+    const documentId = getV3UploadedDocumentId(doc);
+    const viewHref = `/projects/back-office/manage/GW2/v4/upload/v3/document/${encodeURIComponent(documentId)}`;
+    const removeHref = `/projects/back-office/manage/GW2/v4/upload/v3/document/${encodeURIComponent(documentId)}/remove-confirm`;
     const originalName = escapeHtml(doc.originalname);
 
     return {
@@ -247,6 +249,11 @@ function buildV3UploadedDocumentRows(documents) {
       value: { html: `<a class="govuk-hint" href="${downloadHref}">${originalName}</a>` },
       actions: {
         items: [
+          {
+            href: removeHref,
+            text: 'Remove',
+            visuallyHiddenText: doc.originalname
+          },
           {
             href: viewHref,
             text: 'View'
@@ -294,6 +301,35 @@ function upsertV3UploadedDocumentInGateway2Documents(req, doc, category) {
 function removeGateway2DocumentById(req, documentId) {
   const documents = getGateway2Documents(req);
   req.session[GW2_DOCUMENTS_KEY] = documents.filter((document) => document.id !== documentId);
+}
+
+function removeV3UploadedDocumentById(req, documentId) {
+  if (!documentId) return false;
+
+  const docsByCategory = getV3UploadedDocumentsByCategory(req);
+  let removed = false;
+
+  ['procedural', 'consultation', 'additional'].forEach((category) => {
+    docsByCategory[category] = docsByCategory[category].filter((doc) => {
+      if (getV3UploadedDocumentId(doc) === documentId) {
+        removed = true;
+        return false;
+      }
+
+      return true;
+    });
+  });
+
+  if (!removed) return false;
+
+  req.session[GW2_V3_UPLOADED_DOCS_KEY] = docsByCategory;
+  removeGateway2DocumentById(req, documentId);
+
+  if (req.session[GW2_V3_REPLACE_DOCUMENT_ID_KEY] === documentId) {
+    delete req.session[GW2_V3_REPLACE_DOCUMENT_ID_KEY];
+  }
+
+  return true;
 }
 
 function syncV3UploadedDocumentsToGateway2Documents(req) {
@@ -884,10 +920,13 @@ router.get('/gateway-2-documents', (req, res) => {
   syncV3UploadedDocumentsToGateway2Documents(req);
   const documents = getGateway2Documents(req).map(buildGateway2DocumentForView);
   const uploadedByCategory = getV3UploadedDocumentsByCategory(req);
+  const notificationMessage = req.session.gateway2DocumentsNotificationMessage || '';
+  delete req.session.gateway2DocumentsNotificationMessage;
 
   res.render('projects/back-office/manage/GW2/v4/gateway-2-documents', {
     caseRef: req.session.currentCaseRef || '',
     serviceName: 'Manage a local plan',
+    notificationMessage,
     proceduralDocuments: documents.filter((doc) => doc.category === 'procedural'),
     consultationDocuments: documents.filter((doc) => doc.category === 'consultation'),
     additionalDocuments: documents.filter((doc) => doc.category === 'additional'),
@@ -922,7 +961,7 @@ router.get('/document/:documentId', (req, res) => {
     .map((version) => ({
       ...version,
       uploadedAtDisplay: formatTimestampForDisplay(version.uploadedAt),
-      fileHref: version.storedFilename ? `/projects/back-office/manage/documents/download/${encodeURIComponent(version.storedFilename)}` : ''
+      fileHref: `/projects/back-office/manage/documents/download/${encodeURIComponent(version.storedFilename || version.fileName)}`
     }))
     .reverse();
 
@@ -1006,17 +1045,70 @@ router.get('/upload/v3/check-answers', (req, res) => {
     ...doc,
     uploadedAtDisplay: formatTimestampForDisplay(new Date().toISOString())
   }));
+  const selectedTypeLabel = getV3DocumentTypeLabel(selectedType);
+  const receivedDatePreview = formatDateForDisplay(receivedDate);
+  const documentTypeChangeUrl = `/projects/back-office/manage/GW2/v4/upload/v3/document-type?returnUrl=${encodeURIComponent(checkPageUrl)}`;
+  const uploadChangeUrl = '/projects/back-office/manage/GW2/v4/upload/v3/upload-bo';
+  const receivedDateChangeUrl = `/projects/back-office/manage/GW2/v4/upload/v3/date-received?returnUrl=${encodeURIComponent(checkPageUrl)}`;
+  const checkAnswerRows = [
+    {
+      key: { text: 'Type' },
+      value: { text: selectedTypeLabel },
+      actions: {
+        items: [
+          {
+            href: documentTypeChangeUrl,
+            text: 'Change',
+            visuallyHiddenText: selectedTypeLabel
+          }
+        ]
+      }
+    }
+  ];
+
+  uploadedDocuments.forEach((doc) => {
+    const originalName = escapeHtml(doc.originalname);
+    checkAnswerRows.push(
+      {
+        key: { text: 'Document' },
+        value: { html: `<a class="govuk-link" href="/projects/back-office/manage/documents/download/${encodeURIComponent(doc.filename)}">${originalName}</a>` },
+        actions: {
+          items: [
+            {
+              href: uploadChangeUrl,
+              text: 'Change',
+              visuallyHiddenText: doc.originalname
+            }
+          ]
+        }
+      },
+      {
+        key: { text: 'Date received' },
+        value: { text: receivedDatePreview },
+        actions: {
+          items: [
+            {
+              href: receivedDateChangeUrl,
+              text: 'Change',
+              visuallyHiddenText: receivedDatePreview
+            }
+          ]
+        }
+      }
+    );
+  });
 
   res.render('projects/back-office/manage/GW2/v4/upload/v3/check-answers', {
     caseRef: req.session.currentCaseRef || '',
     serviceName: 'Manage a local plan',
     selectedType,
-    selectedTypeLabel: getV3DocumentTypeLabel(selectedType),
+    selectedTypeLabel,
     uploadedDocuments,
-    documentTypeChangeUrl: `/projects/back-office/manage/GW2/v4/upload/v3/document-type?returnUrl=${encodeURIComponent(checkPageUrl)}`,
-    uploadChangeUrl: '/projects/back-office/manage/GW2/v4/upload/v3/upload-bo',
-    receivedDatePreview: formatDateForDisplay(receivedDate),
-    receivedDateChangeUrl: `/projects/back-office/manage/GW2/v4/upload/v3/date-received?returnUrl=${encodeURIComponent(checkPageUrl)}`
+    checkAnswerRows,
+    documentTypeChangeUrl,
+    uploadChangeUrl,
+    receivedDatePreview,
+    receivedDateChangeUrl
   });
 });
 
@@ -1064,6 +1156,7 @@ router.post('/upload/v3/check-answers', (req, res) => {
   if (replacementDocumentId) {
     const newDocumentId = replaceV3UploadedDocumentFile(req, replacementDocumentId, selectedType);
     delete req.session[GW2_V3_REPLACE_DOCUMENT_ID_KEY];
+    req.session.gateway2DocumentsNotificationMessage = 'Document uploaded';
 
     if (req.session.data) {
       delete req.session.data.fileData;
@@ -1077,7 +1170,10 @@ router.post('/upload/v3/check-answers', (req, res) => {
     });
   }
 
+  const uploadedDocuments = getUploadedDocumentsFromFileData(req);
   mergeV3UploadedDocuments(req, selectedType);
+  const safeCount = uploadedDocuments.length;
+  req.session.gateway2DocumentsNotificationMessage = `${safeCount} document${safeCount === 1 ? '' : 's'} uploaded`;
 
   if (req.session.data) {
     delete req.session.data.fileData;
@@ -1125,6 +1221,40 @@ router.get('/upload/v3/document/:documentId', (req, res) => {
     caseRef: req.session.currentCaseRef || '',
     serviceName: 'Manage a local plan',
     document: viewDocument
+  });
+});
+
+router.get('/upload/v3/document/:documentId/remove-confirm', (req, res) => {
+  syncV3UploadedDocumentsToGateway2Documents(req);
+  const document = getGateway2DocumentById(req, req.params.documentId);
+
+  if (!document || !document.id.startsWith('v3-upload-')) {
+    return res.redirect('/projects/back-office/manage/GW2/v4/gateway-2-documents');
+  }
+
+  const viewDocument = buildGateway2DocumentForView(document);
+
+  res.render('projects/back-office/manage/GW2/v4/upload/v3/remove-confirm', {
+    caseRef: req.session.currentCaseRef || '',
+    serviceName: 'Manage a local plan',
+    document: viewDocument
+  });
+});
+
+router.post('/upload/v3/document/:documentId/remove-confirm', (req, res) => {
+  const action = req.body.action || 'cancel';
+
+  if (action === 'remove') {
+    removeV3UploadedDocumentById(req, req.params.documentId);
+    req.session.gateway2DocumentsNotificationMessage = 'Document removed';
+
+    return req.session.save(() => {
+      res.redirect('/projects/back-office/manage/GW2/v4/gateway-2-documents');
+    });
+  }
+
+  req.session.save(() => {
+    res.redirect(`/projects/back-office/manage/GW2/v4/upload/v3/document/${encodeURIComponent(req.params.documentId)}`);
   });
 });
 

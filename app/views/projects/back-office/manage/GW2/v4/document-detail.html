@@ -31,7 +31,9 @@
         </tr>
         <tr class="govuk-table__row">
           <th scope="row" class="govuk-table__header">Latest file</th>
-          <td class="govuk-table__cell">{{ document.latestFileName }}</td>
+          <td class="govuk-table__cell">
+            <a class="govuk-link" href="{{ document.latestFileHref }}">{{ document.latestFileName }}</a>
+          </td>
         </tr>
         <tr class="govuk-table__row">
           <th scope="row" class="govuk-table__header">Date uploaded</th>
@@ -75,7 +77,7 @@
         {% for version in versions %}
         <tr class="govuk-table__row">
           <td class="govuk-table__cell">{{ version.versionNumber }}</td>
-          <td class="govuk-table__cell">{{ version.fileName }}</td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="{{ version.fileHref }}">{{ version.fileName }}</a></td>
           <td class="govuk-table__cell">{{ version.uploadedAtDisplay }}</td>
         </tr>
         {% endfor %}
