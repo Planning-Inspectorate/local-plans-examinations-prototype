@@ -1,0 +1,47 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+  Upload documents - {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/projects/back-office/manage/GW2/v4/upload/v3/document-type"
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
+    <h1 class="govuk-heading-l">Upload documents</h1>
+
+    <p class="govuk-body">Category: {{ selectedTypeLabel }}</p>
+    <p class="govuk-body">Each file must be smaller than 250MB.</p>
+
+    <form class="form" action="/projects/back-office/manage/GW2/v4/upload/v3/upload-bo" method="post" id="upload-form">
+      <div class="app-multi-file-upload">
+        {% include 'includes/back-office/multiple-document-upload.html' %}
+      </div>
+
+      {% if uploadedDocuments and uploadedDocuments.length > 0 %}
+        <h2 class="govuk-heading-s">Files ready to upload</h2>
+        <div class="govuk-body">
+          {% for doc in uploadedDocuments %}
+            <div>{{ doc.originalname }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {{ govukButton({ text: "Continue" }) }}
+    </form>
+  </div>
+</div>
+
+<script src="/public/javascripts/multi-file-upload.js"></script>
+{% endblock %}
+
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

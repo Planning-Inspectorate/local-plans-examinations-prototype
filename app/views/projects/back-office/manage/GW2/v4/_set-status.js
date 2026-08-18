@@ -1,6 +1,16 @@
 const govukPrototypeKit = require('govuk-prototype-kit');
 const router = govukPrototypeKit.requests.setupRouter();
 
+function clearGateway2ReportIssuedState(req) {
+  delete req.session.gw2v4IssueReportDocuments;
+  delete req.session.gateway2ReportIssuedDate;
+  req.session.gw2v4ReportIssued = false;
+
+  if (req.session.data) {
+    delete req.session.data.gw2v4IssueReportDocuments;
+  }
+}
+
 router.get('/set-status', (req, res) => {
   const state = req.query.state || 'none';
   const returnUrl = req.query.returnUrl || '/projects/back-office/manage/GW2/v4/gateway-2';
@@ -9,13 +19,14 @@ router.get('/set-status', (req, res) => {
   if (state === 'none') {
     // Clear all state-specific fields
     delete req.session.gateway2ActualDate;
-    delete req.session.gw2v4IssueReportDocuments;
+    clearGateway2ReportIssuedState(req);
     delete req.session.gateway2AssessorName;
     delete req.session.gateway2AssessorAppointmentDate;
     delete req.session.gw2v3WorkshopDocuments;
     delete req.session.hearings;
   } else if (state === 'submission-received') {
     // Clear assessor and workshop-related fields
+    clearGateway2ReportIssuedState(req);
     delete req.session.gateway2AssessorName;
     delete req.session.gateway2AssessorAppointmentDate;
     delete req.session.gw2v3WorkshopDocuments;
@@ -23,7 +34,7 @@ router.get('/set-status', (req, res) => {
   } else if (state === 'workshop-confirmed') {
     // Clear submission documents and date
     delete req.session.gateway2ActualDate;
-    delete req.session.gw2v4IssueReportDocuments;
+    clearGateway2ReportIssuedState(req);
   }
   // For gw3-submission, do not clear any fields - keep everything populated
 
@@ -77,16 +88,6 @@ router.get('/set-status', (req, res) => {
   if (state === 'submission-received') {
     if (!req.session.gateway2ActualDate) {
       req.session.gateway2ActualDate = '20/5/2026';
-    }
-    if (!req.session.gw2v4IssueReportDocuments || req.session.gw2v4IssueReportDocuments.length === 0) {
-      req.session.gw2v4IssueReportDocuments = [
-        {
-          originalname: 'GW2_Submission_Report.pdf',
-          filename: 'submission-report-1',
-          size: 325000,
-          uploadedAt: new Date().toISOString()
-        }
-      ];
     }
   }
 

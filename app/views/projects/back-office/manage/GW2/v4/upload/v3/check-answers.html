@@ -1,0 +1,60 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+  Check answers - {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/projects/back-office/manage/GW2/v4/upload/v3/upload-bo"
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
+    <h1 class="govuk-heading-l">Check your answers before uploading</h1>
+
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Type</dt>
+        <dd class="govuk-summary-list__value">{{ selectedTypeLabel }}</dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="{{ documentTypeChangeUrl }}">Change<span class="govuk-visually-hidden"> {{ selectedTypeLabel }}</span></a>
+        </dd>
+      </div>
+    </dl>
+
+    {% for doc in uploadedDocuments %}
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Document</dt>
+          <dd class="govuk-summary-list__value">
+            <a class="govuk-link" href="/projects/back-office/manage/documents/download/{{ doc.filename }}">{{ doc.originalname }}</a>
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="{{ uploadChangeUrl }}">Change<span class="govuk-visually-hidden"> {{ doc.originalname }}</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Date received</dt>
+          <dd class="govuk-summary-list__value">{{ receivedDatePreview }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="{{ receivedDateChangeUrl }}">Change<span class="govuk-visually-hidden"> {{ receivedDatePreview }}</span></a>
+          </dd>
+        </div>
+      </dl>
+    {% endfor %}
+
+    <form method="post" action="/projects/back-office/manage/GW2/v4/upload/v3/check-answers">
+      {{ govukButton({ text: "Upload documents" }) }}
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

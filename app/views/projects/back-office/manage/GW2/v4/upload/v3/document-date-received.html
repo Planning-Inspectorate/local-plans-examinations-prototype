@@ -1,0 +1,58 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+  Change document date - {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/projects/back-office/manage/GW2/v4/upload/v3/document/" ~ document.id
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
+    <h1 class="govuk-heading-l">Change document date</h1>
+
+    <form method="post" action="/projects/back-office/manage/GW2/v4/upload/v3/document/{{ document.id }}/date-received">
+      <div class="govuk-form-group">
+        <fieldset class="govuk-fieldset" role="group" aria-describedby="received-date-hint">
+          <div id="received-date-hint" class="govuk-visually-hidden">For example, 05 8 2026</div>
+          <div class="govuk-date-input" id="received-date">
+            <div class="govuk-date-input__item">
+              <div class="govuk-form-group">
+                <label class="govuk-label govuk-date-input__label" for="received-day">Day</label>
+                <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="received-day" name="received-day" type="text" inputmode="numeric" value="{{ receivedDateValues.day }}">
+              </div>
+            </div>
+            <div class="govuk-date-input__item">
+              <div class="govuk-form-group">
+                <label class="govuk-label govuk-date-input__label" for="received-month">Month</label>
+                <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="received-month" name="received-month" type="text" inputmode="numeric" value="{{ receivedDateValues.month }}">
+              </div>
+            </div>
+            <div class="govuk-date-input__item">
+              <div class="govuk-form-group">
+                <label class="govuk-label govuk-date-input__label" for="received-year">Year</label>
+                <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="received-year" name="received-year" type="text" inputmode="numeric" value="{{ receivedDateValues.year }}">
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="govuk-button-group">
+        {{ govukButton({ text: "Save and continue" }) }}
+        <a class="govuk-link" href="/projects/back-office/manage/GW2/v4/upload/v3/document/{{ document.id }}">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

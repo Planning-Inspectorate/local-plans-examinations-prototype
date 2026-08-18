@@ -1,0 +1,62 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+  Change document category - {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/projects/back-office/manage/GW2/v4/upload/v3/document/" ~ document.id
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
+    <h1 class="govuk-heading-l">Change document category</h1>
+
+    {% if errorMessage %}
+      <div class="govuk-error-summary" data-module="govuk-error-summary">
+        <div role="alert">
+          <h2 class="govuk-error-summary__title">There is a problem</h2>
+          <div class="govuk-error-summary__body">
+            <ul class="govuk-list govuk-error-summary__list">
+              <li><a href="#documentType">{{ errorMessage }}</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    <form method="post" action="/projects/back-office/manage/GW2/v4/upload/v3/document/{{ document.id }}/category">
+      {{ govukRadios({
+        idPrefix: "documentType",
+        name: "documentType",
+        fieldset: {
+          legend: {
+            text: "Select one option",
+            classes: "govuk-fieldset__legend--m"
+          }
+        },
+        errorMessage: { text: errorMessage } if errorMessage else null,
+        items: [
+          { value: "procedural", text: "Procedural", checked: selectedType == "procedural" },
+          { value: "consultation", text: "Consultation", checked: selectedType == "consultation" },
+          { value: "additional", text: "Additional", checked: selectedType == "additional" }
+        ]
+      }) }}
+
+      <div class="govuk-button-group">
+        {{ govukButton({ text: "Save and continue" }) }}
+        <a class="govuk-link" href="/projects/back-office/manage/GW2/v4/upload/v3/document/{{ document.id }}">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

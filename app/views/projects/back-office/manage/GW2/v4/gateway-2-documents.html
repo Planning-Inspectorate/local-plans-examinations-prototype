@@ -11,15 +11,117 @@ Gateway 2 documents - {{ serviceName }}
   }) }}
 {% endblock %}
 
+{% set proceduralDocs = [
+  { id: 'gateway-2-covering-letter', title: 'Gateway 2 covering letter', file: 'GW2_covering_letter.docx' },
+  { id: 'local-plan-timetable', title: 'Local plan timetable', file: 'plan_timetable.csv' },
+  { id: 'project-initiation-document', title: 'Project initiation document', file: 'PID.docx' },
+  { id: 'draft-statement-of-compliance', title: 'Draft statement of compliance', file: 'GW2_compliance_statement.docx' },
+  { id: 'draft-statement-of-soundness', title: 'Draft statement of soundness', file: 'GW2_soundness_statement.docx' }
+] %}
+
+{% set consultationDocs = [
+  { id: 'notice-of-intention', title: 'Notice of intention to commence local plan preparation', file: 'notice_of_intention.pdf' },
+  { id: 'scoping-consultation-documents', title: 'Scoping consultation documents', file: 'scoping_full.pdf' },
+  { id: 'scoping-feedback-summary', title: 'Consultation summary of feedback to scoping consultation', file: 'scoping_summary.pdf' },
+  { id: 'gateway-1-self-assessment', title: 'Gateway 1 - Self assessment of readiness', file: 'self_assessment.pdf' },
+  { id: 'consultation-full-pack', title: 'Consultation on proposed local plan content and evidence documents', file: 'proposed_plan_full.pdf' },
+  { id: 'consultation-summary-pack', title: 'Summary of consultation on proposed local plan content and evidence documents', file: 'proposed_plan_summary.pdf' }
+] %}
+
+{% set additionalDocs = [
+  { id: 'subsequent-work-draft-plan', title: 'Subsequent work towards a draft plan', file: 'scoping_feedback_summary.pdf' }
+] %}
+
 {% block content %}
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
+  <div class="govuk-grid-column-full">
     <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
     <h2 class="govuk-heading-l">Submitted GW2 documents</h2>
 
-    {% include "projects/back-office/manage/GW2/v4/partials/_procedural-documents.njk" %}
-    {% include "projects/back-office/manage/GW2/v4/partials/_consultation-documents.njk" %}
-    {% include "projects/back-office/manage/GW2/v4/partials/_additional-documents.njk" %}
+    <p class="govuk-body">
+      <a class="govuk-button govuk-button--secondary" href="/projects/back-office/manage/GW2/v4/upload/v3/document-type" role="button" draggable="false" data-module="govuk-button">Upload documents</a>
+    </p>
+
+    <h3 class="govuk-heading-m">Procedural documents</h3>
+    <dl class="govuk-summary-list govuk-summary-list-timetable">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Gateway 2 covering letter</dt>
+        <dd class="govuk-summary-list__value"><a class="govuk-hint" href="#">GW2_covering_letter.docx</a></dd>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/GW2/v4/document/gateway-2-covering-letter">View</a></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Local plan timetable</dt>
+        <dd class="govuk-summary-list__value"><a class="govuk-hint" href="#">plan_timetable.csv</a></dd>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/GW2/v4/document/local-plan-timetable">View</a></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Project initiation document</dt>
+        <dd class="govuk-summary-list__value"><a class="govuk-hint" href="#">PID.docx</a></dd>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/GW2/v4/document/project-initiation-document">View</a></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Draft statement of compliance</dt>
+        <dd class="govuk-summary-list__value"><a class="govuk-hint" href="#">GW2_compliance_statement.docx</a></dd>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/GW2/v4/document/draft-statement-of-compliance">View</a></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Draft statement of soundness</dt>
+        <dd class="govuk-summary-list__value"><a class="govuk-hint" href="#">GW2_soundness_statement.docx</a></dd>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/GW2/v4/document/draft-statement-of-soundness">View</a></dd>
+      </div>
+    </dl>
+    {% if proceduralUploadedDocumentRows.length > 0 %}
+      {{ govukSummaryList({ classes: "govuk-summary-list-timetable", rows: proceduralUploadedDocumentRows }) }}
+    {% endif %}
+
+    <h3 class="govuk-heading-m">Consultation documents</h3>
+    <dl class="govuk-summary-list govuk-summary-list-timetable">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Notice of intention to commence local plan preparation</dt>
+        <dd class="govuk-summary-list__value"><a class="govuk-hint" href="#">notice_of_intention.pdf</a></dd>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/GW2/v4/document/notice-of-intention">View</a></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Scoping consultation documents</dt>
+        <dd class="govuk-summary-list__value"><a class="govuk-hint" href="#">scoping_full.pdf</a></dd>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/GW2/v4/document/scoping-consultation-documents">View</a></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Consultation summary of feedback to scoping consultation</dt>
+        <dd class="govuk-summary-list__value"><a class="govuk-hint" href="#">scoping_summary.pdf</a></dd>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/GW2/v4/document/scoping-feedback-summary">View</a></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Gateway 1 - Self assessment of readiness</dt>
+        <dd class="govuk-summary-list__value"><a class="govuk-hint" href="#">self_assessment.pdf</a></dd>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/GW2/v4/document/gateway-1-self-assessment">View</a></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Consultation on proposed local plan content and evidence documents</dt>
+        <dd class="govuk-summary-list__value"><a class="govuk-hint" href="#">proposed_plan_full.pdf</a></dd>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/GW2/v4/document/consultation-full-pack">View</a></dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Summary of consultation on proposed local plan content and evidence documents</dt>
+        <dd class="govuk-summary-list__value"><a class="govuk-hint" href="#">proposed_plan_summary.pdf</a></dd>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/GW2/v4/document/consultation-summary-pack">View</a></dd>
+      </div>
+    </dl>
+    {% if consultationUploadedDocumentRows.length > 0 %}
+      {{ govukSummaryList({ classes: "govuk-summary-list-timetable", rows: consultationUploadedDocumentRows }) }}
+    {% endif %}
+
+    <h3 class="govuk-heading-m">Additional documents</h3>
+    <dl class="govuk-summary-list govuk-summary-list-timetable">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Subsequent work towards a draft plan</dt>
+        <dd class="govuk-summary-list__value"><a class="govuk-hint" href="#">scoping_feedback_summary.pdf</a></dd>
+        <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/GW2/v4/document/subsequent-work-draft-plan">View</a></dd>
+      </div>
+    </dl>
+    {% if additionalUploadedDocumentRows.length > 0 %}
+      {{ govukSummaryList({ classes: "govuk-summary-list-timetable", rows: additionalUploadedDocumentRows }) }}
+    {% endif %}
   </div>
 </div>
 {% endblock %}
