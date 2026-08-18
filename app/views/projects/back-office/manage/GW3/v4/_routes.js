@@ -38,6 +38,15 @@ function cloneDeep(value) {
   return JSON.parse(JSON.stringify(value));
 }
 
+function escapeHtml(value) {
+  return String(value || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 function getDefaultGateway3Documents() {
   const seedDate = '2026-05-17T10:00:00.000Z';
 
@@ -421,12 +430,22 @@ router.get('/gateway-3-documents', (req, res) => {
 
 router.get('/gateway-3-submission-1-documents', (req, res) => {
   const submissionDateSubmitted = formatDateForDisplay(req.session.submissionDate) || formatDateForDisplay(new Date().toISOString());
+  const otherSupportingDocument = getGateway3DocumentById(req, 'other-supporting-documents');
+  const otherDocumentVersions = Array.isArray(otherSupportingDocument?.versions)
+    ? otherSupportingDocument.versions.slice().reverse()
+    : [];
+  const otherDocumentsHtml = otherDocumentVersions.length
+    ? `<ul class="govuk-list govuk-list--bullet app-other-documents-list">${otherDocumentVersions
+      .map((otherDocument) => `<li><a class="govuk-link" href="/projects/back-office/manage/GW3/v4/document/other-supporting-documents">${escapeHtml(otherDocument.fileName)}</a></li>`)
+      .join('')}</ul>`
+    : 'No other documents';
 
   res.render('projects/back-office/manage/GW3/v4/gateway-3-submission-1-documents', {
     caseRef: req.session.currentCaseRef || '',
     submissionNumber: '1',
     submissionDateSubmitted,
-    returnUrl: GW3_V4_OVERVIEW_URL
+    returnUrl: GW3_V4_OVERVIEW_URL,
+    otherDocumentsHtml
   });
 });
 
@@ -440,12 +459,22 @@ router.get('/gateway-3-submission-2-documents', (req, res) => {
   }
 
   const submissionDateSubmitted = formatDateForDisplay(new Date().toISOString());
+  const otherSupportingDocument = getGateway3DocumentById(req, 'other-supporting-documents');
+  const otherDocumentVersions = Array.isArray(otherSupportingDocument?.versions)
+    ? otherSupportingDocument.versions.slice().reverse()
+    : [];
+  const otherDocumentsHtml = otherDocumentVersions.length
+    ? `<ul class="govuk-list govuk-list--bullet app-other-documents-list">${otherDocumentVersions
+      .map((otherDocument) => `<li><a class="govuk-link" href="/projects/back-office/manage/GW3/v4/document/other-supporting-documents">${escapeHtml(otherDocument.fileName)}</a></li>`)
+      .join('')}</ul>`
+    : 'No other documents';
 
   res.render('projects/back-office/manage/GW3/v4/gateway-3-submission-2-documents', {
     caseRef: req.session.currentCaseRef || '',
     submissionNumber: '2',
     submissionDateSubmitted,
-    returnUrl: GW3_V4_OVERVIEW_URL
+    returnUrl: GW3_V4_OVERVIEW_URL,
+    otherDocumentsHtml
   });
 });
 
