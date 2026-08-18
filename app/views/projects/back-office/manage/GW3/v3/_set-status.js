@@ -56,6 +56,9 @@ router.get('/set-status', (req, res) => {
     if (!req.session.gateway3EstimatedDate) {
       req.session.gateway3EstimatedDate = '10/9/2026';
     }
+    if (!req.session.gateway3ActualDate) {
+      req.session.gateway3ActualDate = '15/9/2026';
+    }
     if (!req.session.gateway3AssessorName) {
       req.session.gateway3AssessorName = 'James Wilson';
     }
@@ -82,6 +85,9 @@ router.get('/set-status', (req, res) => {
   if (state === 'resubmission') {
     if (!req.session.gateway3EstimatedDate) {
       req.session.gateway3EstimatedDate = '10/9/2026';
+    }
+    if (!req.session.gateway3ActualDate) {
+      req.session.gateway3ActualDate = '15/9/2026';
     }
     if (!req.session.gateway3AssessorName) {
       req.session.gateway3AssessorName = 'James Wilson';

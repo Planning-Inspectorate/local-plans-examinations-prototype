@@ -2,7 +2,7 @@ const govukPrototypeKit = require('govuk-prototype-kit');
 const router = govukPrototypeKit.requests.setupRouter();
 
 // Wire in set-status route handler
-router.use('/projects/back-office/manage/GW3/v3', require('./_set-status'));
+router.use('/', require('./_set-status'));
 
 function formatDateForDisplay(dateValue) {
   if (!dateValue || dateValue === '-') return '';

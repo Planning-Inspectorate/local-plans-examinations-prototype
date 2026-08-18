@@ -39,14 +39,14 @@ Examination overview– {{ serviceName }}
       <h2 class="govuk-heading-l">Examination</h2>
       <dl class="govuk-summary-list govuk-summary-list-timetable">
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Estimated submission date</dt>
+          <dt class="govuk-summary-list__key">Expected</dt>
           <dd class="govuk-summary-list__value">{{ examinationEstimatedDate if examinationEstimatedDate and examinationEstimatedDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="{{ basePath }}/examination-estimated.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Estimated Submission Date</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Actual submission date</dt>
+          <dt class="govuk-summary-list__key">Submission received</dt>
           <dd class="govuk-summary-list__value">{{ examinationActualDate if examinationActualDate and examinationActualDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="{{ basePath }}/examination-actual.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Actual Submission Date</span></a>
@@ -57,28 +57,28 @@ Examination overview– {{ serviceName }}
       <h2 class="govuk-heading-l">Inspectors</h2>
       <dl class="govuk-summary-list govuk-summary-list-timetable">
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Examining Inspector 1</dt>
+          <dt class="govuk-summary-list__key">Inspector 1</dt>
           <dd class="govuk-summary-list__value">{{ examiningInspector1Name if examiningInspector1Name and examiningInspector1Name != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="{{ basePath }}/examining-inspector-1.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Examining Inspector 1</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Examining Inspector 2</dt>
+          <dt class="govuk-summary-list__key">Inspector 2</dt>
           <dd class="govuk-summary-list__value">{{ examiningInspector2Name if examiningInspector2Name and examiningInspector2Name != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="{{ basePath }}/examining-inspector-2.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Examining Inspector 2</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Examining Inspector 3</dt>
+          <dt class="govuk-summary-list__key">Inspector 3</dt>
           <dd class="govuk-summary-list__value">{{ examiningInspector3Name if examiningInspector3Name and examiningInspector3Name != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="{{ basePath }}/examining-inspector-3.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Examining Inspector 3</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Examining Inspector(s) appointment date</dt>
+          <dt class="govuk-summary-list__key">Appointed</dt>
           <dd class="govuk-summary-list__value">{{ examiningInspectorAppointmentDate if examiningInspectorAppointmentDate and examiningInspectorAppointmentDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="{{ basePath }}/examining-inspector-date.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Examining Inspector Date of Appointment</span></a>
@@ -107,28 +107,28 @@ Examination overview– {{ serviceName }}
 
           <dl class="govuk-summary-list govuk-summary-list-timetable">
             <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">Hearing start date</dt>
+              <dt class="govuk-summary-list__key">Start date</dt>
               <dd class="govuk-summary-list__value">{{ hearing.startDate if hearing.startDate and hearing.startDate != '-' else 'Not provided' }}</dd>
               <dd class="govuk-summary-list__actions">
                 <a class="govuk-link" href="add-hearing?edit={{ loop.index0 }}&step=index">Change<span class="govuk-visually-hidden"> hearing {{ loop.index }} start date</span></a>
               </dd>
             </div>
             <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">Hearing time</dt>
+              <dt class="govuk-summary-list__key">Time</dt>
               <dd class="govuk-summary-list__value">{{ hearing.time if hearing.time and hearing.time != '-' else 'Not provided' }}</dd>
               <dd class="govuk-summary-list__actions">
                 <a class="govuk-link" href="add-hearing?edit={{ loop.index0 }}&step=index">Change<span class="govuk-visually-hidden"> hearing {{ loop.index }} time</span></a>
               </dd>
             </div>
             <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">Estimated number of days</dt>
+              <dt class="govuk-summary-list__key">Number of days</dt>
               <dd class="govuk-summary-list__value">{{ hearing.estimatedDays if hearing.estimatedDays and hearing.estimatedDays != '-' else 'Not provided' }}</dd>
               <dd class="govuk-summary-list__actions">
                 <a class="govuk-link" href="add-hearing?edit={{ loop.index0 }}&step=has-estimates">Change<span class="govuk-visually-hidden"> hearing {{ loop.index }} estimated number of days</span></a>
               </dd>
             </div>
             <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">Is the hearing hybrid, virtual or in-person?</dt>
+              <dt class="govuk-summary-list__key">Format</dt>
               <dd class="govuk-summary-list__value">{{ hearing.isVirtual if hearing.isVirtual and hearing.isVirtual != '-' else 'Not provided' }}</dd>
               <dd class="govuk-summary-list__actions">
                 <a class="govuk-link" href="add-hearing?edit={{ loop.index0 }}&step=is-virtual">Change<span class="govuk-visually-hidden"> hearing {{ loop.index }} type</span></a>
@@ -175,14 +175,14 @@ Examination overview– {{ serviceName }}
             {% endif %}
 
             <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">Actual duration</dt>
+              <dt class="govuk-summary-list__key">Duration</dt>
               <dd class="govuk-summary-list__value">{{ hearing.actualDuration if hearing.actualDuration and hearing.actualDuration != '-' else 'Not provided' }}</dd>
               <dd class="govuk-summary-list__actions">
                 <a class="govuk-link" href="add-hearing/actual-duration?edit={{ loop.index0 }}">Change<span class="govuk-visually-hidden"> hearing {{ loop.index }} actual duration</span></a>
               </dd>
             </div>
             <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">Hearing end date</dt>
+              <dt class="govuk-summary-list__key">End date</dt>
               <dd class="govuk-summary-list__value">{{ hearing.endDate if hearing.endDate and hearing.endDate != '-' else 'Not provided' }}</dd>
               <dd class="govuk-summary-list__actions">
                 <a class="govuk-link" href="add-hearing/end-date?edit={{ loop.index0 }}">Change<span class="govuk-visually-hidden"> hearing {{ loop.index }} end date</span></a>
@@ -226,28 +226,28 @@ Examination overview– {{ serviceName }}
       <h2 class="govuk-heading-l">QA</h2>
       <dl class="govuk-summary-list govuk-summary-list-timetable">
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">QA date</dt>
+          <dt class="govuk-summary-list__key">Date</dt>
           <dd class="govuk-summary-list__value">{{ qaDate if qaDate and qaDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="{{ basePath }}/qa-date.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">QA Date</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">QA Inspector 1</dt>
+          <dt class="govuk-summary-list__key">QA inspector 1</dt>
           <dd class="govuk-summary-list__value">{{ qaInspector1Name if qaInspector1Name and qaInspector1Name != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="{{ basePath }}/QA-inspector-1.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">QA Inspector 1</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">QA Inspector 2</dt>
+          <dt class="govuk-summary-list__key">QA inspector 2</dt>
           <dd class="govuk-summary-list__value">{{ qaInspector2Name if qaInspector2Name and qaInspector2Name != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="{{ basePath }}/QA-inspector-2.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">QA Inspector 2</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">QA Inspector 3</dt>
+          <dt class="govuk-summary-list__key">QA inspector 3</dt>
           <dd class="govuk-summary-list__value">{{ qaInspector3Name if qaInspector3Name and qaInspector3Name != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="{{ basePath }}/QA-inspector-3.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">QA Inspector 3</span></a>

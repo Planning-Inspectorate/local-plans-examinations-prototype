@@ -1,6 +1,8 @@
 const govukPrototypeKit = require('govuk-prototype-kit');
 const router = govukPrototypeKit.requests.setupRouter();
 
+router.use('/', require('./_set-status'));
+
 const DOCUMENTS_SESSION_KEY = 'gw3v4Documents';
 const REVIEW_DRAFT_SESSION_KEY = 'gw3v4DocumentReviewDraft';
 
@@ -300,7 +302,7 @@ function withGateway3OverviewState(returnUrl, overviewState) {
 const GW3_V4_OVERVIEW_URL = '/projects/back-office/manage/GW3/v4/gateway-3.html';
 
 function buildGateway3ViewModel(req, notificationMessage = '') {
-  const gateway3OverviewState = String(req.query.gateway3OverviewState || 'initial');
+  const gateway3OverviewState = String(req.query.gateway3OverviewState || req.session.gw3v4StatusState || 'initial');
   const documents = getGateway3Documents(req).map(buildDocumentForView);
   const submissionDocuments = documents.filter((doc) => doc.category === 'submission');
   const supplementaryDocuments = documents.filter((doc) => doc.category === 'supplementary');
@@ -330,13 +332,18 @@ function buildGateway3ViewModel(req, notificationMessage = '') {
   }
 
   if (submission1Decision === '-' && gateway3OverviewState === 'pass') {
-    submission1Decision = 'Pass';
-    submission1DecisionDate = '12 June 2026';
+    submission1Decision = 'Resubmission required';
+    submission1DecisionDate = '10 June 2026';
+  }
+
+  if (submission2Decision === '-' && gateway3OverviewState === 'pass') {
+    submission2Decision = 'Pass';
+    submission2DecisionDate = '20 June 2026';
   }
 
   const examinationWebsite = req.session.examinationWebsite && req.session.examinationWebsite !== '-'
     ? req.session.examinationWebsite
-    : '-';
+    : 'Not provided';
   const examinationWebsiteHref = getWebsiteHref(examinationWebsite);
   const gateway3CompletionDate = isPassState && req.session.gateway3CompletionDate && req.session.gateway3CompletionDate !== '-'
     ? req.session.gateway3CompletionDate
@@ -452,7 +459,7 @@ router.post('/gateway-3-decision', (req, res) => {
   const returnUrl = req.body.returnUrl || GW3_V4_OVERVIEW_URL;
   const decisionOutcome = String(req.body['gateway-3-decision-outcome'] || '').trim();
 
-  req.session[getDecisionOutcomeKey(submissionVersion)] = decisionOutcome || '-';
+  req.session[getDecisionOutcomeKey(submissionVersion)] = decisionOutcome || 'Not provided';
 
   req.session.save(() => {
     res.redirect(`/projects/back-office/manage/GW3/v4/gateway-3-decision-upload?submissionVersion=${submissionVersion}&returnUrl=${encodeURIComponent(returnUrl)}`);
@@ -901,12 +908,6 @@ router.get('/document/:documentId/review/check-answers', (req, res) => {
   if ((reviewDraft.reviewOutcome === 'invalid' || reviewDraft.reviewOutcome === 'incomplete') && !reviewDraft.reviewReason) {
     return res.redirect(`/projects/back-office/manage/GW3/v4/document/${document.id}/review/reason`);
   }
-
-  const outcomeLabelMap = {
-    valid: 'Valid',
-    invalid: 'Invalid',
-    incomplete: 'Incomplete'
-  };
 
   const latestVersion = getLatestDocumentVersion(document);
 
