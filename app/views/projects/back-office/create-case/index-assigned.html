@@ -1,0 +1,52 @@
+{% extends "layouts/main.html" %}
+ 
+{% set title="Assigned to me" %}
+{% set activeNav = 'back-office' %}
+
+{% block header %}
+  {% include "includes/PINS-header--internal.html" %}
+  {% include "includes/service-navigation.html" %}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    html: 'Back to all prototypes',
+    href: '/back-office.html'
+  }) }}
+{% endblock %}
+ 
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+ 
+    <span class="govuk-caption-l">
+      Manage a plan examination
+    </span>
+   <h1 class="govuk-heading-l">
+      {{ title }}
+    </h1>
+      {% set version = "1" %}
+      <h2 class="govuk-heading-m">
+      Version {{ version }}
+      {{ govukTag({
+        classes: 'govuk-tag--yellow govuk-!-margin-left-2',
+        text: 'In progress'
+      }) }}
+    </h2>
+ 
+    <p class="govuk-!-margin-bottom-2">Changes:</p>
+ 
+    <ul class="govuk-list govuk-list--bullet">
+ <li>Updated content based on feedback from Kate (Content design)</li>
+    </ul> 
+ 
+ 
+      {{ govukButton({
+        html: 'View prototype',
+        href: '/projects/back-office/create-case/v2/index-assigned',
+        isStartButton: true
+      }) }}
+ 
+  </div>
+</div>
+{% endblock %}

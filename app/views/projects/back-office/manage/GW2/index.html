@@ -45,15 +45,11 @@
       href: '/projects/back-office/manage/GW2/v4/gateway-2',
       isStartButton: true
     }) }}
-
+ {% set v3HTML %}
     {% set version = "3" %}
-    <h2 class="govuk-heading-m">
+    <h3 class="govuk-heading-m">
       Version {{ version }} A
-      {{ govukTag({
-        classes: 'govuk-tag--blue govuk-!-margin-left-2',
-        text: 'In progress'
-      }) }}
-    </h2>
+    </h3>
  
     <p class="govuk-!-margin-bottom-2">Changes:</p>
  
@@ -70,13 +66,9 @@
     <br>
     <br>
     
-    <h2 class="govuk-heading-m">
+    <h3 class="govuk-heading-m">
       Version {{ version }} B
-      {{ govukTag({
-        classes: 'govuk-tag--blue govuk-!-margin-left-2',
-        text: 'In progress'
-      }) }}
-    </h2>
+    </h3>
  
     <p class="govuk-!-margin-bottom-2">Changes:</p>
  
@@ -89,12 +81,12 @@
       href: '/projects/back-office/manage/GW2/v3/gateway-2-side',
       isStartButton: true
     }) }}
- 
+ {% endset -%}
  
     {% set v2HTML %}
     {% set version = "2" %}
     <h3 class="govuk-heading-m">
-     Tested with Case Officers - June 2026
+     Tested with Case Officers
      </h3>
     <p class="govuk-!-margin-bottom-2">Changes:</p>
  
@@ -136,9 +128,17 @@
       id: 'previous',
       classes: 'govuk-!-margin-top-9',
       items: [
+      {
+          heading: {
+            html: 'Version 3 <strong class="govuk-tag govuk-tag--blue govuk-!-margin-left-2">Research complete - July 2026</strong>'
+          },
+          content: {
+            html: v3HTML
+          }
+        },
         {
           heading: {
-            html: 'Version 2 <strong class="govuk-tag govuk-tag--grey govuk-!-margin-left-2">Superseded</strong>'
+            html: 'Version 2 <strong class="govuk-tag govuk-tag--blue govuk-!-margin-left-2">Research complete - June 2026</strong>'
           },
           content: {
             html: v2HTML
