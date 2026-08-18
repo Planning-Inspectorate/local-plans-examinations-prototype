@@ -372,7 +372,21 @@ function buildGateway3ViewModel(req, notificationMessage = '') {
     submission2DecisionDate,
     // Compatibility keys used by the current v4 template.
     submission1DocumentsCount,
-    submission2DocumentsCount
+    submission2DocumentsCount,
+    headerStatusText: {
+      'initial': 'GW3 submission',
+      'submitted': 'GW3 submitted',
+      'resubmission-no-docs': 'GW3 resubmission',
+      'resubmission': 'GW3 resubmitted',
+      'pass': 'Examination'
+    }[gateway3OverviewState] || 'GW3 submission',
+    headerStatusClasses: {
+      'initial': 'govuk-tag--turquoise',
+      'submitted': 'govuk-tag--yellow',
+      'resubmission-no-docs': 'govuk-tag--yellow',
+      'resubmission': 'govuk-tag--yellow',
+      'pass': 'govuk-tag--green'
+    }[gateway3OverviewState] || 'govuk-tag--turquoise'
   };
 }
 
