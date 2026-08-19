@@ -39,12 +39,39 @@ const conditionalRequiredDocuments = [
   { condition: 'reg9-screening-determination', key: 'screening-determination-statement-upload-complete' }
 ]
 
+const optionalDocumentKeys = [
+  'representations-upload-complete',
+  'supplementary-plans-statement-upload-complete',
+  'environmental-report-upload-complete',
+  'screening-determination-statement-upload-complete',
+  'progress-representations-summary-upload-complete',
+  'gateway-2-issues-summary-upload-complete',
+  'plan-changes-statement-upload-complete',
+  'other-documents-upload-complete'
+]
+
 // -----------------------------------------------
 // APPLICATION DETAILS
 // -----------------------------------------------
 
 router.get('/application-details', function (req, res) {
   const data = req.session.data
+
+  if (req.query.resubmission === 'true') {
+    const keysToClear = [
+      ...requiredDocumentKeys,
+      ...optionalDocumentKeys,
+      ...requiredQuestionKeys,
+      'examination-library-link'
+    ]
+    // Also clear res.locals.data - govuk-prototype-kit snapshots session
+    // data into it before this route runs, so the page rendered on this
+    // same request would otherwise still show the stale values.
+    keysToClear.forEach(key => {
+      delete data[key]
+      delete res.locals.data[key]
+    })
+  }
 
   const applicableConditionalKeys = conditionalRequiredDocuments
     .filter(doc => data[doc.condition] == 'yes')
