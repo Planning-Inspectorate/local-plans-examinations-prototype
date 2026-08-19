@@ -791,4 +791,79 @@ router.get('/projects/back-office/create-case/v21/clear-data', (req, res) => {
   });
 });
 
+const buildContactOptions = (mainContact, contacts = [], lpas = []) => {
+  const toLabel = (contact) => {
+    const name = contact?.fullName || `${contact?.firstName || ''} ${contact?.lastName || ''}`.trim();
+    return name || contact?.email || 'Contact';
+  };
+
+  const toHint = (contact) => {
+    return lpas.length > 1 ? (contact?.organisation || '') : '';
+  };
+
+  const options = [];
+
+  if (mainContact) {
+    options.push({
+      value: 'main',
+      text: toLabel(mainContact),
+      hint: toHint(mainContact)
+    });
+  }
+
+  contacts.forEach((contact, index) => {
+    options.push({
+      value: `contact-${index}`,
+      text: toLabel(contact),
+      hint: toHint(contact)
+    });
+  });
+
+  return options;
+};
+
+router.get('/projects/back-office/create-case/v21/change-main-contact', (req, res) => {
+  const contacts = req.session.contacts || [];
+  const from = req.query.from === 'check-answers' ? 'check-answers' : '';
+  if (!req.session.mainContact || contacts.length === 0) {
+    return res.redirect('/projects/back-office/create-case/v21/check-contact-details');
+  }
+
+  res.render('projects/back-office/create-case/v21/change-main-contact', {
+    contactOptions: buildContactOptions(req.session.mainContact, contacts, req.session.lpas || []),
+    selectedMainContact: 'main',
+    error: null,
+    from
+  });
+});
+
+router.post('/projects/back-office/create-case/v21/change-main-contact', (req, res) => {
+  const contacts = req.session.contacts || [];
+  const from = req.body.from === 'check-answers' ? 'check-answers' : '';
+  if (!req.session.mainContact || contacts.length === 0) {
+    return res.redirect('/projects/back-office/create-case/v21/check-contact-details');
+  }
+
+  const selectedValue = req.body.mainContactSelection;
+  if (!selectedValue) {
+    return res.render('projects/back-office/create-case/v21/change-main-contact', {
+      contactOptions: buildContactOptions(req.session.mainContact, contacts, req.session.lpas || []),
+      selectedMainContact: 'main',
+      error: 'Select who should be the main contact for this case',
+      from
+    });
+  }
+
+  if (selectedValue === 'main') {
+    req.session.mainContact = req.session.mainContact;
+  } else {
+    const contactIndex = parseInt(selectedValue.replace('contact-', ''), 10);
+    if (!isNaN(contactIndex) && contacts[contactIndex]) {
+      req.session.mainContact = contacts[contactIndex];
+    }
+  }
+
+  res.redirect('/projects/back-office/create-case/v21/check-contact-details');
+});
+
 module.exports = router;

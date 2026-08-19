@@ -758,28 +758,28 @@ function getGateway2Status(req, workshopDocuments) {
   if (state === 'gw3-submission' || req.session.gw2v4ReportIssued) {
     return {
       text: 'GW3 submission',
-      classes: 'govuk-tag--blue'
+      classes: 'govuk-tag--yellow'
     };
   }
 
   if (state === 'workshop-confirmed') {
     return {
       text: 'GW2 workshop confirmed',
-      classes: 'govuk-tag--yellow'
+      classes: 'govuk-tag--turquoise'
     };
   }
 
   if (state === 'submission-received') {
     return {
       text: 'GW2 submitted',
-      classes: 'govuk-tag--yellow'
+      classes: 'govuk-tag--turquoise'
     };
   }
 
   if (state === 'none') {
     return {
       text: 'GW2 submission',
-      classes: 'govuk-tag--turquoise'
+      classes: 'govuk-tag--yellow'
     };
   }
 

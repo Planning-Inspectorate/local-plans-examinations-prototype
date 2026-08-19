@@ -235,6 +235,9 @@ router.get('/gateway-1', (req, res) => {
 	res.render('projects/back-office/manage/GW1/v2/gateway-1', {
 		caseRef: req.session.currentCaseRef || '',
 		planTitle: req.session.planTitle || '',
+		planStatus: req.session.planStatus || '',
+		planStatusClasses: (req.session.data && req.session.data.planStatusClasses) || '',
+		planStatusClassMap: (req.session.data && req.session.data.planStatusClassMap) || {},
 		footerLinks: buildFooterLinks(),
 		notificationMessage,
 		noticeOfIntentionDate: formatDateForDisplay(req.session.noticeOfIntentionDate) || '-',

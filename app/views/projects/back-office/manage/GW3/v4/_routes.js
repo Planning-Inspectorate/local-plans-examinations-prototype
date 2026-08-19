@@ -390,10 +390,10 @@ function buildGateway3ViewModel(req, notificationMessage = '') {
       'pass': 'Examination'
     }[gateway3OverviewState] || 'GW3 submission',
     headerStatusClasses: {
-      'initial': 'govuk-tag--turquoise',
-      'submitted': 'govuk-tag--yellow',
+      'initial': 'govuk-tag--yellow',
+      'submitted': 'govuk-tag--turquoise',
       'resubmission-no-docs': 'govuk-tag--yellow',
-      'resubmission': 'govuk-tag--yellow',
+      'resubmission': 'govuk-tag--turquoise',
       'pass': 'govuk-tag--green'
     }[gateway3OverviewState] || 'govuk-tag--turquoise'
   };
