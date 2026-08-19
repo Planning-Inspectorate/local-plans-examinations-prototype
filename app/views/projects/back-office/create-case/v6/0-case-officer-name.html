@@ -1,0 +1,73 @@
+{% extends "layouts/back-office.html" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
+
+{% block pageTitle %}
+  {% if isEdit %}Who is the case officer?{% else %}Who is the case officer?{% endif %} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    {% if error %}
+      {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: [{ text: error, href: "#caseOfficer" }]
+      }) }}
+    {% endif %}
+
+    <form action="/projects/back-office/create-case/v2/0-case-officer-name" method="POST" novalidate="">
+      <input type="hidden" name="_csrf" value="">
+      <input type="hidden" name="isEdit" value="{{ isEdit }}">
+
+      {{ govukSelect({
+        label: {
+          text: "Who is the case officer?" if not isEdit else "Who is the case officer?",
+          classes: "govuk-label--l",
+          isPageHeading: true
+        },
+        id: "caseOfficer",
+        name: "caseOfficer",
+        errorMessage: { text: error } if error else null,
+        items: [
+          { value: "", text: "Select an option", disabled: true, selected: not caseOfficer },
+          { value: "Jane Smith", text: "Jane Smith", selected: caseOfficer == "Jane Smith" },
+          { value: "John Doe", text: "John Doe", selected: caseOfficer == "John Doe" },
+          { value: "Alex Johnson", text: "Alex Johnson", selected: caseOfficer == "Alex Johnson" },
+          { value: "Michael Brown", text: "Michael Brown", selected: caseOfficer == "Michael Brown" },
+          { value: "Sophie Green", text: "Sophie Green", selected: caseOfficer == "Sophie Green" }
+        ]
+      }) }}
+
+      <div class="govuk-button-group">
+         {% if isEdit %}
+        {{ govukButton({
+          text: "Save and continue"
+        }) }}
+        {% else %}
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+        {% endif %}
+        
+        {% if isEdit %}
+        <a href="/projects/back-office/create-case/v2/check-answers" class="govuk-link">Cancel</a>
+        {% endif %}
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}
+

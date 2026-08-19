@@ -1,0 +1,63 @@
+{% extends "layouts/back-office.html" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
+
+{% block pageTitle %}
+ What is the region of the Local Planning Authority? – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+      <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if error %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: [{ text: error, href: "#region" }]
+        }) }}
+      {% endif %}
+
+      <form method="post" action="/projects/back-office/create-case/v2/LPA-region">
+        <input type="hidden" name="index" value="{{ index }}">
+        <input type="hidden" name="isEdit" value="{{ isEdit }}">
+       
+        {% set selectItems = [{ value: "", text: "Select an option", selected: not region }] %}
+        {% for option in regionOptions %}
+          {% set _ = selectItems.append({ value: option, text: option, selected: region == option }) %}
+        {% endfor %}
+        {{ govukSelect({
+          label: {
+            text: "What is the region of the Local Planning Authority?" if not isEdit else "What is the region of the Local Planning Authority?",
+            classes: "govuk-label--l",
+            isPageHeading: true
+          },
+          errorMessage: { text: error } if error else null,
+          id: "region",
+          name: "region",
+          items: selectItems
+        }) }}
+
+      <div class="govuk-button-group">
+        <button class="govuk-button" data-module="govuk-button" type="submit">Save and continue</button>
+        {% if isEdit %}
+          <a href="/projects/back-office/create-case/v2/check-answers" class="govuk-link">Cancel</a>
+        {% else %}
+          <a href="/projects/back-office/create-case/v2/add-additional-lpa" class="govuk-link">Cancel</a>
+        {% endif %}
+      </div>
+    </form>
+  </div>
+
+
+      {% endblock %}
+      {% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}
+  

@@ -114,6 +114,7 @@ router.use('/', require('./routes/create-case-v21'));
 router.use('/', require('./routes/create-case-v3'));
 router.use('/', require('./routes/create-case-v4'));
 router.use('/', require('./routes/create-case-v5'));
+router.use('/', require('./routes/create-case-v6'));
 router.use('/', require('./routes/projects/back-office/manage'));
 router.use('/', require('./routes/reps'));
 router.use('/', require('./views/projects/front-office/gw2/archive/test-1/_routes'));
