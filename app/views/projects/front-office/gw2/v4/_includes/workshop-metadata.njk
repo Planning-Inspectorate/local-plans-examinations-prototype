@@ -24,7 +24,7 @@
     <span class="govuk-caption-xl">East Borough local plan</span>
     Gateway 2 submission
   </h1>
-  {% if currentStage == 'gateway-2' %}
+  {% if currentStage == 'gateway-2' and reportStatus != 'shared' %}
     <strong class="govuk-tag govuk-tag--yellow app-header__tag">
       Under review
     </strong>

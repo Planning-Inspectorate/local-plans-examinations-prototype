@@ -1,6 +1,7 @@
 {% extends "layouts/front-office-v2.html" %}
 
 {% set reportStatus = data['report'] %}
+{% set currentStage = data['stage'] or 'gateway-2' %}
 
 {% set prototypeLinks =
 [
