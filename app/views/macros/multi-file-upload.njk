@@ -3,7 +3,7 @@
   {# Set up component parameters with sensible defaults #}
   {% set id = params.id or "documents" %}
   {% set name = params.name or "documents" %}
-  {% set label = params.label or "Upload a file" %}
+  {% set label = params.label or "Upload files" %}
   {% set hint = params.hint or "The file must be smaller than 250MB and be in DOC, DOCX, PDF, CSV, JPG or PNG format" %}
   {% set allowedExtensions = params.allowedExtensions or ["doc", "docx", "pdf", "csv", "jpg", "jpeg", "png"] %}
   {% set accept = params.accept or ("." + (allowedExtensions | join(",."))) %}
