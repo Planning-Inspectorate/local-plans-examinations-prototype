@@ -39,7 +39,7 @@ Gateway 3 overview {{ serviceName }}
         </dd>
       </div>
       <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">Submission received</dt>
+        <dt class="govuk-summary-list__key">Received</dt>
         <dd class="govuk-summary-list__value">{{ gateway3ActualDate }}</dd>
         <dd class="govuk-summary-list__actions">
           <a class="govuk-link" href="/projects/back-office/manage/GW3/v1/gateway-3-actual.html?returnUrl=/projects/back-office/manage/GW3/v4/gateway-3">Change<span class="govuk-visually-hidden"> Gateway 3 actual date</span></a>
@@ -157,7 +157,7 @@ Gateway 3 overview {{ serviceName }}
 
       {% if gateway3OverviewState == 'pass' %}
       <div class="govuk-summary-list__row">
-        <div class="govuk-summary-list__key">Completion date</div>
+        <div class="govuk-summary-list__key">Completed</div>
         <div class="govuk-summary-list__value">{{ gateway3CompletionDate if gateway3CompletionDate and gateway3CompletionDate != 'Not provided' }}</div>
         <div class="govuk-summary-list__actions">
           <a class="govuk-link" href="/projects/back-office/manage/GW3/v4/gateway-3-completion-date.html?returnUrl=/projects/back-office/manage/GW3/v4/gateway-3">View<span class="govuk-visually-hidden"> Gateway 3 completion date</span></a>
@@ -168,7 +168,7 @@ Gateway 3 overview {{ serviceName }}
     {% else %}
     <div class="govuk-summary-list govuk-summary-list-timetable">
       <div class="govuk-summary-list__row">
-        <div class="govuk-summary-list__key">Completion date</div>
+        <div class="govuk-summary-list__key">Completed</div>
         <div class="govuk-summary-list__value">{{ gateway3CompletionDate if gateway3CompletionDate and gateway3CompletionDate != '-' else 'Not provided' }}</div>
         <div class="govuk-summary-list__actions">
           <a class="govuk-link" href="/projects/back-office/manage/GW3/v4/gateway-3-completion-date.html?returnUrl=/projects/back-office/manage/GW3/v4/gateway-3">View<span class="govuk-visually-hidden"> Gateway 3 completion date</span></a>

@@ -68,7 +68,7 @@ router.use((req, res, next) => {
   const sessionData = req.session?.data || {};
   const resolvedCaseRef = req.session?.currentCaseRef || '';
   const resolvedPlanTitle = req.session?.planTitle || '';
-  const resolvedStatus = req.session?.planStatus || sessionData.planStatus || 'Awaiting ';
+  const resolvedStatus = req.session?.planStatus || sessionData.planStatus || 'Awaiting SLA ';
   const resolvedStatusClasses = sessionData.planStatusClasses || getPlanStatusClasses(resolvedStatus);
 
   res.locals.caseRef = resolvedCaseRef;
