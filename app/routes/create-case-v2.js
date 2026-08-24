@@ -342,7 +342,7 @@ router.get('/projects/back-office/create-case/v2/load-case', (req, res) => {
   req.session.gateway2EstimatedDate = caseToLoad.gateway2Date || '';
   req.session.gateway3EstimatedDate = caseToLoad.gateway3Date || '';
   req.session.submissionDate = caseToLoad.submissionDate || '';
-  req.session.planStatus = caseToLoad.status || 'Submitted';
+  req.session.planStatus = caseToLoad.status || 'Awaiting SLA';
   caseToLoad.status = req.session.planStatus;
   if (!req.session.data) req.session.data = {};
   req.session.data.planStatus = req.session.planStatus;
@@ -801,7 +801,7 @@ router.post('/projects/back-office/create-case/v2/check-answers', (req, res) => 
     gateway2Date: req.session.gateway2Date,
     gateway3Date: req.session.gateway3Date,
     submissionDate: req.session.submissionDate,
-    status: 'Submitted',
+    status: 'Awaiting SLA',
     createdDate: new Date().toISOString()
   };
   
