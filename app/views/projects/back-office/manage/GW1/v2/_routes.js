@@ -521,7 +521,7 @@ router.post('/gateway-1-signed-sla-check', (req, res) => {
 	delete req.session.gw1v2PendingSlaReceivedDate;
 	applyStatusEvent(req, 'SLA_CONFIRMED', { res, source: 'GW1 signed SLA confirmation POST' });
 
-	req.session.notificationMessage = 'Signed SLA uploaded. LPA can proceed to Gateway 2 submission.';
+	req.session.notificationMessage = 'Signed SLA uploaded';
 
 	if (req.session && req.session.data) {
 		req.session.data.fileData = '';

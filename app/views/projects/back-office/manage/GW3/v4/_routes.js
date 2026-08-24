@@ -383,12 +383,12 @@ function buildGateway3ViewModel(req, notificationMessage = '') {
     submission1DocumentsCount,
     submission2DocumentsCount,
     headerStatusText: {
-      'initial': 'GW3 submission',
+      'initial': 'GW3 pending',
       'submitted': 'GW3 submitted',
       'resubmission-no-docs': 'GW3 resubmission',
       'resubmission': 'GW3 resubmitted',
       'pass': 'Examination'
-    }[gateway3OverviewState] || 'GW3 submission',
+    }[gateway3OverviewState] || 'GW3 pending',
     headerStatusClasses: {
       'initial': 'govuk-tag--yellow',
       'submitted': 'govuk-tag--turquoise',

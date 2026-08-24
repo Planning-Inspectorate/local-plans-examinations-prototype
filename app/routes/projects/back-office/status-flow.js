@@ -2,17 +2,17 @@ const { getPlanStatusClasses } = require('./plan-status-classes');
 
 const FLOW_STATUSES = [
   'Awaiting SLA',
-  'GW2 submission',
+  'GW2 pending',
   'GW2 submitted',
   'GW2 workshop confirmed',
   'GW2 report',
-  'GW3 submission'
+  'GW3 pending'
 ];
 
 const BASELINE_STATUSES = new Set([
   '',
   'Awaiting SLA',
-  'GW2 submission',
+  'GW2 pending',
   'GW2 submitted',
   'Ready for GW2',
   'Awaiting GW3 submission',
@@ -22,11 +22,11 @@ const BASELINE_STATUSES = new Set([
 
 const STATUS_EVENT_TARGET = {
   SLA_PENDING: 'Awaiting SLA',
-  SLA_CONFIRMED: 'GW2 submission',
-  GW2_SUBMISSION_RECEIVED: 'GW2 submission',
+  SLA_CONFIRMED: 'GW2 pending',
+  GW2_SUBMISSION_RECEIVED: 'GW2 pending',
   WORKSHOP_CONFIRMED: 'GW2 workshop confirmed',
   WORKSHOP_COMPLETED: 'GW2 report',
-  GW2_REPORT_ISSUED: 'GW3 submission',
+  GW2_REPORT_ISSUED: 'GW3 pending',
   FLOW_RESET: 'Awaiting SLA'
 };
 
@@ -34,8 +34,8 @@ function normalizeStatusLabel(statusText) {
   if (!statusText) return '';
 
   const normalized = String(statusText).trim();
-  if (normalized === 'Awaiting GW3') return 'GW3 submission';
-  if (normalized === 'Awaiting GW3 submission') return 'GW2 submission';
+  if (normalized === 'Awaiting GW3') return 'GW3 pending';
+  if (normalized === 'Awaiting GW3 submission') return 'GW2 pending';
 
   return normalized;
 }

@@ -757,7 +757,7 @@ function getGateway2Status(req, workshopDocuments) {
 
   if (state === 'gw3-submission' || req.session.gw2v4ReportIssued) {
     return {
-      text: 'GW3 submission',
+      text: 'GW3 pending',
       classes: 'govuk-tag--yellow'
     };
   }
@@ -778,7 +778,7 @@ function getGateway2Status(req, workshopDocuments) {
 
   if (state === 'none') {
     return {
-      text: 'GW2 submission',
+      text: 'GW2 pending',
       classes: 'govuk-tag--yellow'
     };
   }
@@ -827,7 +827,7 @@ function buildGateway2ViewModel(req, notificationMessage = '') {
   };
 footerLinks: [
   {
-    text: 'GW2 submission',
+    text: 'GW2 pending',
     href: '/projects/back-office/manage/GW2/v4/set-status?state=none&returnUrl=/projects/back-office/manage/GW2/v4/gateway-2'
   },
   {
@@ -839,7 +839,7 @@ footerLinks: [
     href: '/projects/back-office/manage/GW2/v4/set-status?state=workshop-confirmed&returnUrl=/projects/back-office/manage/GW2/v4/gateway-2'
   },
   {
-    text: 'GW3 submission',
+    text: 'GW3 pending',
     href: '/projects/back-office/manage/GW2/v4/set-status?state=gw3-submission&returnUrl=/projects/back-office/manage/GW2/v4/gateway-2'
   }
 ]
@@ -876,7 +876,7 @@ footerLinks: [
     },
     footerLinks: [
       {
-        text: 'GW2 submission',
+        text: 'GW2 pending',
         href: '/projects/back-office/manage/GW2/v4/set-status?state=none&returnUrl=/projects/back-office/manage/GW2/v4/gateway-2'
       },
       {
@@ -888,7 +888,7 @@ footerLinks: [
         href: '/projects/back-office/manage/GW2/v4/set-status?state=workshop-confirmed&returnUrl=/projects/back-office/manage/GW2/v4/gateway-2'
       },
       {
-        text: 'GW3 submission',
+        text: 'GW3 pending',
         href: '/projects/back-office/manage/GW2/v4/set-status?state=gw3-submission&returnUrl=/projects/back-office/manage/GW2/v4/gateway-2'
       }
     ],
