@@ -62,7 +62,15 @@
       value: {
         html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">practical-arrangements-statement.pdf <span class="govuk-visually-hidden">(opens in a new tab)</span></a></li></ul>'
       }
-    },
+    }
+  ]
+}) }}
+
+<h2 class="govuk-heading-m govuk-!-margin-top-6">Optional documents</h2>
+
+{{ govukSummaryList({
+  classes: "app-summary-list--narrow-key",
+  rows: [
     {
       key: { text: "Copies of representations" },
       value: {
@@ -80,15 +88,13 @@
       value: {
         html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">environmental-report.pdf <span class="govuk-visually-hidden">(opens in a new tab)</span></a></li></ul>'
       }
-    }
-  ]
-}) }}
-
-<h2 class="govuk-heading-m govuk-!-margin-top-6">Optional documents</h2>
-
-{{ govukSummaryList({
-  classes: "app-summary-list--narrow-key",
-  rows: [
+    },
+    {
+      key: { text: "Statement of reasons for a determination that the proposed local plan is unlikely to have significant environmental effects" },
+      value: {
+        html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">screening-determination-statement.pdf <span class="govuk-visually-hidden">(opens in a new tab)</span></a></li></ul>'
+      }
+    },
     {
       key: { text: "Summary of representations relating to progress towards meeting prescribed requirements and the LPA response" },
       value: {

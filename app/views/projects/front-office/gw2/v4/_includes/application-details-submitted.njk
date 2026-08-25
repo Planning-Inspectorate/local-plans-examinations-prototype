@@ -77,36 +77,46 @@
           value: {
             html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">consultation-summary.pdf <span class="govuk-visually-hidden">(opens in a new tab)</span></a></li></ul>'
           }
-        }
-      ]
-    }) }}
-
-    <h2 class="govuk-heading-m govuk-!-margin-top-6">Additional documents</h2>
-
-    {{ govukSummaryList({
-      classes: "app-summary-list--narrow-key",
-      rows: [
+        },
         {
-          key: { text: "Subsequent work towards a draft Plan" },
+          key: { text: "Evidence on engagement between plan making authorities and relevant bodies" },
           value: {
-            html: supplementaryDocuments
+            html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">engagement-evidence.pdf <span class="govuk-visually-hidden">(opens in a new tab)</span></a></li></ul>'
           }
         }
       ]
     }) }}
 
-        <h2 class="govuk-heading-m govuk-!-margin-top-6">Workshop preferences</h2>
+    <h2 class="govuk-heading-m govuk-!-margin-top-6">Plan content and evidence</h2>
 
     {{ govukSummaryList({
       classes: "app-summary-list--narrow-key",
       rows: [
         {
-          key: { text: "Suggested workshop venue" },
-          value: { text: "East Borough Civic Centre" }
+          key: { text: "Plan content" },
+          value: {
+            html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">draft-plan.pdf <span class="govuk-visually-hidden">(opens in a new tab)</span></a></li></ul>'
+          }
         },
         {
-          key: { text: "Suggested workshop dates" },
-          value: { text: "19 - 21st of May or we're free the week of May 26th" }
+          key: { text: "Evidence and progress documents" },
+          value: {
+            html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">evidence-base-documents.pdf <span class="govuk-visually-hidden">(opens in a new tab)</span></a></li></ul>'
+          }
+        }
+      ]
+    }) }}
+
+    <h2 class="govuk-heading-m govuk-!-margin-top-6">Optional documents</h2>
+
+    {{ govukSummaryList({
+      classes: "app-summary-list--narrow-key",
+      rows: [
+        {
+          key: { text: "Further context" },
+          value: {
+            html: '<ul class="govuk-list govuk-list--bullet"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">supplementary-doc-1.pdf <span class="govuk-visually-hidden">(opens in a new tab)</span></a></li><li><a class="govuk-link" href="#" target="_blank" rel="noopener">supplementary-doc-2.pdf <span class="govuk-visually-hidden">(opens in a new tab)</span></a></li><li><a class="govuk-link" href="#" target="_blank" rel="noopener">supplementary-doc-3.pdf <span class="govuk-visually-hidden">(opens in a new tab)</span></a></li></ul>'
+          }
         }
       ]
     }) }}

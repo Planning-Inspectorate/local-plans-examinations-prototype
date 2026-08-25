@@ -1,22 +1,30 @@
 {% from "govuk/components/footer/macro.njk" import govukFooter %}
 
 {% set footerLinks = [
-  { href: "/manage-prototype", text: "Manage your prototype" },
-  { href: "/manage-prototype/clear-data", text: "Clear data" },
+  { href: "#", text: "Privacy" },
+    { href: "#", text: "Cookies" },
+  { href: "#", text: "Accessibility statement" },
   { href: "#", text: "Contact" }
 ] %}
 
+{% set allPrototypeLinks = [
+  { href: "/manage-prototype", text: "Manage your prototype" },
+  { href: "/manage-prototype/clear-data", text: "Clear data" }
+] %}
+
+{% if prototypeLinks and prototypeLinks.length %}
+  {% set allPrototypeLinks = allPrototypeLinks.concat(prototypeLinks) %}
+{% endif %}
+
 {% set prototypeLinksHtml %}
-  {% if prototypeLinks and prototypeLinks.length %}
-    <span>Prototype links and page states:</span>
-    <ul class="govuk-footer__inline-list">
-      {% for link in prototypeLinks %}
-        <li class="govuk-footer__inline-list-item">
-          <a class="govuk-footer__link" href="{{ link.href }}">{{ link.text }}</a>
-        </li>
-      {% endfor %}
-    </ul>
-  {% endif %}
+  <span>Prototype links and page states:</span>
+  <ul class="govuk-footer__inline-list">
+    {% for link in allPrototypeLinks %}
+      <li class="govuk-footer__inline-list-item">
+        <a class="govuk-footer__link" href="{{ link.href }}">{{ link.text }}</a>
+      </li>
+    {% endfor %}
+  </ul>
 {% endset %}
 
 {{ govukFooter({
