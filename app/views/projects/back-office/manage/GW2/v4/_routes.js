@@ -613,7 +613,8 @@ function mergeWorkshopDocuments(req) {
     if (existingIndex === -1) {
       merged.push({
         ...doc,
-        uploadedAt: nowIso
+        uploadedAt: nowIso,
+        receivedDate: getV3ReceivedDate(req)
       });
     } else if (!merged[existingIndex].uploadedAt) {
       merged[existingIndex].uploadedAt = nowIso;
@@ -1030,7 +1031,7 @@ router.post('/upload/v3/upload-bo', (req, res) => {
   }
 
   req.session.save(() => {
-    res.redirect('/projects/back-office/manage/GW2/v4/upload/v3/check-answers');
+    res.redirect('/projects/back-office/manage/GW2/v4/upload/v3/date-received');
   });
 });
 
@@ -1051,6 +1052,10 @@ router.get('/upload/v3/check-answers', (req, res) => {
   const documentTypeChangeUrl = `/projects/back-office/manage/GW2/v4/upload/v3/document-type?returnUrl=${encodeURIComponent(checkPageUrl)}`;
   const uploadChangeUrl = '/projects/back-office/manage/GW2/v4/upload/v3/upload-bo';
   const receivedDateChangeUrl = `/projects/back-office/manage/GW2/v4/upload/v3/date-received?returnUrl=${encodeURIComponent(checkPageUrl)}`;
+  const documentListHtml = uploadedDocuments
+    .map((doc) => `<li><a class="govuk-link" href="/projects/back-office/manage/documents/download/${encodeURIComponent(doc.filename)}">${escapeHtml(doc.originalname)}</a></li>`)
+    .join('');
+  const documentListClass = uploadedDocuments.length > 1 ? ' govuk-list--bullet' : '';
   const checkAnswerRows = [
     {
       key: { text: 'Type' },
@@ -1064,40 +1069,34 @@ router.get('/upload/v3/check-answers', (req, res) => {
           }
         ]
       }
+    },
+    {
+      key: { text: 'Documents' },
+      value: { html: `<ul class="govuk-list${documentListClass}">${documentListHtml}</ul>` },
+      actions: {
+        items: [
+          {
+            href: uploadChangeUrl,
+            text: 'Change',
+            visuallyHiddenText: selectedTypeLabel
+          }
+        ]
+      }
+    },
+    {
+      key: { text: 'Date received' },
+      value: { text: receivedDatePreview },
+      actions: {
+        items: [
+          {
+            href: receivedDateChangeUrl,
+            text: 'Change',
+            visuallyHiddenText: receivedDatePreview
+          }
+        ]
+      }
     }
   ];
-
-  uploadedDocuments.forEach((doc) => {
-    const originalName = escapeHtml(doc.originalname);
-    checkAnswerRows.push(
-      {
-        key: { text: 'Document' },
-        value: { html: `<a class="govuk-link" href="/projects/back-office/manage/documents/download/${encodeURIComponent(doc.filename)}">${originalName}</a>` },
-        actions: {
-          items: [
-            {
-              href: uploadChangeUrl,
-              text: 'Change',
-              visuallyHiddenText: doc.originalname
-            }
-          ]
-        }
-      },
-      {
-        key: { text: 'Date received' },
-        value: { text: receivedDatePreview },
-        actions: {
-          items: [
-            {
-              href: receivedDateChangeUrl,
-              text: 'Change',
-              visuallyHiddenText: receivedDatePreview
-            }
-          ]
-        }
-      }
-    );
-  });
 
   res.render('projects/back-office/manage/GW2/v4/upload/v3/check-answers', {
     caseRef: req.session.currentCaseRef || '',
@@ -1347,12 +1346,32 @@ router.get('/upload/v1/check-answers', (req, res) => {
   const uploadedDocuments = transientDocuments.length > 0
     ? transientDocuments
     : getUploadedDocuments(req);
+  const documentListHtml = uploadedDocuments
+    .map((doc) => `<li><a class="govuk-link" href="/projects/back-office/manage/documents/download/${encodeURIComponent(doc.filename)}">${escapeHtml(doc.originalname)}</a></li>`)
+    .join('');
+  const documentListClass = uploadedDocuments.length > 1 ? ' govuk-list--bullet' : '';
+  const checkAnswerRows = [
+    {
+      key: { text: 'Documents' },
+      value: { html: `<ul class="govuk-list${documentListClass}">${documentListHtml}</ul>` },
+      actions: {
+        items: [
+          {
+            href: `/projects/back-office/manage/GW2/v4/upload/v1/upload-bo?returnTo=${returnTo}`,
+            text: 'Change',
+            visuallyHiddenText: 'workshop documents'
+          }
+        ]
+      }
+    }
+  ];
 
   res.render('projects/back-office/manage/GW2/v4/upload/v1/check-answers', {
     caseRef: req.session.currentCaseRef || '',
     serviceName: 'Manage a local plan',
     uploadedDocuments,
     totalFiles: uploadedDocuments.length,
+    checkAnswerRows,
     returnTo
   });
 });

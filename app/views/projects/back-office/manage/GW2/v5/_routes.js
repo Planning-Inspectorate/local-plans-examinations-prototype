@@ -1126,7 +1126,7 @@ router.post('/upload/v3/upload-bo', (req, res) => {
   if (!selectedType || !req.session[GW2_V3_SELECTED_DOCUMENT_KEY]) return res.redirect('/projects/back-office/manage/GW2/v5/gateway-2-documents');
 
   req.session.save(() => {
-    res.redirect('/projects/back-office/manage/GW2/v5/upload/v3/date-received');
+    res.redirect('/projects/back-office/manage/GW2/v5/upload/v3/check-answers');
   });
 });
 
@@ -1137,17 +1137,13 @@ router.get('/upload/v3/check-answers', (req, res) => {
     : null;
   if (!selectedType || !selectedDocument) return res.redirect('/projects/back-office/manage/GW2/v5/gateway-2-documents');
 
-  const checkPageUrl = '/projects/back-office/manage/GW2/v5/upload/v3/check-answers';
-  const receivedDate = getV3ReceivedDate(req);
   const uploadedDocuments = getUploadedDocumentsFromFileData(req).map((doc) => ({
     ...doc,
     uploadedAtDisplay: formatTimestampForDisplay(new Date().toISOString())
   }));
   const selectedTypeLabel = selectedDocument.title;
-  const receivedDatePreview = formatDateForDisplay(receivedDate);
   const uploadChangeUrl = '/projects/back-office/manage/GW2/v5/upload/v3/upload-bo';
-  const receivedDateChangeUrl = `/projects/back-office/manage/GW2/v5/upload/v3/date-received?returnUrl=${encodeURIComponent(checkPageUrl)}`;
-  const checkAnswerRows = [{ key: { text: 'Document section' }, value: { text: selectedDocument.title } }];
+  const checkAnswerRows = [{ key: { text: 'Section' }, value: { text: selectedDocument.title } }];
 
   const documentListHtml = uploadedDocuments
     .map((doc) => `<li><a class="govuk-link" href="/projects/back-office/manage/documents/download/${encodeURIComponent(doc.filename)}">${escapeHtml(doc.originalname)}</a></li>`)
@@ -1167,19 +1163,6 @@ router.get('/upload/v3/check-answers', (req, res) => {
           }
         ]
       }
-    },
-    {
-      key: { text: 'Date received' },
-      value: { text: receivedDatePreview },
-      actions: {
-        items: [
-          {
-            href: receivedDateChangeUrl,
-            text: 'Change',
-            visuallyHiddenText: receivedDatePreview
-          }
-        ]
-      }
     }
   );
 
@@ -1191,9 +1174,7 @@ router.get('/upload/v3/check-answers', (req, res) => {
     selectedDocument,
     uploadedDocuments,
     checkAnswerRows,
-    uploadChangeUrl,
-    receivedDatePreview,
-    receivedDateChangeUrl
+    uploadChangeUrl
   });
 });
 
