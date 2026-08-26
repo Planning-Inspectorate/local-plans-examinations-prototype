@@ -1,12 +1,28 @@
 {% from "govuk/components/footer/macro.njk" import govukFooter %}
 
-{% set footerLinks = [
+{% set secondaryFooterLinks = [
   { href: "#", text: "Privacy" },
-  { href: "#", text: "Cookies" },
+  { href: "/projects/front-office/global-pages/cookies", text: "Cookies" },
   { href: "#", text: "Accessibility statement" },
-  { href: "#", text: "Terms and conditions" },
-  { href: "#", text: "Contact" }
+  { href: "#", text: "Terms and conditions" }
 ] %}
+
+{% set footerContactHtml %}
+  <h2 class="govuk-heading-s">Contact the Planning Inspectorate</h2>
+  <p class="govuk-body">
+    <a class="govuk-footer__link" href="tel:03034445000">Customer Support: England 0303 444 5000</a>
+  </p>
+  <hr class="govuk-footer__section-break">
+  <h2 class="govuk-heading-s">Service information</h2>
+  <ul class="govuk-footer__inline-list">
+    {% for link in secondaryFooterLinks %}
+      <li class="govuk-footer__inline-list-item">
+        <a class="govuk-footer__link" href="{{ link.href }}">{{ link.text }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+  <hr class="govuk-footer__section-break">
+{% endset %}
 
 {% set allPrototypeLinks = [
   { href: "/manage-prototype", text: "Manage your prototype" },
@@ -18,7 +34,7 @@
 {% endif %}
 
 {% set prototypeLinksHtml %}
-  <span>Prototype links and page states:</span>
+  <h2 class="govuk-heading-s">Prototype links and page states</h2>
   <ul class="govuk-footer__inline-list">
     {% for link in allPrototypeLinks %}
       <li class="govuk-footer__inline-list-item">
@@ -30,7 +46,6 @@
 
 {{ govukFooter({
   meta: {
-    items: footerLinks,
-    html: prototypeLinksHtml
+    html: footerContactHtml + prototypeLinksHtml
   }
 }) }}
