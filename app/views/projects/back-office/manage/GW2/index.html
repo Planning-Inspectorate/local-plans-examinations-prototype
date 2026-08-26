@@ -25,7 +25,7 @@
     <h1 class="govuk-heading-l">
       {{ title }}
     </h1>
-         {% set version = "4" %}
+    {% set version = "5" %}
     <h2 class="govuk-heading-m">
       Version {{ version }}
       {{ govukTag({
@@ -37,11 +37,32 @@
     <p class="govuk-!-margin-bottom-2">Changes:</p>
  
     <ul class="govuk-list govuk-list--bullet">
+    <li>Upload documents to GW2</li>
+    </ul>
+    {{ govukButton({
+      html: 'View prototype',
+      href: '/projects/back-office/manage/GW2/v5/gateway-2',
+      isStartButton: true
+    }) }}
+    <hr>
+    <br>
+         {% set version = "4" %}
+    <h2 class="govuk-heading-m">
+      Version {{ version }}
+      {{ govukTag({
+        classes: 'govuk-tag--yellow govuk-!-margin-left-2',
+        text: 'Ready for research'
+      }) }}
+    </h2>
+ 
+    <p class="govuk-!-margin-bottom-2">Changes:</p>
+ 
+    <ul class="govuk-list govuk-list--bullet">
     <li>Issue GW2 report</li>
     <li>Removed workshop preferences</li>
     <li>Alternative document layout reflecting GW3</li>
     <li>Updated content based on feedback from Kate (Content design)</li>
-    <li>Added ability to upload additional documents in the back office for GW2 submission with ability to choose between 'Procedural', 'Consultation', and 'Additional'</li>
+    <li>Updated statuses based on feedback from content design and ops</li>
     </ul>
     {{ govukButton({
       html: 'View prototype',

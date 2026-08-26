@@ -46,12 +46,8 @@ Gateway 2 documents - {{ serviceName }}
       </div>
     {% endif %}
 
-    <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
-    <h2 class="govuk-heading-l">Submitted GW2 documents</h2>
-
-    <p class="govuk-body">
-      <a class="govuk-button govuk-button--secondary" href="/projects/back-office/manage/GW2/v4/upload/v3/document-type" role="button" draggable="false" data-module="govuk-button">Upload documents</a>
-    </p>
+    <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }} - Submitted {{ submissionDate or 'Not provided' }}</span>
+    <h2 class="govuk-heading-l">Gateway 2 documents</h2>
 
     <h3 class="govuk-heading-m">Procedural documents</h3>
     {% if proceduralUploadedDocumentRows.length > 0 %}
