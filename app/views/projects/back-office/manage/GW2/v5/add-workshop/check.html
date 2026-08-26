@@ -65,16 +65,16 @@ Check workshop details – {{ serviceName }}
         </dd>
       </div>
       <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">Is the workshop in-person, hybrid or virtual?</dt>
+        <dt class="govuk-summary-list__key">Is the workshop in-person, hybrid or remote?</dt>
         <dd class="govuk-summary-list__value">
-          {{ addWorkshop.isVirtual or 'Not answered' }}
+          {{ 'Remote' if addWorkshop.isVirtual == 'Virtual' else (addWorkshop.isVirtual or 'Not answered') }}
         </dd>
         <dd class="govuk-summary-list__actions">
           <a href="{{ basePath }}/add-workshop/is-virtual">Change<span class="govuk-visually-hidden"> workshop type</span></a>
         </dd>
       </div>
       <div class="govuk-summary-list__row{% if addWorkshop.isVirtual != 'Virtual' and addWorkshop.isVirtual != 'Hybrid' %} govuk-!-display-none{% endif %}">
-        <dt class="govuk-summary-list__key">Do you have a virtual meeting link?</dt>
+        <dt class="govuk-summary-list__key">Do you have a remote meeting link?</dt>
         <dd class="govuk-summary-list__value">
           {{ addWorkshop.hasVirtualMeetingLink or 'Not answered' }}
         </dd>

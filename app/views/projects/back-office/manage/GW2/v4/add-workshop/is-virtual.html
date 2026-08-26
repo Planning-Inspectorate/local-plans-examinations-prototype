@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-Is the workshop virtual or in-person? – {{ serviceName }}
+Is the workshop in-person, hybrid or remote? – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -14,7 +14,7 @@ Is the workshop virtual or in-person? – {{ serviceName }}
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l">Is the workshop in-person, remote or hybrid?</h1>
+    <h1 class="govuk-heading-l">Is the workshop in-person, hybrid or remote?</h1>
     <form method="post">
       <div class="govuk-form-group">
         <fieldset class="govuk-fieldset" aria-describedby="hearing-virtual-hint">
@@ -40,7 +40,7 @@ Is the workshop virtual or in-person? – {{ serviceName }}
               <div class="govuk-radios__item">
               <input class="govuk-radios__input" id="hearing-virtual-yes" name="isVirtual" type="radio" value="Virtual" {{ 'checked' if addWorkshop.isVirtual == 'Virtual' else '' }}>
               <label class="govuk-label govuk-radios__label" for="hearing-virtual-yes">
-                Virtual
+                Remote
               </label>
             </div>
             
