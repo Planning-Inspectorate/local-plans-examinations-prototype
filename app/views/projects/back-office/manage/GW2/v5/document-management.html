@@ -1,0 +1,79 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+Manage {{ document.title }} - {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/projects/back-office/manage/GW2/v5/gateway-2-documents"
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    
+    {% if notificationMessage %}
+      <div class="govuk-notification-banner govuk-notification-banner--success" role="region" aria-labelledby="documents-notification-title" data-module="govuk-notification-banner">
+        <div class="govuk-notification-banner__header">
+          <h2 class="govuk-notification-banner__title" id="documents-notification-title">Success</h2>
+        </div>
+        <div class="govuk-notification-banner__content">
+          <p class="govuk-notification-banner__heading">{{ notificationMessage }}{% if notificationMessage != 'Document removed' %} The planning authority has been notified.{% endif %}</p>
+        </div>
+      </div>
+    {% endif %}
+    <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-l">Manage {{ document.title }} documents</h1>
+        </div>
+    
+            
+        
+    </div>   
+
+    <p class="govuk-body">
+      <a class="govuk-button govuk-button--secondary" href="{{ addUrl }}">Add document</a>
+    </p>
+
+    {% if managedDocuments.length > 0 %}
+      <h2 class="govuk-heading-m"><span class="govuk-visually-hidden">Document listing</span></h2>
+      <table class="govuk-table app-document-management-table">
+        <colgroup>
+          <col class="app-document-name-column">
+          <col class="app-document-date-column">
+          <col class="app-document-source-column">
+          <col class="app-document-actions-column">
+        </colgroup>
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Name</th>
+            <th scope="col" class="govuk-table__header">Date received</th>
+            <th scope="col" class="govuk-table__header">Source</th>
+            <th scope="col" class="govuk-table__header app-document-actions">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          {% for managedDocument in managedDocuments %}
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell"><a class="govuk-link" href="{{ managedDocument.fileHref }}">{{ managedDocument.originalname }}</a></td>
+            <td class="govuk-table__cell">{{ managedDocument.receivedDate or 'Not provided' }}</td>
+            <td class="govuk-table__cell">{{ managedDocument.sourceLabel }}</td>
+            <td class="govuk-table__cell app-document-actions">{% if managedDocument.removeHref %}<a class="govuk-link" href="{{ managedDocument.manageHref }}">View and edit</a>{% else %}<a class="govuk-link" href="{{ managedDocument.fileHref }}">View</a>{% endif %}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="govuk-body">No documents have been added yet.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

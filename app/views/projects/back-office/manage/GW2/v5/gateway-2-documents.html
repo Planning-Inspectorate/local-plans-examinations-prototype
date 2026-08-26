@@ -1,0 +1,138 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+Gateway 2 documents - {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/projects/back-office/manage/GW2/v5/gateway-2"
+  }) }}
+{% endblock %}
+
+{% set proceduralDocs = [
+  { id: 'gateway-2-covering-letter', title: 'Gateway 2 covering letter', file: 'GW2_covering_letter.docx' },
+  { id: 'local-plan-timetable', title: 'Local plan timetable', file: 'plan_timetable.csv' },
+  { id: 'project-initiation-document', title: 'Project initiation document', file: 'PID.docx' },
+  { id: 'draft-statement-of-compliance', title: 'Draft statement of compliance', file: 'GW2_compliance_statement.docx' },
+  { id: 'draft-statement-of-soundness', title: 'Draft statement of soundness', file: 'GW2_soundness_statement.docx' }
+] %}
+
+{% set consultationDocs = [
+  { id: 'notice-of-intention', title: 'Notice of intention to commence local plan preparation', file: 'notice_of_intention.pdf' },
+  { id: 'scoping-consultation-documents', title: 'Scoping consultation documents', file: 'scoping_full.pdf' },
+  { id: 'scoping-feedback-summary', title: 'Consultation summary of feedback to scoping consultation', file: 'scoping_summary.pdf' },
+  { id: 'gateway-1-self-assessment', title: 'Gateway 1 - Self assessment of readiness', file: 'self_assessment.pdf' },
+  { id: 'consultation-full-pack', title: 'Consultation on proposed local plan content and evidence documents', file: 'proposed_plan_full.pdf' },
+  { id: 'consultation-summary-pack', title: 'Summary of consultation on proposed local plan content and evidence documents', file: 'proposed_plan_summary.pdf' }
+] %}
+
+{% set additionalDocs = [
+  { id: 'subsequent-work-draft-plan', title: 'Subsequent work towards a draft plan', file: 'scoping_feedback_summary.pdf' }
+] %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full app-document-listing">
+    {% if notificationMessage %}
+      <div class="govuk-notification-banner govuk-notification-banner--success" role="region" aria-labelledby="gw2-documents-notification-banner-title" data-module="govuk-notification-banner">
+        <div class="govuk-notification-banner__header">
+          <h2 class="govuk-notification-banner__title" id="gw2-documents-notification-banner-title">Success</h2>
+        </div>
+        <div class="govuk-notification-banner__content">
+          <p class="govuk-notification-banner__heading">{{ notificationMessage }}</p>
+        </div>
+      </div>
+    {% endif %}
+
+    <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }} - Submitted {{ submissionDate or 'Not provided' }}</span>
+    <h2 class="govuk-heading-l">Gateway 2 documents </h2>
+
+    <h3 class="govuk-heading-m">Procedural documents</h3>
+    <dl class="govuk-summary-list govuk-summary-list-timetable app-gw2-documents-list">
+      <div class="govuk-summary-list__row app-summary-list--document-columns__header">
+        <dt class="govuk-summary-list__key">Category</dt>
+        <dd class="govuk-summary-list__value">Name</dd>
+        <dd class="govuk-summary-list__actions">Actions</dd>
+      </div>
+      {%- for document in proceduralDocumentRows -%}
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">{{ document.title }}</dt>
+        <dd class="govuk-summary-list__value">
+          {% if document.hasDocuments %}
+          <ul class="govuk-list{% if (document.showSeedDocument and document.uploadedDocuments.length > 0) or document.uploadedDocuments.length > 1 %} govuk-list--bullet{% endif %}">
+            {% if document.showSeedDocument %}<li><a class="govuk-link" href="#">{{ document.latestFileName }}</a></li>{% endif %}
+            {%- for uploadedDocument in document.uploadedDocuments -%}<li><a class="govuk-link" href="/projects/back-office/manage/documents/download/{{ uploadedDocument.filename }}">{{ uploadedDocument.originalname }}</a>{% if uploadedDocument.receivedDateDisplay %} (added on {{ uploadedDocument.receivedDateDisplay }}){% endif %}</li>{%- endfor -%}
+          </ul>
+          {% else %}Not provided
+          {% endif %}
+        </dd>
+        <dd class="govuk-summary-list__actions">{% if document.uploadedDocuments.length > 0 %}<a class="govuk-link" href="/projects/back-office/manage/GW2/v5/document-type/{{ document.id }}">View and edit</a>{% else %}{% if document.hasDocuments %}<a class="govuk-link" href="/projects/back-office/manage/GW2/v5/document-type/{{ document.id }}">Manage</a> <span aria-hidden="true">|</span> {% endif %}<a class="govuk-link" href="/projects/back-office/manage/GW2/v5/document-type/{{ document.id }}/add">Add</a>{% endif %}</dd>
+      </div>
+      {%- endfor -%}
+    </dl>
+    
+
+    <h3 class="govuk-heading-m">Consultation documents</h3>
+    <dl class="govuk-summary-list govuk-summary-list-timetable app-gw2-documents-list">
+      <div class="govuk-summary-list__row app-summary-list--document-columns__header">
+        <dt class="govuk-summary-list__key">Category</dt>
+        <dd class="govuk-summary-list__value">Name</dd>
+        <dd class="govuk-summary-list__actions">Actions</dd>
+      </div>
+      {%- for document in consultationDocumentRows -%}
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">{{ document.title }}</dt>
+        <dd class="govuk-summary-list__value">
+          {% if document.hasDocuments %}
+          <ul class="govuk-list{% if (document.showSeedDocument and document.uploadedDocuments.length > 0) or document.uploadedDocuments.length > 1 %} govuk-list--bullet{% endif %}">
+            {% if document.showSeedDocument %}<li><a class="govuk-link" href="#">{{ document.latestFileName }}</a></li>{% endif %}
+            {%- for uploadedDocument in document.uploadedDocuments -%}<li><a class="govuk-link" href="/projects/back-office/manage/documents/download/{{ uploadedDocument.filename }}">{{ uploadedDocument.originalname }}</a>{% if uploadedDocument.receivedDateDisplay %} (added on {{ uploadedDocument.receivedDateDisplay }}){% endif %}</li>{%- endfor -%}
+          </ul>
+          {% else %}Not provided
+          {% endif %}
+        </dd>
+        <dd class="govuk-summary-list__actions">{% if document.uploadedDocuments.length > 0 %}<a class="govuk-link" href="/projects/back-office/manage/GW2/v5/document-type/{{ document.id }}">View and edit</a>{% else %}{% if document.hasDocuments %}<a class="govuk-link" href="/projects/back-office/manage/GW2/v5/document-type/{{ document.id }}">Manage</a> <span aria-hidden="true">|</span> {% endif %}<a class="govuk-link" href="/projects/back-office/manage/GW2/v5/document-type/{{ document.id }}/add">Add</a>{% endif %}</dd>
+      </div>
+      {%- endfor -%}
+    </dl>
+    
+
+    <h3 class="govuk-heading-m">Additional documents</h3>
+    <dl class="govuk-summary-list govuk-summary-list-timetable app-gw2-documents-list">
+      <div class="govuk-summary-list__row app-summary-list--document-columns__header">
+        <dt class="govuk-summary-list__key">Category</dt>
+        <dd class="govuk-summary-list__value">Name</dd>
+        <dd class="govuk-summary-list__actions">Actions</dd>
+      </div>
+      {%- for document in additionalDocumentRows -%}
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">{{ document.title }}</dt>
+        <dd class="govuk-summary-list__value">
+          {% if document.hasDocuments %}
+          <ul class="govuk-list{% if (document.showSeedDocument and document.uploadedDocuments.length > 0) or document.uploadedDocuments.length > 1 %} govuk-list--bullet{% endif %}">
+            {% if document.showSeedDocument %}<li><a class="govuk-link" href="#">{{ document.latestFileName }}</a></li>{% endif %}
+            {%- for uploadedDocument in document.uploadedDocuments -%}<li><a class="govuk-link" href="/projects/back-office/manage/documents/download/{{ uploadedDocument.filename }}">{{ uploadedDocument.originalname }}</a></li>{%- endfor -%}
+          </ul>
+          {% else %}Not provided
+          {% endif %}
+        </dd>
+        <dd class="govuk-summary-list__actions">{% if document.uploadedDocuments.length > 0 %}<a class="govuk-link" href="/projects/back-office/manage/GW2/v5/document-type/{{ document.id }}">View and edit</a>{% else %}{% if document.hasDocuments %}<a class="govuk-link" href="/projects/back-office/manage/GW2/v5/document-type/{{ document.id }}">Manage</a> <span aria-hidden="true">|</span> {% endif %}<a class="govuk-link" href="/projects/back-office/manage/GW2/v5/document-type/{{ document.id }}/add">Add</a>{% endif %}</dd>
+      </div>
+      {%- endfor -%}
+    </dl>
+    
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% set footerLinks = [
+  {
+    text: 'Some docs not provided',
+    href: '/projects/back-office/manage/GW2/v5/gateway-2-documents/set-consultation-not-provided'
+  }
+] %}
+  {% include "includes/footer.njk" %}
+{% endblock %}
