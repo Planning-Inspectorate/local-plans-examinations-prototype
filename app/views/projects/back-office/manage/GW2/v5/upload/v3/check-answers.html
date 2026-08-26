@@ -1,0 +1,47 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+  Check answers - {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/projects/back-office/manage/GW2/v5/upload/v3/upload-bo"
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
+    <h1 class="govuk-heading-l">Check your answers before uploading</h1>
+
+    {{ govukSummaryList({ classes: "app-check-answers-summary-list", rows: checkAnswerRows }) }}
+
+    <details class="govuk-details" data-cy="preview-email-to-lpa">
+      <summary class="govuk-details__summary">
+        <span class="govuk-details__summary-text">Preview notification to LPA</span>
+      </summary>
+      <div class="govuk-details__text">
+        <div class="pins-notify-preview-border">
+          <h3 class="govuk-heading-s">Notification details</h3>
+          <p class="govuk-body">Plan reference {{ caseRef or 'PLAN/000001' }}</p>
+          <p class="govuk-body"><strong>{{ selectedDocument.title }}</strong> documents have been uploaded.</p>
+          <p class="govuk-body">The Planning Inspectorate</p>
+        </div>
+      </div>
+    </details>
+
+    <p class="govuk-body">We’ll send a notification to the planning authority to tell them that additional documentation has been uploaded.</p>
+
+    <form method="post" action="/projects/back-office/manage/GW2/v5/upload/v3/check-answers">
+      {{ govukButton({ text: "Upload documents" }) }}
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

@@ -1,0 +1,18 @@
+<h3 class="govuk-heading-m">Consultation documents<!--<strong class="govuk-tag govuk-tag--yellow">For review</strong>--></h3>
+
+  <dl class="govuk-summary-list govuk-summary-list-timetable">
+    {% for doc in consultationDocuments %}
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">{{ doc.title }}</dt>
+      <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/GW2/v5/document/{{ doc.id }}">View</a></dd>
+    </div>
+    {% endfor %}
+    {% if consultationDocuments.length == 0 %}
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">No consultation documents added yet</dt>
+      <dd class="govuk-summary-list__value">-</dd>
+      <dd class="govuk-summary-list__value">-</dd>
+      <dd class="govuk-summary-list__actions">-</dd>
+    </div>
+    {% endif %}
+  </dl>

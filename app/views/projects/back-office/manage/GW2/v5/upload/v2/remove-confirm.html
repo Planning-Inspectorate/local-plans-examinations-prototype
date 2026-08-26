@@ -1,0 +1,42 @@
+{% extends "layouts/back-office.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+{% block pageTitle %}
+  Remove document – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
+    <h1 class="govuk-heading-l">Remove document</h1>
+
+    <p class="govuk-body">Are you sure you want to remove {{ documentName }}?</p>
+
+    <form method="post" action="/projects/back-office/manage/GW2/v5/upload/v2/remove-confirm">
+      <input type="hidden" name="filename" value="{{ filename }}">
+      <input type="hidden" name="returnTo" value="{{ returnTo }}">
+
+      {{ govukButton({
+        text: "Remove",
+        classes: "govuk-button--warning",
+        attributes: { name: "action", value: "remove" }
+      }) }}
+
+      <button class="govuk-button govuk-button--secondary" name="action" value="cancel" type="submit">Cancel</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

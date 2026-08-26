@@ -91,6 +91,49 @@
   white-space: nowrap;
 }
 
+.govuk-table.app-document-management-table .app-document-actions {
+  width: 22%;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.app-document-management-table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.app-document-name-column {
+  width: 50%;
+}
+
+.app-document-date-column {
+  width: 20%;
+}
+
+.app-document-source-column {
+  width: 28%;
+}
+
+.app-document-actions-column {
+  width: 22%;
+}
+
+.app-document-listing .govuk-summary-list__key,
+.app-document-listing .govuk-summary-list__value,
+.app-document-listing .govuk-summary-list__actions {
+  vertical-align: top;
+}
+
+.app-document-listing .govuk-summary-list__value .govuk-list {
+  margin-top: 0;
+}
+
+.app-summary-list--document-columns__header .govuk-summary-list__key,
+.app-summary-list--document-columns__header .govuk-summary-list__value,
+.app-summary-list--document-columns__header .govuk-summary-list__actions {
+  font-weight: 700;
+}
+
 .app-history {
   border-top: 1px solid #b1b4b6;
   margin-bottom: 30px;

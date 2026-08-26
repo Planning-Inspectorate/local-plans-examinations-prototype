@@ -1,0 +1,51 @@
+<h2 class="govuk-heading-l">Gateway 2</h2>
+<dl class="govuk-summary-list govuk-summary-list-timetable">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Expected</dt>
+    <dd class="govuk-summary-list__value">{{ gateway2EstimatedDate or 'Not provided' }}</dd>
+    <dd class="govuk-summary-list__actions">
+      <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-estimated.html?returnUrl=/projects/back-office/manage/GW2/v5/gateway-2">Change<span class="govuk-visually-hidden"> Gateway 2 Estimated Date</span></a>
+    </dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Received</dt>
+    <dd class="govuk-summary-list__value">{{ gateway2ActualDate or 'Not provided' }}</dd>
+    <dd class="govuk-summary-list__actions">
+      <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-actual.html?returnUrl=/projects/back-office/manage/GW2/v5/gateway-2">Change<span class="govuk-visually-hidden"> Gateway 2 Actual Date</span></a>
+    </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key" style="width: 42%;">
+          Submission documents
+          <dd class="govuk-summary-list__value">
+            {% if gateway2DocumentsSummary and gateway2DocumentsSummary.hasDocuments %}
+              {{ gateway2DocumentsSummary.count }} documents
+            {% else %}
+              Not provided
+            {% endif %}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            {% if gateway2DocumentsSummary and gateway2DocumentsSummary.hasDocuments %}
+              <a class="govuk-link" href="/projects/back-office/manage/GW2/v5/gateway-2-documents">Review</a>
+            {% endif %}
+    </dd>
+  </div>
+</dl>
+<dl class="govuk-summary-list govuk-summary-list-timetable">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Assessor</dt>
+    <dd class="govuk-summary-list__value">{{ gateway2AssessorName or 'Not provided' }}</dd>
+    <dd class="govuk-summary-list__actions">
+      <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-assessor-name.html?returnUrl=/projects/back-office/manage/GW2/v5/gateway-2">Change<span class="govuk-visually-hidden"> Gateway 2 Assessor Name</span></a>
+    </dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Assessor appointed</dt>
+    <dd class="govuk-summary-list__value">{{ gateway2AssessorAppointmentDate or 'Not provided' }}</dd>
+    <dd class="govuk-summary-list__actions">
+      <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-assessor-appointment.html?returnUrl=/projects/back-office/manage/GW2/v5/gateway-2">Change<span class="govuk-visually-hidden"> Gateway 2 Assessor Date of Appointment</span></a>
+    </dd>
+  </div>
+</dl>
+
+</dl>

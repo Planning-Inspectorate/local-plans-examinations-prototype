@@ -1,0 +1,91 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+Gateway 2 overview – {{ serviceName }} 
+{% endblock %}
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+        {% if notificationMessage %}
+      <div class="govuk-notification-banner govuk-notification-banner--success" role="region" aria-labelledby="gw2-upload-banner-title" data-module="govuk-notification-banner">
+        <div class="govuk-notification-banner__header">
+          <h2 class="govuk-notification-banner__title" id="gw2-upload-banner-title">
+            Success
+          </h2>
+        </div>
+        <div class="govuk-notification-banner__content">
+          <p class="govuk-notification-banner__heading">{{ notificationMessage }}</p>
+        </div>
+      </div>
+    {% endif %}
+    {% include "includes/back-office/plan-header.njk" %}
+     {% set currentSection = "gateway-2" %}
+      {% include "includes/back-office/secondary-nav.njk" %}
+   
+      {% include "projects/back-office/manage/GW2/v5/partials/_gateway-summary.njk" %}
+      <h3 class="govuk-heading-l">Workshop</h3>
+         {% include "projects/back-office/manage/GW2/v5/partials/_workshop-documents.njk" %}
+      {% include "projects/back-office/manage/GW2/v5/partials/_workshop-details.njk" %}
+   
+
+       <h3 class="govuk-heading-l">Gateway 2 report</h3>
+      <dl class="govuk-summary-list govuk-summary-list-timetable">
+  <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key" style="width: 39%;">Report issued</dt>
+          <dd class="govuk-summary-list__value">
+            {% if issueReportSummary and issueReportSummary.hasDocuments %}
+              Issued on {{ issueReportSummary.latestUploadedAtDisplay if issueReportSummary.latestUploadedAtDisplay and issueReportSummary.latestUploadedAtDisplay != '-' else 'Not provided' }}
+            {% else %}
+              Not provided
+            {% endif %}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            {% if issueReportSummary and issueReportSummary.hasDocuments %}
+              <a class="govuk-link" href="/projects/back-office/manage/GW2/v5/upload/v2/check-answers?returnTo=gateway-2">View<span class="govuk-visually-hidden"> Gateway 2 issue report documents</span></a>
+            {% else %}
+              <a class="govuk-link" href="/projects/back-office/manage/GW2/v5/upload/v2/upload-bo?returnTo=gateway-2">Add<span class="govuk-visually-hidden"> Gateway 2 issue report document</span></a>
+            {% endif %}
+          </dd>
+        </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key" style="width: 39%;">Report published</dt>
+    <dd class="govuk-summary-list__value">{{ gateway2ReportPublishedDate if gateway2ReportPublishedDate and gateway2ReportPublishedDate != '-' else 'Not provided' }}</dd>
+    <dd class="govuk-summary-list__actions">
+      <a class="govuk-link" href="/projects/back-office/manage/GW2/v1/gateway-2-report-published.html?returnUrl=/projects/back-office/manage/GW2/v5/gateway-2">Change<span class="govuk-visually-hidden"> Gateway 2 Report Published by LPA Date</span></a>
+    </dd>
+  </div>
+</dl>
+    </div>
+    </div>
+    </div>
+{% endblock %}
+{% block footer %}
+{% set footerLinks = [
+  {
+    text: 'GW2 pending',
+    href: '/projects/back-office/manage/GW2/v5/set-status?state=none&returnUrl=/projects/back-office/manage/GW2/v5/gateway-2'
+  },
+  {
+    text: 'GW2 submitted',
+    href: '/projects/back-office/manage/GW2/v5/set-status?state=submission-received&returnUrl=/projects/back-office/manage/GW2/v5/gateway-2'
+  },
+  {
+    text: 'GW2 workshop confirmed',
+    href: '/projects/back-office/manage/GW2/v5/set-status?state=workshop-confirmed&returnUrl=/projects/back-office/manage/GW2/v5/gateway-2'
+  },
+  {
+    text: 'GW3 pending',
+    href: '/projects/back-office/manage/GW2/v5/set-status?state=gw3-submission&returnUrl=/projects/back-office/manage/GW2/v5/gateway-2'
+  }
+] %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

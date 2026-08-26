@@ -1,0 +1,30 @@
+<h3 class="govuk-heading-m">Gateway 2 submission</h3>
+<style>
+  .workshop-preferences-table .govuk-summary-list__key {
+    width: 40%;
+  }
+
+  .workshop-preferences-table .govuk-summary-list__value {
+    width: 30%;
+  }
+
+  .workshop-preferences-table .govuk-summary-list__value:last-child {
+    width: 50%;
+    white-space: normal;
+  }
+</style>
+
+{% set hasWorkshopVenue = gateway2WorkshopVenue and gateway2WorkshopVenue != '-' and (gateway2WorkshopVenue | trim) != '' %}
+{% set hasWorkshopDate = gateway2WorkshopDate and gateway2WorkshopDate != '-' and (gateway2WorkshopDate | trim) != '' %}
+
+<dl class="govuk-summary-list govuk-summary-list-timetable workshop-preferences-table">
+  
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Suggested workshop venue</dt>
+    <dd class="govuk-summary-list__value">{{ gateway2WorkshopVenue if hasWorkshopVenue else 'Not received' }}</dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Suggested workshop dates</dt>
+    <dd class="govuk-summary-list__value">{{ gateway2WorkshopDate if hasWorkshopDate else 'Not received' }}</dd>
+  </div>
+</dl>
