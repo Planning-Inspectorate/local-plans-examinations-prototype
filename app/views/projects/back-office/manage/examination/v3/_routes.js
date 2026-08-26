@@ -15,6 +15,57 @@ function formatDateForDisplay(dateString) {
 	}
 }
 
+function hasLegacyHearingData(session) {
+	const fields = [
+		session.hearingStartDate,
+		session.hearingTime,
+		session.hearingEstimatedDays,
+		session.hearingActualDuration,
+		session.hearingEndDate,
+		session.hearingVenue,
+		session.hearingVirtualMeetingLink
+	];
+
+	return fields.some((value) => value && value !== '-');
+}
+
+function ensureHearings(session) {
+	if (Array.isArray(session.hearings) && session.hearings.length) {
+		return session.hearings;
+	}
+
+	if (Array.isArray(session.data?.hearings) && session.data.hearings.length) {
+		session.hearings = session.data.hearings;
+		return session.hearings;
+	}
+
+	if (!hasLegacyHearingData(session)) {
+		session.hearings = [];
+		return session.hearings;
+	}
+
+	const legacyHearing = {
+		startDate: session.hearingStartDate || '',
+		time: session.hearingTime || '',
+		estimatedDays: session.hearingEstimatedDays || '',
+		actualDuration: session.hearingActualDuration || '',
+		endDate: session.hearingEndDate || '',
+		isVirtual: session.hearingIsVirtual || '',
+		hasVirtualMeetingLink: session.hearingHasVirtualMeetingLink || 'No',
+		virtualMeetingLink: session.hearingVirtualMeetingLink || '',
+		venue: session.hearingVenue || '-',
+		address: session.hearingAddress || {},
+		hasAddress: session.hearingHasAddress || 'No'
+	};
+
+	session.hearings = [legacyHearing];
+	if (session.data) {
+		session.data.hearings = session.hearings;
+	}
+
+	return session.hearings;
+}
+
 router.use((req, res, next) => {
 	res.locals.basePath = req.baseUrl || '';
 	next();
@@ -36,7 +87,7 @@ router.get('/examination', (req, res) => {
 		examiningInspector3Name: req.session.examiningInspector3Name || '-',
 		examiningInspectorAppointmentDate: formatDateForDisplay(req.session.examiningInspectorAppointmentDate) || '-',
 		examinationWebsite: req.session.examinationWebsite || '-',
-		hearings: Array.isArray(req.session.hearings) ? req.session.hearings : [],
+		hearings: ensureHearings(req.session),
 		letterSentToMhclgDate: formatDateForDisplay(req.session.letterSentToMhclgDate) || '-',
 		letterIssueDate: formatDateForDisplay(req.session.letterIssueDate) || '-',
 		qaDate: formatDateForDisplay(req.session.qaDate) || '-',

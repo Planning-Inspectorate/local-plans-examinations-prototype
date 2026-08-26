@@ -1,8 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
+function getAddHearingEstimatesView(req, page) {
+  const baseViewPath = (req.baseUrl || '').replace(/^\//, '');
+  return `${baseViewPath}/add-hearing-estimates/${page}`;
+}
+
 router.get('/add-hearing-estimates', function (req, res) {
-    res.render('/add-hearing-estimates/index', {
+    res.render(getAddHearingEstimatesView(req, 'index'), {
       caseRef: req.session.data.currentCaseRef || '',
       planTitle: req.session.data.planTitle || '',
       addHearingEstimates: req.session.data.addHearingEstimates || {}
@@ -16,12 +21,12 @@ router.get('/add-hearing-estimates', function (req, res) {
       estimatedReportingTime: req.session.data.estimatedReportingTime
     }
     req.session.save(() => {
-      res.redirect(`/add-hearing-estimates/check`)
+      res.redirect(`${req.baseUrl}/add-hearing-estimates/check`)
     })
   })
 
   router.get('/add-hearing-estimates/check', function (req, res) {
-    res.render('/add-hearing-estimates/check', {
+    res.render(getAddHearingEstimatesView(req, 'check'), {
       caseRef: req.session.data.currentCaseRef || '',
       planTitle: req.session.data.planTitle || '',
       addHearingEstimates: req.session.data.addHearingEstimates || {}
@@ -32,7 +37,7 @@ router.get('/add-hearing-estimates', function (req, res) {
     req.session.hearingEstimates = req.session.data.addHearingEstimates
     delete req.session.data.addHearingEstimates
     req.session.save(() => {
-      res.redirect(`/add-hearing/examination`)
+      res.redirect(`${req.baseUrl}/examination`)
     })
   })
 
