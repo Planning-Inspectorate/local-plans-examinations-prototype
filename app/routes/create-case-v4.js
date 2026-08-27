@@ -214,7 +214,7 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
         gateway2Date: '15 June 2026',
         gateway3Date: '5 September 2026',
         submissionDate: '10 September 2026',
-        status: 'GW3 submission',
+        status: 'GW3 pending',
         createdDate: new Date('2024-02-10').toISOString()
       },
       {
@@ -265,7 +265,7 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
         gateway2Date: '2 June 2026',
         gateway3Date: '22 August 2026',
         submissionDate: '27 August 2026',
-        status: 'GW2 submission',
+        status: 'GW3 submitted',
         createdDate: new Date('2024-02-25').toISOString()
       },
       {
@@ -282,7 +282,7 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
         gateway2Date: '10 July 2026',
         gateway3Date: '30 September 2026',
         submissionDate: '5 October 2026',
-        status: 'GW3 submission',
+        status: 'GW3 pending',
         createdDate: new Date('2024-03-01').toISOString()
       },
       {
@@ -300,7 +300,7 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
         gateway3Date: '2 June 2026',
         submissionDate: '7 August 2026',
         statusStrategy: 'fixed',
-        status: 'GW2 submission',
+        status: 'GW2 pending',
         createdDate: new Date('2024-03-05').toISOString()
       }
     ];
@@ -309,8 +309,8 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
   // Keep v4 list status labels aligned when cases were created via other journeys.
   const statusMap = {
     'Submitted': 'Awaiting SLA',
-    'Awaiting Gateway 2': 'GW2 submission',
-    'Gateway 2 Validation': 'GW2 submission'
+    'Awaiting Gateway 2': 'GW2 pending',
+    'Gateway 2 Validation': 'GW2 pending'
   };
   if (Array.isArray(req.session.casesV4)) {
     req.session.casesV4.forEach((item) => {
