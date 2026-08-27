@@ -32,8 +32,7 @@ router.get('/set-status', (req, res) => {
     delete req.session.gw2v3WorkshopDocuments;
     delete req.session.hearings;
   } else if (state === 'workshop-confirmed') {
-    // Clear submission documents and date
-    delete req.session.gateway2ActualDate;
+    // Workshop confirmed should still carry the submission actual date.
     clearGateway2ReportIssuedState(req);
   }
   // For gw3-submission, do not clear any fields - keep everything populated
@@ -48,6 +47,9 @@ router.get('/set-status', (req, res) => {
 
   // Populate workshop-confirmed state fields
   if (state === 'workshop-confirmed') {
+    if (!req.session.gateway2ActualDate) {
+      req.session.gateway2ActualDate = '20/5/2026';
+    }
     if (!req.session.gateway2AssessorName) {
       req.session.gateway2AssessorName = 'Sarah Johnson';
     }

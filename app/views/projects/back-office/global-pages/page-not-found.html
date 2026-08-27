@@ -1,0 +1,38 @@
+{% extends "layouts/back-office.html" %}    
+
+{% block pageTitle %}Page not found – {{serviceName}}{% endblock %}
+
+{% block beforeContent %}{% endblock %}
+
+{% set mainClasses = "govuk-main-wrapper--l" %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">Page not found</h1>
+        <p class="govuk-body">
+          If you typed the web address, check it is correct.
+        </p>
+        <p class="govuk-body">
+          If you pasted the web address, check you copied the entire address.
+        </p>
+        <p class="govuk-body">
+          If the web address is correct or you selected a link or button, contact the Planning Inspectorate Customer Support:
+        </p>
+        <p class="govuk-body">
+        Phone:<br>
+        <strong class="govuk-!-font-weight-bold">0303 444 5000</strong>
+      </p>
+      <p class="govuk-body">
+        Opening times:<br>
+        <strong class="govuk-!-font-weight-bold">Monday to Friday: 8am to 8pm</strong>
+      </p>
+      <p class="govuk-body">
+        Closed Easter Sunday, Christmas Day, Boxing Day and New Year’s Day.
+      </p>
+    </div>
+  </div>
+{% endblock %}
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}
