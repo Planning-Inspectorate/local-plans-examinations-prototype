@@ -137,7 +137,9 @@ Gateway 3 overview {{ serviceName }}
           {% endif %}
         </div>
         <div class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/projects/back-office/manage/GW3/v4/gateway-3-submission-2-documents">{{ 'View' if submission2Decision and submission2Decision != '-' else 'Review' }}</a>
+          {% if not isResubmissionNoDocs %}
+            <a class="govuk-link" href="/projects/back-office/manage/GW3/v4/gateway-3-submission-2-documents">{{ 'View' if submission2Decision and submission2Decision != '-' else 'Review' }}</a>
+          {% endif %}
         </div>
       </div>
       {% if not isResubmissionNoDocs %}
