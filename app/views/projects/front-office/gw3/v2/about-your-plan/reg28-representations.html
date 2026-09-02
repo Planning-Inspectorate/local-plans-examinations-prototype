@@ -1,0 +1,31 @@
+{% extends "layouts/front-office-v3.html" %}
+{% set title = "Reg 28 — did representations get made?" %}
+
+{% block questions %}
+
+<span class="govuk-caption-l">About your plan</span>
+
+{{ govukRadios({
+  name: "reg28-representations",
+  fieldset: {
+    legend: {
+      text: title,
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--l"
+    }
+  },
+  items: [
+    {
+      value: "yes",
+      text: "Yes",
+      checked: true if data['reg28-representations'] == 'yes'
+    },
+    {
+      value: "no",
+      text: "No",
+      checked: true if data['reg28-representations'] == 'no'
+    }
+  ]
+}) }}
+
+{% endblock %}

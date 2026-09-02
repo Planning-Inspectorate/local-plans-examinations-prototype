@@ -1,0 +1,13 @@
+<li>
+
+  <h2 class="govuk-heading-m">Ready to submit for Gateway 3</h2>
+
+  <p class="govuk-body">Once submitted, Gateway 3 will be locked and you cannot make further changes. By submitting, you're confirming that the information you're sharing is correct to the best of your knowledge.</p>
+
+
+  {{ govukButton({
+    text: "Submit",
+    href: "application-declaration?resubmission=true" if resubmission == 'true' else "application-declaration"
+  }) }}
+  
+</li>

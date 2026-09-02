@@ -1,0 +1,144 @@
+{% extends "layouts/front-office-v2.html" %}
+{% set errorStatus = data['error'] %}
+{% set resubmission = data['resubmission'] %}
+{% from "macros/multi-file-upload.njk" import uploadArea %}
+
+{% block pageTitle %} Application details – {{ serviceName }}
+{% endblock %}
+
+{% set prototypeLinks =
+[
+{
+href: 'application-details?error=true',
+text: 'Error message'
+},
+{
+href: 'application-declaration',
+text: 'Skip to declaration'
+},
+{
+href: 'application-submission-success',
+text: 'Skip to confirmation'
+}
+]
+%}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "/projects/front-office/plan-details/v3/plan-details?status=in-progress&stage=gateway-3&report="
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+        <div class="app-header">
+      <h1 class="govuk-heading-xl app-header__title">
+        <span class="govuk-caption-xl">East Borough Local Plan</span>
+        Gateway 3 submission
+      </h1>
+      {% if decision == 'go' %}
+        <strong class="govuk-tag app-header__tag">Completed</strong>
+      {% else %}
+        <strong class="govuk-tag govuk-tag--red app-header__tag">Resubmission required</strong>
+      {% endif %}
+    </div>
+{% set showSubmissionHistory = true %}
+      {% include "./_includes/decision-metadata.njk" %}
+
+          {% call govukInsetText({ classes: "govuk-!-margin-0 guidance-panel" }) %}
+          <h2 class="govuk-heading-s">Summary of changes required:</h2>
+<p class="govuk-body">Please provide an updated Summary of Scoping Consultation and Environmental Report addressing the issues identified in the report, including the assessment of potential impacts on biodiversity, traffic and air quality, and the mitigation measures proposed for these impacts.</p>
+{% endcall %}
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible" />
+
+
+    <style>
+      .app-task-list>li {
+        position: relative;
+      }
+
+      .app-task-list__section .govuk-tag {
+        position: absolute;
+        top: 3px;
+        right: 0;
+      }
+
+      .app-task-list .govuk-summary-list {
+        border-top: 1px solid #b1b4b6;
+      }
+
+      .app-task-list .govuk-summary-list__key {
+        width: 50%;
+      }
+
+      .app-task-list .govuk-summary-list__value {
+        width: 40%;
+      }
+
+      .app-task-list .govuk-summary-list__actions {
+        width: 10%;
+      }
+
+      .app-task-list__section {
+        padding-right: 140px;
+      }
+    </style>
+
+
+ <h2 class="app-task-list__section" id="optional-documents">
+    New documents
+  </h2>
+  <p class="govuk-body">Add any new documents that are relevant to your resubmission as outlined in the inspector's report.</p>
+
+  {{ govukSummaryList({
+    classes: 'govuk-!-margin-bottom-9',
+    rows: [
+
+      {
+        key: { text: 'Add new documents' },
+        value:
+          { html: "<a href='#'>really-long-list-of-representations-for-review.pdf</a>" } if data['representations-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'consultation-documents/representations-upload?cya=true', html: 'Change', visuallyHiddenText: 'copies of representations' } if data['representations-upload-complete']
+          else { href: 'consultation-documents/representations-upload', html: 'Add', visuallyHiddenText: 'copies of representations' }
+        ]}
+      }
+    ]
+  }) }}
+
+<h1 class="govuk-heading-l">Add new documents</h1>
+
+{{ uploadArea({
+  id: "documents",
+  name: "documents",
+  dataKey: "documents",
+  errorMessage: "The file must be a PDF, DOC, DOCX, PPT, PPTX, XLS, XLSX, MSG, JPG, JPEG, PNG, TIF or TIFF and smaller than 250MB.",
+  allowedExtensions: ["pdf", "doc", "docx", "ppt", "pptx", "xls", "xlsx", "msg", "jpg", "jpeg", "png", "tif", "tiff"],
+  maxFileSizeMB: 250
+}) }}
+
+<div class="govuk-button-group">
+  {{ govukButton({
+    text: "Submit"
+  }) }}
+
+  {{ govukButton({
+    text: "Save as draft",
+    classes: "govuk-button--secondary"
+  }) }}
+</div>
+
+
+
+
+
+
+  </div>
+</div>
+
+{% endblock %}

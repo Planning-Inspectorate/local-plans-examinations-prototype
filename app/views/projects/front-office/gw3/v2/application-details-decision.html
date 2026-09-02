@@ -1,0 +1,97 @@
+{% extends "layouts/front-office-v2.html" %}
+
+{% set decision = data['decision'] or 'stop' %}
+
+{% set prototypeLinks =
+[
+{
+href: 'application-details-submitted',
+text: 'Awaiting outcome'
+},
+{
+href: 'application-details-decision?decision=stop&viewOnly=false',
+text: 'Resubmission required outcome'
+},
+{
+href: 'application-details-decision?decision=go',
+text: 'Proceed to examination outcome'
+}
+]
+%}
+
+{% block pageTitle %}
+  Gateway 3 submission – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/projects/front-office/plan-details/v3/plan-details?status=action-needed&stage=gateway-3&report="
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters-from-desktop">
+
+    <div class="app-header">
+      <h1 class="govuk-heading-xl app-header__title">
+        <span class="govuk-caption-xl">East Borough Local Plan</span>
+        Gateway 3 submission
+      </h1>
+      {% if decision == 'go' %}
+        <strong class="govuk-tag app-header__tag">Completed</strong>
+      {% else %}
+        <strong class="govuk-tag govuk-tag--red app-header__tag">Resubmission required</strong>
+      {% endif %}
+    </div>
+
+    
+
+      {% set showSubmissionHistory = false %}
+      {% include "./_includes/decision-metadata.njk" %}
+
+          {% call govukInsetText({ classes: "govuk-!-margin-0 guidance-panel" }) %}
+          <h2 class="govuk-heading-s">Summary of changes required:</h2>
+<p class="govuk-body">Please provide an updated Summary of Scoping Consultation and Environmental Report addressing the issues identified in the report, including the assessment of potential impacts on biodiversity, traffic and air quality, and the mitigation measures proposed for these impacts.</p>
+{% endcall %}
+
+    </div>
+    <div class="govuk-grid-column-full">
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible" />
+
+    <p class="govuk-body">Your submission was sent on 20 June 2026 at 10:32am by Laura Thornton.</p>
+
+    {% include "./_includes/submitted-documents.njk" %}
+
+    {% if decision != 'go' and data['viewOnly'] != 'true' %}
+
+      <!--<h2 class="govuk-heading-m govuk-!-margin-top-6">Version history</h2>
+
+      <p class="govuk-body"><a class="govuk-link" href="application-details-decision?decision=stop">View submission 1</a></p>
+
+      <p class="govuk-body">You can view your previous Gateway 3 submissions at any time.</p>
+
+      <p class="govuk-body"><a class="govuk-link" href="version-history">View version history</a></p>-->
+
+      <div class="govuk-button-group govuk-!-margin-top-6">
+        {{ govukButton({
+          text: "Start your resubmission",
+          href: "resubmission-application-details"
+        }) }}
+        <a class="govuk-link" href="/projects/front-office/plan-details/v3/plan-details?status=action-needed&stage=gateway-3&report=">Return to plan details</a>
+      </div>
+
+    {% endif %}
+
+    {% if decision == 'go'%}
+      <h2 class="govuk-heading-m">Previous submissions</h2>
+      <p class="govuk-body"><a class="govuk-link" href="/projects/front-office/gw3/v1/application-details-decision?decision=stop&viewOnly=true">Gateway 3: submission 1</a> (submitted on 20 June 2026)</p>
+    {% endif %}
+
+  </div>
+</div>
+
+{% endblock %}

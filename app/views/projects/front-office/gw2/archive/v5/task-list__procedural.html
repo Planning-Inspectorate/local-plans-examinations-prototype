@@ -7,26 +7,20 @@
   {% set timetableValue = { html: "<a href='#'>timetable.pdf</a>" } if data['timetable-upload-complete'] else { html: '<span class="govuk-hint">Not added</span>' } %}
   {% set timetableAction = { href: 'procedural-documents/timetable-upload?cya=true', html: 'Change', visuallyHiddenText: 'local plan timetable' } if data['timetable-upload-complete'] else { href: 'procedural-documents/timetable-upload', html: 'Add', visuallyHiddenText: 'local plan timetable' } %}
 
-     <!--{
-        key: { text: 'Gateway 2 covering letter' },
-        value: { html: 'cover-letter.pdf  <strong class="govuk-tag govuk-tag--yellow">Virus scanning</strong>' },
-        actions: { items: [
-          { href: 'procedural-documents/cover-letter-upload?cya=true', html: 'Change' }
-        ]}
-      },
 
-      {
-        key: { text: 'Local plan timetable' },
-        value: { html: 'timetable.pdf  <strong class="govuk-tag govuk-tag--red">Virus detected</strong>' },
-        actions: { items: [
-          { href: 'procedural-documents/timetable-upload?cya=true', html: 'Change' }
-        ]}
-      },-->
 
 
   {{ govukSummaryList({
     classes: 'govuk-!-margin-bottom-9',
     rows: [
+
+      {
+        key: { text: 'Gateway 2 covering letter' },
+        value: { html: '<div class="govuk-form-group govuk-form-group--error govuk-!-margin-bottom-2"><p class="govuk-error-message govuk-!-margin-bottom-0"><span class="govuk-visually-hidden">Error:</span> cover-letter.pdf contains a virus. Remove the file and upload a different version.</p></div>cover-letter.pdf  <strong class="govuk-tag govuk-tag--red">Virus detected</strong>' },
+        actions: { items: [
+          { href: 'procedural-documents/cover-letter-upload?cya=true', html: 'Change' }
+        ]}
+      },
 
       {
         key: { text: 'Gateway 2 cover letter' },
