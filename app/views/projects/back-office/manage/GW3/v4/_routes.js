@@ -384,17 +384,17 @@ function buildGateway3ViewModel(req, notificationMessage = '') {
     submission2DocumentsCount,
     headerStatusText: {
       'initial': 'GW3 pending',
-      'submitted': 'GW3 submitted',
+      'submitted': 'GW3 received',
       'resubmission-no-docs': 'GW3 pending',
-      'resubmission': 'GW3 submitted',
-      'pass': 'Examination'
+      'resubmission': 'GW3 received',
+      'pass': 'Exam pending'
     }[gateway3OverviewState] || 'GW3 pending',
     headerStatusClasses: {
       'initial': 'govuk-tag--yellow',
       'submitted': 'govuk-tag--turquoise',
       'resubmission-no-docs': 'govuk-tag--yellow',
       'resubmission': 'govuk-tag--turquoise',
-      'pass': 'govuk-tag--green'
+      'pass': 'govuk-tag--yellow'
     }[gateway3OverviewState] || 'govuk-tag--turquoise'
   };
 }

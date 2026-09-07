@@ -197,7 +197,7 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
         gateway2Date: '5 April 2026',
         gateway3Date: '25 June 2026',
         submissionDate: '30 June 2026',
-        status: 'GW2 submitted',
+        status: 'GW2 received',
         createdDate: new Date('2024-02-01').toISOString()
       },
       {
@@ -265,7 +265,7 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
         gateway2Date: '2 June 2026',
         gateway3Date: '22 August 2026',
         submissionDate: '27 August 2026',
-        status: 'GW3 submitted',
+        status: 'GW3 received',
         createdDate: new Date('2024-02-25').toISOString()
       },
       {

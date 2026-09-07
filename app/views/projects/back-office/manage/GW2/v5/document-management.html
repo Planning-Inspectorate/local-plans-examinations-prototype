@@ -21,7 +21,7 @@ Manage {{ document.title }} - {{ serviceName }}
           <h2 class="govuk-notification-banner__title" id="documents-notification-title">Success</h2>
         </div>
         <div class="govuk-notification-banner__content">
-          <p class="govuk-notification-banner__heading">{{ notificationMessage }}{% if notificationMessage != 'Document removed' %} The planning authority has been notified.{% endif %}</p>
+          <p class="govuk-notification-banner__heading">{{ notificationMessage }}</p>
         </div>
       </div>
     {% endif %}
@@ -50,9 +50,9 @@ Manage {{ document.title }} - {{ serviceName }}
         </colgroup>
         <thead class="govuk-table__head">
           <tr class="govuk-table__row">
-            <th scope="col" class="govuk-table__header">Name</th>
-            <th scope="col" class="govuk-table__header">Date received</th>
-            <th scope="col" class="govuk-table__header">Source</th>
+            <th scope="col" class="govuk-table__header">Document</th>
+            <th scope="col" class="govuk-table__header">Received</th>
+            <th scope="col" class="govuk-table__header">Uploaded by</th>
             <th scope="col" class="govuk-table__header app-document-actions">Actions</th>
           </tr>
         </thead>
@@ -62,7 +62,7 @@ Manage {{ document.title }} - {{ serviceName }}
             <td class="govuk-table__cell"><a class="govuk-link" href="{{ managedDocument.fileHref }}">{{ managedDocument.originalname }}</a></td>
             <td class="govuk-table__cell">{{ managedDocument.receivedDate or 'Not provided' }}</td>
             <td class="govuk-table__cell">{{ managedDocument.sourceLabel }}</td>
-            <td class="govuk-table__cell app-document-actions"><a class="govuk-link" href="{{ managedDocument.fileHref }}">View</a>{% if managedDocument.removeHref %} | <a class="govuk-link" href="{{ managedDocument.removeHref }}">Remove</a>{% endif %}</td>
+            <td class="govuk-table__cell app-document-actions"><a class="govuk-link" href="{{ managedDocument.fileHref }}">Open</a>{% if managedDocument.removeHref %} | <a class="govuk-link" href="{{ managedDocument.removeHref }}">Remove</a>{% endif %}</td>
           </tr>
           {% endfor %}
         </tbody>

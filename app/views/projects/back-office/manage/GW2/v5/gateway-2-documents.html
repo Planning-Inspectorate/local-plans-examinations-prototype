@@ -46,7 +46,7 @@ Gateway 2 documents - {{ serviceName }}
       </div>
     {% endif %}
 
-    <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }} - Submitted {{ submissionDate or 'Not provided' }}</span>
+    <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }} - Received {{ submissionDate or 'Not provided' }}</span>
     <h2 class="govuk-heading-l">Gateway 2 documents </h2>
 
     <h3 class="govuk-heading-m">Procedural documents</h3>
@@ -63,7 +63,7 @@ Gateway 2 documents - {{ serviceName }}
           {% if document.hasDocuments %}
           <ul class="govuk-list{% if (document.showSeedDocument and document.uploadedDocuments.length > 0) or document.uploadedDocuments.length > 1 %} govuk-list--bullet{% endif %}">
             {% if document.showSeedDocument %}<li><a class="govuk-link" href="#">{{ document.latestFileName }}</a></li>{% endif %}
-            {%- for uploadedDocument in document.uploadedDocuments -%}<li><a class="govuk-link" href="/projects/back-office/manage/documents/download/{{ uploadedDocument.filename }}">{{ uploadedDocument.originalname }}</a>{% if uploadedDocument.receivedDateDisplay %} (added on {{ uploadedDocument.receivedDateDisplay }}){% endif %}</li>{%- endfor -%}
+            {%- for uploadedDocument in document.uploadedDocuments -%}<li><a class="govuk-link" href="/projects/back-office/manage/documents/download/{{ uploadedDocument.filename }}">{{ uploadedDocument.originalname }}</a>{% if uploadedDocument.receivedDateDisplay %} (added {{ uploadedDocument.receivedDateDisplay }}){% endif %}</li>{%- endfor -%}
           </ul>
           {% else %}Not provided
           {% endif %}

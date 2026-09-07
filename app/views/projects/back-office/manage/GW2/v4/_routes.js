@@ -772,7 +772,7 @@ function getGateway2Status(req, workshopDocuments) {
 
   if (state === 'submission-received') {
     return {
-      text: 'GW2 submitted',
+      text: 'GW2 received',
       classes: 'govuk-tag--turquoise'
     };
   }
@@ -786,14 +786,14 @@ function getGateway2Status(req, workshopDocuments) {
 
   if (workshopDocuments.length > 0) {
     return {
-      text: 'GW2 submitted',
+      text: 'GW2 received',
       classes: 'govuk-tag--yellow'
     };
   }
 
   if (hasProceduralAndConsultationDocuments(req)) {
     return {
-      text: 'GW2 submitted',
+      text: 'GW2 received',
       classes: 'govuk-tag--turquoise'
     };
   }
@@ -832,7 +832,7 @@ footerLinks: [
     href: '/projects/back-office/manage/GW2/v4/set-status?state=none&returnUrl=/projects/back-office/manage/GW2/v4/gateway-2'
   },
   {
-    text: 'GW2 submitted',
+    text: 'GW2 received',
     href: '/projects/back-office/manage/GW2/v4/set-status?state=submission-received&returnUrl=/projects/back-office/manage/GW2/v4/gateway-2'
   },
   {
@@ -881,7 +881,7 @@ footerLinks: [
         href: '/projects/back-office/manage/GW2/v4/set-status?state=none&returnUrl=/projects/back-office/manage/GW2/v4/gateway-2'
       },
       {
-        text: 'GW2 submitted',
+        text: 'GW2 received',
         href: '/projects/back-office/manage/GW2/v4/set-status?state=submission-received&returnUrl=/projects/back-office/manage/GW2/v4/gateway-2'
       },
       {

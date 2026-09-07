@@ -6,13 +6,23 @@ const PLAN_STATUS_CLASS_MAP = {
   // Current flow labels
   'Awaiting SLA': 'govuk-tag--yellow',
   'GW2 pending': 'govuk-tag--yellow',
-  'GW2 submitted': 'govuk-tag--turquoise',
+  'GW2 received': 'govuk-tag--turquoise',
   'GW2 workshop confirmed': 'govuk-tag--blue',
   'GW2 report': 'govuk-tag--blue',
   'GW3 pending': 'govuk-tag--yellow',
+  'GW3 received': 'govuk-tag--turquoise',
+  'Examination': 'govuk-tag--yellow',
+  'Exam pending': 'govuk-tag--yellow',
+  'Hearing pending': 'govuk-tag--blue',
+  'Exam in progress': 'govuk-tag--blue',
+  'QA': 'govuk-tag--blue',
+  'Fact check': 'govuk-tag--turquoise',
+  'Completed': 'govuk-tag--green',
+  'Paused': 'govuk-tag--grey',
 
   // Variant labels used in some journeys/views
   'GW2 submitted': 'govuk-tag--turquoise',
+  'GW3 submitted': 'govuk-tag--turquoise',
 
   // Legacy labels kept for backwards compatibility with seeded/demo data
   'Awaiting Gateway 2': 'govuk-tag--yellow',

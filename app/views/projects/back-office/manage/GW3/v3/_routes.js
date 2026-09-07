@@ -79,7 +79,7 @@ router.get('/projects/back-office/manage/GW3/v3/gateway-3', (req, res) => {
 
   const statusMap = {
     'initial': { text: 'GW3 submission', classes: 'govuk-tag--turquoise' },
-    'submitted': { text: 'GW3 submitted', classes: 'govuk-tag--yellow' },
+    'submitted': { text: 'GW3 received', classes: 'govuk-tag--yellow' },
     'resubmission-no-docs': { text: 'GW3 resubmission', classes: 'govuk-tag--yellow' },
     'resubmission': { text: 'GW3 resubmission', classes: 'govuk-tag--yellow' },
     'pass': { text: 'GW3 pass', classes: 'govuk-tag--green' }

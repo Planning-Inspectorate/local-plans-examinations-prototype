@@ -3,21 +3,35 @@ const { getPlanStatusClasses } = require('./plan-status-classes');
 const FLOW_STATUSES = [
   'Awaiting SLA',
   'GW2 pending',
-  'GW2 submitted',
+  'GW2 received',
   'GW2 workshop confirmed',
   'GW2 report',
-  'GW3 pending'
+  'GW3 pending',
+  'Exam pending',
+  'Hearing pending',
+  'Exam in progress',
+  'QA',
+  'Fact check',
+  'Completed',
+  'Paused'
 ];
 
 const BASELINE_STATUSES = new Set([
   '',
   'Awaiting SLA',
   'GW2 pending',
-  'GW2 submitted',
+  'GW2 received',
   'Ready for GW2',
   'Awaiting GW3 submission',
   'GW2 awaiting workshop',
-  'GW2 documents submitted'
+  'GW2 documents submitted',
+  'Exam pending',
+  'Hearing pending',
+  'Exam in progress',
+  'QA',
+  'Fact check',
+  'Completed',
+  'Paused'
 ]);
 
 const STATUS_EVENT_TARGET = {
@@ -36,6 +50,7 @@ function normalizeStatusLabel(statusText) {
   const normalized = String(statusText).trim();
   if (normalized === 'Awaiting GW3') return 'GW3 pending';
   if (normalized === 'Awaiting GW3 submission') return 'GW2 pending';
+  if (normalized === 'Examination') return 'Exam pending';
 
   return normalized;
 }
