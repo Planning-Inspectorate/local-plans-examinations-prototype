@@ -973,6 +973,9 @@ router.get('/gateway-2', (req, res) => {
 
 router.get('/gateway-2-documents', (req, res) => {
   syncV3UploadedDocumentsToGateway2Documents(req);
+  if (!req.session.submissionDate) {
+    req.session.submissionDate = '15/04/2026';
+  }
   const allDocuments = getGateway2Documents(req);
   const documents = allDocuments.filter((document) => !document.id.startsWith('v3-upload-'));
   const uploadedByCategory = getV3UploadedDocumentsByCategory(req);
@@ -984,7 +987,7 @@ router.get('/gateway-2-documents', (req, res) => {
 
   res.render('projects/back-office/manage/GW2/v5/gateway-2-documents', {
     caseRef: req.session.currentCaseRef || '',
-    submissionDate: req.session.submissionDate || '',
+    submissionDate: req.session.submissionDate,
     serviceName: 'Manage a local plan',
     notificationMessage,
     proceduralDocuments: documents.filter((doc) => doc.category === 'procedural'),
@@ -1240,10 +1243,7 @@ router.post('/upload/v3/check-answers', (req, res) => {
   const uploadedDocuments = getUploadedDocumentsFromFileData(req);
   mergeV3UploadedDocuments(req, selectedType);
   const safeCount = uploadedDocuments.length;
-  const lpaName = req.session.lpas && req.session.lpas.length ? req.session.lpas[0] : (req.session.lpaName || 'the relevant LPA');
-  req.session.gateway2DocumentsNotificationMessage = safeCount === 1
-    ? `Document added to GW2 submission for ${lpaName}.`
-    : `${safeCount} documents added to GW2 submission for ${lpaName}.`;
+  req.session.gateway2DocumentsNotificationMessage = `${safeCount} document${safeCount === 1 ? '' : 's'} uploaded`;
 
   if (req.session.data) {
     delete req.session.data.fileData;

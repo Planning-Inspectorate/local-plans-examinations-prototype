@@ -25,6 +25,60 @@
     <h1 class="govuk-heading-l">
       {{ title }}
     </h1>
+    {% set version = "5" %}
+    <h2 class="govuk-heading-m">
+      Version {{ version }}
+      {{ govukTag({
+        classes: 'govuk-tag--grey govuk-!-margin-left-2',
+        text: 'Experimental'
+      }) }}
+    </h2>
+ 
+    <p class="govuk-!-margin-bottom-2">Changes:</p>
+ 
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Option 2 for MIQs and MMs document upload and management</li>
+       <li>Allows for document management</li>
+  
+    </ul>
+ 
+    {{ govukButton({
+      html: 'View prototype',
+      href: '/projects/back-office/manage/examination/v' ~ version ~ '/examination',
+      isStartButton: true
+    }) }}
+    <br>
+    <br>
+    <hr>
+    <br>
+    <br>
+    {% set version = "4" %}
+    <h2 class="govuk-heading-m">
+      Version {{ version }}
+      {{ govukTag({
+        classes: 'govuk-tag--grey govuk-!-margin-left-2',
+        text: 'Experimental'
+      }) }}
+    </h2>
+ 
+    <p class="govuk-!-margin-bottom-2">Changes:</p>
+ 
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Option 1 for MIQs and MMs documents.</li>
+       <li>Simple upload flow. Upload > Check documents > save</li>
+  
+    </ul>
+ 
+    {{ govukButton({
+      html: 'View prototype',
+      href: '/projects/back-office/manage/examination/v' ~ version ~ '/examination',
+      isStartButton: true
+    }) }}
+    <br>
+    <br>
+    <hr>
+    <br>
+    <br>
   {% set version = "3" %}
     <h2 class="govuk-heading-m">
       Version {{ version }}

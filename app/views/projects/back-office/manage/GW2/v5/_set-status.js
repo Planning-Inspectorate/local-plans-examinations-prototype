@@ -15,6 +15,15 @@ router.get('/set-status', (req, res) => {
   const state = req.query.state || 'none';
   const returnUrl = req.query.returnUrl || '/projects/back-office/manage/GW2/v5/gateway-2';
 
+  // Populate a demo LPA name if one hasn't been set (e.g. no case was created via create-case)
+  if (!(req.session.lpas && req.session.lpas.length) && !req.session.lpaName) {
+    req.session.lpaName = 'East Borough District Council';
+  }
+
+  if (!req.session.submissionDate) {
+    req.session.submissionDate = '15/04/2026';
+  }
+
   // Clear fields not relevant to the selected state
   if (state === 'none') {
     // Clear all state-specific fields

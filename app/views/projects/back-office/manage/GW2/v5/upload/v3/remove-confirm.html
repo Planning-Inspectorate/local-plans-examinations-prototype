@@ -7,7 +7,7 @@
 {% block beforeContent %}
   {{ govukBackLink({
     text: "Back",
-    href: "/projects/back-office/manage/GW2/v5/upload/v3/document/" ~ document.id
+    href: "/projects/back-office/manage/GW2/v5/gateway-2-documents"
   }) }}
 {% endblock %}
 
@@ -27,7 +27,7 @@
         attributes: { name: "action", value: "remove" }
       }) }}
 
-        <a class="govuk-link" href="/projects/back-office/manage/GW2/v5/upload/v3/document/{{ document.id }}">Cancel</a>
+        <a class="govuk-link" href="/projects/back-office/manage/GW2/v5/gateway-2-documents">Cancel</a>
       </div>
     </form>
   </div>

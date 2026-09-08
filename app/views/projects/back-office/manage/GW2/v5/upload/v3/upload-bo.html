@@ -16,8 +16,15 @@
   <div class="govuk-grid-column-two-thirds">
     <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
     <h1 class="govuk-heading-l">Upload {{ selectedDocument.title }} documents</h1>
+<p>
+      Each file must be a PDF, DOC, DOCX, PPT, PPTX, XLS, XLSX, MSG, JPG, JPEG, MPEG, MP3, MP4, MOV, PNG, TIF or TIFF
+      and smaller than 250MB.
+    </p>
 
-    <p class="govuk-body">Each file must be smaller than 250MB.</p>
+    <p>
+      The total size of your uploaded files must be smaller than 1GB.
+    </p>
+
 
     <form class="form" action="/projects/back-office/manage/GW2/v5/upload/v3/upload-bo" method="post" id="upload-form">
       <div class="app-multi-file-upload">

@@ -15,14 +15,14 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
-    <h1 class="govuk-heading-l">Check documents and send notification</h1>
+    <h1 class="govuk-heading-l">Check document{{ 's' if uploadedDocuments.length != 1 else '' }}</h1>
 
     {{ govukSummaryList({ classes: "app-check-answers-summary-list", rows: checkAnswerRows }) }}
 
-    <p class="govuk-body">We'll notify the planning authority of these changes.</p>
+    
 
     <form method="post" action="/projects/back-office/manage/GW2/v5/upload/v3/check-answers">
-      {{ govukButton({ text: "Upload documents" }) }}
+      {{ govukButton({ text: "Upload document" + ("s" if uploadedDocuments.length != 1 else "") }) }}
     </form>
   </div>
 </div>
