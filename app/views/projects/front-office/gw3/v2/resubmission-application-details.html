@@ -35,26 +35,24 @@ href: "/projects/front-office/plan-details/v3/plan-details?status=in-progress&st
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-        <div class="app-header">
+    <div class="app-header">
       <h1 class="govuk-heading-xl app-header__title">
         <span class="govuk-caption-xl">East Borough Local Plan</span>
         Gateway 3 submission
       </h1>
       {% if decision == 'go' %}
-        <strong class="govuk-tag app-header__tag">Completed</strong>
+      <strong class="govuk-tag app-header__tag">Completed</strong>
       {% else %}
-        <strong class="govuk-tag govuk-tag--red app-header__tag">Resubmission required</strong>
+      <strong class="govuk-tag govuk-tag--red app-header__tag">Resubmission required</strong>
       {% endif %}
     </div>
-{% set showSubmissionHistory = true %}
-      {% include "./_includes/decision-metadata.njk" %}
+    {% set showSubmissionHistory = true %}
+    {% include "./_includes/decision-metadata.njk" %}
+    {% include "./_includes/changes-summary.njk" %}
 
-          {% call govukInsetText({ classes: "govuk-!-margin-0 guidance-panel" }) %}
-          <h2 class="govuk-heading-s">Summary of changes required:</h2>
-<p class="govuk-body">Please provide an updated Summary of Scoping Consultation and Environmental Report addressing the issues identified in the report, including the assessment of potential impacts on biodiversity, traffic and air quality, and the mitigation measures proposed for these impacts.</p>
-{% endcall %}
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break" />
+    <p class="govuk-body"><a href="#">Save and come back later</a></p>
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible" />
-
 
     <style>
       .app-task-list>li {
@@ -89,53 +87,32 @@ href: "/projects/front-office/plan-details/v3/plan-details?status=in-progress&st
     </style>
 
 
- <h2 class="app-task-list__section" id="optional-documents">
-    New documents
-  </h2>
-  <p class="govuk-body">Add any new documents that are relevant to your resubmission as outlined in the inspector's report.</p>
+    <h2 class="app-task-list__section" id="optional-documents">
+      New or updated documents
+    </h2>
+    <p class="govuk-body">Add any new documents or updated documents that are relevant to your resubmission as outlined in the inspector's report.</p>
 
-  {{ govukSummaryList({
+    {{ govukSummaryList({
     classes: 'govuk-!-margin-bottom-9',
     rows: [
 
-      {
-        key: { text: 'Add new documents' },
-        value:
-          { html: "<a href='#'>really-long-list-of-representations-for-review.pdf</a>" } if data['representations-upload-complete']
-          else { html: '<span class="govuk-hint">Not added</span>' },
-        actions: { items: [
-          { href: 'consultation-documents/representations-upload?cya=true', html: 'Change', visuallyHiddenText: 'copies of representations' } if data['representations-upload-complete']
-          else { href: 'consultation-documents/representations-upload', html: 'Add', visuallyHiddenText: 'copies of representations' }
-        ]}
-      }
+    {
+    key: { text: 'Documents' },
+    value:
+    { html: '<ul class="govuk-list govuk-list--bullet"><li><a href="#">new-document-1.pdf</a></li><li><a href="#">new-document-2.pdf</a></li><li><a href="#">new-document-3.pdf</a></li><li><a href="#">new-document-4.pdf</a></li><li><a href="#">new-document-5.pdf</a></li></ul>' } if data['resubmission-upload-complete']
+    else { html: '<span class="govuk-hint">Not added</span>' },
+    actions: { items: [
+    { href: 'supplementary-documents/resubmission-upload?cya=true', html: 'Change', visuallyHiddenText: 'resubmission documents' } if data['resubmission-upload-complete']
+    else { href: 'supplementary-documents/resubmission-upload', html: 'Add', visuallyHiddenText: 'resubmission documents' }
+    ]}
+    }
     ]
-  }) }}
+    }) }}
 
-<h1 class="govuk-heading-l">Add new documents</h1>
-
-{{ uploadArea({
-  id: "documents",
-  name: "documents",
-  dataKey: "documents",
-  errorMessage: "The file must be a PDF, DOC, DOCX, PPT, PPTX, XLS, XLSX, MSG, JPG, JPEG, PNG, TIF or TIFF and smaller than 250MB.",
-  allowedExtensions: ["pdf", "doc", "docx", "ppt", "pptx", "xls", "xlsx", "msg", "jpg", "jpeg", "png", "tif", "tiff"],
-  maxFileSizeMB: 250
-}) }}
-
-<div class="govuk-button-group">
-  {{ govukButton({
-    text: "Submit"
-  }) }}
-
-  {{ govukButton({
-    text: "Save as draft",
-    classes: "govuk-button--secondary"
-  }) }}
-</div>
-
-
-
-
+    {{ govukButton({
+    text: "Submit",
+    href: "application-declaration"
+    }) }}
 
 
   </div>

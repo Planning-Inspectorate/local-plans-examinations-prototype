@@ -96,6 +96,11 @@ router.post('/about-your-plan/:page', function (req, res) {
   res.redirect('../application-details')
 })
 
+router.post('/supplementary-documents/resubmission-upload', function (req, res) {
+  req.session.data['resubmission-upload-complete'] = 'true'
+  res.redirect('../resubmission-application-details')
+})
+
 // -----------------------------------------------
 // PROCEDURAL DOCUMENTS (required and optional)
 // -----------------------------------------------

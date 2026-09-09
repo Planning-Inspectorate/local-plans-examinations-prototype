@@ -26,12 +26,12 @@
       {{ title }}
     </h1>
  
-    {% set version = "1" %}
+    {% set version = "2" %}
     <h2 class="govuk-heading-m">
-      Version {{ version }} - August 2026
+      Version {{ version }} - September 2026
       {{ govukTag({
-        classes: 'govuk-tag--yellow govuk-!-margin-left-2',
-        text: 'Ready for research'
+        classes: 'govuk-tag govuk-!-margin-left-2',
+        text: 'In progress'
       }) }}
     </h2>
 
@@ -41,7 +41,7 @@
 
     {{ govukButton({
       text: "Start prototype",
-      href: "/projects/front-office/gw3/v1/application-details",
+      href: "/projects/front-office/gw3/v2/application-details",
       isStartButton: true
     }) }}
     {{ govukButton({
@@ -51,37 +51,68 @@
    }) }}
 </div>
 
-    <h3 class="govuk-heading-s">Other options</h3>
-    
-    <ul class="govuk-list govuk-list--bullet">
-      <li>
-        <a href="/projects/front-office/gw3/options/v-mandatory/application-details">All documents mandatory</a>
-      </li>
-      <li>
-        <a href="/projects/front-office/gw3/options/v-optional/application-details">All documents optional</a>
-      </li>
-      <li>
-        <a href="/projects/front-office/gw3/options/v-about-your-plan/application-details">About your plan section added to detemine document requirements</a>
-      </li>
-      <li>
-        <a href="/projects/front-office/gw3/options/v-conditional/application-details">Appeals pattern applied for conditional requirements</a>
-      </li>
-      <li>
-        <a href="/projects/front-office/gw3/options/v2-resubmission/application-details-decision?decision=stop">Resubmission flow with documents carried over and flagged for action</a>
-      </li>
-      <li>
-        <a href="/projects/front-office/gw3/options/v3-resubmission/application-details?resubmission=true">Resubmission flow with direct updates to documents</a>
-      </li>
-      <li>
-        <a href="/projects/front-office/gw3/options/v-layout-change/application-details">Documents displayed under headings (layout experiment)</a>
-      </li>
-    </ul>
-<!--
-    {{ govukButton({
-      html: 'View prototype',
-      href: '/projects/front-office/gw3/v' ~ version ~ '/application-details?error=',
-      isStartButton: true
-    }) }}-->
+    {% set v1HTML %}
+
+      {% set version = "1" %}
+
+      <p class="govuk-body">Allows LPAs to submit a Gateway 3 submission. Users upload required documents and confirm their submission.</p>
+
+      <div class="govuk-button-group">
+
+      {{ govukButton({
+        text: "Start prototype",
+        href: "/projects/front-office/gw3/v1/application-details",
+        isStartButton: true
+      }) }}
+      {{ govukButton({
+        text: "See resubmission flow",
+        classes: "govuk-button--secondary",
+        href: "/projects/front-office/plan-details/v3/plan-details?status=action-needed&stage=gateway-3"
+     }) }}
+      </div>
+
+      <h3 class="govuk-heading-s">Other options</h3>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>
+          <a href="/projects/front-office/gw3/options/v-mandatory/application-details">All documents mandatory</a>
+        </li>
+        <li>
+          <a href="/projects/front-office/gw3/options/v-optional/application-details">All documents optional</a>
+        </li>
+        <li>
+          <a href="/projects/front-office/gw3/options/v-about-your-plan/application-details">About your plan section added to detemine document requirements</a>
+        </li>
+        <li>
+          <a href="/projects/front-office/gw3/options/v-conditional/application-details">Appeals pattern applied for conditional requirements</a>
+        </li>
+        <li>
+          <a href="/projects/front-office/gw3/options/v2-resubmission/application-details-decision?decision=stop">Resubmission flow with documents carried over and flagged for action</a>
+        </li>
+        <li>
+          <a href="/projects/front-office/gw3/options/v3-resubmission/application-details?resubmission=true">Resubmission flow with direct updates to documents</a>
+        </li>
+        <li>
+          <a href="/projects/front-office/gw3/options/v-layout-change/application-details">Documents displayed under headings (layout experiment)</a>
+        </li>
+      </ul>
+
+    {% endset -%}
+
+    {{ govukAccordion({
+      id: 'previous',
+      classes: 'govuk-!-margin-top-9',
+      items: [
+        {
+          heading: {
+            html: 'Version 1 - August 2026<strong class="govuk-tag govuk-tag--green govuk-!-margin-left-2">Research complete</strong>'
+          },
+          content: {
+            html: v1HTML
+          }
+        }
+      ]
+    }) }}
 
 </div>
 {% endblock %}
