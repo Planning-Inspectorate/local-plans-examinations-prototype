@@ -14,6 +14,14 @@ const EXAMINATION_STATUS_LABELS = {
 };
 
 function getExaminationStatusText(session) {
+	if (session.planPauseStatusState === 'withdrawn') {
+		return 'Withdrawn';
+	}
+
+	if (session.planPauseStatusState === 'paused') {
+		return 'Paused';
+	}
+
 	return EXAMINATION_STATUS_LABELS[session.examinationV3StatusState] || 'Exam pending';
 }
 
@@ -144,7 +152,11 @@ router.get('/examination', (req, res) => {
 		factCheckReceivedFromLpaDate: formatDateForDisplay(req.session.factCheckReceivedFromLpaDate) || '-',
 		finalReportIssueDate: formatDateForDisplay(req.session.finalReportIssueDate) || '-',
 		planPauseDate: formatDateForDisplay(req.session.planPauseDate) || '-',
+		planPauseReason: req.session.planPauseReason || '-',
 		planPauseEndDate: formatDateForDisplay(req.session.planPauseEndDate) || '-',
+		planPauseDecision: req.session.planPauseDecision || '-',
+		planPauseDecisionReason: req.session.planPauseDecisionReason || '-',
+		planPauseStatusState: req.session.planPauseStatusState || '',
 		withdrawnDate: formatDateForDisplay(req.session.withdrawnDate) || '-',
 		planSoundness: req.session.planSoundness || '-',
 		soundUnsoundDate: formatDateForDisplay(req.session.soundUnsoundDate) || '-',
@@ -165,6 +177,7 @@ router.use('/', require('./_add-hearing'));
 router.use('/', require('./_cancel-hearing'));
 router.use('/', require('./_edit-hearing'));
 router.use('/', require('./_edit-hearing-estimates'));
+router.use('/', require('./_plan-pause'));
 router.use('/', uploadMiqsRouter);
 router.use('/', uploadMainModsRouter);
 router.use('/', require('./_set-status'));

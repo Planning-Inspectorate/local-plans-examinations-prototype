@@ -1,0 +1,50 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+	Pause decision – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+	{{ govukBackLink({
+		text: "Back",
+		href: basePath + "/plan-pause-end?returnUrl=" + (returnUrl or (basePath + "/examination.html"))
+	}) }}
+{% endblock %}
+
+{% block content %}
+	<div class="govuk-grid-row">
+		<div class="govuk-grid-column-two-thirds">
+			<form class="form" method="post" action="{{ basePath }}/plan-pause-decision">
+				<input type="hidden" name="returnUrl" value="{{ returnUrl }}">
+
+				{{ govukRadios({
+					name: "plan-pause-decision",
+					fieldset: {
+						legend: {
+							text: "What was the decision at the end of the pause?",
+							isPageHeading: true,
+							classes: "govuk-fieldset__legend--l"
+						}
+					},
+					items: [
+						{
+							value: "Resolved",
+							text: "Resolved",
+							checked: planPauseDecision == "Resolved"
+						},
+						{
+							value: "Withdrawn",
+							text: "Withdrawn",
+							checked: planPauseDecision == "Withdrawn"
+						}
+					]
+				}) }}
+
+				<div class="govuk-button-group">
+					<button type="submit" class="govuk-button" data-module="govuk-button">Save and continue</button>
+					<a href="{{ returnUrl or (basePath + '/examination.html') }}" class="govuk-link">Cancel</a>
+				</div>
+			</form>
+		</div>
+	</div>
+{% endblock %}

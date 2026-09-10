@@ -19,6 +19,7 @@ const PLAN_STATUS_CLASS_MAP = {
   'Fact check': 'govuk-tag--turquoise',
   'Completed': 'govuk-tag--green',
   'Paused': 'govuk-tag--grey',
+  'Withdrawn': 'govuk-tag--red',
 
   // Variant labels used in some journeys/views
   'GW2 submitted': 'govuk-tag--turquoise',

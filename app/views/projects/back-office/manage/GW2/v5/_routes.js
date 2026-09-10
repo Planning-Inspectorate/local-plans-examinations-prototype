@@ -88,9 +88,9 @@ function getDefaultGateway2Documents() {
       id: 'gateway-2-covering-letter',
       category: 'procedural',
       source: 'frontOffice',
-      title: 'Gateway 2 covering letter',
+      title: 'Gateway 2 cover letter',
       status: 'Received',
-      versions: [{ versionNumber: 1, fileName: 'GW2_covering_letter.docx', uploadedAt: seedDate }]
+      versions: [{ versionNumber: 1, fileName: 'GW2_cover_letter.docx', uploadedAt: seedDate }]
     },
     {
       id: 'local-plan-timetable',
@@ -144,7 +144,7 @@ function getDefaultGateway2Documents() {
       id: 'scoping-feedback-summary',
       category: 'consultation',
       source: 'frontOffice',
-      title: 'Consultation summary of feedback to scoping consultation',
+      title: 'Summary of scoping consultation feedback',
       status: 'Received',
       versions: [{ versionNumber: 1, fileName: 'scoping_summary.pdf', uploadedAt: seedDate }]
     },
@@ -152,15 +152,15 @@ function getDefaultGateway2Documents() {
       id: 'gateway-1-self-assessment',
       category: 'consultation',
       source: 'frontOffice',
-      title: 'Gateway 1 - Self assessment of readiness',
+      title: 'Gateway 1 self-assessment',
       status: 'Received',
-      versions: [{ versionNumber: 1, fileName: 'self_assessment.pdf', uploadedAt: seedDate }]
+      versions: [{ versionNumber: 1, fileName: 'self-assessment.pdf', uploadedAt: seedDate }]
     },
     {
       id: 'consultation-full-pack',
       category: 'consultation',
       source: 'frontOffice',
-      title: 'Consultation on proposed local plan content and evidence documents',
+      title: 'Consultation on proposed local plan content and evidence',
       status: 'Received',
       versions: [{ versionNumber: 1, fileName: 'proposed_plan_full.pdf', uploadedAt: seedDate }]
     },
@@ -168,31 +168,155 @@ function getDefaultGateway2Documents() {
       id: 'consultation-summary-pack',
       category: 'consultation',
       source: 'frontOffice',
-      title: 'Summary of consultation on proposed local plan content and evidence documents',
+      title: 'Summary of consultation on proposed local plan content and evidence',
       status: 'Received',
       versions: [{ versionNumber: 1, fileName: 'proposed_plan_summary.pdf', uploadedAt: seedDate }]
     },
     {
-      id: 'subsequent-work-draft-plan',
-      category: 'additional',
+      id: 'evidence-engagement',
+      category: 'consultation',
       source: 'frontOffice',
-      title: 'Subsequent work towards a draft plan',
+      title: 'Evidence of engagement with plan-making authorities and relevant bodies',
       status: 'Received',
-      versions: [{ versionNumber: 1, fileName: 'scoping_feedback_summary.pdf', uploadedAt: seedDate }]
+      versions: [{ versionNumber: 1, fileName: 'evidence_summary.pdf', uploadedAt: seedDate }]
+    },
+    {
+      id: 'vision-aims',
+      category: 'planContent',
+      source: 'frontOffice',
+      title: 'Vision, aims, objectives, up to 10 outcomes',
+      status: 'Received',
+      versions: [{ versionNumber: 1, fileName: 'vision-document.pdf', uploadedAt: seedDate }]
+    },
+    {
+      id: 'spatial-strategy',
+      category: 'planContent',
+      source: 'frontOffice',
+      title: 'Spatial strategy option or spatial strategy',
+      status: 'Received',
+      versions: [{ versionNumber: 1, fileName: 'spatial-strategy.pdf', uploadedAt: seedDate }]
+    },
+    {
+      id: 'other-plan',
+      category: 'planContent',
+      source: 'frontOffice',
+      title: 'Other plan content',
+      status: 'Received',
+      versions: [{ versionNumber: 1, fileName: 'another-local-plan-doc.pdf', uploadedAt: seedDate }]
+    },
+    {
+      id: 'policy-map',
+      category: 'planEvidence',
+      source: 'frontOffice',
+      title: 'Latest policies map',
+      status: 'Received',
+      versions: [{ versionNumber: 1, fileName: 'policies-map.pdf', uploadedAt: seedDate }]
+    },
+    {
+      id: 'list-of-evidence-documents',
+      category: 'planEvidence',
+      source: 'frontOffice',
+      title: 'List of evidence documents with completion dates',
+      status: 'Received',
+      versions: [{ versionNumber: 1, fileName: 'list-of-evidence-documents.pdf', uploadedAt: seedDate }]
+    },
+    {
+      id: 'housing-requirement',
+      category: 'planEvidence',
+      source: 'frontOffice',
+      title: 'Progress towards setting a housing requirement and evidence such as a housing needs assessment and strategic housing market assessment',
+      status: 'Received',
+      versions: [{ versionNumber: 1, fileName: 'housing-requirement.pdf', uploadedAt: seedDate }]
+    },
+    {
+      id: 'housing-trajectory',
+      category: 'planEvidence',
+      source: 'frontOffice',
+      title: 'Progress and evidence towards identifying needs for Traveller accommodation such as an accommodation assessment',
+      status: 'Received',
+      versions: [{ versionNumber: 1, fileName: 'housing-trajectory.pdf', uploadedAt: seedDate }]
+    },
+    {
+      id: 'other-development-needs-and-supply',
+      category: 'planEvidence',
+      source: 'frontOffice',
+      title: 'Progress and evidence towards setting other development needs and supply (like employment or retail)',
+      status: 'Received',
+      versions: [{ versionNumber: 1, fileName: 'other-development-needs-and-supply.pdf', uploadedAt: seedDate }]
+    },
+    {
+      id: 'habitats-and-environmental-assessments',
+      category: 'planEvidence',
+      source: 'frontOffice',
+      title: 'Progress on assessments required by the Habitats Regulations and the Environmental Assessment Regulations',
+      status: 'Received',
+      versions: [{ versionNumber: 1, fileName: 'habitats-and-environmental-assessments.pdf', uploadedAt: seedDate }]
+    },
+    {
+      id: 'other-evidence-documents',
+      category: 'planEvidence',
+      source: 'frontOffice',
+      title: 'Topic papers (up to 5 issues, max 2,000 words each)',
+      status: 'Received',
+      versions: [{ versionNumber: 1, fileName: 'other-evidence-documents.pdf', uploadedAt: seedDate }]
+    },
+    {
+      id: 'site-selection-approach',
+      category: 'planEvidence',
+      source: 'frontOffice',
+      title: 'Site selection approach and evidence',
+      status: 'Received',
+      versions: [{ versionNumber: 1, fileName: 'site-selection-approach.pdf', uploadedAt: seedDate }]
+    },
+    {
+      id: 'green-belt-review',
+      category: 'planEvidence',
+      source: 'frontOffice',
+      title: 'Green belt review',
+      status: 'Received',
+      versions: [{ versionNumber: 1, fileName: 'green-belt-review.pdf', uploadedAt: seedDate }]
+    },
+    {
+      id: 'evidence-related-to-soundness',
+      category: 'planEvidence',
+      source: 'frontOffice',
+      title: 'Evidence related to the matters of soundness to be discussed',
+      status: 'Received',
+      versions: [{ versionNumber: 1, fileName: 'evidence-related-to-soundness.pdf', uploadedAt: seedDate }]
     }
   ];
 }
 
 function getGateway2Documents(req) {
   if (Array.isArray(req.session[GW2_DOCUMENTS_KEY])) {
-    req.session[GW2_DOCUMENTS_KEY].forEach((document) => {
+    const existingDocuments = req.session[GW2_DOCUMENTS_KEY];
+
+    getDefaultGateway2Documents().forEach((seededDocument) => {
+      const existingDocument = existingDocuments.find((document) => document.id === seededDocument.id);
+      if (!existingDocument) {
+        existingDocuments.push(cloneDeep(seededDocument));
+      } else if (!existingDocument.source || existingDocument.source === 'frontOffice') {
+        const latestVersion = getLatestGateway2DocumentVersion(existingDocument);
+        const oldSeededFileName = {
+          'gateway-2-covering-letter': 'GW2_covering_letter.docx',
+          'gateway-1-self-assessment': 'self_assessment.pdf'
+        }[seededDocument.id];
+
+        existingDocument.title = seededDocument.title;
+        if (latestVersion && oldSeededFileName && latestVersion.fileName === oldSeededFileName) {
+          latestVersion.fileName = seededDocument.versions[0].fileName;
+        }
+      }
+    });
+
+    existingDocuments.forEach((document) => {
       if (!document.source) {
         document.source = document.id && document.id.startsWith('v3-upload-')
           ? 'backOffice'
           : 'frontOffice';
       }
     });
-    return req.session[GW2_DOCUMENTS_KEY];
+    return existingDocuments;
   }
 
   const seededDocuments = getDefaultGateway2Documents();
@@ -249,7 +373,8 @@ function normalizeV3DocumentType(value) {
   const normalized = String(value || '').trim().toLowerCase();
   if (normalized === 'procedural') return 'procedural';
   if (normalized === 'consultation') return 'consultation';
-  if (normalized === 'additional') return 'additional';
+  if (normalized === 'plancontent') return 'planContent';
+  if (normalized === 'planevidence') return 'planEvidence';
   return '';
 }
 
@@ -257,7 +382,8 @@ function getV3DocumentTypeLabel(value) {
   const normalized = normalizeV3DocumentType(value);
   if (normalized === 'procedural') return 'Procedural';
   if (normalized === 'consultation') return 'Consultation';
-  if (normalized === 'additional') return 'Additional';
+  if (normalized === 'plancontent') return 'Plan content';
+  if (normalized === 'planevidence') return 'Plan evidence';
   return 'Not provided';
 }
 
@@ -348,7 +474,7 @@ function removeV3UploadedDocumentById(req, documentId) {
   const docsByCategory = getV3UploadedDocumentsByCategory(req);
   let removed = false;
 
-  ['procedural', 'consultation', 'additional'].forEach((category) => {
+  ['procedural', 'consultation', 'planContent', 'planEvidence'].forEach((category) => {
     docsByCategory[category] = docsByCategory[category].filter((doc) => {
       if (getV3UploadedDocumentId(doc) === documentId) {
         removed = true;
@@ -374,7 +500,7 @@ function removeV3UploadedDocumentById(req, documentId) {
 function syncV3UploadedDocumentsToGateway2Documents(req) {
   const docsByCategory = getV3UploadedDocumentsByCategory(req);
 
-  ['procedural', 'consultation', 'additional'].forEach((category) => {
+  ['procedural', 'consultation', 'planContent', 'planEvidence'].forEach((category) => {
     docsByCategory[category].forEach((doc) => {
       upsertV3UploadedDocumentInGateway2Documents(req, doc, category);
     });
@@ -388,7 +514,7 @@ function updateV3UploadedDocumentCategory(req, documentId, newCategory) {
   const docsByCategory = getV3UploadedDocumentsByCategory(req);
   let matchingDocument = null;
 
-  ['procedural', 'consultation', 'additional'].forEach((category) => {
+  ['procedural', 'consultation', 'planContent', 'planEvidence'].forEach((category) => {
     docsByCategory[category] = docsByCategory[category].filter((doc) => {
       if (getV3UploadedDocumentId(doc) === documentId) {
         matchingDocument = doc;
@@ -421,7 +547,7 @@ function updateV3UploadedDocumentReceivedDate(req, documentId, receivedDate) {
   let matchingDocument = null;
   let matchingCategory = '';
 
-  ['procedural', 'consultation', 'additional'].forEach((category) => {
+  ['procedural', 'consultation', 'planContent', 'planEvidence'].forEach((category) => {
     docsByCategory[category].forEach((doc) => {
       if (getV3UploadedDocumentId(doc) === documentId) {
         matchingDocument = doc;
@@ -448,7 +574,7 @@ function replaceV3UploadedDocumentFile(req, documentId, category) {
   const docsByCategory = getV3UploadedDocumentsByCategory(req);
   let existingDocument = null;
 
-  ['procedural', 'consultation', 'additional'].forEach((storedCategory) => {
+  ['procedural', 'consultation', 'planContent', 'planEvidence'].forEach((storedCategory) => {
     docsByCategory[storedCategory] = docsByCategory[storedCategory].filter((doc) => {
       if (getV3UploadedDocumentId(doc) === documentId) {
         existingDocument = doc;
@@ -513,7 +639,8 @@ function getV3UploadedDocumentsByCategory(req) {
   const initial = {
     procedural: [],
     consultation: [],
-    additional: []
+    planContent: [],
+    planEvidence: []
   };
 
   if (!req.session[GW2_V3_UPLOADED_DOCS_KEY] || typeof req.session[GW2_V3_UPLOADED_DOCS_KEY] !== 'object') {
@@ -524,7 +651,8 @@ function getV3UploadedDocumentsByCategory(req) {
   const stored = req.session[GW2_V3_UPLOADED_DOCS_KEY];
   if (!Array.isArray(stored.procedural)) stored.procedural = [];
   if (!Array.isArray(stored.consultation)) stored.consultation = [];
-  if (!Array.isArray(stored.additional)) stored.additional = [];
+  if (!Array.isArray(stored.planContent)) stored.planContent = [];
+  if (!Array.isArray(stored.planEvidence)) stored.planEvidence = [];
   return stored;
 }
 
@@ -992,17 +1120,47 @@ router.get('/gateway-2-documents', (req, res) => {
     notificationMessage,
     proceduralDocuments: documents.filter((doc) => doc.category === 'procedural'),
     consultationDocuments: documents.filter((doc) => doc.category === 'consultation'),
-    additionalDocuments: documents.filter((doc) => doc.category === 'additional'),
+    planContentDocuments: documents.filter((doc) => doc.category === 'planContent'),
+    planEvidenceDocuments: documents.filter((doc) => doc.category === 'planEvidence'),
     proceduralDocumentRows: buildGateway2DocumentRows(documents.filter((doc) => doc.category === 'procedural'), uploadedByCategory, notProvidedDocumentIds),
     consultationDocumentRows: buildGateway2DocumentRows(documents.filter((doc) => doc.category === 'consultation'), uploadedByCategory, notProvidedDocumentIds),
-    additionalDocumentRows: buildGateway2DocumentRows(documents.filter((doc) => doc.category === 'additional'), uploadedByCategory, notProvidedDocumentIds),
+    planContentDocumentRows: buildGateway2DocumentRows(documents.filter((doc) => doc.category === 'planContent'), uploadedByCategory, notProvidedDocumentIds),
+    planEvidenceDocumentRows: buildGateway2DocumentRows(documents.filter((doc) => doc.category === 'planEvidence'), uploadedByCategory, notProvidedDocumentIds),
     proceduralUploadedDocuments: uploadedByCategory.procedural,
     consultationUploadedDocuments: uploadedByCategory.consultation,
-    additionalUploadedDocuments: uploadedByCategory.additional,
+    planContentUploadedDocuments: uploadedByCategory.planContent,
+    planEvidenceUploadedDocuments: uploadedByCategory.planEvidence,
     proceduralUploadedDocumentRows: buildV3UploadedDocumentRows(uploadedByCategory.procedural),
     consultationUploadedDocumentRows: buildV3UploadedDocumentRows(uploadedByCategory.consultation),
-    additionalUploadedDocumentRows: buildV3UploadedDocumentRows(uploadedByCategory.additional),
+    planContentUploadedDocumentRows: buildV3UploadedDocumentRows(uploadedByCategory.planContent),
+    planEvidenceUploadedDocumentRows: buildV3UploadedDocumentRows(uploadedByCategory.planEvidence),
     consultationDocumentsNotProvided: !!req.session[GW2_CONSULTATION_NOT_PROVIDED_KEY]
+  });
+});
+
+router.get('/gateway-2-documents-new', (req, res) => {
+  syncV3UploadedDocumentsToGateway2Documents(req);
+  if (!req.session.submissionDate) {
+    req.session.submissionDate = '15/04/2026';
+  }
+  const allDocuments = getGateway2Documents(req);
+  const documents = allDocuments.filter((document) => !document.id.startsWith('v3-upload-'));
+  const uploadedByCategory = getV3UploadedDocumentsByCategory(req);
+  const notificationMessage = req.session.gateway2DocumentsNotificationMessage || '';
+  delete req.session.gateway2DocumentsNotificationMessage;
+  const notProvidedDocumentIds = req.session[GW2_CONSULTATION_NOT_PROVIDED_KEY]
+    ? ['notice-of-intention', 'scoping-consultation-documents', 'scoping-feedback-summary']
+    : [];
+
+  res.render('projects/back-office/manage/GW2/v5/gateway-2-documents-new', {
+    caseRef: req.session.currentCaseRef || '',
+    submissionDate: req.session.submissionDate,
+    serviceName: 'Manage a local plan',
+    notificationMessage,
+    proceduralDocumentRows: buildGateway2DocumentRows(documents.filter((doc) => doc.category === 'procedural'), uploadedByCategory, notProvidedDocumentIds),
+    consultationDocumentRows: buildGateway2DocumentRows(documents.filter((doc) => doc.category === 'consultation'), uploadedByCategory, notProvidedDocumentIds),
+    planContentDocumentRows: buildGateway2DocumentRows(documents.filter((doc) => doc.category === 'planContent'), uploadedByCategory, notProvidedDocumentIds),
+    planEvidenceDocumentRows: buildGateway2DocumentRows(documents.filter((doc) => doc.category === 'planEvidence'), uploadedByCategory, notProvidedDocumentIds)
   });
 });
 
@@ -1316,7 +1474,7 @@ router.post('/upload/v3/document/:documentId/remove-confirm', (req, res) => {
 
   if (action === 'remove') {
     const uploadedDocument = getV3UploadedDocumentsByCategory(req)
-      .consultation.concat(getV3UploadedDocumentsByCategory(req).procedural, getV3UploadedDocumentsByCategory(req).additional)
+      .consultation.concat(getV3UploadedDocumentsByCategory(req).procedural, getV3UploadedDocumentsByCategory(req).planContent, getV3UploadedDocumentsByCategory(req).planEvidence)
       .find((document) => getV3UploadedDocumentId(document) === req.params.documentId);
     removeV3UploadedDocumentById(req, req.params.documentId);
     req.session.gateway2DocumentsNotificationMessage = 'Document removed';

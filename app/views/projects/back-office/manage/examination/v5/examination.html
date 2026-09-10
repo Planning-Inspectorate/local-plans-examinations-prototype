@@ -26,6 +26,31 @@ Examination overview– {{ serviceName }}
     </div>
   </div>
   {% endif %}
+    {% if planPauseStatusState == 'paused' %}
+    <div class="govuk-notification-banner" role="region" aria-labelledby="plan-paused-banner-title">
+      <div class="govuk-notification-banner__header">
+        <h2 class="govuk-notification-banner__title" id="plan-paused-banner-title">
+          Important
+        </h2>
+      </div>
+      <div class="govuk-notification-banner__content">
+        <p class="govuk-notification-banner__heading">This plan is paused</p>
+        <p class="govuk-body">Paused on {{ planPauseDate }}.{% if planPauseReason and planPauseReason != '-' %} Reason: {{ planPauseReason }}{% endif %}</p>
+      </div>
+    </div>
+    {% elif planPauseStatusState == 'withdrawn' %}
+    <div class="govuk-notification-banner" role="region" aria-labelledby="plan-withdrawn-banner-title">
+      <div class="govuk-notification-banner__header">
+        <h2 class="govuk-notification-banner__title" id="plan-withdrawn-banner-title">
+          Important
+        </h2>
+      </div>
+      <div class="govuk-notification-banner__content">
+        <p class="govuk-notification-banner__heading">This plan has been withdrawn</p>
+        <p class="govuk-body">Withdrawn on {{ withdrawnDate }}.{% if planPauseDecisionReason and planPauseDecisionReason != '-' %} Reason: {{ planPauseDecisionReason }}{% endif %}</p>
+      </div>
+    </div>
+    {% endif %}
     {% include "includes/back-office/plan-header.njk" %}
  
       {% set currentSection = "examination" %}
@@ -86,10 +111,9 @@ Examination overview– {{ serviceName }}
         </div>
       </dl>
 
-      <h2 class="govuk-heading-l">Examination website</h2>
       <dl class="govuk-summary-list govuk-summary-list-timetable">
         <div class="govuk-summary-list__row">
-  
+          <dt class="govuk-summary-list__key">Examination website</dt>
           <dd class="govuk-summary-list__value">
             {% if examinationWebsite and examinationWebsite != '-' %}
               <a class="govuk-link" href="{{ examinationWebsite }}" target="_blank" rel="noopener noreferrer">{{ examinationWebsite }}</a>
@@ -362,13 +386,38 @@ Examination overview– {{ serviceName }}
             <a class="govuk-link" href="{{ basePath }}/plan-pause.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Plan Pause Date</span></a>
           </dd>
         </div>
+        {% if planPauseDate and planPauseDate != '-' %}
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Reason for pause</dt>
+          <dd class="govuk-summary-list__value">{{ planPauseReason if planPauseReason and planPauseReason != '-' else 'Not provided' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="{{ basePath }}/plan-pause-reason?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Reason For Pause</span></a>
+          </dd>
+        </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Plan pause end date</dt>
           <dd class="govuk-summary-list__value">{{ planPauseEndDate if planPauseEndDate and planPauseEndDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="{{ basePath }}/plan-pause-end.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Plan Pause End Date</span></a>
+            <a class="govuk-link" href="{{ basePath }}/plan-pause-end?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Plan Pause End Date</span></a>
           </dd>
         </div>
+        {% if planPauseDecision and planPauseDecision != '-' %}
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Pause decision</dt>
+          <dd class="govuk-summary-list__value">{{ planPauseDecision }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="{{ basePath }}/plan-pause-decision?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Pause Decision</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Reason for decision</dt>
+          <dd class="govuk-summary-list__value">{{ planPauseDecisionReason if planPauseDecisionReason and planPauseDecisionReason != '-' else 'Not provided' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="{{ basePath }}/plan-pause-decision-reason?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Reason For Decision</span></a>
+          </dd>
+        </div>
+        {% endif %}
+        {% endif %}
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Withdrawn date</dt>
           <dd class="govuk-summary-list__value">{{ withdrawnDate if withdrawnDate and withdrawnDate != '-' else 'Not provided' }}</dd>
