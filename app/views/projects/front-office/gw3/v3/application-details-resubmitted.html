@@ -1,0 +1,155 @@
+{% extends "layouts/front-office-v2.html" %}
+
+{% set prototypeLinks =
+[
+{
+href: 'application-details-decision?decision=stop&viewOnly=false',
+text: 'Back to latest submission'
+}
+]
+%}
+
+{% block pageTitle %}
+  Gateway 3 submission history – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:history.back()"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<style>
+  .app-header {
+    margin-bottom: 20px;
+  }
+
+  .app-header__title {
+    margin-bottom: 5px;
+  }
+
+  .app-submission__tag {
+    margin-left: 10px;
+  }
+
+  .app-details .govuk-summary-list__key,
+  .app-details .govuk-summary-list__value {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+</style>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters-from-desktop">
+
+    <div class="app-header">
+      <h1 class="govuk-heading-xl app-header__title">
+        <span class="govuk-caption-xl">East Borough local plan</span>
+        Gateway 3 submission history
+      </h1>
+    </div>
+
+    <p class="govuk-body">This plan has been submitted for Gateway 3 three times. Details of each submission, including the assessor's report and the documents provided, are shown below in the order they were submitted.</p>
+
+  </div>
+
+  <div class="govuk-grid-column-full">
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible" />
+
+    <h2 class="govuk-heading-l">
+      Submission 1
+    </h2>
+
+    <p class="govuk-body">Submitted on 20 June 2026 at 10:32am by Laura Thornton.</p>
+
+    {{ govukSummaryList({
+      classes: "app-details govuk-summary-list--no-border",
+      rows: [
+        {
+          key: { text: "Gateway 3 report", classes: "govuk-!-width-one-quarter" },
+          value: { html: '<a class="govuk-link" href="#">gateway-3-report.pdf</a> (shared on 3 July 2026)' }
+        },
+        {
+          key: { text: "Outcome", classes: "govuk-!-width-one-quarter" },
+          value: { html: '<strong class="govuk-tag govuk-tag--red app-submission__tag">Resubmission required</strong>' }
+        }
+      ]
+    }) }}
+
+    {% call govukInsetText({ classes: "govuk-!-margin-0 guidance-panel" }) %}
+      <h3 class="govuk-heading-s">Summary of changes required:</h3>
+      <p class="govuk-body">Please provide an updated Summary of Scoping Consultation and Environmental Report addressing the issues identified in the report. We also require you to submit a summary of how Gateway 2 issues have been addressed.</p>
+    {% endcall %}
+
+    {% include "./_includes/submitted-documents.njk" %}
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break" />
+
+    <h2 class="govuk-heading-l">
+      Submission 2
+    </h2>
+
+    <p class="govuk-body">Submitted on 24 July 2026 at 2:15pm by Laura Thornton.</p>
+
+    {{ govukSummaryList({
+      classes: "app-details govuk-summary-list--no-border",
+      rows: [
+        {
+          key: { text: "Gateway 3 report", classes: "govuk-!-width-one-quarter" },
+          value: { html: '<a class="govuk-link" href="#">gateway-3-report.pdf</a> (shared on 7 August 2026)' }
+        },
+        {
+          key: { text: "Outcome", classes: "govuk-!-width-one-quarter" },
+          value: { html: '<strong class="govuk-tag govuk-tag--red app-submission__tag">Resubmission required</strong>' }
+        }
+      ]
+    }) }}
+
+    {% call govukInsetText({ classes: "govuk-!-margin-0 guidance-panel" }) %}
+      <h3 class="govuk-heading-s">Summary of changes required:</h3>
+      <p class="govuk-body">The updated summary of how Gateway 2 issues have been addressed did not fully cover the outstanding traffic and air quality concerns. Please provide a revised summary addressing these points specifically.</p>
+    {% endcall %}
+
+    <h2 class="govuk-heading-m govuk-!-margin-top-6">Documents added or updated as part of this resubmission:</h2>
+    <p class="govuk-body">Documents that were added or updated as part of this resubmission.</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li><a class="govuk-link" href="#">updated-scoping-consultation-summary.pdf</a></li>
+      <li><a class="govuk-link" href="#">gateway-2-issues-summary.pdf</a></li>
+    </ul>
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible" />
+
+    <h2 class="govuk-heading-l">
+      Submission 3
+    </h2>
+
+    <p class="govuk-body">Submitted on 21 August 2026 at 9:47am by Laura Thornton.</p>
+
+    {{ govukSummaryList({
+      classes: "app-details govuk-summary-list--no-border",
+      rows: [
+        {
+          key: { text: "Gateway 3 report", classes: "govuk-!-width-one-quarter" },
+          value: { html: '<a class="govuk-link" href="#">gateway-3-report.pdf</a> (shared on 4 September 2026)' }
+        },
+        {
+          key: { text: "Outcome", classes: "govuk-!-width-one-quarter" },
+          value: { html: '<strong class="govuk-tag app-submission__tag">Completed</strong>' }
+        }
+      ]
+    }) }}
+
+    <h2 class="govuk-heading-m govuk-!-margin-top-6">Documents added or updated as part of this resubmission:</h2>
+    <ul class="govuk-list govuk-list--bullet">
+      <li><a class="govuk-link" href="#">updated-consultation-summary.pdf</a></li>
+      <li><a class="govuk-link" href="#">revised-practical-arrangements-statement.pdf</a></li>
+    </ul>
+
+  </div>
+</div>
+
+{% endblock %}

@@ -1,6 +1,7 @@
 {% extends "layouts/front-office-v2.html" %}
 
 {% set decision = data['decision'] or 'stop' %}
+{% set submission = data['submission'] %}
 
 {% set prototypeLinks =
 [
@@ -38,7 +39,11 @@ text: 'Proceed to examination outcome'
     <div class="app-header">
       <h1 class="govuk-heading-xl app-header__title">
         <span class="govuk-caption-xl">East Borough local plan</span>
-        Gateway 3 submission
+        {% if submission %}
+          Gateway 3 submission {{ submission }}
+        {% else %}
+          Gateway 3 submission
+        {% endif %}
       </h1>
       {% if decision == 'go' %}
         <strong class="govuk-tag app-header__tag">Completed</strong>
@@ -47,7 +52,7 @@ text: 'Proceed to examination outcome'
       {% endif %}
     </div>
 
-      {% set showSubmissionHistory = false %}
+      {% set showSubmissionHistory = true if submission else false %}
       {% include "./_includes/decision-metadata.njk" %}
       {% if decision != 'go' %}
         {% include "./_includes/changes-summary.njk" %}
@@ -72,11 +77,6 @@ text: 'Proceed to examination outcome'
     <p class="govuk-body">Your submission was sent on 20 June 2026 at 10:32am by Laura Thornton.</p>
 
     {% include "./_includes/submitted-documents.njk" %}
-
-    {% if decision == 'go'%}
-      <h2 class="govuk-heading-m">Previous submissions</h2>
-      <p class="govuk-body"><a class="govuk-link" href="/projects/front-office/gw3/v1/application-details-decision?decision=stop&viewOnly=true">Gateway 3: submission 1</a> (submitted on 20 June 2026)</p>
-    {% endif %}
 
   </div>
 </div>

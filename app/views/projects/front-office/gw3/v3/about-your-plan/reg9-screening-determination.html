@@ -1,0 +1,31 @@
+{% extends "layouts/front-office-v3.html" %}
+{% set title = "Reg 9(1) — was a screening determination made that assessment isn't required?" %}
+
+{% block questions %}
+
+<span class="govuk-caption-l">About your plan</span>
+
+{{ govukRadios({
+  name: "reg9-screening-determination",
+  fieldset: {
+    legend: {
+      text: title,
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--l"
+    }
+  },
+  items: [
+    {
+      value: "yes",
+      text: "Yes",
+      checked: true if data['reg9-screening-determination'] == 'yes'
+    },
+    {
+      value: "no",
+      text: "No",
+      checked: true if data['reg9-screening-determination'] == 'no'
+    }
+  ]
+}) }}
+
+{% endblock %}

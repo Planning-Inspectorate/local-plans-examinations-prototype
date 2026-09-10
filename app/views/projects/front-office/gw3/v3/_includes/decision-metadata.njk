@@ -1,0 +1,61 @@
+<style>
+  .app-header {
+    margin-bottom: 20px;
+  }
+
+  .app-header__title {
+    margin-bottom: 5px;
+  }
+
+  .app-header__tag {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+
+  .app-details .govuk-summary-list__key,
+  .app-details .govuk-summary-list__value {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+</style>
+
+    {% if showSubmissionHistory %}
+      {% if submission == '2' %}
+        {% set previousSubmissionsHtml = "<ul class='govuk-list'><li><a class='govuk-link' href='application-details-decision?newDocuments=true&viewOnly=true&submission=1'>Submission 1</a> (submitted on 20 June 2026)</li></ul>" %}
+      {% elif submission == '1' %}
+        {% set previousSubmissionsHtml = "<ul class='govuk-list'><li><a class='govuk-link' href='application-details-decision?newDocuments=true&viewOnly=true&submission=2'>Submission 2</a> (submitted on 1 July 2026)</li></ul>" %}
+      {% else %}
+        {% set previousSubmissionsHtml = "<ul class='govuk-list'><li><a class='govuk-link' href='application-details-decision?newDocuments=false&viewOnly=true&submission=1'>Submission 1</a> (submitted on 20 June 2026)</li><li><a class='govuk-link' href='application-details-decision?newDocuments=true&viewOnly=true&submission=2'>Submission 2</a> (submitted on 1 July 2026)</li></ul>" %}
+      {% endif %}
+      {% set decisionMetadataRows = [
+        {
+          key: { text: "Gateway 3 report", classes: "govuk-!-width-one-third" },
+          value: { html: "<a class='govuk-link' href='#'>gateway-3-report.pdf</a> (shared on 3 July 2026)" }
+        },
+        {
+          key: { text: "Previous submissions", classes: "govuk-!-width-one-third" },
+          value: { html: previousSubmissionsHtml }
+        }
+      ] if (submission == '1' or submission == '2') else [
+        {
+          key: { text: "Previous submissions", classes: "govuk-!-width-one-third" },
+          value: { html: previousSubmissionsHtml }
+        }
+      ] %}
+    {% else %}
+      {% set decisionMetadataRows = [
+        {
+          key: { text: "Gateway 3 report", classes: "govuk-!-width-one-third" },
+          value: { html: "<a class='govuk-link' href='#'>gateway-3-report.pdf</a> (shared on 3 July 2026)" }
+        }
+      ] %}
+    {% endif %}
+
+    {{ govukSummaryList({
+      classes: "app-details govuk-summary-list--no-border",
+      rows: decisionMetadataRows
+    }) }}
+
+
+
+
