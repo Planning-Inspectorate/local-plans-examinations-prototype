@@ -1,0 +1,123 @@
+<li>
+  <h2 class="app-task-list__section">
+    Plan evidence and progress
+  </h2>
+  <p class="govuk-body">You should include any available evidence and progress documents that support your local plan. These can all be in draft form.</p>
+
+  {{ govukSummaryList({
+    classes: 'govuk-!-margin-bottom-9',
+    rows: [
+
+      {
+        key: { text: 'Latest policies map' },
+        value:
+          { html: "<a class='govuk-link' href='#'>policies-map.pdf</a>" } if data['policies-map-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'plan-evidence-documents/policies-map-upload?cya=true', text: 'Change', visuallyHiddenText: 'your latest policies map' } if data['policies-map-upload-complete']
+          else { href: 'plan-evidence-documents/policies-map-upload', text: 'Add', visuallyHiddenText: 'your latest policies map' }
+        ]}
+      },
+
+      {
+        key: { text: 'List of evidence documents with completion dates' },
+        value:
+          { html: "<a class='govuk-link' href='#'>evidence-documents-list.pdf</a>" } if data['evidence-documents-list-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'plan-evidence-documents/evidence-documents-list-upload?cya=true', text: 'Change', visuallyHiddenText: 'your list of evidence documents with completion dates' } if data['evidence-documents-list-upload-complete']
+          else { href: 'plan-evidence-documents/evidence-documents-list-upload', text: 'Add', visuallyHiddenText: 'your list of evidence documents with completion dates' }
+        ]}
+      },
+
+      {
+        key: { text: 'Progress towards setting a housing requirement and evidence such as a housing needs assessment and strategic housing market assessment' },
+        value:
+          { html: "<a class='govuk-link' href='#'>housing-requirement.pdf</a>" } if data['housing-requirement-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'plan-evidence-documents/housing-requirement-upload?cya=true', text: 'Change', visuallyHiddenText: 'your housing requirement evidence' } if data['housing-requirement-upload-complete']
+          else { href: 'plan-evidence-documents/housing-requirement-upload', text: 'Add', visuallyHiddenText: 'your housing requirement evidence' }
+        ]}
+      },
+
+      {
+        key: { text: 'Progress and evidence towards identifying needs for Traveller accommodation such as an accommodation assessment' },
+        value:
+          { html: "<a class='govuk-link' href='#'>traveller-accommodation.pdf</a>" } if data['traveller-accommodation-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'plan-evidence-documents/traveller-accommodation-upload?cya=true', text: 'Change', visuallyHiddenText: 'your Traveller accommodation evidence' } if data['traveller-accommodation-upload-complete']
+          else { href: 'plan-evidence-documents/traveller-accommodation-upload', text: 'Add', visuallyHiddenText: 'your Traveller accommodation evidence' }
+        ]}
+      },
+
+      {
+        key: { text: 'Progress and evidence towards setting other development needs and supply (like employment or retail)' },
+        value:
+          { html: "<a class='govuk-link' href='#'>other-development-needs.pdf</a>" } if data['other-development-needs-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'plan-evidence-documents/other-development-needs-upload?cya=true', text: 'Change', visuallyHiddenText: 'your other development needs and supply evidence' } if data['other-development-needs-upload-complete']
+          else { href: 'plan-evidence-documents/other-development-needs-upload', text: 'Add', visuallyHiddenText: 'your other development needs and supply evidence' }
+        ]}
+      },
+
+      {
+        key: { text: 'Progress on assessments required by the Habitats Regulations and the Environmental Assessment Regulations' },
+        value:
+          { html: "<a class='govuk-link' href='#'>habitats-environmental-assessment.pdf</a>" } if data['habitats-environmental-assessment-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'plan-evidence-documents/habitats-environmental-assessment-upload?cya=true', text: 'Change', visuallyHiddenText: 'your Habitats Regulations and Environmental Assessment evidence' } if data['habitats-environmental-assessment-upload-complete']
+          else { href: 'plan-evidence-documents/habitats-environmental-assessment-upload', text: 'Add', visuallyHiddenText: 'your Habitats Regulations and Environmental Assessment evidence' }
+        ]}
+      },
+
+      {
+        key: { text: 'Topic papers (up to 5 issues, max 2,000 words each)' },
+        value:
+          { html: "<a class='govuk-link' href='#'>topic-papers.pdf</a>" } if data['topic-papers-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'plan-evidence-documents/topic-papers-upload?cya=true', text: 'Change', visuallyHiddenText: 'your topic papers' } if data['topic-papers-upload-complete']
+          else { href: 'plan-evidence-documents/topic-papers-upload', text: 'Add', visuallyHiddenText: 'your topic papers' }
+        ]}
+      },
+
+      {
+        key: { text: 'Site selection approach and evidence' },
+        value:
+          { html: "<a class='govuk-link' href='#'>site-selection.pdf</a>" } if data['site-selection-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'plan-evidence-documents/site-selection-upload?cya=true', text: 'Change', visuallyHiddenText: 'your site selection approach and evidence' } if data['site-selection-upload-complete']
+          else { href: 'plan-evidence-documents/site-selection-upload', text: 'Add', visuallyHiddenText: 'your site selection approach and evidence' }
+        ]}
+      },
+
+      {
+        key: { text: 'Green belt review' },
+        value:
+          { html: "<a class='govuk-link' href='#'>green-belt-review.pdf</a>" } if data['green-belt-review-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'plan-evidence-documents/green-belt-review-upload?cya=true', text: 'Change', visuallyHiddenText: 'your Green Belt review' } if data['green-belt-review-upload-complete']
+          else { href: 'plan-evidence-documents/green-belt-review-upload', text: 'Add', visuallyHiddenText: 'your Green Belt review' }
+        ]}
+      },
+
+      {
+        key: { text: 'Evidence related to the matters of soundness to be discussed' },
+        value:
+          { html: "<a class='govuk-link' href='#'>soundness-evidence.pdf</a>" } if data['soundness-evidence-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'plan-evidence-documents/soundness-evidence-upload?cya=true', text: 'Change', visuallyHiddenText: 'evidence related to the matters of soundness to be discussed' } if data['soundness-evidence-upload-complete']
+          else { href: 'plan-evidence-documents/soundness-evidence-upload', text: 'Add', visuallyHiddenText: 'evidence related to the matters of soundness to be discussed' }
+        ]}
+      }
+
+    ]
+  }) }}
+</li>

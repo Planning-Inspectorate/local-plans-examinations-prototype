@@ -8,6 +8,17 @@ router.get('*', function(req, res, next){
   next()
 })
 
+// Any document upload on the Gateway 2 task list moves the plan status
+// shown on plan-details to "in progress", unless it has already moved
+// further on (e.g. submitted, under review, action needed).
+router.post('*', function (req, res, next) {
+  if (!req.session.data['status'] || req.session.data['status'] === 'ready') {
+    req.session.data['status'] = 'in-progress'
+  }
+
+  next()
+})
+
 // -----------------------------------------------
 // HELPERS
 // -----------------------------------------------
@@ -201,6 +212,91 @@ router.post('/supplementary-documents/supplementary-upload', function (req, res)
 
 // Fallback for any supplementary document page not explicitly handled above
 router.post('/supplementary-documents/:page', function (req, res) {
+  req.session.data[`${req.params.page}-complete`] = 'true'
+  res.redirect('../application-details')
+})
+
+// -----------------------------------------------
+// PLAN CONTENT DOCUMENTS
+// -----------------------------------------------
+
+router.post('/plan-content-documents/vision-upload', function (req, res) {
+  req.session.data['vision-upload-complete'] = 'true'
+  res.redirect('../application-details')
+})
+
+router.post('/plan-content-documents/spatial-strategy-upload', function (req, res) {
+  req.session.data['spatial-strategy-upload-complete'] = 'true'
+  res.redirect('../application-details')
+})
+
+router.post('/plan-content-documents/other-plan-content-upload', function (req, res) {
+  req.session.data['other-plan-content-upload-complete'] = 'true'
+  res.redirect('../application-details')
+})
+
+// Fallback for any plan content document page not explicitly handled above
+router.post('/plan-content-documents/:page', function (req, res) {
+  req.session.data[`${req.params.page}-complete`] = 'true'
+  res.redirect('../application-details')
+})
+
+// -----------------------------------------------
+// PLAN EVIDENCE DOCUMENTS
+// -----------------------------------------------
+
+router.post('/plan-evidence-documents/policies-map-upload', function (req, res) {
+  req.session.data['policies-map-upload-complete'] = 'true'
+  res.redirect('../application-details')
+})
+
+router.post('/plan-evidence-documents/evidence-documents-list-upload', function (req, res) {
+  req.session.data['evidence-documents-list-upload-complete'] = 'true'
+  res.redirect('../application-details')
+})
+
+router.post('/plan-evidence-documents/housing-requirement-upload', function (req, res) {
+  req.session.data['housing-requirement-upload-complete'] = 'true'
+  res.redirect('../application-details')
+})
+
+router.post('/plan-evidence-documents/traveller-accommodation-upload', function (req, res) {
+  req.session.data['traveller-accommodation-upload-complete'] = 'true'
+  res.redirect('../application-details')
+})
+
+router.post('/plan-evidence-documents/other-development-needs-upload', function (req, res) {
+  req.session.data['other-development-needs-upload-complete'] = 'true'
+  res.redirect('../application-details')
+})
+
+router.post('/plan-evidence-documents/habitats-environmental-assessment-upload', function (req, res) {
+  req.session.data['habitats-environmental-assessment-upload-complete'] = 'true'
+  res.redirect('../application-details')
+})
+
+router.post('/plan-evidence-documents/topic-papers-upload', function (req, res) {
+  req.session.data['topic-papers-upload-complete'] = 'true'
+  res.redirect('../application-details')
+})
+
+router.post('/plan-evidence-documents/site-selection-upload', function (req, res) {
+  req.session.data['site-selection-upload-complete'] = 'true'
+  res.redirect('../application-details')
+})
+
+router.post('/plan-evidence-documents/green-belt-review-upload', function (req, res) {
+  req.session.data['green-belt-review-upload-complete'] = 'true'
+  res.redirect('../application-details')
+})
+
+router.post('/plan-evidence-documents/soundness-evidence-upload', function (req, res) {
+  req.session.data['soundness-evidence-upload-complete'] = 'true'
+  res.redirect('../application-details')
+})
+
+// Fallback for any plan evidence document page not explicitly handled above
+router.post('/plan-evidence-documents/:page', function (req, res) {
   req.session.data[`${req.params.page}-complete`] = 'true'
   res.redirect('../application-details')
 })

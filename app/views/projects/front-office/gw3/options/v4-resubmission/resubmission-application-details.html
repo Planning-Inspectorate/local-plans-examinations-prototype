@@ -38,7 +38,7 @@ href: "/projects/front-office/plan-details/v3/plan-details?status=in-progress&st
     <div class="app-header">
       <h1 class="govuk-heading-xl app-header__title">
         <span class="govuk-caption-xl">East Borough Local Plan</span>
-        Gateway 3 submission 3
+        Gateway 3 submission
       </h1>
       {% if decision == 'go' %}
       <strong class="govuk-tag app-header__tag">Completed</strong>
@@ -48,6 +48,7 @@ href: "/projects/front-office/plan-details/v3/plan-details?status=in-progress&st
     </div>
     {% set showSubmissionHistory = true %}
     {% include "./_includes/decision-metadata.njk" %}
+    {% include "./_includes/changes-summary.njk" %}
 
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break" />
     <p class="govuk-body"><a href="#">Save and come back later</a></p>

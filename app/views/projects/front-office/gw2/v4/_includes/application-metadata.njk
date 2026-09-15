@@ -24,7 +24,7 @@
     <span class="govuk-caption-xl">East Borough local plan</span>
     Gateway 2 submission
   </h1>
-  {% if data['procedural-started'] == 'true' %}
+  {% if data['status'] == 'in-progress' or data['procedural-started'] == 'true' %}
     <strong class="govuk-tag govuk-tag--teal app-header__tag">
       In progress
     </strong>

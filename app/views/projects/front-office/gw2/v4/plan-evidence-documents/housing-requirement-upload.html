@@ -1,12 +1,20 @@
 {% extends "layouts/front-office-v3.html" %}
 {% from "macros/multi-file-upload.njk" import uploadArea %}
-{% set documentName = "Gateway 1 self-assessment" %}
+{% set documentName = "housing requirement evidence" %}
 {% set title = "Upload your " + documentName %}
 
 {% block questions %}
 
-<span class="govuk-caption-l">Consultation documents</span>
+<span class="govuk-caption-l">Plan content and evidence</span>
 <h1 class="govuk-heading-l">{{ title }}</h1>
+
+<p class="govuk-body">You should add evidence of progress towards setting a housing requirement. This could include:</p>
+<ul class="govuk-list govuk-list--bullet">
+  <li>a housing needs assessment</li>
+  <li>a strategic housing market assessment</li>
+</ul>
+
+<p class="govuk-body">The document name must describe what it is, for example "Housing needs assessment 2026 draft".</p>
 
 {{ uploadArea({
   id: "documents",

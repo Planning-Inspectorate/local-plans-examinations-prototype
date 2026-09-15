@@ -1,12 +1,16 @@
 {% extends "layouts/front-office-v3.html" %}
 {% from "macros/multi-file-upload.njk" import uploadArea %}
-{% set documentName = "Gateway 1 self-assessment" %}
-{% set title = "Upload your " + documentName %}
+{% set documentName = "evidence relating to matters of soundness" %}
+{% set title = "Upload " + documentName %}
 
 {% block questions %}
 
-<span class="govuk-caption-l">Consultation documents</span>
+<span class="govuk-caption-l">Plan content and evidence</span>
 <h1 class="govuk-heading-l">{{ title }}</h1>
+
+<p class="govuk-body">You should add evidence covering the specific matters of soundness you want the assessor's advice on.</p>
+
+<p class="govuk-body">The document name must describe what it is, for example "Soundness evidence - viability 2026 draft".</p>
 
 {{ uploadArea({
   id: "documents",

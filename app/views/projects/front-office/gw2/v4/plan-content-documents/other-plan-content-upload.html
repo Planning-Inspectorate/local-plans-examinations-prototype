@@ -1,0 +1,32 @@
+{% extends "layouts/front-office-v3.html" %}
+{% from "macros/multi-file-upload.njk" import uploadArea %}
+{% set documentName = "other plan content" %}
+{% set title = "Upload " + documentName %}
+
+{% block questions %}
+
+<span class="govuk-caption-l">Plan content and evidence</span>
+<h1 class="govuk-heading-l">{{ title }}</h1>
+
+<p class="govuk-body">You should add any other available documents that will form part of your local plan. This could include:</p>
+<ul class="govuk-list govuk-list--bullet">
+  <li>latest version of a draft plan and/or policies map</li>
+  <li>site selection approach or evidence</li>
+  <li>draft Green Belt review, where relevant to the plan</li>
+  <li>locally-specific policies</li>
+  <li>list of superseded policies</li>
+  <li>how you will monitor and review the plan</li>
+</ul>
+
+<p class="govuk-body">The document name must describe what it is, for example "Site allocations 2026 draft".</p>
+
+{{ uploadArea({
+  id: "documents",
+  name: "documents",
+  dataKey: "documents",
+  errorMessage: "The file must be a PDF, DOC, DOCX, PPT, PPTX, XLS, XLSX, MSG, JPG, JPEG, PNG, TIF or TIFF and smaller than 250MB.",
+  allowedExtensions: ["pdf", "doc", "docx", "ppt", "pptx", "xls", "xlsx", "msg", "jpg", "jpeg", "png", "tif", "tiff"],
+  maxFileSizeMB: 250
+}) }}
+
+{% endblock %}

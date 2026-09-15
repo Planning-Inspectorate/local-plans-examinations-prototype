@@ -1,0 +1,46 @@
+<li>
+  <h2 class="app-task-list__section">
+    Plan content
+  </h2>
+  <p class="govuk-body">You should include any available documents that will form part of your local plan and show progress towards completion. These can all be in draft form.</p>
+
+  {{ govukSummaryList({
+    classes: 'govuk-!-margin-bottom-9',
+    rows: [
+
+      {
+        key: { text: 'Vision, aims, objectives, up to 10 outcomes' },
+        value:
+          { html: "<a class='govuk-link' href='#'>vision-aims-objectives.pdf</a>" } if data['vision-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'plan-content-documents/vision-upload?cya=true', text: 'Change', visuallyHiddenText: 'your vision, aims and objectives, and outcomes' } if data['vision-upload-complete']
+          else { href: 'plan-content-documents/vision-upload', text: 'Add', visuallyHiddenText: 'your vision, aims and objectives, and outcomes' }
+        ]}
+      },
+
+      {
+        key: { text: 'Spatial strategy options or spatial strategy' },
+        value:
+          { html: "<a class='govuk-link' href='#'>spatial-strategy.pdf</a>" } if data['spatial-strategy-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'plan-content-documents/spatial-strategy-upload?cya=true', text: 'Change', visuallyHiddenText: 'your spatial strategy options or spatial strategy' } if data['spatial-strategy-upload-complete']
+          else { href: 'plan-content-documents/spatial-strategy-upload', text: 'Add', visuallyHiddenText: 'your spatial strategy options or spatial strategy' }
+        ]}
+      },
+
+      {
+        key: { text: 'Other plan content' },
+        value:
+          { html: "<a class='govuk-link' href='#'>other-plan-content.pdf</a>" } if data['other-plan-content-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'plan-content-documents/other-plan-content-upload?cya=true', text: 'Change', visuallyHiddenText: 'other plan content documents' } if data['other-plan-content-upload-complete']
+          else { href: 'plan-content-documents/other-plan-content-upload', text: 'Add', visuallyHiddenText: 'other plan content documents' }
+        ]}
+      }
+
+    ]
+  }) }}
+</li>

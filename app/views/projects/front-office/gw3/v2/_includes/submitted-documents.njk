@@ -1,3 +1,5 @@
+{% if data['newDocuments'] != 'true' %}
+
 <h2 class="govuk-heading-m govuk-!-margin-top-6">Required documents</h2>
 
 {{ govukSummaryList({
@@ -121,3 +123,21 @@
     }
   ]
 }) }}
+
+{% else %}
+
+<h2 class="govuk-heading-m govuk-!-margin-top-6">New or updated documents</h2>
+
+{{ govukSummaryList({
+  classes: 'govuk-!-margin-bottom-9',
+  rows: [
+    {
+      key: { text: 'Documents' },
+      value: {
+        html: '<ul class="govuk-list govuk-list--bullet"><li><a href="#">new-document-1.pdf</a></li><li><a href="#">new-document-2.pdf</a></li><li><a href="#">new-document-3.pdf</a></li><li><a href="#">new-document-4.pdf</a></li><li><a href="#">new-document-5.pdf</a></li></ul>'
+      }
+    }
+  ]
+}) }}
+
+{% endif %}

@@ -1,12 +1,16 @@
 {% extends "layouts/front-office-v3.html" %}
 {% from "macros/multi-file-upload.njk" import uploadArea %}
-{% set documentName = "Gateway 1 self-assessment" %}
+{% set documentName = "Green Belt review" %}
 {% set title = "Upload your " + documentName %}
 
 {% block questions %}
 
-<span class="govuk-caption-l">Consultation documents</span>
+<span class="govuk-caption-l">Plan content and evidence</span>
 <h1 class="govuk-heading-l">{{ title }}</h1>
+
+<p class="govuk-body">You should add your Green Belt review, where relevant to the plan.</p>
+
+<p class="govuk-body">The document name must describe what it is, for example "Green Belt review 2026 draft".</p>
 
 {{ uploadArea({
   id: "documents",

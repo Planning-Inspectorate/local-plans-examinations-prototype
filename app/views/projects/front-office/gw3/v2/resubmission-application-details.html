@@ -38,7 +38,7 @@ href: "/projects/front-office/plan-details/v3/plan-details?status=in-progress&st
     <div class="app-header">
       <h1 class="govuk-heading-xl app-header__title">
         <span class="govuk-caption-xl">East Borough Local Plan</span>
-        Gateway 3 submission
+        Gateway 3 submission 3
       </h1>
       {% if decision == 'go' %}
       <strong class="govuk-tag app-header__tag">Completed</strong>
@@ -48,7 +48,6 @@ href: "/projects/front-office/plan-details/v3/plan-details?status=in-progress&st
     </div>
     {% set showSubmissionHistory = true %}
     {% include "./_includes/decision-metadata.njk" %}
-    {% include "./_includes/changes-summary.njk" %}
 
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break" />
     <p class="govuk-body"><a href="#">Save and come back later</a></p>
@@ -90,7 +89,7 @@ href: "/projects/front-office/plan-details/v3/plan-details?status=in-progress&st
     <h2 class="app-task-list__section" id="optional-documents">
       New or updated documents
     </h2>
-    <p class="govuk-body">Add any new documents or updated documents that are relevant to your resubmission as outlined in the inspector's report.</p>
+    <p class="govuk-body">Add any new documents or updated documents that are relevant to your resubmission as outlined in the report.</p>
 
     {{ govukSummaryList({
     classes: 'govuk-!-margin-bottom-9',

@@ -1,12 +1,21 @@
 {% extends "layouts/front-office-v3.html" %}
 {% from "macros/multi-file-upload.njk" import uploadArea %}
-{% set documentName = "Gateway 1 self-assessment" %}
+{% set documentName = "vision, aims, objectives, up to 10 outcomes" %}
 {% set title = "Upload your " + documentName %}
 
 {% block questions %}
 
-<span class="govuk-caption-l">Consultation documents</span>
+<span class="govuk-caption-l">Plan content and evidence</span>
 <h1 class="govuk-heading-l">{{ title }}</h1>
+
+<p class="govuk-body">You should add a document that sets out:</p>
+<ul class="govuk-list govuk-list--bullet">
+  <li>the draft vision for the plan area</li>
+  <li>the draft aims and objectives</li>
+  <li>up to 10 draft outcomes the plan is intended to achieve</li>
+</ul>
+
+<p class="govuk-body">The document name must describe what it is, for example "Vision, aims and objectives 2026 draft".</p>
 
 {{ uploadArea({
   id: "documents",
