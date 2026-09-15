@@ -1,9 +1,7 @@
 {% extends "layouts/front-office-login.html" %}
 
 {% block header %}
-  {{ govukHeader({
-    homepageUrl: "/"
-  }) }}
+  {% include "includes/PINS-header--internal.html" %}
   {{ govukPhaseBanner({
     tag: {
       text: "Beta"
@@ -13,5 +11,5 @@
 {% endblock %}
 
 {% block footer %}
-  {% include "includes/front-office/footer.njk" %}
+  {% include "includes/front-office/pins-footer.njk" %}
 {% endblock %}
