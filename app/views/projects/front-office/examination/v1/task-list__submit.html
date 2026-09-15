@@ -1,37 +1,12 @@
-<!--<li>
-<h2 class="app-task-list__section">
-  Submit
-  {% if data['procedural-started'] == 'true' %}
-    {{ govukTag({ text: 'Submission available', classes: 'govuk-tag--blue' }) }}
-  {% else %}
-    {{ govukTag({ text: 'Cannot start yet', classes: 'govuk-tag--grey' }) }}
-  {% endif %}
-</h2>
-  <p class="govuk-body govuk-hint">You must upload at least one document before you can submit</p>
-
-
-  {{ govukSummaryList({
-    classes: 'govuk-!-margin-bottom-9',
-    rows: [
-      {
-        key: { html: 'Accept declaration and submit' },
-        actions: {
-          items: [
-            {
-              href: 'application-declaration',
-              html: 'Continue'
-            }
-          ]
-        } if data['procedural-started'] == 'true'
-      }
-    ]
-  }) }}
-</li>-->
-
 <li>
 
+  <h2 class="govuk-heading-m">Ready to submit for examination</h2>
+
+      <p class="govuk-body">Once submitted, examination will be locked and you cannot make further changes.</p>
+
   {{ govukButton({
-  text: "Submit for examination",
+  text: "Submit",
   href: "application-declaration"
 }) }}
+
 </li>

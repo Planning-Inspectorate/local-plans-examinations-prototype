@@ -15,8 +15,22 @@
  
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-l">Are you sure you're ready to submit?</h1>
+
+    <p class="govuk-body">This can't be undone.</p>
+<div class="govuk-button-group">
+    {{ govukButton({
+      text: "Yes, send my submission",
+      href: "application-submission-success"
+    }) }}
+
+  <a href="application-details" class="govuk-link">No, go back</a>
+
+</div>
+
  
-    {% call govukPanel({
+    <!--{% call govukPanel({
         titleText: "Are you sure you're ready to submit?",
         classes: "govuk-panel--interruption",
         actions: {
@@ -33,7 +47,7 @@
         }
       }) %}
       <p class="govuk-body">This can't be undone.</p>
-      {% endcall %}
+      {% endcall %}-->
   
   </div>
 </div>

@@ -1,0 +1,53 @@
+<li>
+<div class="govuk-form-group{% if errorStatus == 'true' %} govuk-form-group--error{% endif %}">
+  <h2 class="app-task-list__section" id="application-documents">
+    Examination details
+  </h2>
+  <p class="govuk-body">You must add these documents and information before submitting.</p>
+  {% if errorStatus == 'true' %}
+    <p class="govuk-error-message">
+      <span class="govuk-visually-hidden">Error:</span> Confirm your examination website link and add the statement of changes before submitting
+    </p>
+  {% endif %}
+</div>
+
+  {{ govukSummaryList({
+    classes: 'govuk-!-margin-bottom-9',
+    rows: [
+
+      {
+        key: { text: 'Examination website link' },
+        value:
+          { html: "<a href='#'>" + data['examination-website-link'] + "</a>" } if data['examination-website-link-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'documents/examination-website-link?cya=true', html: 'Change', visuallyHiddenText: 'examination website link' } if data['examination-website-link-complete']
+          else { href: 'documents/examination-website-link', html: 'Confirm', visuallyHiddenText: 'examination website link' }
+        ]}
+      },
+
+      {
+        key: { text: 'Statement explaining changes since the proposed local plan consultation and gateway 3, reasons for those changes, and any additional consultation' },
+        value:
+          { html: "<a href='#'>changes-statement.pdf</a>" } if data['changes-statement-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'documents/changes-statement-upload?cya=true', html: 'Change', visuallyHiddenText: 'statement explaining changes since the proposed local plan consultation and gateway 3' } if data['changes-statement-upload-complete']
+          else { href: 'documents/changes-statement-upload', html: 'Add', visuallyHiddenText: 'statement explaining changes since the proposed local plan consultation and gateway 3' }
+        ]}
+      },
+
+      {
+        key: { html: 'Any new documentation<br><span class="govuk-hint">Optional</span>' },
+        value:
+          { html: '<ul class="govuk-list govuk-list--bullet"><li><a href="#">new-evidence-document.pdf</a></li></ul>' } if data['new-documentation-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'documents/new-documentation-upload?cya=true', html: 'Change', visuallyHiddenText: 'any new documentation' } if data['new-documentation-upload-complete']
+          else { href: 'documents/new-documentation-upload', html: 'Add', visuallyHiddenText: 'any new documentation' }
+        ]}
+      }
+
+    ]
+  }) }}
+</li>
