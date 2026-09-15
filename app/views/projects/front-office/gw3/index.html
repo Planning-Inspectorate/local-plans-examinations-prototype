@@ -38,20 +38,22 @@
     <p class="govuk-body">Allows LPAs to submit a Gateway 3 submission. Users upload required documents and confirm their submission.</p>
 
 
-   <!-- <div class="govuk-button-group">-->
+   <div class="govuk-button-group">
 
     {{ govukButton({
       text: "Start prototype",
       href: "/projects/front-office/gw3/v2/application-details",
       isStartButton: true
     }) }}
-        <p class="govuk-body"><a href="https://app.mural.co/t/allpins6990/m/allpins6990/1784551270700/8016778f060e8d96d6068c236213f3ceae097211?wid=0-1788875188438">See mural here for resubmission flow</a>, prototype version not yet available.</p>
-    <!--{{ govukButton({
-      text: "See resubmission flow",
+
+    {{ govukButton({
+      text: "View resubmission flow",
       classes: "govuk-button--secondary",
       href: "/projects/front-office/plan-details/v3/plan-details?status=action-needed&stage=gateway-3"
    }) }}
-</div>-->
+   </div>
+
+    <p class="govuk-body"><a href="https://app.mural.co/t/allpins6990/m/allpins6990/1784551270700/8016778f060e8d96d6068c236213f3ceae097211?wid=0-1788875188438">See mural of resubmission flow here</a></p>
 
     {% set v1HTML %}
 
@@ -67,7 +69,7 @@
         isStartButton: true
       }) }}
       {{ govukButton({
-        text: "See resubmission flow",
+        text: "View resubmission flow",
         classes: "govuk-button--secondary",
         href: "/projects/front-office/gw3/v1/application-details-decision?decision=stop&viewOnly=false"
      }) }}
