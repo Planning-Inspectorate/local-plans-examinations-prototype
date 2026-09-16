@@ -1,4 +1,4 @@
-{% if data['newDocuments'] != 'true' %}
+{% if data['newDocuments'] != 'true' or not data['submission'] or data['submission'] == '1' %}
 
 <h2 class="govuk-heading-m govuk-!-margin-top-6">Required documents</h2>
 
