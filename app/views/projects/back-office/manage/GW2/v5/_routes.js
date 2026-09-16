@@ -55,6 +55,15 @@ function formatDateForDisplay(dateString) {
   return dateString;
 }
 
+function formatAssessorDateForDisplay(dateString) {
+  if (!dateString) return 'Not provided';
+
+  const parsed = DateTime.fromISO(String(dateString));
+  if (parsed.isValid) return parsed.toFormat('d MMMM yyyy');
+
+  return formatDateForDisplay(dateString);
+}
+
 function formatDocumentDateForDisplay(dateString) {
   if (!dateString || dateString === 'Not provided') return 'Not provided';
 
@@ -1008,6 +1017,10 @@ function buildGateway2ViewModel(req, notificationMessage = '') {
     statusText: gateway2Status.text,
     statusClasses: gateway2Status.classes
   };
+  const assessorContacts = (req.session.contacts || []).map((contact) => ({
+    ...contact,
+    dateAppointedDisplay: formatAssessorDateForDisplay(contact.dateAppointed)
+  }));
 footerLinks: [
   {
     text: 'GW2 pending',
@@ -1035,6 +1048,7 @@ footerLinks: [
     gateway2ValidDate: formatDateForDisplay(req.session.gateway2ValidDate),
     gateway2AssessorName: req.session.gateway2AssessorName || 'Not provided',
     gateway2AssessorAppointmentDate: formatDateForDisplay(req.session.gateway2AssessorAppointmentDate),
+    assessorContacts,
     gateway2ReportIssuedDate: formatDateForDisplay(req.session.gateway2ReportIssuedDate),
     gateway2ReportPublishedDate: formatDateForDisplay(req.session.gateway2ReportPublishedDate),
     hearings,
@@ -1086,6 +1100,143 @@ footerLinks: [
 router.use((req, res, next) => {
   res.locals.basePath = req.baseUrl || '';
   next();
+});
+
+router.get('/check-contact-details', (req, res) => {
+  const notificationMessage = req.session.gw2V5AssessorNotificationMessage || '';
+  delete req.session.gw2V5AssessorNotificationMessage;
+
+  res.render('projects/back-office/manage/GW2/v5/check-contact-details', {
+    notificationMessage,
+    contacts: (req.session.contacts || []).map((contact) => ({
+      ...contact,
+      dateAppointedDisplay: formatAssessorDateForDisplay(contact.dateAppointed)
+    }))
+  });
+});
+
+router.get('/additional-contact', (req, res) => {
+  const editIndex = req.query.edit;
+  let contact = {};
+  if (editIndex !== undefined && req.session.contacts && Array.isArray(req.session.contacts)) {
+    const index = Number(editIndex);
+    if (!Number.isNaN(index) && req.session.contacts[index]) contact = req.session.contacts[index];
+  }
+  res.render('projects/back-office/manage/GW2/v5/additional-contact', {
+    contact,
+    editIndex: editIndex !== undefined ? editIndex : ''
+  });
+});
+
+router.post('/additional-contact', (req, res) => {
+  const { fullName, editIndex } = req.body;
+  if (!fullName) {
+    return res.render('projects/back-office/manage/GW2/v5/additional-contact', {
+      contact: { fullName: fullName || '' },
+      editIndex: editIndex || '',
+      error: 'Enter the assessor name'
+    });
+  }
+  req.session.pendingGw2V5Assessor = {
+    fullName,
+    editIndex: editIndex !== undefined && editIndex !== '' ? Number(editIndex) : ''
+  };
+  res.redirect(`/projects/back-office/manage/GW2/v5/date-appointed${editIndex !== undefined && editIndex !== '' ? `?edit=${editIndex}` : ''}`);
+});
+
+router.get('/date-appointed', (req, res) => {
+  const editIndex = req.query.edit;
+  const pending = req.session.pendingGw2V5Assessor || {};
+  const existing = editIndex !== undefined && req.session.contacts && req.session.contacts[Number(editIndex)];
+  const dateAppointed = pending.dateAppointed || existing?.dateAppointed || DateTime.now().toISODate();
+  const [year, month, day] = dateAppointed.split('-');
+
+  res.render('projects/back-office/manage/GW2/v5/date-appointed', {
+    editIndex: editIndex !== undefined ? editIndex : pending.editIndex,
+    day,
+    month,
+    year
+  });
+});
+
+router.post('/date-appointed', (req, res) => {
+  const { day, month, year, editIndex } = req.body;
+  const date = DateTime.fromObject({
+    day: Number(day),
+    month: Number(month),
+    year: Number(year)
+  });
+  if (!day || !month || !year || !date.isValid || date.day !== Number(day) || date.month !== Number(month) || date.year !== Number(year)) {
+    return res.render('projects/back-office/manage/GW2/v5/date-appointed', {
+      editIndex: editIndex || '',
+      day: day || '',
+      month: month || '',
+      year: year || '',
+      error: 'Enter a valid date appointed'
+    });
+  }
+
+  const pending = req.session.pendingGw2V5Assessor || {};
+  const index = editIndex !== undefined && editIndex !== '' ? Number(editIndex) : pending.editIndex;
+  const contact = {
+    fullName: pending.fullName || req.session.contacts?.[index]?.fullName || '',
+    dateAppointed: date.toISODate()
+  };
+  if (!req.session.contacts || !Array.isArray(req.session.contacts)) req.session.contacts = [];
+  if (index !== undefined && index !== '') req.session.contacts[Number(index)] = contact;
+  else {
+    req.session.contacts.push(contact);
+    req.session.pendingGw2V5AssessorNotification = contact;
+    delete req.session.pendingGw2V5Assessor;
+    return res.redirect('/projects/back-office/manage/GW2/v5/assessor-notification');
+  }
+  delete req.session.pendingGw2V5Assessor;
+  res.redirect('/projects/back-office/manage/GW2/v5/check-contact-details');
+});
+
+router.get('/assessor-notification', (req, res) => {
+  const contact = req.session.pendingGw2V5AssessorNotification;
+
+  res.render('projects/back-office/manage/GW2/v5/assessor-notification', {
+    contact: contact && {
+      ...contact,
+      dateAppointedDisplay: formatAssessorDateForDisplay(contact.dateAppointed)
+    }
+  });
+});
+
+router.post('/assessor-notification', (req, res) => {
+  const contact = req.session.pendingGw2V5AssessorNotification;
+  if (contact) {
+    req.session.gw2V5AssessorNotificationMessage = `Notification sent to ${contact.fullName}`;
+    delete req.session.pendingGw2V5AssessorNotification;
+  }
+  res.redirect('/projects/back-office/manage/GW2/v5/check-contact-details');
+});
+
+router.get('/remove-contact-details-page', (req, res) => {
+  const editIndex = Number(req.query.edit);
+  res.render('projects/back-office/manage/GW2/v5/remove-contact-details', {
+    contact: req.session.contacts && req.session.contacts[editIndex],
+    editIndex: req.query.edit
+  });
+});
+
+router.post('/remove-contact-details-page', (req, res) => {
+  const editIndex = Number(req.body.editIndex);
+  if (req.session.contacts && Array.isArray(req.session.contacts) && !Number.isNaN(editIndex)) {
+    req.session.contacts.splice(editIndex, 1);
+    req.session.gw2V5AssessorNotificationMessage = 'Assessor removed';
+  }
+  res.redirect('/projects/back-office/manage/GW2/v5/check-contact-details');
+});
+
+router.get('/gateway-2-alt', (req, res) => {
+  let notificationMessage = req.session.notificationMessage || '';
+  if (req.query.issueReportSubmitted === '1') notificationMessage = ISSUE_REPORT_SUCCESS_MESSAGE;
+  delete req.session.notificationMessage;
+
+  res.render('projects/back-office/manage/GW2/v5/gateway-2-alt', buildGateway2ViewModel(req, notificationMessage));
 });
 
 router.get('/gateway-2', (req, res) => {

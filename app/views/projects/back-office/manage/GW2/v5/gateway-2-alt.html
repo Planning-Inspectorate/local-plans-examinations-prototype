@@ -1,0 +1,92 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+  Gateway 2 overview – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back", href: "javascript:window.history.back()" }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      {% if notificationMessage %}
+        <div class="govuk-notification-banner govuk-notification-banner--success" role="region" aria-labelledby="gw2-alt-notification-title" data-module="govuk-notification-banner">
+          <div class="govuk-notification-banner__header">
+            <h2 class="govuk-notification-banner__title" id="gw2-alt-notification-title">Success</h2>
+          </div>
+          <div class="govuk-notification-banner__content">
+            <p class="govuk-notification-banner__heading">{{ notificationMessage }}</p>
+          </div>
+        </div>
+      {% endif %}
+
+      {% include "includes/back-office/plan-header.njk" %}
+      {% set currentSection = "gateway-2" %}
+      {% include "includes/back-office/secondary-nav.njk" %}
+
+      <h2 class="govuk-heading-l">Gateway 2</h2>
+      <h3 class="govuk-heading-l">Assessors</h3>
+      {% if assessorContacts and assessorContacts.length %}
+      <table class="govuk-table govuk-table--assessors">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Assessor</th>
+            <th scope="col" class="govuk-table__header">Date appointed</th>
+            <th scope="col" class="govuk-table__header"><span class="govuk-visually-hidden">Actions</span></th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          {% for contact in assessorContacts %}
+            {% set contactLabel = contact.fullName or contact.name or ((contact.firstName ~ ' ' ~ contact.lastName) | trim) or 'Not provided' %}
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell">{{ contactLabel }}</td>
+              <td class="govuk-table__cell">{{ contact.dateAppointedDisplay or 'Not provided' }}</td>
+              <td class="govuk-table__cell">
+          <a class="govuk-link" href="/projects/back-office/manage/GW2/v5/remove-contact-details-page?edit={{ loop.index0 }}">Remove<span class="govuk-visually-hidden"> {{ contactLabel }}</span></a>
+            <span aria-hidden="true"> | </span>
+            <a class="govuk-link" href="/projects/back-office/manage/GW2/v5/additional-contact?edit={{ loop.index0 }}">Change<span class="govuk-visually-hidden"> {{ contactLabel }} details</span></a>
+          </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% endif %}
+      <p><a class="govuk-link" href="/projects/back-office/manage/GW2/v5/check-contact-details">Manage assessors</a></p>
+
+      <h3 class="govuk-heading-l">Workshop</h3>
+      {% include "projects/back-office/manage/GW2/v5/partials/_workshop-documents.njk" %}
+      {% include "projects/back-office/manage/GW2/v5/partials/_workshop-details.njk" %}
+
+      <h3 class="govuk-heading-l">Gateway 2 report</h3>
+      <dl class="govuk-summary-list govuk-summary-list-timetable">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Issued</dt>
+          <dd class="govuk-summary-list__value">
+            {% if issueReportSummary and issueReportSummary.hasDocuments %}
+              Issued on {{ issueReportSummary.latestUploadedAtDisplay or 'Not provided' }}
+            {% else %}
+              Not provided
+            {% endif %}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            {% if issueReportSummary and issueReportSummary.hasDocuments %}
+              <a class="govuk-link" href="/projects/back-office/manage/GW2/v5/upload/v2/check-answers?returnTo=gateway-2-alt">View</a>
+            {% else %}
+              <a class="govuk-link" href="/projects/back-office/manage/GW2/v5/upload/v2/upload-bo?returnTo=gateway-2-alt">Add</a>
+            {% endif %}
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Published</dt>
+          <dd class="govuk-summary-list__value">{{ gateway2ReportPublishedDate or 'Not provided' }}</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+{% endblock %}
+
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

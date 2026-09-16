@@ -11,14 +11,22 @@ const PLAN_STATUS_CLASS_MAP = {
   'GW2 report': 'govuk-tag--blue',
   'GW3 pending': 'govuk-tag--yellow',
   'GW3 received': 'govuk-tag--turquoise',
+
+  // Examination flow labels
+  'Submission pending': 'govuk-tag--yellow',
+  'Submission received': 'govuk-tag--turquoise',
+  'Exam in progress': 'govuk-tag--blue',
+  'Paused': 'govuk-tag--grey',
+  'QA': 'govuk-tag--blue',
+  'Fact check': 'govuk-tag--turquoise',
+  'Report issued': 'govuk-tag--blue',
+  'Plan adopted': 'govuk-tag--green',
+
+  // Examination legacy / alias labels
   'Examination': 'govuk-tag--yellow',
   'Exam pending': 'govuk-tag--yellow',
   'Hearing pending': 'govuk-tag--blue',
-  'Exam in progress': 'govuk-tag--blue',
-  'QA': 'govuk-tag--blue',
-  'Fact check': 'govuk-tag--turquoise',
   'Completed': 'govuk-tag--green',
-  'Paused': 'govuk-tag--grey',
   'Withdrawn': 'govuk-tag--red',
 
   // Variant labels used in some journeys/views

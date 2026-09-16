@@ -25,6 +25,26 @@
     <h1 class="govuk-heading-l">
       {{ title }}
     </h1>
+    {% set version = "6" %}
+    <h2 class="govuk-heading-m">
+      Version {{ version }}
+      {{ govukTag({
+        classes: 'govuk-tag--blue govuk-!-margin-left-2',
+        text: 'In progress'
+      }) }}
+    </h2>
+    <p class="govuk-!-margin-bottom-2">Changes:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Assessor management flow</li>
+    </ul>
+    {{ govukButton({
+      html: 'View prototype',
+      href: '/projects/back-office/manage/GW2/v6/gateway-2',
+      isStartButton: true
+    }) }}
+
+    <hr>
+    <br>
     {% set version = "5" %}
     <h2 class="govuk-heading-m">
       Version {{ version }}
@@ -39,12 +59,14 @@
     <ul class="govuk-list govuk-list--bullet">
     <li>Upload documents to GW2</li>
     <li>Updated content based on feedback from Kate (Content design)</li>
+    <li>Manage assessors and provide the ability to add multiple</li>
     </ul>
     {{ govukButton({
       html: 'View prototype',
       href: '/projects/back-office/manage/GW2/v5/gateway-2',
       isStartButton: true
     }) }}
+
     <hr>
     <br>
          {% set version = "4" %}

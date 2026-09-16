@@ -1,0 +1,37 @@
+{% extends "layouts/back-office.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block pageTitle %}
+  Gateway 2 assessor – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back", href: backUrl | default("/projects/back-office/manage/GW2/v6/gateway-2") }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if error %}
+        <p class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span> {{ error }}</p>
+      {% endif %}
+      <form method="post">
+        <fieldset class="govuk-fieldset">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+            <h1 class="govuk-fieldset__heading">Who is the Gateway 2 assessor?</h1>
+          </legend>
+          <div class="govuk-form-group {% if error %}govuk-form-group--error{% endif %}">
+            <label class="govuk-label govuk-visually-hidden" for="assessor-full-name">Assessor name</label>
+            <input class="govuk-input govuk-!-width-two-thirds" id="assessor-full-name" name="fullName" type="text" autocomplete="name" value="{{ contact.fullName | default('') }}">
+          </div>
+        </fieldset>
+        <input type="hidden" name="editIndex" value="{{ editIndex }}">
+        <input type="hidden" name="from" value="{{ from }}">
+        <div class="govuk-button-group">
+          {{ govukButton({ text: "Save and continue" }) }}
+          <a href="{{ cancelUrl | default('/projects/back-office/manage/GW2/v6/gateway-2') }}" class="govuk-link">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

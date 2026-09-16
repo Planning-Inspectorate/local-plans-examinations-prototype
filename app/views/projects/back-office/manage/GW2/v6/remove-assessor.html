@@ -1,0 +1,33 @@
+{% extends "layouts/back-office.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block pageTitle %}
+  Remove assessor – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back", href: "/projects/back-office/manage/GW2/v6/gateway-2" }) }}
+{% endblock %}
+
+{% block pageStyles %}
+  <style>
+    .gw2-v6-button-group { display: flex; align-items: center; gap: 15px; }
+    .gw2-v6-button-group .govuk-button { margin-bottom: 0; }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">Remove assessor?</h1>
+      <p class="govuk-body">{{ contact.fullName or 'Not provided' }}</p>
+      <form method="post">
+        <input type="hidden" name="editIndex" value="{{ editIndex }}">
+        <div class="govuk-button-group gw2-v6-button-group">
+          {{ govukButton({ text: "Remove assessor", classes: "govuk-button--warning" }) }}
+          <a href="/projects/back-office/manage/GW2/v6/gateway-2" class="govuk-link">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

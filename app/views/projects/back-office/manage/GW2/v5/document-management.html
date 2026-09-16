@@ -62,7 +62,7 @@ Manage {{ document.title }} - {{ serviceName }}
             <td class="govuk-table__cell"><a class="govuk-link" href="{{ managedDocument.fileHref }}">{{ managedDocument.originalname }}</a></td>
             <td class="govuk-table__cell">{{ managedDocument.receivedDate or 'Not provided' }}</td>
             <td class="govuk-table__cell">{{ managedDocument.sourceLabel }}</td>
-            <td class="govuk-table__cell app-document-actions"><a class="govuk-link" href="{{ managedDocument.fileHref }}">Open</a>{% if managedDocument.removeHref %} | <a class="govuk-link" href="{{ managedDocument.removeHref }}">Remove</a>{% endif %}</td>
+            <td class="govuk-table__cell app-document-actions"><a class="govuk-link" href="{{ managedDocument.removeHref }}">Remove</a> | <a class="govuk-link" href="{{ managedDocument.fileHref }}">View</a>{% if managedDocument.removeHref %}{% endif %}</td>
           </tr>
           {% endfor %}
         </tbody>

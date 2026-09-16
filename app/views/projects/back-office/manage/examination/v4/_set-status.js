@@ -14,6 +14,8 @@ const EXAMINATION_STATUS_FIELDS = [
 	'examiningInspectorAppointmentDate',
 	'examinationWebsite',
 	'hearings',
+	'planPauseDate',
+	'planPauseEndDate',
 	'qaDate',
 	'qaInspector1Name',
 	'qaInspector2Name',
@@ -23,7 +25,14 @@ const EXAMINATION_STATUS_FIELDS = [
 	'factCheckReceivedDate',
 	'factCheckDueDate',
 	'factCheckActualDate',
-	'factCheckReceivedFromLpaDate'
+	'factCheckReceivedFromLpaDate',
+	'finalReportIssueDate',
+	'soundUnsound',
+	'soundUnsoundDate',
+	'letterSentToMhclgDate',
+	'letterIssueDate',
+	'adoptionDate',
+	'approvedForCilDate'
 ];
 
 function clearExaminationStatusFields(req) {
@@ -43,24 +52,40 @@ function clearExaminationStatusFields(req) {
 }
 
 router.get('/set-status', (req, res) => {
-	const state = req.query.state || 'exam-pending';
+	let state = req.query.state || 'submission-pending';
+	if (state === 'exam-pending') state = 'submission-pending';
+	if (state === 'hearing-pending') state = 'submission-received';
+
 	const returnUrl = req.query.returnUrl || `${req.baseUrl}/examination`;
 
 	clearExaminationStatusFields(req);
 
-	const states = ['exam-pending', 'hearing-pending', 'exam-in-progress', 'qa', 'fact-check'];
+	const states = [
+		'submission-pending',
+		'submission-received',
+		'exam-in-progress',
+		'paused',
+		'qa',
+		'fact-check',
+		'report-issued',
+		'plan-adopted'
+	];
 	const stateIndex = states.indexOf(state);
 	const reachedState = (name) => stateIndex >= states.indexOf(name);
 
-	// Exam pending: only the estimated date and examination website are populated.
+	// Submission pending: Action on LPA to prepare examination documents after GW3 report.
 	req.session.examinationEstimatedDate = '15/10/2026';
 	req.session.examinationWebsite = 'https://www.example-council.gov.uk/local-plan-examination';
 
-	// Hearing pending: add received date, inspectors, MIQ documents and a hearing with a future date.
-	if (reachedState('hearing-pending')) {
+	// Submission received: LPA has submitted documents and on CO to assign Inspector (inspector and hearing not set up yet).
+	if (reachedState('submission-received')) {
 		req.session.examinationActualDate = '20/9/2026';
+	}
+
+	// Exam in progress: Inspector assigned, MIQ documents uploaded, and hearing set up. Inspector is completing final examination and report.
+	if (reachedState('exam-in-progress') || reachedState('paused') || reachedState('qa') || reachedState('fact-check') || reachedState('report-issued') || reachedState('plan-adopted')) {
 		req.session.examiningInspector1Name = 'Jane Smith';
-		req.session.examiningInspectorAppointmentDate = '1/9/2026';
+		req.session.examiningInspectorAppointmentDate = '22/9/2026';
 
 		const miqDocuments = [
 			{
@@ -81,6 +106,7 @@ router.get('/set-status', (req, res) => {
 				endDate: '22/10/2026',
 				time: '10:00',
 				estimatedDays: '3',
+				actualDuration: reachedState('qa') ? '3 days' : '',
 				isVirtual: 'In-person',
 				venue: 'Town Hall Conference Room',
 				hasAddress: 'Yes',
@@ -89,18 +115,6 @@ router.get('/set-status', (req, res) => {
 					town: 'Manchester',
 					postcode: 'M1 1AB'
 				}
-			}
-		];
-	}
-
-	// Exam in progress: same as above, but the hearing date has now passed and main mods have been issued.
-	if (reachedState('exam-in-progress')) {
-		req.session.hearings = [
-			{
-				...req.session.hearings[0],
-				startDate: '10/8/2026',
-				endDate: '12/8/2026',
-				actualDuration: '3 days'
 			}
 		];
 
@@ -118,19 +132,41 @@ router.get('/set-status', (req, res) => {
 		}
 	}
 
-	// QA: the inspector has uploaded their report and it has been sent for QA.
+	// Paused: Inspector input Pause date.
+	if (state === 'paused') {
+		req.session.planPauseDate = '1/8/2026';
+		req.session.planPauseEndDate = '1/11/2026';
+	}
+
+	// QA: Inspector has uploaded final report; QA in progress with additional inspectors.
 	if (reachedState('qa')) {
 		req.session.qaDate = '20/8/2026';
 		req.session.qaInspector1Name = 'David Brown';
 		req.session.qaReportSentDate = '25/8/2026';
 	}
 
-	// Fact check: fact check has been completed.
+	// Fact check: After marking QA complete, LPA can draw attention to errors in the report.
 	if (reachedState('fact-check')) {
+		req.session.qaPanelResponseDate = '28/8/2026';
 		req.session.factCheckReceivedDate = '1/9/2026';
 		req.session.factCheckDueDate = '8/9/2026';
 		req.session.factCheckActualDate = '5/9/2026';
 		req.session.factCheckReceivedFromLpaDate = '6/9/2026';
+	}
+
+	// Report issued: Once LPA has received Final report and Sound/Unsound result.
+	if (reachedState('report-issued')) {
+		req.session.letterSentToMhclgDate = '10/9/2026';
+		req.session.letterIssueDate = '12/9/2026';
+		req.session.soundUnsound = 'Sound';
+		req.session.soundUnsoundDate = '15/9/2026';
+		req.session.finalReportIssueDate = '15/9/2026';
+	}
+
+	// Plan adopted: Once Adoption date has been input in the BO.
+	if (reachedState('plan-adopted')) {
+		req.session.adoptionDate = '1/10/2026';
+		req.session.approvedForCilDate = '5/10/2026';
 	}
 
 	req.session.examinationV3StatusState = state;

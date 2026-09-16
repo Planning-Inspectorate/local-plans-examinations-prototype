@@ -324,7 +324,9 @@ function buildGateway3ViewModel(req, notificationMessage = '') {
   const isPassState = gateway3OverviewState === 'pass';
 
   const submission1DocumentsCount = isInitial ? 0 : defaultSubmissionCount;
-  const submission2DocumentsCount = isResubmissionNoDocs ? 0 : defaultSubmissionCount;
+  const submission2DocumentsCount = isResubmissionNoDocs
+    ? 0
+    : gateway3OverviewState === 'resubmission' ? 4 : defaultSubmissionCount;
 
   const shouldUseStoredDecisions = gateway3OverviewState === 'resubmission-no-docs'
     || gateway3OverviewState === 'resubmission'

@@ -1,0 +1,71 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+  Manage gateway 2 assessors – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.back()"
+  }) }}
+{% endblock %}
+
+{% block pageStyles %}
+  <style>
+    .gw2-v5-button-group { display: flex; align-items: center; gap: 15px; }
+    .gw2-v5-button-group .govuk-button { margin-bottom: 0; }
+  </style>
+{% endblock %}
+
+{% block content %}
+{% if notificationMessage %}
+  <div class="govuk-notification-banner govuk-notification-banner--success" role="region" aria-labelledby="assessor-notification-title" data-module="govuk-notification-banner">
+    <div class="govuk-notification-banner__header">
+      <h2 class="govuk-notification-banner__title" id="assessor-notification-title">Success</h2>
+    </div>
+    <div class="govuk-notification-banner__content">
+      <p class="govuk-notification-banner__heading">{{ notificationMessage }}</p>
+    </div>
+  </div>
+{% endif %}
+<h1 class="govuk-heading-l">Manage gateway 2 assessors</h1>
+
+{% if contacts and contacts.length %}
+<table class="govuk-table govuk-table--assessors">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">Assessor</th>
+      <th scope="col" class="govuk-table__header">Date appointed</th>
+      <th scope="col" class="govuk-table__header">Actions</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    {% for contact in contacts %}
+      {% set contactLabel = contact.fullName or contact.name or ((contact.firstName ~ ' ' ~ contact.lastName) | trim) or 'Not provided' %}
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell">{{ contactLabel }}</td>
+        <td class="govuk-table__cell">{{ contact.dateAppointedDisplay or 'Not provided' }}</td>
+        <td class="govuk-table__cell">
+          <a class="govuk-link" href="/projects/back-office/manage/GW2/v5/remove-contact-details-page?edit={{ loop.index0 }}">Remove<span class="govuk-visually-hidden"> {{ contactLabel }} from the list</span></a>
+          
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+
+<p>
+  <a href="/projects/back-office/manage/GW2/v5/additional-contact" class="govuk-link">Add assessor</a>
+</p>
+
+<div class="govuk-button-group gw2-v5-button-group">
+  <a href="/projects/back-office/manage/GW2/v5/gateway-2" class="govuk-button">Save and continue<span class="govuk-visually-hidden"></span></a>
+  <a href="/projects/back-office/manage/GW2/v5/gateway-2" class="govuk-link">Cancel</a>
+</div>
+{% endblock %}
+
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

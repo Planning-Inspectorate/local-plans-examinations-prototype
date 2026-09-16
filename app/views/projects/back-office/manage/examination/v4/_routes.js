@@ -6,15 +6,21 @@ const uploadMainModsRouter = require('./_upload-main-mods');
 const { getPlanStatusClasses } = require('../../../../../../routes/projects/back-office/plan-status-classes');
 
 const EXAMINATION_STATUS_LABELS = {
-	'exam-pending': 'Exam pending',
-	'hearing-pending': 'Hearing pending',
+	'submission-pending': 'Submission pending',
+	'submission-received': 'Submission received',
 	'exam-in-progress': 'Exam in progress',
+	'paused': 'Paused',
 	'qa': 'QA',
-	'fact-check': 'Fact check'
+	'fact-check': 'Fact check',
+	'report-issued': 'Report issued',
+	'plan-adopted': 'Plan adopted',
+	// Backward compatibility aliases
+	'exam-pending': 'Submission pending',
+	'hearing-pending': 'Submission received'
 };
 
 function getExaminationStatusText(session) {
-	return EXAMINATION_STATUS_LABELS[session.examinationV3StatusState] || 'Exam pending';
+	return EXAMINATION_STATUS_LABELS[session.examinationV3StatusState] || 'Submission pending';
 }
 
 function formatTimestampForDisplay(timestamp) {

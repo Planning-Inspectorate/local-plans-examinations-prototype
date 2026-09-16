@@ -248,7 +248,7 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
         gateway2Date: '28 June 2026',
         gateway3Date: '18 September 2026',
         submissionDate: '23 September 2026',
-        status: 'Awaiting SLA',
+        status: 'Submission pending',
         createdDate: new Date('2024-02-20').toISOString()
       },
       {
@@ -265,7 +265,7 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
         gateway2Date: '2 June 2026',
         gateway3Date: '22 August 2026',
         submissionDate: '27 August 2026',
-        status: 'GW3 received',
+        status: 'Submission received',
         createdDate: new Date('2024-02-25').toISOString()
       },
       {
@@ -282,7 +282,7 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
         gateway2Date: '10 July 2026',
         gateway3Date: '30 September 2026',
         submissionDate: '5 October 2026',
-        status: 'GW3 pending',
+        status: 'Exam in progress',
         createdDate: new Date('2024-03-01').toISOString()
       },
       {
@@ -310,7 +310,9 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
   const statusMap = {
     'Submitted': 'Awaiting SLA',
     'Awaiting Gateway 2': 'GW2 pending',
-    'Gateway 2 Validation': 'GW2 pending'
+    'Gateway 2 Validation': 'GW2 pending',
+    'Exam pending': 'Submission pending',
+    'Hearing pending': 'Submission received'
   };
   if (Array.isArray(req.session.casesV4)) {
     req.session.casesV4.forEach((item) => {

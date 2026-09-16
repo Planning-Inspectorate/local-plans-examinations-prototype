@@ -1,0 +1,63 @@
+{% extends "layouts/back-office.html" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
+{% block pageTitle %}
+  Date appointed – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back", href: "javascript:window.history.back()" }) }}
+{% endblock %}
+
+{% block pageStyles %}
+  <style>
+    .gw2-v5-button-group { display: flex; align-items: center; gap: 15px; }
+    .gw2-v5-button-group .govuk-button { margin-bottom: 0; }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if error %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: [{ text: error, href: "#assessor-date-appointed-day" }]
+        }) }}
+      {% endif %}
+      <form method="post">
+        <input type="hidden" name="editIndex" value="{{ editIndex }}">
+        <fieldset class="govuk-fieldset" role="group" aria-describedby="assessor-date-appointed-hint">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+            <h1 class="govuk-fieldset__heading">When was the assessor appointed?</h1>
+          </legend>
+          <div id="assessor-date-appointed-hint" class="govuk-hint">For example, 14 9 2026</div>
+          <div class="govuk-date-input">
+            <div class="govuk-date-input__item">
+              <div class="govuk-form-group">
+                <label class="govuk-label govuk-date-input__label" for="assessor-date-appointed-day">Day</label>
+                <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="assessor-date-appointed-day" name="day" type="text" inputmode="numeric" value="{{ day }}">
+              </div>
+            </div>
+            <div class="govuk-date-input__item">
+              <div class="govuk-form-group">
+                <label class="govuk-label govuk-date-input__label" for="assessor-date-appointed-month">Month</label>
+                <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="assessor-date-appointed-month" name="month" type="text" inputmode="numeric" value="{{ month }}">
+              </div>
+            </div>
+            <div class="govuk-date-input__item">
+              <div class="govuk-form-group">
+                <label class="govuk-label govuk-date-input__label" for="assessor-date-appointed-year">Year</label>
+                <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="assessor-date-appointed-year" name="year" type="text" inputmode="numeric" value="{{ year }}">
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <div class="govuk-button-group gw2-v5-button-group">
+          {{ govukButton({ text: "Save and continue" }) }}
+          <a href="/projects/back-office/manage/GW2/v5/check-contact-details" class="govuk-link">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

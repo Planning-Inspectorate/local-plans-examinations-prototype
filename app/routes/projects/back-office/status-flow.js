@@ -7,11 +7,14 @@ const FLOW_STATUSES = [
   'GW2 workshop confirmed',
   'GW2 report',
   'GW3 pending',
-  'Exam pending',
-  'Hearing pending',
+  'GW3 received',
+  'Submission pending',
+  'Submission received',
   'Exam in progress',
   'QA',
   'Fact check',
+  'Report issued',
+  'Plan adopted',
   'Completed',
   'Paused'
 ];
@@ -25,11 +28,16 @@ const BASELINE_STATUSES = new Set([
   'Awaiting GW3 submission',
   'GW2 awaiting workshop',
   'GW2 documents submitted',
+  'GW3 received',
+  'Submission pending',
+  'Submission received',
   'Exam pending',
   'Hearing pending',
   'Exam in progress',
   'QA',
   'Fact check',
+  'Report issued',
+  'Plan adopted',
   'Completed',
   'Paused'
 ]);
@@ -50,7 +58,8 @@ function normalizeStatusLabel(statusText) {
   const normalized = String(statusText).trim();
   if (normalized === 'Awaiting GW3') return 'GW3 pending';
   if (normalized === 'Awaiting GW3 submission') return 'GW2 pending';
-  if (normalized === 'Examination') return 'Exam pending';
+  if (normalized === 'Examination' || normalized === 'Exam pending') return 'Submission pending';
+  if (normalized === 'Hearing pending') return 'Submission received';
 
   return normalized;
 }

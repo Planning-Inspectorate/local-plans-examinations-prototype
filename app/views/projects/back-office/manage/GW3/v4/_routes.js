@@ -324,7 +324,9 @@ function buildGateway3ViewModel(req, notificationMessage = '') {
   const isPassState = gateway3OverviewState === 'pass';
 
   const submission1DocumentsCount = isInitial ? 0 : defaultSubmissionCount;
-  const submission2DocumentsCount = isResubmissionNoDocs ? 0 : defaultSubmissionCount;
+  const submission2DocumentsCount = isResubmissionNoDocs
+    ? 0
+    : gateway3OverviewState === 'resubmission' ? 4 : defaultSubmissionCount;
 
   const shouldUseStoredDecisions = gateway3OverviewState === 'resubmission-no-docs'
     || gateway3OverviewState === 'resubmission'
@@ -387,7 +389,7 @@ function buildGateway3ViewModel(req, notificationMessage = '') {
       'submitted': 'GW3 received',
       'resubmission-no-docs': 'GW3 pending',
       'resubmission': 'GW3 received',
-      'pass': 'Exam pending'
+      'pass': 'Submission pending'
     }[gateway3OverviewState] || 'GW3 pending',
     headerStatusClasses: {
       'initial': 'govuk-tag--yellow',

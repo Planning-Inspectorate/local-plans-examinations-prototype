@@ -413,16 +413,20 @@ Examination overview– {{ serviceName }}
 {% block footer %}
 {% set footerLinks = [
   {
-    text: 'Exam pending',
-    href: basePath + '/set-status?state=exam-pending&returnUrl=' + basePath + '/examination'
+    text: 'Submission pending',
+    href: basePath + '/set-status?state=submission-pending&returnUrl=' + basePath + '/examination'
   },
   {
-    text: 'Hearing pending',
-    href: basePath + '/set-status?state=hearing-pending&returnUrl=' + basePath + '/examination'
+    text: 'Submission received',
+    href: basePath + '/set-status?state=submission-received&returnUrl=' + basePath + '/examination'
   },
   {
     text: 'Exam in progress',
     href: basePath + '/set-status?state=exam-in-progress&returnUrl=' + basePath + '/examination'
+  },
+  {
+    text: 'Paused',
+    href: basePath + '/set-status?state=paused&returnUrl=' + basePath + '/examination'
   },
   {
     text: 'QA',
@@ -431,6 +435,14 @@ Examination overview– {{ serviceName }}
   {
     text: 'Fact check',
     href: basePath + '/set-status?state=fact-check&returnUrl=' + basePath + '/examination'
+  },
+  {
+    text: 'Report issued',
+    href: basePath + '/set-status?state=report-issued&returnUrl=' + basePath + '/examination'
+  },
+  {
+    text: 'Plan adopted',
+    href: basePath + '/set-status?state=plan-adopted&returnUrl=' + basePath + '/examination'
   }
 ] %}
   {% include "includes/footer.njk" %}
