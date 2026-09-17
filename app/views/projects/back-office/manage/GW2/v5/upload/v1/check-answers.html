@@ -18,7 +18,7 @@
   <div class="govuk-grid-column-two-thirds">
 
     <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
-    <h1 class="govuk-heading-l">Check workshop documents and issue notification</h1>
+    <h1 class="govuk-heading-l">Check workshop documents and send notification</h1>
 
     {% if uploadedDocuments.length > 0 %}
       {% for doc in uploadedDocuments %}
@@ -72,7 +72,7 @@
       <form method="post" action="/projects/back-office/manage/GW2/v5/upload/v1/check-answers">
         <input type="hidden" name="returnTo" value="{{ returnTo or 'gateway-2' }}">
         {{ govukButton({
-          text: "Issue documents"
+          text: "Confirm and send"
         }) }}
       </form>
     {% else %}

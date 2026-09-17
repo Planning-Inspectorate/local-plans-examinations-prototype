@@ -26,6 +26,11 @@
   --moj-frontend-version: "9.0.0";
 }
 
+.app-contact-actions .govuk-summary-list__actions-list {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
 
 
 

@@ -2,7 +2,7 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% block pageTitle %}
-  Who should be the main contact for this case? – {{ serviceName }}
+  Select main contact – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -27,7 +27,7 @@
         <div class="govuk-form-group {% if error %}govuk-form-group--error{% endif %}">
           <fieldset class="govuk-fieldset" {% if error %}aria-describedby="main-contact-selection-error"{% endif %}>
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-              <h1 class="govuk-fieldset__heading">Who should be the main contact for this case?</h1>
+              <h1 class="govuk-fieldset__heading">Select main contact</h1>
             </legend>
 
             {% if error %}

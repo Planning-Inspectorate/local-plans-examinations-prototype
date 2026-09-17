@@ -378,9 +378,10 @@ router.get('/projects/back-office/create-case/v2/0-case-officer-name', (req, res
 router.post('/projects/back-office/create-case/v2/0-case-officer-name', (req, res) => {
   if (!req.body.caseOfficer) {
     return res.render('projects/back-office/create-case/v2/0-case-officer-name', {
-      error: 'Please select a case officer',
-      caseOfficer: req.session.caseOfficer,
-      lpa: req.session.lpa
+      error: 'Select a case officer',
+      caseOfficer: req.body.caseOfficer || req.session.caseOfficer,
+      lpa: req.session.lpa,
+      isEdit: req.body.isEdit === 'true'
     });
   }
   const isEdit = req.body.isEdit === 'true';
@@ -406,8 +407,9 @@ router.get('/projects/back-office/create-case/v2/1-plan-title', (req, res) => {
 router.post('/projects/back-office/create-case/v2/1-plan-title', (req, res) => {
   if (!req.body['plan-title']) {
     return res.render('projects/back-office/create-case/v2/1-plan-title', {
-      error: 'Please enter a plan title',
-      planTitle: req.session.planTitle
+      error: 'Enter a plan title',
+      planTitle: req.body['plan-title'] || req.session.planTitle,
+      isEdit: req.body.isEdit === 'true'
     });
   }
   const isEdit = req.body.isEdit === 'true';
@@ -432,7 +434,7 @@ router.get('/projects/back-office/create-case/v2/2-plan-type', (req, res) => {
 router.post('/projects/back-office/create-case/v2/2-plan-type', (req, res) => {
   if (!req.body['plan-type']) {
     return res.render('projects/back-office/create-case/v2/2-plan-type', {
-      error: 'Please select a plan type',
+      error: 'Select a plan type',
       planType: req.session.planType
     });
   }
@@ -473,6 +475,27 @@ router.get('/projects/back-office/create-case/v2/3-select-LPA', (req, res) => {
 
 router.post('/projects/back-office/create-case/v2/3-select-LPA', (req, res) => {
   const index = req.body.index ? parseInt(req.body.index, 10) : 0;
+
+  if (!req.body.lpa) {
+    const path = require('path');
+    const fs = require('fs');
+    const lpaListPath = path.join(__dirname, '../data/lpa-list.json');
+    let lpaList = [];
+    try {
+      lpaList = JSON.parse(fs.readFileSync(lpaListPath, 'utf8'));
+    } catch (e) {
+      lpaList = [];
+    }
+
+    return res.render('projects/back-office/create-case/v2/3-select-LPA', {
+      lpaList,
+      selectedLPA: '',
+      isEdit: req.body.isEdit === 'true',
+      index,
+      error: 'You need to select a planning authority'
+    });
+  }
+
   if (!req.session.lpas) req.session.lpas = [];
   req.session.lpas[index] = req.body.lpa;
 

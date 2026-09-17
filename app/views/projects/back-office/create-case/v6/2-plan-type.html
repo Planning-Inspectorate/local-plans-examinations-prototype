@@ -24,7 +24,7 @@
         }) }}
       {% endif %}
 
-      <form class="form" action="/projects/back-office/create-case/v2/2-plan-type" method="post">
+      <form class="form" action="/projects/back-office/create-case/v6/2-plan-type" method="post">
       
       <input type="hidden" name="isEdit" value="{{ isEdit }}">
 {% set textHtml %}
@@ -41,6 +41,7 @@
 {% endset -%}
 {{ govukRadios({
   name: "plan-type",
+  idPrefix: "plan-type",
   errorMessage: { text: error } if error else null,
   fieldset: {
     legend: {
@@ -53,12 +54,12 @@
     {
       value: "local-plan",
       text: "Local plan",
-      checked: planType == "Local plan"
+      checked: planType == "local-plan" or planType == "Local plan" or planType == "Local Plan"
     },
     {
       value: "other",
       text: "Other",
-      checked: planType == "Other",
+      checked: planType == "other" or planType == "Other",
       conditional: {
         html: textHtml
       }

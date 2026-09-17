@@ -34,7 +34,7 @@
   name: "otherPlanType",
   type: "text",
   autocomplete: "off",
-  classes: "govuk-!-width-one-third",
+  classes: "govuk-input--width-20",
   label: {
     text: "What is the plan type?"
   }
@@ -54,13 +54,13 @@
   items: [
     {
       value: "local-plan",
-      text: "Local Plan",
-      checked: planType == "local-plan"
+      text: "Local plan",
+      checked: planType == "local-plan" or planType == "Local plan" or planType == "Local Plan"
     },
     {
       value: "other",
       text: "Other",
-      checked: planType == "other",
+      checked: planType == "other" or planType == "Other",
       conditional: {
         html: textHtml
       }

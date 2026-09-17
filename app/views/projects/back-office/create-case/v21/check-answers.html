@@ -10,6 +10,7 @@
   }) }}
 {% endblock %}
 {% block content %}
+{% set displayPlanType = 'Local plan' if planType == 'local-plan' else planType %}
   <form method="post" action="/projects/back-office/create-case/v21/check-answers">
 <h1 class="govuk-heading-l">Check your answers</h1> 
       <!-- Overview summary card -->
@@ -20,15 +21,15 @@
         <div class="govuk-summary-card__content">
           <dl class="govuk-summary-list">
             <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">Plan title</dt>
+              <dt class="govuk-summary-list__key">Title</dt>
               <dd class="govuk-summary-list__value">{{ planTitle or 'Not provided' }}</dd>
               <dd class="govuk-summary-list__actions">
                 <a class="govuk-link" href="/projects/back-office/create-case/v21/1-plan-title?edit=true">Change<span class="govuk-visually-hidden"> the plan title</span></a>
               </dd>
             </div>
             <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">Plan type</dt>
-              <dd class="govuk-summary-list__value">{{ planType or 'Not provided' }}</dd>
+              <dt class="govuk-summary-list__key">Type</dt>
+              <dd class="govuk-summary-list__value">{{ displayPlanType or 'Not provided' }}</dd>
               <dd class="govuk-summary-list__actions">
                 <a class="govuk-link" href="/projects/back-office/create-case/v21/2-plan-type?edit=true">Change<span class="govuk-visually-hidden"> the plan type</span></a>
               </dd>
@@ -37,7 +38,7 @@
               {% set showLpaIndex = lpas.length > 1 %}
               {% for lpa in lpas %}
                 <div class="govuk-summary-list__row">
-                  <dt class="govuk-summary-list__key">Local Planning Authority{% if showLpaIndex %} {{ loop.index }}{% endif %}</dt>
+                  <dt class="govuk-summary-list__key">Planning authority{% if showLpaIndex %} {{ loop.index }}{% endif %}</dt>
                   <dd class="govuk-summary-list__value">{{ lpa }}</dd>
                   <dd class="govuk-summary-list__actions">
                     <a class="govuk-link" href="/projects/back-office/create-case/v21/3-select-LPA?edit=true&index={{ loop.index0 }}">Change<span class="govuk-visually-hidden"> Local Planning Authority{% if showLpaIndex %} {{ loop.index }}{% endif %}</span></a>
@@ -47,7 +48,7 @@
               {% endfor %}
             {% else %}
               <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">Local Planning Authority</dt>
+                <dt class="govuk-summary-list__key">Planning authority</dt>
                 <dd class="govuk-summary-list__value">Not provided</dd>
                 <dd class="govuk-summary-list__actions"></dd>
               </div>
@@ -103,7 +104,7 @@
                   {% set contactLabel = contact.email or ('contact ' ~ loop.index) %}
                 {% endif %}
                 <div class="govuk-summary-list__row">
-                  <dt class="govuk-summary-list__key">Contact</dt>
+                  <div class="govuk-summary-list__key" ><span class="govuk-visually-hidden">Main contact</span></div>
                   <dd class="govuk-summary-list__value">
                     {{ contact.firstName }} {{ contact.lastName }}<br>
                     {{ contact.email }}<br>
@@ -132,36 +133,44 @@
       <!-- Dates summary card -->
       <div class="govuk-summary-card" id="dates">
         <div class="govuk-summary-card__title-wrapper">
-          <h2 class="govuk-summary-card__title">Dates</h2>
+          <h2 class="govuk-summary-card__title">Timetable</h2>
         </div>
         <div class="govuk-summary-card__content">
           <dl class="govuk-summary-list">
             <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">Notice of Intention date</dt>
+              <dt class="govuk-summary-list__key">Notice of intention to commence local plan preparation</dt>
               <dd class="govuk-summary-list__value">{{ noticeOfIntentionDate or 'Not provided' }}</dd>
               <dd class="govuk-summary-list__actions">
                 <a class="govuk-link" href="/projects/back-office/create-case/v21/enter-key-dates?edit=true">Change<span class="govuk-visually-hidden"> Notice of Intention date</span></a>
               </dd>
             </div>
             <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">Gateway 1 expected date</dt>
+              <dt class="govuk-summary-list__key">GW1 submission expected</dt>
               <dd class="govuk-summary-list__value">{{ gateway1Date or 'Not provided' }}</dd>
-            
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/projects/back-office/create-case/v21/enter-key-dates?edit=true">Change<span class="govuk-visually-hidden"> Gateway 1 date</span></a>
+              </dd>
             </div>
             <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">Gateway 2 expected date</dt>
+              <dt class="govuk-summary-list__key">GW2 submission expected</dt>
               <dd class="govuk-summary-list__value">{{ gateway2Date or 'Not provided' }}</dd>
-              
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/projects/back-office/create-case/v21/enter-key-dates?edit=true">Change<span class="govuk-visually-hidden"> Gateway 2 date</span></a>
+              </dd>
             </div>
             <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">Gateway 3 expected date</dt>
+              <dt class="govuk-summary-list__key">GW3 submission expected</dt>
               <dd class="govuk-summary-list__value">{{ gateway3Date or 'Not provided' }}</dd>
-           
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/projects/back-office/create-case/v21/enter-key-dates?edit=true">Change<span class="govuk-visually-hidden"> Gateway 3 date</span></a>
+              </dd>
             </div>
             <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">Submission for examination date</dt>
+              <dt class="govuk-summary-list__key">Examination submission expected</dt>
               <dd class="govuk-summary-list__value">{{ submissionDate or 'Not provided' }}</dd>
-            
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link" href="/projects/back-office/create-case/v21/enter-key-dates?edit=true">Change<span class="govuk-visually-hidden"> examination submission date</span></a>
+              </dd>
             </div>
           </dl>
         </div>

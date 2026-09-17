@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
- What is the expected Gateway 1 date? – {{ serviceName }}
+ GW1 submission expected – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -15,7 +15,7 @@
     
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-            <h1 class="govuk-heading-l">When is Gateway 1 submission expected?</h1>
+            <h1 class="govuk-heading-l">GW1 submission expected</h1>
             <form class="form" method="post" action="/projects/back-office/manage/GW1/v2/gateway-1-estimated">
                 <input type="hidden" name="isEdit" value="{{ isEdit }}">
                 <input type="hidden" name="returnUrl" value="{{ returnUrl }}">

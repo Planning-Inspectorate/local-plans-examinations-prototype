@@ -3,7 +3,7 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% block pageTitle %}
-  Enter dates for key stages of the local plan – {{ serviceName }}
+  Plan timetable – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -17,7 +17,7 @@
     
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-l">{% if isEdit %}Enter the dates for key stages of the local plan{% else %}Enter dates for key stages of the local plan{% endif %}</h1>
+        <h1 class="govuk-heading-l">{% if isEdit %}Plan timetable{% else %}Plan timetable{% endif %}</h1>
 
               {#  {% if errorList and errorList.length %}
                     {{ govukErrorSummary({
@@ -32,7 +32,7 @@
             {% set noticeOfIntentionParts = noticeOfIntentionDate.split('/') if noticeOfIntentionDate else ['', '', ''] %}
                         <div class="govuk-form-group govuk-!-margin-bottom-6 {% if errors and errors.noticeOfIntentionDate %}govuk-form-group--error{% endif %}">
                         <fieldset class="govuk-fieldset" role="group" aria-describedby="notice-of-intention-hint{% if errors and errors.noticeOfIntentionDate %} notice-of-intention-error{% endif %}">
-                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Notice of Intention to Commence Local Plan Preparation (optional)</legend>
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Notice of intention to commence local plan preparation</legend>
                                 <div id="notice-of-intention-hint" class="govuk-hint">For example, 27 3 2007</div>
                                 {% if errors and errors.noticeOfIntentionDate %}
                                     <p id="notice-of-intention-error" class="govuk-error-message">
@@ -65,7 +65,7 @@
             {% set gateway1Parts = gateway1Date.split('/') if gateway1Date else ['', '', ''] %}
                         <div class="govuk-form-group govuk-!-margin-bottom-6 {% if errors and errors.gateway1Date %}govuk-form-group--error{% endif %}">
                         <fieldset class="govuk-fieldset" role="group" {% if errors and errors.gateway1Date %}aria-describedby="gateway-1-error"{% endif %}>
-                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Gateway 1 expected date (optional)</legend>
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">GW1 submission expected (optional)</legend>
                                 {% if errors and errors.gateway1Date %}
                                     <p id="gateway-1-error" class="govuk-error-message">
                                         <span class="govuk-visually-hidden">Error:</span> {{ errors.gateway1Date }}
@@ -97,7 +97,7 @@
             {% set gateway2Parts = gateway2Date.split('/') if gateway2Date else ['', '', ''] %}
                         <div class="govuk-form-group govuk-!-margin-bottom-6 {% if errors and errors.gateway2Date %}govuk-form-group--error{% endif %}">
                         <fieldset class="govuk-fieldset" role="group" {% if errors and errors.gateway2Date %}aria-describedby="gateway-2-error"{% endif %}>
-                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Gateway 2 expected date (optional)</legend>
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">GW2 submission expected (optional)</legend>
                                 {% if errors and errors.gateway2Date %}
                                     <p id="gateway-2-error" class="govuk-error-message">
                                         <span class="govuk-visually-hidden">Error:</span> {{ errors.gateway2Date }}
@@ -129,7 +129,7 @@
             {% set gateway3Parts = gateway3Date.split('/') if gateway3Date else ['', '', ''] %}
                         <div class="govuk-form-group govuk-!-margin-bottom-6 {% if errors and errors.gateway3Date %}govuk-form-group--error{% endif %}">
                         <fieldset class="govuk-fieldset" role="group" {% if errors and errors.gateway3Date %}aria-describedby="gateway-3-error"{% endif %}>
-                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Gateway 3 expected date (optional)</legend>
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">GW3 submission expected (optional)</legend>
                                 {% if errors and errors.gateway3Date %}
                                     <p id="gateway-3-error" class="govuk-error-message">
                                         <span class="govuk-visually-hidden">Error:</span> {{ errors.gateway3Date }}
@@ -161,7 +161,7 @@
             {% set submissionParts = submissionDate.split('/') if submissionDate else ['', '', ''] %}
                         <div class="govuk-form-group govuk-!-margin-bottom-6 {% if errors and errors.submissionDate %}govuk-form-group--error{% endif %}">
                         <fieldset class="govuk-fieldset" role="group" {% if errors and errors.submissionDate %}aria-describedby="submission-error"{% endif %}>
-                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Submission for examination expected date (optional)</legend>
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Examination submission expected (optional)</legend>
                                 {% if errors and errors.submissionDate %}
                                     <p id="submission-error" class="govuk-error-message">
                                         <span class="govuk-visually-hidden">Error:</span> {{ errors.submissionDate }}

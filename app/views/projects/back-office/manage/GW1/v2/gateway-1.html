@@ -85,7 +85,11 @@ Gateway 1 overview – {{ serviceName }}
               {% endif %}
             </dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/GW1/v2/gateway-1-signed-sla-check.html?returnUrl=/projects/back-office/manage/GW1/v2/gateway-1">{{ 'Change' if signedSlaFilename and signedSlaFilename != '-' else 'Add' }}<span class="govuk-visually-hidden"> signed SLA</span></a>
+              {% if signedSlaDocuments and signedSlaDocuments.length > 0 and signedSlaDocuments[0].filename %}
+                <a class="govuk-link" href="/projects/back-office/manage/GW1/v2/gateway-1-signed-sla-check.html?returnUrl=/projects/back-office/manage/GW1/v2/gateway-1">Change<span class="govuk-visually-hidden"> signed SLA</span></a>
+              {% else %}
+                <a class="govuk-link" href="/projects/back-office/manage/GW1/v2/gateway-1-signed-sla-upload?returnUrl=/projects/back-office/manage/GW1/v2/gateway-1">Add<span class="govuk-visually-hidden"> signed SLA</span></a>
+              {% endif %}
           </dd>
         </div>
         <div class="govuk-summary-list__row">

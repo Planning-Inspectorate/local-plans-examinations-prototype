@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-  Remove contact details – {{ serviceName }} 
+  Remove contact – {{ serviceName }} 
 {% endblock %}
 
 {% block beforeContent %}
@@ -22,14 +22,14 @@
     {% set contactLabel = 'contact' %}
   {% endif %}
 {% endif %}
-<h1 class="govuk-heading-l">Remove contact details</h1>
+<h1 class="govuk-heading-l">Remove contact</h1>
 <p>Are you sure you want to remove {{ contactLabel }}?</p>
 <dl class="govuk-summary-list">
   <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key" style="width: 15%;">
+    <dt class="govuk-summary-list__key govuk-visually-hidden">
       {% if isMain %}Main contact{% else %}Contact{% endif %}
     </dt>
-    <dd class="govuk-summary-list__value" style="width: 85%;">
+    <dd class="govuk-summary-list__value govuk-!-width-full">
       {{ contact.firstName }} {{ contact.lastName }}<br>
       {{ contact.email }}<br>
       {% if contact.phone %}{{ contact.phone }}<br>{% endif %}

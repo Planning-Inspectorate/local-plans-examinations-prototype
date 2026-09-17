@@ -2,7 +2,7 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% block pageTitle %}
-  Select the additional Local Planning Authority for this plan – {{ serviceName }} 
+  Select a planning authority – {{ serviceName }} 
 {% endblock %}
 {% block beforeContent %}
   {{ govukBackLink({
@@ -25,7 +25,7 @@
       <div class="govuk-form-group {% if error %}govuk-form-group--error{% endif %}">
         <h1 class="govuk-label-wrapper">
           <label class="govuk-label govuk-label--l" for="lpa">
-            Select the additional Local Planning Authority for this plan
+            Select a planning authority
           </label>
         </h1>
             {% if error %}
