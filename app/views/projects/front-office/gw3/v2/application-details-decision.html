@@ -36,7 +36,7 @@ text: 'Proceed to examination outcome'
       <h1 class="govuk-heading-xl app-header__title">
         <span class="govuk-caption-xl">East Borough local plan</span>
         {% if submission %}
-          Gateway 3 submission {{ submission }}
+          Gateway 3; submission {{ submission }}
         {% else %}
           Gateway 3 submission
         {% endif %}
@@ -67,7 +67,7 @@ text: 'Proceed to examination outcome'
 
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible" />
 
-    <p class="govuk-body">Your submission was sent on 20 June 2026 at 10:32am by Laura Thornton.</p>
+    <p class="govuk-body">Gateway 3; submission {{ submission }}: 20 June 2026 by Laura Thornton</p>
 
     {% include "./_includes/submitted-documents.njk" %}
 
