@@ -1,16 +1,21 @@
 {% extends "layouts/front-office-v3.html" %}
 {% from "macros/multi-file-upload.njk" import uploadArea %}
-{% set documentName = "latest policies map" %}
+{% set documentName = "plan content" %}
 {% set title = "Upload your " + documentName %}
 
 {% block questions %}
 
-<span class="govuk-caption-l">Plan content and evidence</span>
+<span class="govuk-caption-l">Plan content, evidence and policies map</span>
 <h1 class="govuk-heading-l">{{ title }}</h1>
 
-<p class="govuk-body">You should add the most up-to-date policies map available for your local plan area.</p>
+<p class="govuk-body">You should add any documents that will form part of your local plan. These can be in draft form and could include:</p>
+<ul class="govuk-list govuk-list--bullet">
+  <li>vision, aims, objectives, up to 10 outcomes</li>
+  <li>spatial strategy options or spatial strategy</li>
+  <li>other plan content</li>
+</ul>
 
-<p class="govuk-body">The document name must describe what it is, for example "Policies map 2026 draft".</p>
+<p class="govuk-body">The document name must describe what it is, for example "spatial strategy options 2026 draft".</p>
 
 {{ uploadArea({
   id: "documents",
