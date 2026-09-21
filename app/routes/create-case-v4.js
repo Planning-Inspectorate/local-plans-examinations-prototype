@@ -94,6 +94,50 @@ const REGION_OPTIONS = [
   "Yorkshire and the Humber"
 ];
 
+const DEMO_STATUS_CASES = [
+  ['GW3 received', 'Harbour View Local Plan', 'Plymouth City Council', 'South West'],
+  ['Paused', 'Oakfield Local Plan', 'Derby City Council', 'East Midlands'],
+  ['QA', 'Meadowlands Local Plan', 'Reading Borough Council', 'South East'],
+  ['Fact check', 'Riverside District Local Plan', 'Lancashire County Council', 'North West'],
+  ['Report issued', 'Northmoor Local Plan', 'Newcastle City Council', 'North East'],
+  ['Plan adopted', 'Green Coast Local Plan', 'Cornwall Council', 'South West'],
+  ['Withdrawn', 'Westvale Local Plan', 'Wolverhampton City Council', 'West Midlands'],
+  ['Completed', 'Cedar Valley Local Plan', 'Lincolnshire County Council', 'East Midlands']
+];
+
+function createDemoStatusCase(status, index, planTitle, lpa, region) {
+  const caseNumber = 11 + index;
+  return {
+    caseRef: `PLAN/${String(caseNumber).padStart(6, '0')}`,
+    planTitle,
+    planType: 'Local plan',
+    caseOfficer: ['Laura Green', 'Daniel Evans', 'Priya Shah', 'Oliver King'][index % 4],
+    lpas: [lpa],
+    lpaRegions: {[lpa]: region},
+    mainContact: {name: 'Case contact', email: `contact${caseNumber}@example.gov.uk`, phone: '020 7946 0000', organisation: lpa},
+    contacts: [],
+    noticeOfIntentionDate: '10 January 2026',
+    gateway1Date: '20 February 2026',
+    gateway2Date: '15 April 2026',
+    gateway3Date: '20 June 2026',
+    submissionDate: '1 July 2026',
+    status,
+    createdDate: new Date(`2024-04-${String(index + 1).padStart(2, '0')}`).toISOString()
+  };
+}
+
+function addMissingDemoStatusCases(cases) {
+  DEMO_STATUS_CASES.forEach(([status, planTitle, lpa, region], index) => {
+    if (!cases.some((item) => item.status === status)) {
+      cases.push(createDemoStatusCase(status, index, planTitle, lpa, region));
+    }
+  });
+}
+
+function getCasesInReferenceOrder(cases) {
+  return cases.slice().sort((left, right) => left.caseRef.localeCompare(right.caseRef));
+}
+
 // Edit LPA region page
 router.get('/projects/back-office/create-case/v4/LPA-region', (req, res) => {
   const isEdit = req.query.edit === 'true';
@@ -302,9 +346,11 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
         statusStrategy: 'fixed',
         status: 'GW2 pending',
         createdDate: new Date('2024-03-05').toISOString()
-      }
+      },
     ];
   }
+
+  addMissingDemoStatusCases(req.session.casesV4);
 
   // Keep v4 list status labels aligned when cases were created via other journeys.
   const statusMap = {
@@ -323,7 +369,7 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
 
   const journey = req.query.journey === 'side' ? 'side' : 'default';
   res.render('projects/back-office/create-case/v4/index', {
-    cases: req.session.casesV4.slice().reverse(),
+    cases: getCasesInReferenceOrder(req.session.casesV4),
     showEmpty: req.query.showEmpty === 'true',
     planStatusClassMap: PLAN_STATUS_CLASS_MAP,
     journey
