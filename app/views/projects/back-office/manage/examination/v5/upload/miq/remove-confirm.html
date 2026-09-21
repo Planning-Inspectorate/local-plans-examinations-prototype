@@ -18,15 +18,18 @@
   <div class="govuk-grid-column-two-thirds">
 
    
-    {% call govukPanel({
+    <form method="post" action="remove-confirm">
+      <input type="hidden" name="filename" value="{{ filename }}">
+      <input type="hidden" name="action" value="remove">
+
+      {% call govukPanel({
         titleText: "Are you sure you want to remove " + documentName + "?",
         classes: "govuk-panel--interruption",
         actions: {
           items: [
             {
               text: "Yes, remove this document",
-              href: "remove-confirm?filename=" + filename + "&action=remove",
-              type: "button"
+              type: "submit"
             }, {
               text: "No, go back",
               href: "manage"
@@ -34,8 +37,9 @@
           ]
         }
       }) %}
-      <p class="govuk-body">You will not be able to see or retrieve this document again.</p>
+        <p class="govuk-body">You will not be able to see or retrieve this document again.</p>
       {% endcall %}
+    </form>
   </div>
 </div>
 {% endblock %}

@@ -13,6 +13,11 @@
 {% endblock %}
 
 {% block content %}
+<style>
+  .app-document-management-table .app-document-actions {
+    text-align: right;
+  }
+</style>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     {% if notificationMessage %}
@@ -52,7 +57,7 @@
           <tr class="govuk-table__row">
             <td class="govuk-table__cell"><a class="govuk-link" href="{{ managedDocument.fileHref }}">{{ managedDocument.originalname }}</a></td>
             <td class="govuk-table__cell">{{ managedDocument.receivedDate or 'Not provided' }}</td>
-            <td class="govuk-table__cell app-document-actions"><a class="govuk-link" href="{{ managedDocument.fileHref }}">Open</a> | <a class="govuk-link" href="{{ managedDocument.removeHref }}">Remove</a></td>
+            <td class="govuk-table__cell app-document-actions"><a class="govuk-link" href="{{ managedDocument.removeHref }}">Remove</a> | <a class="govuk-link" href="{{ managedDocument.fileHref }}">View</a></td>
           </tr>
           {% endfor %}
         </tbody>

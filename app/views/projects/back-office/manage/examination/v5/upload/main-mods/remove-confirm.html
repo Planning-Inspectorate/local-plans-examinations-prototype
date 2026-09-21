@@ -23,15 +23,16 @@
 
     <form method="post" action="remove-confirm">
       <input type="hidden" name="filename" value="{{ filename }}">
+      <input type="hidden" name="action" value="remove">
 
       <div class="govuk-button-group">
         {{ govukButton({
           text: "Remove",
           classes: "govuk-button--warning",
-          attributes: { name: "action", value: "remove" }
+          type: "submit"
         }) }}
 
-        <a class="govuk-link" href="manage">Cancel</a>
+        <button class="govuk-button govuk-button--secondary" name="action" value="cancel" type="submit">Cancel</button>
       </div>
     </form>
   </div>

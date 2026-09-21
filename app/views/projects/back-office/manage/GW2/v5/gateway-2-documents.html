@@ -29,7 +29,36 @@ Gateway 2 documents - {{ serviceName }}
 ] %}
 
 {% set additionalDocs = [
-  { id: 'subsequent-work-draft-plan', title: 'Subsequent work towards a draft plan', file: 'scoping_feedback_summary.pdf' }
+  { id: 'plan-content', title: 'Plan content', file: 'plan_content.pdf' },
+  { id: 'evidence-documents', title: 'Evidence and progress', file: 'evidence_documents.pdf' },
+  { id: 'background-documents', title: 'Latest policies map', file: 'policies_map.pdf' }
+] %}
+
+{% set additionalDocumentRows = [
+  {
+    id: 'plan-content',
+    title: 'Plan content',
+    hasDocuments: true,
+    showSeedDocument: true,
+    latestFileName: 'plan_content.pdf',
+    uploadedDocuments: []
+  },
+  {
+    id: 'evidence-documents',
+    title: 'Evidence and progress',
+    hasDocuments: true,
+    showSeedDocument: true,
+    latestFileName: 'evidence_documents.pdf',
+    uploadedDocuments: []
+  },
+  {
+    id: 'background-documents',
+    title: 'Latest policies map',
+    hasDocuments: true,
+    showSeedDocument: true,
+    latestFileName: 'policies_map.pdf',
+    uploadedDocuments: []
+  }
 ] %}
 
 {% block content %}
@@ -99,7 +128,7 @@ Gateway 2 documents - {{ serviceName }}
     </dl>
     
 
-    <h3 class="govuk-heading-m">Additional documents</h3>
+    <h3 class="govuk-heading-m">Plan content, evidence and background</h3>
     <dl class="govuk-summary-list govuk-summary-list-timetable app-gw2-documents-list">
       <div class="govuk-summary-list__row app-summary-list--document-columns__header">
         <dt class="govuk-summary-list__key">Category</dt>

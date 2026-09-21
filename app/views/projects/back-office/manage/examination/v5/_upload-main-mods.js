@@ -241,6 +241,7 @@ router.post('/upload/main-mods/remove-confirm', (req, res) => {
 
 	if (action === 'remove') {
 		removeMainModsDocumentByFilename(req, filename);
+		req.session.notificationMessage = 'Document removed';
 	}
 
 	req.session.save(() => {

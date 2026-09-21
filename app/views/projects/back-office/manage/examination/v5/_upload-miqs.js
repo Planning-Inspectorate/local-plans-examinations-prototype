@@ -241,6 +241,7 @@ router.post('/upload/miq/remove-confirm', (req, res) => {
 
 	if (action === 'remove') {
 		removeMiqDocumentByFilename(req, filename);
+		req.session.notificationMessage = 'Document removed';
 	}
 
 	req.session.save(() => {

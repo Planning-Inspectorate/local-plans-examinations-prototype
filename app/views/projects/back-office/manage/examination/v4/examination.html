@@ -214,10 +214,10 @@ Examination overview– {{ serviceName }}
       
       <dl class="govuk-summary-list govuk-summary-list-timetable">
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">MIQ</dt>
+          <dt class="govuk-summary-list__key">MIQs</dt>
       <dd class="govuk-summary-list__value">
       {% if miqDocumentsSummary and miqDocumentsSummary.hasDocuments %}
-        Issued on {{ miqDocumentsSummary.latestUploadedAtDisplay if miqDocumentsSummary.latestUploadedAtDisplay and miqDocumentsSummary.latestUploadedAtDisplay != '-' else 'Not provided' }}
+        {{ miqDocumentsSummary.count }} document{{ 's' if miqDocumentsSummary.count != 1 else '' }} added
 {% else %}
         Not provided
 {% endif %}
