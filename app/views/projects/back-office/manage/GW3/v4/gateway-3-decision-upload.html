@@ -27,7 +27,7 @@
       {% endif %}
 
       <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}{% if hasMultipleSubmissions %} - {{ submissionLabel | capitalize }}{% endif %}</span>
-      <h1 class="govuk-heading-l">Upload Gateway 3 report{% if hasMultipleSubmissions %} for {{ submissionLabel }}{% endif %}</h1>
+      <h1 class="govuk-heading-l">Upload report{% if hasMultipleSubmissions %} for {{ submissionLabel }}{% endif %}</h1>
 
       <p>
         The files must be a DOC, DOCX, PDF, CSV, JPG or PNG and be smaller than 250MB.
@@ -37,7 +37,7 @@
         The total size of all your uploaded files must be smaller than 1GB.
       </p>
 
-      <h2 class="govuk-heading-m">Upload documents</h2>
+      <h2 class="govuk-heading-m">Upload files</h2>
 
       <form class="form" method="post" action="/projects/back-office/manage/GW3/v4/gateway-3-decision-upload">
         <input type="hidden" name="returnUrl" value="{{ returnUrl }}">

@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-  What is the outcome of your decision? - {{ serviceName }}
+  What is the outcome of this submission? - {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -22,21 +22,21 @@
           name: "gateway-3-decision-outcome",
           fieldset: {
             legend: {
-              text: "What is the outcome of your Gateway 3 decision?",
+              text: "What is the outcome of this submission?",
               isPageHeading: true,
               classes: "govuk-fieldset__legend--l"
             }
           },
           items: [
             {
-              value: "Proceed to examination",
-              text: "Proceed to examination",
-              checked: gateway3DecisionOutcome == "Proceed to examination"
+              value: "Ready",
+              text: "Ready",
+              checked: gateway3DecisionOutcome == "Ready"
             },
             {
-              value: "Resubmission required",
-              text: "Resubmission required",
-              checked: gateway3DecisionOutcome == "Resubmission required"
+              value: "Not ready",
+              text: "Not ready",
+              checked: gateway3DecisionOutcome == "Not ready"
             }
           ]
         }) }}

@@ -53,19 +53,19 @@ router.get('/set-status', (req, res) => {
 
   if (state === 'resubmission-no-docs') {
     commonFields();
-    req.session.gw3v4Submission1DecisionOutcome = 'Resubmission required';
+    req.session.gw3v4Submission1DecisionOutcome = 'Not ready';
     req.session.gw3v4Submission1DecisionDate = '10 Jun 2026';
   }
 
   if (state === 'resubmission') {
     commonFields();
-    req.session.gw3v4Submission1DecisionOutcome = 'Resubmission required';
+    req.session.gw3v4Submission1DecisionOutcome = 'Not ready';
     req.session.gw3v4Submission1DecisionDate = '10 Jun 2026';
   }
 
   if (state === 'pass') {
     commonFields();
-    req.session.gw3v4Submission1DecisionOutcome = 'Resubmission required';
+    req.session.gw3v4Submission1DecisionOutcome = 'Not ready';
     req.session.gw3v4Submission1DecisionDate = '10 Jun 2026';
     req.session.gw3v4Submission2DecisionOutcome = 'Pass';
     req.session.gw3v4Submission2DecisionDate = '20 Jun 2026';

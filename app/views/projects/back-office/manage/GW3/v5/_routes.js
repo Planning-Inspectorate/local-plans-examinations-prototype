@@ -324,9 +324,7 @@ function buildGateway3ViewModel(req, notificationMessage = '') {
   const isPassState = gateway3OverviewState === 'pass';
 
   const submission1DocumentsCount = isInitial ? 0 : defaultSubmissionCount;
-  const submission2DocumentsCount = isResubmissionNoDocs
-    ? 0
-    : gateway3OverviewState === 'resubmission' ? 4 : defaultSubmissionCount;
+  const submission2DocumentsCount = isResubmissionNoDocs ? 0 : 4;
 
   const shouldUseStoredDecisions = gateway3OverviewState === 'resubmission-no-docs'
     || gateway3OverviewState === 'resubmission'
@@ -338,12 +336,12 @@ function buildGateway3ViewModel(req, notificationMessage = '') {
   let submission2DecisionDate = shouldUseStoredDecisions ? (req.session.gw3v4Submission2DecisionDate || '-') : '-';
 
   if (submission1Decision === '-' && (gateway3OverviewState === 'resubmission-no-docs' || gateway3OverviewState === 'resubmission')) {
-    submission1Decision = 'Resubmission required';
+    submission1Decision = 'Not ready';
     submission1DecisionDate = '10 June 2026';
   }
 
   if (submission1Decision === '-' && gateway3OverviewState === 'pass') {
-    submission1Decision = 'Resubmission required';
+    submission1Decision = 'Not ready';
     submission1DecisionDate = '10 June 2026';
   }
 
@@ -602,7 +600,7 @@ router.post('/gateway-3-decision-check-answers', (req, res) => {
   }
 
   // Keep GW3 overview aligned with issued decision outcome.
-  if (submissionVersion === '1' && normalizedDecisionOutcome === 'resubmission required') {
+  if (submissionVersion === '1' && normalizedDecisionOutcome === 'not ready') {
     nextOverviewState = 'resubmission-no-docs';
     req.session.gw3v4Submission2DecisionOutcome = '-';
     req.session.gw3v4Submission2DecisionDate = '-';
@@ -614,19 +612,19 @@ router.post('/gateway-3-decision-check-answers', (req, res) => {
     req.session.data.gateway3CompletionDate = '-';
   }
 
-  if (submissionVersion === '1' && (normalizedDecisionOutcome === 'proceed to examination' || normalizedDecisionOutcome === 'pass')) {
+  if (submissionVersion === '1' && (normalizedDecisionOutcome === 'ready' || normalizedDecisionOutcome === 'pass')) {
     nextOverviewState = 'pass';
   }
 
-  if (submissionVersion === '2' && normalizedDecisionOutcome === 'resubmission required') {
+  if (submissionVersion === '2' && normalizedDecisionOutcome === 'not ready') {
     nextOverviewState = 'resubmission';
   }
 
-  if (submissionVersion === '2' && (normalizedDecisionOutcome === 'proceed to examination' || normalizedDecisionOutcome === 'pass')) {
+  if (submissionVersion === '2' && (normalizedDecisionOutcome === 'ready' || normalizedDecisionOutcome === 'pass')) {
     nextOverviewState = 'pass';
   }
 
-  if (normalizedDecisionOutcome === 'proceed to examination' && reportUploadedDate !== '-') {
+  if (normalizedDecisionOutcome === 'ready' && reportUploadedDate !== '-') {
     req.session.gateway3CompletionDate = reportUploadedDate;
     if (!req.session.data) req.session.data = {};
     req.session.data.gateway3CompletionDate = reportUploadedDate;
