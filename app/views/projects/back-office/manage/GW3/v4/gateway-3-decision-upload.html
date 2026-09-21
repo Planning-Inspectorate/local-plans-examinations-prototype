@@ -20,7 +20,7 @@
           <h2 class="govuk-error-summary__title" id="error-summary-title">There is a problem</h2>
           <div class="govuk-error-summary__body">
             <ul class="govuk-list govuk-error-summary__list">
-              <li><a href="#filesTable">Upload at least one Gateway 3 report before continuing</a></li>
+              <li><a href="#filesTable">Upload at least one file before continuing</a></li>
             </ul>
           </div>
         </div>
@@ -28,7 +28,7 @@
 
       <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}{% if hasMultipleSubmissions %} - {{ submissionLabel | capitalize }}{% endif %}</span>
       <h1 class="govuk-heading-l">Upload report{% if hasMultipleSubmissions %} for {{ submissionLabel }}{% endif %}</h1>
-
+       <h2 class="govuk-heading-m">Upload files</h2>
       <p>
         Each file must be a PDF, DOC, DOCX, PPT, PPTX, XLS, XLSX, MSG, JPG, JPEG, PNG, TIF or TIFF and be smaller than 250MB.
       </p>
@@ -37,7 +37,7 @@
         The total size of all your uploaded files must be smaller than 1GB.
       </p>
 
-      <h2 class="govuk-heading-m">Upload files</h2>
+   
 
       <form class="form" method="post" action="/projects/back-office/manage/GW3/v4/gateway-3-decision-upload">
         <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
