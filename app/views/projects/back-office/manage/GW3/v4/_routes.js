@@ -275,6 +275,19 @@ function getUploadedDocumentsFromSessionData(req) {
   }
 }
 
+function seedDummyDecisionUpload(req) {
+  if (getUploadedDocumentsFromSessionData(req).length > 0) return;
+
+  if (!req.session.data) req.session.data = {};
+  req.session.data.fileData = JSON.stringify([
+    { name: 'gw3_report.docx', id: 'gw3-report-dummy' }
+  ]);
+  req.session.data.fileSizeMap = {
+    ...(req.session.data.fileSizeMap || {}),
+    'gw3_report.docx': 0
+  };
+}
+
 function getWebsiteHref(value) {
   if (!value || value === '-') return '';
 
@@ -513,6 +526,8 @@ router.get('/gateway-3-decision-upload', (req, res) => {
   const submissionVersion = getSubmissionVersion(req.query.submissionVersion);
   const returnUrl = req.query.returnUrl || GW3_V4_OVERVIEW_URL;
 
+  seedDummyDecisionUpload(req);
+
   res.render('projects/back-office/manage/GW3/v4/gateway-3-decision-upload', {
     caseRef: req.session.currentCaseRef || '',
     serviceName: 'Local Plans Examinations',
@@ -528,6 +543,7 @@ router.get('/gateway-3-decision-upload', (req, res) => {
 router.post('/gateway-3-decision-upload', (req, res) => {
   const submissionVersion = getSubmissionVersion(req.body.submissionVersion);
   const returnUrl = req.body.returnUrl || GW3_V4_OVERVIEW_URL;
+  seedDummyDecisionUpload(req);
   const uploadedDocuments = getUploadedDocumentsFromSessionData(req);
 
   if (!uploadedDocuments.length) {

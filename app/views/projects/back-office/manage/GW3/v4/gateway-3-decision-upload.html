@@ -53,18 +53,6 @@
           </p>
         {% endif %}
 
-        {% if uploadedDocuments and uploadedDocuments.length > 0 %}
-          <h3 class="govuk-heading-s">Previously uploaded files</h3>
-          <div class="govuk-body">
-            {%- for doc in uploadedDocuments -%}
-              <div>{{ doc.originalname }}{% if doc.size %} ({{ doc.size }} bytes){% endif %}</div>
-            {%- endfor -%}
-          </div>
-          <p>
-            <a href="/projects/back-office/manage/GW3/v4/gateway-3-decision-upload/clear-uploads?submissionVersion={{ submissionVersion }}&returnUrl={{ returnUrl }}">Clear all documents</a>
-          </p>
-        {% endif %}
-
         <div class="govuk-button-group">
           {{ govukButton({
             text: "Continue"
@@ -72,7 +60,7 @@
         </div>
       </form>
     </div>
-  </div>
+
 
   <script src="/public/javascripts/multi-file-upload.js"></script>
 {% endblock %}
