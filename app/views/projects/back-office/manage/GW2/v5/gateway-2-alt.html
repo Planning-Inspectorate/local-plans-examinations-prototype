@@ -44,16 +44,16 @@
               <td class="govuk-table__cell">{{ contactLabel }}</td>
               <td class="govuk-table__cell">{{ contact.dateAppointedDisplay or 'Not provided' }}</td>
               <td class="govuk-table__cell">
-          <a class="govuk-link" href="/projects/back-office/manage/GW2/v5/remove-contact-details-page?edit={{ loop.index0 }}">Remove<span class="govuk-visually-hidden"> {{ contactLabel }}</span></a>
+          <a class="govuk-link" href="/projects/back-office/manage/GW2/v5/remove-assessor?edit={{ loop.index0 }}">Remove<span class="govuk-visually-hidden"> {{ contactLabel }}</span></a>
             <span aria-hidden="true"> | </span>
-            <a class="govuk-link" href="/projects/back-office/manage/GW2/v5/additional-contact?edit={{ loop.index0 }}">Change<span class="govuk-visually-hidden"> {{ contactLabel }} details</span></a>
+        <a class="govuk-link" href="/projects/back-office/manage/GW2/v5/additional-contact?edit={{ loop.index0 }}">Change<span class="govuk-visually-hidden"> {{ contactLabel }} details</span></a>
           </td>
             </tr>
           {% endfor %}
         </tbody>
       </table>
       {% endif %}
-      <p><a class="govuk-link" href="/projects/back-office/manage/GW2/v5/check-contact-details">Manage assessors</a></p>
+      <p><a class="govuk-link" href="/projects/back-office/manage/GW2/v5/additional-contact">Add assessor</a></p>
 
       <h3 class="govuk-heading-l">Workshop</h3>
       {% include "projects/back-office/manage/GW2/v5/partials/_workshop-documents.njk" %}

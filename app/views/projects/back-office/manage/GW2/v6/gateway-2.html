@@ -44,7 +44,7 @@
               <td class="govuk-table__cell">{{ contact.fullName or 'Not provided' }}</td>
               <td class="govuk-table__cell">{{ contact.dateAppointedDisplay }}</td>
               <td class="govuk-table__cell">
-                <a class="govuk-link" href="/projects/back-office/manage/GW2/v6/remove-assessor?edit={{ loop.index0 }}">Remove<span class="govuk-visually-hidden"> {{ contact.fullName }}</span></a>
+                <a class="govuk-link" href="/projects/back-office/manage/GW2/v6/remove-contact-details-page?edit={{ loop.index0 }}">Remove<span class="govuk-visually-hidden"> {{ contact.fullName }}</span></a>
               </td>
             </tr>
           {% endfor %}
@@ -53,7 +53,7 @@
       {% endif %}
 
       <p>
-        <a class="govuk-link" href="/projects/back-office/manage/GW2/v6/additional-contact">Add assessor</a>
+        <a class="govuk-link" href="/projects/back-office/manage/GW2/v6/check-contact-details">Manage assessors</a>
       </p>
     </div>
   </div>

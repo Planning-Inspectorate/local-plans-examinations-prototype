@@ -27,6 +27,7 @@
       {% endif %}
       <form method="post">
         <input type="hidden" name="editIndex" value="{{ editIndex }}">
+        <input type="hidden" name="from" value="{{ from }}">
         <fieldset class="govuk-fieldset" role="group" aria-describedby="assessor-date-appointed-hint">
           <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
             <h1 class="govuk-fieldset__heading">When was the assessor appointed?</h1>
@@ -55,7 +56,7 @@
         </fieldset>
         <div class="govuk-button-group gw2-v5-button-group">
           {{ govukButton({ text: "Save and continue" }) }}
-          <a href="/projects/back-office/manage/GW2/v5/check-contact-details" class="govuk-link">Cancel</a>
+          <a href="{{ cancelUrl | default('/projects/back-office/manage/GW2/v5/assessor-notification') }}" class="govuk-link">Cancel</a>
         </div>
       </form>
     </div>

@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block beforeContent %}
-  {{ govukBackLink({ text: "Back", href: "/projects/back-office/manage/GW2/v6/additional-contact" }) }}
+  {{ govukBackLink({ text: "Back", href: "/projects/back-office/manage/GW2/v6/check-contact-details" }) }}
 {% endblock %}
 
 {% block content %}
@@ -19,14 +19,14 @@
           <dt class="govuk-summary-list__key">Assessor</dt>
           <dd class="govuk-summary-list__value">{{ contact.fullName or 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/GW2/v6/additional-contact?from=notification">Change<span class="govuk-visually-hidden"> assessor</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/GW2/v6/additional-contact">Change<span class="govuk-visually-hidden"> assessor</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Date appointed</dt>
           <dd class="govuk-summary-list__value">{{ contact.dateAppointedDisplay or 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="/projects/back-office/manage/GW2/v6/date-appointed?from=notification">Change<span class="govuk-visually-hidden"> date appointed</span></a>
+            <a class="govuk-link" href="/projects/back-office/manage/GW2/v6/date-appointed">Change<span class="govuk-visually-hidden"> date appointed</span></a>
           </dd>
         </div>
       </dl>

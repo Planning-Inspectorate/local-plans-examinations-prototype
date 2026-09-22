@@ -1,23 +1,20 @@
 {% extends "layouts/back-office.html" %}
-{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% block pageTitle %}
   Date appointed – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
-  {{ govukBackLink({ text: "Back", href: backUrl | default("/projects/back-office/manage/GW2/v6/assessor-notification") }) }}
+  {{ govukBackLink({ text: "Back", href: "javascript:window.history.back()" }) }}
 {% endblock %}
 
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      {% if error %}
-        <p class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span> {{ error }}</p>
-      {% endif %}
+      {% if error %}{{ govukErrorSummary({ titleText: "There is a problem", errorList: [{ text: error, href: "#assessor-date-appointed-day" }] }) }}{% endif %}
       <form method="post">
         <input type="hidden" name="editIndex" value="{{ editIndex }}">
-        <input type="hidden" name="from" value="{{ from }}">
         <fieldset class="govuk-fieldset" role="group" aria-describedby="date-appointed-hint">
           <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
             <h1 class="govuk-fieldset__heading">When was the assessor appointed?</h1>
@@ -40,7 +37,7 @@
         </fieldset>
         <div class="govuk-button-group">
           {{ govukButton({ text: "Save and continue" }) }}
-          <a href="{{ cancelUrl | default('/projects/back-office/manage/GW2/v6/assessor-notification') }}" class="govuk-link">Cancel</a>
+          <a href="/projects/back-office/manage/GW2/v6/check-contact-details" class="govuk-link">Cancel</a>
         </div>
       </form>
     </div>

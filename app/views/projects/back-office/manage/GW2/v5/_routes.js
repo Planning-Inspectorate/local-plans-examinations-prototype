@@ -1017,7 +1017,7 @@ function buildGateway2ViewModel(req, notificationMessage = '') {
     statusText: gateway2Status.text,
     statusClasses: gateway2Status.classes
   };
-  const assessorContacts = (req.session.contacts || []).map((contact) => ({
+  const assessorContacts = (req.session.gw2v6AssessorContacts || []).map((contact) => ({
     ...contact,
     dateAppointedDisplay: formatAssessorDateForDisplay(contact.dateAppointed)
   }));
@@ -1102,57 +1102,77 @@ router.use((req, res, next) => {
   next();
 });
 
-router.get('/check-contact-details', (req, res) => {
-  const notificationMessage = req.session.gw2V5AssessorNotificationMessage || '';
-  delete req.session.gw2V5AssessorNotificationMessage;
-
-  res.render('projects/back-office/manage/GW2/v5/check-contact-details', {
-    notificationMessage,
-    contacts: (req.session.contacts || []).map((contact) => ({
-      ...contact,
-      dateAppointedDisplay: formatAssessorDateForDisplay(contact.dateAppointed)
-    }))
-  });
-});
-
 router.get('/additional-contact', (req, res) => {
   const editIndex = req.query.edit;
+  const from = req.query.from;
+  const contacts = Array.isArray(req.session.gw2v6AssessorContacts) ? req.session.gw2v6AssessorContacts : [];
   let contact = {};
-  if (editIndex !== undefined && req.session.contacts && Array.isArray(req.session.contacts)) {
-    const index = Number(editIndex);
-    if (!Number.isNaN(index) && req.session.contacts[index]) contact = req.session.contacts[index];
-  }
+  if (editIndex !== undefined && editIndex !== '' && contacts[Number(editIndex)]) contact = contacts[Number(editIndex)];
+  else if (from === 'notification' && req.session.gw2v6PendingNotification) contact = req.session.gw2v6PendingNotification;
+  const cancelUrl = (from === 'notification' && (!editIndex || editIndex === ''))
+    ? '/projects/back-office/manage/GW2/v5/assessor-notification'
+    : '/projects/back-office/manage/GW2/v5/gateway-2';
   res.render('projects/back-office/manage/GW2/v5/additional-contact', {
     contact,
-    editIndex: editIndex !== undefined ? editIndex : ''
+    editIndex: editIndex !== undefined ? editIndex : '',
+    from: from || '',
+    cancelUrl,
+    backUrl: cancelUrl
   });
 });
 
 router.post('/additional-contact', (req, res) => {
-  const { fullName, editIndex } = req.body;
+  const { fullName, editIndex, from } = req.body;
+  const cancelUrl = (from === 'notification' && (!editIndex || editIndex === ''))
+    ? '/projects/back-office/manage/GW2/v5/assessor-notification'
+    : '/projects/back-office/manage/GW2/v5/gateway-2';
   if (!fullName) {
     return res.render('projects/back-office/manage/GW2/v5/additional-contact', {
       contact: { fullName: fullName || '' },
       editIndex: editIndex || '',
+      from: from || '',
+      cancelUrl,
+      backUrl: cancelUrl,
       error: 'Enter the assessor name'
     });
   }
-  req.session.pendingGw2V5Assessor = {
-    fullName,
-    editIndex: editIndex !== undefined && editIndex !== '' ? Number(editIndex) : ''
-  };
-  res.redirect(`/projects/back-office/manage/GW2/v5/date-appointed${editIndex !== undefined && editIndex !== '' ? `?edit=${editIndex}` : ''}`);
+  const contacts = Array.isArray(req.session.gw2v6AssessorContacts) ? req.session.gw2v6AssessorContacts : [];
+  const index = editIndex !== undefined && editIndex !== '' ? Number(editIndex) : '';
+  if (index !== '') {
+    contacts[index] = { ...contacts[index], fullName };
+    req.session.gw2v6AssessorContacts = contacts;
+    return res.redirect('/projects/back-office/manage/GW2/v5/gateway-2');
+  }
+  if (from === 'notification' && req.session.gw2v6PendingNotification) {
+    req.session.gw2v6PendingNotification.fullName = fullName;
+    if (contacts.length > 0) {
+      contacts[contacts.length - 1].fullName = fullName;
+      req.session.gw2v6AssessorContacts = contacts;
+    }
+    return res.redirect('/projects/back-office/manage/GW2/v5/assessor-notification');
+  }
+  const newContact = { fullName, dateAppointed: DateTime.now().toISODate() };
+  contacts.push(newContact);
+  req.session.gw2v6AssessorContacts = contacts;
+  req.session.gw2v6PendingNotification = newContact;
+  res.redirect('/projects/back-office/manage/GW2/v5/assessor-notification');
 });
 
 router.get('/date-appointed', (req, res) => {
+  const pending = req.session.gw2v6PendingNotification;
   const editIndex = req.query.edit;
-  const pending = req.session.pendingGw2V5Assessor || {};
-  const existing = editIndex !== undefined && req.session.contacts && req.session.contacts[Number(editIndex)];
-  const dateAppointed = pending.dateAppointed || existing?.dateAppointed || DateTime.now().toISODate();
+  const from = req.query.from;
+  const existing = editIndex !== undefined && editIndex !== '' && req.session.gw2v6AssessorContacts?.[Number(editIndex)];
+  const dateAppointed = existing?.dateAppointed || pending?.dateAppointed || DateTime.now().toISODate();
   const [year, month, day] = dateAppointed.split('-');
-
+  const cancelUrl = (editIndex !== undefined && editIndex !== '')
+    ? '/projects/back-office/manage/GW2/v5/gateway-2'
+    : '/projects/back-office/manage/GW2/v5/assessor-notification';
   res.render('projects/back-office/manage/GW2/v5/date-appointed', {
-    editIndex: editIndex !== undefined ? editIndex : pending.editIndex,
+    editIndex: editIndex !== undefined ? editIndex : '',
+    from: from || '',
+    cancelUrl,
+    backUrl: cancelUrl,
     day,
     month,
     year
@@ -1160,15 +1180,18 @@ router.get('/date-appointed', (req, res) => {
 });
 
 router.post('/date-appointed', (req, res) => {
-  const { day, month, year, editIndex } = req.body;
-  const date = DateTime.fromObject({
-    day: Number(day),
-    month: Number(month),
-    year: Number(year)
-  });
-  if (!day || !month || !year || !date.isValid || date.day !== Number(day) || date.month !== Number(month) || date.year !== Number(year)) {
+  const { day, month, year, editIndex, from } = req.body;
+  const date = DateTime.fromObject({ day: Number(day), month: Number(month), year: Number(year) });
+  const validDate = day && month && year && date.isValid && date.day === Number(day) && date.month === Number(month) && date.year === Number(year);
+  const cancelUrl = (editIndex !== undefined && editIndex !== '')
+    ? '/projects/back-office/manage/GW2/v5/gateway-2'
+    : '/projects/back-office/manage/GW2/v5/assessor-notification';
+  if (!validDate) {
     return res.render('projects/back-office/manage/GW2/v5/date-appointed', {
       editIndex: editIndex || '',
+      from: from || '',
+      cancelUrl,
+      backUrl: cancelUrl,
       day: day || '',
       month: month || '',
       year: year || '',
@@ -1176,75 +1199,70 @@ router.post('/date-appointed', (req, res) => {
     });
   }
 
-  const pending = req.session.pendingGw2V5Assessor || {};
-  const index = editIndex !== undefined && editIndex !== '' ? Number(editIndex) : pending.editIndex;
-  const contact = {
-    fullName: pending.fullName || req.session.contacts?.[index]?.fullName || '',
-    dateAppointed: date.toISODate()
-  };
-  if (!req.session.contacts || !Array.isArray(req.session.contacts)) req.session.contacts = [];
-  if (index !== undefined && index !== '') req.session.contacts[Number(index)] = contact;
-  else {
-    req.session.contacts.push(contact);
-    req.session.pendingGw2V5AssessorNotification = contact;
-    delete req.session.pendingGw2V5Assessor;
-    return res.redirect('/projects/back-office/manage/GW2/v5/assessor-notification');
+  const contacts = Array.isArray(req.session.gw2v6AssessorContacts) ? req.session.gw2v6AssessorContacts : [];
+  const index = editIndex !== undefined && editIndex !== '' ? Number(editIndex) : '';
+  if (index !== '') {
+    if (contacts[index]) contacts[index].dateAppointed = date.toISODate();
+    req.session.gw2v6AssessorContacts = contacts;
+    return res.redirect('/projects/back-office/manage/GW2/v5/gateway-2');
   }
-  delete req.session.pendingGw2V5Assessor;
-  res.redirect('/projects/back-office/manage/GW2/v5/check-contact-details');
+  if (req.session.gw2v6PendingNotification) {
+    req.session.gw2v6PendingNotification.dateAppointed = date.toISODate();
+    if (contacts.length > 0) contacts[contacts.length - 1].dateAppointed = date.toISODate();
+    req.session.gw2v6AssessorContacts = contacts;
+  }
+  res.redirect('/projects/back-office/manage/GW2/v5/assessor-notification');
 });
 
 router.get('/assessor-notification', (req, res) => {
-  const contact = req.session.pendingGw2V5AssessorNotification;
-
+  const contact = req.session.gw2v6PendingNotification;
   res.render('projects/back-office/manage/GW2/v5/assessor-notification', {
-    contact: contact && {
-      ...contact,
-      dateAppointedDisplay: formatAssessorDateForDisplay(contact.dateAppointed)
-    }
+    contact: contact && { ...contact, dateAppointedDisplay: formatAssessorDateForDisplay(contact.dateAppointed) }
   });
 });
 
 router.post('/assessor-notification', (req, res) => {
-  const contact = req.session.pendingGw2V5AssessorNotification;
+  const contact = req.session.gw2v6PendingNotification;
   if (contact) {
-    req.session.gw2V5AssessorNotificationMessage = `Notification sent to ${contact.fullName}`;
-    delete req.session.pendingGw2V5AssessorNotification;
+    req.session.gw2v6NotificationMessage = `Notification sent to ${contact.fullName}`;
+    delete req.session.gw2v6PendingNotification;
   }
-  res.redirect('/projects/back-office/manage/GW2/v5/check-contact-details');
+  res.redirect('/projects/back-office/manage/GW2/v5/gateway-2');
 });
 
-router.get('/remove-contact-details-page', (req, res) => {
+router.get('/remove-assessor', (req, res) => {
   const editIndex = Number(req.query.edit);
-  res.render('projects/back-office/manage/GW2/v5/remove-contact-details', {
-    contact: req.session.contacts && req.session.contacts[editIndex],
+  res.render('projects/back-office/manage/GW2/v5/remove-assessor', {
+    contact: req.session.gw2v6AssessorContacts && req.session.gw2v6AssessorContacts[editIndex],
     editIndex: req.query.edit
   });
 });
 
-router.post('/remove-contact-details-page', (req, res) => {
+router.post('/remove-assessor', (req, res) => {
   const editIndex = Number(req.body.editIndex);
-  if (req.session.contacts && Array.isArray(req.session.contacts) && !Number.isNaN(editIndex)) {
-    req.session.contacts.splice(editIndex, 1);
-    req.session.gw2V5AssessorNotificationMessage = 'Assessor removed';
+  if (req.session.gw2v6AssessorContacts && Array.isArray(req.session.gw2v6AssessorContacts) && !Number.isNaN(editIndex)) {
+    req.session.gw2v6AssessorContacts.splice(editIndex, 1);
+    req.session.gw2v6NotificationMessage = 'Assessor removed';
   }
-  res.redirect('/projects/back-office/manage/GW2/v5/check-contact-details');
+  res.redirect('/projects/back-office/manage/GW2/v5/gateway-2');
 });
 
 router.get('/gateway-2-alt', (req, res) => {
-  let notificationMessage = req.session.notificationMessage || '';
+  let notificationMessage = req.session.notificationMessage || req.session.gw2v6NotificationMessage || '';
   if (req.query.issueReportSubmitted === '1') notificationMessage = ISSUE_REPORT_SUCCESS_MESSAGE;
   delete req.session.notificationMessage;
+  delete req.session.gw2v6NotificationMessage;
 
   res.render('projects/back-office/manage/GW2/v5/gateway-2-alt', buildGateway2ViewModel(req, notificationMessage));
 });
 
 router.get('/gateway-2', (req, res) => {
-  let notificationMessage = req.session.notificationMessage || '';
+  let notificationMessage = req.session.notificationMessage || req.session.gw2v6NotificationMessage || '';
   if (req.query.issueReportSubmitted === '1') {
     notificationMessage = ISSUE_REPORT_SUCCESS_MESSAGE;
   }
   delete req.session.notificationMessage;
+  delete req.session.gw2v6NotificationMessage;
 
   res.render('projects/back-office/manage/GW2/v5/gateway-2', buildGateway2ViewModel(req, notificationMessage));
   req.session.save();
