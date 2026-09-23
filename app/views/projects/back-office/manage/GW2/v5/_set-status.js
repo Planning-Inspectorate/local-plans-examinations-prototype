@@ -33,6 +33,7 @@ router.get('/set-status', (req, res) => {
     delete req.session.gateway2AssessorAppointmentDate;
     delete req.session.gw2v3WorkshopDocuments;
     delete req.session.hearings;
+    delete req.session.examinationWebsite;
   } else if (state === 'submission-received') {
     // Clear assessor and workshop-related fields
     clearGateway2ReportIssuedState(req);

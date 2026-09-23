@@ -20,7 +20,7 @@
   <div class="govuk-grid-column-two-thirds">
  
     <span class="govuk-caption-l">
-      Manage a plan examination
+     Manage development plans
     </span>
     <h1 class="govuk-heading-l">
       {{ title }}
@@ -66,7 +66,7 @@
  
     <ul class="govuk-list govuk-list--bullet">
       <li>Option 1 for MIQs and MMs documents. Simple upload flow. Upload > Check documents > save</li>
-      <li>Examination statuses are no</li>
+      <li>Examination statuses are now displayed</li>
   
     </ul>
  
@@ -78,6 +78,17 @@
     <p class="govuk-body">
       <a class="govuk-link" href="/projects/back-office/manage/examination/v4/option-2/examination">View Option 2 for MIQs and MMs document upload and management</a>
     </p>
+    <p class="govuk-body">Status scenarios:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li><a class="govuk-link" href="/projects/back-office/manage/examination/v4/set-status?state=submission-pending&amp;returnUrl=/projects/back-office/manage/examination/v4/examination">Submission pending</a></li>
+      <li><a class="govuk-link" href="/projects/back-office/manage/examination/v4/set-status?state=submission-received&amp;returnUrl=/projects/back-office/manage/examination/v4/examination">Submission received</a></li>
+      <li><a class="govuk-link" href="/projects/back-office/manage/examination/v4/set-status?state=exam-in-progress&amp;returnUrl=/projects/back-office/manage/examination/v4/examination">Exam in progress</a></li>
+      <li><a class="govuk-link" href="/projects/back-office/manage/examination/v4/set-status?state=paused&amp;returnUrl=/projects/back-office/manage/examination/v4/examination">Paused</a></li>
+      <li><a class="govuk-link" href="/projects/back-office/manage/examination/v4/set-status?state=qa&amp;returnUrl=/projects/back-office/manage/examination/v4/examination">QA</a></li>
+      <li><a class="govuk-link" href="/projects/back-office/manage/examination/v4/set-status?state=fact-check&amp;returnUrl=/projects/back-office/manage/examination/v4/examination">Fact check</a></li>
+      <li><a class="govuk-link" href="/projects/back-office/manage/examination/v4/set-status?state=report-issued&amp;returnUrl=/projects/back-office/manage/examination/v4/examination">Report issued</a></li>
+      <li><a class="govuk-link" href="/projects/back-office/manage/examination/v4/set-status?state=plan-adopted&amp;returnUrl=/projects/back-office/manage/examination/v4/examination">Plan adopted</a></li>
+    </ul>
     <br>
     <br>
     <hr>

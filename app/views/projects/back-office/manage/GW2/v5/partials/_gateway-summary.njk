@@ -49,6 +49,19 @@
             {% endif %}
     </dd>
   </div>
+   <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Examination website</dt>
+          <dd class="govuk-summary-list__value">
+            {% if examinationWebsite and examinationWebsite != '-' %}
+              <a class="govuk-link" href="{{ examinationWebsite }}" target="_blank" rel="noopener noreferrer">{{ examinationWebsite }}</a>
+            {% else %}
+              Not provided
+            {% endif %}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="{{ basePath }}/examination-website.html?returnUrl=/projects/back-office/manage/GW2/v5/gateway-2">Change<span class="govuk-visually-hidden">Examination Website</span></a>
+          </dd>
+    </div>
 </dl>
 <h3 class="govuk-heading-l">Assessors</h3>
 {% if assessorContacts and assessorContacts.length %}

@@ -1048,6 +1048,7 @@ footerLinks: [
     gateway2ValidDate: formatDateForDisplay(req.session.gateway2ValidDate),
     gateway2AssessorName: req.session.gateway2AssessorName || 'Not provided',
     gateway2AssessorAppointmentDate: formatDateForDisplay(req.session.gateway2AssessorAppointmentDate),
+    examinationWebsite: req.session.examinationWebsite || '-',
     assessorContacts,
     gateway2ReportIssuedDate: formatDateForDisplay(req.session.gateway2ReportIssuedDate),
     gateway2ReportPublishedDate: formatDateForDisplay(req.session.gateway2ReportPublishedDate),
@@ -1265,7 +1266,13 @@ router.get('/gateway-2', (req, res) => {
   delete req.session.gw2v6NotificationMessage;
 
   res.render('projects/back-office/manage/GW2/v5/gateway-2', buildGateway2ViewModel(req, notificationMessage));
-  req.session.save();
+});
+
+router.get('/examination-website.html', (req, res) => {
+  res.render('projects/back-office/manage/examination/v1/examination-website', {
+    examinationWebsite: (req.session.examinationWebsite && req.session.examinationWebsite !== '-') ? req.session.examinationWebsite : '',
+    returnUrl: req.query.returnUrl || '/projects/back-office/manage/GW2/v5/gateway-2'
+  });
 });
 
 router.get('/gateway-2-documents', (req, res) => {
