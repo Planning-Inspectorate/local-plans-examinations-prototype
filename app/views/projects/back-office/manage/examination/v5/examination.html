@@ -74,6 +74,17 @@ Examination overview– {{ serviceName }}
           <dd class="govuk-summary-list__actions"><a class="govuk-link" href="{{ basePath }}/examination-actual.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Actual Submission Date</span></a></dd>
         </div>
         <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Examination website</dt>
+          <dd class="govuk-summary-list__value">
+            {% if examinationWebsite and examinationWebsite != '-' %}
+              <a class="govuk-link" href="{{ examinationWebsite }}" target="_blank" rel="noopener noreferrer">{{ examinationWebsite }}</a>
+            {% else %}
+              Not provided
+            {% endif %}
+          </dd>
+          <dd class="govuk-summary-list__actions"><a class="govuk-link" href="{{ basePath }}/examination-website.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Examination Website</span></a></dd>
+        </div>
+        <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">MIQs</dt>
           <dd class="govuk-summary-list__value">{{ miqDocumentsSummary.count ~ ' document' ~ ('s' if miqDocumentsSummary.count != 1 else '') ~ ' added' if miqDocumentsSummary and miqDocumentsSummary.hasDocuments else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions"><a class="govuk-link" href="upload/miq/{{ 'check-answers' if miqDocumentsSummary and miqDocumentsSummary.hasDocuments else 'upload-bo' }}">{{ 'View' if miqDocumentsSummary and miqDocumentsSummary.hasDocuments else 'Add' }}<span class="govuk-visually-hidden"> MIQ documents</span></a></dd>
