@@ -1,13 +1,13 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-	Pause decision – {{ serviceName }}
+	Pause outcome – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
 	{{ govukBackLink({
 		text: "Back",
-		href: basePath + "/plan-pause-end?returnUrl=" + (returnUrl or (basePath + "/examination.html"))
+		href: basePath + "/plan-pause-actual-end?returnUrl=" + (returnUrl or (basePath + "/examination.html"))
 	}) }}
 {% endblock %}
 
@@ -21,7 +21,7 @@
 					name: "plan-pause-decision",
 					fieldset: {
 						legend: {
-							text: "What was the decision at the end of the pause?",
+							text: "What was the outcome of the pause?",
 							isPageHeading: true,
 							classes: "govuk-fieldset__legend--l"
 						}

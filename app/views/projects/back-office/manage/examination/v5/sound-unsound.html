@@ -15,9 +15,11 @@
      
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <form class="form" action="{{ basePath }}/sound-unsound" method="post">
+  <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
+      <form class="form" action="{{ basePath }}/{{ 'final-report/sound-unsound' if finalReport else 'sound-unsound' }}" method="post">
       
       <input type="hidden" name="isEdit" value="{{ isEdit }}">
+      {% if finalReport %}<input type="hidden" name="finalReport" value="true">{% endif %}
 
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {{ govukRadios({

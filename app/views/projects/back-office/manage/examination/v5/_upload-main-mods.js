@@ -169,8 +169,8 @@ router.get('/upload/main-mods/check-answers', (req, res) => {
 	];
 
 	res.render('projects/back-office/manage/examination/v5/upload/main-mods/check-answers', {
-		caseRef: req.session.currentCaseRef || '',
-		serviceName: 'Manage a local plan',
+		caseRef: req.session.data?.currentCaseRef || req.session.currentCaseRef || '',
+		serviceName: 'Manage development plans',
 		uploadedDocuments,
 		totalFiles: uploadedDocuments.length,
 		checkAnswerRows
@@ -194,7 +194,7 @@ router.post('/upload/main-mods/check-answers', (req, res) => {
 	delete req.session.data.fileSizeMap;
 
 	req.session.save(() => {
-		res.redirect(`${req.baseUrl}/upload/main-mods/manage`);
+		res.redirect(`${req.baseUrl}/examination`);
 	});
 });
 
@@ -211,7 +211,7 @@ router.get('/upload/main-mods/manage', (req, res) => {
 
 	res.render('projects/back-office/manage/examination/v5/upload/main-mods/manage', {
 		caseRef: req.session.currentCaseRef || '',
-		serviceName: 'Manage a local plan',
+		serviceName: 'Manage development plans',
 		notificationMessage,
 		managedDocuments
 	});
@@ -229,7 +229,7 @@ router.get('/upload/main-mods/remove-confirm', (req, res) => {
 
 	res.render('projects/back-office/manage/examination/v5/upload/main-mods/remove-confirm', {
 		caseRef: req.session.currentCaseRef || '',
-		serviceName: 'Manage a local plan',
+		serviceName: 'Manage development plans',
 		filename,
 		documentName: document.originalname
 	});

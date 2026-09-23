@@ -1,0 +1,21 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}When was the inspector appointed? – {{ serviceName }}{% endblock %}
+{% block beforeContent %}{{ govukBackLink({ text: "Back", href: returnUrl or (basePath + '/inspectors/check-answers') }) }}{% endblock %}
+{% block content %}
+<div class="govuk-grid-row"><div class="govuk-grid-column-two-thirds">
+  <h1 class="govuk-heading-l">When was the inspector appointed?</h1>
+  <form method="post" action="{{ basePath }}/inspector/{{ index }}/appointed-date">
+    <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
+    <fieldset class="govuk-fieldset" role="group">
+      <legend class="govuk-fieldset__legend govuk-fieldset__legend--m"><span class="govuk-visually-hidden">Inspector appointment date</span></legend>
+      <div class="govuk-date-input" id="inspector-appointed-date">
+        <div class="govuk-date-input__item"><label class="govuk-label govuk-date-input__label" for="day">Day</label><input class="govuk-input govuk-date-input__input govuk-input--width-2" id="day" name="day" type="text" inputmode="numeric" value="{{ dateParts[0] }}"></div>
+        <div class="govuk-date-input__item"><label class="govuk-label govuk-date-input__label" for="month">Month</label><input class="govuk-input govuk-date-input__input govuk-input--width-2" id="month" name="month" type="text" inputmode="numeric" value="{{ dateParts[1] }}"></div>
+        <div class="govuk-date-input__item"><label class="govuk-label govuk-date-input__label" for="year">Year</label><input class="govuk-input govuk-date-input__input govuk-input--width-4" id="year" name="year" type="text" inputmode="numeric" value="{{ dateParts[2] }}"></div>
+      </div>
+    </fieldset>
+    <button class="govuk-button" type="submit">Save and continue</button>
+  </form>
+</div></div>
+{% endblock %}

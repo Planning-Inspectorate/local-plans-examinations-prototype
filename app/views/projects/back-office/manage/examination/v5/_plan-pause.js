@@ -4,6 +4,7 @@ const router = govukPrototypeKit.requests.setupRouter();
 
 const DEFAULT_RETURN_PATH = '/examination';
 const DATE_FORMAT = 'd/M/yyyy';
+const WITHDRAWAL_EVIDENCE_KEY = 'withdrawalSupportingEvidence';
 
 function parseDateFields(day, month, year) {
 	if (!day || !month || !year) return '';
@@ -27,6 +28,27 @@ router.get(['/plan-pause', '/plan-pause.html'], (req, res) => {
 	res.render('projects/back-office/manage/examination/v5/plan-pause', {
 		planPauseDate: req.session.planPauseDate && req.session.planPauseDate !== '-' ? req.session.planPauseDate : '',
 		returnUrl: resolveReturnUrl(req, req.query.returnUrl)
+	});
+});
+
+router.get(['/withdrawn-date', '/withdrawn-date.html'], (req, res) => {
+	res.render('projects/back-office/manage/examination/v5/withdrawn-date', {
+		withdrawnDate: req.session.withdrawnDate || '',
+		returnUrl: resolveReturnUrl(req, req.query.returnUrl)
+	});
+});
+
+router.post(['/withdrawn-date', '/withdrawn-date.html'], (req, res) => {
+	const {
+		'withdrawn-date-day': day,
+		'withdrawn-date-month': month,
+		'withdrawn-date-year': year,
+		returnUrl
+	} = req.body;
+
+	req.session.withdrawnDate = parseDateFields(day, month, year) || req.session.withdrawnDate || '';
+	req.session.save(() => {
+		res.redirect(stepUrl(req, '/withdrawal-reason', returnUrl));
 	});
 });
 
@@ -89,6 +111,27 @@ router.post('/plan-pause-end', (req, res) => {
 	req.session.planPauseEndDate = parseDateFields(day, month, year) || req.session.planPauseEndDate || '';
 
 	req.session.save(() => {
+		res.redirect(stepUrl(req, '/plan-pause-actual-end', returnUrl));
+	});
+});
+
+router.get(['/plan-pause-actual-end', '/plan-pause-actual-end.html'], (req, res) => {
+	res.render('projects/back-office/manage/examination/v5/plan-pause-actual-end', {
+		planPauseActualEndDate: req.session.planPauseActualEndDate || '',
+		returnUrl: resolveReturnUrl(req, req.query.returnUrl)
+	});
+});
+
+router.post(['/plan-pause-actual-end', '/plan-pause-actual-end.html'], (req, res) => {
+	const {
+		'plan-pause-actual-end-date-day': day,
+		'plan-pause-actual-end-date-month': month,
+		'plan-pause-actual-end-date-year': year,
+		returnUrl
+	} = req.body;
+
+	req.session.planPauseActualEndDate = parseDateFields(day, month, year) || req.session.planPauseActualEndDate || '';
+	req.session.save(() => {
 		res.redirect(stepUrl(req, '/plan-pause-decision', returnUrl));
 	});
 });
@@ -106,7 +149,64 @@ router.post('/plan-pause-decision', (req, res) => {
 	req.session.planPauseDecision = decision || req.session.planPauseDecision || '';
 
 	req.session.save(() => {
+		if (req.session.planPauseDecision === 'Withdrawn') {
+			return res.redirect(`${stepUrl(req, '/withdrawal-reason', returnUrl)}&fromPause=true`);
+		}
 		res.redirect(stepUrl(req, '/plan-pause-decision-reason', returnUrl));
+	});
+});
+
+router.get('/withdrawal-reason', (req, res) => {
+	res.render('projects/back-office/manage/examination/v5/withdrawal-reason', {
+		withdrawalReason: req.session.planPauseDecisionReason || '',
+		returnUrl: resolveReturnUrl(req, req.query.returnUrl),
+		fromPause: req.query.fromPause === 'true'
+	});
+});
+
+router.post('/withdrawal-reason', (req, res) => {
+	req.session.planPauseDecisionReason = (req.body['withdrawal-reason'] || '').trim();
+	req.session.planPauseDecision = 'Withdrawn';
+	req.session.save(() => {
+		res.redirect(stepUrl(req, '/withdrawal-evidence', req.body.returnUrl));
+	});
+});
+
+router.get('/withdrawal-evidence', (req, res) => {
+	res.render('projects/back-office/manage/examination/v5/withdrawal-evidence', {
+		caseRef: req.session.currentCaseRef || '',
+		uploadedDocuments: req.session[WITHDRAWAL_EVIDENCE_KEY] || [],
+		returnUrl: resolveReturnUrl(req, req.query.returnUrl)
+	});
+});
+
+router.post('/withdrawal-evidence', (req, res) => {
+	const fileData = req.session.data && req.session.data.fileData;
+	try {
+		req.session[WITHDRAWAL_EVIDENCE_KEY] = typeof fileData === 'string' ? JSON.parse(fileData) : (fileData || []);
+	} catch (error) {
+		req.session[WITHDRAWAL_EVIDENCE_KEY] = [];
+	}
+	req.session.save(() => {
+		res.redirect(stepUrl(req, '/withdrawal-check-answers', req.body.returnUrl));
+	});
+});
+
+router.get('/withdrawal-check-answers', (req, res) => {
+	res.render('projects/back-office/manage/examination/v5/withdrawal-check-answers', {
+		withdrawnDate: req.session.withdrawnDate || '',
+		withdrawalReason: req.session.planPauseDecisionReason || '',
+		uploadedDocuments: req.session[WITHDRAWAL_EVIDENCE_KEY] || [],
+		returnUrl: resolveReturnUrl(req, req.query.returnUrl)
+	});
+});
+
+router.post('/withdrawal-check-answers', (req, res) => {
+	req.session.planPauseDecision = 'Withdrawn';
+	req.session.planPauseStatusState = 'withdrawn';
+	req.session.withdrawnDate = req.session.withdrawnDate || DateTime.now().toFormat(DATE_FORMAT);
+	req.session.save(() => {
+		res.redirect(resolveReturnUrl(req, req.body.returnUrl));
 	});
 });
 
@@ -125,7 +225,7 @@ router.post('/plan-pause-decision-reason', (req, res) => {
 
 	if (req.session.planPauseDecision === 'Withdrawn') {
 		req.session.planPauseStatusState = 'withdrawn';
-		req.session.withdrawnDate = req.session.planPauseEndDate || req.session.withdrawnDate || '';
+		req.session.withdrawnDate = req.session.withdrawnDate || req.session.planPauseEndDate || DateTime.now().toFormat(DATE_FORMAT);
 	} else if (req.session.planPauseDecision === 'Resolved') {
 		req.session.planPauseStatusState = 'resolved';
 		req.session.examinationV3StatusState = req.session.planPauseStatusBefore || req.session.examinationV3StatusState || '';

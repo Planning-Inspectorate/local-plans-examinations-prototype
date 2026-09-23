@@ -1,0 +1,32 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+  Reason for withdrawal – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: (basePath + "/plan-pause-decision?returnUrl=" + (returnUrl or (basePath + "/examination.html"))) if fromPause else (returnUrl or (basePath + "/examination.html"))
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">Why is the plan being withdrawn?</h1>
+      <form class="form" method="post" action="{{ basePath }}/withdrawal-reason">
+        <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
+        {{ govukCharacterCount({
+          name: "withdrawal-reason",
+          id: "withdrawal-reason",
+          maxwords: 500,
+          rows: 8,
+          value: withdrawalReason,
+          label: { text: "Reason for withdrawal" }
+        }) }}
+        <button type="submit" class="govuk-button">Save and continue</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}

@@ -24,11 +24,11 @@
     {% if uploadedDocuments.length > 0 %}
       {{ govukSummaryList({ rows: checkAnswerRows }) }}
 
-      <p class="govuk-body">We’ll send a notification to the LPA to tell them that the main modifications documents are available.</p>
+      <p class="govuk-body">We’ll send a notification to the planning authority to tell them that the main modifications documents are available.</p>
 
       <form method="post" action="check-answers">
         {{ govukButton({
-          text: "Upload documents"
+          text: "Confirm and notify"
         }) }}
       </form>
     {% else %}

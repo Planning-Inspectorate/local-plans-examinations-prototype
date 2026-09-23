@@ -194,7 +194,7 @@ router.post('/upload/miq/check-answers', (req, res) => {
 	delete req.session.data.fileSizeMap;
 
 	req.session.save(() => {
-		res.redirect(`${req.baseUrl}/upload/miq/manage`);
+		res.redirect(`${req.baseUrl}/examination`);
 	});
 });
 

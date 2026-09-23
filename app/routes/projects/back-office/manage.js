@@ -2117,17 +2117,30 @@ router.post('/projects/back-office/manage/examination/v1/withdrawn-date', (req, 
 router.get('/projects/back-office/manage/examination/v1/sound-unsound.html', (req, res) => {
   res.render('projects/back-office/manage/examination/v1/sound-unsound', {
     planType: req.session.planSoundness || '',
-    returnUrl: req.query.returnUrl || '/projects/back-office/manage/examination/v1/examination'
+    returnUrl: req.query.returnUrl || '/projects/back-office/manage/examination/v1/examination',
+    finalReport: req.query.finalReport === 'true'
   });
 });
 
 router.post('/projects/back-office/manage/examination/v1/sound-unsound', (req, res) => {
-  const { 'plan-soundness': soundness, returnUrl } = req.body;
+  const { 'plan-soundness': soundness, returnUrl, finalReport } = req.body;
   if (soundness && soundness.trim() !== '') {
     const capitalized = soundness.trim().charAt(0).toUpperCase() + soundness.trim().slice(1);
     req.session.planSoundness = capitalized;
+    if (finalReport === 'true') {
+      if (capitalized === 'Sound') {
+        req.session.examinationV3StatusState = 'plan-adopted';
+        req.session.planPauseStatusState = 'resolved';
+      } else if (capitalized === 'Unsound') {
+        req.session.planPauseStatusState = 'withdrawn';
+        req.session.withdrawnDate = req.session.withdrawnDate || new Date().toLocaleDateString('en-GB');
+      }
+    }
   } else {
     req.session.planSoundness = '-';
+  }
+  if (finalReport === 'true') {
+    return res.redirect('/projects/back-office/manage/examination/v5/upload/final-report/upload-bo');
   }
   res.redirect(returnUrl || '/projects/back-office/manage/examination/v1/examination');
 });

@@ -66,67 +66,37 @@ Examination overview– {{ serviceName }}
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Expected</dt>
           <dd class="govuk-summary-list__value">{{ examinationEstimatedDate if examinationEstimatedDate and examinationEstimatedDate != '-' else 'Not provided' }}</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="{{ basePath }}/examination-estimated.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Estimated Submission Date</span></a>
-          </dd>
+          <dd class="govuk-summary-list__actions"><a class="govuk-link" href="{{ basePath }}/examination-estimated.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Estimated Submission Date</span></a></dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Received</dt>
           <dd class="govuk-summary-list__value">{{ examinationActualDate if examinationActualDate and examinationActualDate != '-' else 'Not provided' }}</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="{{ basePath }}/examination-actual.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Actual Submission Date</span></a>
-          </dd>
+          <dd class="govuk-summary-list__actions"><a class="govuk-link" href="{{ basePath }}/examination-actual.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Actual Submission Date</span></a></dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">MIQs</dt>
+          <dd class="govuk-summary-list__value">{{ miqDocumentsSummary.count ~ ' document' ~ ('s' if miqDocumentsSummary.count != 1 else '') ~ ' added' if miqDocumentsSummary and miqDocumentsSummary.hasDocuments else 'Not provided' }}</dd>
+          <dd class="govuk-summary-list__actions"><a class="govuk-link" href="upload/miq/{{ 'check-answers' if miqDocumentsSummary and miqDocumentsSummary.hasDocuments else 'upload-bo' }}">{{ 'View' if miqDocumentsSummary and miqDocumentsSummary.hasDocuments else 'Add' }}<span class="govuk-visually-hidden"> MIQ documents</span></a></dd>
         </div>
       </dl>
 
       <h2 class="govuk-heading-l">Inspectors</h2>
+      {% if examinationInspectors and examinationInspectors.length %}
       <dl class="govuk-summary-list govuk-summary-list-timetable">
+        {% for inspector in examinationInspectors %}
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Inspector 1</dt>
-          <dd class="govuk-summary-list__value">{{ examiningInspector1Name if examiningInspector1Name and examiningInspector1Name != '-' else 'Not provided' }}</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="{{ basePath }}/examining-inspector-1.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Examining Inspector 1</span></a>
-          </dd>
+          <dt class="govuk-summary-list__key">Inspector {{ loop.index }}</dt>
+          <dd class="govuk-summary-list__value">{{ inspector.name }}</dd>
+          <dd class="govuk-summary-list__actions"><a class="govuk-link" href="{{ basePath }}/inspector/{{ loop.index0 }}/remove?returnUrl={{ basePath }}/examination">Remove<span class="govuk-visually-hidden"> {{ inspector.name }}</span></a></dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Inspector 2</dt>
-          <dd class="govuk-summary-list__value">{{ examiningInspector2Name if examiningInspector2Name and examiningInspector2Name != '-' else 'Not provided' }}</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="{{ basePath }}/examining-inspector-2.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Examining Inspector 2</span></a>
-          </dd>
+          <dt class="govuk-summary-list__key">Date appointed</dt>
+          <dd class="govuk-summary-list__value">{{ inspector.dateAppointed or 'Not provided' }}</dd>
         </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Inspector 3</dt>
-          <dd class="govuk-summary-list__value">{{ examiningInspector3Name if examiningInspector3Name and examiningInspector3Name != '-' else 'Not provided' }}</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="{{ basePath }}/examining-inspector-3.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Examining Inspector 3</span></a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Appointed</dt>
-          <dd class="govuk-summary-list__value">{{ examiningInspectorAppointmentDate if examiningInspectorAppointmentDate and examiningInspectorAppointmentDate != '-' else 'Not provided' }}</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="{{ basePath }}/examining-inspector-date.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Examining Inspector Date of Appointment</span></a>
-          </dd>
-        </div>
+        {% endfor %}
       </dl>
-
-      <dl class="govuk-summary-list govuk-summary-list-timetable">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Examination website</dt>
-          <dd class="govuk-summary-list__value">
-            {% if examinationWebsite and examinationWebsite != '-' %}
-              <a class="govuk-link" href="{{ examinationWebsite }}" target="_blank" rel="noopener noreferrer">{{ examinationWebsite }}</a>
-            {% else %}
-              Not provided
-            {% endif %}
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="{{ basePath }}/examination-website.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Examination Website</span></a>
-          </dd>
-        </div>
-      </dl>
-
+      {% endif %}
+      <p><a class="govuk-link" href="{{ basePath }}/inspector?returnUrl={{ basePath }}/examination">Add inspector</a></p>
       <h2 class="govuk-heading-l">Hearings</h2>
        {% if hearings and hearings.length %}
         {% for hearing in hearings %}
@@ -234,26 +204,10 @@ Examination overview– {{ serviceName }}
       <p class="govuk-body">
         <a href="{{ basePath }}/add-hearing-estimates" class="govuk-link">Add/Edit hearing estimates</a></p> --- IGNORE --- -->
 
-       <h2 class="govuk-heading-l">Documents</h2></p>
+       <h2 class="govuk-heading-l">Post hearing</h2></p>
       
       <dl class="govuk-summary-list govuk-summary-list-timetable">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">MIQs</dt>
-      <dd class="govuk-summary-list__value">
-      {% if miqDocumentsSummary and miqDocumentsSummary.hasDocuments %}
-        {{ miqDocumentsSummary.count }} document{{ 's' if miqDocumentsSummary.count != 1 else '' }} added
-{% else %}
-        Not provided
-{% endif %}
-    </dd>
-    <dd class="govuk-summary-list__actions">
-      {% if miqDocumentsSummary and miqDocumentsSummary.hasDocuments %}
-        <a class="govuk-link" href="upload/miq/manage">Manage<span class="govuk-visually-hidden"> MIQ documents</span></a>
-      {% else %}
-        <a class="govuk-link" href="upload/miq/upload-bo">Add<span class="govuk-visually-hidden"> MIQ documents</span></a>
-      {% endif %}
-    </dd>
-    </div>
+       
     <div class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key">Main modifications</dt>
       <dd class="govuk-summary-list__value">
@@ -265,12 +219,30 @@ Examination overview– {{ serviceName }}
     </dd>
     <dd class="govuk-summary-list__actions">
       {% if mainModsDocumentsSummary and mainModsDocumentsSummary.hasDocuments %}
-        <a class="govuk-link" href="upload/main-mods/manage">Manage<span class="govuk-visually-hidden"> main modifications documents</span></a>
+        <a class="govuk-link" href="upload/main-mods/check-answers">View<span class="govuk-visually-hidden"> main modifications documents</span></a>
       {% else %}
         <a class="govuk-link" href="upload/main-mods/upload-bo">Add<span class="govuk-visually-hidden"> main modifications documents</span></a>
       {% endif %}
     </dd>
     </div>
+     <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Examination report</dt>
+      <dd class="govuk-summary-list__value">
+      {% if examinationReportSummary and examinationReportSummary.hasDocuments %}
+        {{ examinationReportSummary.count }} document{{ 's' if examinationReportSummary.count != 1 else '' }} added
+{% else %}
+        Not provided
+{% endif %}
+    </dd>
+    <dd class="govuk-summary-list__actions">
+      {% if examinationReportSummary and examinationReportSummary.hasDocuments %}
+        <a class="govuk-link" href="upload/examination-report/check-answers">View<span class="govuk-visually-hidden"> examination report documents</span></a>
+      {% else %}
+        <a class="govuk-link" href="upload/examination-report/upload-bo">Add<span class="govuk-visually-hidden"> examination report documents</span></a>
+      {% endif %}
+    </dd>
+    </div>
+     
     </dl>
      
 
@@ -293,35 +265,36 @@ Examination overview– {{ serviceName }}
       </dl>
 
       <h2 class="govuk-heading-l">QA</h2>
+      
+         
+          {% if qaInspectors and qaInspectors.length %}
+          <dl class="govuk-summary-list govuk-summary-list-timetable">
+          {% for inspector in qaInspectors %}
+
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">QA inspector {{ loop.index }}</dt>
+            <dd class="govuk-summary-list__value">{{ inspector.name }}</dd>
+            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="{{ basePath }}/qa-inspector/{{ loop.index0 }}/remove?returnUrl={{ basePath }}/examination">Remove<span class="govuk-visually-hidden"> {{ inspector.name }}</span></a></dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Date appointed</dt>
+            <dd class="govuk-summary-list__value">{{ inspector.dateAppointed or 'Not provided' }}</dd>
+          </div>
+          {% endfor %}
+          </dl>
+        {% endif %}
+      
+        <p><a class="govuk-link" href="/projects/back-office/manage/examination/v5/qa-inspector?returnUrl=/projects/back-office/manage/examination/v5/examination">Add QA inspector</a></p>
+
       <dl class="govuk-summary-list govuk-summary-list-timetable">
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Date</dt>
+          <dt class="govuk-summary-list__key">Date report sent to QA</dt>
           <dd class="govuk-summary-list__value">{{ qaDate if qaDate and qaDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="{{ basePath }}/qa-date.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">QA Date</span></a>
           </dd>
         </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">QA inspector 1</dt>
-          <dd class="govuk-summary-list__value">{{ qaInspector1Name if qaInspector1Name and qaInspector1Name != '-' else 'Not provided' }}</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="{{ basePath }}/QA-inspector-1.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">QA Inspector 1</span></a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">QA inspector 2</dt>
-          <dd class="govuk-summary-list__value">{{ qaInspector2Name if qaInspector2Name and qaInspector2Name != '-' else 'Not provided' }}</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="{{ basePath }}/QA-inspector-2.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">QA Inspector 2</span></a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">QA inspector 3</dt>
-          <dd class="govuk-summary-list__value">{{ qaInspector3Name if qaInspector3Name and qaInspector3Name != '-' else 'Not provided' }}</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="{{ basePath }}/QA-inspector-3.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">QA Inspector 3</span></a>
-          </dd>
-        </div>
+      
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Sent to panel date</dt>
           <dd class="govuk-summary-list__value">{{ qaReportSentDate if qaReportSentDate and qaReportSentDate != '-' else 'Not provided' }}</dd>
@@ -337,6 +310,8 @@ Examination overview– {{ serviceName }}
           </dd>
         </div>
       </dl>
+     
+     
 
       <h2 class="govuk-heading-l">Fact Check</h2>
       <dl class="govuk-summary-list govuk-summary-list-timetable">
@@ -369,18 +344,37 @@ Examination overview– {{ serviceName }}
           </dd>
         </div>
         <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Final report</dt>
+      <dd class="govuk-summary-list__value">
+      {% if finalReportSummary and finalReportSummary.hasDocuments %}
+        {{ finalReportSummary.count }} document{{ 's' if finalReportSummary.count != 1 else '' }} added
+      {% else %}
+        Not provided
+      {% endif %}
+    </dd>
+    <dd class="govuk-summary-list__actions">
+      {% if finalReportSummary and finalReportSummary.hasDocuments %}
+        <a class="govuk-link" href="upload/final-report/check-answers">View<span class="govuk-visually-hidden"> final report documents</span></a>
+      {% else %}
+        <a class="govuk-link" href="{{ basePath }}/final-report/sound-unsound?returnUrl={{ basePath }}/examination">Add<span class="govuk-visually-hidden"> final report outcome</span></a>
+      {% endif %}
+    </dd>
+    </div>
+        {% if finalReportSummary and finalReportSummary.hasDocuments %}
+        <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Final report issue date</dt>
           <dd class="govuk-summary-list__value">{{ finalReportIssueDate if finalReportIssueDate and finalReportIssueDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="{{ basePath }}/final-report-issue-date.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Final Report Issue Date</span></a>
           </dd>
         </div>
+        {% endif %}
       </dl>
 
-      <h2 class="govuk-heading-l">Important dates for this plan</h2>
+      <h2 class="govuk-heading-l">Outcome</h2>
       <dl class="govuk-summary-list govuk-summary-list-timetable">
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Plan pause date</dt>
+          <dt class="govuk-summary-list__key">Plan pause</dt>
           <dd class="govuk-summary-list__value">{{ planPauseDate if planPauseDate and planPauseDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="{{ basePath }}/plan-pause.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Plan Pause Date</span></a>
@@ -401,9 +395,16 @@ Examination overview– {{ serviceName }}
             <a class="govuk-link" href="{{ basePath }}/plan-pause-end?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Plan Pause End Date</span></a>
           </dd>
         </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Actual pause end date</dt>
+          <dd class="govuk-summary-list__value">{{ planPauseActualEndDate if planPauseActualEndDate and planPauseActualEndDate != '-' else 'Not provided' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="{{ basePath }}/plan-pause-actual-end?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Actual Pause End Date</span></a>
+          </dd>
+        </div>
         {% if planPauseDecision and planPauseDecision != '-' %}
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Pause decision</dt>
+          <dt class="govuk-summary-list__key">Pause outcome</dt>
           <dd class="govuk-summary-list__value">{{ planPauseDecision }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="{{ basePath }}/plan-pause-decision?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Pause Decision</span></a>
@@ -419,14 +420,15 @@ Examination overview– {{ serviceName }}
         {% endif %}
         {% endif %}
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Withdrawn date</dt>
+          <dt class="govuk-summary-list__key">Withdraw</dt>
           <dd class="govuk-summary-list__value">{{ withdrawnDate if withdrawnDate and withdrawnDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="{{ basePath }}/withdrawn-date.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Withdrawn Date</span></a>
           </dd>
         </div>
+        {% if examinationStatusState == 'report-issued' or examinationStatusState == 'plan-adopted' %}
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Sound / unsound</dt>
+          <dt class="govuk-summary-list__key">Assessment outcome</dt>
           <dd class="govuk-summary-list__value">{{ planSoundness if planSoundness and planSoundness != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="{{ basePath }}/sound-unsound.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Sound / Unsound</span></a>
@@ -439,6 +441,8 @@ Examination overview– {{ serviceName }}
             <a class="govuk-link" href="{{ basePath }}/sound-unsound-date.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Sound / Unsound Date</span></a>
           </dd>
         </div>
+        {% endif %}
+        {% if examinationStatusState == 'report-issued' or examinationStatusState == 'plan-adopted' %}
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Adoption date</dt>
           <dd class="govuk-summary-list__value">{{ adoptionDate if adoptionDate and adoptionDate != '-' else 'Not provided' }}</dd>
@@ -453,6 +457,7 @@ Examination overview– {{ serviceName }}
             <a class="govuk-link" href="{{ basePath }}/approved-for-CIL-date.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Approved for CIL Date</span></a>
           </dd>
         </div>
+        {% endif %}
       </dl>
 
     </div>
@@ -470,8 +475,16 @@ Examination overview– {{ serviceName }}
     href: basePath + '/set-status?state=hearing-pending&returnUrl=' + basePath + '/examination'
   },
   {
-    text: 'Exam in progress',
+    text: 'In progress (no outcomes yet)',
     href: basePath + '/set-status?state=exam-in-progress&returnUrl=' + basePath + '/examination'
+  },
+  {
+    text: 'Paused (pause in progress)',
+    href: basePath + '/set-status?state=paused&returnUrl=' + basePath + '/examination'
+  },
+  {
+    text: 'Withdraw plan',
+    href: basePath + '/withdrawn-date?returnUrl=' + basePath + '/examination'
   },
   {
     text: 'QA',
@@ -480,7 +493,15 @@ Examination overview– {{ serviceName }}
   {
     text: 'Fact check',
     href: basePath + '/set-status?state=fact-check&returnUrl=' + basePath + '/examination'
+  },
+  {
+    text: 'Report issued',
+    href: basePath + '/set-status?state=report-issued&returnUrl=' + basePath + '/examination'
   }
 ] %}
+{% set footerLinks = footerLinks.concat([{
+    text: 'Plan adopted',
+    href: basePath + '/set-status?state=plan-adopted&returnUrl=' + basePath + '/examination'
+  }]) %}
   {% include "includes/footer.njk" %}
 {% endblock %}

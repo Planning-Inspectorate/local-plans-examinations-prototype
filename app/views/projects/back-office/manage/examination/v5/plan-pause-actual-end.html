@@ -1,0 +1,45 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+  When did the pause actually end? – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: basePath + "/plan-pause-end?returnUrl=" + (returnUrl or (basePath + "/examination.html"))
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">When did the pause actually end?</h1>
+      <p class="govuk-hint">Leave blank if the pause is still in progress.</p>
+      <form class="form" method="post" action="{{ basePath }}/plan-pause-actual-end">
+        <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
+        {% set dateParts = planPauseActualEndDate.split('/') if planPauseActualEndDate else ['', '', ''] %}
+        <fieldset class="govuk-fieldset govuk-!-margin-bottom-6" role="group">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+            <span class="govuk-visually-hidden">Actual pause end date</span>
+          </legend>
+          <div class="govuk-date-input" id="plan-pause-actual-end-date">
+            <div class="govuk-date-input__item"><div class="govuk-form-group">
+              <label class="govuk-label govuk-date-input__label" for="plan-pause-actual-end-date-day">Day</label>
+              <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="plan-pause-actual-end-date-day" name="plan-pause-actual-end-date-day" type="text" inputmode="numeric" value="{{ dateParts[0] }}">
+            </div></div>
+            <div class="govuk-date-input__item"><div class="govuk-form-group">
+              <label class="govuk-label govuk-date-input__label" for="plan-pause-actual-end-date-month">Month</label>
+              <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="plan-pause-actual-end-date-month" name="plan-pause-actual-end-date-month" type="text" inputmode="numeric" value="{{ dateParts[1] }}">
+            </div></div>
+            <div class="govuk-date-input__item"><div class="govuk-form-group">
+              <label class="govuk-label govuk-date-input__label" for="plan-pause-actual-end-date-year">Year</label>
+              <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="plan-pause-actual-end-date-year" name="plan-pause-actual-end-date-year" type="text" inputmode="numeric" value="{{ dateParts[2] }}">
+            </div></div>
+          </div>
+        </fieldset>
+        <button type="submit" class="govuk-button">Save and continue</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}

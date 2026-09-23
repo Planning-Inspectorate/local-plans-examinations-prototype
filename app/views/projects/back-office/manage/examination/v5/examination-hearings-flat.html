@@ -249,6 +249,7 @@ Examination overview– {{ serviceName }}
             <a class="govuk-link" href="{{ basePath }}/fact-check-received-back-from-lpa.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Fact Check Received Back from LPA</span></a>
           </dd>
         </div>
+        {% if finalReportSummary and finalReportSummary.hasDocuments %}
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Final report issue date</dt>
           <dd class="govuk-summary-list__value">{{ finalReportIssueDate if finalReportIssueDate and finalReportIssueDate != '-' else 'Not provided' }}</dd>
@@ -256,6 +257,7 @@ Examination overview– {{ serviceName }}
             <a class="govuk-link" href="{{ basePath }}/final-report-issue-date.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Final Report Issue Date</span></a>
           </dd>
         </div>
+        {% endif %}
       </dl>
 
       <h2 class="govuk-heading-l">Important dates for this plan</h2>
@@ -288,6 +290,7 @@ Examination overview– {{ serviceName }}
             <a class="govuk-link" href="{{ basePath }}/sound-unsound.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Sound / Unsound</span></a>
           </dd>
         </div>
+        {% if planSoundness and planSoundness != '-' %}
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Sound / unsound date</dt>
           <dd class="govuk-summary-list__value">{{ soundUnsoundDate if soundUnsoundDate and soundUnsoundDate != '-' else 'Not provided' }}</dd>
@@ -295,6 +298,8 @@ Examination overview– {{ serviceName }}
             <a class="govuk-link" href="{{ basePath }}/sound-unsound-date.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Sound / Unsound Date</span></a>
           </dd>
         </div>
+        {% endif %}
+        {% if planSoundness and planSoundness != '-' %}
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Adoption date</dt>
           <dd class="govuk-summary-list__value">{{ adoptionDate if adoptionDate and adoptionDate != '-' else 'Not provided' }}</dd>
@@ -309,6 +314,7 @@ Examination overview– {{ serviceName }}
             <a class="govuk-link" href="{{ basePath }}/approved-for-CIL-date.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Approved for CIL Date</span></a>
           </dd>
         </div>
+        {% endif %}
       </dl>
 
     </div>

@@ -1,0 +1,38 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+  Upload supporting evidence – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: basePath + "/withdrawal-reason?returnUrl=" + (returnUrl or (basePath + "/examination.html"))
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
+      <h1 class="govuk-heading-l">Upload supporting evidence</h1>
+      <h2 class="govuk-heading-m">Upload files</h2>
+    <p>
+      Each file must be a PDF, DOC, DOCX, PPT, PPTX, XLS, XLSX, MSG, JPG, JPEG, PNG, TIF or TIFF and be smaller than 250MB.
+    </p>
+
+    <p>
+      The total size of all your uploaded files must be smaller than 1GB.
+    </p>
+
+      <form class="form" method="post" action="{{ basePath }}/withdrawal-evidence">
+        <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
+        <div class="app-multi-file-upload">
+          {% include 'includes/back-office/multiple-document-upload.html' %}
+        </div>
+        {{ govukButton({ text: "Continue" }) }}
+      </form>
+    </div>
+  </div>
+  <script src="/public/javascripts/multi-file-upload.js"></script>
+{% endblock %}

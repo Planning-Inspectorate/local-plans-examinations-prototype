@@ -1,0 +1,27 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}Check outcome and send notification – {{ serviceName }}{% endblock %}
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back", href: "upload-bo" }) }}
+{% endblock %}
+{% block content %}
+  <div class="govuk-grid-row"><div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
+    <h1 class="govuk-heading-l">Check final report details and send notification</h1>
+    <dl class="govuk-summary-list"><div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Outcome</dt>
+      <dd class="govuk-summary-list__value">{{ planSoundness }}</dd>
+      <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/examination/v5/final-report/sound-unsound?returnUrl=/projects/back-office/manage/examination/v5/examination">Change</a></dd>
+    </div><div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Date</dt>
+      <dd class="govuk-summary-list__value">{{ soundUnsoundDate }}</dd>
+      <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/examination/v1/sound-unsound-date.html?returnUrl=/projects/back-office/manage/examination/v5/upload/final-report/check-answers">Change</a></dd>
+    </div><div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Document</dt>
+      <dd class="govuk-summary-list__value">{% if uploadedDocuments and uploadedDocuments.length %}<ul class="govuk-list govuk-list--bullet">{% for document in uploadedDocuments %}<li><a class="govuk-link" href="/projects/back-office/manage/documents/download/{{ document.filename or document.id }}">{{ document.name or document.originalname }}</a></li>{% endfor %}</ul>{% else %}No documents uploaded{% endif %}</dd>
+      <dd class="govuk-summary-list__actions"><a class="govuk-link" href="upload-bo">Change</a></dd>
+    </div></dl>
+    <p class="govuk-body">We’ll send a notification to the planning authority to tell them that the final report is available.</p>
+    <form method="post" action="check-answers"><input type="hidden" name="returnUrl" value="{{ returnUrl }}"><button type="submit" class="govuk-button">Confirm and notify</button></form>
+  </div></div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "layouts/back-office.html" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block pageTitle %}Upload final report – {{ serviceName }}{% endblock %}
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back", href: "/projects/back-office/manage/examination/v5/examination" }) }}
+{% endblock %}
+{% block content %}
+  <div class="govuk-grid-row"><div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
+    <h1 class="govuk-heading-l">Upload final report</h1>
+    <h2 class="govuk-heading-m">Upload files</h2>
+    <p>Each file must be a PDF, DOC, DOCX, PPT, PPTX, XLS, XLSX, MSG, JPG, JPEG, PNG, TIF or TIFF and be smaller than 250MB.</p>
+    <p>The total size of all your uploaded files must be smaller than 1GB.</p>
+    <form class="form" action="upload-bo" method="post" id="upload-form">
+      <div class="app-multi-file-upload">{% include 'includes/back-office/multiple-document-upload.html' %}</div>
+      {% if uploadedDocuments and uploadedDocuments.length > 0 %}
+        <h3 class="govuk-heading-s">Previously uploaded files</h3>
+        <div class="govuk-body">{%- for document in uploadedDocuments -%}<div><a class="govuk-hint" href="/projects/back-office/manage/documents/download/{{ document.filename }}">{{ document.name or document.originalname }}</a> ({{ document.size }} bytes)</div>{%- endfor -%}</div>
+        <p><a href="clear-uploads">Clear all documents</a></p>
+      {% endif %}
+      {{ govukButton({ text: "Continue" }) }}
+    </form>
+  </div></div>
+  <script src="/public/javascripts/multi-file-upload.js"></script>
+{% endblock %}
