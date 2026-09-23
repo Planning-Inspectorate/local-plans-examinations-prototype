@@ -3,6 +3,7 @@ const router = govukPrototypeKit.requests.setupRouter();
 const { DateTime } = require('luxon');
 const uploadMiqsRouter = require('./_upload-miqs');
 const uploadMainModsRouter = require('./_upload-main-mods');
+const optionTwoRouter = require('../v5/_routes');
 const { getPlanStatusClasses } = require('../../../../../../routes/projects/back-office/plan-status-classes');
 
 const EXAMINATION_STATUS_LABELS = {
@@ -174,4 +175,5 @@ router.use('/', require('./_edit-hearing-estimates'));
 router.use('/', uploadMiqsRouter);
 router.use('/', uploadMainModsRouter);
 router.use('/', require('./_set-status'));
+router.use('/option-2', optionTwoRouter);
 module.exports = router;

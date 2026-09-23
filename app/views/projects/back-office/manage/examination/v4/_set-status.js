@@ -170,8 +170,12 @@ router.get('/set-status', (req, res) => {
 	}
 
 	req.session.examinationV3StatusState = state;
+	req.session.data.examinationV3StatusState = state;
 
-	req.session.save(() => {
+	req.session.save((error) => {
+		if (error) {
+			return res.status(500).send('Unable to save examination status');
+		}
 		res.redirect(returnUrl);
 	});
 });
