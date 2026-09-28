@@ -96,7 +96,7 @@ Examination overview– {{ serviceName }}
           <dd class="govuk-summary-list__actions"><a class="govuk-link" href="{{ basePath }}/inspector/{{ loop.index0 }}/remove?returnUrl={{ basePath }}/examination">Remove<span class="govuk-visually-hidden"> {{ inspector.name }}</span></a></dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Date appointed</dt>
+          <dt class="govuk-summary-list__key">Inspector {{ loop.index }} appointed</dt>
           <dd class="govuk-summary-list__value">{{ inspector.dateAppointed or 'Not provided' }}</dd>
         </div>
         {% endfor %}

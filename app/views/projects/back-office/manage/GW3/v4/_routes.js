@@ -1,5 +1,6 @@
 const govukPrototypeKit = require('govuk-prototype-kit');
 const router = govukPrototypeKit.requests.setupRouter();
+const { DateTime } = require('luxon');
 
 router.use('/', require('./_set-status'));
 
@@ -379,6 +380,10 @@ function buildGateway3ViewModel(req, notificationMessage = '') {
     gateway3AssessorAppointmentDate: req.session.gateway3AssessorAppointmentDate && req.session.gateway3AssessorAppointmentDate !== '-' ? req.session.gateway3AssessorAppointmentDate : 'Not provided',
     gateway3CompletionDate,
     gateway3AssessorName: req.session.gateway3AssessorName && req.session.gateway3AssessorName !== '-' ? req.session.gateway3AssessorName : 'Not provided',
+    assessorContacts: (req.session.gw3v4AssessorContacts || []).map((contact) => ({
+      ...contact,
+      dateAppointedDisplay: contact.dateAppointed ? formatTimestampForDisplay(contact.dateAppointed) : 'Not provided'
+    })),
     gateway3PoContact: req.session.gateway3PoContact || {},
     examinationWebsite,
     examinationWebsiteHref,
@@ -413,8 +418,9 @@ function buildGateway3ViewModel(req, notificationMessage = '') {
 }
 
 function renderGateway3Overview(req, res) {
-  const notificationMessage = req.session.notificationMessage || '';
+  const notificationMessage = req.session.notificationMessage || req.session.gw3v4AssessorMessage || '';
   delete req.session.notificationMessage;
+  delete req.session.gw3v4AssessorMessage;
 
   res.render('projects/back-office/manage/GW3/v4/gateway-3', buildGateway3ViewModel(req, notificationMessage));
 }
@@ -427,6 +433,95 @@ router.get('/gateway-3', (req, res) => {
 
 router.get('/gateway-3.html', (req, res) => {
   renderGateway3Overview(req, res);
+});
+
+const assessorOverview = '/projects/back-office/manage/GW3/v4/gateway-3';
+const assessorNotification = '/projects/back-office/manage/GW3/v4/assessor-notification';
+
+router.get('/additional-contact', (req, res) => {
+  const contact = req.query.from === 'notification' ? req.session.gw3v4PendingAssessor : {};
+  res.render('projects/back-office/manage/GW3/v4/additional-contact', {
+    contact: contact || {},
+    from: req.query.from || '',
+    cancelUrl: req.query.from === 'notification' ? assessorNotification : assessorOverview
+  });
+});
+
+router.post('/additional-contact', (req, res) => {
+  const fullName = (req.body.fullName || '').trim();
+  const from = req.body.from;
+  if (!fullName) {
+    return res.render('projects/back-office/manage/GW3/v4/additional-contact', {
+      contact: { fullName }, from,
+      cancelUrl: from === 'notification' ? assessorNotification : assessorOverview,
+      error: 'Enter the assessor name'
+    });
+  }
+  const contacts = Array.isArray(req.session.gw3v4AssessorContacts) ? req.session.gw3v4AssessorContacts : [];
+  if (from === 'notification' && req.session.gw3v4PendingAssessor && contacts.length) {
+    req.session.gw3v4PendingAssessor.fullName = fullName;
+    contacts[contacts.length - 1].fullName = fullName;
+  } else {
+    const contact = { fullName, dateAppointed: DateTime.now().toISODate() };
+    contacts.push(contact);
+    req.session.gw3v4PendingAssessor = contact;
+  }
+  req.session.gw3v4AssessorContacts = contacts;
+  res.redirect(assessorNotification);
+});
+
+router.get('/date-appointed', (req, res) => {
+  if (!req.session.gw3v4PendingAssessor) return res.redirect(assessorOverview);
+  const [year, month, day] = req.session.gw3v4PendingAssessor.dateAppointed.split('-');
+  res.render('projects/back-office/manage/GW3/v4/date-appointed', { day, month, year });
+});
+
+router.post('/date-appointed', (req, res) => {
+  if (!req.session.gw3v4PendingAssessor) return res.redirect(assessorOverview);
+  const { day, month, year } = req.body;
+  const date = DateTime.fromObject({ day: Number(day), month: Number(month), year: Number(year) });
+  if (!day || !month || !year || !date.isValid || date.day !== Number(day) || date.month !== Number(month) || date.year !== Number(year)) {
+    return res.render('projects/back-office/manage/GW3/v4/date-appointed', {
+      day, month, year, error: 'Enter a valid date appointed'
+    });
+  }
+  const contacts = req.session.gw3v4AssessorContacts;
+  req.session.gw3v4PendingAssessor.dateAppointed = date.toISODate();
+  if (Array.isArray(contacts) && contacts.length) contacts[contacts.length - 1].dateAppointed = date.toISODate();
+  res.redirect(assessorNotification);
+});
+
+router.get('/assessor-notification', (req, res) => {
+  const contact = req.session.gw3v4PendingAssessor;
+  if (!contact) return res.redirect(assessorOverview);
+  res.render('projects/back-office/manage/GW3/v4/assessor-notification', {
+    contact: { ...contact, dateAppointedDisplay: formatTimestampForDisplay(contact.dateAppointed) }
+  });
+});
+
+router.post('/assessor-notification', (req, res) => {
+  if (req.session.gw3v4PendingAssessor) {
+    req.session.gw3v4AssessorMessage = 'Assessor added';
+    delete req.session.gw3v4PendingAssessor;
+  }
+  res.redirect(assessorOverview);
+});
+
+router.get('/remove-assessor', (req, res) => {
+  const index = Number(req.query.edit);
+  const contact = req.session.gw3v4AssessorContacts?.[index];
+  if (!contact || !Number.isInteger(index) || req.query.edit === undefined) return res.redirect(assessorOverview);
+  res.render('projects/back-office/manage/GW3/v4/remove-assessor', { contact, editIndex: index });
+});
+
+router.post('/remove-assessor', (req, res) => {
+  const index = Number(req.body.editIndex);
+  const contacts = req.session.gw3v4AssessorContacts;
+  if (Array.isArray(contacts) && Number.isInteger(index) && index >= 0 && index < contacts.length) {
+    contacts.splice(index, 1);
+    req.session.gw3v4AssessorMessage = 'Assessor removed';
+  }
+  res.redirect(assessorOverview);
 });
 
 router.get('/gateway-3-documents', (req, res) => {

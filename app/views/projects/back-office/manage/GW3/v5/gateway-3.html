@@ -45,21 +45,7 @@ Gateway 3 overview {{ serviceName }}
           <a class="govuk-link" href="/projects/back-office/manage/GW3/v1/gateway-3-actual.html?returnUrl=/projects/back-office/manage/GW3/v5/gateway-3">Change<span class="govuk-visually-hidden"> Gateway 3 actual date</span></a>
         </dd>
       </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">Assessor</dt>
-        <dd class="govuk-summary-list__value">{{ gateway3AssessorName }}</dd>
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/projects/back-office/manage/GW3/v1/gateway-3-assessor-name.html?returnUrl=/projects/back-office/manage/GW3/v5/gateway-3">Change<span class="govuk-visually-hidden"> Gateway 3 assessor name</span></a>
-        </dd>
-      </div>
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">Assessor appointed</dt>
-        <dd class="govuk-summary-list__value">{{ gateway3AssessorAppointmentDate }}</dd>
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/projects/back-office/manage/GW3/v1/gateway-3-assessor-appointment.html?returnUrl=/projects/back-office/manage/GW3/v5/gateway-3">Change<span class="govuk-visually-hidden"> Gateway 3 assessor date of appointment</span></a>
-        </dd>
-      </div>
-      <div class="govuk-summary-list__row">
+       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">Programme officer</dt>
         <dd class="govuk-summary-list__value">
           {% if gateway3PoContact.firstName or gateway3PoContact.lastName %}
@@ -87,11 +73,29 @@ Gateway 3 overview {{ serviceName }}
           <a class="govuk-link" href="/projects/back-office/manage/examination/v1/examination-website.html?returnUrl=/projects/back-office/manage/GW3/v5/gateway-3">{{ 'Change' if examinationWebsite and examinationWebsite != 'Not provided' else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if examinationWebsite and examinationWebsite != 'Not provided' else 'Add' }} examination website</span></a>
         </dd>
       </div>
-    </dl>
+</dl>
+      <h3 class="govuk-heading-l">Assessors</h3>
+{% if assessorContacts and assessorContacts.length %}
+      <dl class="govuk-summary-list govuk-summary-list-timetable">
+        {% for assessor in assessorContacts %}
+        {% set assessorName = assessor.fullName or assessor.name or ((assessor.firstName ~ ' ' ~ assessor.lastName) | trim) or 'Not provided' %}
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Assessor {{ loop.index }}</dt>
+          <dd class="govuk-summary-list__value">{{ assessorName }}</dd>
+          <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/GW3/v5/remove-assessor?edit={{ loop.index0 }}">Remove<span class="govuk-visually-hidden"> {{ assessorName }}</span></a></dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Assessor {{ loop.index }} appointed</dt>
+          <dd class="govuk-summary-list__value">{{ assessor.dateAppointedDisplay or 'Not provided' }}</dd>
+        </div>
+        {% endfor %}
+      </dl>
+      {% endif %}
+<p>
+  <a class="govuk-link" href="/projects/back-office/manage/GW3/v5/additional-contact">Add assessor</a>
+</p>
 
-  </div>
-</div>
-<h2 class="govuk-heading-m">Submission{% if isResubmissionRequired %} 1{% endif %}</h2>
+<h2 class="govuk-heading-l">Submission{% if isResubmissionRequired %} 1{% endif %}</h2>
     <div class="govuk-summary-list govuk-summary-list-timetable">
       <div class="govuk-summary-list__row">
         <div class="govuk-summary-list__key">Documents</div>
