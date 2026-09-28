@@ -11,7 +11,7 @@ const GW2_V3_UPLOADED_DOCS_KEY = 'gw2v5UploadV3Documents';
 const GW2_V3_RECEIVED_DATE_KEY = 'gw2v5UploadV3ReceivedDate';
 const GW2_V3_REPLACE_DOCUMENT_ID_KEY = 'gw2v5UploadV3ReplaceDocumentId';
 const GW2_CONSULTATION_NOT_PROVIDED_KEY = 'gw2v5ConsultationNotProvided';
-const ISSUE_REPORT_SUCCESS_MESSAGE = 'Gateway 2 report issued';
+const ISSUE_REPORT_SUCCESS_MESSAGE = 'Gateway 2 report sent';
 
 const RETURN_TO_FALLBACK = 'gateway-2';
 const RETURN_TO_MAP = {
@@ -1225,7 +1225,7 @@ router.get('/assessor-notification', (req, res) => {
 router.post('/assessor-notification', (req, res) => {
   const contact = req.session.gw2v6PendingNotification;
   if (contact) {
-    req.session.gw2v6NotificationMessage = `Notification sent to ${contact.fullName}`;
+    req.session.gw2v6NotificationMessage = `Assessor added`;
     delete req.session.gw2v6PendingNotification;
   }
   res.redirect('/projects/back-office/manage/GW2/v5/gateway-2');
@@ -1884,7 +1884,7 @@ router.get('/upload/v2/check-answers', (req, res) => {
 
   res.render('projects/back-office/manage/GW2/v5/upload/v2/check-answers', {
     caseRef: req.session.currentCaseRef || '',
-    serviceName: 'Manage a local plan',
+    serviceName: 'Manage a development plan',
     uploadedDocuments,
     totalFiles: uploadedDocuments.length,
     returnTo
@@ -1907,7 +1907,7 @@ router.get('/upload/v2/remove-confirm', (req, res) => {
 
   res.render('projects/back-office/manage/GW2/v5/upload/v2/remove-confirm', {
     caseRef: req.session.currentCaseRef || '',
-    serviceName: 'Manage a local plan',
+    serviceName: 'Manage a development plan',
     filename,
     returnTo,
     documentName: document.originalname
