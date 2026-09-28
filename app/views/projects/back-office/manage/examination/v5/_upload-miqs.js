@@ -130,7 +130,7 @@ function removeMiqDocumentByFilename(req, filename) {
 router.get('/upload/miq/upload-bo', (req, res) => {
 	res.render('projects/back-office/manage/examination/v5/upload/miq/upload-bo', {
 		caseRef: req.session.currentCaseRef || '',
-		serviceName: 'Manage a local plan',
+		serviceName: 'Manage a development plan',
 		uploadedDocuments: getMiqDocuments(req)
 	});
 });
@@ -205,13 +205,13 @@ router.get('/upload/miq/manage', (req, res) => {
 	const managedDocuments = getMiqDocuments(req).map((doc) => ({
 		originalname: doc.originalname,
 		fileHref: `/projects/back-office/manage/documents/download/${encodeURIComponent(doc.filename)}`,
-		receivedDate: formatReceivedDate(doc.uploadedAt),
+		receivedDate: formatReceivedDate(doc.receivedDate || doc.uploadedAt),
 		removeHref: `remove-confirm?filename=${encodeURIComponent(doc.filename)}`
 	}));
 
 	res.render('projects/back-office/manage/examination/v5/upload/miq/manage', {
 		caseRef: req.session.currentCaseRef || '',
-		serviceName: 'Manage a local plan',
+		serviceName: 'Manage a development plan',
 		notificationMessage,
 		managedDocuments
 	});
@@ -229,7 +229,7 @@ router.get('/upload/miq/remove-confirm', (req, res) => {
 
 	res.render('projects/back-office/manage/examination/v5/upload/miq/remove-confirm', {
 		caseRef: req.session.currentCaseRef || '',
-		serviceName: 'Manage a local plan',
+		serviceName: 'Manage a development plan',
 		filename,
 		documentName: document.originalname
 	});

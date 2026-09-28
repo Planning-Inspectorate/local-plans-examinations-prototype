@@ -16,23 +16,29 @@
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
-    <h1 class="govuk-heading-l">Remove document</h1>
 
-    <p class="govuk-body">Are you sure you want to remove MIQ.docx?</p>
-    <p class="govuk-body">This document has been prepared for the LPA. If you remove it now, it will be permanently deleted and you will not be able to retrieve it.</p>
+   
     <form method="post" action="remove-confirm">
       <input type="hidden" name="filename" value="{{ filename }}">
+      <input type="hidden" name="action" value="remove">
 
-      <div class="govuk-button-group">
-        {{ govukButton({
-          text: "Remove",
-          classes: "govuk-button--warning",
-          attributes: { name: "action", value: "remove" }
-        }) }}
-
-        <a class="govuk-link" href="manage">Cancel</a>
-      </div>
+      {% call govukPanel({
+        titleText: "Are you sure you want to remove " + documentName + "?",
+        classes: "govuk-panel--interruption",
+        actions: {
+          items: [
+            {
+              text: "Yes, remove this document",
+              type: "submit"
+            }, {
+              text: "No, go back",
+              href: "manage"
+            }
+          ]
+        }
+      }) %}
+        <p class="govuk-body">You will not be able to see or retrieve this document again.</p>
+      {% endcall %}
     </form>
   </div>
 </div>

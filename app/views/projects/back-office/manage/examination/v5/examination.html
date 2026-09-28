@@ -104,13 +104,6 @@ Examination overview– {{ serviceName }}
       {% endif %}
       <p><a class="govuk-link" href="{{ basePath }}/inspector?returnUrl={{ basePath }}/examination">Add inspector</a></p>
       <h2 class="govuk-heading-l">Hearings</h2>
-      <dl class="govuk-summary-list govuk-summary-list-timetable">
-      <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">MIQs</dt>
-          <dd class="govuk-summary-list__value">{{ miqDocumentsSummary.count ~ ' document' ~ ('s' if miqDocumentsSummary.count != 1 else '') ~ ' added' if miqDocumentsSummary and miqDocumentsSummary.hasDocuments else 'Not provided' }}</dd>
-          <dd class="govuk-summary-list__actions"><a class="govuk-link" href="upload/miq/{{ 'check-answers' if miqDocumentsSummary and miqDocumentsSummary.hasDocuments else 'upload-bo' }}">{{ 'View' if miqDocumentsSummary and miqDocumentsSummary.hasDocuments else 'Add' }}<span class="govuk-visually-hidden"> MIQ documents</span></a></dd>
-        </div>
-      </dl>
        {% if hearings and hearings.length %}
         {% for hearing in hearings %}
           <h3 class="govuk-heading-m">Hearing {{ loop.index }} details</h3>
@@ -211,7 +204,13 @@ Examination overview– {{ serviceName }}
           <a href="add-hearing">Add hearing</a>
         </p>
       {% endif %}
-
+      <dl class="govuk-summary-list govuk-summary-list-timetable">
+      <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">MIQs</dt>
+          <dd class="govuk-summary-list__value">{{ miqDocumentsSummary.count ~ ' document' ~ ('s' if miqDocumentsSummary.count != 1 else '') ~ ' added' if miqDocumentsSummary and miqDocumentsSummary.hasDocuments else 'Not provided' }}</dd>
+          <dd class="govuk-summary-list__actions"><a class="govuk-link" href="upload/miq/{{ 'manage' if miqDocumentsSummary and miqDocumentsSummary.hasDocuments else 'upload-bo' }}">{{ 'Manage' if miqDocumentsSummary and miqDocumentsSummary.hasDocuments else 'Add' }}<span class="govuk-visually-hidden"> MIQ documents</span></a></dd>
+        </div>
+      </dl>
      <!-- <h3 class="govuk-heading-s">Hearing estimates</h3>
       <p class="govuk-body">
         <a href="{{ basePath }}/add-hearing-estimates" class="govuk-link">Add/Edit hearing estimates</a></p> --- IGNORE --- -->
