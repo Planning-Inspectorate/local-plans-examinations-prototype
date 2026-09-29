@@ -1,6 +1,16 @@
 {% extends "layouts/front-office-v2.html" %}
 {% set reportShared = query['report'] or data['report'] %}
 {% set mainMods = query['main-mods'] or data['main-mods'] %}
+{% set examStatus = query['status'] or data['status'] %}
+
+{% set prototypeLinks =
+[
+{
+href: 'application-details-completed',
+text: 'View completed examination'
+}
+]
+%}
 
 {% block pageTitle %}
 Application details – {{ serviceName }}
@@ -9,7 +19,7 @@ Application details – {{ serviceName }}
 {% block beforeContent %}
 {{ govukBackLink({
 text: "Back",
-href: "/projects/front-office/plan-details/v2/plan-details?stage=examination&status=with-pins"
+href: "/projects/front-office/plan-details/v3/plan-details?stage=examination&status=with-pins"
 }) }}
 {% endblock %}
 
@@ -54,34 +64,74 @@ href: "/projects/front-office/plan-details/v2/plan-details?stage=examination&sta
 
     {% endif %}-->
 
-    {% if reportShared == 'true' %}
+    {% if examStatus == 'completed' %}
+    {% include "./_includes/completed-metadata.njk" %}
+    {% elseif reportShared == 'true' %}
     {% include "./_includes/report-metadata.njk" %}
     {% elseif mainMods == 'true' %}
     {% include "./_includes/main-mods-metadata.njk" %}
     {% else %}
+    {% set showStatus = true %}
     {% include "./_includes/application-metadata.njk" %}
     {% endif %}
 
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible" />
 
     <p class="govuk-body">
-      Your submission was sent on 25 April 2026 at 12:00pm by Laura Thornton.
+      Your submission was sent on 8 August 2026 at 12:00pm by Laura Thornton.
     </p>
 
-    <h2 class="govuk-heading-m govuk-!-margin-top-6">Local plan</h2>
+    <h2 class="govuk-heading-m govuk-!-margin-top-6">Examination details</h2>
 
     {{ govukSummaryList({
-    classes: "app-summary-list--narrow-key",
-    rows: [
-    {
-    key: { text: "Local plan" },
-    value: {
-    html: '<ul class="govuk-list">
-      <li><a class="govuk-link" href="#" target="_blank" rel="noopener">local-plan.pdf</a></li>
-    </ul>'
-    }
-    }
-    ]
+      classes: "app-summary-list--narrow-key",
+      rows: [
+
+        {
+          key: { text: 'Examination website' },
+          value: { html: "<a class='govuk-link' href='#' target='_blank' rel='noopener'>" + (data['examination-website-link'] or 'https://www.example.gov.uk/examination-library') + "</a>" }
+        },
+
+        {
+          key: { text: 'Statement of changes since gateway 3' },
+          value:
+            { html: "<a class='govuk-link' href='#' target='_blank' rel='noopener'>changes-statement.pdf</a>" } if data['changes-statement-upload-complete']
+            else { html: '<span class="govuk-hint">Not added</span>' }
+        }
+
+      ]
+    }) }}
+
+    <h2 class="govuk-heading-m govuk-!-margin-top-6">New or updated documents</h2>
+
+    {{ govukSummaryList({
+      classes: "app-summary-list--narrow-key",
+      rows: [
+
+        {
+          key: { text: 'Procedural documents' },
+          value:
+            { html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">procedural-document.pdf</a></li></ul>' } if data['procedural-documents-upload-complete']
+            else { html: '<span class="govuk-hint">Not added</span>' }
+        },
+
+        {
+          key: { text: 'Consultation documents' },
+          value: { html: '<ul class="govuk-list govuk-list--bullet">
+            <li><a class="govuk-link" href="#" target="_blank" rel="noopener">consultation-statement.pdf</a></li>
+            <li><a class="govuk-link" href="#" target="_blank" rel="noopener">consultation-responses-summary.pdf</a></li>
+            <li><a class="govuk-link" href="#" target="_blank" rel="noopener">consultation-scheme.pdf</a></li>
+          </ul>' }
+        },
+
+        {
+          key: { text: 'Plan content, evidence and background' },
+          value:
+            { html: '<ul class="govuk-list"><li><a class="govuk-link" href="#" target="_blank" rel="noopener">plan-content-evidence-document.pdf</a></li></ul>' } if data['plan-content-evidence-upload-complete']
+            else { html: '<span class="govuk-hint">Not added</span>' }
+        }
+
+      ]
     }) }}
 
   </div>

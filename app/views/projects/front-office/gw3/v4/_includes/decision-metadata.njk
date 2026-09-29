@@ -1,0 +1,64 @@
+<style>
+  .app-header {
+    margin-bottom: 20px;
+  }
+
+  .app-header__title {
+    margin-bottom: 5px;
+  }
+
+  .app-header__tag {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+
+  .app-details .govuk-summary-list__key,
+  .app-details .govuk-summary-list__value {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+</style>
+
+    {% if submission == '1' %}
+      {% set reportLabel = "Submission 1 report" %}
+      {% set reportHtml = "<a class='govuk-link' href='#'>gateway-3-report.pdf</a> (issued 27 Jun 2026)" %}
+    {% else %}
+      {% set reportLabel = "Submission 2 report" %}
+      {% set reportHtml = "<a class='govuk-link' href='#'>gateway-3-report.pdf</a> (issued 13 Jul 2026)" %}
+    {% endif %}
+
+    {% if showSubmissionHistory %}
+      {% if submission == '2' %}
+        {% set previousSubmissionsHtml = "<ul class='govuk-list'><li><a class='govuk-link' href='application-details-decision?newDocuments=true&viewOnly=true&submission=1'>Submission 1</a> (submitted 20 Jun 2026)</li></ul>" %}
+      {% elif submission == '1' %}
+        {% set previousSubmissionsHtml = "<ul class='govuk-list'><li><a class='govuk-link' href='application-details-decision?newDocuments=true&viewOnly=true&submission=2'>Submission 2</a> (submitted 1 Jul 2026)</li></ul>" %}
+      {% else %}
+        {% set previousSubmissionsHtml = "<ul class='govuk-list'><li><a class='govuk-link' href='application-details-decision?newDocuments=false&viewOnly=true&submission=1'>Submission 1</a> (submitted 20 Jun 2026)</li><li><a class='govuk-link' href='application-details-decision?newDocuments=true&viewOnly=true&submission=2'>Submission 2</a> (submitted 1 Jul 2026)</li></ul>" %}
+      {% endif %}
+      {% set decisionMetadataRows = [
+        {
+          key: { text: reportLabel, classes: "govuk-!-width-one-third" },
+          value: { html: reportHtml }
+        },
+        {
+          key: { text: "Previous submissions", classes: "govuk-!-width-one-third" },
+          value: { html: previousSubmissionsHtml }
+        }
+      ] %}
+    {% else %}
+      {% set decisionMetadataRows = [
+        {
+          key: { text: reportLabel, classes: "govuk-!-width-one-third" },
+          value: { html: reportHtml }
+        }
+      ] %}
+    {% endif %}
+
+    {{ govukSummaryList({
+      classes: "app-details govuk-summary-list--no-border",
+      rows: decisionMetadataRows
+    }) }}
+
+
+
+

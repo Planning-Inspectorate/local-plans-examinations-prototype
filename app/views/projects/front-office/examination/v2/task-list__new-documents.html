@@ -1,0 +1,80 @@
+<li>
+<div class="govuk-form-group">
+  <h2 class="app-task-list__section" id="procedural-documents">
+    Procedural documents
+  </h2>
+  <p class="govuk-body">Upload any new or updated procedural documents since your gateway 3 submission.</p>
+</div>
+
+  {{ govukSummaryList({
+    classes: 'govuk-!-margin-bottom-9',
+    rows: [
+
+      {
+        key: { text: 'New or updated documents' },
+        value:
+          { html: '<ul class="govuk-list govuk-list--bullet"><li><a href="#">procedural-document.pdf</a></li></ul>' } if data['procedural-documents-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'documents/procedural-documents-upload?cya=true', html: 'Change', visuallyHiddenText: 'procedural documents' } if data['procedural-documents-upload-complete']
+          else { href: 'documents/procedural-documents-upload', html: 'Add', visuallyHiddenText: 'procedural documents' }
+        ]}
+      }
+
+    ]
+  }) }}
+</li>
+
+<li>
+<div class="govuk-form-group">
+  <h2 class="app-task-list__section" id="consultation-documents">
+    Consultation documents
+  </h2>
+  <p class="govuk-body">Upload any new or updated consultation documents since your gateway 3 submission.</p>
+</div>
+
+  {{ govukSummaryList({
+    classes: 'govuk-!-margin-bottom-9',
+    rows: [
+
+      {
+        key: { text: 'New or updated documents' },
+        value:
+          { html: '<ul class="govuk-list govuk-list--bullet"><li><a href="#">consultation-document.pdf</a></li></ul>' } if data['consultation-documents-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'documents/consultation-documents-upload?cya=true', html: 'Change', visuallyHiddenText: 'consultation documents' } if data['consultation-documents-upload-complete']
+          else { href: 'documents/consultation-documents-upload', html: 'Add', visuallyHiddenText: 'consultation documents' }
+        ]}
+      }
+
+    ]
+  }) }}
+</li>
+
+<li>
+<div class="govuk-form-group">
+  <h2 class="app-task-list__section" id="plan-content-evidence">
+    Plan content, evidence and background
+  </h2>
+  <p class="govuk-body">Upload any new or updated plan content, evidence and background documents since your gateway 3 submission.</p>
+</div>
+
+  {{ govukSummaryList({
+    classes: 'govuk-!-margin-bottom-9',
+    rows: [
+
+      {
+        key: { text: 'New or updated documents' },
+        value:
+          { html: '<ul class="govuk-list govuk-list--bullet"><li><a href="#">plan-content-evidence-document.pdf</a></li></ul>' } if data['plan-content-evidence-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'documents/plan-content-evidence-upload?cya=true', html: 'Change', visuallyHiddenText: 'plan content, evidence and background documents' } if data['plan-content-evidence-upload-complete']
+          else { href: 'documents/plan-content-evidence-upload', html: 'Add', visuallyHiddenText: 'plan content, evidence and background documents' }
+        ]}
+      }
+
+    ]
+  }) }}
+</li>

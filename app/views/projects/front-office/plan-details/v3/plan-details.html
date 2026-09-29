@@ -21,6 +21,10 @@ text: 'GW3 resubmission required'
 {
 href: 'plan-details?status=ready&stage=examination&report=',
 text: 'Examination ready to start'
+},
+{
+href: 'plan-details?status=completed&stage=examination&report=',
+text: 'Examination complete'
 }
 ]
 %}
@@ -38,59 +42,6 @@ href: "/projects/front-office/home/v3/homepage"
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-
-    <!--{% if planStatus == 'validated' %}
-        {{ govukNotificationBanner({
-      html: "
-        <h3 class='govuk-notification-banner__heading'>
-          Your Gateway 2 workshop has been scheduled
-        </h3>
-
-        <a class='govuk-notification-banner__link' href='../../gw2/v4/application-details-submitted?status=validated&report='>
-          View your Gateway 2 workshop details
-        </a>
-        </p>
-      "
-    }) }}
-
-    {% elif planStatus == 'workshop-docs-added' %}
-
-    {{ govukNotificationBanner({
-      html: "
-        <h3 class='govuk-notification-banner__heading'>
-          Gateway 2 workshop documents have been shared by the Planning Inspectorate
-        </h3>
-
-        <a class='govuk-notification-banner__link' href='../../gw2/v4/application-details-submitted?status=workshop-docs-added&report='>
-          View your workshop documents
-        </a>
-        </p>
-      "
-      }) }}
-
-    {% elif planStatus == 'action-needed' and currentStage == 'gateway-3' %}
-
-    {{ govukNotificationBanner({
-      type: "important",
-      html: "
-        <h3 class='govuk-notification-banner__heading'>Action needed: your Gateway 3 submission has been stopped</h3>
-        <p class='govuk-body'>PINS has reviewed your Gateway 3 submission and made a 'stop' decision. You must review the report and resubmit before your plan can progress.</p>
-        <p class='govuk-body govuk-!-margin-bottom-0'><a class='govuk-link' href='../../gw3/v3/application-details-decision?decision=stop'>View the decision and resubmit</a></p>
-      "
-    }) }}
-
-    {% elif reportStatus == 'shared' %}
-
-        {{ govukNotificationBanner({
-      html: "
-        <h3 class='govuk-notification-banner__heading'>
-          Your Gateway 2 report has been shared by the Planning Inspectorate
-        </h3>
-        <p class='govuk-body govuk-!-margin-bottom-0'><a class='govuk-link' href='/projects/front-office/gw2/v4/application-details-submitted?report=shared&status='>View your Gateway 2 report</a></p>
-      "
-    }) }}
-
-    {% endif %}-->
 
     {% include "./_includes/plan-heading.njk" %}
     {% include "./_includes/plan-metadata.njk" %}

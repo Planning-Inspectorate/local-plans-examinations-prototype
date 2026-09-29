@@ -1,0 +1,48 @@
+<li>
+<div class="govuk-form-group">
+  <h2 class="app-task-list__section" id="new-documents">
+    New or updated documents
+  </h2>
+  <p class="govuk-body">Upload any new or updated versions since your gateway 3 submission.</p>
+</div>
+
+  {{ govukSummaryList({
+    classes: 'govuk-!-margin-bottom-9',
+    rows: [
+
+      {
+        key: { html: 'Procedural documents' },
+        value:
+          { html: '<ul class="govuk-list govuk-list--bullet"><li><a href="#">procedural-document.pdf</a></li></ul>' } if data['procedural-documents-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'documents/procedural-documents-upload?cya=true', html: 'Change', visuallyHiddenText: 'procedural documents' } if data['procedural-documents-upload-complete']
+          else { href: 'documents/procedural-documents-upload', html: 'Add', visuallyHiddenText: 'procedural documents' }
+        ]}
+      },
+
+      {
+        key: { html: 'Consultation documents' },
+        value:
+          { html: '<ul class="govuk-list govuk-list--bullet"><li><a href="#">consultation-document.pdf</a></li></ul>' } if data['consultation-documents-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'documents/consultation-documents-upload?cya=true', html: 'Change', visuallyHiddenText: 'consultation documents' } if data['consultation-documents-upload-complete']
+          else { href: 'documents/consultation-documents-upload', html: 'Add', visuallyHiddenText: 'consultation documents' }
+        ]}
+      },
+
+      {
+        key: { html: 'Plan content, evidence and background' },
+        value:
+          { html: '<ul class="govuk-list govuk-list--bullet"><li><a href="#">plan-content-evidence-document.pdf</a></li></ul>' } if data['plan-content-evidence-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'documents/plan-content-evidence-upload?cya=true', html: 'Change', visuallyHiddenText: 'plan content, evidence and background documents' } if data['plan-content-evidence-upload-complete']
+          else { href: 'documents/plan-content-evidence-upload', html: 'Add', visuallyHiddenText: 'plan content, evidence and background documents' }
+        ]}
+      }
+
+    ]
+  }) }}
+</li>
