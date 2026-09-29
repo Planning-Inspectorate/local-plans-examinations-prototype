@@ -230,7 +230,7 @@ Examination overview– {{ serviceName }}
     </dd>
     <dd class="govuk-summary-list__actions">
       {% if mainModsDocumentsSummary and mainModsDocumentsSummary.hasDocuments %}
-        <a class="govuk-link" href="upload/main-mods/check-answers">View<span class="govuk-visually-hidden"> main modifications documents</span></a>
+        <a class="govuk-link" href="upload/main-mods/manage">Manage<span class="govuk-visually-hidden"> main modifications documents</span></a>
       {% else %}
         <a class="govuk-link" href="upload/main-mods/upload-bo">Add<span class="govuk-visually-hidden"> main modifications documents</span></a>
       {% endif %}
@@ -247,7 +247,7 @@ Examination overview– {{ serviceName }}
     </dd>
     <dd class="govuk-summary-list__actions">
       {% if examinationReportSummary and examinationReportSummary.hasDocuments %}
-        <a class="govuk-link" href="upload/examination-report/check-answers">View<span class="govuk-visually-hidden"> examination report documents</span></a>
+        <a class="govuk-link" href="upload/examination-report/manage">Manage<span class="govuk-visually-hidden"> examination report documents</span></a>
       {% else %}
         <a class="govuk-link" href="upload/examination-report/upload-bo">Add<span class="govuk-visually-hidden"> examination report documents</span></a>
       {% endif %}
@@ -365,7 +365,7 @@ Examination overview– {{ serviceName }}
     </dd>
     <dd class="govuk-summary-list__actions">
       {% if finalReportSummary and finalReportSummary.hasDocuments %}
-        <a class="govuk-link" href="upload/final-report/check-answers">View<span class="govuk-visually-hidden"> final report documents</span></a>
+        <a class="govuk-link" href="upload/final-report/manage">Manage<span class="govuk-visually-hidden"> final report documents</span></a>
       {% else %}
         <a class="govuk-link" href="{{ basePath }}/final-report/sound-unsound?returnUrl={{ basePath }}/examination">Add<span class="govuk-visually-hidden"> final report outcome</span></a>
       {% endif %}
@@ -376,7 +376,7 @@ Examination overview– {{ serviceName }}
           <dt class="govuk-summary-list__key">Final report issue date</dt>
           <dd class="govuk-summary-list__value">{{ finalReportIssueDate if finalReportIssueDate and finalReportIssueDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="{{ basePath }}/final-report-issue-date.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Final Report Issue Date</span></a>
+            
           </dd>
         </div>
         {% endif %}

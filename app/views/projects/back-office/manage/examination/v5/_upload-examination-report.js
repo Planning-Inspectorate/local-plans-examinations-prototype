@@ -26,6 +26,11 @@ function getDocuments(req) {
   return [];
 }
 
+function saveDocuments(req, documents) {
+  req.session[EXAMINATION_REPORT_DOCUMENTS_KEY] = documents;
+  req.session.data[EXAMINATION_REPORT_DOCUMENTS_KEY] = documents;
+}
+
 router.get('/upload/examination-report/upload-bo', (req, res) => {
   res.render('projects/back-office/manage/examination/v5/upload/examination-report/upload-bo', {
     caseRef: req.session.data?.currentCaseRef || req.session.currentCaseRef || '',
@@ -42,6 +47,7 @@ router.post('/upload/examination-report/upload-bo', (req, res) => {
 router.get('/upload/examination-report/clear-uploads', (req, res) => {
   delete req.session[EXAMINATION_REPORT_DOCUMENTS_KEY];
   if (req.session.data) {
+    delete req.session.data[EXAMINATION_REPORT_DOCUMENTS_KEY];
     delete req.session.data.fileData;
     delete req.session.data.fileSizeMap;
   }
@@ -62,9 +68,13 @@ router.get('/upload/examination-report/check-answers', (req, res) => {
 router.post('/upload/examination-report/check-answers', (req, res) => {
   if (!req.session.data) req.session.data = {};
   const currentBatch = getFileData(req);
-  const documents = currentBatch.length ? currentBatch : getDocuments(req);
-  req.session[EXAMINATION_REPORT_DOCUMENTS_KEY] = documents;
-  req.session.data[EXAMINATION_REPORT_DOCUMENTS_KEY] = documents;
+  const documents = [...getDocuments(req)];
+  currentBatch.forEach((file) => {
+    if (!documents.some((document) => (document.filename || document.id) === file.id)) {
+      documents.push({ ...file, filename: file.id, originalname: file.name, uploadedAt: new Date().toISOString() });
+    }
+  });
+  saveDocuments(req, documents);
   delete req.session.data.fileData;
   delete req.session.data.fileSizeMap;
   req.session.qaDate = DateTime.now().toFormat('d/M/yyyy');
@@ -73,6 +83,42 @@ router.post('/upload/examination-report/check-answers', (req, res) => {
   req.session.save(() => {
     res.redirect(req.body.returnUrl || `${req.baseUrl}/examination`);
   });
+});
+
+router.get('/upload/examination-report/manage', (req, res) => {
+  const notificationMessage = req.session.notificationMessage || '';
+  delete req.session.notificationMessage;
+  const managedDocuments = getDocuments(req).map((document) => ({
+    originalname: document.originalname || document.name,
+    fileHref: `/projects/back-office/manage/documents/download/${encodeURIComponent(document.filename || document.id)}`,
+    receivedDate: document.uploadedAt ? DateTime.fromISO(document.uploadedAt).toFormat('d MMMM yyyy') : '',
+    removeHref: `remove-confirm?filename=${encodeURIComponent(document.filename || document.id)}`
+  }));
+  res.render('projects/back-office/manage/examination/v5/upload/examination-report/manage', {
+    caseRef: req.session.currentCaseRef || '', notificationMessage, managedDocuments
+  });
+  req.session.save();
+});
+
+router.get('/upload/examination-report/remove-confirm', (req, res) => {
+  const filename = req.query.filename || '';
+  const document = getDocuments(req).find((item) => (item.filename || item.id) === filename);
+  if (!document) return res.redirect(`${req.baseUrl}/upload/examination-report/manage`);
+  res.render('projects/back-office/manage/examination/v5/upload/examination-report/remove-confirm', {
+    caseRef: req.session.currentCaseRef || '', filename, documentName: document.originalname || document.name
+  });
+});
+
+router.post('/upload/examination-report/remove-confirm', (req, res) => {
+  if (req.body.action === 'remove') {
+    const documents = getDocuments(req);
+    if (documents.some((document) => (document.filename || document.id) === req.body.filename)) {
+      if (!req.session.data) req.session.data = {};
+      saveDocuments(req, documents.filter((document) => (document.filename || document.id) !== req.body.filename));
+      req.session.notificationMessage = 'Document removed';
+    }
+  }
+  req.session.save(() => res.redirect(`${req.baseUrl}/upload/examination-report/manage`));
 });
 
 module.exports = router;
