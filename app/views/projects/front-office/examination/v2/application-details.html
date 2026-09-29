@@ -32,7 +32,7 @@ href: "/projects/front-office/plan-details/v3/plan-details?stage=examination&sta
 {% block content %}
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-three-quarters">
+  <div class="govuk-grid-column-full">
 
         {% if errorStatus == 'true' %}
         {{ govukErrorSummary({
@@ -80,7 +80,6 @@ Your target submission date is 8 August 2026.
     </style>
 
     <ol class="app-task-list">
-      {% include "./task-list__examination-details.html" %}
       {% include "./task-list__new-documents.html" %}
       {% include "./task-list__submit.html" %}
     </ol>

@@ -30,6 +30,17 @@
       },
 
       {
+        key: { text: 'Practical arrangements demonstrating readiness for examination' },
+        value:
+          { html: "<a href='#'>practical-arrangements-statement.pdf</a>" } if data['practical-arrangements-statement-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'consultation-documents/practical-arrangements-statement-upload?cya=true', html: 'Change', visuallyHiddenText: 'practical arrangements demonstrating readiness for examination' } if data['practical-arrangements-statement-upload-complete']
+          else { href: 'consultation-documents/practical-arrangements-statement-upload', html: 'Add', visuallyHiddenText: 'practical arrangements demonstrating readiness for examination' }
+        ]}
+      },
+
+      {
         key: { text: 'Map of proposed local plan policies (optional)' },
         value:
           { html: "<a href='#'>policies-map.pdf</a>" } if data['policies-map-upload-complete']
@@ -37,17 +48,6 @@
         actions: { items: [
           { href: 'procedural-documents/policies-map-upload?cya=true', html: 'Change', visuallyHiddenText: 'map of proposed local plan policies' } if data['policies-map-upload-complete']
           else { href: 'procedural-documents/policies-map-upload', html: 'Add', visuallyHiddenText: 'map of proposed local plan policies' }
-        ]}
-      },
-
-      {
-        key: { text: 'Practical arrangements demonstrating readiness for examination (optional)' },
-        value:
-          { html: "<a href='#'>practical-arrangements-statement.pdf</a>" } if data['practical-arrangements-statement-upload-complete']
-          else { html: '<span class="govuk-hint">Not added</span>' },
-        actions: { items: [
-          { href: 'consultation-documents/practical-arrangements-statement-upload?cya=true', html: 'Change', visuallyHiddenText: 'practical arrangements demonstrating readiness for examination' } if data['practical-arrangements-statement-upload-complete']
-          else { href: 'consultation-documents/practical-arrangements-statement-upload', html: 'Add', visuallyHiddenText: 'practical arrangements demonstrating readiness for examination' }
         ]}
       },
 

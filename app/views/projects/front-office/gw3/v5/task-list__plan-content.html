@@ -3,14 +3,12 @@
     Plan content, evidence and background
   </h2>
 
-  <h3 class="govuk-heading-s">Required</h3>
-
   {{ govukSummaryList({
     classes: 'govuk-!-margin-bottom-9',
     rows: [
 
       {
-        key: { text: 'Proposed local plan submission for examination' },
+        key: { html: 'Proposed local plan submission for examination<br><span class="govuk-hint govuk-!-margin-bottom-0">Required</span>' },
         value:
           { html: "<a href='#'>proposed-local-plan.pdf</a>" } if data['proposed-local-plan-upload-complete']
           else { html: '<span class="govuk-hint">Not added</span>' },
@@ -21,7 +19,7 @@
       },
 
       {
-        key: { text: 'Examination website' },
+        key: { html: 'Examination website<br><span class="govuk-hint govuk-!-margin-bottom-0">Required</span>' },
         value:
           { html: "<a href='#'>" + data['examination-library-link'] + "</a>" } if data['examination-library-link-complete']
           else { html: '<span class="govuk-hint">Not added</span>' },
@@ -32,7 +30,7 @@
       },
 
       {
-        key: { text: 'Practical arrangements demonstrating readiness for examination' },
+        key: { html: 'Practical arrangements demonstrating readiness for examination<br><span class="govuk-hint govuk-!-margin-bottom-0">Required</span>' },
         value:
           { html: "<a href='#'>practical-arrangements-statement.pdf</a>" } if data['practical-arrangements-statement-upload-complete']
           else { html: '<span class="govuk-hint">Not added</span>' },
@@ -40,19 +38,10 @@
           { href: 'consultation-documents/practical-arrangements-statement-upload?cya=true', html: 'Change', visuallyHiddenText: 'practical arrangements demonstrating readiness for examination' } if data['practical-arrangements-statement-upload-complete']
           else { href: 'consultation-documents/practical-arrangements-statement-upload', html: 'Add', visuallyHiddenText: 'practical arrangements demonstrating readiness for examination' }
         ]}
-      }
-
-    ]
-  }) }}
-
-  <h3 class="govuk-heading-s">Optional</h3>
-
-  {{ govukSummaryList({
-    classes: 'govuk-!-margin-bottom-9',
-    rows: [
+      },
 
       {
-        key: { text: 'Map of proposed local plan policies' },
+        key: { html: 'Map of proposed local plan policies' },
         value:
           { html: "<a href='#'>policies-map.pdf</a>" } if data['policies-map-upload-complete']
           else { html: '<span class="govuk-hint">Not added</span>' },
@@ -63,7 +52,7 @@
       },
 
       {
-        key: { text: 'Environmental report' },
+        key: { html: 'Environmental report' },
         value:
           { html: "<a href='#'>environmental-report.pdf</a>" } if data['environmental-report-upload-complete']
           else { html: '<span class="govuk-hint">Not added</span>' },
@@ -74,7 +63,7 @@
       },
 
       {
-        key: { text: 'Statement of reasons for a determination that the proposed local plan is unlikely to have significant environmental effects' },
+        key: { html: 'Statement of reasons for a determination that the proposed local plan is unlikely to have significant environmental effects' },
         value:
           { html: "<a href='#'>screening-determination-statement.pdf</a>" } if data['screening-determination-statement-upload-complete']
           else { html: '<span class="govuk-hint">Not added</span>' },
@@ -85,7 +74,7 @@
       },
 
       {
-        key: { text: 'Supporting material' },
+        key: { html: 'Supporting material' },
         value:
           { html: '<ul class="govuk-list govuk-list--bullet"><li><a href="#">other-document-1.pdf</a></li><li><a href="#">other-document-2.pdf</a></li><li><a href="#">other-document-3.pdf</a></li><li><a href="#">other-document-4.pdf</a></li><li><a href="#">other-document-5.pdf</a></li></ul>' } if data['other-documents-upload-complete']
           else { html: '<span class="govuk-hint">Not added</span>' },
@@ -96,7 +85,7 @@
       },
 
       {
-        key: { text: 'Supplementary plans statement' },
+        key: { html: 'Supplementary plans statement' },
         value:
           { html: "<a href='#'>supplementary-plans-statement.pdf</a>" } if data['supplementary-plans-statement-upload-complete']
           else { html: '<span class="govuk-hint">Not added</span>' },

@@ -11,6 +11,17 @@
     rows: [
 
       {
+        key: { text: 'Statement of changes since gateway 3' },
+        value:
+          { html: "<a href='#'>changes-statement.pdf</a>" } if data['changes-statement-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'documents/changes-statement-upload?cya=true', html: 'Change', visuallyHiddenText: 'statement of changes since gateway 3' } if data['changes-statement-upload-complete']
+          else { href: 'documents/changes-statement-upload', html: 'Add', visuallyHiddenText: 'statement of changes since gateway 3' }
+        ]}
+      },
+
+      {
         key: { text: 'New or updated documents' },
         value:
           { html: '<ul class="govuk-list govuk-list--bullet"><li><a href="#">procedural-document.pdf</a></li></ul>' } if data['procedural-documents-upload-complete']
@@ -63,6 +74,14 @@
   {{ govukSummaryList({
     classes: 'govuk-!-margin-bottom-9',
     rows: [
+
+      {
+        key: { html: 'Examination website<br><span class="govuk-hint govuk-!-margin-bottom-0">Required</span>' },
+        value: { html: "<a href='#'>" + (data['examination-website-link'] or 'https://www.example.gov.uk/examination-library') + "</a>" },
+        actions: { items: [
+          { href: 'documents/examination-website-link?cya=true', html: 'Change', visuallyHiddenText: 'examination website' }
+        ]}
+      },
 
       {
         key: { text: 'New or updated documents' },

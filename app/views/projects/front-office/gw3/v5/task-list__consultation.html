@@ -1,0 +1,67 @@
+<li>
+  <h2 class="app-task-list__section" id="consultation-group">
+    Consultation documents
+  </h2>
+
+  {{ govukSummaryList({
+    classes: 'govuk-!-margin-bottom-9',
+    rows: [
+
+      {
+        key: { html: 'Summary of consultation and engagement activities in preparing the proposed local plan<br><span class="govuk-hint govuk-!-margin-bottom-0">Required</span>' },
+        value:
+          { html: "<a href='#'>consultation-engagement-summary.pdf</a>" } if data['consultation-engagement-summary-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'consultation-documents/consultation-engagement-summary-upload?cya=true', html: 'Change', visuallyHiddenText: 'summary of consultation and engagement activities in preparing the proposed local plan' } if data['consultation-engagement-summary-upload-complete']
+          else { href: 'consultation-documents/consultation-engagement-summary-upload', html: 'Add', visuallyHiddenText: 'summary of consultation and engagement activities in preparing the proposed local plan' }
+        ]}
+      },
+
+      {
+        key: { html: 'Summary of scoping consultation<br><span class="govuk-hint govuk-!-margin-bottom-0">Required</span>' },
+        value:
+          { html: "<a href='#'>scoping-consultation-summary.pdf</a>" } if data['scoping-consultation-summary-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'consultation-documents/scoping-consultation-summary-upload?cya=true', html: 'Change', visuallyHiddenText: 'summary of scoping consultation' } if data['scoping-consultation-summary-upload-complete']
+          else { href: 'consultation-documents/scoping-consultation-summary-upload', html: 'Add', visuallyHiddenText: 'summary of scoping consultation' }
+        ]}
+      },
+
+      {
+        key: { html: 'Summary of consultation on proposed local plan content and evidence<br><span class="govuk-hint govuk-!-margin-bottom-0">Required</span>' },
+        value:
+          { html: "<a href='#'>plan-content-evidence-consultation-summary.pdf</a>" } if data['plan-content-evidence-consultation-summary-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'consultation-documents/plan-content-evidence-consultation-summary-upload?cya=true', html: 'Change', visuallyHiddenText: 'summary of consultation on proposed local plan content and evidence' } if data['plan-content-evidence-consultation-summary-upload-complete']
+          else { href: 'consultation-documents/plan-content-evidence-consultation-summary-upload', html: 'Add', visuallyHiddenText: 'summary of consultation on proposed local plan content and evidence' }
+        ]}
+      },
+
+      {
+        key: { text: 'Summary of representations and responses on meeting prescribed requirements' },
+        value:
+          { html: "<a href='#'>progress-representations-summary.pdf</a>" } if data['progress-representations-summary-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'consultation-documents/progress-representations-summary-upload?cya=true', html: 'Change', visuallyHiddenText: 'summary of representations and responses on meeting prescribed requirements' } if data['progress-representations-summary-upload-complete']
+          else { href: 'consultation-documents/progress-representations-summary-upload', html: 'Add', visuallyHiddenText: 'summary of representations and responses on meeting prescribed requirements' }
+        ]}
+      },
+
+      {
+        key: { text: 'Representations' },
+        value:
+          { html: "<a href='#'>really-long-list-of-representations-for-review.pdf</a>" } if data['representations-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'consultation-documents/representations-upload?cya=true', html: 'Change', visuallyHiddenText: 'representations' } if data['representations-upload-complete']
+          else { href: 'consultation-documents/representations-upload', html: 'Add', visuallyHiddenText: 'representations' }
+        ]}
+      }
+
+    ]
+  }) }}
+</li>
