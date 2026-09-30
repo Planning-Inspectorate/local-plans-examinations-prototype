@@ -10,7 +10,7 @@
 {% block beforeContent %}
   {{ govukBackLink({
     text: "Back",
-    href: "upload-bo"
+    href: "upload-bo?hearingIndex=" + hearingIndex
   }) }}
 {% endblock %}
 
@@ -19,7 +19,7 @@
   <div class="govuk-grid-column-two-thirds">
 
     <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
-    <h1 class="govuk-heading-l">Check MIQ documents and send notification</h1>
+    <h1 class="govuk-heading-l">Check hearing {{ hearingIndex + 1 }} MIQ documents and send notification</h1>
 
     {% if uploadedDocuments.length > 0 %}
       {{ govukSummaryList({ rows: checkAnswerRows }) }}
@@ -27,6 +27,7 @@
       <p class="govuk-body">We’ll send a notification to the planning authority to tell them that the MIQ documents are available.</p>
 
       <form method="post" action="check-answers">
+        <input type="hidden" name="hearingIndex" value="{{ hearingIndex }}">
         {{ govukButton({
           text: "Confirm and notify"
         }) }}
@@ -41,7 +42,7 @@
         <div class="govuk-notification-banner__content">
           <p class="govuk-body">
             You have not uploaded any documents yet.
-            <a class="govuk-link" href="upload-bo">Upload documents</a>
+            <a class="govuk-link" href="upload-bo?hearingIndex={{ hearingIndex }}">Upload documents</a>
           </p>
         </div>
       </div>

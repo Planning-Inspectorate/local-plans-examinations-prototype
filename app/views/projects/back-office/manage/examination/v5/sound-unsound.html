@@ -19,6 +19,7 @@
       <form class="form" action="{{ basePath }}/{{ 'final-report/sound-unsound' if finalReport else 'sound-unsound' }}" method="post">
       
       <input type="hidden" name="isEdit" value="{{ isEdit }}">
+      <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
       {% if finalReport %}<input type="hidden" name="finalReport" value="true">{% endif %}
 
 {% from "govuk/components/radios/macro.njk" import govukRadios %}

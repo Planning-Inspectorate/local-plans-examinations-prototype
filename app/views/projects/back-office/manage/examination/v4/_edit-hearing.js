@@ -4,7 +4,7 @@ const _ = require('lodash')
 const { DateTime } = require("luxon")
 
 router.get('/edit-hearing', function (req, res) {
-    res.render('/edit-hearing/index', {
+  res.render('projects/back-office/manage/examination/v4/edit-hearing/index', {
       caseRef: req.session.currentCaseRef || '',
       planTitle: req.session.planTitle || '',
       editHearing: req.session.editHearing || {}
@@ -24,12 +24,12 @@ router.get('/edit-hearing', function (req, res) {
       }
     }
     req.session.save(() => {
-      res.redirect(`/edit-hearing/has-address`)
+      res.redirect(`${req.baseUrl}/edit-hearing/has-address`)
     })
   })
 
   router.get('/edit-hearing/has-address', function (req, res) {
-    res.render('/edit-hearing/has-address', {
+    res.render('projects/back-office/manage/examination/v4/edit-hearing/has-address', {
       caseRef: req.session.currentCaseRef || '',
       planTitle: req.session.planTitle || '',
       editHearing: req.session.editHearing || {}
@@ -40,15 +40,15 @@ router.get('/edit-hearing', function (req, res) {
     req.session.editHearing.hasAddress = req.body.hasAddress
     req.session.save(() => {
       if(req.session.editHearing.hasAddress == 'Yes') {
-        res.redirect(`/edit-hearing/address`)
+        res.redirect(`${req.baseUrl}/edit-hearing/address`)
       } else {
-        res.redirect(`/edit-hearing/check`)
+        res.redirect(`${req.baseUrl}/edit-hearing/check`)
       }
     })
   })
 
   router.get('/edit-hearing/address', function (req, res) {
-    res.render('/edit-hearing/address', {
+    res.render('projects/back-office/manage/examination/v4/edit-hearing/address', {
       caseRef: req.session.currentCaseRef || '',
       planTitle: req.session.planTitle || '',
       editHearing: req.session.editHearing || {}
@@ -64,12 +64,12 @@ router.get('/edit-hearing', function (req, res) {
       postcode: req.body['hearing-address-postcode']
     }
     req.session.save(() => {
-      res.redirect(`/edit-hearing/check`)
+      res.redirect(`${req.baseUrl}/edit-hearing/check`)
     })
   })
 
   router.get('/edit-hearing/check', function (req, res) {
-    res.render('/edit-hearing/check', {
+    res.render('projects/back-office/manage/examination/v4/edit-hearing/check', {
       caseRef: req.session.currentCaseRef || '',
       planTitle: req.session.planTitle || '',
       editHearing: req.session.editHearing || {}
@@ -93,7 +93,7 @@ router.get('/edit-hearing', function (req, res) {
     
     delete req.session.editHearing
     req.session.save(() => {
-      res.redirect(`/examination`)
+      res.redirect(`${req.baseUrl}/examination`)
     })
   })
 

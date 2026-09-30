@@ -10,14 +10,14 @@ const REVIEW_DRAFT_SESSION_KEY = 'gw3v4DocumentReviewDraft';
 function formatDateForDisplay(dateValue) {
   if (!dateValue || dateValue === '-') return '-';
 
-  const date = new Date(dateValue);
-  if (!Number.isNaN(date.getTime())) {
-    return date.toLocaleDateString('en-GB', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric'
-    });
-  }
+  const slashDate = DateTime.fromFormat(String(dateValue), 'd/M/yyyy');
+  if (slashDate.isValid) return slashDate.toFormat('d MMMM yyyy');
+
+  const shortDate = DateTime.fromFormat(String(dateValue), 'd MMM yyyy');
+  if (shortDate.isValid) return shortDate.toFormat('d MMMM yyyy');
+
+  const isoDate = DateTime.fromISO(String(dateValue));
+  if (isoDate.isValid) return isoDate.toFormat('d MMMM yyyy');
 
   return dateValue;
 }
@@ -362,10 +362,10 @@ function buildGateway3ViewModel(req, notificationMessage = '') {
   return {
     caseRef: req.session.currentCaseRef || '',
     notificationMessage,
-    gateway3EstimatedDate: req.session.gateway3EstimatedDate && req.session.gateway3EstimatedDate !== '-' ? req.session.gateway3EstimatedDate : '2 Jun 2026',
-    gateway3ActualDate: req.session.gateway3ActualDate && req.session.gateway3ActualDate !== '-' ? req.session.gateway3ActualDate : 'Not provided',
-    gateway3AssessorAppointmentDate: req.session.gateway3AssessorAppointmentDate && req.session.gateway3AssessorAppointmentDate !== '-' ? req.session.gateway3AssessorAppointmentDate : 'Not provided',
-    gateway3CompletionDate,
+    gateway3EstimatedDate: req.session.gateway3EstimatedDate && req.session.gateway3EstimatedDate !== '-' ? formatDateForDisplay(req.session.gateway3EstimatedDate) : '2 June 2026',
+    gateway3ActualDate: req.session.gateway3ActualDate && req.session.gateway3ActualDate !== '-' ? formatDateForDisplay(req.session.gateway3ActualDate) : 'Not provided',
+    gateway3AssessorAppointmentDate: req.session.gateway3AssessorAppointmentDate && req.session.gateway3AssessorAppointmentDate !== '-' ? formatDateForDisplay(req.session.gateway3AssessorAppointmentDate) : 'Not provided',
+    gateway3CompletionDate: formatDateForDisplay(gateway3CompletionDate),
     gateway3AssessorName: req.session.gateway3AssessorName && req.session.gateway3AssessorName !== '-' ? req.session.gateway3AssessorName : 'Not provided',
     assessorContacts: (req.session.gw3v5AssessorContacts || []).map((contact) => ({
       ...contact,

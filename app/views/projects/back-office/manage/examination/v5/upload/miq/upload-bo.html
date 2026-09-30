@@ -16,7 +16,7 @@
   <div class="govuk-grid-column-two-thirds">
 
     <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
-    <h1 class="govuk-heading-l">Upload MIQ documents</h1>
+    <h1 class="govuk-heading-l">Upload hearing {{ hearingIndex + 1 }} MIQ documents</h1>
 
     <h2 class="govuk-heading-m">Upload files</h2>
     <p>
@@ -29,6 +29,7 @@
 
 
     <form class="form" action="upload-bo" method="post" id="upload-form">
+      <input type="hidden" name="hearingIndex" value="{{ hearingIndex }}">
       <div class="app-multi-file-upload">
         {% include 'includes/back-office/multiple-document-upload.html' %}
       </div>
@@ -41,7 +42,7 @@
           {%- endfor -%}
         </div>
         <p>
-          <a href="clear-uploads">Clear all documents</a>
+          <a href="clear-uploads?hearingIndex={{ hearingIndex }}">Clear all documents</a>
         </p>
       {% endif %}
 

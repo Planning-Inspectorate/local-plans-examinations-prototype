@@ -15,7 +15,10 @@ const EXAMINATION_STATUS_FIELDS = [
 	'examinationWebsite',
 	'hearings',
 	'planPauseDate',
+	'planPauseReason',
 	'planPauseEndDate',
+	'planPauseActualEndDate',
+	'examinationV3StatusBeforePause',
 	'qaDate',
 	'qaInspector1Name',
 	'qaInspector2Name',
@@ -57,8 +60,12 @@ router.get('/set-status', (req, res) => {
 	if (state === 'hearing-pending') state = 'submission-received';
 
 	const returnUrl = req.query.returnUrl || `${req.baseUrl}/examination`;
+	const statusBeforePause = req.session.examinationV3StatusState;
 
 	clearExaminationStatusFields(req);
+	if (state === 'paused') {
+		req.session.examinationV3StatusBeforePause = statusBeforePause || 'exam-in-progress';
+	}
 
 	const states = [
 		'submission-pending',

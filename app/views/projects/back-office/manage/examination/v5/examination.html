@@ -35,7 +35,7 @@ Examination overview– {{ serviceName }}
       </div>
       <div class="govuk-notification-banner__content">
         <p class="govuk-notification-banner__heading">This plan is paused</p>
-        <p class="govuk-body">Paused on {{ planPauseDate }}.{% if planPauseReason and planPauseReason != '-' %} Reason: {{ planPauseReason }}{% endif %}</p>
+        <p class="govuk-body">Paused on {{ planPauseDate }}.</p>
       </div>
     </div>
     {% elif planPauseStatusState == 'withdrawn' %}
@@ -59,8 +59,6 @@ Examination overview– {{ serviceName }}
   </div>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-      <form method="post" action="">
-
       <h2 class="govuk-heading-l">Examination</h2>
       <dl class="govuk-summary-list govuk-summary-list-timetable">
         <div class="govuk-summary-list__row">
@@ -77,7 +75,7 @@ Examination overview– {{ serviceName }}
           <dt class="govuk-summary-list__key">Examination website</dt>
           <dd class="govuk-summary-list__value">
             {% if examinationWebsite and examinationWebsite != '-' %}
-              <a class="govuk-link" href="{{ examinationWebsite }}" target="_blank" rel="noopener noreferrer">{{ examinationWebsite }}</a>
+              <a class="govuk-link" href="{{ examinationWebsiteHref }}" target="_blank" rel="noopener noreferrer">{{ examinationWebsite }}</a>
             {% else %}
               Not provided
             {% endif %}
@@ -104,6 +102,13 @@ Examination overview– {{ serviceName }}
       {% endif %}
       <p><a class="govuk-link" href="{{ basePath }}/inspector?returnUrl={{ basePath }}/examination">Add inspector</a></p>
       <h2 class="govuk-heading-l">Hearings</h2>
+      <dl class="govuk-summary-list govuk-summary-list-timetable">
+      <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Hearing 1 MIQ documents</dt>
+          <dd class="govuk-summary-list__value">{{ miqDocumentsSummary.count ~ ' document' ~ ('s' if miqDocumentsSummary.count != 1 else '') ~ ' added' if miqDocumentsSummary and miqDocumentsSummary.hasDocuments else 'Not provided' }}</dd>
+          <dd class="govuk-summary-list__actions"><a class="govuk-link" href="upload/miq/{{ 'manage' if miqDocumentsSummary and miqDocumentsSummary.hasDocuments else 'upload-bo' }}">{{ 'Manage' if miqDocumentsSummary and miqDocumentsSummary.hasDocuments else 'Add' }}<span class="govuk-visually-hidden"> MIQ documents</span></a></dd>
+        </div>
+      </dl>
        {% if hearings and hearings.length %}
         {% for hearing in hearings %}
           <h3 class="govuk-heading-m">Hearing {{ loop.index }} details</h3>
@@ -194,6 +199,16 @@ Examination overview– {{ serviceName }}
               </dd>
             </div>
           </dl>
+          {% if not loop.last %}
+          {% set nextMiqSummary = miqDocumentsSummaries[loop.index] %}
+          <dl class="govuk-summary-list govuk-summary-list-timetable">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Hearing {{ loop.index + 1 }} MIQ documents</dt>
+              <dd class="govuk-summary-list__value">{{ nextMiqSummary.count ~ ' document' ~ ('s' if nextMiqSummary.count != 1 else '') ~ ' added' if nextMiqSummary.hasDocuments else 'Not provided' }}</dd>
+              <dd class="govuk-summary-list__actions"><a class="govuk-link" href="upload/miq/{{ 'manage' if nextMiqSummary.hasDocuments else 'upload-bo' }}?hearingIndex={{ loop.index }}">{{ 'Manage' if nextMiqSummary.hasDocuments else 'Add' }}<span class="govuk-visually-hidden"> hearing {{ loop.index + 1 }} MIQ documents</span></a></dd>
+            </div>
+          </dl>
+          {% endif %}
         {% endfor %}
 
         <p class="govuk-body">
@@ -204,13 +219,7 @@ Examination overview– {{ serviceName }}
           <a href="add-hearing">Add hearing</a>
         </p>
       {% endif %}
-      <dl class="govuk-summary-list govuk-summary-list-timetable">
-      <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">MIQs</dt>
-          <dd class="govuk-summary-list__value">{{ miqDocumentsSummary.count ~ ' document' ~ ('s' if miqDocumentsSummary.count != 1 else '') ~ ' added' if miqDocumentsSummary and miqDocumentsSummary.hasDocuments else 'Not provided' }}</dd>
-          <dd class="govuk-summary-list__actions"><a class="govuk-link" href="upload/miq/{{ 'manage' if miqDocumentsSummary and miqDocumentsSummary.hasDocuments else 'upload-bo' }}">{{ 'Manage' if miqDocumentsSummary and miqDocumentsSummary.hasDocuments else 'Add' }}<span class="govuk-visually-hidden"> MIQ documents</span></a></dd>
-        </div>
-      </dl>
+
      <!-- <h3 class="govuk-heading-s">Hearing estimates</h3>
       <p class="govuk-body">
         <a href="{{ basePath }}/add-hearing-estimates" class="govuk-link">Add/Edit hearing estimates</a></p> --- IGNORE --- -->
@@ -218,7 +227,7 @@ Examination overview– {{ serviceName }}
        <h2 class="govuk-heading-l">Post hearing</h2></p>
       
       <dl class="govuk-summary-list govuk-summary-list-timetable">
-       
+
     <div class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key">Main modifications</dt>
       <dd class="govuk-summary-list__value">
@@ -257,6 +266,7 @@ Examination overview– {{ serviceName }}
     </dl>
      
 
+     <!--
       <h2 class="govuk-heading-l">Letters</h2>
       <dl class="govuk-summary-list govuk-summary-list-timetable">
         <div class="govuk-summary-list__row">
@@ -274,6 +284,7 @@ Examination overview– {{ serviceName }}
           </dd>
         </div>
       </dl>
+     -->
 
       <h2 class="govuk-heading-l">QA</h2>
       
@@ -288,7 +299,7 @@ Examination overview– {{ serviceName }}
             <dd class="govuk-summary-list__actions"><a class="govuk-link" href="{{ basePath }}/qa-inspector/{{ loop.index0 }}/remove?returnUrl={{ basePath }}/examination">Remove<span class="govuk-visually-hidden"> {{ inspector.name }}</span></a></dd>
           </div>
           <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">Date appointed</dt>
+            <dt class="govuk-summary-list__key">QA inspector {{ loop.index }} appointed</dt>
             <dd class="govuk-summary-list__value">{{ inspector.dateAppointed or 'Not provided' }}</dd>
           </div>
           {% endfor %}
@@ -354,7 +365,13 @@ Examination overview– {{ serviceName }}
             <a class="govuk-link" href="{{ basePath }}/fact-check-received-back-from-lpa.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Fact Check Received Back from LPA</span></a>
           </dd>
         </div>
-        <div class="govuk-summary-list__row">
+        </dl>
+
+
+      <h2 class="govuk-heading-l">Outcome</h2>
+      <dl class="govuk-summary-list govuk-summary-list-timetable">
+
+         <div class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key">Final report</dt>
       <dd class="govuk-summary-list__value">
       {% if finalReportSummary and finalReportSummary.hasDocuments %}
@@ -376,15 +393,43 @@ Examination overview– {{ serviceName }}
           <dt class="govuk-summary-list__key">Final report issue date</dt>
           <dd class="govuk-summary-list__value">{{ finalReportIssueDate if finalReportIssueDate and finalReportIssueDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
-            
+
           </dd>
         </div>
         {% endif %}
-      </dl>
-
-      <h2 class="govuk-heading-l">Outcome</h2>
-      <dl class="govuk-summary-list govuk-summary-list-timetable">
+        {% if examinationStatusState == 'report-issued' or examinationStatusState == 'plan-adopted' %}
         <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Assessment outcome</dt>
+          <dd class="govuk-summary-list__value">{{ planSoundness if planSoundness and planSoundness != '-' else 'Not provided' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="{{ basePath }}/sound-unsound.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Sound / Unsound</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Sound / unsound date</dt>
+          <dd class="govuk-summary-list__value">{{ soundUnsoundDate if soundUnsoundDate and soundUnsoundDate != '-' else 'Not provided' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="{{ basePath }}/sound-unsound-date.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Sound / Unsound Date</span></a>
+          </dd>
+        </div>
+        {% endif %}
+        {% if examinationStatusState == 'report-issued' or examinationStatusState == 'plan-adopted' %}
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Adoption date</dt>
+          <dd class="govuk-summary-list__value">{{ adoptionDate if adoptionDate and adoptionDate != '-' else 'Not provided' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="{{ basePath }}/adoption-date.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Adoption Date</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Approved for CIL date</dt>
+          <dd class="govuk-summary-list__value">{{ approvedForCilDate if approvedForCilDate and approvedForCilDate != '-' else 'Not provided' }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="{{ basePath }}/approved-for-CIL-date.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Approved for CIL Date</span></a>
+          </dd>
+        </div>
+        {% endif %}
+      <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Plan pause</dt>
           <dd class="govuk-summary-list__value">{{ planPauseDate if planPauseDate and planPauseDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
@@ -431,44 +476,13 @@ Examination overview– {{ serviceName }}
         {% endif %}
         {% endif %}
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Withdraw</dt>
+          <dt class="govuk-summary-list__key">Withdrawn</dt>
           <dd class="govuk-summary-list__value">{{ withdrawnDate if withdrawnDate and withdrawnDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="{{ basePath }}/withdrawn-date.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Withdrawn Date</span></a>
           </dd>
         </div>
-        {% if examinationStatusState == 'report-issued' or examinationStatusState == 'plan-adopted' %}
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Assessment outcome</dt>
-          <dd class="govuk-summary-list__value">{{ planSoundness if planSoundness and planSoundness != '-' else 'Not provided' }}</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="{{ basePath }}/sound-unsound.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Sound / Unsound</span></a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Sound / unsound date</dt>
-          <dd class="govuk-summary-list__value">{{ soundUnsoundDate if soundUnsoundDate and soundUnsoundDate != '-' else 'Not provided' }}</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="{{ basePath }}/sound-unsound-date.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Sound / Unsound Date</span></a>
-          </dd>
-        </div>
-        {% endif %}
-        {% if examinationStatusState == 'report-issued' or examinationStatusState == 'plan-adopted' %}
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Adoption date</dt>
-          <dd class="govuk-summary-list__value">{{ adoptionDate if adoptionDate and adoptionDate != '-' else 'Not provided' }}</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="{{ basePath }}/adoption-date.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Adoption Date</span></a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Approved for CIL date</dt>
-          <dd class="govuk-summary-list__value">{{ approvedForCilDate if approvedForCilDate and approvedForCilDate != '-' else 'Not provided' }}</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="{{ basePath }}/approved-for-CIL-date.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Approved for CIL Date</span></a>
-          </dd>
-        </div>
-        {% endif %}
+        
       </dl>
 
     </div>

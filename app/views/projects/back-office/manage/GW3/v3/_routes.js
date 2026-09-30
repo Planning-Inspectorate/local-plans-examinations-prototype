@@ -1,5 +1,6 @@
 const govukPrototypeKit = require('govuk-prototype-kit');
 const router = govukPrototypeKit.requests.setupRouter();
+const { DateTime } = require('luxon');
 
 // Wire in set-status route handler
 router.use('/', require('./_set-status'));
@@ -7,14 +8,14 @@ router.use('/', require('./_set-status'));
 function formatDateForDisplay(dateValue) {
   if (!dateValue || dateValue === '-') return '';
 
-  const date = new Date(dateValue);
-  if (!Number.isNaN(date.getTime())) {
-    return date.toLocaleDateString('en-GB', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric'
-    });
-  }
+  const slashDate = DateTime.fromFormat(String(dateValue), 'd/M/yyyy');
+  if (slashDate.isValid) return slashDate.toFormat('d MMMM yyyy');
+
+  const shortDate = DateTime.fromFormat(String(dateValue), 'd MMM yyyy');
+  if (shortDate.isValid) return shortDate.toFormat('d MMMM yyyy');
+
+  const isoDate = DateTime.fromISO(String(dateValue));
+  if (isoDate.isValid) return isoDate.toFormat('d MMMM yyyy');
 
   return dateValue;
 }

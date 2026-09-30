@@ -2,4 +2,10 @@
 <div class="app-plan-header__meta">
 {#	{% include "includes/back-office/plan-stage-caption.njk" %} #}
 	{% include "includes/back-office/plan-status-tag.njk" %}
+	{% if headerOutcomeText %}
+	{{ govukTag({
+		text: headerOutcomeText,
+		classes: headerOutcomeClasses
+	}) }}
+	{% endif %}
 </div>

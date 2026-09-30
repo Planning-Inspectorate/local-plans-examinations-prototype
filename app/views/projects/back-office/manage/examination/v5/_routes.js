@@ -143,8 +143,16 @@ router.get('/examination', (req, res) => {
 		startDate: formatDateForDisplay(hearing.startDate) || '-',
 		endDate: formatDateForDisplay(hearing.endDate) || '-'
 	}));
+	const miqDocumentsSummaries = Array.from({ length: Math.max(hearingsForDisplay.length, 1) }, (_, index) => {
+		const documents = uploadMiqsRouter.getMiqDocuments(req, index);
+		return { count: documents.length, hasDocuments: documents.length > 0 };
+	});
 
 	const headerStatusText = getExaminationStatusText(req.session);
+	const headerOutcomeText = req.session.examinationV3StatusState === 'report-issued'
+		&& ['Sound', 'Unsound'].includes(req.session.planSoundness)
+		? req.session.planSoundness
+		: '';
 
 	res.render('projects/back-office/manage/examination/v5/examination', {
 		caseRef: req.session.data?.currentCaseRef || req.session.currentCaseRef || '',
@@ -155,6 +163,8 @@ router.get('/examination', (req, res) => {
 		notificationMessage: notificationMessage,
 		headerStatusText: headerStatusText,
 		headerStatusClasses: getPlanStatusClasses(headerStatusText),
+		headerOutcomeText,
+		headerOutcomeClasses: headerOutcomeText === 'Sound' ? 'govuk-tag--green' : 'govuk-tag--red',
 		examinationEstimatedDate: formatDateForDisplay(req.session.examinationEstimatedDate) || '-',
 		examinationActualDate: formatDateForDisplay(req.session.examinationActualDate) || '-',
 		examiningInspector1Name: req.session.examiningInspector1Name || '-',
@@ -162,7 +172,11 @@ router.get('/examination', (req, res) => {
 		examiningInspector3Name: req.session.examiningInspector3Name || '-',
 		examiningInspectorAppointmentDate: formatDateForDisplay(req.session.examiningInspectorAppointmentDate) || '-',
 		examinationWebsite: req.session.examinationWebsite || '-',
+		examinationWebsiteHref: req.session.examinationWebsite && req.session.examinationWebsite !== '-'
+			? (/^https?:\/\//i.test(req.session.examinationWebsite) ? req.session.examinationWebsite : `https://${req.session.examinationWebsite}`)
+			: '',
 		hearings: hearingsForDisplay,
+		miqDocumentsSummaries,
 		miqDocumentsSummary: {
 			count: miqDocuments.length,
 			latestUploadedAtDisplay: latestMiqDocument ? formatTimestampForDisplay(latestMiqDocument.uploadedAt) : '-',
@@ -192,6 +206,7 @@ router.get('/examination', (req, res) => {
 		qaReportSentDate: formatDateForDisplay(req.session.qaReportSentDate) || '-',
 		qaPanelResponseDate: formatDateForDisplay(req.session.qaPanelResponseDate) || '-',
 		factCheckReceivedDate: formatDateForDisplay(req.session.factCheckReceivedDate) || '-',
+		factCheckDueDate: formatDateForDisplay(req.session.factCheckDueDate) || '-',
 		factCheckActualDate: formatDateForDisplay(req.session.factCheckActualDate) || '-',
 		factCheckReceivedFromLpaDate: formatDateForDisplay(req.session.factCheckReceivedFromLpaDate) || '-',
 		finalReportIssueDate: formatDateForDisplay(req.session.finalReportIssueDate) || '-',
@@ -242,6 +257,56 @@ function getQaInspectors(req) {
 	req.session.qaInspectors = inspectors;
 	return inspectors;
 }
+
+const examinationDateFields = [
+	{ path: 'qa-date', template: 'QA-date', sessionKey: 'qaDate', input: 'qa-date', value: 'qaDate' },
+	{ path: 'qa-sent-to-panel-date', template: 'QA-sent-to-panel-date', sessionKey: 'qaReportSentDate', input: 'inspector-report-sent-to-qa-panel-date', value: 'inspectorReportSentToQAPanelDate' },
+	{ path: 'qa-panel-response-sent-date', template: 'QA-panel-response-sent-date', sessionKey: 'qaPanelResponseDate', input: 'qa-panel-response-sent-date', value: 'qaPanelResponseSentDate' },
+	{ path: 'examination-estimated', sessionKey: 'examinationEstimatedDate', input: 'examination-estimated-date', value: 'examinationEstimatedDate' },
+	{ path: 'examination-actual', sessionKey: 'examinationActualDate', input: 'examination-actual-date', value: 'examinationActualDate' },
+	{ path: 'fact-check-received-from-inspector', sessionKey: 'factCheckReceivedDate', input: 'fact-check-received-back-from-inspector-date', value: 'factCheckReceivedFromInspectorDate' },
+	{ path: 'fact-check-due-date', sessionKey: 'factCheckDueDate', input: 'fact-check-due-date', value: 'factCheckDueDate' },
+	{ path: 'fact-check-actual-date', sessionKey: 'factCheckActualDate', input: 'fact-check-actual-date', value: 'factCheckActualDate' },
+	{ path: 'fact-check-received-back-from-lpa', sessionKey: 'factCheckReceivedFromLpaDate', input: 'fact-check-received-back-from-lpa-date', value: 'factCheckReceivedBackFromLpaDate' },
+	{ path: 'sound-unsound-date', sessionKey: 'soundUnsoundDate', input: 'sound-unsound-date', value: 'noticeOfIntentionDate' },
+	{ path: 'approved-for-CIL-date', sessionKey: 'approvedForCilDate', input: 'approved-for-cil-date', value: 'noticeOfIntentionDate' },
+	{ path: 'final-report-issue-date', sessionKey: 'finalReportIssueDate', input: 'final-report-issue-date', value: 'finalReportIssueDate' }
+];
+
+examinationDateFields.forEach(({ path, template = path, sessionKey, input, value }) => {
+	router.get([`/${path}`, `/${path}.html`, `/${template}`, `/${template}.html`], (req, res) => {
+		const savedDate = req.session[sessionKey] || '';
+		const numericDate = DateTime.fromFormat(savedDate, 'd/M/yyyy');
+		const longDate = DateTime.fromFormat(savedDate, 'd MMMM yyyy');
+		const date = numericDate.isValid ? numericDate : longDate;
+		res.render(`projects/back-office/manage/examination/v5/${template}`, {
+			[value]: date.isValid ? date.toFormat('d/M/yyyy') : '',
+			returnUrl: req.query.returnUrl || `${req.baseUrl}/examination`
+		});
+	});
+
+	router.post([`/${path}`, `/${template}`], (req, res) => {
+		const date = DateTime.fromObject({
+			day: Number(req.body[`${input}-day`]),
+			month: Number(req.body[`${input}-month`]),
+			year: Number(req.body[`${input}-year`])
+		});
+		if (date.isValid) req.session[sessionKey] = date.toFormat('d/M/yyyy');
+		req.session.save(() => res.redirect(req.body.returnUrl || `${req.baseUrl}/examination`));
+	});
+});
+
+router.get(['/examination-website', '/examination-website.html'], (req, res) => {
+	res.render('projects/back-office/manage/examination/v5/examination-website', {
+		examinationWebsite: req.session.examinationWebsite && req.session.examinationWebsite !== '-' ? req.session.examinationWebsite : '',
+		returnUrl: req.query.returnUrl || `${req.baseUrl}/examination`
+	});
+});
+
+router.post('/examination-website', (req, res) => {
+	req.session.examinationWebsite = (req.body['examination-website'] || '').trim();
+	req.session.save(() => res.redirect(req.body.returnUrl || `${req.baseUrl}/examination`));
+});
 
 function addInspectorRoutes(prefix, sessionKey, pagePrefix, checkTemplate, dateTemplate) {
 	router.get(`/${prefix}`, (req, res) => {
@@ -335,9 +400,10 @@ router.post('/qa-inspectors/check-answers', (req, res) => {
 
 router.get('/qa-inspector/:index/appointed-date', (req, res) => {
 	const inspector = getQaInspectors(req)[Number(req.params.index)] || {};
+	const date = DateTime.fromFormat(inspector.dateAppointed || '', 'd MMMM yyyy');
 	res.render('projects/back-office/manage/examination/v5/qa-inspector-appointed-date', {
 		index: req.params.index,
-		dateParts: inspector.dateAppointed ? inspector.dateAppointed.split(' ') : ['', '', ''],
+		dateParts: date.isValid ? date.toFormat('d M yyyy').split(' ') : ['', '', ''],
 		returnUrl: req.query.returnUrl || `${req.baseUrl}/qa-inspectors/check-answers`
 	});
 });
@@ -402,6 +468,23 @@ router.post('/inspector', (req, res) => {
 	req.session.save(() => res.redirect(`${req.baseUrl}/inspectors/check-answers?returnUrl=${encodeURIComponent(req.body.returnUrl || `${req.baseUrl}/examination`)}`));
 });
 
+router.get('/inspector/:index/appointed-date', (req, res) => {
+	const inspector = getExaminingInspectors(req)[Number(req.params.index)] || {};
+	const date = DateTime.fromFormat(inspector.dateAppointed || '', 'd MMMM yyyy');
+	res.render('projects/back-office/manage/examination/v5/inspector-appointed-date', {
+		index: req.params.index,
+		dateParts: date.isValid ? date.toFormat('d M yyyy').split(' ') : ['', '', ''],
+		returnUrl: req.query.returnUrl || `${req.baseUrl}/inspectors/check-answers`
+	});
+});
+
+router.post('/inspector/:index/appointed-date', (req, res) => {
+	const inspector = getExaminingInspectors(req)[Number(req.params.index)];
+	const date = DateTime.fromObject({ day: Number(req.body.day), month: Number(req.body.month), year: Number(req.body.year) });
+	if (inspector && date.isValid) inspector.dateAppointed = date.toFormat('d MMMM yyyy');
+	req.session.save(() => res.redirect(req.body.returnUrl || `${req.baseUrl}/inspectors/check-answers`));
+});
+
 router.post('/inspector/remove', (req, res) => {
 	const inspectors = getExaminingInspectors(req);
 	inspectors.splice(Number(req.body.index), 1);
@@ -409,10 +492,34 @@ router.post('/inspector/remove', (req, res) => {
 	req.session.save(() => res.redirect(req.body.returnUrl || `${req.baseUrl}/examination`));
 });
 
+router.get('/inspector/:index/remove', (req, res) => {
+	const inspectors = getExaminingInspectors(req);
+	const index = Number(req.params.index);
+	if (Number.isInteger(index) && index >= 0 && index < inspectors.length) inspectors.splice(index, 1);
+	req.session.save(() => res.redirect(req.query.returnUrl || `${req.baseUrl}/examination`));
+});
+
+router.get(['/sound-unsound', '/sound-unsound.html'], (req, res) => {
+	res.render('projects/back-office/manage/examination/v5/sound-unsound', {
+		caseRef: req.session.data?.currentCaseRef || req.session.currentCaseRef || '',
+		planType: (req.session.planSoundness || '').toLowerCase(),
+		returnUrl: req.query.returnUrl || `${req.baseUrl}/examination`
+	});
+});
+
+router.post('/sound-unsound', (req, res) => {
+	const soundness = (req.body['plan-soundness'] || '').trim().toLowerCase();
+	if (soundness === 'sound' || soundness === 'unsound') {
+		req.session.planSoundness = soundness.charAt(0).toUpperCase() + soundness.slice(1);
+		req.session.soundUnsoundDate = req.session.soundUnsoundDate || DateTime.now().toFormat('d/M/yyyy');
+	}
+	req.session.save(() => res.redirect(req.body.returnUrl || `${req.baseUrl}/examination`));
+});
+
 router.get('/final-report/sound-unsound', (req, res) => {
 	res.render('projects/back-office/manage/examination/v5/sound-unsound', {
 		caseRef: req.session.data?.currentCaseRef || req.session.currentCaseRef || '',
-		planType: req.session.planSoundness || '',
+		planType: (req.session.planSoundness || '').toLowerCase(),
 		finalReport: true,
 		returnUrl: req.query.returnUrl || `${req.baseUrl}/examination`
 	});
@@ -430,12 +537,7 @@ router.post('/final-report/sound-unsound', (req, res) => {
 			month: 'long',
 			year: 'numeric'
 		});
-		if (capitalized === 'Sound') {
-			delete req.session.planPauseStatusState;
-		} else if (capitalized === 'Unsound') {
-			req.session.planPauseStatusState = 'withdrawn';
-			req.session.withdrawnDate = req.session.withdrawnDate || new Date().toLocaleDateString('en-GB');
-		}
+		req.session.examinationV3StatusState = 'report-issued';
 	}
 
 	req.session.save(() => {

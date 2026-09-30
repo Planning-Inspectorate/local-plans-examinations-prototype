@@ -3,7 +3,7 @@ const router = express.Router();
 const _ = require('lodash')
 
 router.get('/edit-hearing-estimates', function (req, res) {
-    res.render('/edit-hearing-estimates/index', {
+  res.render('projects/back-office/manage/examination/v4/edit-hearing-estimates/index', {
       caseRef: req.session.currentCaseRef || '',
       planTitle: req.session.planTitle || '',
       editHearingEstimates: req.session.editHearingEstimates || req.session.hearingEstimates || {}
@@ -17,12 +17,12 @@ router.get('/edit-hearing-estimates', function (req, res) {
       estimatedReportingTime: req.body.estimatedReportingTime
     }
     req.session.save(() => {
-      res.redirect(`/edit-hearing-estimates/check`)
+      res.redirect(`${req.baseUrl}/edit-hearing-estimates/check`)
     })
   })
 
   router.get('/edit-hearing-estimates/check', function (req, res) {
-    res.render('/edit-hearing-estimates/check', {
+    res.render('projects/back-office/manage/examination/v4/edit-hearing-estimates/check', {
       caseRef: req.session.currentCaseRef || '',
       planTitle: req.session.planTitle || '',
       editHearingEstimates: req.session.editHearingEstimates || req.session.hearingEstimates || {}
@@ -33,7 +33,7 @@ router.get('/edit-hearing-estimates', function (req, res) {
     req.session.hearingEstimates = req.session.editHearingEstimates
     delete req.session.editHearingEstimates
     req.session.save(() => {
-      res.redirect(`/examination`)
+      res.redirect(`${req.baseUrl}/examination`)
     })
   })
 

@@ -193,8 +193,9 @@ router.post('/withdrawal-evidence', (req, res) => {
 });
 
 router.get('/withdrawal-check-answers', (req, res) => {
+	const withdrawnDate = DateTime.fromFormat(req.session.withdrawnDate || '', DATE_FORMAT);
 	res.render('projects/back-office/manage/examination/v5/withdrawal-check-answers', {
-		withdrawnDate: req.session.withdrawnDate || '',
+		withdrawnDate: withdrawnDate.isValid ? withdrawnDate.toFormat('d MMMM yyyy') : (req.session.withdrawnDate || ''),
 		withdrawalReason: req.session.planPauseDecisionReason || '',
 		uploadedDocuments: req.session[WITHDRAWAL_EVIDENCE_KEY] || [],
 		returnUrl: resolveReturnUrl(req, req.query.returnUrl)

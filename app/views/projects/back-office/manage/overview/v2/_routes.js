@@ -1,6 +1,13 @@
 const express = require('express');
 const router = express.Router();
+const { DateTime } = require('luxon');
 const lpaToRegionSimple = require('../../../../../../data/lpa-to-region-simple.json');
+
+function formatDateForDisplay(value) {
+  if (!value || value === '-') return value || '';
+  const parsed = DateTime.fromFormat(value, 'd/M/yyyy');
+  return parsed.isValid ? parsed.toFormat('d MMMM yyyy') : value;
+}
 
 function getCurrentCase(req, preferredRef) {
   const caseRef = preferredRef || req.session.currentCaseRef || '';
@@ -100,11 +107,11 @@ function buildOverviewContext(req) {
     mainContactEmail: mainContact.email || '',
     mainContactPhone: mainContact.phone || '',
     mainContactOrg: mainContact.organisation || '',
-    noticeOfIntentionDate: req.session.noticeOfIntentionDate || '',
-    gateway1EstimatedDate: req.session.gateway1EstimatedDate || '',
-    gateway2EstimatedDate: req.session.gateway2EstimatedDate || '',
-    gateway3EstimatedDate: req.session.gateway3EstimatedDate || '',
-    submissionDate: req.session.submissionDate || '',
+    noticeOfIntentionDate: formatDateForDisplay(req.session.noticeOfIntentionDate),
+    gateway1EstimatedDate: formatDateForDisplay(req.session.gateway1EstimatedDate),
+    gateway2EstimatedDate: formatDateForDisplay(req.session.gateway2EstimatedDate),
+    gateway3EstimatedDate: formatDateForDisplay(req.session.gateway3EstimatedDate),
+    submissionDate: formatDateForDisplay(req.session.submissionDate),
     planBand: req.session.planBand || '',
     currentCase
   };

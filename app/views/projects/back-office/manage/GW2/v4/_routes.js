@@ -926,7 +926,7 @@ router.get('/gateway-2-documents', (req, res) => {
 
   res.render('projects/back-office/manage/GW2/v4/gateway-2-documents', {
     caseRef: req.session.currentCaseRef || '',
-    submissionDate: req.session.submissionDate || '',
+    submissionDate: formatDateForDisplay(req.session.submissionDate),
     serviceName: 'Manage a local plan',
     notificationMessage,
     proceduralDocuments: documents.filter((doc) => doc.category === 'procedural'),

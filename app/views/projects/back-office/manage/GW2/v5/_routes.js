@@ -68,10 +68,10 @@ function formatDocumentDateForDisplay(dateString) {
   if (!dateString || dateString === 'Not provided') return 'Not provided';
 
   const slashParsed = DateTime.fromFormat(String(dateString), 'd/M/yyyy');
-  if (slashParsed.isValid) return slashParsed.toFormat('dd MMM yyyy');
+  if (slashParsed.isValid) return slashParsed.toFormat('d MMMM yyyy');
 
   const isoParsed = DateTime.fromISO(String(dateString));
-  if (isoParsed.isValid) return isoParsed.toFormat('dd MMM yyyy');
+  if (isoParsed.isValid) return isoParsed.toFormat('d MMMM yyyy');
 
   return dateString;
 }
@@ -1291,7 +1291,7 @@ router.get('/gateway-2-documents', (req, res) => {
 
   res.render('projects/back-office/manage/GW2/v5/gateway-2-documents', {
     caseRef: req.session.currentCaseRef || '',
-    submissionDate: req.session.submissionDate,
+    submissionDate: formatDateForDisplay(req.session.submissionDate),
     serviceName: 'Manage a local plan',
     notificationMessage,
     proceduralDocuments: documents.filter((doc) => doc.category === 'procedural'),
@@ -1330,7 +1330,7 @@ router.get('/gateway-2-documents-new', (req, res) => {
 
   res.render('projects/back-office/manage/GW2/v5/gateway-2-documents-new', {
     caseRef: req.session.currentCaseRef || '',
-    submissionDate: req.session.submissionDate,
+    submissionDate: formatDateForDisplay(req.session.submissionDate),
     serviceName: 'Manage a local plan',
     notificationMessage,
     proceduralDocumentRows: buildGateway2DocumentRows(documents.filter((doc) => doc.category === 'procedural'), uploadedByCategory, notProvidedDocumentIds),

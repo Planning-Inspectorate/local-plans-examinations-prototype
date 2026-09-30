@@ -41,11 +41,13 @@ router.post('/upload/final-report/upload-bo', (req, res) => {
 });
 
 router.get('/upload/final-report/check-answers', (req, res) => {
+  const soundUnsoundDate = req.session.soundUnsoundDate || '';
+  const parsedDate = DateTime.fromFormat(soundUnsoundDate, 'd/M/yyyy');
   res.render('projects/back-office/manage/examination/v5/upload/final-report/check-answers', {
     caseRef: req.session.data?.currentCaseRef || req.session.currentCaseRef || '',
     uploadedDocuments: getFileData(req).length ? getFileData(req) : getDocuments(req),
     planSoundness: req.session.planSoundness || 'Not provided',
-    soundUnsoundDate: req.session.soundUnsoundDate || 'Not provided',
+    soundUnsoundDate: parsedDate.isValid ? parsedDate.toFormat('d MMMM yyyy') : (soundUnsoundDate || 'Not provided'),
     returnUrl: req.query.returnUrl || `${req.baseUrl}/examination`
   });
 });

@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { removeHearingMiqDocuments } = require('./_upload-miqs');
 
 function syncLatestHearingFields(session) {
   const hearings = Array.isArray(session.hearings) ? session.hearings : [];
@@ -61,6 +62,7 @@ router.get('/cancel-hearing', function (req, res) {
         : null;
 
     if (Number.isInteger(hearingIndex) && hearingIndex >= 0 && Array.isArray(hearings) && hearingIndex < hearings.length) {
+      removeHearingMiqDocuments(req, hearingIndex, hearings.length);
       const updatedHearings = hearings.filter((_, index) => index !== hearingIndex);
       req.session.hearings = updatedHearings;
       if (req.session.data && Array.isArray(req.session.data.hearings)) {

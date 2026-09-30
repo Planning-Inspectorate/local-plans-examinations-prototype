@@ -115,6 +115,7 @@ router.get('/examination', (req, res) => {
 
 	res.render('projects/back-office/manage/examination/v4/examination', {
 		caseRef: req.session.data?.currentCaseRef || req.session.currentCaseRef || '',
+		examinationStatusState: req.session.examinationV3StatusState || '',
 		planTitle: req.session.data?.planTitle || req.session.planTitle || '',
 		notificationMessage: notificationMessage,
 		headerStatusText: headerStatusText,
@@ -151,7 +152,9 @@ router.get('/examination', (req, res) => {
 		factCheckReceivedFromLpaDate: formatDateForDisplay(req.session.factCheckReceivedFromLpaDate) || '-',
 		finalReportIssueDate: formatDateForDisplay(req.session.finalReportIssueDate) || '-',
 		planPauseDate: formatDateForDisplay(req.session.planPauseDate) || '-',
+		planPauseReason: req.session.planPauseReason || '-',
 		planPauseEndDate: formatDateForDisplay(req.session.planPauseEndDate) || '-',
+		planPauseActualEndDate: formatDateForDisplay(req.session.planPauseActualEndDate) || '-',
 		withdrawnDate: formatDateForDisplay(req.session.withdrawnDate) || '-',
 		planSoundness: req.session.planSoundness || '-',
 		soundUnsoundDate: formatDateForDisplay(req.session.soundUnsoundDate) || '-',
@@ -172,6 +175,7 @@ router.use('/', require('./_add-hearing'));
 router.use('/', require('./_cancel-hearing'));
 router.use('/', require('./_edit-hearing'));
 router.use('/', require('./_edit-hearing-estimates'));
+router.use('/', require('./_plan-pause'));
 router.use('/', uploadMiqsRouter);
 router.use('/', uploadMainModsRouter);
 router.use('/', require('./_set-status'));

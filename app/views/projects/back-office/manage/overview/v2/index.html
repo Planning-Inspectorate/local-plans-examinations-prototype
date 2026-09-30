@@ -431,8 +431,14 @@ Plan overview – {{ serviceName }}
         </div>
       </dl>
       </dl>
+      <h2 class="govuk-heading-l">Case management</h2>
       <div class="govuk-button-group">
-      
+        <form method="get" action="/projects/back-office/manage/examination/v4/withdrawn.html">
+          <button type="submit" class="govuk-button govuk-button--warning">
+            Withdraw case
+          </button>
+        </form>
+        </div>
         <form method="get" action="/projects/back-office/manage/delete-case/v1/delete-case-confirmation.html">
           <input type="hidden" name="caseRef" value="{{ caseRef }}">
           <button type="submit" class="govuk-button govuk-button--warning">

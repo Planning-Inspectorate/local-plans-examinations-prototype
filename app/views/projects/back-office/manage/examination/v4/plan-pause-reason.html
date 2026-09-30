@@ -1,0 +1,38 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+	Reason for pause – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+	{{ govukBackLink({
+		text: "Back",
+		href: returnUrl or "javascript:window.history.back()"
+	}) }}
+{% endblock %}
+
+{% block content %}
+	<div class="govuk-grid-row">
+		<div class="govuk-grid-column-two-thirds">
+			<span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
+			<h1 class="govuk-heading-l">Reason for pause</h1>
+			<form class="form" method="post" action="{{ basePath }}/plan-pause-reason">
+				<input type="hidden" name="returnUrl" value="{{ returnUrl }}">
+				{{ govukCharacterCount({
+					name: "plan-pause-reason",
+					id: "plan-pause-reason",
+					maxwords: 500,
+					rows: 8,
+					value: planPauseReason,
+					label: {
+						text: "Explain why this plan has been paused"
+					}
+				}) }}
+				<div class="govuk-button-group">
+					<button type="submit" class="govuk-button" data-module="govuk-button">Save and continue</button>
+					<a href="{{ returnUrl or (basePath + '/examination') }}" class="govuk-link">Cancel</a>
+				</div>
+			</form>
+		</div>
+	</div>
+{% endblock %}
