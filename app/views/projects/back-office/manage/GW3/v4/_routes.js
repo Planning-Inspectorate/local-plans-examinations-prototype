@@ -652,6 +652,8 @@ router.post('/gateway-3-decision-upload', (req, res) => {
     month: 'long',
     year: 'numeric'
   });
+  req.session.examinationV3StatusState = 'submission-pending';
+  if (req.session.data) req.session.data.examinationV3StatusState = 'submission-pending';
 
   req.session.save(() => {
     res.redirect(`/projects/back-office/manage/GW3/v4/gateway-3-decision-check-answers.html?submissionVersion=${submissionVersion}&returnUrl=${encodeURIComponent(returnUrl)}`);

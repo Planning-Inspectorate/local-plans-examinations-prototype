@@ -25,6 +25,36 @@
     <h1 class="govuk-heading-l">
       {{ title }}
     </h1>
+     {% set version = "6" %}
+    <h2 class="govuk-heading-m">
+      Version {{ version }}
+      {{ govukTag({
+        classes: 'govuk-tag--grey govuk-!-margin-left-2',
+        text: 'Experimental'
+      }) }}
+    </h2>
+ 
+    <p class="govuk-!-margin-bottom-2">Changes:</p>
+ 
+    <ul class="govuk-list govuk-list--bullet">
+ 
+      
+       <li>Ability to pause and resume plan multiple times</li>
+       <li>Assigning examing inspectors and QA inspectors</li>
+       <li>Issuing outcome of examination (sound, sound with modifications, unsound) upload final report and main mods in one flow</li>
+       <li>Ability to fill out the whole of examination end to end with reflected statuses</li>
+
+ 
+    {{ govukButton({
+      html: 'View prototype',
+      href: '/projects/back-office/manage/examination/v' ~ version ~ '/examination',
+      isStartButton: true
+    }) }}
+    <br>
+    <br>
+    <hr>
+    <br>
+    <br>
     {% set version = "5" %}
     <h2 class="govuk-heading-m">
       Version {{ version }}

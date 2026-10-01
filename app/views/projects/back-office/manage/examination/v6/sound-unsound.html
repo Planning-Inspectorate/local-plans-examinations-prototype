@@ -1,0 +1,68 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+  Plan outcome – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+     
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+  <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
+      <form class="form" action="{{ basePath }}/{{ 'final-report/sound-unsound' if finalReport else 'sound-unsound' }}" method="post">
+      
+      <input type="hidden" name="isEdit" value="{{ isEdit }}">
+      <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
+      {% if finalReport %}<input type="hidden" name="finalReport" value="true">{% endif %}
+
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{{ govukRadios({
+  name: "plan-soundness",
+  fieldset: {
+    legend: {
+      text: "Plan outcome" if not isEdit else "Plan outcome",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--l"
+    }
+  },
+  items: [
+    {
+      value: "sound",
+      text: "Sound",
+      checked: planType == "sound"
+    },
+    {
+      value: "sound with modifications",
+      text: "Sound with modifications",
+      checked: planType == "sound with modifications"
+    },
+    {
+      value: "unsound",
+      text: "Unsound",
+      checked: planType == "unsound"
+      }
+  ]
+}) }}
+
+<div class="govuk-button-group">
+        <button type="submit" class="govuk-button" data-module="govuk-button">Save and continue</button>
+        <a href="{{ returnUrl or (basePath + '/sound-unsound') }}" class="govuk-link">Cancel</a>
+      </div>
+			
+
+      </form>
+    </div>
+</div>
+
+{% endblock %}
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}
+
