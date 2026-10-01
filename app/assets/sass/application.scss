@@ -558,6 +558,23 @@ html, body {
 }
 
 
+.environment-banner {
+ min-height: 2em;
+ margin-top: 0;
+ color: white;
+ font-family: Helvetica, Arial, sans-serif;
+ font-size: 1.2em;
+ line-height: 2em;
+ font-weight: 800;
+ background-color: black; // training (default)
+ text-align: center;
+}
+
+.environment-banner--test {
+ background-color: #00625e;
+}
+
+
 
 
 // Additions for the font and the Planning Inspectorate header

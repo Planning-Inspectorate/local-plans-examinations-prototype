@@ -1,3 +1,12 @@
+{# Environment banner: set on a page with {% set environmentBanner = "test" %} or "training",
+   or for a whole session with ?environmentBanner=test #}
+{% set envBanner = environmentBanner or data['environmentBanner'] %}
+{% if envBanner %}
+  <div class="environment-banner environment-banner--{{ envBanner }}">
+    {{ envBanner | capitalize }} environment
+  </div>
+{% endif %}
+
 {% include "includes/PINS-header--internal.html" %}
 
 {{ govukServiceNavigation({
