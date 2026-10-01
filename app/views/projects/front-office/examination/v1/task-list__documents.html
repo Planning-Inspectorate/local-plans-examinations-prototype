@@ -11,7 +11,7 @@
   {% set rows = [] %}
   {% for doc in section.documents %}
     {% set label = doc.name | lower %}
-    {% set keyHtml = doc.name + ('<br><span class="govuk-hint govuk-!-margin-bottom-0">Conditional</span>' if doc.conditional else '') %}
+    {% set keyHtml = doc.name + ('<br><span class="govuk-hint govuk-!-margin-bottom-0">Required</span>' if not doc.conditional else '') %}
 
     {% if doc.website %}
       {% set row = {
