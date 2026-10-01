@@ -8,6 +8,7 @@
   }
 
   .app-header__tag {
+    margin-top: 15px;
     margin-bottom: 15px;
   }
 
@@ -18,16 +19,30 @@
   }
 </style>
 
+{% set isCompleted = (query['status'] or data['status']) == 'completed' %}
+
 <div class="app-header">
   <h1 class="govuk-heading-xl app-header__title">
     <span class="govuk-caption-xl">East Borough Local Plan</span>
     Examination submission
   </h1>
+  {% if isCompleted %}
+    <strong class="govuk-tag app-header__tag">
+      Completed
+    </strong>
+  {% endif %}
 </div>
 
-  {% set mainModifications %}
+  {% set miq %}
     <ul class="govuk-list">
-      <li><a class="govuk-link" href="#">main-modifcations.pdf</a> (shared on 8 May 2026)</li>
+      <li><a class="govuk-link" href="#">matters-issues-questions.pdf</a> (shared on 8 May 2026)</li>
+    </ul>
+  {% endset %}
+
+  {% set examinationReport %}
+    <ul class="govuk-list">
+      <li><a class="govuk-link" href="#">examination-report.pdf</a> (shared on 30 May 2026)</li>
+      <li><a class="govuk-link" href="#">main-modifications.pdf</a> (shared on 30 May 2026)</li>
     </ul>
   {% endset %}
 
@@ -35,12 +50,12 @@
   classes: "app-details govuk-summary-list--no-border",
   rows: [
     {
-      key: { text: "Main modifications", classes: "govuk-!-width-one-third" },
-      value: { html: mainModifications }
+      key: { text: "MIQs", classes: "govuk-!-width-one-third" },
+      value: { html: miq }
     },
     {
-      key: { text: "Final report", classes: "govuk-!-width-one-third" },
-      value: { html: '<a class="govuk-link" href="#">final-report.pdf</a> (shared on 30 May 2026)' }
+      key: { text: "Examination report" if isCompleted else "Final report", classes: "govuk-!-width-one-third" },
+      value: { html: examinationReport if isCompleted else '<a class="govuk-link" href="#">final-report.pdf</a> (shared on 30 May 2026)' }
     }
   ]
 }) }}

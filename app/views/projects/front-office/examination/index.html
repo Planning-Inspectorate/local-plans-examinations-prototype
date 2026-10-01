@@ -31,11 +31,11 @@
       Version {{ version }}
       {{ govukTag({
         classes: 'govuk-tag govuk-!-margin-left-2',
-        text: 'In progress'
+        text: 'Ready for review'
       }) }}
     </h2>
 
-    <p class="govuk-body">Allows LPAs to submit their final local plan for examination</p>
+    <p class="govuk-body">Allows LPAs to submit for examination.</p>
 
      <h3 class="govuk-heading-s">Prototype states</h3>
       <ul class="govuk-list govuk-list--bullet">
@@ -50,6 +50,20 @@
       href: '/projects/front-office/examination/v' ~ version ~ '/application-details?error=',
       isStartButton: true
     }) }}
+
+      {% set archiveHtml %}
+        <ul class="govuk-list govuk-list--bullet">
+          <li><a class="govuk-link" href="/projects/front-office/examination/archive/v1/application-details">Catch-all submission for new or updated documents only</a></li>
+          <li><a class="govuk-link" href="/projects/front-office/examination/archive/v2/application-details">Catch-all per section (procedural, consultation, and plan content, evidence and background)</a></li>
+          <li><a class="govuk-link" href="/projects/front-office/examination/archive/v3/application-details">Document requirements divided into sections similar to GW2 with conditional documents tagged</a></li>
+          <li><a class="govuk-link" href="/projects/front-office/examination/archive/v4/application-details">Documents split into required and conditional sections</a></li>
+        </ul>
+      {% endset %}
+
+      {{ govukDetails({
+        summaryText: "Other design options",
+        html: archiveHtml
+      }) }}
 
 
 </div>

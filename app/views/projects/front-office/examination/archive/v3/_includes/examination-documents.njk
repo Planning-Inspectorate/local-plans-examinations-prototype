@@ -1,0 +1,35 @@
+{# Documents shown on the application details task list. Used by the task list and the shared upload page. #}
+{% set examinationSections = [
+  {
+    id: "procedural-documents",
+    heading: "Procedural documents",
+    documents: [
+      { id: "changes-statement", name: "Statement explaining changes since the proposed local plan consultation, reasons for changes, any additional consultation", conditional: true },
+      { id: "statement-of-compliance", name: "Statement of compliance" },
+      { id: "statement-of-soundness", name: "Statement of soundness" },
+      { id: "proposed-plan-consultation-summary", name: "Summary of consultation on proposed local plan" },
+      { id: "gateway-3-completion-statement", name: "Gateway 3 completion statement" }
+    ]
+  },
+  {
+    id: "consultation-documents",
+    heading: "Consultation documents",
+    documents: [
+      { id: "gateway-3-representations", name: "Representations required in the Gateway 3 report" },
+      { id: "sds-conformity-representations", name: "Representations on conformity with an operative spatial development strategy", conditional: true },
+      { id: "consultation-engagement-summary", name: "Summary of consultation and engagement activities in preparing the proposed local plan" }
+    ]
+  },
+  {
+    id: "plan-content-evidence",
+    heading: "Plan content, evidence and background",
+    documents: [
+      { id: "local-plan-submission", name: "Local plan submission for examination" },
+      { id: "examination-website", name: "Examination website", website: true },
+      { id: "environmental-report", name: "Environmental report", conditional: true },
+      { id: "environmental-effects-statement", name: "Statement demonstrating that the proposed local plan is unlikely to have significant environmental effects", conditional: true },
+      { id: "further-evidence", name: "Additional evidence documents", conditional: true },
+      { id: "policies-map", name: "Map of proposed local plan policies" }
+    ]
+  }
+] %}

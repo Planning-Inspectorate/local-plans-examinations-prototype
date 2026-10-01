@@ -1,0 +1,25 @@
+{% extends "layouts/front-office-v3.html" %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% set title = "Confirm your examination website" %}
+
+{% block questions %}
+
+<span class="govuk-caption-l">Examination details</span>
+
+{{ govukInput({
+  label: {
+    text: title,
+    isPageHeading: true,
+    classes: "govuk-label--l"
+  },
+  hint: {
+    text: "This is the web address where your examination library and documents are published. Check the link you gave us at Gateway 3 is still correct, or update it if it has changed."
+  },
+  id: "examination-library-link",
+  name: "examination-library-link",
+  type: "url",
+  classes: "govuk-!-width-two-thirds",
+  value: data['examination-library-link']
+}) }}
+
+{% endblock %}

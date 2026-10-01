@@ -1,0 +1,45 @@
+<style>
+  .app-header {
+    margin-bottom: 20px;
+  }
+
+  .app-header__title {
+    margin-bottom: 5px;
+  }
+
+  .app-header__tag {
+    margin-bottom: 15px;
+  }
+
+  .app-details .govuk-summary-list__key,
+  .app-details .govuk-summary-list__value {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+</style>
+
+<div class="app-header">
+  <h1 class="govuk-heading-xl app-header__title">
+    <span class="govuk-caption-xl">East Borough Local Plan</span>
+    Examination submission
+  </h1>
+</div>
+
+{% set examinationOutcomeRows = [
+  {
+    key: { text: "MIQs", classes: "govuk-!-width-one-third" },
+    value: { html: "<a class='govuk-link' href='#'>matters-issues-questions.pdf</a> (issued 15 Sep 2026)" }
+  },
+  {
+    key: { text: "Examination report", classes: "govuk-!-width-one-third" },
+    value: { html: '<ul class="govuk-list">
+      <li><a class="govuk-link" href="#">examination-report.pdf</a> (issued 20 Oct 2026)</li>
+      <li><a class="govuk-link" href="#">main-mods.pdf</a> (issued 20 Oct 2026)</li>
+    </ul>' }
+  }
+] %}
+
+{{ govukSummaryList({
+  classes: "app-details govuk-summary-list--no-border",
+  rows: examinationOutcomeRows
+}) }}

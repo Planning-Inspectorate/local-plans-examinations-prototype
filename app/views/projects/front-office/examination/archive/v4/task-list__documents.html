@@ -1,0 +1,45 @@
+{% from "./_includes/examination-documents.njk" import examinationSections %}
+
+{% for section in examinationSections %}
+<li>
+<div class="govuk-form-group">
+  <h2 class="app-task-list__section" id="{{ section.id }}">
+    {{ section.heading }}
+  </h2>
+</div>
+
+  {% set rows = [] %}
+  {% for doc in section.documents %}
+    {% set label = doc.name | lower %}
+
+    {% if doc.website %}
+      {% set row = {
+        key: { text: doc.name },
+        value: { html: "<a href='#'>" + (data['examination-website-link'] or 'https://www.example.gov.uk/examination-library') + "</a>" },
+        actions: { items: [
+          { href: 'documents/examination-website-link?cya=true', html: 'Change', visuallyHiddenText: label }
+        ]}
+      } %}
+    {% else %}
+      {% set complete = data['document-upload-' + doc.id + '-complete'] %}
+      {% set row = {
+        key: { text: doc.name },
+        value:
+          { html: "<a href='#'>" + doc.id + ".pdf</a>" } if complete
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'documents/document-upload?doc=' + doc.id + '&cya=true', html: 'Change', visuallyHiddenText: label } if complete
+          else { href: 'documents/document-upload?doc=' + doc.id, html: 'Add', visuallyHiddenText: label }
+        ]}
+      } %}
+    {% endif %}
+
+    {% set rows = (rows.push(row), rows) %}
+  {% endfor %}
+
+  {{ govukSummaryList({
+    classes: 'govuk-!-margin-bottom-9',
+    rows: rows
+  }) }}
+</li>
+{% endfor %}

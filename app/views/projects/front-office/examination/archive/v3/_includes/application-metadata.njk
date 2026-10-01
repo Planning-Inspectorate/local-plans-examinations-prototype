@@ -1,0 +1,40 @@
+<style>
+  .app-header {
+    margin-bottom: 20px;
+  }
+
+  .app-header__title {
+    margin-bottom: 5px;
+  }
+
+  .app-header__tag {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+
+  .app-details .govuk-summary-list__key,
+  .app-details .govuk-summary-list__value {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+</style>
+
+<div class="app-header">
+  <h1 class="govuk-heading-xl app-header__title">
+    <span class="govuk-caption-xl">East Borough local plan</span>
+    Examination submission
+  </h1>
+  {% if detailsStatus == 'in-progress' %}
+    <strong class="govuk-tag govuk-tag--teal app-header__tag">
+      In progress
+    </strong>
+  {% elif detailsStatus == 'ready' %}
+    <strong class="govuk-tag govuk-tag--green app-header__tag">
+      Ready to start
+    </strong>
+  {% elif showStatus %}
+    <strong class="govuk-tag govuk-tag--yellow app-header__tag">
+      Under review
+    </strong>
+  {% endif %}
+</div>

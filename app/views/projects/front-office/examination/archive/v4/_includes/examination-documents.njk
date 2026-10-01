@@ -1,0 +1,29 @@
+{# Documents shown on the application details task list. Used by the task list and the shared upload page. #}
+{% set examinationSections = [
+  {
+    id: "required-documents",
+    heading: "Required",
+    documents: [
+      { id: "statement-of-compliance", name: "Statement of compliance" },
+      { id: "statement-of-soundness", name: "Statement of soundness" },
+      { id: "proposed-plan-consultation-summary", name: "Summary of consultation on proposed local plan" },
+      { id: "gateway-3-completion-statement", name: "Gateway 3 completion statement" },
+      { id: "gateway-3-representations", name: "Representations required in the Gateway 3 report" },
+      { id: "consultation-engagement-summary", name: "Summary of consultation and engagement activities in preparing the proposed local plan" },
+      { id: "local-plan-submission", name: "Local plan submission for examination" },
+      { id: "examination-website", name: "Examination website", website: true },
+      { id: "policies-map", name: "Map of proposed local plan policies" }
+    ]
+  },
+  {
+    id: "conditional-documents",
+    heading: "Conditional",
+    documents: [
+      { id: "changes-statement", name: "Statement explaining changes since the proposed local plan consultation, reasons for changes, any additional consultation" },
+      { id: "sds-conformity-representations", name: "Representations on conformity with an operative spatial development strategy" },
+      { id: "environmental-report", name: "Environmental report" },
+      { id: "environmental-effects-statement", name: "Statement demonstrating that the proposed local plan is unlikely to have significant environmental effects" },
+      { id: "further-evidence", name: "Additional evidence documents" }
+    ]
+  }
+] %}

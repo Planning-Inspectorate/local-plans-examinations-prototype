@@ -1,0 +1,28 @@
+{% extends "layouts/front-office-v2.html" %}
+{% from "includes/multidocumentupload.njk" import multiDocumentUpload %}
+{% from "../_includes/examination-documents.njk" import examinationSections %}
+
+{% set matches = [] %}
+{% for section in examinationSections %}
+  {% for doc in section.documents %}
+    {% if doc.id == data['doc'] %}{% set matches = (matches.push(doc.name), matches) %}{% endif %}
+  {% endfor %}
+{% endfor %}
+{% set documentName = matches[0] or "document" %}
+{% set title = "Upload " + documentName | lower %}
+
+{% block pageTitle %} {{ title }} – {{ serviceName }}
+{% endblock %}
+
+{% block questions %}
+
+  <input type="hidden" name="doc" value="{{ data['doc'] }}">
+
+  {{ multiDocumentUpload({
+    caption: "Examination submission",
+    heading: title,
+    hintHtml: "<p class='govuk-body'>Each file must be a PDF and no larger than 100MB.</p>",
+    uploadUrl: "upload-documents"
+  }) }}
+
+{% endblock %}
