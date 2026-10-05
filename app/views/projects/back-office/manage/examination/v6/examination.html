@@ -345,7 +345,7 @@ Examination overview– {{ serviceName }}
       <dl class="govuk-summary-list govuk-summary-list-timetable">
 
          <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key">Issue final report</dt>
+      <dt class="govuk-summary-list__key">Examination report</dt>
       <dd class="govuk-summary-list__value">
       {% if finalReportSummary and finalReportSummary.hasDocuments %}
         {{ finalReportSummary.count }} document{{ 's' if finalReportSummary.count != 1 else '' }} added
@@ -363,7 +363,7 @@ Examination overview– {{ serviceName }}
     </div>
         {% if finalReportSummary and finalReportSummary.hasDocuments %}
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Final report issue date</dt>
+          <dt class="govuk-summary-list__key">Report issued</dt>
           <dd class="govuk-summary-list__value">{{ finalReportIssueDate if finalReportIssueDate and finalReportIssueDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
 
@@ -372,7 +372,7 @@ Examination overview– {{ serviceName }}
         {% endif %}
         {% if finalReportIssueDate and finalReportIssueDate != '-' %}
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Assessment outcome</dt>
+          <dt class="govuk-summary-list__key">Outcome</dt>
           <dd class="govuk-summary-list__value">{{ planSoundness if planSoundness and planSoundness != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
           
@@ -381,14 +381,14 @@ Examination overview– {{ serviceName }}
         {% endif %}
         {% if finalReportIssueDate and finalReportIssueDate != '-' %}
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Adoption date</dt>
+          <dt class="govuk-summary-list__key">Adopted</dt>
           <dd class="govuk-summary-list__value">{{ adoptionDate if adoptionDate and adoptionDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="{{ basePath }}/adoption-date.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Adoption Date</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Approved for CIL date</dt>
+          <dt class="govuk-summary-list__key">Approved for CIL</dt>
           <dd class="govuk-summary-list__value">{{ approvedForCilDate if approvedForCilDate and approvedForCilDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="{{ basePath }}/approved-for-CIL-date.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Approved for CIL Date</span></a>

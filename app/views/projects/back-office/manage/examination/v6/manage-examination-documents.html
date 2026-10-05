@@ -12,8 +12,10 @@
   <div class="govuk-grid-column-full">
     <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
     <h1 class="govuk-heading-l">Examination documents</h1>
+    <h2 class="govuk-heading-m">Required</h2>
     <dl class="govuk-summary-list govuk-summary-list-timetable">
       {% for document in examinationDocuments %}
+        {% if document.group == 'Required' %}
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">{{ document.name }}</dt>
           <dd class="govuk-summary-list__value">
@@ -24,6 +26,24 @@
           {% endif %}
           </dd>
         </div>
+        {% endif %}
+      {% endfor %}
+    </dl>
+    <h2 class="govuk-heading-m">Other</h2>
+    <dl class="govuk-summary-list govuk-summary-list-timetable">
+      {% for document in examinationDocuments %}
+        {% if document.group == 'Other' %}
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">{{ document.name }}</dt>
+          <dd class="govuk-summary-list__value">
+          {% if document.href %}
+            <a class="govuk-link" href="{{ document.href }}">{{ document.href }}</a>
+          {% else %}
+            <a class="govuk-link" href="/projects/front-office/examination/v1/application-details-submitted#">{{ document.filename }}</a>
+          {% endif %}
+          </dd>
+        </div>
+        {% endif %}
       {% endfor %}
     </dl>
   </div>

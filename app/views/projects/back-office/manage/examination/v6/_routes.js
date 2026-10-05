@@ -18,20 +18,20 @@ const EXAMINATION_STATUS_LABELS = {
 };
 
 const EXAMINATION_DOCUMENTS = [
-	{ name: 'Local plan submission for examination', filename: 'local-plan-submission.pdf' },
-	{ name: 'Map of proposed local plan policies', filename: 'policies-map.pdf' },
-	{ name: 'Gateway 3 completion statement', filename: 'gateway-3-completion-statement.pdf' },
-	{ name: 'Summary of consultation and engagement activities in preparing the proposed local plan', filename: 'consultation-engagement-summary.pdf' },
-	{ name: 'Summary of consultation on proposed local plan', filename: 'proposed-plan-consultation-summary.pdf' },
-	{ name: 'Representations on conformity with an operative spatial development strategy', filename: 'sds-conformity-representations.pdf' },
-	{ name: 'Statement of compliance', filename: 'statement-of-compliance.pdf' },
-	{ name: 'Statement of soundness', filename: 'statement-of-soundness.pdf' },
-	{ name: 'Environmental report', filename: 'environmental-report.pdf' },
-	{ name: 'Statement demonstrating that the proposed local plan is unlikely to have significant environmental effects', filename: 'environmental-effects-statement.pdf' },
-	{ name: 'Additional evidence documents', filename: 'further-evidence.pdf' },
-	{ name: 'Statement explaining changes made since Gateway 3 assessment and details of any additional consultation', filename: 'changes-statement.pdf' },
-	{ name: 'Representations required in the Gateway 3 report', filename: 'gateway-3-representations.pdf' },
-	{ name: 'Examination website', href: 'https://www.example.gov.uk/examination-library' }
+	{ name: 'Examination website', href: 'https://www.example.gov.uk/examination-library', group: 'Required' },
+	{ name: 'Local plan submission for examination', filename: 'local-plan-submission.pdf', group: 'Required' },
+	{ name: 'Map of proposed local plan policies', filename: 'policies-map.pdf', group: 'Required' },
+	{ name: 'Gateway 3 completion statement', filename: 'gateway-3-completion-statement.pdf', group: 'Required' },
+	{ name: 'Summary of consultation and engagement activities in preparing the proposed local plan', filename: 'consultation-engagement-summary.pdf', group: 'Required' },
+	{ name: 'Summary of consultation on proposed local plan', filename: 'proposed-plan-consultation-summary.pdf', group: 'Required' },
+	{ name: 'Representations on conformity with an operative spatial development strategy', filename: 'sds-conformity-representations.pdf', group: 'Required' },
+	{ name: 'Statement of compliance', filename: 'statement-of-compliance.pdf', group: 'Required' },
+	{ name: 'Statement of soundness', filename: 'statement-of-soundness.pdf', group: 'Required' },
+	{ name: 'Environmental report', filename: 'environmental-report.pdf', group: 'Other' },
+	{ name: 'Statement demonstrating that the proposed local plan is unlikely to have significant environmental effects', filename: 'environmental-effects-statement.pdf', group: 'Other' },
+	{ name: 'Additional evidence documents', filename: 'further-evidence.pdf', group: 'Other' },
+	{ name: 'Statement explaining changes made since Gateway 3 assessment and details of any additional consultation', filename: 'changes-statement.pdf', group: 'Other' },
+	{ name: 'Representations required in the Gateway 3 report', filename: 'gateway-3-representations.pdf', group: 'Other' }
 ];
 
 router.use((req, res, next) => {

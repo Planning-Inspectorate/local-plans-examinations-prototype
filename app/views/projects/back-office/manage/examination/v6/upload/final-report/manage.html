@@ -41,7 +41,7 @@
         <tbody class="govuk-table__body">
           {% for managedDocument in managedDocuments %}
           <tr class="govuk-table__row">
-            <td class="govuk-table__cell">{{ managedDocument.originalname }}</td>
+            <td class="govuk-table__cell"><a href="#">{{ managedDocument.originalname }}</a></td>
             <td class="govuk-table__cell">{{ managedDocument.receivedDate or 'Not provided' }}</td>
           </tr>
           {% endfor %}
