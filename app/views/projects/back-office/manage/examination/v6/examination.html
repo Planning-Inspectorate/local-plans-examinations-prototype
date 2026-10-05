@@ -34,8 +34,8 @@ Examination overview– {{ serviceName }}
         </h2>
       </div>
       <div class="govuk-notification-banner__content">
-        <p class="govuk-notification-banner__heading">This plan is paused</p>
-        <p class="govuk-body">Paused on {{ planPauseDate }}.</p>
+        <p class="govuk-notification-banner__heading">This examination is paused</p>
+        <p class="govuk-body"><a href="{{ basePath }}/examination.html">View details</a></p>
       </div>
     </div>
     {% elif planPauseStatusState == 'withdrawn' %}
@@ -370,7 +370,7 @@ Examination overview– {{ serviceName }}
           </dd>
         </div>
         {% endif %}
-        {% if examinationStatusState == 'report-issued' or examinationStatusState == 'plan-adopted' %}
+        {% if finalReportIssueDate and finalReportIssueDate != '-' %}
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Assessment outcome</dt>
           <dd class="govuk-summary-list__value">{{ planSoundness if planSoundness and planSoundness != '-' else 'Not provided' }}</dd>
@@ -379,7 +379,7 @@ Examination overview– {{ serviceName }}
           </dd>
         </div>
         {% endif %}
-        {% if examinationStatusState == 'report-issued' or examinationStatusState == 'plan-adopted' %}
+        {% if finalReportIssueDate and finalReportIssueDate != '-' %}
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Adoption date</dt>
           <dd class="govuk-summary-list__value">{{ adoptionDate if adoptionDate and adoptionDate != '-' else 'Not provided' }}</dd>
@@ -396,9 +396,9 @@ Examination overview– {{ serviceName }}
         </div>
         {% endif %}
         </dl>
-      <h2 class="govuk-heading-l" id="plan-pause-section">Pause plan</h2>
+      <h2 class="govuk-heading-l" id="plan-pause-section">Pause examination</h2>
       {% if not planPauseDate or planPauseDate == '-' %}
-      <p><a class="govuk-link" href="{{ basePath }}/plan-pause.html?returnUrl={{ basePath }}/examination.html">Pause plan</a></p>
+      <p><a class="govuk-link" href="{{ basePath }}/plan-pause.html?returnUrl={{ basePath }}/examination.html">Pause examination</a></p>
       {% endif %}
       {% if planPauseDate and planPauseDate != '-' %}
       <dl class="govuk-summary-list govuk-summary-list-timetable">
@@ -418,12 +418,7 @@ Examination overview– {{ serviceName }}
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Plan pause expected end date</dt>
-          <dd class="govuk-summary-list__value">{{ planPauseEndDate if planPauseEndDate and planPauseEndDate != '-' else 'Not provided' }}</dd>
-          <dd class="govuk-summary-list__actions"></dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Plan pause actual end date</dt>
+          <dt class="govuk-summary-list__key">Plan pause end</dt>
           <dd class="govuk-summary-list__value">{{ planPauseActualEndDate if planPauseActualEndDate and planPauseActualEndDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="{{ basePath }}/plan-pause-actual-end.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Plan Pause Actual End Date</span></a>
@@ -431,7 +426,7 @@ Examination overview– {{ serviceName }}
         </div>
       </dl>
       {% if planPauseStatusState == 'resolved' %}
-      <p class="govuk-body"><a class="govuk-link" href="{{ basePath }}/plan-pause.html?returnUrl={{ basePath }}/examination.html">Pause plan again</a></p>
+      <p class="govuk-body"><a class="govuk-link" href="{{ basePath }}/plan-pause.html?returnUrl={{ basePath }}/examination.html">Pause again</a></p>
       {% endif %}
       {% endif %}
     </div>

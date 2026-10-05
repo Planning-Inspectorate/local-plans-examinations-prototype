@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-	When did the plan pause start? – {{ serviceName }}
+	When is the examination paused from? – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -14,14 +14,14 @@
 {% block content %}
 	<div class="govuk-grid-row">
 		<div class="govuk-grid-column-two-thirds">
-			<h1 class="govuk-heading-l">When did the plan pause start?</h1>
+			<h1 class="govuk-heading-l">When is the examination paused from?</h1>
 			<form class="form" method="post" action="{{ basePath }}/plan-pause">
 				<input type="hidden" name="isEdit" value="{{ isEdit }}">
 				<input type="hidden" name="returnUrl" value="{{ returnUrl }}">
 				{% set dateParts = planPauseDate.split('/') if planPauseDate else ['', '', ''] %}
 				<fieldset class="govuk-fieldset govuk-!-margin-bottom-2" role="group" aria-describedby="plan-pause-date-hint">
 					<legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-						<span class="govuk-visually-hidden">Plan pause start date</span>
+						<span class="govuk-visually-hidden">Examination pause start date</span>
 					</legend>
 					<div class="govuk-date-input" id="plan-pause-date">
 						<div class="govuk-date-input__item">

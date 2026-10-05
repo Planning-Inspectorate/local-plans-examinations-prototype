@@ -270,19 +270,13 @@ Examination overview– {{ serviceName }}
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Plan pause end date</dt>
-          <dd class="govuk-summary-list__value">{{ planPauseEndDate if planPauseEndDate and planPauseEndDate != '-' else 'Not provided' }}</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="{{ basePath }}/plan-pause-end.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Plan Pause End Date</span></a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Withdrawn date</dt>
           <dd class="govuk-summary-list__value">{{ withdrawnDate if withdrawnDate and withdrawnDate != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="{{ basePath }}/withdrawn-date.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Withdrawn Date</span></a>
           </dd>
         </div>
+        {% if finalReportIssueDate and finalReportIssueDate != '-' %}
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Sound / unsound</dt>
           <dd class="govuk-summary-list__value">{{ planSoundness if planSoundness and planSoundness != '-' else 'Not provided' }}</dd>
@@ -314,6 +308,7 @@ Examination overview– {{ serviceName }}
             <a class="govuk-link" href="{{ basePath }}/approved-for-CIL-date.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Approved for CIL Date</span></a>
           </dd>
         </div>
+        {% endif %}
         {% endif %}
       </dl>
 

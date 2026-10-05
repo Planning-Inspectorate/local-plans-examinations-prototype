@@ -266,7 +266,6 @@ router.get('/examination', (req, res) => {
 		finalReportIssueDate: formatDateForDisplay(req.session.finalReportIssueDate) || '-',
 		planPauseDate: formatDateForDisplay(req.session.planPauseDate) || '-',
 		planPauseReason: req.session.planPauseReason || '-',
-		planPauseEndDate: formatDateForDisplay(req.session.planPauseEndDate) || '-',
 		planPauseActualEndDate: formatDateForDisplay(req.session.planPauseActualEndDate) || '-',
 		planPauseDecision: req.session.planPauseDecision || '-',
 		planPauseDecisionReason: req.session.planPauseDecisionReason || '-',

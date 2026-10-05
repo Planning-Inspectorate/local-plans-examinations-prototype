@@ -7,7 +7,7 @@
 {% block content %}
   <div class="govuk-grid-row"><div class="govuk-grid-column-two-thirds">
     <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
-    <h1 class="govuk-heading-l">Check final report details and send notification</h1>
+    <h1 class="govuk-heading-l">Check documents and send notification</h1>
     <dl class="govuk-summary-list"><div class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key">Outcome</dt>
       <dd class="govuk-summary-list__value">{{ planSoundness }}</dd>
@@ -21,7 +21,7 @@
       <dd class="govuk-summary-list__value">{% if uploadedDocuments and uploadedDocuments.length %}<ul class="govuk-list govuk-list--bullet">{% for document in uploadedDocuments %}<li><a class="govuk-link" href="{{ '#' if document.isDummy else '/projects/back-office/manage/documents/download/' + (document.filename or document.id) }}">{{ document.name or document.originalname }}</a></li>{% endfor %}</ul>{% else %}No documents uploaded{% endif %}</dd>
       <dd class="govuk-summary-list__actions"><a class="govuk-link" href="upload-bo">Change</a></dd>
     </div></dl>
-    <p class="govuk-body">We’ll send a notification to the planning authority to tell them that the final report is available.</p>
+    <p class="govuk-body">We'll notify the planning authority and MHCLG that the report is ready.</p>
     <form method="post" action="check-answers"><input type="hidden" name="returnUrl" value="{{ returnUrl }}"><button type="submit" class="govuk-button">Confirm and notify</button></form>
   </div></div>
 {% endblock %}

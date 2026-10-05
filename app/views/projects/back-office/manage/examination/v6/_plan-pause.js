@@ -11,11 +11,6 @@ function parseDateFields(day, month, year) {
 	return `${parseInt(day, 10)}/${parseInt(month, 10)}/${year}`;
 }
 
-function addSixMonths(dateString) {
-	const parsed = DateTime.fromFormat(dateString || '', DATE_FORMAT);
-	return parsed.isValid ? parsed.plus({ months: 6 }).toFormat(DATE_FORMAT) : '';
-}
-
 function resolveReturnUrl(req, value) {
 	return value || `${req.baseUrl}${DEFAULT_RETURN_PATH}`;
 }
@@ -61,7 +56,7 @@ router.post('/plan-pause', (req, res) => {
 	} = req.body;
 
 	req.session.planPauseDate = parseDateFields(day, month, year) || req.session.planPauseDate || '';
-	req.session.planPauseEndDate = addSixMonths(req.session.planPauseDate);
+	delete req.session.planPauseEndDate;
 
 	req.session.save(() => {
 		res.redirect(stepUrl(req, '/plan-pause-reason', returnUrl));
@@ -92,28 +87,6 @@ router.post('/plan-pause-reason', (req, res) => {
 
 	req.session.save(() => {
 		res.redirect(resolveReturnUrl(req, returnUrl));
-	});
-});
-
-router.get(['/plan-pause-end', '/plan-pause-end.html'], (req, res) => {
-	res.render('projects/back-office/manage/examination/v6/plan-pause-end', {
-		planPauseEndDate: req.session.planPauseEndDate && req.session.planPauseEndDate !== '-' ? req.session.planPauseEndDate : '',
-		returnUrl: resolveReturnUrl(req, req.query.returnUrl)
-	});
-});
-
-router.post('/plan-pause-end', (req, res) => {
-	const {
-		'plan-pause-end-date-day': day,
-		'plan-pause-end-date-month': month,
-		'plan-pause-end-date-year': year,
-		returnUrl
-	} = req.body;
-
-	req.session.planPauseEndDate = parseDateFields(day, month, year) || req.session.planPauseEndDate || '';
-
-	req.session.save(() => {
-		res.redirect(stepUrl(req, '/plan-pause-actual-end', returnUrl));
 	});
 });
 
@@ -234,7 +207,7 @@ router.post('/plan-pause-decision-reason', (req, res) => {
 		req.session.planPauseStatusState = 'withdrawn';
 		req.session.examinationV3StatusState = 'withdrawn';
 		if (req.session.data) req.session.data.examinationV3StatusState = 'withdrawn';
-		req.session.withdrawnDate = req.session.withdrawnDate || req.session.planPauseEndDate || DateTime.now().toFormat(DATE_FORMAT);
+		req.session.withdrawnDate = req.session.withdrawnDate || DateTime.now().toFormat(DATE_FORMAT);
 	} else if (req.session.planPauseDecision === 'Resolved') {
 		req.session.planPauseStatusState = 'resolved';
 		req.session.examinationV3StatusState = req.session.planPauseStatusBefore || req.session.examinationV3StatusState || 'exam-in-progress';

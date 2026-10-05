@@ -119,7 +119,6 @@ router.get('/set-status', (req, res) => {
 		req.session.planPauseStatusState = 'paused';
 		req.session.planPauseStatusBefore = 'exam-in-progress';
 		req.session.planPauseDate = '23/9/2026';
-		req.session.planPauseEndDate = DateTime.fromFormat(req.session.planPauseDate, 'd/M/yyyy').plus({ months: 6 }).toFormat('d/M/yyyy');
 		req.session.planPauseReason = 'Time required to work on environmental report';
 	}
 
