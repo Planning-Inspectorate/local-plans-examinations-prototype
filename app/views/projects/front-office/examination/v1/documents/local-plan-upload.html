@@ -1,20 +1,22 @@
-{% extends "layouts/front-office-v2.html" %}
-{% from "includes/multidocumentupload.njk" import multiDocumentUpload %}
+{% extends "layouts/front-office-v3.html" %}
+{% from "macros/multi-file-upload.njk" import uploadArea %}
 {% set documentName = "Local plan" %}
 {% set title = "Upload your " + documentName %}
 
 {% block questions %}
 
-  {% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
+<span class="govuk-caption-l">Examination submission</span>
+<h1 class="govuk-heading-l">{{ title }}</h1>
 
-      {{ multiDocumentUpload({
-      caption: "Examination submission",
-      heading: title,
-      hintHtml: "
-        <p class='govuk-body'>Upload the final version of your local plan document.</p>
-        <p class='govuk-body'>The file must be a PDF and no larger than 100MB.</p>
-      ",
-      uploadUrl: "upload-documents"
-      }) }}
+<p class="govuk-body">Upload the final version of your local plan document.</p>
+
+{{ uploadArea({
+  id: "documents",
+  name: "documents",
+  dataKey: "documents",
+  errorMessage: "The file must be a PDF, DOC, DOCX, PPT, PPTX, XLS, XLSX, MSG, JPG, JPEG, PNG, TIF or TIFF and smaller than 250MB.",
+  allowedExtensions: ["pdf", "doc", "docx", "ppt", "pptx", "xls", "xlsx", "msg", "jpg", "jpeg", "png", "tif", "tiff"],
+  maxFileSizeMB: 250
+}) }}
 
 {% endblock %}

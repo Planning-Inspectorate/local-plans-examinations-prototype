@@ -1,21 +1,23 @@
-{% extends "layouts/front-office-v2.html" %}
-{% from "includes/multidocumentupload.njk" import multiDocumentUpload %}
+{% extends "layouts/front-office-v3.html" %}
+{% from "macros/multi-file-upload.njk" import uploadArea %}
 {% set documentName = "procedural documents" %}
 {% set title = "Upload " + documentName %}
 
-{% block pageTitle %} {{ title }} – {{ serviceName }}
-{% endblock %}
-
 {% block questions %}
 
-  {{ multiDocumentUpload({
-    caption: "Examination submission",
-    heading: title,
-    hintHtml: "
-      <p class='govuk-body'>Upload any new or updated procedural documents, for example the statement of compliance or statement of soundness.</p>
-      <p class='govuk-body'>This is optional. Each file must be a PDF and no larger than 100MB.</p>
-    ",
-    uploadUrl: "upload-documents"
-  }) }}
+<span class="govuk-caption-l">Examination submission</span>
+<h1 class="govuk-heading-l">{{ title }}</h1>
+
+<p class="govuk-body">Upload any new or updated procedural documents, for example the statement of compliance or statement of soundness.</p>
+<p class="govuk-body">This is optional.</p>
+
+{{ uploadArea({
+  id: "documents",
+  name: "documents",
+  dataKey: "documents",
+  errorMessage: "The file must be a PDF, DOC, DOCX, PPT, PPTX, XLS, XLSX, MSG, JPG, JPEG, PNG, TIF or TIFF and smaller than 250MB.",
+  allowedExtensions: ["pdf", "doc", "docx", "ppt", "pptx", "xls", "xlsx", "msg", "jpg", "jpeg", "png", "tif", "tiff"],
+  maxFileSizeMB: 250
+}) }}
 
 {% endblock %}
