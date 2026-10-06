@@ -2,11 +2,16 @@
 
 {% for section in examinationSections %}
 <li>
-<div class="govuk-form-group">
+<div class="govuk-form-group{% if errorStatus == 'true' %} govuk-form-group--error{% endif %}">
   <h2 class="app-task-list__section" id="{{ section.id }}">
     {{ section.heading }}
   </h2>
   <p class="govuk-body">Documents as outlined in section 15D(2) of the Act.</p>
+    {% if errorStatus == 'true' %}
+    <p class="govuk-error-message">
+      <span class="govuk-visually-hidden">Error:</span> Add all required documents before your submit
+    </p>
+  {% endif %}
 </div>
 
   {% set rows = [] %}
