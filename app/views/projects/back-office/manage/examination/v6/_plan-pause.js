@@ -19,9 +19,54 @@ function stepUrl(req, path, returnUrl) {
 	return `${req.baseUrl}${path}?returnUrl=${encodeURIComponent(resolveReturnUrl(req, returnUrl))}`;
 }
 
+const historicalPauseFields = [
+	{ path: 'plan-pause', field: 'date', value: 'planPauseDate', input: 'plan-pause-date' },
+	{ path: 'plan-pause-reason', field: 'reason', value: 'planPauseReason', input: 'plan-pause-reason' },
+	{ path: 'plan-pause-actual-end', field: 'actualEndDate', value: 'planPauseActualEndDate', input: 'plan-pause-actual-end-date' },
+	{ path: 'plan-pause-decision', field: 'decision', value: 'planPauseDecision', input: 'plan-pause-decision' },
+	{ path: 'plan-pause-decision-reason', field: 'decisionReason', value: 'planPauseDecisionReason', input: 'plan-pause-decision-reason' }
+];
+
+historicalPauseFields.forEach(({ path, field, value, input }) => {
+	router.get([`/${path}`, `/${path}.html`], (req, res, next) => {
+		if (req.query.pauseIndex === undefined) return next();
+		const pauseIndex = Number(req.query.pauseIndex);
+		const pause = Number.isInteger(pauseIndex) && pauseIndex >= 0 && req.query.pauseIndex !== ''
+			? req.session.examinationV6PauseHistory?.[pauseIndex] : null;
+		if (!pause) return res.status(404).send('Pause not found');
+		res.render(`projects/back-office/manage/examination/v6/${path}`, {
+			planPauseDecision: pause.decision || '',
+			pauseResolved: pause.decision === 'Resolved' && !!pause.actualEndDate,
+			[value]: pause[field] || '',
+			pauseIndex,
+			returnUrl: resolveReturnUrl(req, req.query.returnUrl)
+		});
+	});
+
+	router.post([`/${path}`, `/${path}.html`], (req, res, next) => {
+		if (req.body.pauseIndex === undefined || req.body.pauseIndex === '') return next();
+		const pauseIndex = Number(req.body.pauseIndex);
+		const pause = Number.isInteger(pauseIndex) && pauseIndex >= 0
+			? req.session.examinationV6PauseHistory?.[pauseIndex] : null;
+		if (!pause) return res.status(404).send('Pause not found');
+		if (field === 'decision') {
+			if (!['Resolved', 'Withdrawn'].includes(req.body[input])) return res.status(400).send('Choose a pause outcome');
+			pause.decision = req.body[input];
+			pause.status = pause.decision === 'Resolved' ? 'resolved' : 'withdrawn';
+		} else if (field === 'date' || field === 'actualEndDate') {
+			pause[field] = parseDateFields(req.body[`${input}-day`], req.body[`${input}-month`], req.body[`${input}-year`]) || pause[field] || '';
+		} else {
+			pause[field] = (req.body[input] || '').trim();
+		}
+		req.session.save(() => res.redirect(resolveReturnUrl(req, req.body.returnUrl)));
+	});
+});
+
 router.get(['/plan-pause', '/plan-pause.html'], (req, res) => {
+	const newPause = req.query.newPause === 'true';
 	res.render('projects/back-office/manage/examination/v6/plan-pause', {
-		planPauseDate: req.session.planPauseDate && req.session.planPauseDate !== '-' ? req.session.planPauseDate : '',
+		planPauseDate: newPause ? req.session.examinationV6PauseDraft?.date || '' : (req.session.planPauseDate && req.session.planPauseDate !== '-' ? req.session.planPauseDate : ''),
+		newPause,
 		returnUrl: resolveReturnUrl(req, req.query.returnUrl)
 	});
 });
@@ -55,17 +100,23 @@ router.post('/plan-pause', (req, res) => {
 		returnUrl
 	} = req.body;
 
-	req.session.planPauseDate = parseDateFields(day, month, year) || req.session.planPauseDate || '';
-	delete req.session.planPauseEndDate;
+	const newPause = req.body.newPause === 'true';
+	if (newPause) {
+		req.session.examinationV6PauseDraft = { date: parseDateFields(day, month, year) };
+	} else {
+		req.session.planPauseDate = parseDateFields(day, month, year) || req.session.planPauseDate || '';
+		delete req.session.planPauseEndDate;
+	}
 
 	req.session.save(() => {
-		res.redirect(stepUrl(req, '/plan-pause-reason', returnUrl));
+		res.redirect(`${stepUrl(req, '/plan-pause-reason', returnUrl)}${newPause ? '&newPause=true' : ''}`);
 	});
 });
 
 router.get(['/plan-pause-reason', '/plan-pause-reason.html'], (req, res) => {
 	res.render('projects/back-office/manage/examination/v6/plan-pause-reason', {
-		planPauseReason: req.session.planPauseReason || '',
+		planPauseReason: req.query.newPause === 'true' ? '' : req.session.planPauseReason || '',
+		newPause: req.query.newPause === 'true',
 		returnUrl: resolveReturnUrl(req, req.query.returnUrl)
 	});
 });
@@ -73,6 +124,25 @@ router.get(['/plan-pause-reason', '/plan-pause-reason.html'], (req, res) => {
 router.post('/plan-pause-reason', (req, res) => {
 	const { 'plan-pause-reason': reason, returnUrl } = req.body;
 
+	if (req.body.newPause === 'true') {
+		const draft = req.session.examinationV6PauseDraft;
+		if (!draft?.date) return res.redirect(resolveReturnUrl(req, returnUrl));
+		if (!Array.isArray(req.session.examinationV6PauseHistory)) req.session.examinationV6PauseHistory = [];
+		if (req.session.planPauseDate && req.session.planPauseDate !== '-') {
+			req.session.examinationV6PauseHistory.push({
+				date: req.session.planPauseDate,
+				reason: req.session.planPauseReason || '',
+				actualEndDate: req.session.planPauseActualEndDate || '',
+				decision: req.session.planPauseDecision || '',
+				decisionReason: req.session.planPauseDecisionReason || '',
+				status: req.session.planPauseStatusState || ''
+			});
+		}
+		req.session.planPauseDate = draft.date;
+		delete req.session.planPauseActualEndDate;
+		delete req.session.planPauseEndDate;
+		delete req.session.examinationV6PauseDraft;
+	}
 	req.session.planPauseReason = (reason || '').trim();
 
 	// Remember the pre-pause examination status so a resolved pause can revert to it.

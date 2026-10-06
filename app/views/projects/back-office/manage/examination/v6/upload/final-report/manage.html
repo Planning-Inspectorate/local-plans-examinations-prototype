@@ -36,13 +36,14 @@
         <thead class="govuk-table__head"><tr class="govuk-table__row">
           <th scope="col" class="govuk-table__header">Document</th>
           <th scope="col" class="govuk-table__header">Received</th>
-         
+                   <th scope="col" class="govuk-table__header app-document-actions">Actions</th>
         </tr></thead>
         <tbody class="govuk-table__body">
           {% for managedDocument in managedDocuments %}
           <tr class="govuk-table__row">
             <td class="govuk-table__cell"><a href="#">{{ managedDocument.originalname }}</a></td>
             <td class="govuk-table__cell">{{ managedDocument.receivedDate or 'Not provided' }}</td>
+             <td class="govuk-table__cell app-document-actions"><a class="govuk-link" href="{{ managedDocument.removeHref }}">Remove</a></td>
           </tr>
           {% endfor %}
         </tbody>

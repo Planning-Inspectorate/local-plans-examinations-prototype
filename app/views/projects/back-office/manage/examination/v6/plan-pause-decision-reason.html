@@ -7,7 +7,7 @@
 {% block beforeContent %}
 	{{ govukBackLink({
 		text: "Back",
-		href: (basePath + "/plan-pause-actual-end?returnUrl=" + (returnUrl or (basePath + "/examination.html"))) if pauseResolved else (basePath + "/plan-pause-decision?returnUrl=" + (returnUrl or (basePath + "/examination.html")))
+		href: returnUrl if pauseIndex is defined else ((basePath + "/plan-pause-actual-end?returnUrl=" + (returnUrl or (basePath + "/examination.html"))) if pauseResolved else (basePath + "/plan-pause-decision?returnUrl=" + (returnUrl or (basePath + "/examination.html"))))
 	}) }}
 {% endblock %}
 
@@ -16,6 +16,7 @@
 		<div class="govuk-grid-column-two-thirds">
 			<h1 class="govuk-heading-l">{% if pauseResolved %}Reason for ending the pause{% else %}Reason for decision{% endif %}</h1>
 			<form class="form" method="post" action="{{ basePath }}/plan-pause-decision-reason">
+				<input type="hidden" name="pauseIndex" value="{{ pauseIndex }}">
 				<input type="hidden" name="returnUrl" value="{{ returnUrl }}">
 
 				{{ govukCharacterCount({
@@ -25,7 +26,7 @@
 					rows: 8,
 					value: planPauseDecisionReason,
 					label: {
-						text: "Explain why the pause ended" if pauseResolved else "Explain why the plan was marked as " + (planPauseDecision | lower)
+						text: "Explain why the pause ended" if pauseResolved else ("Explain why the plan was marked as " + (planPauseDecision | lower) if planPauseDecision else "Explain the reason for the decision")
 					}
 				}) }}
 

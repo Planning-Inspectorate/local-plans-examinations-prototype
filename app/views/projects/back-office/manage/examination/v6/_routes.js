@@ -178,6 +178,7 @@ router.get('/manage-examination-documents', (req, res) => {
 router.get('/examination', (req, res) => {
 	const notificationMessage = req.session.notificationMessage || '';
 	delete req.session.notificationMessage;
+	delete req.session.examinationV6PauseDraft;
 	const examinationDocuments = getExaminationDocuments(req);
 
 	const miqDocuments = uploadMiqsRouter.getMiqDocuments(req);
@@ -264,6 +265,11 @@ router.get('/examination', (req, res) => {
 		factCheckActualDate: formatDateForDisplay(req.session.factCheckActualDate) || '-',
 		factCheckReceivedFromLpaDate: formatDateForDisplay(req.session.factCheckReceivedFromLpaDate) || '-',
 		finalReportIssueDate: formatDateForDisplay(req.session.finalReportIssueDate) || '-',
+		planPauseHistory: (req.session.examinationV6PauseHistory || []).map((pause) => ({
+			...pause,
+			date: formatDateForDisplay(pause.date),
+			actualEndDate: formatDateForDisplay(pause.actualEndDate)
+		})),
 		planPauseDate: formatDateForDisplay(req.session.planPauseDate) || '-',
 		planPauseReason: req.session.planPauseReason || '-',
 		planPauseActualEndDate: formatDateForDisplay(req.session.planPauseActualEndDate) || '-',

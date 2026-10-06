@@ -17,6 +17,8 @@
 			<h1 class="govuk-heading-l">When is the examination paused from?</h1>
 			<form class="form" method="post" action="{{ basePath }}/plan-pause">
 				<input type="hidden" name="isEdit" value="{{ isEdit }}">
+				<input type="hidden" name="pauseIndex" value="{{ pauseIndex }}">
+				<input type="hidden" name="newPause" value="{{ 'true' if newPause else 'false' }}">
 				<input type="hidden" name="returnUrl" value="{{ returnUrl }}">
 				{% set dateParts = planPauseDate.split('/') if planPauseDate else ['', '', ''] %}
 				<fieldset class="govuk-fieldset govuk-!-margin-bottom-2" role="group" aria-describedby="plan-pause-date-hint">

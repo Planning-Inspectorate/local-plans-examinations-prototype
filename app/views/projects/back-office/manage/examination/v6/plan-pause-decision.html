@@ -7,7 +7,7 @@
 {% block beforeContent %}
 	{{ govukBackLink({
 		text: "Back",
-		href: basePath + "/plan-pause-actual-end?returnUrl=" + (returnUrl or (basePath + "/examination.html"))
+		href: returnUrl if pauseIndex is defined else basePath + "/plan-pause-actual-end?returnUrl=" + (returnUrl or (basePath + "/examination.html"))
 	}) }}
 {% endblock %}
 
@@ -15,6 +15,7 @@
 	<div class="govuk-grid-row">
 		<div class="govuk-grid-column-two-thirds">
 			<form class="form" method="post" action="{{ basePath }}/plan-pause-decision">
+				<input type="hidden" name="pauseIndex" value="{{ pauseIndex }}">
 				<input type="hidden" name="returnUrl" value="{{ returnUrl }}">
 
 				{{ govukRadios({

@@ -7,7 +7,7 @@
 {% block beforeContent %}
 	{{ govukBackLink({
 		text: "Back",
-		href: basePath + "/plan-pause.html?returnUrl=" + (returnUrl or (basePath + "/examination.html"))
+		href: returnUrl if pauseIndex is defined else basePath + "/plan-pause.html?returnUrl=" + (returnUrl or (basePath + "/examination.html")) + ("&newPause=true" if newPause else "")
 	}) }}
 {% endblock %}
 
@@ -16,6 +16,8 @@
 		<div class="govuk-grid-column-two-thirds">
 			<h1 class="govuk-heading-l">Reason for pause</h1>
 			<form class="form" method="post" action="{{ basePath }}/plan-pause-reason">
+				<input type="hidden" name="pauseIndex" value="{{ pauseIndex }}">
+				<input type="hidden" name="newPause" value="{{ 'true' if newPause else 'false' }}">
 				<input type="hidden" name="returnUrl" value="{{ returnUrl }}">
 
 				{{ govukCharacterCount({

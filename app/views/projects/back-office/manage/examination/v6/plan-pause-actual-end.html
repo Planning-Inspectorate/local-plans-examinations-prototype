@@ -16,6 +16,7 @@
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-l">When did the examination restart?</h1>
       <form class="form" method="post" action="{{ basePath }}/plan-pause-actual-end">
+        <input type="hidden" name="pauseIndex" value="{{ pauseIndex }}">
         <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
         {% set dateParts = planPauseActualEndDate.split('/') if planPauseActualEndDate else ['', '', ''] %}
         <fieldset class="govuk-fieldset govuk-!-margin-bottom-6" role="group">
