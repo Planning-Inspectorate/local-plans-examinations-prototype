@@ -72,6 +72,25 @@ Examination overview– {{ serviceName }}
           <dd class="govuk-summary-list__actions"><a class="govuk-link" href="{{ basePath }}/examination-actual.html?returnUrl={{ basePath }}/examination.html">Change<span class="govuk-visually-hidden">Actual Submission Date</span></a></dd>
         </div>
         <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Programme officer</dt>
+          <dd class="govuk-summary-list__value">
+            {% if examinationPoContact.firstName or examinationPoContact.lastName or examinationPoContact.email or examinationPoContact.phone %}
+              {{ examinationPoContact.firstName }} {{ examinationPoContact.lastName }}<br>
+              {% if examinationPoContact.email %}{{ examinationPoContact.email }}<br>{% endif %}
+              {% if examinationPoContact.phone %}{{ examinationPoContact.phone }}{% endif %}
+            {% else %}
+              Not provided
+            {% endif %}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <ul class="govuk-summary-list__actions-list">
+              <li class="govuk-summary-list__actions-list-item">
+                <a class="govuk-link" href="{{ basePath }}/programme-officer?returnUrl={{ basePath }}/examination">{{ 'Change' if examinationPoContact.firstName or examinationPoContact.lastName or examinationPoContact.email or examinationPoContact.phone else 'Add' }}<span class="govuk-visually-hidden"> examination programme officer</span></a>
+              </li>
+            </ul>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Examination website</dt>
           <dd class="govuk-summary-list__value">
             {% if examinationWebsite and examinationWebsite != '-' %}

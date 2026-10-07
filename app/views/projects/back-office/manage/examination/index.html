@@ -29,8 +29,8 @@
     <h2 class="govuk-heading-m">
       Version {{ version }}
       {{ govukTag({
-        classes: 'govuk-tag--grey govuk-!-margin-left-2',
-        text: 'Experimental'
+        classes: 'govuk-tag--blue govuk-!-margin-left-2',
+        text: 'In progress'
       }) }}
     </h2>
  
@@ -43,6 +43,9 @@
        <li>Assigning examing inspectors and QA inspectors</li>
        <li>Issuing outcome of examination (sound, sound with modifications, unsound) upload final report and main mods in one flow</li>
        <li>Ability to fill out the whole of examination end to end with reflected statuses</li>
+       <li>Examination document management, accessible from the examination overview.</li>
+       <li>Improvements following user research and feedback</li>
+       </ul>
 
  
     {{ govukButton({
@@ -50,19 +53,9 @@
       href: '/projects/back-office/manage/examination/v' ~ version ~ '/examination',
       isStartButton: true
     }) }}
-    <br>
-    <br>
-    <hr>
-    <br>
-    <br>
-    {% set version = "5" %}
-    <h2 class="govuk-heading-m">
-      Version {{ version }}
-      {{ govukTag({
-        classes: 'govuk-tag--grey govuk-!-margin-left-2',
-        text: 'Experimental'
-      }) }}
-    </h2>
+    
+    {% set v5HTML %}
+    
  
     <p class="govuk-!-margin-bottom-2">Changes:</p>
  
@@ -81,26 +74,9 @@
       href: '/projects/back-office/manage/examination/v' ~ version ~ '/examination',
       isStartButton: true
     }) }}
-    <br>
-    <br>
-    <hr>
-    <br>
-    <br>
-    {% set version = "4" %}
-    <h2 class="govuk-heading-m">
-      Version {{ version }}
-      {{ govukTag({
-        classes: 'govuk-tag--grey govuk-!-margin-left-2',
-        text: 'Experimental'
-      }) }}
-    </h2>
- 
-    <p class="govuk-!-margin-bottom-2">Changes:</p>
- 
-    <ul class="govuk-list govuk-list--bullet">
-      <li>Examination statuses are now displayed</li>
-  
-    </ul>
+    {% endset -%}
+    {% set v4HTML %}
+    <p>Examination statuses are now displayed</p>
  
     {{ govukButton({
       html: 'View prototype',
@@ -118,19 +94,9 @@
       <li><a class="govuk-link" href="/projects/back-office/manage/examination/v4/set-status?state=report-issued&amp;returnUrl=/projects/back-office/manage/examination/v4/examination">Report issued</a></li>
       <li><a class="govuk-link" href="/projects/back-office/manage/examination/v4/set-status?state=plan-adopted&amp;returnUrl=/projects/back-office/manage/examination/v4/examination">Plan adopted</a></li>
     </ul>
-    <br>
-    <br>
-    <hr>
-    <br>
-    <br>
-  {% set version = "3" %}
-    <h2 class="govuk-heading-m">
-      Version {{ version }}
-      {{ govukTag({
-        classes: 'govuk-tag--blue govuk-!-margin-left-2',
-        text: 'In progress'
-      }) }}
-    </h2>
+    {% endset -%}
+  {% set v3HTML %}
+ 
  
     <p class="govuk-!-margin-bottom-2">Changes:</p>
  
@@ -145,19 +111,10 @@
       href: '/projects/back-office/manage/examination/v' ~ version ~ '/examination',
       isStartButton: true
     }) }}
-    <br>
-    <br>
-    <hr>
-    <br>
-    <br>
-    {% set version = "2" %}
-    <h2 class="govuk-heading-m">
-      Version {{ version }}
-      {{ govukTag({
-        classes: 'govuk-tag--blue govuk-!-margin-left-2',
-        text: 'In progress'
-      }) }}
-    </h2>
+  
+    {% endset -%}
+  
+    {% set v2HTML %}
  
     <p class="govuk-!-margin-bottom-2">Changes:</p>
  
@@ -170,9 +127,9 @@
       href: '/projects/back-office/manage/examination/v' ~ version ~ '/examination-hearings-flat',
       isStartButton: true
     }) }}
- 
+    {% endset -%}
     {% set v1HTML %}
-      {% set version = "1" %}
+    
  
       <p class="govuk-body">
       Version used for user research in June 2026.  
@@ -194,9 +151,41 @@
       id: 'previous',
       classes: 'govuk-!-margin-top-9',
       items: [
+      {
+          heading: {
+            html: 'Version 5 - September 2026 <strong class="govuk-tag govuk-tag--green govuk-!-margin-left-2">Research complete</strong>'
+          },
+          content: {
+            html: v5HTML
+          }
+        },
+      {
+          heading: {
+            html: 'Version 4 <strong class="govuk-tag govuk-tag--grey govuk-!-margin-left-2">Superseded</strong>'
+          },
+          content: {
+            html: v4HTML
+          }
+        },
+      {
+          heading: {
+            html: 'Version 3 <strong class="govuk-tag govuk-tag--grey govuk-!-margin-left-2">Superseded</strong>'
+          },
+          content: {
+            html: v3HTML
+          }
+        },
+      {
+          heading: {
+            html: 'Version 2 <strong class="govuk-tag govuk-tag--grey govuk-!-margin-left-2">Superseded</strong>'
+          },
+          content: {
+            html: v2HTML
+          }
+        },
         {
           heading: {
-            html: 'Version 1 <strong class="govuk-tag govuk-tag--grey govuk-!-margin-left-2">Superseded</strong>'
+            html: 'Version  - June 2026 <strong class="govuk-tag govuk-tag--green govuk-!-margin-left-2">Research complete</strong>'
           },
           content: {
             html: v1HTML

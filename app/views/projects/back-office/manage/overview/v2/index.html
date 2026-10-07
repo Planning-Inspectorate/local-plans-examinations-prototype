@@ -321,10 +321,10 @@ Plan overview – {{ serviceName }}
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Programme officer</dt>
           <dd class="govuk-summary-list__value">
-            {% if gateway3PoContact and (gateway3PoContact.firstName or gateway3PoContact.lastName) %}
-              {{ gateway3PoContact.firstName }} {{ gateway3PoContact.lastName }}<br>
-              {% if gateway3PoContact.email %}{{ gateway3PoContact.email }}<br>{% endif %}
-              {% if gateway3PoContact.phone %}{{ gateway3PoContact.phone }}{% endif %}
+            {% if programmeOfficerContact and (programmeOfficerContact.firstName or programmeOfficerContact.lastName or programmeOfficerContact.email or programmeOfficerContact.phone) %}
+              {{ programmeOfficerContact.firstName }} {{ programmeOfficerContact.lastName }}<br>
+              {% if programmeOfficerContact.email %}{{ programmeOfficerContact.email }}<br>{% endif %}
+              {% if programmeOfficerContact.phone %}{{ programmeOfficerContact.phone }}{% endif %}
             {% else %}
               Not provided
             {% endif %}
@@ -332,7 +332,7 @@ Plan overview – {{ serviceName }}
           <dd class="govuk-summary-list__actions">
             <ul class="govuk-summary-list__actions-list">
               <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="/projects/back-office/manage/GW3/v1/gateway-3-po-details.html?returnUrl=/projects/back-office/manage/overview/v1/index.html">{{ 'Change' if gateway3PoContact and (gateway3PoContact.firstName or gateway3PoContact.lastName) else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if gateway3PoContact and (gateway3PoContact.firstName or gateway3PoContact.lastName) else 'Add' }} programme officer</span></a>
+                <a class="govuk-link" href="{{ programmeOfficerEditUrl }}?returnUrl=/projects/back-office/manage/overview/v2/index">{{ 'Change' if programmeOfficerContact and (programmeOfficerContact.firstName or programmeOfficerContact.lastName or programmeOfficerContact.email or programmeOfficerContact.phone) else 'Add' }}<span class="govuk-visually-hidden"> programme officer</span></a>
               </li>
             </ul>
           </dd>
@@ -439,7 +439,7 @@ Plan overview – {{ serviceName }}
           </button>
         </form>
         </div>
-        <form method="get" action="/projects/back-office/manage/delete-case/v1/delete-case-confirmation.html">
+        <form method="get" action="/projects/back-office/manage/delete-case/v2/delete-case-reason.html">
           <input type="hidden" name="caseRef" value="{{ caseRef }}">
           <button type="submit" class="govuk-button govuk-button--warning">
             Delete case

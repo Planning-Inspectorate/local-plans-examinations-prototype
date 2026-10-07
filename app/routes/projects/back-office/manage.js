@@ -4,6 +4,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const { PLAN_STATUS_CLASS_MAP, getPlanStatusClasses } = require('./plan-status-classes');
+const { getOverviewProgrammeOfficer } = require('./programme-officers');
 
 function getCurrentCase(req, preferredRef) {
   const caseRef = preferredRef || req.session.currentCaseRef || '';
@@ -181,6 +182,7 @@ router.use((req, res, next) => {
     classes: resolvedStatusClasses
   };
   res.locals.planStatusClassMap = PLAN_STATUS_CLASS_MAP;
+  Object.assign(res.locals, getOverviewProgrammeOfficer(req.session));
 
   next();
 });
@@ -877,9 +879,39 @@ router.post('/projects/back-office/manage/GW1/v1/gateway-1-dsa-check', (req, res
 
 
 
+const DELETE_CASE_V2_PATH = '/projects/back-office/manage/delete-case/v2';
+const DELETE_CASE_V2_RETURN = '/projects/back-office/manage/overview/v2/index';
+
+router.get(`${DELETE_CASE_V2_PATH}/delete-case-reason.html`, (req, res) => {
+  const caseRef = req.query.caseRef || req.session.currentCaseRef || '';
+  res.render('projects/back-office/manage/delete-case/v2/delete-case-reason', {
+    caseRef,
+    deletionReason: req.session.caseDeletionDraft?.caseRef === caseRef ? req.session.caseDeletionDraft.reason : ''
+  });
+});
+
+router.post(`${DELETE_CASE_V2_PATH}/delete-case-reason`, (req, res) => {
+  const caseRef = req.body.caseRef || req.session.currentCaseRef || '';
+  const reason = (req.body.deletionReason || '').trim();
+  if (!reason) {
+    return res.status(400).render('projects/back-office/manage/delete-case/v2/delete-case-reason', {
+      caseRef,
+      deletionReason: req.body.deletionReason || '',
+      errorMessage: 'Enter a reason for deleting the case'
+    });
+  }
+  req.session.caseDeletionDraft = { caseRef, reason };
+  req.session.save(() => res.redirect(`${DELETE_CASE_V2_PATH}/delete-case-confirmation.html?caseRef=${encodeURIComponent(caseRef)}`));
+});
+
 // Show delete confirmation page
-router.get('/projects/back-office/manage/delete-case/v1/delete-case-confirmation.html', (req, res) => {
+router.get(['/projects/back-office/manage/delete-case/v1/delete-case-confirmation.html', `${DELETE_CASE_V2_PATH}/delete-case-confirmation.html`], (req, res) => {
   const caseRef = req.query.caseRef || '';
+  const isV2 = req.path.includes('/delete-case/v2/');
+  const deletionDraft = req.session.caseDeletionDraft;
+  if (isV2 && (deletionDraft?.caseRef !== caseRef || !deletionDraft.reason)) {
+    return res.redirect(`${DELETE_CASE_V2_PATH}/delete-case-reason.html?caseRef=${encodeURIComponent(caseRef)}`);
+  }
   
   // Build case object from session data
   const caseToDelete = {
@@ -890,7 +922,8 @@ router.get('/projects/back-office/manage/delete-case/v1/delete-case-confirmation
     caseOfficer: req.session.caseOfficer || 'Not provided'
   };
   
-  res.render('projects/back-office/manage/delete-case/v1/delete-case-confirmation', {
+  res.render(`projects/back-office/manage/delete-case/${isV2 ? 'v2' : 'v1'}/delete-case-confirmation`, {
+    deletionReason: isV2 ? deletionDraft.reason : '',
     caseRef: caseToDelete.caseRef,
     planTitle: caseToDelete.planTitle,
     planType: formatPlanType(caseToDelete.planType),
@@ -900,8 +933,26 @@ router.get('/projects/back-office/manage/delete-case/v1/delete-case-confirmation
 });
 
 // Handle delete POST and show complete page
-router.post('/projects/back-office/manage/delete-case/v1/delete-case-complete.html', (req, res) => {
+router.post(['/projects/back-office/manage/delete-case/v1/delete-case-complete.html', `${DELETE_CASE_V2_PATH}/delete-case-complete.html`], (req, res) => {
   const { caseRef } = req.body;
+  const isV2 = req.path.includes('/delete-case/v2/');
+  if (isV2) {
+    const draft = req.session.caseDeletionDraft;
+    if (!caseRef || draft?.caseRef !== caseRef || !draft.reason) {
+      return res.redirect(`${DELETE_CASE_V2_PATH}/delete-case-reason.html?caseRef=${encodeURIComponent(caseRef || '')}`);
+    }
+    const cases = Array.isArray(req.session.cases) ? req.session.cases : [];
+    const caseRecord = cases.find((item) => item.caseRef === caseRef);
+    if (!Array.isArray(req.session.deletedCases)) req.session.deletedCases = [];
+    req.session.deletedCases.push({
+      ...(caseRecord || { caseRef, planTitle: req.session.planTitle, planType: req.session.planType, lpas: req.session.lpas }),
+      deletionReason: draft.reason,
+      deletedAt: new Date().toISOString(),
+      deletedBy: req.session.caseOfficer || ''
+    });
+    req.session.cases = cases.filter((item) => item.caseRef !== caseRef);
+    delete req.session.caseDeletionDraft;
+  }
   
   // Clear all case data from session (soft delete)
   if (caseRef) {
@@ -933,9 +984,11 @@ router.post('/projects/back-office/manage/delete-case/v1/delete-case-complete.ht
     delete req.session.gateway2ReportPublishedDate;
   }
   
-  res.render('projects/back-office/manage/delete-case/v1/delete-case-complete', {
+  const renderComplete = () => res.render(`projects/back-office/manage/delete-case/${isV2 ? 'v2' : 'v1'}/delete-case-complete`, {
     caseRef: caseRef
   });
+  if (isV2) req.session.save(renderComplete);
+  else renderComplete();
 });
 
 // Handle Gateway 1 Actual Date POST
@@ -2229,6 +2282,7 @@ router.get('/projects/back-office/manage/clear-data.html', (req, res) => {
   delete req.session.gateway2ReportPublishedDate;
   delete req.session.gateway3AssessorName;
   delete req.session.gateway3PoContact;
+  delete req.session.examinationPoContact;
   delete req.session.examinationWebsite;
   delete req.session.examiningInspector1Name;
   delete req.session.examiningInspector2Name;

@@ -26,15 +26,29 @@
     <h1 class="govuk-heading-l">
       {{ title }}
     </h1>
-
-    {% set version = "4" %}
-    <h2 class="govuk-heading-m">
+    {% set version = "5" %}
+       <h2 class="govuk-heading-m">
       Version {{ version }}
       {{ govukTag({
         classes: 'govuk-tag--blue govuk-!-margin-left-2',
         text: 'In progress'
       }) }}
     </h2>
+ 
+    <p class="govuk-!-margin-bottom-2">Changes:</p>
+ 
+    <ul class="govuk-list govuk-list--bullet">
+    <li>Adding and removing assessors</li>
+    <li>Amends from previous research round</li>
+    </ul>
+    {{ govukButton({
+      html: 'View prototype',
+      href: '/projects/back-office/manage/GW3/v5/gateway-2',
+      isStartButton: true
+    }) }}
+
+
+    {% set v4HTML -%}
 
     <p class="govuk-!-margin-bottom-2">Changes:</p>
     <ul class="govuk-list govuk-list--bullet">
@@ -57,17 +71,10 @@
       <a class="govuk-link" href="/projects/back-office/manage/GW3/v4/gateway-3?gateway3OverviewState=resubmission">Resubmission state</a>,
       <a class="govuk-link" href="/projects/back-office/manage/GW3/v4/gateway-3?gateway3OverviewState=pass">Pass state</a>
     </p>
+    {% endset -%}
+    
 
-    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-
-    {% set version = "3" %}
-    <h2 class="govuk-heading-m">
-      Version {{ version }}
-      {{ govukTag({
-        classes: 'govuk-tag--blue govuk-!-margin-left-2',
-        text: 'In progress'
-      }) }}
-    </h2>
+    {% set v3HTML %}
 
     <p class="govuk-!-margin-bottom-2">Changes:</p>
     <ul class="govuk-list govuk-list--bullet">
@@ -79,16 +86,13 @@
       href: '/projects/back-office/manage/GW3/v' ~ version ~ '/gateway-3',
       isStartButton: true
     }) }}
+    {% endset -%}
+
     {% set v2HTML %}
-      {% set version = "2" %}
-      <h2 class="govuk-heading-m">
-        Tested with Case Officers - July 2026</h2>  
+
         <h2 class="govuk-heading-m">
         Version {{ version }} A
-        {{ govukTag({
-          classes: 'govuk-tag--blue govuk-!-margin-left-2',
-          text: 'In progress'
-        }) }}
+       
       </h2>
  
       <p class="govuk-!-margin-bottom-2">Changes:</p>
@@ -104,10 +108,7 @@
       <br>
       <h2 class="govuk-heading-m">
       Version {{ version }} B
-      {{ govukTag({
-        classes: 'govuk-tag--blue govuk-!-margin-left-2',
-        text: 'In progress'
-      }) }}
+     
       </h2>
  
     <p class="govuk-!-margin-bottom-2">Changes:</p>
@@ -147,9 +148,25 @@
       id: 'previous',
       classes: 'govuk-!-margin-top-9',
       items: [
+       {
+          heading: {
+            html: 'Version 4 - September 2026<strong class="govuk-tag govuk-tag--green govuk-!-margin-left-2">Research complete</strong>'
+          },
+          content: {
+            html: v4HTML
+          }
+        },
+       {
+          heading: {
+            html: 'Version 3 <strong class="govuk-tag govuk-tag--grey govuk-!-margin-left-2">Superseded</strong>'
+          },
+          content: {
+            html: v3HTML
+          }
+        },
           {
           heading: {
-            html: 'Version 2 <strong class="govuk-tag govuk-tag--grey govuk-!-margin-left-2">Superseded</strong>'
+            html: 'Version 2 - July 2026<strong class="govuk-tag govuk-tag--green govuk-!-margin-left-2">Research complete</strong>'
           },
           content: {
             html: v2HTML

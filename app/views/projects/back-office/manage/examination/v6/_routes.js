@@ -6,6 +6,7 @@ const uploadMainModsRouter = require('./_upload-main-mods');
 const uploadExaminationReportRouter = require('./_upload-examination-report');
 const uploadFinalReportRouter = require('./_upload-final-report');
 const { getPlanStatusClasses } = require('../../../../../../routes/projects/back-office/plan-status-classes');
+const { getExaminationProgrammeOfficer } = require('../../../../../../routes/projects/back-office/programme-officers');
 
 const EXAMINATION_STATUS_LABELS = {
 	'submission-pending': 'Submission pending',
@@ -212,6 +213,7 @@ router.get('/examination', (req, res) => {
 	res.render('projects/back-office/manage/examination/v6/examination', {
 		caseRef: req.session.data?.currentCaseRef || req.session.currentCaseRef || '',
 		planTitle: req.session.data?.planTitle || req.session.planTitle || '',
+		examinationPoContact: getExaminationProgrammeOfficer(req.session),
 		examinationInspectors,
 		qaInspectors,
 		examinationDocumentCount: examinationDocuments.length,
@@ -289,6 +291,34 @@ router.get('/examination', (req, res) => {
 router.get('/examination.html', (req, res) => {
 	res.redirect('/projects/back-office/manage/examination/v6/examination');
 });
+
+router.get(['/programme-officer', '/programme-officer.html'], (req, res) => {
+	res.render('projects/back-office/manage/GW3/v1/gateway-3-po-details', {
+		contact: getExaminationProgrammeOfficer(req.session),
+		formAction: `${req.baseUrl}/programme-officer`,
+		removeAction: `${req.baseUrl}/programme-officer/remove`,
+		returnUrl: req.query.returnUrl || `${req.baseUrl}/examination`
+	});
+});
+
+router.post('/programme-officer', (req, res) => {
+	const contact = getExaminationProgrammeOfficer(req.session);
+	req.session.examinationPoContact = {
+		firstName: (req.body.firstName || '').trim(),
+		lastName: (req.body.lastName || '').trim(),
+		email: (req.body.email || '').trim(),
+		phone: req.body.phone === undefined ? contact.phone || '' : (req.body.phone || '').trim()
+	};
+	req.session.save(() => res.redirect(req.body.returnUrl || `${req.baseUrl}/examination`));
+});
+
+function removeProgrammeOfficer(req, res) {
+	req.session.examinationPoContact = {};
+	req.session.save(() => res.redirect(req.body?.returnUrl || req.query.returnUrl || `${req.baseUrl}/examination`));
+}
+
+router.get('/programme-officer/remove', removeProgrammeOfficer);
+router.post('/programme-officer/remove', removeProgrammeOfficer);
 
 router.get(['/adoption-date', '/adoption-date.html'], (req, res) => {
 	res.render('projects/back-office/manage/examination/v6/adoption-date', {

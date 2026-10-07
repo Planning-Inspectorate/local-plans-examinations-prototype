@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { DateTime } = require('luxon');
 const lpaToRegionSimple = require('../../../../../../data/lpa-to-region-simple.json');
+const { getOverviewProgrammeOfficer } = require('../../../../../../routes/projects/back-office/programme-officers');
 
 function formatDateForDisplay(value) {
   if (!value || value === '-') return value || '';
@@ -96,6 +97,7 @@ function buildOverviewContext(req) {
   });
 
   return {
+    ...getOverviewProgrammeOfficer(req.session),
     caseRef: req.session.currentCaseRef || '',
     planTitle: req.session.planTitle || '',
     planType: req.session.planType || '',

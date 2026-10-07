@@ -1,0 +1,43 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+{% if errorMessage %}Error: {% endif %}Why are you deleting this case? - {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/projects/back-office/manage/overview/v2/index"
+  }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    {% if errorMessage %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: [{ text: errorMessage, href: "#deletion-reason" }]
+    }) }}
+    {% endif %}
+    <form method="post" action="/projects/back-office/manage/delete-case/v2/delete-case-reason">
+      <input type="hidden" name="caseRef" value="{{ caseRef }}">
+      {{ govukInput({
+        name: "deletionReason",
+        id: "deletion-reason",
+        value: deletionReason,
+        label: {
+          text: "Why are you deleting this case?",
+          isPageHeading: true,
+          classes: "govuk-label--l"
+        },
+        errorMessage: { text: errorMessage } if errorMessage else undefined
+      }) }}
+      <div class="govuk-button-group">
+        {{ govukButton({ text: "Continue" }) }}
+        <a class="govuk-link" href="/projects/back-office/manage/overview/v2/index">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -15,9 +15,9 @@ const defaultWorkflowNavVersions = {
   overview: 'v2',
   timetable: 'v2',
   gw1: 'v2',
-  gw2: 'v4',
-  gw3: 'v4',
-  examination: 'v3',
+  gw2: 'v5',
+  gw3: 'v5',
+  examination: 'v6',
   documents: 'v1',
   updates: 'v2'
 };

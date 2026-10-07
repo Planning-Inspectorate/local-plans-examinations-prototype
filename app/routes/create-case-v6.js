@@ -307,6 +307,7 @@ router.get('/projects/back-office/create-case/v6/load-case', (req, res) => {
   delete req.session.gateway2ReportPublishedDate;
   delete req.session.gateway3AssessorName;
   delete req.session.gateway3PoContact;
+  delete req.session.examinationPoContact;
   delete req.session.examinationWebsite;
   delete req.session.examiningInspector1Name;
   delete req.session.examiningInspector2Name;
