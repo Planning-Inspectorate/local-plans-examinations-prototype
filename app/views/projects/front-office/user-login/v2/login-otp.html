@@ -30,7 +30,12 @@
       name: "otp"
     }) }}
 
-    <p class="govuk-body">If you do not receive the email:</p>
+    {{ govukButton({
+      text: "Continue",
+      href: "../../home/v3/homepage"
+    }) }}
+
+        <p class="govuk-body">If you do not receive the email:</p>
 
     <ul class="govuk-list govuk-list--bullet">
       <li>check the email address is correct</li>
@@ -42,11 +47,6 @@
       <a class="govuk-link" href="login-request-new-code">request a new code</a>.
     </p>
 
-    {{ govukButton({
-      text: "Continue",
-      href: "../../home/v3/homepage"
-    }) }}
-<!--
     {{ govukDetails({
       summaryText: "If you are still having problems",
       html: "
@@ -56,7 +56,7 @@
         <a class='govuk-link' href='https://www.gov.uk/call-charges'>Find out about call charges</a></p>
       "
     }) }}
--->
+
   </div>
 </div>
 
