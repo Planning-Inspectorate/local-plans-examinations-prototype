@@ -1,0 +1,30 @@
+{% extends "layouts/front-office-v3.html" %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+{% set title = "Add a link to your digital or interactive supporting material" %}
+
+{% block questions %}
+
+<span class="govuk-caption-l">Plan content, evidence and background</span>
+<h1 class="govuk-heading-l">{{ title }}</h1>
+
+<p class="govuk-body">Use this to link to material that cannot be uploaded as a document because it only works online.</p>
+
+<p class="govuk-body">This link does not replace uploading your documents. You must still upload your plan content, evidence and policies map. Do not use this to link to your full evidence base.</p>
+
+{{ govukInput({
+  label: {
+    text: "Web address (URL)",
+    classes: "govuk-label--s"
+  },
+  hint: {
+    text: "For example, https://www.yourcouncil.gov.uk/local-plan/interactive-map"
+  },
+  id: "examination-library-link",
+  name: "examination-library-link",
+  type: "url",
+  classes: "govuk-!-width-two-thirds",
+  value: data['examination-library-link']
+}) }}
+
+{% endblock %}

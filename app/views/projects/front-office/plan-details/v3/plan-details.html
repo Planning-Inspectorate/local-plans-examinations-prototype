@@ -27,6 +27,14 @@ href: 'plan-details?status=completed&stage=examination&report=',
 text: 'Examination complete'
 },
 {
+href: 'plan-details?status=adopted&stage=examination&report=',
+text: 'Plan adopted'
+},
+{
+href: 'plan-details?status=paused&stage=examination&report=',
+text: 'Plan paused'
+},
+{
 href: 'plan-details?status=withdrawn&stage=gateway-3&report=',
 text: 'Plan withdrawn'
 }
@@ -54,6 +62,15 @@ href: "/projects/front-office/home/v3/homepage"
       {% endset %}
       {{ govukNotificationBanner({
         html: withdrawnHtml,
+        titleText: "Important"
+      }) }}
+    {% elif planStatus == 'paused' %}
+      {% set pausedHtml %}
+        <h3 class="govuk-notification-banner__heading">The examination of this plan has been paused</h3>
+        <p class="govuk-body">Paused on 1 September 2026. Reason: The inspector has paused the examination to allow the local planning authority to carry out further work on its transport evidence.</p>
+      {% endset %}
+      {{ govukNotificationBanner({
+        html: pausedHtml,
         titleText: "Important"
       }) }}
     {% endif %}

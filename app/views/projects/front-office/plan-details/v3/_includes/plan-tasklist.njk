@@ -386,6 +386,56 @@
       ]
     }) }}
 
+  {% elif planStatus == 'adopted' %}
+    {{ govukTaskList({
+      idPrefix: "plan-details",
+      items: [
+        {
+          title: { text: "Gateway 2" },
+          hint: { text: "Completed: 10 June 2026" },
+          href: "../../gw2/v4/application-details-submitted?report=shared",
+          status: { text: "Completed" }
+        },
+        {
+          title: { text: "Gateway 3" },
+          hint: { text: "Completed: 5 July 2026" },
+          href: "../../gw3/v2/application-details-submitted?report=shared",
+          status: { text: "Completed" }
+        },
+        {
+          title: { text: "Examination" },
+          hint: { text: "Adopted: 15 September 2026" },
+          href: "../../examination/v1/application-details-completed",
+          status: { tag: { text: "Plan adopted", classes: "govuk-tag--blue" } }
+        }
+      ]
+    }) }}
+
+  {% elif planStatus == 'paused' %}
+    {{ govukTaskList({
+      idPrefix: "plan-details",
+      items: [
+        {
+          title: { text: "Gateway 2" },
+          hint: { text: "Completed: 10 June 2026" },
+          href: "../../gw2/v4/application-details-submitted?report=shared",
+          status: { text: "Completed" }
+        },
+        {
+          title: { text: "Gateway 3" },
+          hint: { text: "Completed: 5 July 2026" },
+          href: "../../gw3/v2/application-details-submitted?report=shared",
+          status: { text: "Completed" }
+        },
+        {
+          title: { text: "Examination" },
+          hint: { text: "Paused: 1 September 2026" },
+          href: "../../examination/v1/application-details-submitted",
+          status: { tag: { text: "Plan paused", classes: "govuk-tag--grey" } }
+        }
+      ]
+    }) }}
+
   {% endif %}
 
 {% endif %}
