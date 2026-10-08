@@ -14,22 +14,14 @@
 {% block content %}
 	<div class="govuk-grid-row">
 		<div class="govuk-grid-column-two-thirds">
-			<h1 class="govuk-heading-l">Reason for pause</h1>
+			<h1 class="govuk-heading-l">Pause details</h1>
 			<form class="form" method="post" action="{{ basePath }}/plan-pause-reason">
 				<input type="hidden" name="pauseIndex" value="{{ pauseIndex }}">
 				<input type="hidden" name="newPause" value="{{ 'true' if newPause else 'false' }}">
 				<input type="hidden" name="returnUrl" value="{{ returnUrl }}">
 
-				{{ govukCharacterCount({
-					name: "plan-pause-reason",
-					id: "plan-pause-reason",
-					maxlength: 500,
-					rows: 8,
-					value: planPauseReason,
-					label: {
-						text: "Explain why this plan has been paused"
-					}
-				}) }}
+				<label class="govuk-label" for="plan-pause-reason">Add any details about the pause</label>
+				<textarea class="govuk-textarea" id="plan-pause-reason" name="plan-pause-reason" rows="8">{{ planPauseReason }}</textarea>
 
 				<div class="govuk-button-group">
 					<button type="submit" class="govuk-button" data-module="govuk-button">Submit</button>

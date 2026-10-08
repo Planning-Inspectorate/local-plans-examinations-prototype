@@ -33,7 +33,7 @@ function getWorkflowNavQueryOverrides(query = {}) {
       overrides[section] = value;
     }
 
-    return overrides;
+    return overrides; 
   }, {});
 }
 

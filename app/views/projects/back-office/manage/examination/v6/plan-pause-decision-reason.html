@@ -14,21 +14,13 @@
 {% block content %}
 	<div class="govuk-grid-row">
 		<div class="govuk-grid-column-two-thirds">
-			<h1 class="govuk-heading-l">{% if pauseResolved %}Reason for ending the pause{% else %}Reason for decision{% endif %}</h1>
+			<h1 class="govuk-heading-l">Restart details </h1>
 			<form class="form" method="post" action="{{ basePath }}/plan-pause-decision-reason">
 				<input type="hidden" name="pauseIndex" value="{{ pauseIndex }}">
 				<input type="hidden" name="returnUrl" value="{{ returnUrl }}">
 
-				{{ govukCharacterCount({
-					name: "plan-pause-decision-reason",
-					id: "plan-pause-decision-reason",
-					maxwords: 500,
-					rows: 8,
-					value: planPauseDecisionReason,
-					label: {
-						text: "Explain why the pause ended" if pauseResolved else ("Explain why the plan was marked as " + (planPauseDecision | lower) if planPauseDecision else "Explain the reason for the decision")
-					}
-				}) }}
+				<label class="govuk-label" for="plan-pause-decision-reason">Add any details about the restart</label>
+				<textarea class="govuk-textarea" id="plan-pause-decision-reason" name="plan-pause-decision-reason" rows="8">{{ planPauseDecisionReason }}</textarea>
 
 				<div class="govuk-button-group">
 					<button type="submit" class="govuk-button" data-module="govuk-button">Submit</button>

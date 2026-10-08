@@ -65,7 +65,7 @@ router.post('/upload/final-report/check-answers', (req, res) => {
   delete req.session.data.fileData;
   delete req.session.data.fileSizeMap;
   req.session.finalReportIssueDate = new Date().toLocaleDateString('en-GB');
-  req.session.notificationMessage = 'Final report and supporting documents saved and notification sent';
+  req.session.notificationMessage = 'Examination report and main modifications saved and notification sent';
   if (['Sound', 'Sound with modifications'].includes(req.session.planSoundness)) {
     req.session.examinationV3StatusState = 'report-issued';
   }
