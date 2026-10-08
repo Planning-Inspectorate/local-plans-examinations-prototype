@@ -235,6 +235,14 @@ router.post('/plan-content-documents/other-plan-content-upload', function (req, 
   res.redirect('../application-details')
 })
 
+router.post('/plan-content-documents/examination-library-link', function (req, res) {
+  if (!req.session.data['supporting-material-link']) {
+    req.session.data['supporting-material-link'] = 'https://www.eastborough.gov.uk/local-plan/interactive-map'
+  }
+  req.session.data['supporting-material-link-complete'] = 'true'
+  res.redirect('../application-details')
+})
+
 // Fallback for any plan content document page not explicitly handled above
 router.post('/plan-content-documents/:page', function (req, res) {
   req.session.data[`${req.params.page}-complete`] = 'true'

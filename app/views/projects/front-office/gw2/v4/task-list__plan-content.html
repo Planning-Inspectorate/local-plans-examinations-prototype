@@ -26,10 +26,10 @@
       {
         key: { text: 'Digital or interactive supporting material' },
         value:
-          { html: "<a class='govuk-link' href='#'>" + data['examination-library-link'] + "</a>" } if data['examination-library-link-complete']
+          { html: "<a class='govuk-link' href='#'>" + data['supporting-material-link'] + "</a>" } if data['supporting-material-link-complete']
           else { html: '<span class="govuk-hint">Not added</span>' },
         actions: { items: [
-          { href: 'plan-content-documents/examination-library-link?cya=true', html: 'Change', visuallyHiddenText: 'digital or interactive supporting material' } if data['examination-library-link-complete']
+          { href: 'plan-content-documents/examination-library-link?cya=true', html: 'Change', visuallyHiddenText: 'digital or interactive supporting material' } if data['supporting-material-link-complete']
           else { href: 'plan-content-documents/examination-library-link', html: 'Add', visuallyHiddenText: 'digital or interactive supporting material' }
         ]}
       },

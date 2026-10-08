@@ -51,14 +51,24 @@
     <h2 class="govuk-heading-m">
       Version 3 - August 2026
       {{ govukTag({
-        classes: 'govuk-tag--yellow govuk-!-margin-left-2',
-        text: 'Ready for research'
+        classes: 'govuk-tag--blue govuk-!-margin-left-2',
+        text: 'In progress'
       }) }}
     </h2>
 
     <p class="govuk-body">
       Designed to give LPAs a clear understanding of the current stage of a plan, its status, and what comes next.
     </p>
+
+    <p class="govuk-body">
+      The following states are work in progress:
+    </p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li><a class="govuk-link" href="/projects/front-office/plan-details/v3/plan-details?status=paused&stage=examination&report=">Plan paused</a></li>
+      <li><a class="govuk-link" href="/projects/front-office/plan-details/v3/plan-details?status=withdrawn&stage=gateway-3&report=">Plan withdrawn</a></li>
+      <li><a class="govuk-link" href="/projects/front-office/plan-details/v3/plan-details?status=adopted&stage=examination&report=">Plan adopted</a></li>
+    </ul>
 
     {{ govukButton({
       text: "View prototype",
