@@ -25,6 +25,10 @@ text: 'Examination ready to start'
 {
 href: 'plan-details?status=completed&stage=examination&report=',
 text: 'Examination complete'
+},
+{
+href: 'plan-details?status=withdrawn&stage=gateway-3&report=',
+text: 'Plan withdrawn'
 }
 ]
 %}
@@ -42,6 +46,17 @@ href: "/projects/front-office/home/v3/homepage"
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+
+    {% if planStatus == 'withdrawn' %}
+      {% set withdrawnHtml %}
+        <h3 class="govuk-notification-banner__heading">This plan has been withdrawn</h3>
+        <p class="govuk-body">Withdrawn on 22 September 2026. Reason: The local planning authority withdrew the plan to update its housing evidence following revised population projections.</p>
+      {% endset %}
+      {{ govukNotificationBanner({
+        html: withdrawnHtml,
+        titleText: "Important"
+      }) }}
+    {% endif %}
 
     {% include "./_includes/plan-heading.njk" %}
     {% include "./_includes/plan-metadata.njk" %}

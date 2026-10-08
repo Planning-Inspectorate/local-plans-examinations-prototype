@@ -254,6 +254,29 @@
       ]
     }) }}
 
+  {% elif planStatus == 'withdrawn' %}
+    {{ govukTaskList({
+      idPrefix: "plan-details",
+      items: [
+        {
+          title: { text: "Gateway 2" },
+          hint: { text: "Completed: 10 June 2026" },
+          href: "../../gw2/v4/application-details-submitted?report=shared",
+          status: { text: "Completed" }
+        },
+        {
+          title: { text: "Gateway 3" },
+          hint: { text: "Withdrawn: 22 September 2026" },
+          href: "../../gw3/v2/application-details-submitted?report=",
+          status: { tag: { text: "Withdrawn", classes: "govuk-tag--grey" } }
+        },
+        {
+          title: { text: "Examination" },
+          status: { text: "Not applicable", classes: "govuk-task-list__status--cannot-start-yet" }
+        }
+      ]
+    }) }}
+
   {% endif %}
 
 
