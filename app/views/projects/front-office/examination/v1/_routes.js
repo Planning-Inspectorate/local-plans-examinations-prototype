@@ -9,9 +9,6 @@ router.get('*', function (req, res, next) {
 })
 
 router.post('/documents/examination-website-link', function (req, res) {
-  if (!req.session.data['examination-website-link']) {
-    req.session.data['examination-website-link'] = req.session.data['examination-library-link']
-  }
   req.session.data['examination-website-link-complete'] = 'true'
   res.redirect('../application-details')
 })
