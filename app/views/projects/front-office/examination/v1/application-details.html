@@ -46,7 +46,14 @@ href: "/projects/front-office/plan-details/v3/plan-details?stage=examination&sta
         }) }}
         {% endif %}
 
-    {% set documentAdded = data['changes-statement-upload-complete'] or data['procedural-documents-upload-complete'] or data['consultation-documents-upload-complete'] or data['plan-content-evidence-upload-complete'] %}
+    {% from "./_includes/examination-documents.njk" import examinationSections %}
+    {% set addedDocs = [] %}
+    {% for section in examinationSections %}
+      {% for doc in section.documents %}
+        {% if data['document-upload-' + doc.id + '-complete'] %}{% set addedDocs = (addedDocs.push(doc.id), addedDocs) %}{% endif %}
+      {% endfor %}
+    {% endfor %}
+    {% set documentAdded = addedDocs | length > 0 %}
     {% set detailsStatus = 'in-progress' if documentAdded else 'ready' %}
     {% include "./_includes/application-metadata.njk" %}
 
