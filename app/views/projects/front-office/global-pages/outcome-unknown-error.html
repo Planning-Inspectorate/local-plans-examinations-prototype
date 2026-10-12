@@ -1,0 +1,24 @@
+{% extends "layouts/front-office-v2.html" %}    
+
+{% block pageTitle %}Sorry, there is a problem with the service – {{serviceName}}{% endblock %}
+
+{% block beforeContent %}{% endblock %}
+
+{% set mainClasses = "govuk-main-wrapper--l" %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">Sorry, there is a problem with the service</h1>
+      <p class="govuk-body">We could not confirm whether your submission was received.</p>
+      <p class="govuk-body">Check your submission status before you try again. If it shows as submitted, you do not need to do anything else.</p>
+      <p class="govuk-body">
+        Contact the Planning Inspectorate Customer Support if you have any questions:
+      </p>
+      <p class="govuk-body">
+        Phone:<br>
+        <strong class="govuk-!-font-weight-bold">0303 444 5000</strong>
+      </p>
+    </div>
+  </div>
+{% endblock %}
