@@ -43,13 +43,13 @@
     </ul>
     {{ govukButton({
       html: 'View prototype',
-      href: '/projects/back-office/manage/GW3/v5/gateway-2',
+      href: '/projects/back-office/manage/GW3/v' ~ version ~ '/gateway-2',
       isStartButton: true
     }) }}
 
 
     {% set v4HTML -%}
-
+    {% set version = "4" %}
     <p class="govuk-!-margin-bottom-2">Changes:</p>
     <ul class="govuk-list govuk-list--bullet">
       <li>Gateway 3 v4 submission review and decision flow</li>
@@ -75,6 +75,7 @@
     
 
     {% set v3HTML %}
+    {% set version = "3" %}
 
     <p class="govuk-!-margin-bottom-2">Changes:</p>
     <ul class="govuk-list govuk-list--bullet">
@@ -89,7 +90,7 @@
     {% endset -%}
 
     {% set v2HTML %}
-
+   {% set version = "2" %}
         <h2 class="govuk-heading-m">
         Version {{ version }} A
        
