@@ -6,6 +6,7 @@
 {% endblock %}
 {% block content %}
   <div class="govuk-grid-row"><div class="govuk-grid-column-two-thirds">
+    {% include "includes/back-office/examination-reference-caption.njk" %}
     <h1 class="govuk-heading-l">Who is the examining inspector?</h1>
     <form method="post">
       <input type="hidden" name="editIndex" value="{{ editIndex }}">

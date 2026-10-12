@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-  What are the main contact details for the Local Planning Authority? – {{ serviceName }}
+ Add a contact – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -14,8 +14,9 @@
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+      {% include "includes/back-office/plan-reference-caption.njk" %}
       <h1 class="govuk-heading-l">
-       What are the main contact details for the Local Planning Authority?
+       Add a contact
       </h1>
 
 
@@ -49,22 +50,26 @@
             <input class="govuk-input govuk-!-width-one-half" id="main-contact-phone" name="main-contact-phone" type="text" value="{{ mainContact.phone }}">
           </div>
         </fieldset>
-        <div class="govuk-form-group">
-          <label class="govuk-label" for="contact-organisation">
-            Select an organisation for this contact
-          </label>
-          <div class="govuk-radios" data-module="govuk-radios">
-            {% for lpa in lpas %}
-              <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="lpa-{{ loop.index }}" name="contactOrganisation" type="radio" value="{{ lpa }}"
-                  {% if mainContact.organisation == lpa %}checked{% endif %}>
-                <label class="govuk-label govuk-radios__label" for="lpa-{{ loop.index }}">
-                  {{ lpa }}
-                </label>
-              </div>
-            {% endfor %}
+        {% if lpas.length > 1 %}
+          <div class="govuk-form-group">
+            <label class="govuk-label" for="contact-organisation">
+              Select an organisation for this contact
+            </label>
+            <div class="govuk-radios" data-module="govuk-radios">
+              {% for lpa in lpas %}
+                <div class="govuk-radios__item">
+                  <input class="govuk-radios__input" id="lpa-{{ loop.index+1 }}" name="contactOrganisation" type="radio" value="{{ lpa }}"
+                    {% if mainContact.organisation == lpa %}checked{% endif %}>
+                  <label class="govuk-label govuk-radios__label" for="lpa-{{ loop.index }}">
+                    {{ lpa }}
+                  </label>
+                </div>
+              {% endfor %}
+            </div>
           </div>
-        </div>
+        {% elif lpas.length == 1 %}
+          <input type="hidden" name="contactOrganisation" value="{{ lpas[0] }}">
+        {% endif %}
         
         <div class="govuk-button-group">
            {% if isEdit %}
@@ -74,7 +79,7 @@
             {% endif %}
           {% if isEdit %}
           
-             <a href="/projects/back-office/manage/index.html" class="govuk-link">Cancel</a>
+             <a href="{{ returnUrl or '/projects/back-office/manage/overview/v2/index' }}" class="govuk-link">Cancel</a>
           {% endif %}
         </div>
       </form>

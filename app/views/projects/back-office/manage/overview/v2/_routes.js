@@ -2,7 +2,16 @@ const express = require('express');
 const router = express.Router();
 const { DateTime } = require('luxon');
 const lpaToRegionSimple = require('../../../../../../data/lpa-to-region-simple.json');
+const lpaList = require('../../../../../../data/lpa-list.json');
+const caseOfficers = require('../../../../../../data/case-officers.json');
 const { getOverviewProgrammeOfficer } = require('../../../../../../routes/projects/back-office/programme-officers');
+
+const overviewIndexUrl = '/projects/back-office/manage/overview/v2/index';
+
+router.use((req, res, next) => {
+  res.locals.caseRef = req.session.data?.currentCaseRef || req.session.currentCaseRef || '';
+  next();
+});
 
 function formatDateForDisplay(value) {
   if (!value || value === '-') return value || '';
@@ -96,6 +105,13 @@ function buildOverviewContext(req) {
     };
   });
 
+  const examinationInspectors = Array.isArray(req.session.examinationInspectors)
+    ? req.session.examinationInspectors
+    : null;
+  const qaInspectors = Array.isArray(req.session.qaInspectors)
+    ? req.session.qaInspectors
+    : null;
+
   return {
     ...getOverviewProgrammeOfficer(req.session),
     caseRef: req.session.currentCaseRef || '',
@@ -104,6 +120,12 @@ function buildOverviewContext(req) {
     lpas,
     lpaRegions,
     caseOfficer: req.session.caseOfficer || '',
+    examiningInspector1Name: examinationInspectors ? examinationInspectors[0]?.name || '' : req.session.examiningInspector1Name || '',
+    examiningInspector2Name: examinationInspectors ? examinationInspectors[1]?.name || '' : req.session.examiningInspector2Name || '',
+    examiningInspector3Name: examinationInspectors ? examinationInspectors[2]?.name || '' : req.session.examiningInspector3Name || '',
+    qaInspector1Name: qaInspectors ? qaInspectors[0]?.name || '' : req.session.qaInspector1Name || '',
+    qaInspector2Name: qaInspectors ? qaInspectors[1]?.name || '' : req.session.qaInspector2Name || '',
+    qaInspector3Name: qaInspectors ? qaInspectors[2]?.name || '' : req.session.qaInspector3Name || '',
     contacts: normalizedContacts,
     mainContactName: mainContactNameParts.fullName,
     mainContactEmail: mainContact.email || '',
@@ -119,9 +141,310 @@ function buildOverviewContext(req) {
   };
 }
 
+const purchaseOrderStageLabels = {
+  '1': 'Gateway 2',
+  '2': 'Gateway 3',
+  '3': 'Examination'
+};
+
+function getPurchaseOrderStore(req) {
+  const caseRef = req.session.data?.currentCaseRef || req.session.currentCaseRef || '';
+  const cases = Array.isArray(req.session.cases) ? req.session.cases : [];
+  return (caseRef && cases.find((item) => item.caseRef === caseRef)) || req.session;
+}
+
+function getPurchaseOrders(req) {
+  const store = getPurchaseOrderStore(req);
+  if (!Array.isArray(store.purchaseOrders)) store.purchaseOrders = [];
+  return store.purchaseOrders;
+}
+
+function parsePurchaseOrderIndex(value) {
+  if (value === undefined || value === null || value === '') return null;
+  const index = Number.parseInt(value, 10);
+  return Number.isInteger(index) && index >= 0 ? index : null;
+}
+
+function getPurchaseOrderDraft(req) {
+  return getPurchaseOrderStore(req).purchaseOrderDraft;
+}
+
+function getPurchaseOrdersForDisplay(req) {
+  const store = getPurchaseOrderStore(req);
+  const purchaseOrders = getPurchaseOrders(req);
+  if (store.purchaseOrderExamplesSeeded) {
+    const gateway3Example = purchaseOrders.find((purchaseOrder) => purchaseOrder.ponNumber === 'FO-PO-2026-002');
+    if (gateway3Example?.notes === 'Example Gateway 3 purchase order') gateway3Example.notes = '';
+    const backOfficeExample = purchaseOrders.find((purchaseOrder) => purchaseOrder.ponNumber === 'BO-PO-2026-001');
+    if (backOfficeExample?.notes === 'Example back-office purchase order') backOfficeExample.notes = '';
+    return purchaseOrders.map((purchaseOrder, index) => ({ ...purchaseOrder, index })).reverse();
+  }
+
+  if (!purchaseOrders.some((purchaseOrder) => purchaseOrder.source === 'front-office')) {
+    purchaseOrders.push(
+      {
+        stage: '1',
+        stageLabel: purchaseOrderStageLabels['1'],
+        ponNumber: 'FO-PO-2026-001',
+        dateAdded: '15 September 2026',
+        source: 'front-office',
+        notes: 'Example LPA purchase order'
+      },
+      {
+        stage: '2',
+        stageLabel: purchaseOrderStageLabels['2'],
+        ponNumber: 'FO-PO-2026-002',
+        dateAdded: '25 September 2026',
+        source: 'front-office',
+        notes: ''
+      }
+    );
+  }
+
+  if (!purchaseOrders.some((purchaseOrder) => purchaseOrder.source === 'back-office')) {
+    purchaseOrders.push({
+      stage: '3',
+      stageLabel: purchaseOrderStageLabels['3'],
+      ponNumber: 'BO-PO-2026-001',
+      dateAdded: '1 October 2026',
+      source: 'back-office',
+      sourceName: 'Example case officer',
+      notes: ''
+    });
+  }
+
+  store.purchaseOrderExamplesSeeded = true;
+  return purchaseOrders.map((purchaseOrder, index) => ({ ...purchaseOrder, index })).reverse();
+}
+
+router.get(['/pon', '/pon.html'], (req, res) => {
+  const editIndex = parsePurchaseOrderIndex(req.query.edit);
+  const existing = editIndex === null ? {} : getPurchaseOrders(req)[editIndex] || {};
+
+  res.render('projects/back-office/manage/overview/v2/pon', {
+    planStage: existing.stage || '',
+    editIndex: editIndex === null ? '' : editIndex,
+    returnUrl: req.query.returnUrl || overviewIndexUrl,
+    isEdit: editIndex !== null
+  });
+});
+
+router.post('/pon', (req, res) => {
+  const stage = req.body['plan-stage'];
+  if (!purchaseOrderStageLabels[stage]) {
+    return res.redirect(`${req.baseUrl}/pon?edit=${req.body.editIndex || ''}`);
+  }
+
+  const editIndex = parsePurchaseOrderIndex(req.body.editIndex);
+  const existing = editIndex === null ? {} : getPurchaseOrders(req)[editIndex] || {};
+  getPurchaseOrderStore(req).purchaseOrderDraft = {
+    stage,
+    ponNumber: existing.ponNumber || '',
+    dateAdded: existing.dateAdded || '',
+    notes: existing.notes || '',
+    editIndex,
+    returnUrl: req.body.returnUrl || overviewIndexUrl
+  };
+  req.session.save(() => res.redirect(`${req.baseUrl}/pon-number`));
+});
+
+router.get(['/pon-number', '/pon-number.html'], (req, res) => {
+  const draft = getPurchaseOrderDraft(req);
+  if (!draft) return res.redirect(`${req.baseUrl}/pon`);
+
+  res.render('projects/back-office/manage/overview/v2/pon-number', {
+    ponNumber: draft.ponNumber || '',
+    editIndex: draft.editIndex === null ? '' : draft.editIndex,
+    returnUrl: draft.returnUrl || overviewIndexUrl,
+    isEdit: draft.editIndex !== null
+  });
+});
+
+router.post('/pon-number', (req, res) => {
+  const draft = getPurchaseOrderDraft(req);
+  if (!draft) return res.redirect(`${req.baseUrl}/pon`);
+
+  const ponNumber = (req.body['pon-number'] || '').trim();
+  if (ponNumber && (!draft.dateAdded || ponNumber !== draft.ponNumber)) {
+    draft.dateAdded = DateTime.now().toFormat('d MMMM yyyy');
+  }
+  draft.ponNumber = ponNumber;
+  req.session.save(() => res.redirect(`${req.baseUrl}/pon-note`));
+});
+
+router.get(['/pon-note', '/pon-note.html'], (req, res) => {
+  if (['front-office', 'back-office'].includes(req.query.source)) {
+    const purchaseOrderIndex = parsePurchaseOrderIndex(req.query.index);
+    const purchaseOrder = purchaseOrderIndex === null ? null : getPurchaseOrders(req)[purchaseOrderIndex];
+    if (!purchaseOrder || purchaseOrder.source !== req.query.source) {
+      return res.redirect(`${req.baseUrl}/index`);
+    }
+
+    return res.render('projects/back-office/manage/overview/v2/pon-note', {
+      notes: purchaseOrder.notes || '',
+      returnUrl: req.query.returnUrl || overviewIndexUrl,
+      isEdit: Boolean(purchaseOrder.notes),
+      purchaseOrderNoteMode: true,
+      noteSource: purchaseOrder.source,
+      purchaseOrderIndex
+    });
+  }
+
+  const draft = getPurchaseOrderDraft(req);
+  if (!draft) return res.redirect(`${req.baseUrl}/pon`);
+
+  res.render('projects/back-office/manage/overview/v2/pon-note', {
+    notes: draft.notes || '',
+    editIndex: draft.editIndex === null ? '' : draft.editIndex,
+    returnUrl: draft.returnUrl || overviewIndexUrl,
+    isEdit: draft.editIndex !== null
+  });
+});
+
+router.post('/pon-note', (req, res) => {
+  if (['front-office', 'back-office'].includes(req.body.source)) {
+    const purchaseOrderIndex = parsePurchaseOrderIndex(req.body.purchaseOrderIndex);
+    const purchaseOrder = purchaseOrderIndex === null ? null : getPurchaseOrders(req)[purchaseOrderIndex];
+    if (!purchaseOrder || purchaseOrder.source !== req.body.source) {
+      return res.redirect(`${req.baseUrl}/index`);
+    }
+
+    purchaseOrder.notes = (req.body.notes || '').trim();
+    return req.session.save(() => res.redirect(req.body.returnUrl || overviewIndexUrl));
+  }
+
+  const store = getPurchaseOrderStore(req);
+  const draft = store.purchaseOrderDraft;
+  if (!draft) return res.redirect(`${req.baseUrl}/pon`);
+
+  const purchaseOrder = {
+    stage: draft.stage,
+    stageLabel: purchaseOrderStageLabels[draft.stage],
+    ponNumber: draft.ponNumber,
+    dateAdded: draft.dateAdded,
+    source: 'back-office',
+    sourceName: req.session.caseOfficer || 'Case officer',
+    notes: (req.body.notes || '').trim()
+  };
+  const purchaseOrders = getPurchaseOrders(req);
+  if (draft.editIndex !== null && purchaseOrders[draft.editIndex]) {
+    purchaseOrders[draft.editIndex] = purchaseOrder;
+  } else {
+    purchaseOrders.push(purchaseOrder);
+  }
+
+  const returnUrl = draft.returnUrl || overviewIndexUrl;
+  delete store.purchaseOrderDraft;
+  req.session.save(() => res.redirect(returnUrl));
+});
+
+router.get(['/purchase-orders', '/purchase-orders.html'], (req, res) => {
+  res.render('projects/back-office/manage/overview/v2/purchase-orders', {
+    purchaseOrders: getPurchaseOrdersForDisplay(req),
+    returnUrl: req.query.returnUrl || overviewIndexUrl
+  });
+});
+
+router.get('/purchase-orders/remove', (req, res) => {
+  const index = parsePurchaseOrderIndex(req.query.index);
+  const purchaseOrder = index === null ? null : getPurchaseOrders(req)[index];
+  if (!purchaseOrder) return res.redirect(req.query.returnUrl || overviewIndexUrl);
+
+  res.render('projects/back-office/manage/overview/v2/pon-remove-confirm', {
+    purchaseOrder,
+    purchaseOrderIndex: index,
+    returnUrl: req.query.returnUrl || overviewIndexUrl
+  });
+});
+
+router.post('/purchase-orders/remove', (req, res) => {
+  const index = parsePurchaseOrderIndex(req.body.purchaseOrderIndex);
+  const purchaseOrders = getPurchaseOrders(req);
+  if (index !== null && purchaseOrders[index]) purchaseOrders.splice(index, 1);
+
+  req.session.save(() => res.redirect(req.body.returnUrl || overviewIndexUrl));
+});
+
+router.get(['/plan-title', '/plan-title.html'], (req, res) => {
+  res.render('projects/back-office/manage/overview/v2/plan-title', {
+    planTitle: req.session.planTitle || '',
+    returnUrl: req.query.returnUrl || overviewIndexUrl,
+    isEdit: true
+  });
+});
+
+router.get(['/plan-type', '/plan-type.html'], (req, res) => {
+  res.render('projects/back-office/manage/overview/v2/plan-type', {
+    planType: req.session.planType || '',
+    returnUrl: req.query.returnUrl || overviewIndexUrl,
+    isEdit: true,
+    textHtml: ''
+  });
+});
+
+router.get(['/plan-band', '/plan-band.html'], (req, res) => {
+  res.render('projects/back-office/manage/overview/v2/plan-band', {
+    planBand: req.session.planBand || '',
+    returnUrl: req.query.returnUrl || overviewIndexUrl,
+    isEdit: true
+  });
+});
+
+router.get(['/select-LPA', '/select-LPA.html'], (req, res) => {
+  const requestedIndex = Number.parseInt(req.query.index, 10);
+  const index = Number.isInteger(requestedIndex) && requestedIndex >= 0 ? requestedIndex : 0;
+  const lpas = Array.isArray(req.session.lpas) ? req.session.lpas : [];
+
+  res.render('projects/back-office/manage/overview/v2/select-LPA', {
+    selectedLPA: lpas[index] || req.session.lpaName || '',
+    lpaList,
+    index,
+    returnUrl: req.query.returnUrl || overviewIndexUrl,
+    isEdit: true
+  });
+});
+
+router.get(['/case-officer-name', '/case-officer-name.html'], (req, res) => {
+  res.render('projects/back-office/manage/overview/v2/case-officer-name', {
+    caseOfficer: req.session.caseOfficer || '',
+    caseOfficers,
+    returnUrl: req.query.returnUrl || overviewIndexUrl,
+    isEdit: true
+  });
+});
+
+router.get(['/main-contact', '/main-contact.html'], (req, res) => {
+  res.render('projects/back-office/manage/overview/v2/main-contact', {
+    mainContact: req.session.mainContact || {},
+    lpaName: req.session.lpaName || '',
+    lpas: req.session.lpas || [],
+    returnUrl: req.query.returnUrl || overviewIndexUrl,
+    isEdit: true
+  });
+});
+
+router.get(['/additional-contact', '/additional-contact.html'], (req, res) => {
+  const requestedIndex = Number.parseInt(req.query.index, 10);
+  const index = Number.isInteger(requestedIndex) && requestedIndex >= 0 ? requestedIndex : 0;
+  if (!Array.isArray(req.session.contacts)) req.session.contacts = [];
+  while (req.session.contacts.length <= index) req.session.contacts.push({});
+
+  res.render('projects/back-office/manage/overview/v2/additional-contact', {
+    contact: req.session.contacts[index],
+    contactIndex: index,
+    editIndex: index,
+    fromCheckAnswers: false,
+    returnUrl: req.query.returnUrl || overviewIndexUrl,
+    isEdit: true
+  });
+});
+
 // GET v2 index
-router.get('/index', function (req, res) {
-  res.render('projects/back-office/manage/overview/v2/index', buildOverviewContext(req));
+router.get(['/index', '/index.html'], function (req, res) {
+  res.render('projects/back-office/manage/overview/v2/index', {
+    ...buildOverviewContext(req),
+    purchaseOrders: getPurchaseOrdersForDisplay(req)
+  });
 });
 
 // POST add case note

@@ -177,6 +177,7 @@ router.use((req, res, next) => {
   req.session.data.planStatusClassMap = PLAN_STATUS_CLASS_MAP;
 
   res.locals.planStatus = resolvedStatus;
+  res.locals.caseRef = req.session.data?.currentCaseRef || req.session.currentCaseRef || '';
   res.locals.headerStatus = {
     text: resolvedStatus,
     classes: resolvedStatusClasses

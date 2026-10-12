@@ -14,6 +14,7 @@ Add hearing estimates – {{ serviceName }}
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    {% include "includes/back-office/examination-reference-caption.njk" %}
     <h1 class="govuk-heading-l">Add hearing estimates</h1>
     <form method="post" action="{{ basePath }}/add-hearing-estimates/index">
       <div class="govuk-form-group">

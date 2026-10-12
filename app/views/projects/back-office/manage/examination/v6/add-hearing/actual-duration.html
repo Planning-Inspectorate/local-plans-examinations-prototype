@@ -14,6 +14,7 @@ Actual duration – {{ serviceName }}
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    {% include "includes/back-office/examination-reference-caption.njk" %}
     <h1 class="govuk-heading-l">How many days did the hearing actually take?</h1>
     <form method="post">
       <div class="govuk-form-group">

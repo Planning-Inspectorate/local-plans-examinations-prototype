@@ -94,50 +94,6 @@ const REGION_OPTIONS = [
   "Yorkshire and the Humber"
 ];
 
-const DEMO_STATUS_CASES = [
-  ['GW3 received', 'Harbour View Local Plan', 'Plymouth City Council', 'South West'],
-  ['Paused', 'Oakfield Local Plan', 'Derby City Council', 'East Midlands'],
-  ['QA', 'Meadowlands Local Plan', 'Reading Borough Council', 'South East'],
-  ['Fact check', 'Riverside District Local Plan', 'Lancashire County Council', 'North West'],
-  ['Report issued', 'Northmoor Local Plan', 'Newcastle City Council', 'North East'],
-  ['Plan adopted', 'Green Coast Local Plan', 'Cornwall Council', 'South West'],
-  ['Withdrawn', 'Westvale Local Plan', 'Wolverhampton City Council', 'West Midlands'],
-  ['Completed', 'Cedar Valley Local Plan', 'Lincolnshire County Council', 'East Midlands']
-];
-
-function createDemoStatusCase(status, index, planTitle, lpa, region) {
-  const caseNumber = 11 + index;
-  return {
-    caseRef: `PLAN/${String(caseNumber).padStart(6, '0')}`,
-    planTitle,
-    planType: 'Local plan',
-    caseOfficer: ['Laura Green', 'Daniel Evans', 'Priya Shah', 'Oliver King'][index % 4],
-    lpas: [lpa],
-    lpaRegions: {[lpa]: region},
-    mainContact: {name: 'Case contact', email: `contact${caseNumber}@example.gov.uk`, phone: '020 7946 0000', organisation: lpa},
-    contacts: [],
-    noticeOfIntentionDate: '10 January 2026',
-    gateway1Date: '20 February 2026',
-    gateway2Date: '15 April 2026',
-    gateway3Date: '20 June 2026',
-    submissionDate: '1 July 2026',
-    status,
-    createdDate: new Date(`2024-04-${String(index + 1).padStart(2, '0')}`).toISOString()
-  };
-}
-
-function addMissingDemoStatusCases(cases) {
-  DEMO_STATUS_CASES.forEach(([status, planTitle, lpa, region], index) => {
-    if (!cases.some((item) => item.status === status)) {
-      cases.push(createDemoStatusCase(status, index, planTitle, lpa, region));
-    }
-  });
-}
-
-function getCasesInReferenceOrder(cases) {
-  return cases.slice().sort((left, right) => left.caseRef.localeCompare(right.caseRef));
-}
-
 // Edit LPA region page
 router.get('/projects/back-office/create-case/v4/LPA-region', (req, res) => {
   const isEdit = req.query.edit === 'true';
@@ -173,13 +129,13 @@ router.post('/projects/back-office/create-case/v4/LPA-region', (req, res) => {
 // Start page
 router.get('/projects/back-office/create-case/v4/index', (req, res) => {
   // Reinitialize if cases don't exist or are in old format (missing lpas field)
-  const needsReinit = !req.session.casesV4 || req.session.casesV4.length === 0 || (req.session.casesV4.length > 0 && !req.session.casesV4[0].lpas);
+  const needsReinit = !req.session.cases || req.session.cases.length === 0 || (req.session.cases.length > 0 && !req.session.cases[0].lpas);
   if (needsReinit) {
-    req.session.casesV4 = [
+    req.session.cases = [
       {
         caseRef: 'PLAN/000001',
         planTitle: 'Central City Local Plan',
-        planType: 'Local plan',
+        planType: 'Local Plan',
         caseOfficer: 'Jane Smith',
         lpas: ['Birmingham City Council'],
         lpaRegions: {'Birmingham City Council': 'West Midlands'},
@@ -190,13 +146,13 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
         gateway2Date: '20 June 2026',
         gateway3Date: '10 September 2026',
         submissionDate: '15 September 2026',
-        status: 'Awaiting SLA',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-01-15').toISOString()
       },
       {
         caseRef: 'PLAN/000002',
         planTitle: 'North District Local Plan',
-        planType: 'Local plan',
+        planType: 'Local Plan',
         caseOfficer: 'John Doe',
         lpas: ['Leeds City Council'],
         lpaRegions: {'Leeds City Council': 'Yorkshire and the Humber'},
@@ -207,13 +163,13 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
         gateway2Date: '25 May 2026',
         gateway3Date: '15 August 2026',
         submissionDate: '20 August 2026',
-        status: 'GW2 workshop confirmed',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-01-20').toISOString()
       },
       {
         caseRef: 'PLAN/000003',
         planTitle: 'Southside Local Plan',
-        planType: 'Local plan',
+        planType: 'Local Plan',
         caseOfficer: 'Alex Johnson',
         lpas: ['Brighton and Hove City Council'],
         lpaRegions: {'Brighton and Hove City Council': 'South East'},
@@ -224,13 +180,13 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
         gateway2Date: '30 April 2026',
         gateway3Date: '20 July 2026',
         submissionDate: '25 July 2026',
-        status: 'Awaiting SLA',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-01-25').toISOString()
       },
       {
         caseRef: 'PLAN/000004',
         planTitle: 'West End Local Plan',
-        planType: 'Local plan',
+        planType: 'Local Plan',
         caseOfficer: 'Jane Smith',
         lpas: ['Manchester City Council'],
         lpaRegions: {'Manchester City Council': 'North West'},
@@ -241,13 +197,13 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
         gateway2Date: '5 April 2026',
         gateway3Date: '25 June 2026',
         submissionDate: '30 June 2026',
-        status: 'GW2 received',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-02-01').toISOString()
       },
       {
         caseRef: 'PLAN/000005',
         planTitle: 'East Borough Local Plan',
-        planType: 'Local plan',
+        planType: 'Local Plan',
         caseOfficer: 'Michael Brown',
         lpas: ['Norwich City Council'],
         lpaRegions: {'Norwich City Council': 'East of England'},
@@ -258,13 +214,13 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
         gateway2Date: '15 June 2026',
         gateway3Date: '5 September 2026',
         submissionDate: '10 September 2026',
-        status: 'GW3 pending',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-02-10').toISOString()
       },
       {
         caseRef: 'PLAN/000006',
         planTitle: 'Riverside Local Plan',
-        planType: 'Local plan',
+        planType: 'Local Plan',
         caseOfficer: 'Sophie Green',
         lpas: ['Nottingham City Council'],
         lpaRegions: {'Nottingham City Council': 'East Midlands'},
@@ -275,13 +231,13 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
         gateway2Date: '18 May 2026',
         gateway3Date: '8 August 2026',
         submissionDate: '13 August 2026',
-        status: 'GW2 report',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-02-15').toISOString()
       },
       {
         caseRef: 'PLAN/000007',
         planTitle: 'Hilltop Local Plan',
-        planType: 'Local plan',
+        planType: 'Local Plan',
         caseOfficer: 'Chris White',
         lpas: ['Coventry City Council'],
         lpaRegions: {'Coventry City Council': 'West Midlands'},
@@ -292,13 +248,13 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
         gateway2Date: '28 June 2026',
         gateway3Date: '18 September 2026',
         submissionDate: '23 September 2026',
-        status: 'Submission pending',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-02-20').toISOString()
       },
       {
         caseRef: 'PLAN/000008',
         planTitle: 'Market Town Local Plan',
-        planType: 'Local plan',
+        planType: 'Local Plan',
         caseOfficer: 'Rachel Black',
         lpas: ['Bristol City Council'],
         lpaRegions: {'Bristol City Council': 'South West'},
@@ -309,13 +265,13 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
         gateway2Date: '2 June 2026',
         gateway3Date: '22 August 2026',
         submissionDate: '27 August 2026',
-        status: 'Submission received',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-02-25').toISOString()
       },
       {
         caseRef: 'PLAN/000009',
         planTitle: 'Greenfield Local Plan',
-        planType: 'Local plan',
+        planType: 'Local Plan',
         caseOfficer: 'Tom Harris',
         lpas: ['York City Council'],
         lpaRegions: {'York City Council': 'Yorkshire and the Humber'},
@@ -326,13 +282,13 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
         gateway2Date: '10 July 2026',
         gateway3Date: '30 September 2026',
         submissionDate: '5 October 2026',
-        status: 'Exam in progress',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-03-01').toISOString()
       },
       {
         caseRef: 'PLAN/000010',
         planTitle: 'Seaside Local Plan',
-        planType: 'Local plan',
+        planType: 'Local Plan',
         caseOfficer: 'Anna Lee',
         lpas: ['Southampton City Council'],
         lpaRegions: {'Southampton City Council': 'South East'},
@@ -344,47 +300,18 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
         gateway3Date: '2 June 2026',
         submissionDate: '7 August 2026',
         statusStrategy: 'fixed',
-        status: 'GW2 pending',
+        status: 'Gateway 2 Validation',
         createdDate: new Date('2024-03-05').toISOString()
-      },
+      }
     ];
-  }
-
-  addMissingDemoStatusCases(req.session.casesV4);
-
-  // Keep v4 list status labels aligned when cases were created via other journeys.
-  const statusMap = {
-    'Submitted': 'Awaiting SLA',
-    'Awaiting Gateway 2': 'GW2 pending',
-    'Gateway 2 Validation': 'GW2 pending',
-    'Exam pending': 'Submission pending',
-    'Hearing pending': 'Submission received'
-  };
-  if (Array.isArray(req.session.casesV4)) {
-    req.session.casesV4.forEach((item) => {
-      if (!item || !item.status) return;
-      item.status = statusMap[item.status] || item.status;
-    });
   }
 
   const journey = req.query.journey === 'side' ? 'side' : 'default';
   res.render('projects/back-office/create-case/v4/index', {
-    cases: getCasesInReferenceOrder(req.session.casesV4),
+    cases: req.session.cases.slice().reverse(),
     showEmpty: req.query.showEmpty === 'true',
     planStatusClassMap: PLAN_STATUS_CLASS_MAP,
     journey
-  });
-});
-
-router.get('/projects/back-office/create-case/v4/index-assigned', (req, res) => {
-  const myCaseOfficer = req.session.caseOfficer || 'Jane Smith';
-  const cases = Array.isArray(req.session.casesV4) ? req.session.casesV4 : [];
-  const assignedCases = cases.filter((item) => item.caseOfficer === myCaseOfficer).slice().reverse();
-
-  res.render('projects/back-office/create-case/v4/index-assigned', {
-    myCaseOfficer,
-    assignedCases,
-    planStatusClassMap: PLAN_STATUS_CLASS_MAP
   });
 });
 
@@ -394,11 +321,11 @@ router.get('/projects/back-office/create-case/v4/load-case', (req, res) => {
   const destination = req.query.destination === 'overview-side' ? 'overview-side' : 'overview';
   
   // Find the case in the cases array
-  if (!req.session.casesV4) {
+  if (!req.session.cases) {
     return res.redirect('/projects/back-office/create-case/v4/index');
   }
   
-  const caseToLoad = req.session.casesV4.find(c => c.caseRef === caseRef);
+  const caseToLoad = req.session.cases.find(c => c.caseRef === caseRef);
   
   if (!caseToLoad) {
     return res.redirect('/projects/back-office/create-case/v4/index');
@@ -418,7 +345,6 @@ router.get('/projects/back-office/create-case/v4/load-case', (req, res) => {
   delete req.session.gateway2ReportPublishedDate;
   delete req.session.gateway3AssessorName;
   delete req.session.gateway3PoContact;
-  delete req.session.examinationPoContact;
   delete req.session.examinationWebsite;
   delete req.session.examiningInspector1Name;
   delete req.session.examiningInspector2Name;
@@ -457,7 +383,6 @@ router.get('/projects/back-office/create-case/v4/load-case', (req, res) => {
   
   // Populate the session with the case data
   req.session.currentCaseRef = caseRef;
-  req.session.currentCaseRefV4 = caseRef;
   req.session.planTitle = caseToLoad.planTitle || '';
   req.session.planType = caseToLoad.planType || '';
   req.session.caseOfficer = caseToLoad.caseOfficer || '';
@@ -471,7 +396,7 @@ router.get('/projects/back-office/create-case/v4/load-case', (req, res) => {
   req.session.gateway2EstimatedDate = caseToLoad.gateway2Date || '';
   req.session.gateway3EstimatedDate = caseToLoad.gateway3Date || '';
   req.session.submissionDate = caseToLoad.submissionDate || '';
-  req.session.planStatus = caseToLoad.status || 'Awaiting SLA';
+  req.session.planStatus = caseToLoad.status || 'Submitted';
   caseToLoad.status = req.session.planStatus;
   if (!req.session.data) req.session.data = {};
   req.session.data.planStatus = req.session.planStatus;
@@ -1275,10 +1200,10 @@ router.get('/projects/back-office/create-case/v4/check-answers', (req, res) => {
 
 router.post('/projects/back-office/create-case/v4/check-answers', (req, res) => {
   // Initialize cases array if it doesn't exist
-  if (!req.session.casesV4) req.session.casesV4 = [];
+  if (!req.session.cases) req.session.cases = [];
   
   // Generate case reference number
-  const caseRef = `PLAN/${String(req.session.casesV4.length + 1).padStart(6, '0')}`;
+  const caseRef = `PLAN/${String(req.session.cases.length + 1).padStart(6, '0')}`;
   
   // Create the case object
   const newCase = {
@@ -1295,15 +1220,15 @@ router.post('/projects/back-office/create-case/v4/check-answers', (req, res) => 
     gateway2Date: req.session.gateway2Date,
     gateway3Date: req.session.gateway3Date,
     submissionDate: req.session.submissionDate,
-    status: 'Awaiting SLA',
+    status: 'Submitted',
     createdDate: new Date().toISOString()
   };
   
   // Add case to the array
-  req.session.casesV4.push(newCase);
+  req.session.cases.push(newCase);
   
   // Store the latest case reference for the confirmation page
-  req.session.latestCaseRefV4 = caseRef;
+  req.session.latestCaseRef = caseRef;
   
   res.redirect('/projects/back-office/create-case/v4/confirmation');
 });
@@ -1311,7 +1236,7 @@ router.post('/projects/back-office/create-case/v4/check-answers', (req, res) => 
 // Confirmation page
 router.get('/projects/back-office/create-case/v4/confirmation', (req, res) => {
   res.render('projects/back-office/create-case/v4/confirmation', {
-    caseRef: req.session.latestCaseRefV4 || 'PLAN/000001'
+    caseRef: req.session.latestCaseRef || 'PLAN/000001'
   });
 });
 
@@ -1329,9 +1254,8 @@ router.get('/projects/back-office/create-case/v4/clear-data', (req, res) => {
   req.session.submissionDate = undefined;
   req.session.planStatus = undefined;
   req.session.secondaryLPAContacts = [];
-  req.session.casesV4 = []; // Clear v4 cases only
-  req.session.latestCaseRefV4 = undefined;
-  req.session.currentCaseRefV4 = undefined;
+  req.session.cases = []; // Clear all cases
+  req.session.latestCaseRef = undefined;
 
   // Also clear back-office manage journey state (including GW2 v4)
   req.session.gw2v3WorkshopDocuments = undefined;

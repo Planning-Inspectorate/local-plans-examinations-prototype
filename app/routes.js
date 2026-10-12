@@ -13,16 +13,17 @@ const {
 
 const defaultWorkflowNavVersions = {
   overview: 'v2',
-  timetable: 'v2',
+  timetable: 'v1',
   gw1: 'v2',
-  gw2: 'v5',
-  gw3: 'v5',
-  examination: 'v6',
-  documents: 'v1',
+  gw2: 'v4',
+  gw3: 'v3',
+  examination: 'v3',
+  documents: 'v0',
   updates: 'v2'
 };
 
 const workflowNavSections = Object.keys(defaultWorkflowNavVersions);
+const hideDocumentsNav = true;
 
 function getWorkflowNavQueryOverrides(query = {}) {
   return workflowNavSections.reduce((overrides, section) => {
@@ -33,7 +34,7 @@ function getWorkflowNavQueryOverrides(query = {}) {
       overrides[section] = value;
     }
 
-    return overrides; 
+    return overrides;
   }, {});
 }
 
@@ -41,7 +42,6 @@ router.use((req, res, next) => {
   res.locals.currentPath = req.originalUrl || req.url || '';
   const versionMatch = (res.locals.currentPath || '').match(/\/v(\d+)(?:\/|$)/);
   res.locals.urlVersion = versionMatch ? `v${versionMatch[1]}` : '';
-  res.locals.hideDocumentsNav = true; // Default to hiding the documents nav unless explicitly enabled in a route
 
   if (req.query.clearNavVersions === '1' && req.session) {
     delete req.session.workflowNavVersionOverrides;
@@ -60,6 +60,7 @@ router.use((req, res, next) => {
     ...defaultWorkflowNavVersions,
     ...sessionOverrides
   };
+  res.locals.hideDocumentsNav = hideDocumentsNav;
   next();
 });
 
@@ -68,7 +69,7 @@ router.use((req, res, next) => {
   const sessionData = req.session?.data || {};
   const resolvedCaseRef = req.session?.currentCaseRef || '';
   const resolvedPlanTitle = req.session?.planTitle || '';
-  const resolvedStatus = req.session?.planStatus || sessionData.planStatus || 'Awaiting SLA ';
+  const resolvedStatus = req.session?.planStatus || sessionData.planStatus || 'Submitted';
   const resolvedStatusClasses = sessionData.planStatusClasses || getPlanStatusClasses(resolvedStatus);
 
   res.locals.caseRef = resolvedCaseRef;
@@ -104,22 +105,12 @@ const upload = multer({ dest: 'uploads/' });
 
 // Mount feature routers that export an Express Router object
 router.use('/', require('./routes/portal'));
-router.use('/projects/back-office/manage/GW1/v2', require('./views/projects/back-office/manage/GW1/v2/_routes'));
-router.use('/projects/back-office/manage/GW3/v4', require('./views/projects/back-office/manage/GW3/v4/_routes'));
-router.use('/projects/back-office/manage/GW3/v3', require('./views/projects/back-office/manage/GW3/v3/_routes'));
 router.use('/projects/back-office/manage/GW2/v4', require('./views/projects/back-office/manage/GW2/v4/_routes'));
-router.use('/projects/back-office/manage/GW2/v5', require('./views/projects/back-office/manage/GW2/v5/_routes'));
-router.use('/projects/back-office/manage/GW2/v6', require('./views/projects/back-office/manage/GW2/v6/_routes'));
-router.use('/projects/back-office/manage/examination/v4', require('./views/projects/back-office/manage/examination/v4/_routes'));
-router.use('/projects/back-office/manage/examination/v5', require('./views/projects/back-office/manage/examination/v5/_routes'));
-router.use('/projects/back-office/manage/examination/v6', require('./views/projects/back-office/manage/examination/v6/_routes'));
 router.use('/', require('./routes/create-case'));
 router.use('/', require('./routes/create-case-v2'));
-router.use('/', require('./routes/create-case-v21'));
 router.use('/', require('./routes/create-case-v3'));
 router.use('/', require('./routes/create-case-v4'));
 router.use('/', require('./routes/create-case-v5'));
-router.use('/', require('./routes/create-case-v6'));
 router.use('/', require('./routes/projects/back-office/manage'));
 router.use('/', require('./routes/reps'));
 router.use('/', require('./views/projects/front-office/gw2/archive/test-1/_routes'));

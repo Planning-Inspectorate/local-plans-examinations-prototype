@@ -2,7 +2,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% block pageTitle %}
-  Check your documents and send notification - {{ serviceName }}
+  Check your document and issue notification - {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -16,28 +16,20 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
-      <h1 class="govuk-heading-l">Check signed SLA and send notification</h1>
+      <h1 class="govuk-heading-l">Check signed SLA and issue notification</h1>
 
       {% for doc in uploadedDocuments %}
         <dl class="govuk-summary-list">
           <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">Name</dt>
-            <dd class="govuk-summary-list__value">
-              <a class="govuk-link" href="/projects/back-office/manage/documents/download/{{ doc.filename }}">{{ doc.originalname }}</a>
-            </dd>
+            <dt class="govuk-summary-list__key">Document {{ loop.index }}</dt>
+            <dd class="govuk-summary-list__value">{{ doc.originalname }}</dd>
             <dd class="govuk-summary-list__actions">
               <a class="govuk-link" href="/projects/back-office/manage/GW1/v2/gateway-1-signed-sla-upload?returnUrl={{ returnUrl }}">Change<span class="govuk-visually-hidden"> {{ doc.originalname }}</span></a>
             </dd>
           </div>
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">Received</dt>
-            <dd class="govuk-summary-list__value">{{ slaReceivedDatePreview }}</dd>
-            <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="{{ slaReceivedDateChangeUrl }}">Change<span class="govuk-visually-hidden"> {{ slaReceivedDatePreview }}</span></a>
-            </dd>
-          </div>
         </dl>
       {% endfor %}
+
       <details class="govuk-details" data-cy="preview-notification-to-lpa">
         <summary class="govuk-details__summary">
           <span class="govuk-details__summary-text">Preview notification to LPA</span>
@@ -55,8 +47,7 @@
 
       <form method="post" action="/projects/back-office/manage/GW1/v2/gateway-1-signed-sla-check">
         <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
-
-        {{ govukButton({ text: "Confirm and send" }) }}
+        {{ govukButton({ text: "Confirm and issue notification" }) }}
       </form>
     </div>
   </div>

@@ -1,0 +1,67 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+  Purchase order numbers – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: returnUrl or "/projects/back-office/manage/overview/v2/index"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      {% include "includes/back-office/plan-reference-caption.njk" %}
+      <h1 class="govuk-heading-l">Purchase order numbers</h1>
+      {{ govukButton({
+        text: "Add purchase order number",
+        href: "/projects/back-office/manage/overview/v2/pon?returnUrl=/projects/back-office/manage/overview/v2/purchase-orders"
+      }) }}
+      {% for purchaseOrder in purchaseOrders %}
+        <div class="govuk-summary-card">
+          <div class="govuk-summary-card__title-wrapper">
+            <h2 class="govuk-summary-card__title">{{ purchaseOrder.ponNumber }}</h2>
+            <ul class="govuk-summary-card__actions">
+              <li class="govuk-summary-card__action">
+                <a class="govuk-link" href="/projects/back-office/manage/overview/v2/purchase-orders/remove?index={{ purchaseOrder.index }}&amp;returnUrl=/projects/back-office/manage/overview/v2/purchase-orders">Remove</a>
+              </li>
+              {% if purchaseOrder.source != 'front-office' %}
+                <li class="govuk-summary-card__action">
+                  <a class="govuk-link" href="/projects/back-office/manage/overview/v2/pon?edit={{ purchaseOrder.index }}">Change</a>
+                </li>
+              {% endif %}
+            </ul>
+          </div>
+          <div class="govuk-summary-card__content">
+            <dl class="govuk-summary-list">
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Stage</dt>
+                <dd class="govuk-summary-list__value">{{ purchaseOrder.stageLabel or purchaseOrder.stage }}</dd>
+              </div>
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Source</dt>
+                <dd class="govuk-summary-list__value">{{ 'Front office' if purchaseOrder.source == 'front-office' else 'Back office' }}</dd>
+              </div>
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Date</dt>
+                <dd class="govuk-summary-list__value">{{ purchaseOrder.dateAdded or 'Date not recorded' }}</dd>
+              </div>
+              <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Note</dt>
+                <dd class="govuk-summary-list__value">{{ purchaseOrder.notes or 'No note added' }}</dd>
+                <dd class="govuk-summary-list__actions">
+                  <a class="govuk-link" href="/projects/back-office/manage/overview/v2/pon-note?source={{ purchaseOrder.source }}&amp;index={{ purchaseOrder.index }}&amp;returnUrl=/projects/back-office/manage/overview/v2/purchase-orders">{{ 'Change note' if purchaseOrder.notes else 'Add note' }}</a>
+                </dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      {% else %}
+        <p class="govuk-body">No purchase orders added yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

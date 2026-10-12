@@ -4,6 +4,7 @@
 {% block beforeContent %}{{ govukBackLink({ text: "Back", href: returnUrl or (basePath + '/inspectors/check-answers') }) }}{% endblock %}
 {% block content %}
 <div class="govuk-grid-row"><div class="govuk-grid-column-two-thirds">
+  {% include "includes/back-office/examination-reference-caption.njk" %}
   <h1 class="govuk-heading-l">When was the inspector appointed?</h1>
   <form method="post" action="{{ basePath }}/inspector/{{ index }}/appointed-date">
     <input type="hidden" name="returnUrl" value="{{ returnUrl }}">

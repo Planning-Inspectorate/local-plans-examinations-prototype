@@ -48,7 +48,7 @@ All cases – {{ serviceName }}
     </div>
     <div class="govuk-grid-column-one-half">
         <div class="bo-panel">
-            <form autocomplete="off" class="form" action="/projects/back-office/create-case/v2/0-case-officer-name"
+            <form autocomplete="off" class="form" action="/projects/back-office/create-case/v4/0-case-officer-name"
               method="get">
                 <button type="submit" class="reset govuk-button govuk-button--secondary govuk-!-margin-bottom-0 govuk-!-margin-top-0"
                     data-module="govuk-button">
@@ -75,9 +75,9 @@ All cases – {{ serviceName }}
       <caption class="govuk-visually-hidden">All cases</caption>
       <thead class="govuk-table__head">
         <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header">Reference</th>
-          <th scope="col" class="govuk-table__header">Title</th>
-          <th scope="col" class="govuk-table__header">Type</th>
+          <th scope="col" class="govuk-table__header">Case reference</th>
+          <th scope="col" class="govuk-table__header">Plan title</th>
+          <th scope="col" class="govuk-table__header">Plan type</th>
           <th scope="col" class="govuk-table__header">Case officer</th>
           <th scope="col" class="govuk-table__header">Status</th>
         </tr>
@@ -92,7 +92,7 @@ All cases – {{ serviceName }}
             </a>
           </td>
           <td class="govuk-table__cell">{{ case.planTitle or '-' }}</td>
-          <td class="govuk-table__cell">{% if case.planType == 'local-plan' %}Local plan{% else %}{{ case.planType or '-' }}{% endif %}</td>
+          <td class="govuk-table__cell">{% if case.planType == 'local-plan' %}Local Plan{% else %}{{ case.planType or '-' }}{% endif %}</td>
           <td class="govuk-table__cell">{{ case.caseOfficer or '-' }}</td>
           <td class="govuk-table__cell">
             <strong class="govuk-tag {{ (planStatusClassMap and planStatusClassMap[case.status]) or 'govuk-tag--turquoise' }}">{{ case.status }}</strong>
@@ -107,5 +107,28 @@ All cases – {{ serviceName }}
 {% endblock %}
 
 {% block footer %}
+  {% set isSideJourney = journey == 'side' %}
+  {% if showEmpty %}
+    {% set emptyStateHref = '/projects/back-office/create-case/v4/index' %}
+    {% set emptyStateText = 'See all plans' %}
+  {% else %}
+    {% set emptyStateHref = '/projects/back-office/create-case/v4/index?showEmpty=true' %}
+    {% set emptyStateText = 'View empty state' %}
+  {% endif %}
+
+  {% if isSideJourney %}
+    {% set journeyHref = '/projects/back-office/create-case/v4/index' %}
+    {% set journeyText = 'Use default journey' %}
+  {% else %}
+    {% set journeyHref = '/projects/back-office/create-case/v4/index?journey=side' %}
+    {% set journeyText = 'Use side journey' %}
+  {% endif %}
+
+  {% set footerLinks = [
+    { href: '/projects/back-office/create-case/v4/clear-data', text: 'Clear data' },
+    { href: emptyStateHref, text: emptyStateText },
+    { href: journeyHref, text: journeyText }
+  ] %}
+
   {% include "includes/footer.njk" %}
 {% endblock %}

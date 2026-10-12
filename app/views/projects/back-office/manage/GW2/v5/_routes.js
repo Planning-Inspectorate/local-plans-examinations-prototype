@@ -1100,6 +1100,7 @@ footerLinks: [
 
 router.use((req, res, next) => {
   res.locals.basePath = req.baseUrl || '';
+  res.locals.caseRef = req.session.data?.currentCaseRef || req.session.currentCaseRef || '';
   next();
 });
 

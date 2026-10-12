@@ -1,0 +1,40 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+  Remove purchase order – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: returnUrl or "/projects/back-office/manage/overview/v2/index"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% include "includes/back-office/plan-reference-caption.njk" %}
+      <h1 class="govuk-heading-l">Remove purchase order number?</h1>
+      <p class="govuk-body">This will remove purchase order {{ purchaseOrder.ponNumber }} from this case.</p>
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">PO number</dt>
+          <dd class="govuk-summary-list__value">{{ purchaseOrder.ponNumber }}</dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Stage</dt>
+          <dd class="govuk-summary-list__value">{{ purchaseOrder.stageLabel or purchaseOrder.stage }}</dd>
+        </div>
+      </dl>
+      <form method="post" action="/projects/back-office/manage/overview/v2/purchase-orders/remove">
+        <input type="hidden" name="purchaseOrderIndex" value="{{ purchaseOrderIndex }}">
+        <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
+        <div class="govuk-button-group">
+          <button class="govuk-button govuk-button--warning" type="submit">Remove purchase order</button>
+          <a class="govuk-link" href="{{ returnUrl or '/projects/back-office/manage/overview/v2/index' }}">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

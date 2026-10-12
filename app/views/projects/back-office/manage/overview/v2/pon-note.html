@@ -1,0 +1,40 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+	Notes – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+	{{ govukBackLink({
+		text: "Back",
+		href: returnUrl or "javascript:window.history.back()"
+	}) }}
+{% endblock %}
+
+{% block content %}
+	<div class="govuk-grid-row">
+		<div class="govuk-grid-column-two-thirds">
+			{% include "includes/back-office/plan-reference-caption.njk" %}
+			<h1 class="govuk-heading-l">Notes</h1>
+			<form class="form" method="post" action="/projects/back-office/manage/overview/v2/pon-note">
+				<input type="hidden" name="isEdit" value="{{ isEdit }}">
+				<input type="hidden" name="returnUrl" value="{{ returnUrl }}">
+				{% if purchaseOrderNoteMode %}
+					<input type="hidden" name="source" value="{{ noteSource }}">
+					<input type="hidden" name="purchaseOrderIndex" value="{{ purchaseOrderIndex }}">
+				{% endif %}
+				{{ govukTextarea({
+					name: "notes",
+					label: {
+						text: "Add any notes relating to the purchase order number"
+					},
+					value: notes or ""
+				}) }}
+			<div class="govuk-button-group">
+				<button class="govuk-button" data-module="govuk-button" type="submit">{% if purchaseOrderNoteMode %}{{ 'Change note' if isEdit else 'Add note' }}{% else %}{{ 'Save changes' if isEdit else 'Add purchase order number' }}{% endif %}</button>
+				<a href="{{ returnUrl or '/projects/back-office/manage/overview/v2/pon-note.html' }}" class="govuk-link">Cancel</a>
+			</div>
+			</form>
+		</div>
+	</div>
+{% endblock %}

@@ -11,6 +11,7 @@
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+      {% include "includes/back-office/plan-reference-caption.njk" %}
       <h1 class="govuk-heading-l">Remove Gateway 2 assessor?</h1>
       {% if contact %}
         {% set contactLabel = contact.fullName or contact.name or ((contact.firstName ~ ' ' ~ contact.lastName) | trim) or 'Not provided' %}

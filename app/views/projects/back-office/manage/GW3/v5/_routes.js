@@ -4,6 +4,11 @@ const { DateTime } = require('luxon');
 
 router.use('/', require('./_set-status'));
 
+router.use((req, res, next) => {
+  res.locals.caseRef = req.session.data?.currentCaseRef || req.session.currentCaseRef || '';
+  next();
+});
+
 const DOCUMENTS_SESSION_KEY = 'gw3v4Documents';
 const REVIEW_DRAFT_SESSION_KEY = 'gw3v4DocumentReviewDraft';
 

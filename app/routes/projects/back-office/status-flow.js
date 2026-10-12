@@ -1,68 +1,39 @@
 const { getPlanStatusClasses } = require('./plan-status-classes');
 
 const FLOW_STATUSES = [
-  'Awaiting SLA',
-  'GW2 pending',
-  'GW2 received',
-  'GW2 workshop confirmed',
-  'GW2 report',
-  'GW3 pending',
-  'GW3 received',
-  'Submission pending',
-  'Submission received',
-  'Exam in progress',
-  'QA',
-  'Fact check',
-  'Report issued',
-  'Plan adopted',
-  'Completed',
-  'Paused'
+  'Awaiting signed SLA',
+  'Awaiting Gateway 2 submission',
+  'Gateway 2 submission received',
+  'Gateway 2 workshop confirmed',
+  'Gateway 2 report in progress',
+  'Awaiting Gateway 3 submission'
 ];
 
 const BASELINE_STATUSES = new Set([
   '',
-  'Awaiting SLA',
-  'GW2 pending',
-  'GW2 received',
-  'Ready for GW2',
-  'Awaiting GW3 submission',
-  'GW2 awaiting workshop',
-  'GW2 documents submitted',
-  'GW3 received',
-  'Submission pending',
-  'Submission received',
-  'Exam pending',
-  'Hearing pending',
-  'Exam in progress',
-  'QA',
-  'Fact check',
-  'Report issued',
-  'Plan adopted',
-  'Completed',
-  'Paused'
+  '-',
+  'Submitted',
+  'Draft',
+  'In progress',
+  'Created',
+  'Awaiting Gateway 2',
+  'Gateway 2 With LPA',
+  'Gateway 2 Validation',
+  'Ready for Gateway 2',
+  'Ready for Gateway 3',
+  'Gateway 2 awaiting workshop',
+  'Gateway 2 documents submitted'
 ]);
 
 const STATUS_EVENT_TARGET = {
-  SLA_PENDING: 'Awaiting SLA',
-  SLA_CONFIRMED: 'GW2 pending',
-  GW2_SUBMISSION_RECEIVED: 'GW2 pending',
-  WORKSHOP_CONFIRMED: 'GW2 workshop confirmed',
-  WORKSHOP_COMPLETED: 'GW2 report',
-  GW2_REPORT_ISSUED: 'GW3 pending',
-  FLOW_RESET: 'Awaiting SLA'
+  SLA_PENDING: 'Awaiting signed SLA',
+  SLA_CONFIRMED: 'Awaiting Gateway 2 submission',
+  GW2_SUBMISSION_RECEIVED: 'Gateway 2 submission received',
+  WORKSHOP_CONFIRMED: 'Gateway 2 workshop confirmed',
+  WORKSHOP_COMPLETED: 'Gateway 2 report in progress',
+  GW2_REPORT_ISSUED: 'Awaiting Gateway 3 submission',
+  FLOW_RESET: 'Awaiting signed SLA'
 };
-
-function normalizeStatusLabel(statusText) {
-  if (!statusText) return '';
-
-  const normalized = String(statusText).trim();
-  if (normalized === 'Awaiting GW3') return 'GW3 pending';
-  if (normalized === 'Awaiting GW3 submission') return 'GW2 pending';
-  if (normalized === 'Examination' || normalized === 'Exam pending') return 'Submission pending';
-  if (normalized === 'Hearing pending') return 'Submission received';
-
-  return normalized;
-}
 
 function ensureSessionData(req) {
   if (!req.session.data) req.session.data = {};
@@ -97,10 +68,10 @@ function setStatus(req, statusText, options = {}) {
     res
   } = options;
 
-  const targetStatus = normalizeStatusLabel(statusText);
+  const targetStatus = String(statusText || '').trim();
   if (!targetStatus) return false;
 
-  const fromStatus = normalizeStatusLabel(req.session.planStatus || '');
+  const fromStatus = String(req.session.planStatus || '').trim();
   const targetIndex = FLOW_STATUSES.indexOf(targetStatus);
   const currentIndex = FLOW_STATUSES.indexOf(fromStatus);
 

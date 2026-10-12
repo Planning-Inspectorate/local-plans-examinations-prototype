@@ -2,6 +2,11 @@ const govukPrototypeKit = require('govuk-prototype-kit');
 const router = govukPrototypeKit.requests.setupRouter();
 const { applyStatusEvent } = require('../../../../../../routes/projects/back-office/status-flow');
 
+router.use((req, res, next) => {
+	res.locals.caseRef = req.session.data?.currentCaseRef || req.session.currentCaseRef || '';
+	next();
+});
+
 function formatDateForDisplay(dateString) {
 	if (!dateString || dateString === '-') return '-';
 

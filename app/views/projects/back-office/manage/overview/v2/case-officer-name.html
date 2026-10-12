@@ -14,6 +14,7 @@
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    {% include "includes/back-office/plan-reference-caption.njk" %}
     <form class="form" action="/projects/back-office/manage/overview/v1/case-officer-name" method="post">
       <input type="hidden" name="isEdit" value="{{ isEdit }}">
       <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
@@ -32,7 +33,7 @@
       <div class="govuk-button-group">
         {% if isEdit %}
           <button type="submit" class="govuk-button" data-module="govuk-button">Save and continue</button>
-          <a href="/projects/back-office/manage/index.html" class="govuk-link">Cancel</a>
+          <a href="{{ returnUrl or '/projects/back-office/manage/overview/v2/index' }}" class="govuk-link">Cancel</a>
         {% else %}
           <button type="submit" class="govuk-button" data-module="govuk-button">Continue</button>
         {% endif %}

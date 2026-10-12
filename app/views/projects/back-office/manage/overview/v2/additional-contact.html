@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
- Additional contact details – {{ serviceName }}
+ Add a contact – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -14,8 +14,9 @@
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+      {% include "includes/back-office/plan-reference-caption.njk" %}
       <h1 class="govuk-heading-l">
-        Additional contact details
+        Add a contact
       </h1>
 
       <form method="post" action="/projects/back-office/manage/overview/v1/additional-contact">
@@ -57,8 +58,8 @@
         <button type="submit" class="govuk-button" data-module="govuk-button">Save and continue</button>
         {% endif %}
           
-          {% if editIndex !== '' or fromCheckAnswers %}
-          <a href="/projects/back-office/manage/index.html" class="govuk-link">Cancel</a>
+          {% if editIndex != '' or fromCheckAnswers %}
+          <a href="{{ returnUrl or '/projects/back-office/manage/overview/v2/index' }}" class="govuk-link">Cancel</a>
           {% endif %}
         </div>
       </form>

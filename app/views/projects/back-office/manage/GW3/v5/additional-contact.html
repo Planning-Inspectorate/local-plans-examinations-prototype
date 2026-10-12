@@ -16,6 +16,7 @@
         <input type="hidden" name="from" value="{{ from }}">
         <fieldset class="govuk-fieldset">
           <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+            {% include "includes/back-office/plan-reference-caption.njk" %}
             <h1 class="govuk-fieldset__heading">Who is the gateway 3 assessor?</h1>
           </legend>
           <div class="govuk-form-group {% if error %}govuk-form-group--error{% endif %}">

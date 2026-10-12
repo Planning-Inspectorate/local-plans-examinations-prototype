@@ -15,6 +15,7 @@
 {% block content %}
 	<div class="govuk-grid-row">
 		<div class="govuk-grid-column-two-thirds">
+			{% include "includes/back-office/plan-reference-caption.njk" %}
 			<h1 class="govuk-heading-l">What is the plan band?</h1>
 			<form class="form" method="post" action="/projects/back-office/manage/overview/v1/plan-band">
 				<input type="hidden" name="isEdit" value="{{ isEdit }}">
@@ -41,7 +42,7 @@
 				}) }}
 			<div class="govuk-button-group">
 				<button class="govuk-button" data-module="govuk-button" type="submit">Save and continue</button>
-				<a href="{{ returnUrl or '/projects/back-office/manage/overview/v1/plan-band.html' }}" class="govuk-link">Cancel</a>
+				<a href="{{ returnUrl or '/projects/back-office/manage/overview/v2/index' }}" class="govuk-link">Cancel</a>
 			</div>
 			</form>
 		</div>

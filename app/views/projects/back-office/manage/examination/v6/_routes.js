@@ -165,6 +165,8 @@ function ensureHearings(session) {
 
 router.use((req, res, next) => {
 	res.locals.basePath = req.baseUrl || '';
+	res.locals.caseRef = req.session.data?.currentCaseRef || req.session.currentCaseRef || '';
+	res.locals.showExaminationReferenceCaption = true;
 	next();
 });
 
@@ -212,6 +214,7 @@ router.get('/examination', (req, res) => {
 
 	res.render('projects/back-office/manage/examination/v6/examination', {
 		caseRef: req.session.data?.currentCaseRef || req.session.currentCaseRef || '',
+		showExaminationReferenceCaption: false,
 		planTitle: req.session.data?.planTitle || req.session.planTitle || '',
 		examinationPoContact: getExaminationProgrammeOfficer(req.session),
 		examinationInspectors,

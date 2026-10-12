@@ -14,7 +14,8 @@
 {% block content %}
 	<div class="govuk-grid-row">
 		<div class="govuk-grid-column-two-thirds">
-			<h1 class="govuk-heading-l">When was the plan confirmed as sound or unsound?</h1>
+			{% include "includes/back-office/examination-reference-caption.njk" %}
+			<h1 class="govuk-heading-l">When was the outcome decided?</h1>
 			<form class="form" method="post" action="{{ basePath }}/sound-unsound-date">
 				<input type="hidden" name="isEdit" value="{{ isEdit }}">
 				<input type="hidden" name="returnUrl" value="{{ returnUrl }}">

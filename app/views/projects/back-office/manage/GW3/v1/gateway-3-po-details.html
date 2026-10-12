@@ -15,6 +15,9 @@
 {% block content %}
 	<div class="govuk-grid-row">
 		<div class="govuk-grid-column-two-thirds">
+      {% if showExaminationReferenceCaption %}
+        {% include "includes/back-office/examination-reference-caption.njk" %}
+      {% endif %}
 			<h1 class="govuk-heading-l">Programme officer details</h1>
       <form class="form" method="post" action="{{ formAction or '/projects/back-office/manage/GW3/v1/gateway-3-po-details' }}">
 				<input type="hidden" name="returnUrl" value="{{ returnUrl }}">

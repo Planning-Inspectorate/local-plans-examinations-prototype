@@ -30,6 +30,7 @@
 {{ govukInput({
   label: {
     text: "What is the plan title?" if not isEdit else "What is the plan title?",
+    isPageHeading: true,
     classes: "govuk-label--l"
   },
   errorMessage: { text: error } if error else null,

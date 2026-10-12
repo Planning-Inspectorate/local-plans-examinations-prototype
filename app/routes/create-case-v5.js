@@ -123,7 +123,7 @@ router.post('/projects/back-office/create-case/v5/LPA-region', (req, res) => {
   if (isEdit) {
     return res.redirect('/projects/back-office/create-case/v5/check-answers');
   }
-  res.redirect('/projects/back-office/create-case/v5/check-lpa');
+  res.redirect('/projects/back-office/create-case/v5/add-additional-lpa');
 });
 
 // Start page
@@ -345,7 +345,6 @@ router.get('/projects/back-office/create-case/v5/load-case', (req, res) => {
   delete req.session.gateway2ReportPublishedDate;
   delete req.session.gateway3AssessorName;
   delete req.session.gateway3PoContact;
-  delete req.session.examinationPoContact;
   delete req.session.examinationWebsite;
   delete req.session.examiningInspector1Name;
   delete req.session.examiningInspector2Name;
@@ -579,58 +578,30 @@ router.post('/projects/back-office/create-case/v5/3-select-LPA', (req, res) => {
   if (req.body.isEdit === 'true') {
     return res.redirect('/projects/back-office/create-case/v5/check-answers');
   }
-  res.redirect('/projects/back-office/create-case/v5/check-lpa');
+  res.redirect('/projects/back-office/create-case/v5/add-additional-lpa');
 });
 
-// Check LPA list and decide whether to add another
-router.get('/projects/back-office/create-case/v5/check-lpa', (req, res) => {
-  res.render('projects/back-office/create-case/v5/check-lpa', {
-    lpas: req.session.lpas || [],
-    addAnotherLPA: req.session.addAnotherLPA || ''
+// Add additional LPA page
+router.get('/projects/back-office/create-case/v5/add-additional-lpa', (req, res) => {
+  res.render('projects/back-office/create-case/v5/add-additional-lpa', {
+    hasAdditionalLPA: req.session.hasAdditionalLPA
   });
 });
 
-router.post('/projects/back-office/create-case/v5/check-lpa', (req, res) => {
-  const addAnotherLPA = req.body.addAnotherLPA;
-
-  if (!addAnotherLPA) {
-    return res.render('projects/back-office/create-case/v5/check-lpa', {
-      lpas: req.session.lpas || [],
-      addAnotherLPA: '',
-      error: 'Select yes if another Local Planning Authority is involved in this plan'
-    });
-  }
-
-  req.session.addAnotherLPA = addAnotherLPA;
-  if (addAnotherLPA === 'yes') {
-    return res.redirect('/projects/back-office/create-case/v5/additional-LPA');
-  }
-
-  return res.redirect('/projects/back-office/create-case/v5/main-contact');
-});
-
-// Backward-compatible alias for previous step URL
-router.get('/projects/back-office/create-case/v5/add-additional-lpa', (req, res) => {
-  res.redirect('/projects/back-office/create-case/v5/check-lpa');
-});
-
 router.post('/projects/back-office/create-case/v5/add-additional-lpa', (req, res) => {
-  const addAnotherLPA = req.body.hasAdditionalLPA;
-
-  if (!addAnotherLPA) {
-    return res.render('projects/back-office/create-case/v5/check-lpa', {
-      lpas: req.session.lpas || [],
-      addAnotherLPA: '',
+  if (!req.body.hasAdditionalLPA) {
+    return res.render('projects/back-office/create-case/v5/add-additional-lpa', {
+      hasAdditionalLPA: '',
       error: 'Select yes if another Local Planning Authority is involved in this plan'
     });
   }
 
-  req.session.addAnotherLPA = addAnotherLPA;
-  if (addAnotherLPA === 'yes') {
-    return res.redirect('/projects/back-office/create-case/v5/additional-LPA');
+  req.session.hasAdditionalLPA = req.body.hasAdditionalLPA;
+  if (req.body.hasAdditionalLPA === 'yes') {
+    res.redirect('/projects/back-office/create-case/v5/additional-LPA');
+  } else {
+    res.redirect('/projects/back-office/create-case/v5/main-contact');
   }
-
-  return res.redirect('/projects/back-office/create-case/v5/main-contact');
 });
 
 // Additional LPA page
@@ -668,7 +639,7 @@ router.post('/projects/back-office/create-case/v5/additional-LPA', (req, res) =>
 
   if (!req.session.lpas) req.session.lpas = [];
   req.session.lpas.push(req.body.lpa); // Add new LPA to array
-  res.redirect('/projects/back-office/create-case/v5/check-lpa');
+  res.redirect('/projects/back-office/create-case/v5/add-additional-lpa');
 });
 
 const buildContactOptions = (mainContact, contacts = [], lpas = []) => {
@@ -954,7 +925,12 @@ router.post('/projects/back-office/create-case/v5/check-contact-details', (req, 
   const addAnotherContact = req.body.addAnotherContact;
 
   if (!addAnotherContact) {
-    return res.redirect('/projects/back-office/create-case/v5/enter-key-dates');
+    return res.render('projects/back-office/create-case/v5/check-contact-details', {
+      mainContact: req.session.mainContact,
+      contacts: req.session.contacts || [],
+      addAnotherContact: '',
+      error: 'Select yes if you need to add another contact'
+    });
   }
 
   req.session.addAnotherContact = addAnotherContact;
@@ -973,7 +949,11 @@ router.get('/projects/back-office/create-case/v5/add-another-contact', (req, res
 
 router.post('/projects/back-office/create-case/v5/add-another-contact', (req, res) => {
   if (!req.body.addAnotherContact) {
-    return res.redirect('/projects/back-office/create-case/v5/check-contact-details');
+    return res.render('projects/back-office/create-case/v5/add-another-contact', {
+      addAnotherContact: '',
+      contacts: req.session.contacts || [],
+      error: 'Select yes if you want to add another contact'
+    });
   }
 
   req.session.addAnotherContact = req.body.addAnotherContact;
@@ -1019,7 +999,7 @@ router.post('/projects/back-office/create-case/v5/additional-contact', (req, res
     ? '/projects/back-office/create-case/v5/check-contact-details'
     : fromCheckAnswers
       ? '/projects/back-office/create-case/v5/check-answers'
-      : '/projects/back-office/create-case/v5/check-contact-details';
+      : '/projects/back-office/create-case/v5/add-another-contact';
 
   if (!req.body.fullName || !req.body.email) {
     return res.render('projects/back-office/create-case/v5/additional-contact', {

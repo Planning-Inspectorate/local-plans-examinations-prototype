@@ -30,6 +30,56 @@ function convertToSlashFormat(dateStr) {
   return '';
 }
 
+// Format dates for check-answers as "D Month YYYY".
+// Only show a value when at least month and year are present.
+function formatDateForCheckAnswers(dateStr) {
+  if (!dateStr || dateStr === '-') return '';
+
+  const monthNames = {
+    '1': 'January', '01': 'January',
+    '2': 'February', '02': 'February',
+    '3': 'March', '03': 'March',
+    '4': 'April', '04': 'April',
+    '5': 'May', '05': 'May',
+    '6': 'June', '06': 'June',
+    '7': 'July', '07': 'July',
+    '8': 'August', '08': 'August',
+    '9': 'September', '09': 'September',
+    '10': 'October',
+    '11': 'November',
+    '12': 'December'
+  };
+
+  // Handle slash format: D/M/YYYY or partials.
+  if (dateStr.includes('/')) {
+    const parts = dateStr.split('/');
+    const day = (parts[0] || '').trim();
+    const monthRaw = (parts[1] || '').trim();
+    const year = (parts[2] || '').trim();
+
+    // Requirement: only show if month and year exist.
+    if (!monthRaw || !year) return '';
+
+    const month = monthNames[monthRaw];
+    if (!month) return '';
+
+    if (!day) return `${month} ${year}`;
+    const dayNum = parseInt(day, 10);
+    return Number.isNaN(dayNum) ? '' : `${dayNum} ${month} ${year}`;
+  }
+
+  // Handle already formatted values like "17 May 2026".
+  const parts = dateStr.trim().split(/\s+/);
+  if (parts.length === 3) {
+    const dayNum = parseInt(parts[0], 10);
+    const month = parts[1];
+    const year = parts[2];
+    return Number.isNaN(dayNum) ? '' : `${dayNum} ${month} ${year}`;
+  }
+
+  return '';
+}
+
 // ...existing code...
 
 const REGION_OPTIONS = [
@@ -64,12 +114,16 @@ router.post('/projects/back-office/create-case/v2/LPA-region', (req, res) => {
   if (req.body.action === 'cancel') {
     return res.redirect('/projects/back-office/create-case/v2/check-answers');
   }
+  const isEdit = req.body.isEdit === 'true';
   const index = req.body.index ? parseInt(req.body.index, 10) : 0;
   const lpas = req.session.lpas || [];
   const lpa = lpas[index];
   if (!req.session.lpaRegions) req.session.lpaRegions = {};
   req.session.lpaRegions[lpa] = req.body.region;
-  res.redirect('/projects/back-office/create-case/v2/check-answers');
+  if (isEdit) {
+    return res.redirect('/projects/back-office/create-case/v2/check-answers');
+  }
+  res.redirect('/projects/back-office/create-case/v2/add-additional-lpa');
 });
 
 // Start page
@@ -243,7 +297,7 @@ router.get('/projects/back-office/create-case/v2/index', (req, res) => {
         noticeOfIntentionDate: '22 January 2026',
         gateway1Date: '8 March 2026',
         gateway2Date: '12 May 2026',
-        gateway3Date: '2 August 2026',
+        gateway3Date: '2 June 2026',
         submissionDate: '7 August 2026',
         statusStrategy: 'fixed',
         status: 'Gateway 2 Validation',
@@ -291,7 +345,6 @@ router.get('/projects/back-office/create-case/v2/load-case', (req, res) => {
   delete req.session.gateway2ReportPublishedDate;
   delete req.session.gateway3AssessorName;
   delete req.session.gateway3PoContact;
-  delete req.session.examinationPoContact;
   delete req.session.examinationWebsite;
   delete req.session.examiningInspector1Name;
   delete req.session.examiningInspector2Name;
@@ -343,7 +396,7 @@ router.get('/projects/back-office/create-case/v2/load-case', (req, res) => {
   req.session.gateway2EstimatedDate = caseToLoad.gateway2Date || '';
   req.session.gateway3EstimatedDate = caseToLoad.gateway3Date || '';
   req.session.submissionDate = caseToLoad.submissionDate || '';
-  req.session.planStatus = caseToLoad.status || 'Awaiting SLA';
+  req.session.planStatus = caseToLoad.status || 'Submitted';
   caseToLoad.status = req.session.planStatus;
   if (!req.session.data) req.session.data = {};
   req.session.data.planStatus = req.session.planStatus;
@@ -369,17 +422,25 @@ router.get('/projects/back-office/create-case/v2/load-case', (req, res) => {
 // Case officer
 router.get('/projects/back-office/create-case/v2/0-case-officer-name', (req, res) => {
   const isEdit = req.query.edit === 'true';
+  if (req.session && req.session.data) {
+    delete req.session.data.error;
+    delete req.session.data.caseOfficerError;
+    delete req.session.data.showCaseOfficerError;
+  }
   res.render('projects/back-office/create-case/v2/0-case-officer-name', {
     caseOfficer: req.session.caseOfficer,
     lpa: req.session.lpa,
-    isEdit: isEdit
+    isEdit: isEdit,
+    caseOfficerError: null,
+    showCaseOfficerError: false
   });
 });
 
 router.post('/projects/back-office/create-case/v2/0-case-officer-name', (req, res) => {
   if (!req.body.caseOfficer) {
     return res.render('projects/back-office/create-case/v2/0-case-officer-name', {
-      error: 'Select a case officer',
+      caseOfficerError: 'Please select a case officer',
+      showCaseOfficerError: true,
       caseOfficer: req.body.caseOfficer || req.session.caseOfficer,
       lpa: req.session.lpa,
       isEdit: req.body.isEdit === 'true'
@@ -408,7 +469,7 @@ router.get('/projects/back-office/create-case/v2/1-plan-title', (req, res) => {
 router.post('/projects/back-office/create-case/v2/1-plan-title', (req, res) => {
   if (!req.body['plan-title']) {
     return res.render('projects/back-office/create-case/v2/1-plan-title', {
-      error: 'Enter a plan title',
+      error: 'Please enter a plan title',
       planTitle: req.body['plan-title'] || req.session.planTitle,
       isEdit: req.body.isEdit === 'true'
     });
@@ -435,8 +496,9 @@ router.get('/projects/back-office/create-case/v2/2-plan-type', (req, res) => {
 router.post('/projects/back-office/create-case/v2/2-plan-type', (req, res) => {
   if (!req.body['plan-type']) {
     return res.render('projects/back-office/create-case/v2/2-plan-type', {
-      error: 'Select a plan type',
-      planType: req.session.planType
+      error: 'Please select a plan type',
+      planType: req.body['plan-type'] || req.session.planType,
+      isEdit: req.body.isEdit === 'true'
     });
   }
   const isEdit = req.body.isEdit === 'true';
@@ -475,8 +537,6 @@ router.get('/projects/back-office/create-case/v2/3-select-LPA', (req, res) => {
 });
 
 router.post('/projects/back-office/create-case/v2/3-select-LPA', (req, res) => {
-  const index = req.body.index ? parseInt(req.body.index, 10) : 0;
-
   if (!req.body.lpa) {
     const path = require('path');
     const fs = require('fs');
@@ -492,11 +552,12 @@ router.post('/projects/back-office/create-case/v2/3-select-LPA', (req, res) => {
       lpaList,
       selectedLPA: '',
       isEdit: req.body.isEdit === 'true',
-      index,
-      error: 'You need to select a planning authority'
+      index: req.body.index ? parseInt(req.body.index, 10) : 0,
+      error: 'Select the Local Planning Authority for this plan'
     });
   }
 
+  const index = req.body.index ? parseInt(req.body.index, 10) : 0;
   if (!req.session.lpas) req.session.lpas = [];
   req.session.lpas[index] = req.body.lpa;
 
@@ -528,6 +589,13 @@ router.get('/projects/back-office/create-case/v2/add-additional-lpa', (req, res)
 });
 
 router.post('/projects/back-office/create-case/v2/add-additional-lpa', (req, res) => {
+  if (!req.body.hasAdditionalLPA) {
+    return res.render('projects/back-office/create-case/v2/add-additional-lpa', {
+      hasAdditionalLPA: '',
+      error: 'Select yes if another Local Planning Authority is involved in this plan'
+    });
+  }
+
   req.session.hasAdditionalLPA = req.body.hasAdditionalLPA;
   if (req.body.hasAdditionalLPA === 'yes') {
     res.redirect('/projects/back-office/create-case/v2/additional-LPA');
@@ -551,10 +619,59 @@ router.get('/projects/back-office/create-case/v2/additional-LPA', (req, res) => 
 });
 
 router.post('/projects/back-office/create-case/v2/additional-LPA', (req, res) => {
+  if (!req.body.lpa) {
+    const path = require('path');
+    const fs = require('fs');
+    const lpaListPath = path.join(__dirname, '../data/lpa-list.json');
+    let lpaList = [];
+    try {
+      lpaList = JSON.parse(fs.readFileSync(lpaListPath, 'utf8'));
+    } catch (e) {
+      lpaList = [];
+    }
+
+    return res.render('projects/back-office/create-case/v2/additional-LPA', {
+      lpaList,
+      selectedLPA: '',
+      error: 'Select the additional Local Planning Authority for this plan'
+    });
+  }
+
   if (!req.session.lpas) req.session.lpas = [];
   req.session.lpas.push(req.body.lpa); // Add new LPA to array
   res.redirect('/projects/back-office/create-case/v2/add-additional-lpa');
 });
+
+const buildContactOptions = (mainContact, contacts = [], lpas = []) => {
+  const toLabel = (contact) => {
+    const name = `${contact?.firstName || ''} ${contact?.lastName || ''}`.trim();
+    return name || contact?.email || 'Contact';
+  };
+
+  const toHint = (contact) => {
+    return lpas.length > 1 ? (contact?.organisation || '') : '';
+  };
+
+  const options = [];
+
+  if (mainContact) {
+    options.push({
+      value: 'main',
+      text: toLabel(mainContact),
+      hint: toHint(mainContact)
+    });
+  }
+
+  contacts.forEach((contact, index) => {
+    options.push({
+      value: `contact-${index}`,
+      text: toLabel(contact),
+      hint: toHint(contact)
+    });
+  });
+
+  return options;
+};
 
 // Main contact page (single GET route, uses mainContact)
 router.get('/projects/back-office/create-case/v2/main-contact', (req, res) => {
@@ -562,12 +679,47 @@ router.get('/projects/back-office/create-case/v2/main-contact', (req, res) => {
   res.render('projects/back-office/create-case/v2/main-contact', {
     lpas: req.session.lpas || [],
     mainContact: req.session.mainContact,
-    isEdit: isEdit
+    isEdit: isEdit,
+    from: req.query.from || ''
   });
 });
 
 router.post('/projects/back-office/create-case/v2/main-contact', (req, res) => {
   const isEdit = req.body.isEdit === 'true';
+  const fromPage = req.body.from || req.query.from || 'check-answers';
+  const lpas = req.session.lpas || [];
+
+  if (!req.body.mainContactFirstName || !req.body.mainContactLastName || !req.body.mainContactEmail) {
+    return res.render('projects/back-office/create-case/v2/main-contact', {
+      lpas,
+      mainContact: {
+        firstName: req.body.mainContactFirstName || '',
+        lastName: req.body.mainContactLastName || '',
+        email: req.body.mainContactEmail || '',
+        phone: req.body.mainContactPhone || ''
+      },
+      selectedOrganisation: req.body.contactOrganisation || '',
+      isEdit,
+      from: fromPage,
+      error: 'Enter first name, last name and email address for the contact'
+    });
+  }
+
+  if (lpas.length > 1 && !req.body.contactOrganisation) {
+    return res.render('projects/back-office/create-case/v2/main-contact', {
+      lpas,
+      mainContact: {
+        firstName: req.body.mainContactFirstName || '',
+        lastName: req.body.mainContactLastName || '',
+        email: req.body.mainContactEmail || '',
+        phone: req.body.mainContactPhone || ''
+      },
+      selectedOrganisation: '',
+      isEdit,
+      from: fromPage,
+      error: 'Select the organisation for this contact'
+    });
+  }
   
   req.session.mainContact = {
     firstName: req.body.mainContactFirstName,
@@ -578,15 +730,59 @@ router.post('/projects/back-office/create-case/v2/main-contact', (req, res) => {
   };
   
   if (isEdit) {
-    const fromPage = req.query.from || 'check-answers';
     if (fromPage === 'check-contact-details') {
       res.redirect('/projects/back-office/create-case/v2/check-contact-details');
     } else {
       res.redirect('/projects/back-office/create-case/v2/check-answers');
     }
   } else {
-    res.redirect('/projects/back-office/create-case/v2/add-another-contact');
+    res.redirect('/projects/back-office/create-case/v2/check-contact-details');
   }
+});
+
+router.get('/projects/back-office/create-case/v2/change-main-contact', (req, res) => {
+  const contacts = req.session.contacts || [];
+  const from = req.query.from === 'check-answers' ? 'check-answers' : '';
+  if (!req.session.mainContact || contacts.length === 0) {
+    return res.redirect('/projects/back-office/create-case/v2/check-contact-details');
+  }
+
+  res.render('projects/back-office/create-case/v2/change-main-contact', {
+    contactOptions: buildContactOptions(req.session.mainContact, contacts, req.session.lpas || []),
+    selectedMainContact: 'main',
+    error: null,
+    from
+  });
+});
+
+router.post('/projects/back-office/create-case/v2/change-main-contact', (req, res) => {
+  const contacts = req.session.contacts || [];
+  const from = req.body.from === 'check-answers' ? 'check-answers' : '';
+  if (!req.session.mainContact || contacts.length === 0) {
+    return res.redirect('/projects/back-office/create-case/v2/check-contact-details');
+  }
+
+  const selectedMainContact = req.body.mainContactSelection;
+
+  if (!selectedMainContact) {
+    return res.render('projects/back-office/create-case/v2/change-main-contact', {
+      contactOptions: buildContactOptions(req.session.mainContact, contacts, req.session.lpas || []),
+      selectedMainContact: '',
+      error: 'Select who should be the main contact for this case',
+      from
+    });
+  }
+
+  if (selectedMainContact !== 'main') {
+    const selectedIndex = Number(selectedMainContact.replace('contact-', ''));
+    if (Number.isInteger(selectedIndex) && contacts[selectedIndex]) {
+      const previousMainContact = req.session.mainContact;
+      req.session.mainContact = contacts[selectedIndex];
+      req.session.contacts[selectedIndex] = previousMainContact;
+    }
+  }
+
+  res.redirect('/projects/back-office/create-case/v2/check-contact-details');
 });
 
 // Remove main contact
@@ -620,6 +816,14 @@ router.get('/projects/back-office/create-case/v2/add-another-contact', (req, res
 });
 
 router.post('/projects/back-office/create-case/v2/add-another-contact', (req, res) => {
+  if (!req.body.addAnotherContact) {
+    return res.render('projects/back-office/create-case/v2/add-another-contact', {
+      addAnotherContact: '',
+      contacts: req.session.contacts || [],
+      error: 'Select yes if you want to add another contact'
+    });
+  }
+
   req.session.addAnotherContact = req.body.addAnotherContact;
   if (req.body.addAnotherContact === 'yes') {
     res.redirect('/projects/back-office/create-case/v2/additional-contact');
@@ -661,6 +865,38 @@ router.post('/projects/back-office/create-case/v2/additional-contact', (req, res
   if (!req.session.contacts) req.session.contacts = [];
   const fromCheckAnswers = req.body.fromCheckAnswers === 'true';
   const fromCheckContactDetails = req.query.from === 'check-contact-details' || req.body.from === 'check-contact-details';
+
+  if (!req.body.firstName || !req.body.lastName || !req.body.email) {
+    return res.render('projects/back-office/create-case/v2/additional-contact', {
+      lpas: req.session.lpas || [],
+      contact: {
+        firstName: req.body.firstName || '',
+        lastName: req.body.lastName || '',
+        email: req.body.email || '',
+        phone: req.body.phone || '',
+        organisation: req.body.contactOrganisation || ''
+      },
+      editIndex: req.body.editIndex !== undefined ? req.body.editIndex : '',
+      fromCheckAnswers,
+      error: 'Enter first name, last name and email address for the additional contact'
+    });
+  }
+
+  if ((req.session.lpas || []).length > 1 && !req.body.contactOrganisation) {
+    return res.render('projects/back-office/create-case/v2/additional-contact', {
+      lpas: req.session.lpas || [],
+      contact: {
+        firstName: req.body.firstName || '',
+        lastName: req.body.lastName || '',
+        email: req.body.email || '',
+        phone: req.body.phone || '',
+        organisation: ''
+      },
+      editIndex: req.body.editIndex !== undefined ? req.body.editIndex : '',
+      fromCheckAnswers,
+      error: 'Select the organisation for this contact'
+    });
+  }
   
   if (req.body.editIndex !== undefined && req.body.editIndex !== '') {
     // Editing an existing contact
@@ -762,19 +998,66 @@ router.get('/projects/back-office/create-case/v2/enter-key-dates', (req, res) =>
 
 router.post('/projects/back-office/create-case/v2/enter-key-dates', (req, res) => {
   const isEdit = req.body.isEdit === 'true';
-  // Helper to format date as D MMMM YYYY (GOV.UK standard)
-  const formatDate = (day, month, year) => {
-    if (!day || !month || !year) return '';
-    const months = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    const monthName = months[parseInt(month, 10)] || month;
-    return `${parseInt(day, 10)} ${monthName} ${year}`;
+  const readDateParts = (prefix) => {
+    const day = (req.body[`${prefix}-day`] || '').trim();
+    const month = (req.body[`${prefix}-month`] || '').trim();
+    const year = (req.body[`${prefix}-year`] || '').trim();
+    const hasAnyValue = Boolean(day || month || year);
+
+    return {
+      day,
+      month,
+      year,
+      hasAnyValue,
+      value: hasAnyValue ? `${day}/${month}/${year}` : ''
+    };
   };
-  
-  req.session.noticeOfIntentionDate = formatDate(req.body['notice-of-intention-date-day'], req.body['notice-of-intention-date-month'], req.body['notice-of-intention-date-year']);
-  req.session.gateway1Date = formatDate(req.body['gateway-1-date-day'], req.body['gateway-1-date-month'], req.body['gateway-1-date-year']);
-  req.session.gateway2Date = formatDate(req.body['gateway-2-date-day'], req.body['gateway-2-date-month'], req.body['gateway-2-date-year']);
-  req.session.gateway3Date = formatDate(req.body['gateway-3-date-day'], req.body['gateway-3-date-month'], req.body['gateway-3-date-year']);
-  req.session.submissionDate = formatDate(req.body['submission-date-day'], req.body['submission-date-month'], req.body['submission-date-year']);
+
+  const notice = readDateParts('notice-of-intention-date');
+  const gateway1 = readDateParts('gateway-1-date');
+  const gateway2 = readDateParts('gateway-2-date');
+  const gateway3 = readDateParts('gateway-3-date');
+  const submission = readDateParts('submission-date');
+
+  const errors = {};
+  const errorList = [];
+
+  const addDateErrorIfInvalid = (fieldKey, fieldLabel, fieldId, dateParts) => {
+    if (!dateParts.hasAnyValue) return;
+
+    if (!dateParts.month || !dateParts.year) {
+      const message = `Enter a month and year for ${fieldLabel}`;
+      errors[fieldKey] = message;
+      errorList.push({ text: message, href: `#${fieldId}` });
+    }
+  };
+
+  addDateErrorIfInvalid('noticeOfIntentionDate', 'Notice of Intention to Commence Local Plan Preparation', 'notice-of-intention-date-month', notice);
+  addDateErrorIfInvalid('gateway1Date', 'Gateway 1 estimated date', 'gateway-1-date-month', gateway1);
+  addDateErrorIfInvalid('gateway2Date', 'Gateway 2 estimated date', 'gateway-2-date-month', gateway2);
+  addDateErrorIfInvalid('gateway3Date', 'Gateway 3 estimated date', 'gateway-3-date-month', gateway3);
+  addDateErrorIfInvalid('submissionDate', 'Submission for examination estimated date', 'submission-date-month', submission);
+
+  if (errorList.length > 0) {
+    return res.render('projects/back-office/create-case/v2/enter-key-dates', {
+      mainContact: req.session.mainContact,
+      contacts: req.session.contacts || [],
+      noticeOfIntentionDate: notice.value,
+      gateway1Date: gateway1.value,
+      gateway2Date: gateway2.value,
+      gateway3Date: gateway3.value,
+      submissionDate: submission.value,
+      isEdit,
+      errors,
+      errorList
+    });
+  }
+
+  req.session.noticeOfIntentionDate = notice.value;
+  req.session.gateway1Date = gateway1.value;
+  req.session.gateway2Date = gateway2.value;
+  req.session.gateway3Date = gateway3.value;
+  req.session.submissionDate = submission.value;
   
   if (isEdit) {
     res.redirect('/projects/back-office/create-case/v2/check-answers');
@@ -796,11 +1079,11 @@ router.get('/projects/back-office/create-case/v2/check-answers', (req, res) => {
     lpas: req.session.lpas,
     lpaRegions: req.session.lpaRegions || {},
     caseOfficer: req.session.caseOfficer,
-    noticeOfIntentionDate: req.session.noticeOfIntentionDate,
-    gateway1Date: req.session.gateway1Date,
-    gateway2Date: req.session.gateway2Date,
-    gateway3Date: req.session.gateway3Date,
-    submissionDate: req.session.submissionDate
+    noticeOfIntentionDate: formatDateForCheckAnswers(req.session.noticeOfIntentionDate),
+    gateway1Date: formatDateForCheckAnswers(req.session.gateway1Date),
+    gateway2Date: formatDateForCheckAnswers(req.session.gateway2Date),
+    gateway3Date: formatDateForCheckAnswers(req.session.gateway3Date),
+    submissionDate: formatDateForCheckAnswers(req.session.submissionDate)
   });
 });
 
@@ -818,6 +1101,7 @@ router.post('/projects/back-office/create-case/v2/check-answers', (req, res) => 
     planType: req.session.planType,
     caseOfficer: req.session.caseOfficer,
     lpas: req.session.lpas,
+    lpaRegions: req.session.lpaRegions || {},
     mainContact: req.session.mainContact,
     contacts: req.session.contacts,
     noticeOfIntentionDate: req.session.noticeOfIntentionDate,
@@ -825,7 +1109,7 @@ router.post('/projects/back-office/create-case/v2/check-answers', (req, res) => 
     gateway2Date: req.session.gateway2Date,
     gateway3Date: req.session.gateway3Date,
     submissionDate: req.session.submissionDate,
-    status: 'Awaiting SLA',
+    status: 'Submitted',
     createdDate: new Date().toISOString()
   };
   

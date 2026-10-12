@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { DateTime } = require("luxon")
+const { applyStatusEvent } = require('../../../../../../routes/projects/back-office/status-flow');
 
 function getAddWorkshopView(req, page) {
   const baseViewPath = (req.baseUrl || '').replace(/^\//, '');
@@ -258,6 +259,7 @@ router.post('/add-workshop/actual-duration', function (req, res) {
 
   req.session.hearings[editingHearingIndex].actualDuration = req.session.data.actualDuration || '';
   syncLatestHearingFields(req.session);
+  applyStatusEvent(req, 'WORKSHOP_COMPLETED', { source: 'GW2 workshop actual duration POST' });
   clearWorkingWorkshopData(req.session.data);
   delete req.session.data.editWorkshopIndex;
   req.session.notificationMessage = 'Workshop set up';
@@ -315,6 +317,7 @@ router.post('/add-workshop/end-date', function (req, res) {
 
   req.session.hearings[editingHearingIndex].endDate = endDateValue;
   syncLatestHearingFields(req.session);
+  applyStatusEvent(req, 'WORKSHOP_COMPLETED', { source: 'GW2 workshop end date POST' });
   clearWorkingWorkshopData(req.session.data);
   delete req.session.data.editWorkshopIndex;
   req.session.notificationMessage = 'Workshop set up';
@@ -773,6 +776,7 @@ router.post('/add-workshop/check', function (req, res) {
   }
 
   syncLatestHearingFields(req.session);
+  applyStatusEvent(req, 'WORKSHOP_CONFIRMED', { source: 'GW2 add workshop check POST' });
   clearWorkingWorkshopData(req.session.data);
   delete req.session.data.editWorkshopIndex;
   req.session.notificationMessage = editingHearingIndex !== null ? 'Workshop updated' : 'Workshop set up';

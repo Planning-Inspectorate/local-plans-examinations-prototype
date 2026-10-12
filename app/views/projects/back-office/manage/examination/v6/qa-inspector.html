@@ -4,6 +4,7 @@
 {% block beforeContent %}{{ govukBackLink({ text: "Back", href: returnUrl or (basePath + '/examination') }) }}{% endblock %}
 {% block content %}
 <div class="govuk-grid-row"><div class="govuk-grid-column-two-thirds">
+  {% include "includes/back-office/examination-reference-caption.njk" %}
   <h1 class="govuk-heading-l">Who is the QA inspector?</h1>
   <form method="post" action="/projects/back-office/manage/examination/v6/qa-inspector">
     <input type="hidden" name="editIndex" value="{{ editIndex }}">

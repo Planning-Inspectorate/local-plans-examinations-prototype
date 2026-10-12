@@ -1,0 +1,38 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+	What is the purchase order number? – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+	{{ govukBackLink({
+		text: "Back",
+		href: returnUrl or "javascript:window.history.back()"
+	}) }}
+{% endblock %}
+
+{% block content %}
+	<div class="govuk-grid-row">
+		<div class="govuk-grid-column-two-thirds">
+			{% include "includes/back-office/plan-reference-caption.njk" %}
+			<h1 class="govuk-heading-l">What is the purchase order number?</h1>
+			<form class="form" method="post" action="/projects/back-office/manage/overview/v2/pon-number">
+				<input type="hidden" name="editIndex" value="{{ editIndex }}">
+				<input type="hidden" name="returnUrl" value="{{ returnUrl }}">
+				
+				{{ govukInput({
+					name: "pon-number",
+					label: {
+						 isPageHeading: true
+					},
+					classes: "govuk-!-width-two-thirds",
+					value: ponNumber
+				}) }}
+			<div class="govuk-button-group">
+				<button class="govuk-button" data-module="govuk-button" type="submit">{{ 'Save and continue' if isEdit else 'Continue' }}</button>
+				<a href="{{ returnUrl or '/projects/back-office/manage/overview/v2/pon.html' }}" class="govuk-link">Cancel</a>
+			</div>
+			</form>
+		</div>
+	</div>
+{% endblock %}

@@ -15,6 +15,7 @@ Do you know the expected number of days – {{ serviceName }}
     <div class="govuk-grid-column-two-thirds">
       <form method="post">
        <!-- <span class="govuk-caption-l">{{ caseRef }} - Set up hearing</span>-->
+        {% include "includes/back-office/examination-reference-caption.njk" %}
         <h1 class="govuk-heading-l">Do you know the expected number of days to carry out the hearing?</h1>
 
         {% set estimatedDaysHtml %}

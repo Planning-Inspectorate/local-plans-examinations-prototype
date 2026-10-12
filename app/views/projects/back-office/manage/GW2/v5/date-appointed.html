@@ -30,6 +30,7 @@
         <input type="hidden" name="from" value="{{ from }}">
         <fieldset class="govuk-fieldset" role="group" aria-describedby="assessor-date-appointed-hint">
           <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+            {% include "includes/back-office/plan-reference-caption.njk" %}
             <h1 class="govuk-fieldset__heading">When was the assessor appointed?</h1>
           </legend>
           <div id="assessor-date-appointed-hint" class="govuk-hint">For example, 14 9 2026</div>

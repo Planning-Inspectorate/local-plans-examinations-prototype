@@ -14,6 +14,7 @@ Hearing venue address – {{ serviceName }}
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    {% include "includes/back-office/examination-reference-caption.njk" %}
     <h1 class="govuk-heading-l">Hearing venue address</h1>
     <form method="post" action="{{ basePath }}/add-hearing/address">
       <div class="govuk-form-group">

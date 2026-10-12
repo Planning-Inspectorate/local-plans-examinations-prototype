@@ -15,6 +15,7 @@
     
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
+            {% include "includes/back-office/plan-reference-caption.njk" %}
             <h1 class="govuk-heading-l">What is the Notice of Intention publish date?</h1>
             <form class="form" method="post" action="/projects/back-office/manage/overview/v1/change-notice-date">
                 <input type="hidden" name="isEdit" value="{{ isEdit }}">
