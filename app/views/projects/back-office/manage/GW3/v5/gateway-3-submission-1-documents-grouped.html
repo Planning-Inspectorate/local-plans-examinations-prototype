@@ -1,0 +1,100 @@
+{% extends "projects/back-office/manage/GW3/v5/gateway-3-submission-1-documents.html" %}
+
+{% macro documentRows(documents) %}
+  <dl class="govuk-summary-list govuk-summary-list-timetable">
+    {% for document in documents %}
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">{{ document.title }}</dt>
+        <dd class="govuk-summary-list__value">
+          {% if document.files %}
+            <ul class="govuk-list govuk-list--bullet">
+              {% for filename in document.files %}
+                <li><a class="govuk-link" href="#">{{ filename }}</a></li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <a class="govuk-link" href="#">{{ document.filename }}</a>
+          {% endif %}
+        </dd>
+      </div>
+    {% endfor %}
+  </dl>
+{% endmacro %}
+
+{% block content %}
+  {% set sections = [
+    {
+      title: "Procedural documents",
+      required: [
+        { title: "Statement of compliance", filename: "statement-of-compliance.pdf" },
+        { title: "Statement of soundness", filename: "statement-of-soundness.pdf" },
+        { title: "Summary of consultation on proposed local plan", filename: "proposed-local-plan-consultation-summary.pdf" }
+      ],
+      optional: [
+        { title: "Summary of how Gateway 2 assessor issues have been addressed", filename: "gateway-2-assessor-issues-response.pdf" },
+        { title: "Statement explaining changes since the proposed local plan consultation, reasons for changes, any additional consultation", filename: "local-plan-changes-statement.pdf" }
+      ]
+    },
+    {
+      title: "Consultation documents",
+      required: [
+        { title: "Summary of consultation and engagement activities in preparing the proposed local plan", filename: "plan-preparation-consultation-and-engagement-summary.pdf" },
+        { title: "Summary of scoping consultation", filename: "scoping-consultation-summary.pdf" },
+        { title: "Summary of consultation on proposed local plan content and evidence", filename: "plan-content-and-evidence-consultation-summary.pdf" }
+      ],
+      optional: [
+        { title: "Summary of representations and responses on meeting prescribed requirements", filename: "prescribed-requirements-responses-summary.pdf" },
+        { title: "Representations", filename: "representations.pdf" }
+      ]
+    },
+    {
+      title: "Plan content, evidence and background",
+      required: [
+        { title: "Proposed local plan submission for examination", filename: "proposed-local-plan-submission.pdf" },
+        { title: "Examination website", filename: "examination-website-details.pdf" },
+        { title: "Practical arrangements demonstrating readiness for examination", filename: "examination-practical-arrangements.pdf" },
+        { title: "Map of proposed local plan policies", filename: "proposed-local-plan-policies-map.pdf" }
+      ],
+      optional: [
+        { title: "Environmental report", filename: "environmental-report.pdf" },
+        { title: "Statement demonstrating that the proposed local plan is unlikely to have significant environmental effects", filename: "environmental-effects-statement.pdf" },
+        { title: "Supporting material", files: ["supporting-material.pdf", "housing-needs-assessment.pdf", "transport-evidence-report.pdf"] },
+        { title: "Supplementary plans statement", filename: "supplementary-plans-statement.pdf" }
+      ]
+    }
+  ] %}
+
+  <style>
+    .app-gw3-submission-docs .govuk-summary-list-timetable .govuk-summary-list__key {
+      width: 50%;
+    }
+
+    .app-gw3-submission-docs .govuk-summary-list-timetable .govuk-summary-list__value {
+      width: 40%;
+      overflow-wrap: anywhere;
+    }
+  </style>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full app-gw3-submission-docs">
+      <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }} - Submission {{ submissionNumber or '1' }} - {{ submissionDateSubmitted or '21 June 2026' }}</span>
+      <h1 class="govuk-heading-xl">Gateway 3 documents</h1>
+
+      {% block documentSections %}
+      {% for section in sections %}
+        <h2 class="govuk-heading-m">{{ section.title }}</h2>
+        <h3 class="govuk-heading-s">Required</h3>
+        {{ documentRows(section.required) }}
+        <h3 class="govuk-heading-s">Optional</h3>
+        {{ documentRows(section.optional) }}
+      {% endfor %}
+      {% endblock %}
+
+      <div class="govuk-button-group">
+        <a class="govuk-button" data-module="govuk-button" href="/projects/back-office/manage/GW3/v5/gateway-3-decision.html?submissionVersion=1&returnUrl={{ returnUrl or '/projects/back-office/manage/GW3/v5/gateway-3-submission-1-documents-grouped' }}">
+          Issue decision
+        </a>
+      </div>
+    </div>
+  </div>
+{% endblock %}

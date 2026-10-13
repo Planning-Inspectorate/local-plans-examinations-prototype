@@ -41,12 +41,37 @@
     <li>Adding and removing assessors</li>
     <li>Amends from previous research round</li>
     </ul>
+    <h3 class="govuk-heading-s">Other options</h3>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>
+        <a href="/projects/back-office/manage/GW3/v5/gateway-3-submission-1-documents">Documents grouped by type with optional documents labelled</a>
+      </li>
+      <li>
+        <a href="/projects/back-office/manage/GW3/v5/gateway-3-submission-1-documents-grouped">Documents grouped by type with required and optional subheadings</a>
+      </li>
+      <li>
+        <a href="/projects/back-office/manage/GW3/v5/gateway-3-submission-1-documents-required">Documents grouped by type with required documents labelled</a>
+      </li>
+    </ul>
     {{ govukButton({
       html: 'View prototype',
-      href: '/projects/back-office/manage/GW3/v' ~ version ~ '/gateway-2',
+      href: '/projects/back-office/manage/GW3/v' ~ version ~ '/gateway-3',
       isStartButton: true
     }) }}
+ {{ govukDetails({
+      summaryText: "Version 5 notes",
+      html: '<h3 class="govuk-heading-s">Related links</h3>
 
+    <ul class="govuk-list govuk-list--bullet">
+      <li><a href="https://pins-ds.atlassian.net/wiki/spaces/LO/pages/2759032886/Gateway+3+resubmission+design+assumptions+and+open+questions">Design assumptions log</a></li>
+      <li><a href="https://pins-ds.atlassian.net/wiki/x/IAB5p">September 2026 - Assumptions, decisions and emerging patterns across the back office</a></li>
+      <li><a href="https://pins-ds.atlassian.net/wiki/x/HAA8pg">Late September / October 2026: Gateway 3 changes following research</a></li>
+      <li><a href="https://app.mural.co/t/allpins6990/m/allpins6990/1785489408116/46435f6863dcbae8acdfd232c16077a30a57e1e7?sender=u29b1c908bf328c368a358736">Gateway 3 mural designs</a></li>
+      <li><a href="https://app.mural.co/t/allpins6990/m/allpins6990/1790154896131/4b7104ffd24e410326e33cca79532482e032e177?sender=u29b1c908bf328c368a358736">Inspector Gateway 3 / examination research notes and analysis mural</a></li>
+    </ul>
+
+    '
+    }) }}
 
     {% set v4HTML -%}
     {% set version = "4" %}
@@ -102,7 +127,7 @@
       </ul>
       {{ govukButton({
         html: 'View prototype',
-        href: '/projects/back-office/manage/GW3/v2/gateway-3-alt',
+        href: '/projects/back-office/manage/GW3/v' ~ version ~ '/gateway-3-alt',
         isStartButton: true
       }) }}
       <br>

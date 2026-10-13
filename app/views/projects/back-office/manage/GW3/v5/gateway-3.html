@@ -115,21 +115,28 @@ Gateway 3 overview {{ serviceName }}
         </div>
       </div>
       <div class="govuk-summary-list__row">
-        <div class="govuk-summary-list__key">Decision</div>
-        <div class="govuk-summary-list__value">
-          {{ submission1Decision if submission1Decision and submission1Decision != 'Not provided' and submission1Decision != '-' else 'Not provided' }}
-          {% if submission1Decision and submission1Decision != '-' and submission1Decision != 'Not provided' and submission1Decision != 'Ready' and submission1Decision != 'Pass' %}
-            <br><span class="govuk-hint">Issued on {{ submission1DecisionDate if submission1DecisionDate and submission1DecisionDate != 'Not provided' }}</span>
-          {% endif %}
-        </div>
-        <div class="govuk-summary-list__actions">
-          <a class="govuk-link" href="{{ '/projects/back-office/manage/GW3/v5/gateway-3-decision-check-answers.html?submissionVersion=1&returnUrl=/projects/back-office/manage/GW3/v5/gateway-3.html' if submission1Decision and submission1Decision != '-' else '/projects/back-office/manage/GW3/v5/gateway-3-decision.html?submissionVersion=1&returnUrl=/projects/back-office/manage/GW3/v5/gateway-3.html' }}">{{ 'View' if submission1Decision and submission1Decision != '-' else 'Add' }}<span class="govuk-visually-hidden"> Gateway 3 decision</span></a>
-        </div>
+        <div class="govuk-summary-list__key">Outcome</div>
+        <div class="govuk-summary-list__value">{{ submission1Decision if submission1DecisionIssued else 'Not provided' }}</div>
+        {% if not submission1DecisionIssued and gateway3OverviewState != 'initial' %}
+        <div class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/GW3/v5/gateway-3-decision.html?submissionVersion=1&returnUrl=/projects/back-office/manage/GW3/v5/gateway-3">Add<span class="govuk-visually-hidden"> submission 1 decision</span></a></div>
+        {% endif %}
       </div>
+      {% if submission1DecisionIssued %}
+      <div class="govuk-summary-list__row">
+        <div class="govuk-summary-list__key">Report</div>
+        <div class="govuk-summary-list__value">{% if submission1ReportStoredFilename %}<a class="govuk-link" href="{{ submission1ReportHref }}">{{ submission1Report }}</a>{% else %}Not provided{% endif %}</div>
+        <div class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/GW3/v5/gateway-3-report/manage?submissionVersion=1">Manage<span class="govuk-visually-hidden"> submission 1 report</span></a></div>
+      </div>
+      <div class="govuk-summary-list__row">
+        <div class="govuk-summary-list__key">{{ 'Completed' if (submission1Decision | lower) == 'ready' else 'Date' }}</div>
+        <div class="govuk-summary-list__value">{{ submission1DecisionDate }}</div>
+      </div>
+      {% endif %}
     </div>
+    
 
     {% if isResubmissionRequired %}
-    <h2 class="govuk-heading-m">Submission 2</h2>
+    <h2 class="govuk-heading-l">Submission 2</h2>
     <div class="govuk-summary-list govuk-summary-list-timetable">
       <div class="govuk-summary-list__row">
         <div class="govuk-summary-list__key">Documents</div>
@@ -148,38 +155,24 @@ Gateway 3 overview {{ serviceName }}
       </div>
       {% if not isResubmissionNoDocs %}
       <div class="govuk-summary-list__row">
-        <div class="govuk-summary-list__key">Decision</div>
-        <div class="govuk-summary-list__value">
-          {{ submission2Decision if submission2Decision and submission2Decision != 'Not provided' and submission2Decision != '-' else 'Not provided' }}
-          {% if submission2Decision and submission2Decision != 'Not provided' and submission2Decision != '-' and submission2Decision != 'Ready' and submission2Decision != 'Pass' %}
-            <br><span class="govuk-hint">Issued on {{ submission2DecisionDate if submission2DecisionDate and submission2DecisionDate != 'Not provided' }}</span>
-          {% endif %}
-        </div>
-        <div class="govuk-summary-list__actions">
-          <a class="govuk-link" href="{{ '/projects/back-office/manage/GW3/v5/gateway-3-decision-check-answers.html?submissionVersion=2&returnUrl=/projects/back-office/manage/GW3/v5/gateway-3.html' if submission2Decision and submission2Decision != '-' else '/projects/back-office/manage/GW3/v5/gateway-3-decision.html?submissionVersion=2&returnUrl=/projects/back-office/manage/GW3/v5/gateway-3.html' }}">{{ 'View' if submission2Decision and submission2Decision != '-' else 'Add' }}<span class="govuk-visually-hidden"> Gateway 3 decision for submission 2</span></a>
-        </div>
+        <div class="govuk-summary-list__key">Outcome</div>
+        <div class="govuk-summary-list__value">{{ submission2Decision if submission2DecisionIssued else 'Not provided' }}</div>
+        {% if not submission2DecisionIssued and not isResubmissionNoDocs %}
+        <div class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/GW3/v5/gateway-3-decision.html?submissionVersion=2&returnUrl=/projects/back-office/manage/GW3/v5/gateway-3">Add<span class="govuk-visually-hidden"> submission 2 decision</span></a></div>
+        {% endif %}
       </div> 
       {% endif %}
-
-      {% if gateway3OverviewState == 'pass' %}
+      {% if submission2DecisionIssued %}
       <div class="govuk-summary-list__row">
-        <div class="govuk-summary-list__key">Completed</div>
-        <div class="govuk-summary-list__value">{{ gateway3CompletionDate if gateway3CompletionDate and gateway3CompletionDate != 'Not provided' }}</div>
-        <div class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/projects/back-office/manage/GW3/v5/gateway-3-completion-date.html?returnUrl=/projects/back-office/manage/GW3/v5/gateway-3">View<span class="govuk-visually-hidden"> Gateway 3 completion date</span></a>
-        </div>
+        <div class="govuk-summary-list__key">Report</div>
+        <div class="govuk-summary-list__value">{% if submission2ReportStoredFilename %}<a class="govuk-link" href="{{ submission2ReportHref }}">{{ submission2Report }}</a>{% else %}Not provided{% endif %}</div>
+        <div class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/GW3/v5/gateway-3-report/manage?submissionVersion=2">Manage<span class="govuk-visually-hidden"> submission 2 report</span></a></div>
+      </div>
+      <div class="govuk-summary-list__row">
+        <div class="govuk-summary-list__key">{{ 'Completed' if (submission2Decision | lower) == 'ready' else 'Date' }}</div>
+        <div class="govuk-summary-list__value">{{ submission2DecisionDate }}</div>
       </div>
       {% endif %}
-    </div>
-    {% else %}
-    <div class="govuk-summary-list govuk-summary-list-timetable">
-      <div class="govuk-summary-list__row">
-        <div class="govuk-summary-list__key">Completed</div>
-        <div class="govuk-summary-list__value">{{ gateway3CompletionDate if gateway3CompletionDate and gateway3CompletionDate != '-' else 'Not provided' }}</div>
-        <div class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/projects/back-office/manage/GW3/v5/gateway-3-completion-date.html?returnUrl=/projects/back-office/manage/GW3/v5/gateway-3">View<span class="govuk-visually-hidden"> Gateway 3 completion date</span></a>
-        </div>
-      </div>
     </div>
     {% endif %}
   </div>
@@ -192,7 +185,8 @@ Gateway 3 overview {{ serviceName }}
     { href: '/projects/back-office/manage/GW3/v5/set-status?state=submitted&returnUrl=/projects/back-office/manage/GW3/v5/gateway-3', text: 'GW3 received' },
     { href: '/projects/back-office/manage/GW3/v5/set-status?state=resubmission-no-docs&returnUrl=/projects/back-office/manage/GW3/v5/gateway-3', text: 'GW3 resubmission' },
     { href: '/projects/back-office/manage/GW3/v5/set-status?state=resubmission&returnUrl=/projects/back-office/manage/GW3/v5/gateway-3', text: 'GW3 resubmitted' },
-    { href: '/projects/back-office/manage/GW3/v5/set-status?state=pass&returnUrl=/projects/back-office/manage/GW3/v5/gateway-3', text: 'Pass state' }
+    { href: '/projects/back-office/manage/GW3/v5/set-status?state=ready&returnUrl=/projects/back-office/manage/GW3/v5/gateway-3', text: 'Submission 1 Ready' },
+    { href: '/projects/back-office/manage/GW3/v5/set-status?state=pass&returnUrl=/projects/back-office/manage/GW3/v5/gateway-3', text: 'Submission 2 Ready' }
   ] %}
   {% include "includes/footer.njk" %}
 {% endblock %}

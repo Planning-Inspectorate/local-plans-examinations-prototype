@@ -15,7 +15,7 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}{% if hasMultipleSubmissions %} - {{ submissionLabel | capitalize }}{% endif %}</span>
-      <h1 class="govuk-heading-l">Check Gateway 3 decision and report details{% if hasMultipleSubmissions %} for {{ submissionLabel }}{% endif %}</h1>
+      <h1 class="govuk-heading-l">Check Gateway 3 decision and report details <!--{% if hasMultipleSubmissions %} for {{ submissionLabel }}{% endif %}--></h1>
 
       <dl class="govuk-summary-list">
         <div class="govuk-summary-list__row">
@@ -26,7 +26,7 @@
           </dd>
         </div>
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Gateway 3 report</dt>
+          <dt class="govuk-summary-list__key">Report</dt>
           <dd class="govuk-summary-list__value">
             {% if uploadedDocuments and uploadedDocuments.length > 0 %}
               {% for doc in uploadedDocuments %}
@@ -34,7 +34,7 @@
               {% endfor %}
             {% else %}
               {% if gateway3DecisionReportFilename and gateway3DecisionReportFilename != '-' and gateway3DecisionReportStoredFilename %}
-                <a class="govuk-link" href="/projects/back-office/manage/documents/download/{{ gateway3DecisionReportStoredFilename }}">{{ gateway3DecisionReportFilename }}</a>
+                <a class="govuk-link" href="{{ gateway3DecisionReportHref }}">{{ gateway3DecisionReportFilename }}</a>
               {% else %}
                 {{ gateway3DecisionReportFilename if gateway3DecisionReportFilename and gateway3DecisionReportFilename != '-' else 'Not provided' }}
               {% endif %}

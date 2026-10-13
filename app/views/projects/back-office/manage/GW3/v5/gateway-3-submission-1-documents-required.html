@@ -1,0 +1,30 @@
+{% extends "projects/back-office/manage/GW3/v5/gateway-3-submission-1-documents-grouped.html" %}
+
+{% block documentSections %}
+  {% for section in sections %}
+    <h1 class="govuk-heading-xl">{{ section.title }}</h1>
+    <dl class="govuk-summary-list govuk-summary-list-timetable">
+      {% for document in section.required.concat(section.optional) %}
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            {{ document.title }}
+            {% if document in section.required %}
+              <div class="govuk-hint govuk-!-margin-bottom-0">Required</div>
+            {% endif %}
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {% if document.files %}
+              <ul class="govuk-list govuk-list--bullet">
+                {% for filename in document.files %}
+                  <li><a class="govuk-link" href="#">{{ filename }}</a></li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              <a class="govuk-link" href="#">{{ document.filename }}</a>
+            {% endif %}
+          </dd>
+        </div>
+      {% endfor %}
+    </dl>
+  {% endfor %}
+{% endblock %}

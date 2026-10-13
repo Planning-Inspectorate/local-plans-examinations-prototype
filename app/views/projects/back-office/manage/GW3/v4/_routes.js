@@ -1,6 +1,7 @@
 const govukPrototypeKit = require('govuk-prototype-kit');
 const router = govukPrototypeKit.requests.setupRouter();
 const { DateTime } = require('luxon');
+const { setStatus } = require('../../../../../../routes/projects/back-office/status-flow');
 
 router.use('/', require('./_set-status'));
 
@@ -422,7 +423,9 @@ function renderGateway3Overview(req, res) {
   delete req.session.notificationMessage;
   delete req.session.gw3v4AssessorMessage;
 
-  res.render('projects/back-office/manage/GW3/v4/gateway-3', buildGateway3ViewModel(req, notificationMessage));
+  const viewModel = buildGateway3ViewModel(req, notificationMessage);
+  setStatus(req, viewModel.headerStatusText, { force: true, source: 'GW3/v4', res });
+  res.render('projects/back-office/manage/GW3/v4/gateway-3', viewModel);
 }
 
 router.get('/gateway-3', (req, res) => {

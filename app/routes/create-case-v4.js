@@ -306,6 +306,58 @@ router.get('/projects/back-office/create-case/v4/index', (req, res) => {
     ];
   }
 
+  if (needsReinit || req.session.allCasesV4DemoDataVersion !== 3) {
+    const examples = [
+      ['Central City Local Plan', 'QA'],
+      ['North District Local Plan', 'GW3 pending'],
+      ['Southside Local Plan', 'Plan adopted'],
+      ['West End Local Plan', 'GW2 received'],
+      ['East Borough Local Plan', 'Paused'],
+      ['Riverside Local Plan', 'Submission received'],
+      ['Hilltop Local Plan', 'GW3 received'],
+      ['Market Town Local Plan', 'Exam in progress'],
+      ['Greenfield Local Plan', 'GW2 workshop confirmed'],
+      ['Seaside Local Plan', 'Fact check'],
+      ['Meadow Vale Local Plan', 'Awaiting signed SLA'],
+      ['Harbour District Local Plan', 'Report issued'],
+      ['Oakwood Local Plan', 'GW3 received'],
+      ['Lakeside Local Plan', 'Withdrawn'],
+      ['Highland Local Plan', 'GW2 pending'],
+      ['Coastal District Local Plan', 'Exam pending'],
+      ['New Town Local Plan', 'Submission pending']
+    ];
+    const previousStatuses = [
+      'Awaiting signed SLA', 'GW2 pending', 'GW2 received', 'GW2 workshop confirmed',
+      'GW3 pending', 'GW3 received', 'Exam pending', 'Submission pending',
+      'Submission received', 'Exam in progress', 'QA', 'Fact check',
+      'Report issued', 'Plan adopted', 'Paused', 'Withdrawn', 'Ready to start'
+    ];
+    const legacyStatuses = new Set(['Awaiting Gateway 2', 'Gateway 2 Validation']);
+    examples.forEach(([planTitle, status], index) => {
+      const caseRef = `PLAN/${String(index + 1).padStart(6, '0')}`;
+      const example = req.session.cases.find((item) => item.planTitle === planTitle && (index >= 10 || item.caseRef === caseRef));
+      if (example && (legacyStatuses.has(example.status) || example.status === 'Ready to start'
+        || (req.session.allCasesV4DemoDataVersion === 1 && example.status === previousStatuses[index]))) {
+        example.status = status;
+      }
+    });
+
+    let nextCaseNumber = Math.max(...req.session.cases.map((item) => Number(item.caseRef.split('/')[1]) || 0)) + 1;
+    const template = req.session.cases[0];
+    examples.forEach(([planTitle, status]) => {
+      if (req.session.cases.some((item) => item.status === status)) return;
+      req.session.cases.push({
+        ...template,
+        caseRef: `PLAN/${String(nextCaseNumber++).padStart(6, '0')}`,
+        planTitle,
+        status,
+        statusStrategy: 'fixed',
+        createdDate: new Date().toISOString()
+      });
+    });
+    req.session.allCasesV4DemoDataVersion = 3;
+  }
+
   const journey = req.query.journey === 'side' ? 'side' : 'default';
   res.render('projects/back-office/create-case/v4/index', {
     cases: req.session.cases.slice().reverse(),

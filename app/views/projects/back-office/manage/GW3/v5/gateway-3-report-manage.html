@@ -1,0 +1,54 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}Manage Gateway 3 report - {{ serviceName }}{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/projects/back-office/manage/GW3/v5/gateway-3"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <style>
+    .app-document-management-table .app-document-actions { text-align: right; }
+  </style>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      {% if notificationMessage %}
+        {{ govukNotificationBanner({
+          type: "success",
+          text: notificationMessage
+        }) }}
+      {% endif %}
+      <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }} - Submission {{ submissionVersion }}</span>
+      <h1 class="govuk-heading-l">Manage Gateway 3 report</h1>
+
+      {% if issuedDecision.reportStoredFilename %}
+      <table class="govuk-table app-document-management-table">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Document</th>
+            <th scope="col" class="govuk-table__header">Date</th>
+            <th scope="col" class="govuk-table__header app-document-actions">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell"><a class="govuk-link" href="{{ issuedDecision.reportHref }}">{{ issuedDecision.reportFilename }}</a></td>
+            <td class="govuk-table__cell">{{ issuedDecision.date }}</td>
+            <td class="govuk-table__cell app-document-actions"><a class="govuk-link" href="/projects/back-office/manage/GW3/v5/gateway-3-report/remove-confirm?submissionVersion={{ submissionVersion }}&filename={{ issuedDecision.reportStoredFilename }}">Remove<span class="govuk-visually-hidden"> submission {{ submissionVersion }} report</span></a></td>
+          </tr>
+        </tbody>
+      </table>
+      {% else %}
+        <p class="govuk-body">No report has been added.</p>
+        <a class="govuk-button govuk-button--secondary" href="/projects/back-office/manage/GW3/v5/gateway-3-decision-upload?submissionVersion={{ submissionVersion }}&returnUrl=/projects/back-office/manage/GW3/v5/gateway-3">Add report</a>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

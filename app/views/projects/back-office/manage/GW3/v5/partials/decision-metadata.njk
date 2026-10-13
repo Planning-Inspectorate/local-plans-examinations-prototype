@@ -1,0 +1,27 @@
+{% set previousSubmissionHtml %}
+  <a class="govuk-link" href="/projects/back-office/manage/GW3/v5/gateway-3-submission-1-documents">Submission 1</a>{% if previousSubmissionDate and previousSubmissionDate != '-' %} (submitted {{ previousSubmissionDate }}){% endif %}
+{% endset %}
+
+{% set previousReportHtml %}
+  {% if previousSubmissionDecision and previousSubmissionDecision.reportStoredFilename %}
+    <a class="govuk-link" href="{{ previousSubmissionDecision.reportHref }}">{{ previousSubmissionDecision.reportFilename }}</a> (issued {{ previousSubmissionDecision.date }})
+  {% else %}
+    Not provided
+  {% endif %}
+{% endset %}
+
+{% set decisionMetadataRows = [
+  {
+    key: { text: "Submission 1 report", classes: "govuk-!-width-one-quarter" },
+    value: { html: previousReportHtml }
+  },
+  {
+    key: { text: "Previous submissions", classes: "govuk-!-width-one-quarter" },
+    value: { html: previousSubmissionHtml }
+  }
+] %}
+
+{{ govukSummaryList({
+  classes: "app-details govuk-summary-list--no-border",
+  rows: decisionMetadataRows
+}) }}
