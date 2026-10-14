@@ -76,8 +76,12 @@
           { href: 'procedural-documents/soundness-upload?cya=true', html: 'Change', visuallyHiddenText: 'draft statement of soundness' } if data['soundness-upload-complete']
           else { href: 'procedural-documents/soundness-upload', html: 'Add', visuallyHiddenText: 'draft statement of soundness' }
         ]}
-      },
+      }
 
+    ]
+  }) }}
+
+  {# Purchase order number row – removed for now
       {
         key: { text: 'Purchase order number' },
         value:
@@ -88,7 +92,5 @@
           else { href: 'procedural-documents/purchase-order-upload', html: 'Add', visuallyHiddenText: 'purchase order number' }
         ]}
       }
-
-    ]
-  }) }}
+  #}
 </li>

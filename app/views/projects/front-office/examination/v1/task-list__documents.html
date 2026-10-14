@@ -2,17 +2,6 @@
 
 {% for section in examinationSections %}
 <li>
-<div class="govuk-form-group{% if errorStatus == 'true' %} govuk-form-group--error{% endif %}">
-  <h2 class="app-task-list__section" id="{{ section.id }}">
-    {{ section.heading }}
-  </h2>
-  <p class="govuk-body">Documents as outlined in section 15D(2) of the Act.</p>
-    {% if errorStatus == 'true' %}
-    <p class="govuk-error-message">
-      <span class="govuk-visually-hidden">Error:</span> Add all required documents before your submit
-    </p>
-  {% endif %}
-</div>
 
   {% set rows = [] %}
   {% for doc in section.documents %}
@@ -33,7 +22,7 @@
         key: { html: keyHtml },
         value:
           { html: "<a href='#'>" + doc.id + ".pdf</a>" } if complete
-          else { html: 'https://www.example.gov.uk/examination-library' },
+          else { html: 'Not added' },
         actions: { items: [
           { href: 'documents/document-upload?doc=' + doc.id + '&cya=true', html: 'Change', visuallyHiddenText: label } if complete
           else { href: 'documents/document-upload?doc=' + doc.id, html: 'Add', visuallyHiddenText: label }
