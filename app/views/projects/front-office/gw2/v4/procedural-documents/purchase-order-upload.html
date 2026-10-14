@@ -1,0 +1,26 @@
+{% extends "layouts/front-office-v3.html" %}
+{% from "macros/multi-file-upload.njk" import uploadArea %}
+{% set documentName = "purchase order number" %}
+{% set title = "Enter your " + documentName %}
+
+{% block questions %}
+
+<span class="govuk-caption-l">Procedural documents</span>
+
+{{ govukInput({
+  label: {
+    text: title,
+    classes: "govuk-label--l",
+    isPageHeading: true
+  },
+  classes: "govuk-input--width-10",
+  hint: {
+    text: "Must be between 6 and 8 digits long"
+  },
+  id: "po-number",
+  name: "poNumber",
+  inputmode: "numeric",
+  spellcheck: false
+}) }}
+
+{% endblock %}

@@ -33,7 +33,7 @@
         key: { html: keyHtml },
         value:
           { html: "<a href='#'>" + doc.id + ".pdf</a>" } if complete
-          else { html: '<span class="govuk-hint">Not added</span>' },
+          else { html: 'https://www.example.gov.uk/examination-library' },
         actions: { items: [
           { href: 'documents/document-upload?doc=' + doc.id + '&cya=true', html: 'Change', visuallyHiddenText: label } if complete
           else { href: 'documents/document-upload?doc=' + doc.id, html: 'Add', visuallyHiddenText: label }

@@ -4,16 +4,13 @@
 
 {% block questions %}
 
-<span class="govuk-caption-l">Examination details</span>
+<span class="govuk-caption-l">Examination documents</span>
 
 {{ govukInput({
   label: {
     text: title,
     isPageHeading: true,
     classes: "govuk-label--l"
-  },
-  hint: {
-    text: "This is the web address where your examination library and documents are published. Check the link you gave us at Gateway 3 is still correct, or update it if it has changed."
   },
   id: "examination-website-link",
   name: "examination-website-link",

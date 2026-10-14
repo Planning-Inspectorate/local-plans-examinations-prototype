@@ -76,6 +76,17 @@
           { href: 'procedural-documents/soundness-upload?cya=true', html: 'Change', visuallyHiddenText: 'draft statement of soundness' } if data['soundness-upload-complete']
           else { href: 'procedural-documents/soundness-upload', html: 'Add', visuallyHiddenText: 'draft statement of soundness' }
         ]}
+      },
+
+      {
+        key: { text: 'Purchase order number' },
+        value:
+          { html: "PO-2026-004817" } if data['purchase-order-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'procedural-documents/purchase-order-upload?cya=true', html: 'Change', visuallyHiddenText: 'purchase order number' } if data['purchase-order-upload-complete']
+          else { href: 'procedural-documents/purchase-order-upload', html: 'Add', visuallyHiddenText: 'purchase order number' }
+        ]}
       }
 
     ]
