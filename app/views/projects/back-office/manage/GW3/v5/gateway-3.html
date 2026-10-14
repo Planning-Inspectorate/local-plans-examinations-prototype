@@ -114,6 +114,7 @@ Gateway 3 overview {{ serviceName }}
           {% endif %}
         </div>
       </div>
+      {% if submission1DocumentsCount > 0 %}
       <div class="govuk-summary-list__row">
         <div class="govuk-summary-list__key">Outcome</div>
         <div class="govuk-summary-list__value">{{ submission1Decision if submission1DecisionIssued else 'Not provided' }}</div>
@@ -121,6 +122,7 @@ Gateway 3 overview {{ serviceName }}
         <div class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/GW3/v5/gateway-3-decision.html?submissionVersion=1&returnUrl=/projects/back-office/manage/GW3/v5/gateway-3">Add<span class="govuk-visually-hidden"> submission 1 decision</span></a></div>
         {% endif %}
       </div>
+      {% endif %}
       {% if submission1DecisionIssued %}
       <div class="govuk-summary-list__row">
         <div class="govuk-summary-list__key">Report</div>
@@ -153,7 +155,7 @@ Gateway 3 overview {{ serviceName }}
           {% endif %}
         </div>
       </div>
-      {% if not isResubmissionNoDocs %}
+      {% if submission2DocumentsCount > 0 %}
       <div class="govuk-summary-list__row">
         <div class="govuk-summary-list__key">Outcome</div>
         <div class="govuk-summary-list__value">{{ submission2Decision if submission2DecisionIssued else 'Not provided' }}</div>
