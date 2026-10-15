@@ -23,7 +23,9 @@
       {% endif %}
       <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }} - Submission {{ submissionVersion }}</span>
       <h1 class="govuk-heading-l">Manage Gateway 3 report</h1>
-
+        <p class="govuk-body">
+      <a class="govuk-button govuk-button--secondary" href="{{ addUrl }}">Add document</a>
+    </p>
       {% if issuedDecision.reportStoredFilename %}
       <table class="govuk-table app-document-management-table">
         <thead class="govuk-table__head">

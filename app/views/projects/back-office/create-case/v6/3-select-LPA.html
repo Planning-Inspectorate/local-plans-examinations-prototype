@@ -22,23 +22,24 @@
         }) }}
       {% endif %}
 
-      <form method="post" action="/projects/back-office/create-case/v2/3-select-LPA">
-        <div class="govuk-form-group{% if error %} govuk-form-group--error{% endif %}">
+      <form method="post" action="/projects/back-office/create-case/v6/3-select-LPA">
+        <div class="govuk-form-group {% if error %}govuk-form-group--error{% endif %}">
           <h1 class="govuk-label-wrapper">
             <label class="govuk-label govuk-label--l" for="lpa">
               Select a planning authority
             </label>
           </h1>
           {% if error %}
-            <p class="govuk-error-message">
+            <p id="lpa-error" class="govuk-error-message">
               <span class="govuk-visually-hidden">Error:</span> {{ error }}
             </p>
           {% endif %}
-            <select class="govuk-select{% if error %} govuk-select--error{% endif %}" id="lpa" name="lpa" data-module="autocomplete" title="Additional Local Planning Authority"
+       
+            <select class="govuk-select {% if error %}govuk-select--error{% endif %}" id="lpa" name="lpa" {% if error %}aria-describedby="lpa-error"{% endif %} data-module="autocomplete" title="Additional Local Planning Authority"
               data-display-menu="" data-min-length="" data-show-all-values="" data-show-no-options-found="">
-              <option value="" selected disabled>Select an option</option>
+              <option value="" {% if not selectedLPA %}selected{% endif %} disabled>Select an option</option>
               {% for lpa in lpaList %}
-                <option value="{{ lpa }}">{{ lpa }}</option>
+                <option value="{{ lpa }}" {% if selectedLPA == lpa %}selected{% endif %}>{{ lpa }}</option>
               {% endfor %}
               <option value="Bolton Metropolitan Borough Council">Bolton Metropolitan Borough Council</option>
               <option value="Borough of Poole Council">Borough of Poole Council</option>
@@ -441,7 +442,7 @@
        <div class="govuk-button-group">
          {% if isEdit %}
         <button type="submit" class="govuk-button" data-module="govuk-button" name="isEdit" value="true">Save and continue</button>
-        <a href="/projects/back-office/create-case/v2/check-answers" class="govuk-link">Cancel</a>
+        <a href="/projects/back-office/create-case/v6/check-answers" class="govuk-link">Cancel</a>
         {% else %}
         <button type="submit" class="govuk-button" data-module="govuk-button">Continue</button>
         {% endif %}

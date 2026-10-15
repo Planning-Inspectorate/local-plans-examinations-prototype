@@ -19,6 +19,75 @@ function formatDateForDisplay(value) {
   return parsed.isValid ? parsed.toFormat('d MMMM yyyy') : value;
 }
 
+function parseProtocolDate(value) {
+  if (!value || value === '-') return null;
+
+  for (const format of ['d/M/yyyy', 'd MMMM yyyy']) {
+    const parsed = DateTime.fromFormat(value, format, { locale: 'en-GB' });
+    if (parsed.isValid) return parsed.startOf('day');
+  }
+
+  return null;
+}
+
+function getProtocolDateFromRequest(req, prefix) {
+  const day = (req.body[`${prefix}-day`] || '').trim();
+  const month = (req.body[`${prefix}-month`] || '').trim();
+  const year = (req.body[`${prefix}-year`] || '').trim();
+  if (!day || !month || !year) return '';
+
+  const parsed = DateTime.fromFormat(`${day}/${month}/${year}`, 'd/M/yyyy', { locale: 'en-GB' });
+  return parsed.isValid ? parsed.toFormat('d/M/yyyy') : '';
+}
+
+function getProtocolDateInputValues(value) {
+  const parsed = parseProtocolDate(value);
+  return {
+    day: parsed ? String(parsed.day) : '',
+    month: parsed ? String(parsed.month) : '',
+    year: parsed ? String(parsed.year) : ''
+  };
+}
+
+function getProtocolTotalDays(sentDate, receivedDate) {
+  const sent = parseProtocolDate(sentDate);
+  const received = parseProtocolDate(receivedDate);
+  if (!sent || !received) return '';
+
+  return Math.abs(received.diff(sent, 'days').days);
+}
+
+function parseProtocolRecordIndex(value) {
+  if (value === undefined || value === null || value === '') return null;
+  const index = Number.parseInt(value, 10);
+  return Number.isInteger(index) && index >= 0 ? index : null;
+}
+
+function getProtocolRecords(req) {
+  if (!Array.isArray(req.session.protocolRecords)) {
+    const hasLegacyRecord = req.session.protocolType
+      || req.session.protocolSentDate
+      || req.session.protocolReceivedDate;
+    req.session.protocolRecords = hasLegacyRecord ? [{
+      type: req.session.protocolType || '',
+      sentDate: req.session.protocolSentDate || '',
+      receivedDate: req.session.protocolReceivedDate || ''
+    }] : [];
+  }
+
+  return req.session.protocolRecords;
+}
+
+function getProtocolRecordsForDisplay(req) {
+  return getProtocolRecords(req).map((record, index) => ({
+    ...record,
+    index,
+    sentDateDisplay: formatDateForDisplay(record.sentDate),
+    receivedDateDisplay: formatDateForDisplay(record.receivedDate),
+    totalDays: getProtocolTotalDays(record.sentDate, record.receivedDate)
+  }));
+}
+
 function getCurrentCase(req, preferredRef) {
   const caseRef = preferredRef || req.session.currentCaseRef || '';
   const cases = Array.isArray(req.session.cases) ? req.session.cases : [];
@@ -72,6 +141,13 @@ function getContactNameParts(contact = {}) {
   };
 }
 
+function hasContactInformation(contact = {}) {
+  return ['name', 'email', 'phone', 'organisation'].some((field) => {
+    const value = contact[field];
+    return typeof value === 'string' ? value.trim() !== '' && value !== '-' : Boolean(value);
+  });
+}
+
 function buildOverviewContext(req) {
   const currentCase = getCurrentCase(req);
   const mainContact = req.session.mainContact || {};
@@ -104,6 +180,11 @@ function buildOverviewContext(req) {
       lastName: contact.lastName || nameParts.lastName
     };
   });
+  const additionalContactRecords = normalizedContacts
+    .map((contact, index) => ({ ...contact, index }))
+    .filter(hasContactInformation);
+  const nextAdditionalContactIndex = Array.from({ length: 5 }, (_, index) => index)
+    .find((index) => !hasContactInformation(normalizedContacts[index]));
 
   const examinationInspectors = Array.isArray(req.session.examinationInspectors)
     ? req.session.examinationInspectors
@@ -127,6 +208,8 @@ function buildOverviewContext(req) {
     qaInspector2Name: qaInspectors ? qaInspectors[1]?.name || '' : req.session.qaInspector2Name || '',
     qaInspector3Name: qaInspectors ? qaInspectors[2]?.name || '' : req.session.qaInspector3Name || '',
     contacts: normalizedContacts,
+    additionalContactRecords,
+    nextAdditionalContactIndex,
     mainContactName: mainContactNameParts.fullName,
     mainContactEmail: mainContact.email || '',
     mainContactPhone: mainContact.phone || '',
@@ -136,6 +219,7 @@ function buildOverviewContext(req) {
     gateway2EstimatedDate: formatDateForDisplay(req.session.gateway2EstimatedDate),
     gateway3EstimatedDate: formatDateForDisplay(req.session.gateway3EstimatedDate),
     submissionDate: formatDateForDisplay(req.session.submissionDate),
+    protocolRecords: getProtocolRecordsForDisplay(req),
     planBand: req.session.planBand || '',
     currentCase
   };
@@ -439,11 +523,175 @@ router.get(['/additional-contact', '/additional-contact.html'], (req, res) => {
   });
 });
 
+router.get(['/protocol', '/protocol.html'], (req, res) => {
+  const recordIndex = parseProtocolRecordIndex(req.query.recordIndex);
+  const record = recordIndex === null ? null : getProtocolRecords(req)[recordIndex];
+  if (recordIndex !== null && !record) return res.redirect(overviewIndexUrl);
+
+  res.render('projects/back-office/manage/overview/v2/protocol', {
+    protocolType: record?.type || '',
+    recordIndex: record ? recordIndex : '',
+    returnUrl: req.query.returnUrl || overviewIndexUrl,
+    isEdit: Boolean(record)
+  });
+});
+
+router.get('/set-protocol-state', (req, res) => {
+  const protocolState = req.query.state;
+
+  if (protocolState === 'none') {
+    req.session.protocolRecords = [];
+  } else if (protocolState === 'sent') {
+    req.session.protocolRecords = [{ type: 'report', sentDate: '1/10/2026', receivedDate: '' }];
+  } else if (protocolState === 'received') {
+    req.session.protocolRecords = [{ type: 'report', sentDate: '1/10/2026', receivedDate: '6/10/2026' }];
+  } else {
+    return res.redirect(overviewIndexUrl);
+  }
+  delete req.session.protocolDraft;
+
+  req.session.save(() => res.redirect(overviewIndexUrl));
+});
+
+router.get('/protocol/remove', (req, res) => {
+  const recordIndex = parseProtocolRecordIndex(req.query.recordIndex);
+  const record = recordIndex === null ? null : getProtocolRecords(req)[recordIndex];
+  if (!record) return res.redirect(req.query.returnUrl || overviewIndexUrl);
+
+  res.render('projects/back-office/manage/overview/v2/protocol-remove-confirm', {
+    protocol: {
+      ...record,
+      type: record.type ? record.type[0].toUpperCase() + record.type.slice(1) : '',
+      sentDateDisplay: formatDateForDisplay(record.sentDate) || 'Not provided',
+      receivedDateDisplay: formatDateForDisplay(record.receivedDate) || 'Not provided'
+    },
+    protocolNumber: recordIndex + 1,
+    recordIndex,
+    returnUrl: req.query.returnUrl || overviewIndexUrl
+  });
+});
+
+router.post('/protocol/remove', (req, res) => {
+  const recordIndex = parseProtocolRecordIndex(req.body.recordIndex);
+  const records = getProtocolRecords(req);
+  if (recordIndex === null || !records[recordIndex]) {
+    return res.redirect(req.body.returnUrl || overviewIndexUrl);
+  }
+
+  records.splice(recordIndex, 1);
+  if (req.session.protocolDraft?.recordIndex === recordIndex) delete req.session.protocolDraft;
+  req.session.protocolSuccessMessage = `Protocol ${recordIndex + 1} removed`;
+  req.session.save(() => res.redirect(req.body.returnUrl || overviewIndexUrl));
+});
+
+router.post('/protocol', (req, res) => {
+  const protocolType = req.body['protocol-type'];
+  if (!['report', 'letter'].includes(protocolType)) {
+    return res.redirect(`${req.baseUrl}/protocol?returnUrl=${encodeURIComponent(req.body.returnUrl || overviewIndexUrl)}`);
+  }
+
+  const records = getProtocolRecords(req);
+  const requestedIndex = parseProtocolRecordIndex(req.body.recordIndex);
+  const record = requestedIndex === null ? null : records[requestedIndex];
+  if (req.body.recordIndex && !record) return res.redirect(overviewIndexUrl);
+
+  const returnUrl = req.body.returnUrl || overviewIndexUrl;
+  const query = new URLSearchParams({ returnUrl });
+  req.session.protocolDraft = {
+    type: protocolType,
+    sentDate: record?.sentDate || '',
+    receivedDate: record?.receivedDate || '',
+    recordIndex: record ? requestedIndex : null,
+    returnUrl
+  };
+  if (record) query.set('recordIndex', String(requestedIndex));
+  req.session.save(() => res.redirect(`${req.baseUrl}/protocol-sent?${query.toString()}`));
+});
+
+router.get(['/protocol-sent', '/protocol-sent.html'], (req, res) => {
+  const requestedIndex = parseProtocolRecordIndex(req.query.recordIndex);
+  let draft = req.session.protocolDraft;
+  if (requestedIndex !== null) {
+    const record = getProtocolRecords(req)[requestedIndex];
+    if (!record) return res.redirect(overviewIndexUrl);
+    if (!draft || draft.recordIndex !== requestedIndex) {
+      draft = {
+        type: record.type,
+        sentDate: record.sentDate,
+        receivedDate: record.receivedDate,
+        recordIndex: requestedIndex,
+        returnUrl: req.query.returnUrl || overviewIndexUrl
+      };
+      req.session.protocolDraft = draft;
+    }
+  }
+  if (!draft) return res.redirect(`${req.baseUrl}/protocol`);
+
+  res.render('projects/back-office/manage/overview/v2/protocol-sent', {
+    protocolSentDateValues: getProtocolDateInputValues(draft.sentDate),
+    recordIndex: draft.recordIndex === null ? '' : draft.recordIndex,
+    returnUrl: draft.returnUrl || req.query.returnUrl || overviewIndexUrl,
+    isEdit: draft.recordIndex !== null
+  });
+});
+
+router.post('/protocol-sent', (req, res) => {
+  const draft = req.session.protocolDraft;
+  if (!draft) return res.redirect(`${req.baseUrl}/protocol`);
+
+  const records = getProtocolRecords(req);
+  const isEdit = draft.recordIndex !== null && records[draft.recordIndex];
+  const record = {
+    type: draft.type,
+    sentDate: getProtocolDateFromRequest(req, 'protocol-sent-date'),
+    receivedDate: draft.receivedDate || ''
+  };
+  if (isEdit) records[draft.recordIndex] = record;
+  else records.push(record);
+
+  delete req.session.protocolDraft;
+  req.session.protocolSuccessMessage = isEdit
+    ? 'Protocol details updated'
+    : 'Protocol details added';
+  req.session.save(() => res.redirect(req.body.returnUrl || draft.returnUrl || overviewIndexUrl));
+});
+
+router.get(['/protocol-received', '/protocol-received.html'], (req, res) => {
+  const recordIndex = parseProtocolRecordIndex(req.query.recordIndex);
+  const record = recordIndex === null ? null : getProtocolRecords(req)[recordIndex];
+  if (!record) return res.redirect(overviewIndexUrl);
+
+  res.render('projects/back-office/manage/overview/v2/protocol-received', {
+    protocolReceivedDateValues: getProtocolDateInputValues(record.receivedDate),
+    recordIndex,
+    returnUrl: req.query.returnUrl || overviewIndexUrl,
+    isEdit: Boolean(record.receivedDate)
+  });
+});
+
+router.post('/protocol-received', (req, res) => {
+  const recordIndex = parseProtocolRecordIndex(req.body.recordIndex);
+  const records = getProtocolRecords(req);
+  const record = recordIndex === null ? null : records[recordIndex];
+  if (!record) return res.redirect(overviewIndexUrl);
+
+  const isEdit = Boolean(record.receivedDate);
+  record.receivedDate = getProtocolDateFromRequest(req, 'protocol-received-date');
+  req.session.protocolSuccessMessage = isEdit
+    ? 'Protocol received date updated'
+    : 'Protocol received date added';
+  req.session.save(() => res.redirect(req.body.returnUrl || overviewIndexUrl));
+});
+
 // GET v2 index
 router.get(['/index', '/index.html'], function (req, res) {
+  const protocolSuccessMessage = req.session.protocolSuccessMessage || '';
+  delete req.session.protocolSuccessMessage;
+
   res.render('projects/back-office/manage/overview/v2/index', {
     ...buildOverviewContext(req),
-    purchaseOrders: getPurchaseOrdersForDisplay(req)
+    purchaseOrders: getPurchaseOrdersForDisplay(req),
+    protocolSuccessMessage
   });
 });
 

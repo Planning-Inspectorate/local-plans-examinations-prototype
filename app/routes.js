@@ -108,6 +108,8 @@ router.use('/', require('./routes/portal'));
 router.use('/projects/back-office/manage/GW2/v4', require('./views/projects/back-office/manage/GW2/v4/_routes'));
 router.use('/', require('./routes/create-case'));
 router.use('/', require('./routes/create-case-v2'));
+router.use('/', require('./routes/create-case-v21'));
+router.use('/', require('./routes/create-case-v6'));
 router.use('/', require('./routes/create-case-v3'));
 router.use('/', require('./routes/create-case-v4'));
 router.use('/', require('./routes/create-case-v5'));

@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-  Case created – {{ serviceName }} – GOV.UK Prototype Kit
+  New case has been created – {{ serviceName }} – GOV.UK Prototype Kit
 {% endblock %}
 
 {% block beforeContent %}
@@ -17,11 +17,11 @@
   <div class="govuk-grid-column-two-thirds">
 
      {{ govukPanel({
-        titleText: "Case created",
+        titleText: "New case has been created",
         html: "The case reference number<br><strong>" + caseRef + "</strong>"
       }) }}
       <p>
-        <a href="/projects/back-office/create-case/v2/index">
+        <a href="/projects/back-office/create-case/v6/index">
           Go to the back office homepage
         </a>
       </p>

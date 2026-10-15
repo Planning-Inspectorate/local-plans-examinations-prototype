@@ -1,0 +1,41 @@
+{% extends "layouts/back-office.html" %}
+{% block pageTitle %}
+  When was it received? – {{ serviceName }}
+{% endblock %}
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    {% include "includes/back-office/plan-reference-caption.njk" %}
+    <form class="form" action="/projects/back-office/manage/overview/v2/protocol-received" method="post">
+      <input type="hidden" name="isEdit" value="{{ isEdit }}">
+      <input type="hidden" name="recordIndex" value="{{ recordIndex }}">
+      <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
+      {{ govukDateInput({
+  namePrefix: "protocol-received-date",
+  values: protocolReceivedDateValues,
+  fieldset: {
+    legend: {
+      text: "When was it received?",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--l"
+    }
+  }
+}) }}
+      <div class="govuk-button-group">
+        {% if isEdit %}
+          <button type="submit" class="govuk-button" data-module="govuk-button">Save and continue</button>
+          <a href="{{ returnUrl or '/projects/back-office/manage/overview/v2/index' }}" class="govuk-link">Cancel</a>
+        {% else %}
+          <button type="submit" class="govuk-button" data-module="govuk-button">Continue</button>
+        {% endif %}
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

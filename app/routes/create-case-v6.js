@@ -1,34 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const {
-  PLAN_STATUS_CLASS_MAP,
-  getPlanStatusClasses
-} = require('./projects/back-office/plan-status-classes');
-
-// Helper function to convert date format from "D MonthName YYYY" or "DD/MM/YYYY" to "DD/MM/YYYY"
-function convertToSlashFormat(dateStr) {
-  if (!dateStr || dateStr === '-') return '';
-  
-  // If already in DD/MM/YYYY format, return as is
-  if (dateStr.includes('/')) return dateStr;
-  
-  // Convert from "D MonthName YYYY" format to "DD/MM/YYYY"
-  const months = {
-    'January': '01', 'February': '02', 'March': '03', 'April': '04',
-    'May': '05', 'June': '06', 'July': '07', 'August': '08',
-    'September': '09', 'October': '10', 'November': '11', 'December': '12'
-  };
-  
-  const parts = dateStr.trim().split(' ');
-  if (parts.length === 3) {
-    const day = parts[0].padStart(2, '0');
-    const month = months[parts[1]];
-    const year = parts[2];
-    if (month && year) return `${day}/${month}/${year}`;
-  }
-  
-  return '';
-}
 
 // ...existing code...
 
@@ -56,8 +27,7 @@ router.get('/projects/back-office/create-case/v6/LPA-region', (req, res) => {
     regionOptions: REGION_OPTIONS,
     isEdit,
     lpa,
-    index,
-    error: null
+    index
   });
 });
 
@@ -65,24 +35,19 @@ router.post('/projects/back-office/create-case/v6/LPA-region', (req, res) => {
   if (req.body.action === 'cancel') {
     return res.redirect('/projects/back-office/create-case/v6/check-answers');
   }
-  if (!req.body.region) {
-    const isEdit = req.body.isEdit === 'true';
-    const index = req.body.index ? parseInt(req.body.index, 10) : 0;
-    const lpas = req.session.lpas || [];
-    const lpa = lpas[index];
-    const lpaRegions = req.session.lpaRegions || {};
-    return res.render('projects/back-office/create-case/v6/LPA-region', {
-      error: 'Select a region',
-      region: lpaRegions[lpa] || '',
-      regionOptions: REGION_OPTIONS,
-      isEdit,
-      lpa,
-      index
-    });
-  }
   const index = req.body.index ? parseInt(req.body.index, 10) : 0;
   const lpas = req.session.lpas || [];
   const lpa = lpas[index];
+  if (!req.body.region) {
+    return res.render('projects/back-office/create-case/v6/LPA-region', {
+      region: '',
+      regionOptions: REGION_OPTIONS,
+      isEdit: req.body.isEdit === 'true',
+      lpa,
+      index,
+      error: 'Select the region of the Local Planning Authority'
+    });
+  }
   if (!req.session.lpaRegions) req.session.lpaRegions = {};
   req.session.lpaRegions[lpa] = req.body.region;
   res.redirect('/projects/back-office/create-case/v6/check-answers');
@@ -91,7 +56,7 @@ router.post('/projects/back-office/create-case/v6/LPA-region', (req, res) => {
 // Start page
 router.get('/projects/back-office/create-case/v6/index', (req, res) => {
   // Reinitialize if cases don't exist or are in old format (missing lpas field)
-  const needsReinit = !req.session.cases || req.session.cases.length === 0 || (req.session.cases.length > 0 && !req.session.cases[0].lpas);
+  const needsReinit = !req.session.cases || req.session.cases.length === 0 || (req.session.cases.length > 0 && !req.session.cases[0].lpas) || (req.session.cases.length > 0 && req.session.cases[0].status === 'Submitted');
   if (needsReinit) {
     req.session.cases = [
       {
@@ -103,11 +68,11 @@ router.get('/projects/back-office/create-case/v6/index', (req, res) => {
         lpaRegions: {'Birmingham City Council': 'West Midlands'},
         mainContact: {name: 'David Wilson', email: 'd.wilson@birmingham.gov.uk', phone: '0121 303 1234', organisation: 'Birmingham City Council'},
         contacts: [{name: 'Emma Thompson', email: 'e.thompson@birmingham.gov.uk', phone: '0121 303 5678', organisation: 'Birmingham City Council'}],
-        noticeOfIntentionDate: '1 March 2026',
-        gateway1Date: '15 April 2026',
-        gateway2Date: '20 June 2026',
-        gateway3Date: '10 September 2026',
-        submissionDate: '15 September 2026',
+        noticeOfIntentionDate: '1 March 2024',
+        gateway1Date: '15 April 2024',
+        gateway2Date: '20 June 2024',
+        gateway3Date: '10 September 2024',
+        submissionDate: '15 September 2024',
         status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-01-15').toISOString()
       },
@@ -120,11 +85,11 @@ router.get('/projects/back-office/create-case/v6/index', (req, res) => {
         lpaRegions: {'Leeds City Council': 'Yorkshire and the Humber'},
         mainContact: {name: 'Sarah Brown', email: 's.brown@leeds.gov.uk', phone: '0113 222 4000', organisation: 'Leeds City Council'},
         contacts: [{name: 'Michael Clarke', email: 'm.clarke@leeds.gov.uk', phone: '0113 222 4001', organisation: 'Leeds City Council'}, {name: 'Lisa Wong', email: 'l.wong@leeds.gov.uk', phone: '0113 222 4002', organisation: 'Leeds City Council'}],
-        noticeOfIntentionDate: '5 February 2026',
-        gateway1Date: '20 March 2026',
-        gateway2Date: '25 May 2026',
-        gateway3Date: '15 August 2026',
-        submissionDate: '20 August 2026',
+        noticeOfIntentionDate: '5 February 2024',
+        gateway1Date: '20 March 2024',
+        gateway2Date: '25 May 2024',
+        gateway3Date: '15 August 2024',
+        submissionDate: '20 August 2024',
         status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-01-20').toISOString()
       },
@@ -137,11 +102,11 @@ router.get('/projects/back-office/create-case/v6/index', (req, res) => {
         lpaRegions: {'Brighton and Hove City Council': 'South East'},
         mainContact: {name: 'Jennifer Lee', email: 'j.lee@brighton-hove.gov.uk', phone: '01273 292 000', organisation: 'Brighton and Hove City Council'},
         contacts: [{name: 'Robert Davis', email: 'r.davis@brighton-hove.gov.uk', phone: '01273 292 001', organisation: 'Brighton and Hove City Council'}],
-        noticeOfIntentionDate: '10 January 2026',
-        gateway1Date: '25 February 2026',
-        gateway2Date: '30 April 2026',
-        gateway3Date: '20 July 2026',
-        submissionDate: '25 July 2026',
+        noticeOfIntentionDate: '10 January 2024',
+        gateway1Date: '25 February 2024',
+        gateway2Date: '30 April 2024',
+        gateway3Date: '20 July 2024',
+        submissionDate: '25 July 2024',
         status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-01-25').toISOString()
       },
@@ -154,11 +119,11 @@ router.get('/projects/back-office/create-case/v6/index', (req, res) => {
         lpaRegions: {'Manchester City Council': 'North West'},
         mainContact: {name: 'Patricia Martin', email: 'p.martin@manchester.gov.uk', phone: '0161 234 5000', organisation: 'Manchester City Council'},
         contacts: [{name: 'Kevin Foster', email: 'k.foster@manchester.gov.uk', phone: '0161 234 5001', organisation: 'Manchester City Council'}, {name: 'Amy Stewart', email: 'a.stewart@manchester.gov.uk', phone: '0161 234 5002', organisation: 'Manchester City Council'}, {name: 'James Murray', email: 'j.murray@manchester.gov.uk', phone: '0161 234 5003', organisation: 'Manchester City Council'}],
-        noticeOfIntentionDate: '15 December 2026',
-        gateway1Date: '28 January 2026',
-        gateway2Date: '5 April 2026',
-        gateway3Date: '25 June 2026',
-        submissionDate: '30 June 2026',
+        noticeOfIntentionDate: '15 December 2023',
+        gateway1Date: '28 January 2024',
+        gateway2Date: '5 April 2024',
+        gateway3Date: '25 June 2024',
+        submissionDate: '30 June 2024',
         status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-02-01').toISOString()
       },
@@ -171,11 +136,11 @@ router.get('/projects/back-office/create-case/v6/index', (req, res) => {
         lpaRegions: {'Norwich City Council': 'East of England'},
         mainContact: {name: 'Catherine Bennett', email: 'c.bennett@norwich.gov.uk', phone: '01603 212 000', organisation: 'Norwich City Council'},
         contacts: [{name: 'George Wright', email: 'g.wright@norwich.gov.uk', phone: '01603 212 001', organisation: 'Norwich City Council'}],
-        noticeOfIntentionDate: '20 February 2026',
-        gateway1Date: '10 April 2026',
-        gateway2Date: '15 June 2026',
-        gateway3Date: '5 September 2026',
-        submissionDate: '10 September 2026',
+        noticeOfIntentionDate: '20 February 2024',
+        gateway1Date: '10 April 2024',
+        gateway2Date: '15 June 2024',
+        gateway3Date: '5 September 2024',
+        submissionDate: '10 September 2024',
         status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-02-10').toISOString()
       },
@@ -188,11 +153,11 @@ router.get('/projects/back-office/create-case/v6/index', (req, res) => {
         lpaRegions: {'Nottingham City Council': 'East Midlands'},
         mainContact: {name: 'Victoria Harris', email: 'v.harris@nottingham.gov.uk', phone: '0115 876 5000', organisation: 'Nottingham City Council'},
         contacts: [{name: 'Edward Roberts', email: 'e.roberts@nottingham.gov.uk', phone: '0115 876 5001', organisation: 'Nottingham City Council'}, {name: 'Susan Taylor', email: 's.taylor@nottingham.gov.uk', phone: '0115 876 5002', organisation: 'Nottingham City Council'}],
-        noticeOfIntentionDate: '25 January 2026',
-        gateway1Date: '12 March 2026',
-        gateway2Date: '18 May 2026',
-        gateway3Date: '8 August 2026',
-        submissionDate: '13 August 2026',
+        noticeOfIntentionDate: '25 January 2024',
+        gateway1Date: '12 March 2024',
+        gateway2Date: '18 May 2024',
+        gateway3Date: '8 August 2024',
+        submissionDate: '13 August 2024',
         status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-02-15').toISOString()
       },
@@ -205,11 +170,11 @@ router.get('/projects/back-office/create-case/v6/index', (req, res) => {
         lpaRegions: {'Coventry City Council': 'West Midlands'},
         mainContact: {name: 'Margaret Wilson', email: 'm.wilson@coventry.gov.uk', phone: '024 7683 3333', organisation: 'Coventry City Council'},
         contacts: [{name: 'Peter Johnson', email: 'p.johnson@coventry.gov.uk', phone: '024 7683 3334', organisation: 'Coventry City Council'}],
-        noticeOfIntentionDate: '8 March 2026',
-        gateway1Date: '22 April 2026',
-        gateway2Date: '28 June 2026',
-        gateway3Date: '18 September 2026',
-        submissionDate: '23 September 2026',
+        noticeOfIntentionDate: '8 March 2024',
+        gateway1Date: '22 April 2024',
+        gateway2Date: '28 June 2024',
+        gateway3Date: '18 September 2024',
+        submissionDate: '23 September 2024',
         status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-02-20').toISOString()
       },
@@ -222,11 +187,11 @@ router.get('/projects/back-office/create-case/v6/index', (req, res) => {
         lpaRegions: {'Bristol City Council': 'South West'},
         mainContact: {name: 'Elizabeth Moore', email: 'e.moore@bristol.gov.uk', phone: '0117 922 2000', organisation: 'Bristol City Council'},
         contacts: [{name: 'Richard Turner', email: 'r.turner@bristol.gov.uk', phone: '0117 922 2001', organisation: 'Bristol City Council'}, {name: 'Margaret Phillips', email: 'm.phillips@bristol.gov.uk', phone: '0117 922 2002', organisation: 'Bristol City Council'}],
-        noticeOfIntentionDate: '12 February 2026',
-        gateway1Date: '28 March 2026',
-        gateway2Date: '2 June 2026',
-        gateway3Date: '22 August 2026',
-        submissionDate: '27 August 2026',
+        noticeOfIntentionDate: '12 February 2024',
+        gateway1Date: '28 March 2024',
+        gateway2Date: '2 June 2024',
+        gateway3Date: '22 August 2024',
+        submissionDate: '27 August 2024',
         status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-02-25').toISOString()
       },
@@ -239,11 +204,11 @@ router.get('/projects/back-office/create-case/v6/index', (req, res) => {
         lpaRegions: {'York City Council': 'Yorkshire and the Humber'},
         mainContact: {name: 'Julia Anderson', email: 'j.anderson@york.gov.uk', phone: '01904 613 000', organisation: 'York City Council'},
         contacts: [{name: 'William Jackson', email: 'w.jackson@york.gov.uk', phone: '01904 613 001', organisation: 'York City Council'}],
-        noticeOfIntentionDate: '18 March 2026',
-        gateway1Date: '5 May 2026',
-        gateway2Date: '10 July 2026',
-        gateway3Date: '30 September 2026',
-        submissionDate: '5 October 2026',
+        noticeOfIntentionDate: '18 March 2024',
+        gateway1Date: '5 May 2024',
+        gateway2Date: '10 July 2024',
+        gateway3Date: '30 September 2024',
+        submissionDate: '5 October 2024',
         status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-03-01').toISOString()
       },
@@ -256,31 +221,24 @@ router.get('/projects/back-office/create-case/v6/index', (req, res) => {
         lpaRegions: {'Southampton City Council': 'South East'},
         mainContact: {name: 'Dorothy Garcia', email: 'd.garcia@southampton.gov.uk', phone: '023 8083 3000', organisation: 'Southampton City Council'},
         contacts: [{name: 'Frank Miller', email: 'f.miller@southampton.gov.uk', phone: '023 8083 3001', organisation: 'Southampton City Council'}, {name: 'Helen Davis', email: 'h.davis@southampton.gov.uk', phone: '023 8083 3002', organisation: 'Southampton City Council'}, {name: 'Thomas Brown', email: 't.brown@southampton.gov.uk', phone: '023 8083 3003', organisation: 'Southampton City Council'}],
-        noticeOfIntentionDate: '22 January 2026',
-        gateway1Date: '8 March 2026',
-        gateway2Date: '12 May 2026',
-        gateway3Date: '2 August 2026',
-        submissionDate: '7 August 2026',
-        statusStrategy: 'fixed',
-        status: 'Gateway 2 Validation',
+        noticeOfIntentionDate: '22 January 2024',
+        gateway1Date: '8 March 2024',
+        gateway2Date: '12 May 2024',
+        gateway3Date: '2 August 2024',
+        submissionDate: '7 August 2024',
+        status: 'Awaiting Gateway 2',
         createdDate: new Date('2024-03-05').toISOString()
       }
     ];
   }
-
-  const journey = req.query.journey === 'side' ? 'side' : 'default';
   res.render('projects/back-office/create-case/v6/index', {
-    cases: req.session.cases.slice().reverse(),
-    showEmpty: req.query.showEmpty === 'true',
-    planStatusClassMap: PLAN_STATUS_CLASS_MAP,
-    journey
+    cases: req.session.cases.slice().reverse()
   });
 });
 
 // Load case - populates session with case data and redirects to manage
 router.get('/projects/back-office/create-case/v6/load-case', (req, res) => {
   const { caseRef } = req.query;
-  const destination = req.query.destination === 'overview-side' ? 'overview-side' : 'overview';
   
   // Find the case in the cases array
   if (!req.session.cases) {
@@ -354,32 +312,17 @@ router.get('/projects/back-office/create-case/v6/load-case', (req, res) => {
   req.session.mainContact = caseToLoad.mainContact || null;
   req.session.contacts = caseToLoad.contacts || [];
   req.session.noticeOfIntentionDate = caseToLoad.noticeOfIntentionDate || '';
-  // Map gateway dates - create-case/v2 stores as gateway1Date, manage pages expect gateway1EstimatedDate
+  // Map gateway dates - create-case-v2 stores as gateway1Date, manage pages expect gateway1EstimatedDate
   req.session.gateway1EstimatedDate = caseToLoad.gateway1Date || '';
   req.session.gateway2EstimatedDate = caseToLoad.gateway2Date || '';
   req.session.gateway3EstimatedDate = caseToLoad.gateway3Date || '';
   req.session.submissionDate = caseToLoad.submissionDate || '';
-  req.session.planStatus = caseToLoad.status || 'Submitted';
-  caseToLoad.status = req.session.planStatus;
-  if (!req.session.data) req.session.data = {};
-  req.session.data.planStatus = req.session.planStatus;
-  req.session.data.planStatusClasses = getPlanStatusClasses(req.session.planStatus);
-  req.session.data.planStatusClassMap = PLAN_STATUS_CLASS_MAP;
   // Populate examination estimated date from gateway3 - stored in D MMMM YYYY format (GOV.UK standard)
   const gateway3Date = caseToLoad.gateway3Date || '';
   req.session.examinationEstimatedDate = (gateway3Date && gateway3Date !== '') ? gateway3Date : '';
-
-  if (destination === 'overview-side') {
-    const selectedOverviewVersion = req.session?.workflowNavVersionOverrides?.overview;
-    const sideOverviewVersion = selectedOverviewVersion === 'v1' || selectedOverviewVersion === 'v2'
-      ? selectedOverviewVersion
-      : 'v2';
-    return res.redirect(`/projects/back-office/manage/overview/${sideOverviewVersion}/index-side`);
-  }
-
-  // Redirect to selected overview version from nav tester (defaults to v2).
-  const selectedOverviewVersion = req.session?.workflowNavVersionOverrides?.overview || 'v2';
-  res.redirect(`/projects/back-office/manage/overview/${selectedOverviewVersion}/index`);
+  
+  // Redirect to the active manage overview route
+  res.redirect('/projects/back-office/manage/overview/v2/index');
 });
 
 // Case officer
@@ -388,8 +331,7 @@ router.get('/projects/back-office/create-case/v6/0-case-officer-name', (req, res
   res.render('projects/back-office/create-case/v6/0-case-officer-name', {
     caseOfficer: req.session.caseOfficer,
     lpa: req.session.lpa,
-    isEdit: isEdit,
-    error: null
+    isEdit: isEdit
   });
 });
 
@@ -397,8 +339,9 @@ router.post('/projects/back-office/create-case/v6/0-case-officer-name', (req, re
   if (!req.body.caseOfficer) {
     return res.render('projects/back-office/create-case/v6/0-case-officer-name', {
       error: 'Select a case officer',
-      caseOfficer: req.session.caseOfficer,
-      lpa: req.session.lpa
+      caseOfficer: req.body.caseOfficer || req.session.caseOfficer,
+      lpa: req.session.lpa,
+      isEdit: req.body.isEdit === 'true'
     });
   }
   const isEdit = req.body.isEdit === 'true';
@@ -417,8 +360,7 @@ router.get('/projects/back-office/create-case/v6/1-plan-title', (req, res) => {
   const isEdit = req.query.edit === 'true';
   res.render('projects/back-office/create-case/v6/1-plan-title', {
     planTitle: req.session.planTitle,
-    isEdit: isEdit,
-    error: null
+    isEdit: isEdit
   });
 });
 
@@ -444,8 +386,7 @@ router.get('/projects/back-office/create-case/v6/2-plan-type', (req, res) => {
   const isEdit = req.query.edit === 'true';
   res.render('projects/back-office/create-case/v6/2-plan-type', {
     planType: req.session.planType,
-    isEdit: isEdit,
-    error: null
+    isEdit: isEdit
   });
 });
 
@@ -453,18 +394,17 @@ router.post('/projects/back-office/create-case/v6/2-plan-type', (req, res) => {
   if (!req.body['plan-type']) {
     return res.render('projects/back-office/create-case/v6/2-plan-type', {
       error: 'Select a plan type',
-      planType: req.session.planType
+      planType: req.body['plan-type'] || req.session.planType,
+      isEdit: req.body.isEdit === 'true'
     });
   }
   const isEdit = req.body.isEdit === 'true';
-  // Convert hyphenated value to display format (e.g., "local-plan" -> "Local plan")
-  const planTypeValue = req.body['plan-type'];
-  req.session.planType = planTypeValue === 'local-plan' ? 'Local plan' : planTypeValue;
+  req.session.planType = req.body['plan-type'];
   
   if (isEdit) {
     res.redirect('/projects/back-office/create-case/v6/check-answers');
   } else {
-    res.redirect('/projects/back-office/create-case/v6/3-select-LPA');
+    res.redirect('/projects/back-office/create-case/v6/check-lpa');
   }
 });
 
@@ -489,12 +429,13 @@ router.get('/projects/back-office/create-case/v6/3-select-LPA', (req, res) => {
     lpaList,
     selectedLPA,
     isEdit,
-    index,
-    error: null
+    index
   });
 });
 
 router.post('/projects/back-office/create-case/v6/3-select-LPA', (req, res) => {
+  const index = req.body.index ? parseInt(req.body.index, 10) : 0;
+
   if (!req.body.lpa) {
     const path = require('path');
     const fs = require('fs');
@@ -505,21 +446,16 @@ router.post('/projects/back-office/create-case/v6/3-select-LPA', (req, res) => {
     } catch (e) {
       lpaList = [];
     }
-    const isEdit = req.body.isEdit === 'true';
-    const index = req.body.index ? parseInt(req.body.index, 10) : 0;
-    let selectedLPA = undefined;
-    if (req.session.lpas && req.session.lpas.length > index) {
-      selectedLPA = req.session.lpas[index];
-    }
+
     return res.render('projects/back-office/create-case/v6/3-select-LPA', {
-      error: 'You need to select a planning authority',
       lpaList,
-      selectedLPA,
-      isEdit,
-      index
+      selectedLPA: '',
+      isEdit: req.body.isEdit === 'true',
+      index,
+      error: 'You need to add a planning authority'
     });
   }
-  const index = req.body.index ? parseInt(req.body.index, 10) : 0;
+
   if (!req.session.lpas) req.session.lpas = [];
   req.session.lpas[index] = req.body.lpa;
 
@@ -540,30 +476,27 @@ router.post('/projects/back-office/create-case/v6/3-select-LPA', (req, res) => {
   if (req.body.isEdit === 'true') {
     return res.redirect('/projects/back-office/create-case/v6/check-answers');
   }
-  res.redirect('/projects/back-office/create-case/v6/add-additional-lpa');
+  res.redirect('/projects/back-office/create-case/v6/check-lpa');
 });
 
-// Add additional LPA page
-router.get('/projects/back-office/create-case/v6/add-additional-lpa', (req, res) => {
-  res.render('projects/back-office/create-case/v6/add-additional-lpa', {
-    hasAdditionalLPA: req.session.hasAdditionalLPA,
-    error: null
+// Check LPA list and add another when needed
+router.get('/projects/back-office/create-case/v6/check-lpa', (req, res) => {
+  res.render('projects/back-office/create-case/v6/check-lpa', {
+    lpas: req.session.lpas || []
   });
 });
 
+router.post('/projects/back-office/create-case/v6/check-lpa', (req, res) => {
+  res.redirect('/projects/back-office/create-case/v6/main-contact');
+});
+
+// Backward-compatible alias for the previous yes/no step
+router.get('/projects/back-office/create-case/v6/add-additional-lpa', (req, res) => {
+  res.redirect('/projects/back-office/create-case/v6/check-lpa');
+});
+
 router.post('/projects/back-office/create-case/v6/add-additional-lpa', (req, res) => {
-  if (!req.body.hasAdditionalLPA) {
-    return res.render('projects/back-office/create-case/v6/add-additional-lpa', {
-      error: 'Select yes if you want to add another planning authority',
-      hasAdditionalLPA: req.session.hasAdditionalLPA
-    });
-  }
-  req.session.hasAdditionalLPA = req.body.hasAdditionalLPA;
-  if (req.body.hasAdditionalLPA === 'yes') {
-    res.redirect('/projects/back-office/create-case/v6/additional-LPA');
-  } else {
-    res.redirect('/projects/back-office/create-case/v6/main-contact');
-  }
+  res.redirect('/projects/back-office/create-case/v6/check-lpa');
 });
 
 // Additional LPA page
@@ -581,78 +514,95 @@ router.get('/projects/back-office/create-case/v6/additional-LPA', (req, res) => 
 });
 
 router.post('/projects/back-office/create-case/v6/additional-LPA', (req, res) => {
+  if (!req.body.lpa) {
+    const path = require('path');
+    const fs = require('fs');
+    const lpaListPath = path.join(__dirname, '../data/lpa-list.json');
+    let lpaList = [];
+    try {
+      lpaList = JSON.parse(fs.readFileSync(lpaListPath, 'utf8'));
+    } catch (e) {
+      lpaList = [];
+    }
+
+    return res.render('projects/back-office/create-case/v6/additional-LPA', {
+      lpaList,
+      selectedLPA: '',
+      error: 'Select the additional Local Planning Authority for this plan'
+    });
+  }
+
   if (!req.session.lpas) req.session.lpas = [];
-  req.session.lpas.push(req.body.lpa); // Add new LPA to array
-  res.redirect('/projects/back-office/create-case/v6/add-additional-lpa');
+  req.session.lpas.push(req.body.lpa);
+  res.redirect('/projects/back-office/create-case/v6/check-lpa');
 });
 
 // Main contact page (single GET route, uses mainContact)
 router.get('/projects/back-office/create-case/v6/main-contact', (req, res) => {
   const isEdit = req.query.edit === 'true';
+  const mainContact = req.session.mainContact || {};
   res.render('projects/back-office/create-case/v6/main-contact', {
     lpas: req.session.lpas || [],
-    mainContact: req.session.mainContact,
-    isEdit: isEdit,
-    error: null
+    mainContact: {
+      ...mainContact,
+      fullName: mainContact.fullName || [mainContact.firstName, mainContact.lastName].filter(Boolean).join(' ')
+    },
+    isEdit: isEdit
   });
 });
 
 router.post('/projects/back-office/create-case/v6/main-contact', (req, res) => {
   const isEdit = req.body.isEdit === 'true';
-  
-  // Validation
-  if (!req.body.mainContactFirstName) {
-    return res.render('projects/back-office/create-case/v6/main-contact', {
-      error: { field: 'mainContactFirstName', message: 'Enter a first name' },
-      lpas: req.session.lpas || [],
-      mainContact: req.session.mainContact,
-      isEdit: isEdit
-    });
-  }
-  if (!req.body.mainContactLastName) {
-    return res.render('projects/back-office/create-case/v6/main-contact', {
-      error: { field: 'mainContactLastName', message: 'Enter a last name' },
-      lpas: req.session.lpas || [],
-      mainContact: req.session.mainContact,
-      isEdit: isEdit
-    });
-  }
-  if (!req.body.mainContactEmail) {
-    return res.render('projects/back-office/create-case/v6/main-contact', {
-      error: { field: 'mainContactEmail', message: 'Enter an email address' },
-      lpas: req.session.lpas || [],
-      mainContact: req.session.mainContact,
-      isEdit: isEdit
-    });
-  }
-  
-  // Validate organisation if multiple LPAs
-  if (req.session.lpas && req.session.lpas.length > 1 && !req.body.contactOrganisation) {
-    return res.render('projects/back-office/create-case/v6/main-contact', {
-      error: { field: 'contactOrganisation', message: 'Select a planning authority' },
-      lpas: req.session.lpas || [],
-      mainContact: req.session.mainContact,
-      isEdit: isEdit
-    });
-  }
-  
-  req.session.mainContact = {
-    firstName: req.body.mainContactFirstName,
-    lastName: req.body.mainContactLastName,
-    email: req.body.mainContactEmail,
-    phone: req.body.mainContactPhone,
-    organisation: req.body.contactOrganisation
+  const from = req.body.from || req.query.from || '';
+  const fullName = (req.body.mainContactFullName || '').trim();
+  const nameParts = fullName.split(/\s+/).filter(Boolean);
+  const mainContact = {
+    firstName: req.body.mainContactFirstName || nameParts[0] || '',
+    lastName: req.body.mainContactLastName || nameParts.slice(1).join(' '),
+    fullName,
+    email: req.body.mainContactEmail || '',
+    phone: req.body.mainContactPhone || '',
+    organisation: req.body.contactOrganisation || ''
   };
+  const errors = {};
+  const errorList = [];
+
+  if (!fullName && !mainContact.firstName) {
+    errors.fullName = 'Enter a full name';
+    errorList.push({ text: errors.fullName, href: '#main-contact-full-name' });
+  }
+  if (!mainContact.email) {
+    errors.email = 'Enter an email address';
+    errorList.push({ text: errors.email, href: '#main-contact-email' });
+  }
+  if ((req.session.lpas || []).length > 1 && !mainContact.organisation) {
+    errors.organisation = 'Select a planning authority';
+    errorList.push({ text: errors.organisation, href: '#contact-organisation' });
+  }
+
+  if (errorList.length > 0) {
+    return res.render('projects/back-office/create-case/v6/main-contact', {
+      lpas: req.session.lpas || [],
+      mainContact,
+      isEdit,
+      from,
+      selectedOrganisation: mainContact.organisation,
+      errors,
+      errorList
+    });
+  }
+  
+  req.session.mainContact = mainContact;
   
   if (isEdit) {
-    const fromPage = req.query.from || 'check-answers';
+    const fromPage = from || 'check-answers';
     if (fromPage === 'check-contact-details') {
       res.redirect('/projects/back-office/create-case/v6/check-contact-details');
     } else {
       res.redirect('/projects/back-office/create-case/v6/check-answers');
     }
   } else {
-    res.redirect('/projects/back-office/create-case/v6/add-another-contact');
+    res.redirect('/projects/back-office/create-case/v6/check-contact-details');
   }
 });
 
@@ -672,35 +622,34 @@ router.post('/projects/back-office/create-case/v6/remove-contact', (req, res) =>
 });
 // Check contact details page
 router.get('/projects/back-office/create-case/v6/check-contact-details', (req, res) => {
+  const contacts = req.session.contacts || [];
+  const contactCount = (req.session.mainContact ? 1 : 0)
+    + contacts.filter(contact => contact && (contact.firstName || contact.lastName || contact.email)).length;
+
   res.render('projects/back-office/create-case/v6/check-contact-details', {
     mainContact: req.session.mainContact,
-    contacts: req.session.contacts || []
+    contacts,
+    addAnotherContact: req.session.addAnotherContact,
+    contactCount
   });
+});
+
+router.post('/projects/back-office/create-case/v6/check-contact-details', (req, res) => {
+  const addAnotherContact = req.body.addAnotherContact;
+  if (addAnotherContact === 'yes') {
+    req.session.addAnotherContact = addAnotherContact;
+    return res.redirect('/projects/back-office/create-case/v6/additional-contact?from=check-contact-details');
+  }
+  res.redirect('/projects/back-office/create-case/v6/enter-key-dates');
 });
 
 // Add another contact page
 router.get('/projects/back-office/create-case/v6/add-another-contact', (req, res) => {
-  res.render('projects/back-office/create-case/v6/add-another-contact', {
-    addAnotherContact: req.session.addAnotherContact,
-    contacts: req.session.contacts || [],
-    error: null
-  });
+  res.redirect('/projects/back-office/create-case/v6/check-contact-details');
 });
 
 router.post('/projects/back-office/create-case/v6/add-another-contact', (req, res) => {
-  if (!req.body.addAnotherContact) {
-    return res.render('projects/back-office/create-case/v6/add-another-contact', {
-      error: 'Select yes if you want to add another contact',
-      addAnotherContact: req.session.addAnotherContact,
-      contacts: req.session.contacts || []
-    });
-  }
-  req.session.addAnotherContact = req.body.addAnotherContact;
-  if (req.body.addAnotherContact === 'yes') {
-    res.redirect('/projects/back-office/create-case/v6/additional-contact');
-  } else {
-    res.redirect('/projects/back-office/create-case/v6/check-contact-details');
-  }
+  res.redirect('/projects/back-office/create-case/v6/check-contact-details');
 });
 
 // Additional contact add/edit
@@ -719,7 +668,7 @@ router.get('/projects/back-office/create-case/v6/additional-contact', (req, res)
     editIndex = Number(editIndex);
     contact = req.session.contacts[editIndex];
   } else {
-    if (req.session.lpas && req.session.lpas.length > 0) {
+    if (req.session.lpas && req.session.lpas.length === 1) {
       contact.organisation = req.session.lpas[0];
     }
     editIndex = '';
@@ -728,8 +677,7 @@ router.get('/projects/back-office/create-case/v6/additional-contact', (req, res)
     lpas: req.session.lpas || [],
     contact,
     editIndex,
-    fromCheckAnswers,
-    error: null
+    fromCheckAnswers
   });
 });
 
@@ -737,64 +685,45 @@ router.post('/projects/back-office/create-case/v6/additional-contact', (req, res
   if (!req.session.contacts) req.session.contacts = [];
   const fromCheckAnswers = req.body.fromCheckAnswers === 'true';
   const fromCheckContactDetails = req.query.from === 'check-contact-details' || req.body.from === 'check-contact-details';
-  
-  // Validation
-  if (!req.body.firstName) {
-    let contact = {};
-    let editIndex = req.body.editIndex;
-    if (editIndex !== undefined && editIndex !== '') {
-      contact = req.session.contacts[Number(editIndex)] || {};
-    }
-    return res.render('projects/back-office/create-case/v6/additional-contact', {
-      error: { field: 'firstName', message: 'Enter a first name' },
-      lpas: req.session.lpas || [],
-      contact,
-      editIndex,
-      fromCheckAnswers
-    });
+  const from = req.body.from || req.query.from || '';
+
+  const contact = {
+    firstName: req.body.firstName || '',
+    lastName: req.body.lastName || '',
+    email: req.body.email || '',
+    phone: req.body.phone || '',
+    organisation: req.body.contactOrganisation || ''
+  };
+  const errors = {};
+  const errorList = [];
+
+  if (!contact.firstName) {
+    errors.firstName = 'Enter your first name';
+    errorList.push({ text: errors.firstName, href: '#additional-contact-first-name' });
   }
-  if (!req.body.lastName) {
-    let contact = {};
-    let editIndex = req.body.editIndex;
-    if (editIndex !== undefined && editIndex !== '') {
-      contact = req.session.contacts[Number(editIndex)] || {};
-    }
-    return res.render('projects/back-office/create-case/v6/additional-contact', {
-      error: { field: 'lastName', message: 'Enter a last name' },
-      lpas: req.session.lpas || [],
-      contact,
-      editIndex,
-      fromCheckAnswers
-    });
+  if (!contact.lastName) {
+    errors.lastName = 'Enter your last name';
+    errorList.push({ text: errors.lastName, href: '#additional-contact-last-name' });
   }
-  if (!req.body.email) {
-    let contact = {};
-    let editIndex = req.body.editIndex;
-    if (editIndex !== undefined && editIndex !== '') {
-      contact = req.session.contacts[Number(editIndex)] || {};
-    }
-    return res.render('projects/back-office/create-case/v6/additional-contact', {
-      error: { field: 'email', message: 'Enter an email address' },
-      lpas: req.session.lpas || [],
-      contact,
-      editIndex,
-      fromCheckAnswers
-    });
+  if (!contact.email) {
+    errors.email = 'Enter an email address';
+    errorList.push({ text: errors.email, href: '#additional-contact-email' });
   }
-  
-  // Validate organisation if multiple LPAs
-  if (req.session.lpas && req.session.lpas.length > 1 && !req.body.contactOrganisation) {
-    let contact = {};
-    let editIndex = req.body.editIndex;
-    if (editIndex !== undefined && editIndex !== '') {
-      contact = req.session.contacts[Number(editIndex)] || {};
-    }
+  if ((req.session.lpas || []).length > 1 && !contact.organisation) {
+    errors.organisation = 'Select a planning authority';
+    errorList.push({ text: errors.organisation, href: '#contact-organisation' });
+  }
+
+  if (errorList.length > 0) {
     return res.render('projects/back-office/create-case/v6/additional-contact', {
-      error: { field: 'contactOrganisation', message: 'Select an organisation' },
       lpas: req.session.lpas || [],
       contact,
-      editIndex,
-      fromCheckAnswers
+      editIndex: req.body.editIndex !== undefined ? req.body.editIndex : '',
+      fromCheckAnswers,
+      from,
+      selectedOrganisation: contact.organisation,
+      errors,
+      errorList
     });
   }
   
@@ -830,7 +759,7 @@ router.post('/projects/back-office/create-case/v6/additional-contact', (req, res
         return res.redirect('/projects/back-office/create-case/v6/check-answers');
       }
     } else {
-      return res.redirect('/projects/back-office/create-case/v6/check-contact-details');
+      return res.redirect('/projects/back-office/create-case/v6/add-another-contact');
     }
   }
 });
@@ -887,38 +816,17 @@ router.get('/projects/back-office/create-case/v6/enter-key-dates', (req, res) =>
   res.render('projects/back-office/create-case/v6/enter-key-dates', {
     mainContact: req.session.mainContact,
     contacts: req.session.contacts || [],
-    noticeOfIntentionDate: convertToSlashFormat(req.session.noticeOfIntentionDate),
-    gateway1Date: convertToSlashFormat(req.session.gateway1Date),
-    gateway2Date: convertToSlashFormat(req.session.gateway2Date),
-    gateway3Date: convertToSlashFormat(req.session.gateway3Date),
-    submissionDate: convertToSlashFormat(req.session.submissionDate),
-    isEdit: isEdit,
-    error: null
+    noticeOfIntentionDate: req.session.noticeOfIntentionDate,
+    gateway1Date: req.session.gateway1Date,
+    gateway2Date: req.session.gateway2Date,
+    gateway3Date: req.session.gateway3Date,
+    submissionDate: req.session.submissionDate,
+    isEdit: isEdit
   });
 });
 
 router.post('/projects/back-office/create-case/v6/enter-key-dates', (req, res) => {
   const isEdit = req.body.isEdit === 'true';
-  
-  // Validation: first date (notice of intention) is required
-  const hasNoticeDay = req.body['notice-of-intention-date-day'];
-  const hasNoticeMonth = req.body['notice-of-intention-date-month'];
-  const hasNoticeYear = req.body['notice-of-intention-date-year'];
-  
-  if (!hasNoticeDay || !hasNoticeMonth || !hasNoticeYear) {
-    return res.render('projects/back-office/create-case/v6/enter-key-dates', {
-      error: 'Enter the notice of intention date',
-      mainContact: req.session.mainContact,
-      contacts: req.session.contacts || [],
-      noticeOfIntentionDate: convertToSlashFormat(req.session.noticeOfIntentionDate),
-      gateway1Date: convertToSlashFormat(req.session.gateway1Date),
-      gateway2Date: convertToSlashFormat(req.session.gateway2Date),
-      gateway3Date: convertToSlashFormat(req.session.gateway3Date),
-      submissionDate: convertToSlashFormat(req.session.submissionDate),
-      isEdit: isEdit
-    });
-  }
-  
   // Helper to format date as D MMMM YYYY (GOV.UK standard)
   const formatDate = (day, month, year) => {
     if (!day || !month || !year) return '';
@@ -926,6 +834,46 @@ router.post('/projects/back-office/create-case/v6/enter-key-dates', (req, res) =
     const monthName = months[parseInt(month, 10)] || month;
     return `${parseInt(day, 10)} ${monthName} ${year}`;
   };
+
+  const dateFields = [
+    ['noticeOfIntentionDate', 'notice-of-intention-date'],
+    ['gateway1Date', 'gateway-1-date'],
+    ['gateway2Date', 'gateway-2-date'],
+    ['gateway3Date', 'gateway-3-date'],
+    ['submissionDate', 'submission-date']
+  ];
+  const errors = {};
+  const dateValues = {};
+
+  dateFields.forEach(([field, prefix]) => {
+    const day = req.body[`${prefix}-day`] || '';
+    const month = req.body[`${prefix}-month`] || '';
+    const year = req.body[`${prefix}-year`] || '';
+    const hasValue = day || month || year;
+    dateValues[field] = `${day}/${month}/${year}`;
+
+    if (hasValue) {
+      const date = new Date(Number(year), Number(month) - 1, Number(day));
+      const validDate = /^\d{1,2}$/.test(day) && /^\d{1,2}$/.test(month) && /^\d{4}$/.test(year)
+        && Number(month) >= 1 && Number(month) <= 12
+        && Number(day) >= 1 && Number(day) <= 31
+        && date.getFullYear() === Number(year)
+        && date.getMonth() === Number(month) - 1
+        && date.getDate() === Number(day);
+
+      if (!validDate) {
+        errors[field] = 'Enter a valid date';
+      }
+    }
+  });
+
+  if (Object.keys(errors).length > 0) {
+    return res.render('projects/back-office/create-case/v6/enter-key-dates', {
+      ...dateValues,
+      errors,
+      isEdit
+    });
+  }
   
   req.session.noticeOfIntentionDate = formatDate(req.body['notice-of-intention-date-day'], req.body['notice-of-intention-date-month'], req.body['notice-of-intention-date-year']);
   req.session.gateway1Date = formatDate(req.body['gateway-1-date-day'], req.body['gateway-1-date-month'], req.body['gateway-1-date-year']);
@@ -982,7 +930,7 @@ router.post('/projects/back-office/create-case/v6/check-answers', (req, res) => 
     gateway2Date: req.session.gateway2Date,
     gateway3Date: req.session.gateway3Date,
     submissionDate: req.session.submissionDate,
-    status: 'Submitted',
+    status: 'Awaiting Gateway 2',
     createdDate: new Date().toISOString()
   };
   
@@ -1014,24 +962,92 @@ router.get('/projects/back-office/create-case/v6/clear-data', (req, res) => {
   req.session.gateway2Date = undefined;
   req.session.gateway3Date = undefined;
   req.session.submissionDate = undefined;
-  req.session.planStatus = undefined;
   req.session.secondaryLPAContacts = [];
   req.session.cases = []; // Clear all cases
   req.session.latestCaseRef = undefined;
-
-  // Also clear back-office manage journey state (including GW2 v4)
-  req.session.gw2v3WorkshopDocuments = undefined;
-  req.session.gw2v4IssueReportDocuments = undefined;
-  req.session.gw2v4ReportIssued = undefined;
-  req.session.gw2v4UploadReturnTo = undefined;
-  req.session.hearings = undefined;
-  req.session.notificationMessage = undefined;
-  req.session.workflowNavVersionOverrides = undefined;
-
   req.session.data = {}; // Also clear the default data object
   req.session.save(() => {
     res.redirect('/projects/back-office/create-case/v6/index');
   });
+});
+
+const buildContactOptions = (mainContact, contacts = [], lpas = []) => {
+  const toLabel = (contact) => {
+    const name = contact?.fullName || `${contact?.firstName || ''} ${contact?.lastName || ''}`.trim();
+    return name || contact?.email || 'Contact';
+  };
+
+  const toHint = (contact) => {
+    return lpas.length > 1 ? (contact?.organisation || '') : '';
+  };
+
+  const options = [];
+
+  if (mainContact) {
+    options.push({
+      value: 'main',
+      text: toLabel(mainContact),
+      hint: toHint(mainContact)
+    });
+  }
+
+  contacts.forEach((contact, index) => {
+    options.push({
+      value: `contact-${index}`,
+      text: toLabel(contact),
+      hint: toHint(contact)
+    });
+  });
+
+  return options;
+};
+
+router.get('/projects/back-office/create-case/v6/change-main-contact', (req, res) => {
+  const contacts = req.session.contacts || [];
+  const from = req.query.from === 'check-answers' ? 'check-answers' : '';
+  if (!req.session.mainContact || contacts.length === 0) {
+    return res.redirect('/projects/back-office/create-case/v6/check-contact-details');
+  }
+
+  res.render('projects/back-office/create-case/v6/change-main-contact', {
+    contactOptions: buildContactOptions(req.session.mainContact, contacts, req.session.lpas || []),
+    selectedMainContact: 'main',
+    error: null,
+    from
+  });
+});
+
+router.post('/projects/back-office/create-case/v6/change-main-contact', (req, res) => {
+  const contacts = Array.isArray(req.session.contacts) ? req.session.contacts : [];
+  const from = req.body.from === 'check-answers' ? 'check-answers' : '';
+  if (!req.session.mainContact || contacts.length === 0) {
+    return res.redirect('/projects/back-office/create-case/v6/check-contact-details');
+  }
+
+  const selectedValue = req.body.mainContactSelection;
+  if (!selectedValue) {
+    return res.render('projects/back-office/create-case/v6/change-main-contact', {
+      contactOptions: buildContactOptions(req.session.mainContact, contacts, req.session.lpas || []),
+      selectedMainContact: 'main',
+      error: 'Select who should be the main contact for this case',
+      from
+    });
+  }
+
+  if (selectedValue !== 'main') {
+    const contactIndex = parseInt(selectedValue.replace('contact-', ''), 10);
+    if (!isNaN(contactIndex) && contacts[contactIndex]) {
+      const previousMainContact = { ...req.session.mainContact };
+      const selectedContact = { ...contacts[contactIndex] };
+
+      // Swap the records so the old main contact remains in the list.
+      req.session.mainContact = selectedContact;
+      contacts[contactIndex] = previousMainContact;
+      req.session.contacts = contacts;
+    }
+  }
+
+  res.redirect('/projects/back-office/create-case/v6/check-contact-details');
 });
 
 module.exports = router;

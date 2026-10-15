@@ -1,6 +1,5 @@
 {% extends "layouts/back-office.html" %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
-{% from "govuk/components/radios/macro.njk" import govukRadios %}
 
 {% block pageTitle %}
   {% if isEdit %}What is the plan type?{% else %}What is the plan type?{% endif %} – {{ serviceName }}
@@ -27,13 +26,15 @@
       <form class="form" action="/projects/back-office/create-case/v6/2-plan-type" method="post">
       
       <input type="hidden" name="isEdit" value="{{ isEdit }}">
+
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% set textHtml %}
 {{ govukInput({
   id: "other-plan-type",
   name: "otherPlanType",
   type: "text",
   autocomplete: "off",
-  classes: "govuk-!-width-one-third",
+  classes: "govuk-input--width-20",
   label: {
     text: "What is the plan type?"
   }
@@ -79,7 +80,7 @@
         {% endif %}
         
         {% if isEdit %}
-        <a href="/projects/back-office/create-case/v2/check-answers" class="govuk-link">Cancel</a>
+        <a href="/projects/back-office/create-case/v6/check-answers" class="govuk-link">Cancel</a>
         {% endif %}
       </div>
 

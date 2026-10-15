@@ -20,6 +20,36 @@
     background-color: #f3f2f1 !important;
     border-top: 4px solid #13a19b !important;
 }
+
+.app-overview-feedback {
+  background-color: #f3f2f1;
+  border-top: 1px solid #13a19b;
+}
+
+.app-overview-feedback + .govuk-footer .govuk-footer__meta {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+@media (min-width: 40.0625em) {
+  .app-overview-feedback + .govuk-footer .govuk-footer__meta {
+    flex-wrap: nowrap;
+  }
+}
+
+.app-overview-feedback + .govuk-footer .govuk-footer__meta > div:first-child {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.app-overview-feedback + .govuk-footer .govuk-footer__meta > div:last-child {
+  flex: 0 0 auto;
+}
+
+.app-overview-feedback + .govuk-footer .govuk-footer__inline-list {
+  margin-left: 20px !important;
+}
+
 // Make main content area full width without overflow
 .govuk-main-wrapper {
     width: 100% !important;

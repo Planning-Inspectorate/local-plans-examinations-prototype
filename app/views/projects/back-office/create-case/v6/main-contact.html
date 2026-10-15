@@ -15,15 +15,16 @@
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      {% if error %}
+      {% if errorList and errorList.length %}
         {{ govukErrorSummary({
           titleText: "There is a problem",
-          errorList: [{ text: error.message, href: "#" + error.field }]
+          errorList: errorList
         }) }}
       {% endif %}
 
-      <form method="post" action="/projects/back-office/create-case/v2/main-contact">
+      <form method="post" action="/projects/back-office/create-case/v6/main-contact">
         <input type="hidden" name="isEdit" value="{{ isEdit }}">
+        <input type="hidden" name="from" value="{{ from | default('') }}">
         
         <fieldset class="govuk-fieldset">
           <legend class="govuk-fieldset__legend govuk-fieldset__legend--l" isPageHeading="true">
@@ -31,58 +32,36 @@
               Add a contact
             </h1>
           </legend>
-          <div class="govuk-form-group{% if error and error.field == 'mainContactFirstName' %} govuk-form-group--error{% endif %}">
-            <label class="govuk-label" for="main-contact-first-name">
-              First name
+          <div class="govuk-form-group {% if errors and errors.fullName %}govuk-form-group--error{% endif %}">
+            <label class="govuk-label" for="main-contact-full-name">
+              Full name
             </label>
-            {% if error and error.field == 'mainContactFirstName' %}
-              <p class="govuk-error-message">
-                <span class="govuk-visually-hidden">Error:</span> {{ error.message }}
-              </p>
-            {% endif %}
-            <input class="govuk-input{% if error and error.field == 'mainContactFirstName' %} govuk-input--error{% endif %}" id="main-contact-first-name" name="mainContactFirstName" type="text" autocomplete="given-name" value="{{ mainContact.firstName | default('') }}">
+            {% if errors and errors.fullName %}<p id="main-contact-full-name-error" class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span> {{ errors.fullName }}</p>{% endif %}
+            <input class="govuk-input govuk-input--width-20" id="main-contact-full-name" name="mainContactFullName" type="text" autocomplete="name" value="{{ mainContact.fullName | default('') }}">
           </div>
-          <div class="govuk-form-group{% if error and error.field == 'mainContactLastName' %} govuk-form-group--error{% endif %}">
-            <label class="govuk-label" for="main-contact-last-name">
-              Last name
-            </label>
-            {% if error and error.field == 'mainContactLastName' %}
-              <p class="govuk-error-message">
-                <span class="govuk-visually-hidden">Error:</span> {{ error.message }}
-              </p>
-            {% endif %}
-            <input class="govuk-input{% if error and error.field == 'mainContactLastName' %} govuk-input--error{% endif %}" id="main-contact-last-name" name="mainContactLastName" type="text" autocomplete="family-name" value="{{ mainContact.lastName | default('') }}">
-          </div>
-          <div class="govuk-form-group{% if error and error.field == 'mainContactEmail' %} govuk-form-group--error{% endif %}">
+          <div class="govuk-form-group {% if errors and errors.email %}govuk-form-group--error{% endif %}">
             <label class="govuk-label" for="main-contact-email">
               Email address
             </label>
-            {% if error and error.field == 'mainContactEmail' %}
-              <p class="govuk-error-message">
-                <span class="govuk-visually-hidden">Error:</span> {{ error.message }}
-              </p>
-            {% endif %}
-            <input class="govuk-input{% if error and error.field == 'mainContactEmail' %} govuk-input--error{% endif %}" id="main-contact-email" name="mainContactEmail" type="email" autocomplete="email" value="{{ mainContact.email | default('') }}">
+            {% if errors and errors.email %}<p id="main-contact-email-error" class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span> {{ errors.email }}</p>{% endif %}
+            <input class="govuk-input govuk-input--width-20" id="main-contact-email" name="mainContactEmail" type="email" autocomplete="email" value="{{ mainContact.email | default('') }}">
           </div>
           <div class="govuk-form-group">
             <label class="govuk-label" for="main-contact-phone">
               Phone number (optional)
             </label>
-            <input class="govuk-input govuk-!-width-one-half" id="main-contact-phone" name="mainContactPhone" type="text" value="{{ mainContact.phone | default('') }}">
+            <input class="govuk-input govuk-input--width-10" id="main-contact-phone" name="mainContactPhone" type="text" value="{{ mainContact.phone | default('') }}">
           </div>
         </fieldset>
+        {% set selectedOrganisation = selectedOrganisation or (mainContact.organisation if mainContact else '') %}
         {% if lpas and lpas.length > 1 %}
-          <fieldset class="govuk-fieldset{% if error and error.field == 'contactOrganisation' %} govuk-fieldset--error{% endif %}">
+          <fieldset class="govuk-fieldset" {% if errors and errors.organisation %}aria-describedby="contact-organisation-error"{% endif %}>
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
               Select a planning authority
             </legend>
-            {% if error and error.field == 'contactOrganisation' %}
-              <p class="govuk-error-message">
-                <span class="govuk-visually-hidden">Error:</span> {{ error.message }}
-              </p>
-            {% endif %}
-            <div class="govuk-form-group">
-              <div class="govuk-radios" data-module="govuk-radios">
+            {% if errors and errors.organisation %}<p id="contact-organisation-error" class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span> {{ errors.organisation }}</p>{% endif %}
+            <div class="govuk-form-group {% if errors and errors.organisation %}govuk-form-group--error{% endif %}">
+              <div class="govuk-radios {% if errors and errors.organisation %}govuk-radios--error{% endif %}" id="contact-organisation" data-module="govuk-radios">
                 {% for lpa in lpas %}
                   <div class="govuk-radios__item">
                     <input class="govuk-radios__input" id="lpa-{{ loop.index }}" name="contactOrganisation" type="radio" value="{{ lpa }}"
@@ -92,6 +71,11 @@
                     </label>
                   </div>
                 {% endfor %}
+                <div class="govuk-radios__item">
+                  <input class="govuk-radios__input" id="lpa-all" name="contactOrganisation" type="radio" value="Joint"
+                    {% if selectedOrganisation == 'Joint' %}checked{% endif %}>
+                  <label class="govuk-label govuk-radios__label" for="lpa-all">Joint</label>
+                </div>
               </div>
             </div>
           </fieldset>
@@ -111,7 +95,7 @@
             {% endif %}
           
           {% if isEdit %}
-          <a href="/projects/back-office/create-case/v2/check-answers" class="govuk-link">Cancel</a>
+          <a href="/projects/back-office/create-case/v6/check-answers" class="govuk-link">Cancel</a>
           {% endif %}
         </div>
       </form>

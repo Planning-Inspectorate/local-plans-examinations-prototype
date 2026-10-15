@@ -23,7 +23,7 @@
         }) }}
       {% endif %}
 
-      <form class="form" action="/projects/back-office/create-case/v2/1-plan-title" method="post">
+      <form class="form" action="/projects/back-office/create-case/v6/1-plan-title" method="post">
       
       <input type="hidden" name="isEdit" value="{{ isEdit }}">
 
@@ -38,7 +38,7 @@
   name: "plan-title",
   type: "text",
   isPageHeading: true,
-  classes: "govuk-!-width-two-thirds",
+  classes: "govuk-input--width-20",
   value: planTitle
 }) }}
 
@@ -54,7 +54,7 @@
         {% endif %}
         
         {% if isEdit %}
-        <a href="/projects/back-office/create-case/v2/check-answers" class="govuk-link">Cancel</a>
+        <a href="/projects/back-office/create-case/v6/check-answers" class="govuk-link">Cancel</a>
         {% endif %}
       </div>
 

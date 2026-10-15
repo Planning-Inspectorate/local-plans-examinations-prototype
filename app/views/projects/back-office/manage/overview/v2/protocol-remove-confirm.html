@@ -1,0 +1,44 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+  Remove protocol {{ protocolNumber }} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: returnUrl or "/projects/back-office/manage/overview/v2/index"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% include "includes/back-office/plan-reference-caption.njk" %}
+      <h1 class="govuk-heading-l">Remove Protocol {{ protocolNumber }}?</h1>
+      <p class="govuk-body">This will remove Protocol {{ protocolNumber }} from this case.</p>
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Document</dt>
+          <dd class="govuk-summary-list__value">{{ protocol.type }}</dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Date sent</dt>
+          <dd class="govuk-summary-list__value">{{ protocol.sentDateDisplay }}</dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Date received</dt>
+          <dd class="govuk-summary-list__value">{{ protocol.receivedDateDisplay }}</dd>
+        </div>
+      </dl>
+      <form method="post" action="/projects/back-office/manage/overview/v2/protocol/remove">
+        <input type="hidden" name="recordIndex" value="{{ recordIndex }}">
+        <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
+        <div class="govuk-button-group">
+          <button class="govuk-button govuk-button--warning" type="submit">Remove protocol</button>
+          <a class="govuk-link" href="{{ returnUrl or '/projects/back-office/manage/overview/v2/index' }}">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

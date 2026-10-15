@@ -2,7 +2,7 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% block pageTitle %}
-  Add another planning authority? – {{ serviceName }}
+  Is there another Local Planning Authority involved in this plan? – {{ serviceName }} 
 {% endblock %}
 {% block beforeContent %}
   {{ govukBackLink({
@@ -21,16 +21,16 @@
       }) }}
     {% endif %}
 
-    <form method="post" action="/projects/back-office/create-case/v2/add-additional-lpa">
-      <div class="govuk-form-group{% if error %} govuk-form-group--error{% endif %}">
-        <fieldset class="govuk-fieldset{% if error %} govuk-fieldset--error{% endif %}">
+    <form method="post" action="/projects/back-office/create-case/v6/add-additional-lpa">
+      <div class="govuk-form-group {% if error %}govuk-form-group--error{% endif %}">
+        <fieldset class="govuk-fieldset" {% if error %}aria-describedby="hasAdditionalLPA-error"{% endif %}>
           <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
             <h1 class="govuk-fieldset__heading">
-              Add another planning authority?
+              Is there another Local Planning Authority involved in this plan?
             </h1>
           </legend>
           {% if error %}
-            <p class="govuk-error-message">
+            <p id="hasAdditionalLPA-error" class="govuk-error-message">
               <span class="govuk-visually-hidden">Error:</span> {{ error }}
             </p>
           {% endif %}

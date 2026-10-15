@@ -248,6 +248,13 @@ function getDecisionOutcomeKey(submissionVersion) {
     : 'gw3v4Submission1DecisionOutcome';
 }
 
+function getDecisionOutcomeDisplay(outcome) {
+  const normalizedOutcome = String(outcome || '').trim().toLowerCase();
+  if (normalizedOutcome === 'ready' || normalizedOutcome === 'pass') return 'Ready to start examination';
+  if (normalizedOutcome === 'not ready') return 'Resubmission required';
+  return outcome || '-';
+}
+
 function getDecisionDateKey(submissionVersion) {
   return submissionVersion === '2'
     ? 'gw3v4Submission2DecisionDate'
@@ -390,12 +397,14 @@ function buildGateway3ViewModel(req, notificationMessage = '') {
     isResubmissionNoDocs,
     submission1DecisionIssued: !!submission1IssuedDecision,
     submission1Decision: submission1IssuedDecision?.outcome || '-',
+    submission1DecisionDisplay: getDecisionOutcomeDisplay(submission1IssuedDecision?.outcome),
     submission1DecisionDate: submission1IssuedDecision?.date || '-',
     submission1Report: submission1IssuedDecision?.reportFilename || '',
     submission1ReportStoredFilename: submission1IssuedDecision?.reportStoredFilename || '',
     submission1ReportHref: getReportHref(submission1IssuedDecision?.reportStoredFilename),
     submission2DecisionIssued: !!submission2IssuedDecision,
     submission2Decision: submission2IssuedDecision?.outcome || '-',
+    submission2DecisionDisplay: getDecisionOutcomeDisplay(submission2IssuedDecision?.outcome),
     submission2DecisionDate: submission2IssuedDecision?.date || '-',
     submission2Report: submission2IssuedDecision?.reportFilename || '',
     submission2ReportStoredFilename: submission2IssuedDecision?.reportStoredFilename || '',
@@ -764,7 +773,7 @@ router.get('/gateway-3-decision-check-answers.html', (req, res) => {
     submissionLabel: getSubmissionLabel(submissionVersion),
     hasMultipleSubmissions: submissionVersion === '2',
     returnUrl,
-    gateway3DecisionOutcome: req.session[getDecisionOutcomeKey(submissionVersion)] || '-',
+    gateway3DecisionOutcome: getDecisionOutcomeDisplay(req.session[getDecisionOutcomeKey(submissionVersion)] || '-'),
     gateway3DecisionReportFilename: req.session[getDecisionReportFilenameKey(submissionVersion)] || '-',
     gateway3DecisionReportStoredFilename: req.session[getDecisionReportStoredFilenameKey(submissionVersion)] || '',
     gateway3DecisionReportHref: getReportHref(req.session[getDecisionReportStoredFilenameKey(submissionVersion)]),

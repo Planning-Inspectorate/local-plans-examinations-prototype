@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-  Remove contact– {{ serviceName }} 
+  Remove contact – {{ serviceName }} 
 {% endblock %}
 
 {% block beforeContent %}
@@ -26,10 +26,10 @@
 <p>Are you sure you want to remove {{ contactLabel }}?</p>
 <dl class="govuk-summary-list">
   <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key" style="width: 15%;">
+    <dt class="govuk-summary-list__key govuk-visually-hidden">
       {% if isMain %}Main contact{% else %}Contact{% endif %}
     </dt>
-    <dd class="govuk-summary-list__value" style="width: 85%;">
+    <dd class="govuk-summary-list__value govuk-!-width-full">
       {{ contact.firstName }} {{ contact.lastName }}<br>
       {{ contact.email }}<br>
       {% if contact.phone %}{{ contact.phone }}<br>{% endif %}
@@ -38,7 +38,7 @@
   </div>
 </dl>
 
-<form method="post" action="/projects/back-office/create-case/v2/remove-contact-details-page">
+<form method="post" action="/projects/back-office/create-case/v6/remove-contact-details-page">
   <input type="hidden" name="editIndex" value="{{ editIndex }}">
   <input type="hidden" name="isMain" value="{{ isMain }}">
   <div class="govuk-button-group">
@@ -46,7 +46,7 @@
       html: 'Remove contact<span class="govuk-visually-hidden"> ' ~ contactLabel ~ '</span>',
       classes: "govuk-button--warning"
     }) }}
-    <a href="/projects/back-office/create-case/v2/check-contact-details" class="govuk-button govuk-button--secondary">
+    <a href="/projects/back-office/create-case/v6/check-contact-details" class="govuk-link">
       Cancel
     </a>
   </div>

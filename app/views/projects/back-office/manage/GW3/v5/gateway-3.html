@@ -101,7 +101,7 @@ Gateway 3 overview {{ serviceName }}
         <div class="govuk-summary-list__key">Documents</div>
         <div class="govuk-summary-list__value">
           {% if gateway3OverviewState == 'initial' %}
-            Not provided
+            Pending
           {% else %}
             {{ submission1DocumentsCount }} documents
           {% endif %}
@@ -117,7 +117,7 @@ Gateway 3 overview {{ serviceName }}
       {% if submission1DocumentsCount > 0 %}
       <div class="govuk-summary-list__row">
         <div class="govuk-summary-list__key">Outcome</div>
-        <div class="govuk-summary-list__value">{{ submission1Decision if submission1DecisionIssued else 'Not provided' }}</div>
+        <div class="govuk-summary-list__value">{{ submission1DecisionDisplay if submission1DecisionIssued else 'Not provided' }}</div>
         {% if not submission1DecisionIssued and gateway3OverviewState != 'initial' %}
         <div class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/GW3/v5/gateway-3-decision.html?submissionVersion=1&returnUrl=/projects/back-office/manage/GW3/v5/gateway-3">Add<span class="govuk-visually-hidden"> submission 1 decision</span></a></div>
         {% endif %}
@@ -130,7 +130,7 @@ Gateway 3 overview {{ serviceName }}
         <div class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/GW3/v5/gateway-3-report/manage?submissionVersion=1">Manage<span class="govuk-visually-hidden"> submission 1 report</span></a></div>
       </div>
       <div class="govuk-summary-list__row">
-        <div class="govuk-summary-list__key">{{ 'Completed' if (submission1Decision | lower) == 'ready' else 'Date' }}</div>
+        <div class="govuk-summary-list__key">{{ 'Date issued' if (submission1Decision | lower) == 'ready' else 'Date issued' }}</div>
         <div class="govuk-summary-list__value">{{ submission1DecisionDate }}</div>
       </div>
       {% endif %}
@@ -144,7 +144,7 @@ Gateway 3 overview {{ serviceName }}
         <div class="govuk-summary-list__key">Documents</div>
         <div class="govuk-summary-list__value">
           {% if isResubmissionNoDocs %}
-            Not provided
+            Pending
           {% else %}
             {{ submission2DocumentsCount }} documents
           {% endif %}
@@ -158,7 +158,7 @@ Gateway 3 overview {{ serviceName }}
       {% if submission2DocumentsCount > 0 %}
       <div class="govuk-summary-list__row">
         <div class="govuk-summary-list__key">Outcome</div>
-        <div class="govuk-summary-list__value">{{ submission2Decision if submission2DecisionIssued else 'Not provided' }}</div>
+        <div class="govuk-summary-list__value">{{ submission2DecisionDisplay if submission2DecisionIssued else 'Not provided' }}</div>
         {% if not submission2DecisionIssued and not isResubmissionNoDocs %}
         <div class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/GW3/v5/gateway-3-decision.html?submissionVersion=2&returnUrl=/projects/back-office/manage/GW3/v5/gateway-3">Add<span class="govuk-visually-hidden"> submission 2 decision</span></a></div>
         {% endif %}
@@ -171,7 +171,7 @@ Gateway 3 overview {{ serviceName }}
         <div class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/GW3/v5/gateway-3-report/manage?submissionVersion=2">Manage<span class="govuk-visually-hidden"> submission 2 report</span></a></div>
       </div>
       <div class="govuk-summary-list__row">
-        <div class="govuk-summary-list__key">{{ 'Completed' if (submission2Decision | lower) == 'ready' else 'Date' }}</div>
+        <div class="govuk-summary-list__key">{{ 'Date issued' if (submission2Decision | lower) == 'ready' else 'Date issued' }}</div>
         <div class="govuk-summary-list__value">{{ submission2DecisionDate }}</div>
       </div>
       {% endif %}

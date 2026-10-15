@@ -25,15 +25,33 @@
     <h1 class="govuk-heading-l">
       {{ title }}
     </h1>
- {% set version = "5" %}
-    <h2 class="govuk-heading-m">
+    {%set version= "6" %}
+     <h2 class="govuk-heading-m">
       Version {{ version }}
       {{ govukTag({
-        classes: 'govuk-tag--grey govuk-!-margin-left-2',
-        text: 'Experimental'
+        classes: 'govuk-tag--yellow govuk-!-margin-left-2',
+        text: 'In progress'
       }) }}
     </h2>
  
+    <p class="govuk-!-margin-bottom-2">Changes:</p>
+ 
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Add to list functionality for Local Planning Authorities</li>
+      <li>Simplified contact details page header</li>
+      <li>Changed first name and last name to full name</li>
+      <li>Add to list functionality added to manage contacts</li>
+      <li>Updated application of main contact</li>
+      <li>Option to select more than one planning authority for a contact</li>
+    </ul> 
+
+    {{ govukButton({
+      html: 'View prototype',
+      href: '/projects/back-office/create-case/v' ~ version ~ '/index',
+      isStartButton: true
+    }) }}
+ {% set v5HTML %}
+  {% set version = "5" %}
     <p class="govuk-!-margin-bottom-2">Changes:</p>
  
     <ul class="govuk-list govuk-list--bullet">
@@ -45,26 +63,15 @@
       <li>Includes error messaging for each screen</li>
       <li>Region removed and inferred in the back end</li>
     </ul> 
-    {{ govukWarningText({
-      text: 'Do not use for development or testing purposes. This version is for research purposes only.',
-      iconFallbackText: 'Warning'
-    }) }}
 
     {{ govukButton({
       html: 'View prototype',
       href: '/projects/back-office/create-case/v' ~ version ~ '/index',
       isStartButton: true
     }) }}
-    {% set HTMLv4 %}
+    {% endset %}
+    {% set v4HTML %}
     {% set version = "4" %}
-    <h2 class="govuk-heading-m">
-      Version {{ version }}
-      {{ govukTag({
-        classes: 'govuk-tag--grey govuk-!-margin-left-2',
-        text: 'Superseded'
-      }) }}
-    </h2>
- 
     <p class="govuk-!-margin-bottom-2">Changes:</p>
  
     <ul class="govuk-list govuk-list--bullet">
@@ -80,19 +87,10 @@
       href: '/projects/back-office/create-case/v' ~ version ~ '/index',
       isStartButton: true
     }) }}
-    {% endset -%}
-       <br>
-      <br>
-      <br>
+    {% endset %}
+    {% set v3HTML %}
     {% set version = "3" %}
-    <h2 class="govuk-heading-m">
-      Version {{ version }}
-      {{ govukTag({
-        classes: 'govuk-tag--grey govuk-!-margin-left-2',
-        text: 'Experimental'
-      }) }}
-    </h2>
- 
+   
     <p class="govuk-!-margin-bottom-2">Changes:</p>
  
     <ul class="govuk-list govuk-list--bullet">
@@ -103,27 +101,16 @@
       <li>Includes error messaging for each screen</li>
       <li>Region removed and inferred in the back end</li>
     </ul> 
- {{ govukWarningText({
-      text: 'Do not use for development or testing purposes. This version is for research purposes only.',
-      iconFallbackText: 'Warning'
-    }) }}
+
       {{ govukButton({
         html: 'View prototype',
         href: '/projects/back-office/create-case/v' ~ version ~ '/index',
         isStartButton: true
       }) }}
-
-      <br>
-      <br>
-      <br>
-    <h2 class="govuk-heading-m">
-      Version 2.1
-      {{ govukTag({
-        classes: 'govuk-tag--grey govuk-!-margin-left-2',
-        text: 'Experimental'
-      }) }}
-    </h2>
- 
+    {% endset %}
+    {% set v21HTML %}
+    {% set version = "21" %}
+     
     <p class="govuk-!-margin-bottom-2">Changes:</p>
  
     <ul class="govuk-list govuk-list--bullet">
@@ -134,27 +121,16 @@
       <li>Includes error messaging for each screen</li>
       <li>Region removed and inferred in the back end</li>
     </ul>
-{{ govukWarningText({
-      text: 'Do not use for development or testing purposes. This version is for research purposes only.',
-      iconFallbackText: 'Warning'
-    }) }}
     {{ govukButton({
       html: 'View prototype',
-      href: '/projects/back-office/create-case/v21/index',
+      href: '/projects/back-office/create-case/v' ~ version ~ '/index',
       isStartButton: true
     }) }}
 
-      <br>
-      <br>
-      <br>
+    {% endset %}
+      {% set v2HTML %}
       {% set version = "2" %}
-    <h2 class="govuk-heading-m">
-      Version {{ version }}
-      {{ govukTag({
-        classes: 'govuk-tag--blue govuk-!-margin-left-2',
-        text: 'Development baseline'
-      }) }}
-    </h2>
+    
     <p class="govuk-body">Original Version 2 flow used when development work was first undertaken.</p>
 
     <p class="govuk-!-margin-bottom-2">Characteristics:</p>
@@ -169,6 +145,7 @@
         href: '/projects/back-office/create-case/v' ~ version ~ '/index',
         isStartButton: true
       }) }}
+    {% endset %}
 
     {% set v1HTML %}
       {% set version = "1" %}
@@ -185,21 +162,50 @@
         href: '/projects/back-office/create-case/v' ~ version ~ '/index',
         isStartButton: true
       }) }}
-
-     
- 
     {% endset -%}
  
     {{ govukAccordion({
       id: 'previous',
       classes: 'govuk-!-margin-top-9',
       items: [
+       {
+          heading: {
+            html: 'Version 5 <strong class="govuk-tag govuk-tag--grey govuk-!-margin-left-2">Superseded</strong>'
+          },
+          content: {
+            html: v5HTML
+          }
+        },
       {
           heading: {
             html: 'Version 4 <strong class="govuk-tag govuk-tag--grey govuk-!-margin-left-2">Superseded</strong>'
           },
           content: {
             html: v4HTML
+          }
+        },
+         {
+          heading: {
+            html: 'Version 3 <strong class="govuk-tag govuk-tag--grey govuk-!-margin-left-2">Superseded</strong>'
+          },
+          content: {
+            html: v3HTML
+          }
+        },
+         {
+          heading: {
+            html: 'Version 2.1 <strong class="govuk-tag govuk-tag--grey govuk-!-margin-left-2">Superseded</strong>'
+          },
+          content: {
+            html: v21HTML
+          }
+        },
+         {
+          heading: {
+            html: 'Version 2 <strong class="govuk-tag govuk-tag--blue govuk-!-margin-left-2">Development baseline</strong>'
+          },
+          content: {
+            html: v2HTML
           }
         },
         {
