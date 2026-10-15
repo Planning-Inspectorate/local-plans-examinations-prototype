@@ -25,6 +25,20 @@ const requiredDocumentKeys = [
   'practical-arrangements-statement-upload-complete'
 ]
 
+const requiredQuestionKeys = [
+  'reg28-representations',
+  'reg29-supplementary-plan',
+  'reg12-environmental-report',
+  'reg9-screening-determination'
+]
+
+const conditionalRequiredDocuments = [
+  { condition: 'reg28-representations', key: 'representations-upload-complete' },
+  { condition: 'reg29-supplementary-plan', key: 'supplementary-plans-statement-upload-complete' },
+  { condition: 'reg12-environmental-report', key: 'environmental-report-upload-complete' },
+  { condition: 'reg9-screening-determination', key: 'screening-determination-statement-upload-complete' }
+]
+
 const optionalDocumentKeys = [
   'representations-upload-complete',
   'supplementary-plans-statement-upload-complete',
@@ -47,6 +61,7 @@ router.get('/application-details', function (req, res) {
     const keysToClear = [
       ...requiredDocumentKeys,
       ...optionalDocumentKeys,
+      ...requiredQuestionKeys,
       'examination-library-link'
     ]
     // Also clear res.locals.data - govuk-prototype-kit snapshots session
@@ -58,10 +73,18 @@ router.get('/application-details', function (req, res) {
     })
   }
 
-  const requiredCompletedCount = requiredDocumentKeys.filter(key => data[key] == 'true').length
+  const applicableConditionalKeys = conditionalRequiredDocuments
+    .filter(doc => data[doc.condition] == 'yes')
+    .map(doc => doc.key)
+
+  const requiredCompletedCount = requiredDocumentKeys.filter(key => data[key] == 'true').length +
+    applicableConditionalKeys.filter(key => data[key] == 'true').length +
+    requiredQuestionKeys.filter(key => data[key]).length
+  const requiredTotalCount = requiredDocumentKeys.length + applicableConditionalKeys.length + requiredQuestionKeys.length
 
   res.render('projects/front-office/gw3/v2/application-details', {
-    requiredCompletedCount: requiredCompletedCount
+    requiredCompletedCount: requiredCompletedCount,
+    requiredTotalCount: requiredTotalCount
   })
 })
 

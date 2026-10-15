@@ -30,17 +30,6 @@
       },
 
       {
-        key: { html: 'Summary of consultation on proposed local plan<br><span class="govuk-hint govuk-!-margin-bottom-0">Required</span>' },
-        value:
-          { html: "<a href='#'>proposed-plan-consultation-summary.pdf</a>" } if data['proposed-plan-consultation-summary-upload-complete']
-          else { html: '<span class="govuk-hint">Not added</span>' },
-        actions: { items: [
-          { href: 'consultation-documents/proposed-plan-consultation-summary-upload?cya=true', html: 'Change', visuallyHiddenText: 'summary of consultation on proposed local plan' } if data['proposed-plan-consultation-summary-upload-complete']
-          else { href: 'consultation-documents/proposed-plan-consultation-summary-upload', html: 'Add', visuallyHiddenText: 'summary of consultation on proposed local plan' }
-        ]}
-      },
-
-      {
         key: { text: 'Summary of how Gateway 2 assessor issues have been addressed' },
         value:
           { html: "<a href='#'>gateway-2-issues-summary.pdf</a>" } if data['gateway-2-issues-summary-upload-complete']
@@ -59,6 +48,17 @@
         actions: { items: [
           { href: 'consultation-documents/plan-changes-statement-upload?cya=true', html: 'Change', visuallyHiddenText: 'statement explaining changes since the proposed local plan consultation, reasons for changes, any additional consultation' } if data['plan-changes-statement-upload-complete']
           else { href: 'consultation-documents/plan-changes-statement-upload', html: 'Add', visuallyHiddenText: 'statement explaining changes since the proposed local plan consultation, reasons for changes, any additional consultation' }
+        ]}
+      },
+
+      {
+        key: { html: 'Summary of consultation on proposed local plan<br><span class="govuk-hint govuk-!-margin-bottom-0">Required</span>' },
+        value:
+          { html: "<a href='#'>proposed-plan-consultation-summary.pdf</a>" } if data['proposed-plan-consultation-summary-upload-complete']
+          else { html: '<span class="govuk-hint">Not added</span>' },
+        actions: { items: [
+          { href: 'consultation-documents/proposed-plan-consultation-summary-upload?cya=true', html: 'Change', visuallyHiddenText: 'summary of consultation on proposed local plan' } if data['proposed-plan-consultation-summary-upload-complete']
+          else { href: 'consultation-documents/proposed-plan-consultation-summary-upload', html: 'Add', visuallyHiddenText: 'summary of consultation on proposed local plan' }
         ]}
       }
 

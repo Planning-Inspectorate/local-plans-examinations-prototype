@@ -24,7 +24,13 @@
     <span class="govuk-caption-xl">East Borough local plan</span>
     Gateway 3 submission
   </h1>
+  {% if reportStatus == 'shared' %}
+    <strong class="govuk-tag app-header__tag">
+      Completed
+    </strong>
+  {% else %}
     <strong class="govuk-tag govuk-tag--yellow app-header__tag">
       Under review
     </strong>
+  {% endif %}
 </div>

@@ -40,7 +40,7 @@ href: "/projects/front-office/plan-details/v3/plan-details?status=in-progress&st
           errorList: [
             {
               text: "Add all required documents before submitting",
-              href: "#task-list"
+              href: "#required-documents"
             }
           ]
         }) }}
@@ -84,16 +84,9 @@ href: "/projects/front-office/plan-details/v3/plan-details?status=in-progress&st
       }
     </style>
 
-    {% if errorStatus == 'true' %}
-    <p class="govuk-error-message" id="task-list">
-      <span class="govuk-visually-hidden">Error:</span> Add all required documents before submitting
-    </p>
-    {% endif %}
-
     <ol class="app-task-list">
-      {% include "./task-list__procedural.html" %}
-      {% include "./task-list__consultation.html" %}
-      {% include "./task-list__plan-content.html" %}
+      {% include "./task-list__required.html" %}
+      {% include "./task-list__optional.html" %}
       {% include "./task-list__submit.html" %}
       {% if resubmission == 'true' %}
         {% include "./task-list__version-history.html" %}
