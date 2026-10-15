@@ -57,6 +57,10 @@ const optionalDocumentKeys = [
 router.get('/application-details', function (req, res) {
   const data = req.session.data
 
+  // Starting a first submission - drop any resubmission flag left in the session
+  delete data['resubmitted']
+  delete res.locals.data['resubmitted']
+
   if (req.query.resubmission === 'true') {
     const keysToClear = [
       ...requiredDocumentKeys,

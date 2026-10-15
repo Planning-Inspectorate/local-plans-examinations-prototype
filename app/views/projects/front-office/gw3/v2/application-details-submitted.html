@@ -11,6 +11,10 @@ text: 'Go decision'
 {
 href: 'application-details-decision?decision=stop&viewOnly=true&newDocuments=true&submission=2',
 text: 'Resubmitted - not met outcome'
+},
+{
+href: 'application-details-submitted?resubmitted=true',
+text: 'Resubmitted - awaiting outcome'
 }
 ]
 %}
@@ -43,6 +47,18 @@ href: "/projects/front-office/plan-details/v3/plan-details?status=with-pins"
     {% include "./_includes/heading.njk" %}
     {% include "./_includes/report-metadata.njk" %}
 
+    {% if data['resubmitted'] == 'true' %}
+      {{ govukSummaryList({
+        classes: "app-details govuk-summary-list--no-border",
+        rows: [
+          {
+            key: { text: "Previous submissions", classes: "govuk-!-width-one-third" },
+            value: { html: "<ul class='govuk-list'><li><a class='govuk-link' href='application-details-decision?newDocuments=false&viewOnly=true&submission=1'>Submission 1</a> (submitted 20 Jun 2026)</li><li><a class='govuk-link' href='application-details-decision?newDocuments=true&viewOnly=true&submission=2'>Submission 2</a> (submitted 1 Jul 2026)</li></ul>" }
+          }
+        ]
+      }) }}
+    {% endif %}
+
     </div>
 
     <div class="govuk-grid-column-full">
@@ -50,7 +66,11 @@ href: "/projects/front-office/plan-details/v3/plan-details?status=with-pins"
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible" />
 
     <p class="govuk-body">
-      Gateway 3 submission: 20 June 2026 by Laura Thornton
+      {% if data['resubmitted'] == 'true' %}
+        Gateway 3; submission 3: 20 July 2026 by Laura Thornton
+      {% else %}
+        Gateway 3 submission: 20 June 2026 by Laura Thornton
+      {% endif %}
     </p>
 
     {% include "./_includes/submitted-documents.njk" %}
