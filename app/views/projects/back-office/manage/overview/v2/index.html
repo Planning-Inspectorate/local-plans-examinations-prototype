@@ -328,7 +328,7 @@ Plan overview – {{ serviceName }}
         </div>
       </dl>
       </dl>
-      <h2 class="govuk-heading-l">Protocol</h2>
+      <!--<h2 class="govuk-heading-l">Protocol</h2>
       <p class="govuk-body"><a class="govuk-link" href="/projects/back-office/manage/overview/v2/protocol?returnUrl=/projects/back-office/manage/overview/v2/index">{{ 'Add another protocol' if protocolRecords and protocolRecords.length else 'Add protocol details' }}</a></p>
       {% if protocolRecords and protocolRecords.length %}
       {% for protocol in protocolRecords %}
@@ -363,7 +363,7 @@ Plan overview – {{ serviceName }}
         </div>
         {% if protocol.totalDays != '' %}
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Total days</dt>
+          <dt class="govuk-summary-list__key">Total business days</dt>
           <dd class="govuk-summary-list__value">
             {{ protocol.totalDays }}
           </dd>
@@ -372,7 +372,7 @@ Plan overview – {{ serviceName }}
       </dl>
       <p class="govuk-body"><a class="govuk-link" href="/projects/back-office/manage/overview/v2/protocol/remove?recordIndex={{ protocol.index }}&amp;returnUrl=/projects/back-office/manage/overview/v2/index">Remove protocol {{ loop.index }}</a></p>
       {% endfor %}
-      {% endif %}
+      {% endif %}-->
          
      <!-- <h2 class="govuk-heading-l">Purchase order numbers</h2>
       {% if purchaseOrders and purchaseOrders.length %}
@@ -509,7 +509,7 @@ Plan overview – {{ serviceName }}
   </div>
 {% endblock %}
 {% block footer %}
-  {% block footerStart %}
+ <!--{% block footerStart %}
     {% from "govuk/components/feedback/macro.njk" import govukFeedback %}
     {% call govukFeedback({
       titleText: "Help us improve this service",
@@ -519,7 +519,7 @@ Plan overview – {{ serviceName }}
         Tell us about your experience using this service.<br><a href="#" class="govuk-link">Give us your feedback</a>
       </p>
     {% endcall %}
-  {% endblock %}
+  {% endblock %}-->
     
 
   {% set footerLinks = [

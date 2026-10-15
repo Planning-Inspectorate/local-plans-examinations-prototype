@@ -54,7 +54,15 @@ function getProtocolTotalDays(sentDate, receivedDate) {
   const received = parseProtocolDate(receivedDate);
   if (!sent || !received) return '';
 
-  return Math.abs(received.diff(sent, 'days').days);
+  const start = sent.toMillis() <= received.toMillis() ? sent : received;
+  const end = sent.toMillis() <= received.toMillis() ? received : sent;
+  let totalBusinessDays = 0;
+
+  for (let date = start.plus({ days: 1 }); date.toMillis() <= end.toMillis(); date = date.plus({ days: 1 })) {
+    if (date.weekday <= 5) totalBusinessDays += 1;
+  }
+
+  return totalBusinessDays;
 }
 
 function parseProtocolRecordIndex(value) {
