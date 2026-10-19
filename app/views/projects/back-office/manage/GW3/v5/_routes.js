@@ -854,7 +854,9 @@ router.post('/gateway-3-decision-check-answers', (req, res) => {
     }
   };
 
-  req.session.notificationMessage = 'Gateway 3 decision issued and notification sent to LPA';
+  req.session.notificationMessage = normalizedDecisionOutcome === 'not ready'
+    ? "Outcome recorded: resubmission required. We've notified the planning authority."
+    : "Outcome recorded: ready to proceed to examination. We've notified the planning authority.";
 
   req.session.save(() => {
     res.redirect(withGateway3OverviewState(GW3_V4_OVERVIEW_URL, nextOverviewState));

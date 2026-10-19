@@ -32,14 +32,14 @@ Gateway 3 overview {{ serviceName }}
     <h2 class="govuk-heading-l">Gateway 3</h2>
     <dl class="govuk-summary-list govuk-summary-list-timetable">
       <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">Expected</dt>
+        <dt class="govuk-summary-list__key">Submission expected</dt>
         <dd class="govuk-summary-list__value">{{ gateway3EstimatedDate }}</dd>
         <dd class="govuk-summary-list__actions">
           <a class="govuk-link" href="/projects/back-office/manage/GW3/v1/gateway-3-estimated.html?returnUrl=/projects/back-office/manage/GW3/v5/gateway-3">Change<span class="govuk-visually-hidden">Gateway 3 expected date</span></a>
         </dd>
       </div>
       <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">Received</dt>
+        <dt class="govuk-summary-list__key">Submission received</dt>
         <dd class="govuk-summary-list__value">{{ gateway3ActualDate }}</dd>
         <dd class="govuk-summary-list__actions">
           <a class="govuk-link" href="/projects/back-office/manage/GW3/v1/gateway-3-actual.html?returnUrl=/projects/back-office/manage/GW3/v5/gateway-3">Change<span class="govuk-visually-hidden"> Gateway 3 actual date</span></a>
@@ -101,7 +101,7 @@ Gateway 3 overview {{ serviceName }}
         <div class="govuk-summary-list__key">Documents</div>
         <div class="govuk-summary-list__value">
           {% if gateway3OverviewState == 'initial' %}
-            Pending
+            Not provided
           {% else %}
             {{ submission1DocumentsCount }} documents
           {% endif %}
@@ -144,7 +144,7 @@ Gateway 3 overview {{ serviceName }}
         <div class="govuk-summary-list__key">Documents</div>
         <div class="govuk-summary-list__value">
           {% if isResubmissionNoDocs %}
-            Pending
+            Not provided
           {% else %}
             {{ submission2DocumentsCount }} documents
           {% endif %}

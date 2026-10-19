@@ -1,0 +1,174 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+Gateway 3 submission 1 documents - {{ serviceName }}
+{% endblock %}
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "/projects/back-office/manage/GW3/v5/gateway-3"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<style>
+  .app-gw3-submission-docs .govuk-summary-list-timetable .govuk-summary-list__key {
+    width: 50%;
+  }
+
+  .app-gw3-submission-docs .govuk-summary-list-timetable .govuk-summary-list__value {
+    width: 40%;
+    overflow-wrap: anywhere;
+  }
+
+  .app-gw3-submission-docs .govuk-summary-list-timetable .govuk-summary-list__actions {
+    width: 10%;
+  }
+
+  .app-gw3-submission-docs .app-other-documents-list {
+    margin: 0;
+    padding-left: 20px;
+  }
+
+  .app-gw3-submission-docs .app-other-documents-list li {
+    margin-bottom: 5px;
+  }
+</style>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full app-gw3-submission-docs">
+    
+ 
+    <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }} - {{ submissionDateSubmitted or '21 November 2026' }}</span>
+    <h1 class="govuk-heading-xl">Gateway 3 - Submission {{ submissionNumber or '1' }}</h1>
+
+    <h2 class="govuk-heading-m">Procedural documents</h2>
+    <dl class="govuk-summary-list govuk-summary-list-timetable">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Statement of compliance</dt>
+         <dd class="govuk-summary-list__value"><a class="govuk-link" href="#">statement-of-compliance.pdf</a></dd>
+        
+      </div>
+       <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Statement of soundness</dt>
+         <dd class="govuk-summary-list__value"><a class="govuk-link" href="#">statement-of-soundness.pdf</a></dd>
+        
+      </div>
+     <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Summary of how Gateway 2 assessor issues have been addressed (optional)</dt>
+         <dd class="govuk-summary-list__value"><a class="govuk-link" href="#">gateway-2-assessor-issues-response.pdf</a></dd>
+       
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Statement explaining changes since the proposed local plan consultation, reasons for changes, any additional consultation (optional)</dt>
+         <dd class="govuk-summary-list__value"><a class="govuk-link" href="#">local-plan-changes-statement.pdf</a></dd>
+       
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Summary of consultation on proposed local plan</dt>
+        <dd class="govuk-summary-list__value"><a class="govuk-link" href="#">proposed-local-plan-consultation-summary.pdf</a></dd>
+      </div>
+    </dl>
+    <h2 class="govuk-heading-m">Consultation documents</h2>
+        <dl class="govuk-summary-list govuk-summary-list-timetable">
+          <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Summary of representations and responses on meeting prescribed requirements (optional)</dt>
+         <dd class="govuk-summary-list__value"><a class="govuk-link" href="#">prescribed-requirements-responses-summary.pdf</a></dd>
+      
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Representations (optional)</dt>
+         <dd class="govuk-summary-list__value"><a class="govuk-link" href="#">representations.pdf</a></dd>
+       
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Summary of consultation and engagement activities in preparing the proposed local plan</dt>
+        <dd class="govuk-summary-list__value"><a class="govuk-link" href="#">plan-preparation-consultation-and-engagement-summary.pdf</a></dd>
+       
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Summary of scoping consultation</dt>
+         <dd class="govuk-summary-list__value"><a class="govuk-link" href="#">scoping-consultation-summary.pdf</a></dd>
+      </div>
+       <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Summary of consultation on proposed local plan content and evidence</dt>
+         <dd class="govuk-summary-list__value"><a class="govuk-link" href="#">plan-content-and-evidence-consultation-summary.pdf</a></dd>
+      </div>
+    </dl>
+
+      <h2 class="govuk-heading-m">Plan content, evidence and background</h2>
+      <dl class="govuk-summary-list govuk-summary-list-timetable">
+      <!--<h3 class="govuk-heading-s">Plan content</h3>-->
+        <dl class="govuk-summary-list govuk-summary-list-timetable">
+          <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Proposed local plan submission for examination</dt>
+         <dd class="govuk-summary-list__value"><a class="govuk-link" href="#">proposed-local-plan-submission.pdf</a></dd>
+        
+      </div>
+        </dl>
+
+      <!--<h3 class="govuk-heading-s">Plan evidence and progress</h3>-->
+      <dl class="govuk-summary-list govuk-summary-list-timetable">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Examination website</dt>
+        <dd class="govuk-summary-list__value"><a class="govuk-link" href="#">examination-website-details.pdf</a></dd>
+        
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Practical arrangements demonstrating readiness for examination</dt>
+        <dd class="govuk-summary-list__value"><a class="govuk-link" href="#">examination-practical-arrangements.pdf</a></dd>
+       
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Environmental report (optional)</dt>
+         <dd class="govuk-summary-list__value"><a class="govuk-link" href="#">environmental-report.pdf</a></dd>
+       
+      </div>
+    
+      
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Statement demonstrating that the proposed local plan is unlikely to have significant environmental effects (optional)</dt>
+         <dd class="govuk-summary-list__value"><a class="govuk-link" href="#">environmental-effects-statement.pdf</a></dd>
+        
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Supporting material (optional)</dt>
+         <dd class="govuk-summary-list__value">
+           <ul class="govuk-list govuk-list--bullet">
+             <li><a class="govuk-link" href="#">supporting-material.pdf</a></li>
+             <li><a class="govuk-link" href="#">housing-needs-assessment.pdf</a></li>
+             <li><a class="govuk-link" href="#">transport-evidence-report.pdf</a></li>
+           </ul>
+         </dd>
+        
+      </div>
+    </dl>
+    <!-- 
+    <h3 class="govuk-heading-s">Plan background</h3>-->
+    <dl class="govuk-summary-list govuk-summary-list-timetable">
+      
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Map of proposed local plan policies</dt>
+         <dd class="govuk-summary-list__value"><a class="govuk-link" href="#">proposed-local-plan-policies-map.pdf</a></dd>
+       
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Supplementary plans statement (optional)</dt>
+         <dd class="govuk-summary-list__value"><a class="govuk-link" href="#">supplementary-plans-statement.pdf</a></dd>
+       
+      </div>
+    </dl>
+
+    <div class="govuk-button-group">
+      <a class="govuk-button" data-module="govuk-button" href="/projects/back-office/manage/GW3/v5/gateway-3-decision.html?submissionVersion=1&returnUrl={{ returnUrl or '/projects/back-office/manage/GW3/v5/gateway-3-submission-1-documents' }}">
+        Issue decision
+      </a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}
