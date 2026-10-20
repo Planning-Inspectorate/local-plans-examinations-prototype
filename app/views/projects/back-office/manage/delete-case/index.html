@@ -1,6 +1,6 @@
 {% extends "layouts/main.html" %}
  
-{% set title="Case updates" %}
+{% set title="Delete a case" %}
 {% set activeNav = 'back-office' %}
 
 {% block header %}
@@ -38,15 +38,13 @@
     <p class="govuk-!-margin-bottom-2">Changes:</p>
  
     <ul class="govuk-list govuk-list--bullet">
-      <li>updated layout of application details to match Appeals pattern and loop through each upload page</li>
-      <li>declaration pages merged into 1 declaration page</li>
-      <li>view-only 'application submitted' page added</li>
-      <li>progress tracker added i.e. "You have completed 0 of 3 sections."</li>
+      <li>added step for capturing reason for deletion</li>
+      <li>updated content based on content review from Kate</li>
     </ul>
  
     {{ govukButton({
       html: 'View prototype',
-      href: '/projects/back-office/gw2/v' ~ version ~ '/application-details',
+      href: '/projects/back-office/manage/delete-case/v' ~ version ~ '/delete-case-reason.html',
       isStartButton: true
     }) }}
  
@@ -54,22 +52,14 @@
  
       {% set version = "1" %}
  
-      <p class="govuk-body">
-        A basic task list page with an upload files flow and application submission flow. Not fully end-to-end functional - only key steps were built out and content was not finalised. Built for early demoing purposes only.
-      </p>
- 
-      {{ govukInsetText({
-        html: '<p class="govuk-body"><a href="https://app.mural.co/t/allpins6990/m/allpins6990/1765884601123/237bc418b7dd56fd74fe7b0ce600936fbf9aba46">Design Mural board</a></p>'
-      }) }}
- 
+     
       {{ govukButton({
         html: 'View prototype',
-        href: '/projects/front-office/gw2/v' ~ version ~ '/application-details',
+        href: '/projects/back-office/manage/delete-case/v' ~ version ~ '/delete-case-confirmation.html',
         isStartButton: true
       }) }}
 
-      <p class="govuk-body"><a href="/projects/front-office/gw2/archive/test-1/application-details.html">View v1.1</a> with updated tasklist functionality.</p>
- 
+     
     {% endset -%}
  
     {{ govukAccordion({

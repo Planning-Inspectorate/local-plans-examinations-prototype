@@ -1,7 +1,7 @@
 {% extends "layouts/back-office.html" %}
 
 {% block pageTitle %}
-{% if errorMessage %}Error: {% endif %}Why are you deleting this case? - {{ serviceName }}
+{% if errorMessage %}Error: {% endif %}Reason for deleting this case - {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -20,16 +20,21 @@
       errorList: [{ text: errorMessage, href: "#deletion-reason" }]
     }) }}
     {% endif %}
+          {% include "includes/back-office/plan-reference-caption.njk" %}
     <form method="post" action="/projects/back-office/manage/delete-case/v2/delete-case-reason">
       <input type="hidden" name="caseRef" value="{{ caseRef }}">
-      {{ govukInput({
+      {{ govukTextarea({
         name: "deletionReason",
         id: "deletion-reason",
         value: deletionReason,
+        rows: 5,
         label: {
-          text: "Why are you deleting this case?",
+          text: "Reason for deleting this case",
           isPageHeading: true,
           classes: "govuk-label--l"
+        },
+        hint: {
+          text: "Provide a short explanation for the case record."
         },
         errorMessage: { text: errorMessage } if errorMessage else undefined
       }) }}

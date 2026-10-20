@@ -147,7 +147,7 @@ Plan overview – {{ serviceName }}
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Type</dt>
-          <dd class="govuk-summary-list__value">{% if planType and planType != '-' %}{% if planType == 'local-plan' %}Local plan{% else %}{{ planType }}{% endif %}{% else %}Not provided{% endif %}</dd>
+          <dd class="govuk-summary-list__value">{% if planType and planType != '-' %}{% if planType == 'local-plan' or planType == 'Local Plan' %}Local plan{% else %}{{ planType }}{% endif %}{% else %}Not provided{% endif %}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/overview/v2/plan-type">{{ 'Change' if planType and planType != '-' else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if planType and planType != '-' else 'Add' }} the plan type</span></a>
           </dd>
@@ -305,7 +305,7 @@ Plan overview – {{ serviceName }}
 
 
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Examining inspector</dt>
+          <dt class="govuk-summary-list__key">Examination inspector</dt>
           {% if examiningInspector1Name and examiningInspector1Name != '-' %}
           <dd class="govuk-summary-list__value">
             {{ examiningInspector1Name }}
