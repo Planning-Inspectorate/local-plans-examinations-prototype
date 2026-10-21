@@ -181,7 +181,7 @@ Examination overview– {{ serviceName }}
             </div>
             <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">Format</dt>
-              <dd class="govuk-summary-list__value">{{ hearing.isVirtual if hearing.isVirtual and hearing.isVirtual != '-' else 'Not provided' }}</dd>
+              <dd class="govuk-summary-list__value">{{ 'Remote' if hearing.isVirtual == 'Virtual' else (hearing.isVirtual if hearing.isVirtual and hearing.isVirtual != '-' else 'Not provided') }}</dd>
               <dd class="govuk-summary-list__actions">
                 <a class="govuk-link" href="add-hearing?edit={{ loop.index0 }}&step=is-virtual">Change<span class="govuk-visually-hidden"> hearing {{ loop.index }} type</span></a>
               </dd>
@@ -189,7 +189,7 @@ Examination overview– {{ serviceName }}
 
             {% if hearing.isVirtual == 'Remote' or hearing.isVirtual == 'Virtual' or hearing.isVirtual == 'Hybrid' %}
             <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">Do you have a virtual meeting link?</dt>
+              <dt class="govuk-summary-list__key">Do you have a remote meeting link?</dt>
               <dd class="govuk-summary-list__value">{{ hearing.hasVirtualMeetingLink if hearing.hasVirtualMeetingLink and hearing.hasVirtualMeetingLink != '-' else 'Not provided' }}</dd>
               <dd class="govuk-summary-list__actions">
                 <a class="govuk-link" href="add-hearing?edit={{ loop.index0 }}&step=has-virtual-meeting-link">Change<span class="govuk-visually-hidden"> hearing {{ loop.index }} virtual meeting link question</span></a>
@@ -197,7 +197,7 @@ Examination overview– {{ serviceName }}
             </div>
             {% if hearing.hasVirtualMeetingLink == 'Yes' %}
             <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">Virtual meeting link</dt>
+              <dt class="govuk-summary-list__key">Remote meeting link</dt>
               <dd class="govuk-summary-list__value">{{ hearing.virtualMeetingLink if hearing.virtualMeetingLink and hearing.virtualMeetingLink != '-' else 'Not provided' }}</dd>
               <dd class="govuk-summary-list__actions">
                 <a class="govuk-link" href="add-hearing?edit={{ loop.index0 }}&step=virtual-meeting">Change<span class="govuk-visually-hidden"> hearing {{ loop.index }} virtual meeting link</span></a>

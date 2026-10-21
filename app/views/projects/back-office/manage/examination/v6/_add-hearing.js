@@ -40,6 +40,9 @@ function hydrateAddHearingFromRecord(hearingRecord) {
       }
     : { day: '', month: '', year: '' };
   const timeParts = (hearingRecord?.time || '').split(':');
+  const isVirtual = hearingRecord?.isVirtual === 'Virtual'
+    ? 'Remote'
+    : hearingRecord?.isVirtual || '';
 
   return {
     date,
@@ -50,7 +53,7 @@ function hydrateAddHearingFromRecord(hearingRecord) {
     estimatedDays: hearingRecord?.estimatedDays || '',
     actualDuration: hearingRecord?.actualDuration || '',
     endDate,
-    isVirtual: hearingRecord?.isVirtual || '',
+    isVirtual,
     hasVirtualMeetingLink: hearingRecord?.hasVirtualMeetingLink || 'No',
     virtualMeetingLink: hearingRecord?.virtualMeetingLink || '',
     hasEstimates: hearingRecord?.estimatedDays ? 'Yes' : 'No',
@@ -140,6 +143,10 @@ router.get('/add-hearing', function (req, res) {
   }
 
   clearWorkingHearingData(req.session.data);
+  const editingHearingIndex = getEditingHearingIndex(req);
+  if (editingHearingIndex !== null) {
+    req.session.data.addHearing = hydrateAddHearingFromRecord(req.session.hearings[editingHearingIndex]);
+  }
   res.redirect(`${req.baseUrl}/add-hearing/${targetStep}`);
 });
 

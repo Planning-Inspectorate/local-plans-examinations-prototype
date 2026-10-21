@@ -19,10 +19,6 @@ Do you know the address of where the hearing will take place? – {{ serviceName
     <form method="post" action="{{ basePath }}/add-hearing/has-address">
       <div class="govuk-form-group">
         <fieldset class="govuk-fieldset" aria-describedby="hearing-address-hint">
-          <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-            <h1 class="govuk-fieldset__heading">
-            </h1>
-          </legend>
           <div class="govuk-radios" data-module="govuk-radios">
             <div class="govuk-radios__item">
               <input class="govuk-radios__input" id="hearing-address-yes" name="hasAddress" type="radio" value="Yes" {{ 'checked' if addHearing.hasAddress == 'Yes' else '' }}>
