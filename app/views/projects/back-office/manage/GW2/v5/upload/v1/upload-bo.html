@@ -17,7 +17,7 @@
 
     <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
     <h1 class="govuk-heading-l">Upload workshop documents</h1>
-
+ <h2 class="govuk-heading-m">Upload files</h2>
     
     <p>
       Each file must be a PDF, DOC, DOCX, PPT, PPTX, XLS, XLSX, MSG, JPG, JPEG, PNG, TIF or TIFF and be smaller than 250MB.
@@ -26,7 +26,7 @@
     <p>
       The total size of all your uploaded files must be smaller than 1GB.
     </p>
- <h2 class="govuk-heading-m">Upload files</h2>
+
 
     <form class="form" action="/projects/back-office/manage/GW2/v5/upload/v1/upload-bo" method="post" id="upload-form">
       <input type="hidden" name="returnTo" value="{{ returnTo or 'gateway-2' }}">

@@ -20,7 +20,13 @@ Gateway 3 overview {{ serviceName }}
         <h2 class="govuk-notification-banner__title" id="gw3-notification-banner-title">Success</h2>
       </div>
       <div class="govuk-notification-banner__content">
-        <p class="govuk-notification-banner__heading">{{ notificationMessage }}</p>
+        {% for line in notificationMessageLines %}
+          {% if loop.first %}
+            <p class="govuk-notification-banner__heading">{{ line }}</p>
+          {% else %}
+            <p class="govuk-body">{{ line }}</p>
+          {% endif %}
+        {% endfor %}
       </div>
     </div>
     {% endif %}
@@ -130,7 +136,7 @@ Gateway 3 overview {{ serviceName }}
         <div class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/GW3/v5/gateway-3-report/manage?submissionVersion=1">Manage<span class="govuk-visually-hidden"> submission 1 report</span></a></div>
       </div>
       <div class="govuk-summary-list__row">
-        <div class="govuk-summary-list__key">{{ 'Date issued' if (submission1Decision | lower) == 'ready' else 'Date issued' }}</div>
+        <div class="govuk-summary-list__key">{{ 'Issued on' if (submission1Decision | lower) == 'ready' else 'Issued on' }}</div>
         <div class="govuk-summary-list__value">{{ submission1DecisionDate }}</div>
       </div>
       {% endif %}
@@ -171,7 +177,7 @@ Gateway 3 overview {{ serviceName }}
         <div class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/GW3/v5/gateway-3-report/manage?submissionVersion=2">Manage<span class="govuk-visually-hidden"> submission 2 report</span></a></div>
       </div>
       <div class="govuk-summary-list__row">
-        <div class="govuk-summary-list__key">{{ 'Date issued' if (submission2Decision | lower) == 'ready' else 'Date issued' }}</div>
+        <div class="govuk-summary-list__key">{{ 'Issued on' if (submission2Decision | lower) == 'ready' else 'Issued on' }}</div>
         <div class="govuk-summary-list__value">{{ submission2DecisionDate }}</div>
       </div>
       {% endif %}

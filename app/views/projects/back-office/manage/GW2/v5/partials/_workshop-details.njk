@@ -42,19 +42,19 @@
       </div>
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">Format</dt>
-        <dd class="govuk-summary-list__value">{{ 'Remote' if hearing.isVirtual == 'Virtual' else (hearing.isVirtual if hearing.isVirtual and hearing.isVirtual != '-' else 'Not provided') }}</dd>
+        <dd class="govuk-summary-list__value">{{ 'Remote' if hearing.isVirtual == 'Virtual' or hearing.isVirtual == 'Remote' else (hearing.isVirtual if hearing.isVirtual and hearing.isVirtual != '-' else 'Not provided') }}</dd>
         <dd class="govuk-summary-list__actions"></dd>
       </div>
 
-      {% if hearing.isVirtual == 'Remote' or hearing.isVirtual == 'Virtual' or hearing.isVirtual == 'Hybrid' %}
+      {% if hearing.isVirtual == 'Virtual' or hearing.isVirtual == 'Remote' or hearing.isVirtual == 'Hybrid' %}
         <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Do you have a virtual meeting link?</dt>
+          <dt class="govuk-summary-list__key">Do you have a remote meeting link?</dt>
           <dd class="govuk-summary-list__value">{{ hearing.hasVirtualMeetingLink if hearing.hasVirtualMeetingLink and hearing.hasVirtualMeetingLink != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions"></dd>
         </div>
         {% if hearing.hasVirtualMeetingLink == 'Yes' %}
           <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">Virtual meeting link</dt>
+            <dt class="govuk-summary-list__key">Remote meeting link</dt>
             <dd class="govuk-summary-list__value">{{ hearing.virtualMeetingLink if hearing.virtualMeetingLink and hearing.virtualMeetingLink != '-' else 'Not provided' }}</dd>
             <dd class="govuk-summary-list__actions"></dd>
           </div>

@@ -75,7 +75,7 @@ Gateway 1 overview – {{ serviceName }}
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Signed SLA</dt>
-          <dd class="govuk-summary-list__value">{{ signedSlaFilename if signedSlaFilename and signedSlaFilename != '-' else 'Not uploaded' }}</dd>
+          <dd class="govuk-summary-list__value">{{ signedSlaFilename if signedSlaFilename and signedSlaFilename != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="/projects/back-office/manage/GW1/v2/gateway-1-signed-sla-upload.html?returnUrl=/projects/back-office/manage/GW1/v2/gateway-1">{{ 'Change' if signedSlaFilename and signedSlaFilename != '-' else 'Upload' }}<span class="govuk-visually-hidden"> signed SLA</span></a>
           </dd>

@@ -250,8 +250,8 @@ function getDecisionOutcomeKey(submissionVersion) {
 
 function getDecisionOutcomeDisplay(outcome) {
   const normalizedOutcome = String(outcome || '').trim().toLowerCase();
-  if (normalizedOutcome === 'ready' || normalizedOutcome === 'pass') return 'Ready to start examination';
-  if (normalizedOutcome === 'not ready') return 'Resubmission required';
+  if (normalizedOutcome === 'ready' || normalizedOutcome === 'pass') return 'Ready: proceed to examination';
+  if (normalizedOutcome === 'not ready') return 'Not ready: resubmission required';
   return outcome || '-';
 }
 
@@ -377,6 +377,7 @@ function buildGateway3ViewModel(req, notificationMessage = '') {
   return {
     caseRef: req.session.currentCaseRef || '',
     notificationMessage,
+    notificationMessageLines: String(notificationMessage).split('\n'),
     gateway3EstimatedDate: req.session.gateway3EstimatedDate && req.session.gateway3EstimatedDate !== '-' ? formatDateForDisplay(req.session.gateway3EstimatedDate) : '2 June 2026',
     gateway3ActualDate: req.session.gateway3ActualDate && req.session.gateway3ActualDate !== '-' ? formatDateForDisplay(req.session.gateway3ActualDate) : 'Not provided',
     gateway3AssessorAppointmentDate: req.session.gateway3AssessorAppointmentDate && req.session.gateway3AssessorAppointmentDate !== '-' ? formatDateForDisplay(req.session.gateway3AssessorAppointmentDate) : 'Not provided',
@@ -855,8 +856,8 @@ router.post('/gateway-3-decision-check-answers', (req, res) => {
   };
 
   req.session.notificationMessage = normalizedDecisionOutcome === 'not ready'
-    ? "Outcome recorded: resubmission required. We've notified the planning authority."
-    : "Outcome recorded: ready to proceed to examination. We've notified the planning authority.";
+    ? "Outcome recorded: resubmission required \nWe've notified the planning authority."
+    : "Outcome recorded: ready to proceed to examination \nWe've notified the planning authority.";
 
   req.session.save(() => {
     res.redirect(withGateway3OverviewState(GW3_V4_OVERVIEW_URL, nextOverviewState));

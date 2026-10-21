@@ -13,7 +13,7 @@
               {% endfor %}
             </ul>
           {% else %}
-            <a class="govuk-link" href="#">{{ document.filename }}</a>
+            <a class="govuk-link" href="{{ document.href or '#' }}"{% if document.href %} target="_blank" rel="noopener"{% endif %}>{{ document.filename }}</a>
           {% endif %}
         </dd>
       </div>
@@ -51,7 +51,7 @@
       title: "Plan content, evidence and background",
       required: [
         { title: "Proposed local plan submission for examination", filename: "proposed-local-plan-submission.pdf" },
-        { title: "Examination website", filename: "examination-website-details.pdf" },
+        { title: "Examination website", filename: "eastborough.gov.uk/examination-library", href: "https://eastborough.gov.uk/examination-library" },
         { title: "Practical arrangements demonstrating readiness for examination", filename: "examination-practical-arrangements.pdf" },
         { title: "Map of proposed local plan policies", filename: "proposed-local-plan-policies-map.pdf" }
       ],
