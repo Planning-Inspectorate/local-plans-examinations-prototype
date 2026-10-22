@@ -39,8 +39,8 @@
 
   {% set workshopDocuments %}
     <ul class="govuk-list">
-      <li><a class="govuk-link" href="#">workshop-agenda.pdf</a> (shared on 8 May 2026)</li>
-      <li><a class="govuk-link" href="#">workshop-questions.pdf</a> (shared on 8 May 2026)</li>
+      <li><a class="govuk-link" href="#">workshop-agenda.pdf</a> (shared: 8 Aug 2026)</li>
+      <li><a class="govuk-link" href="#">workshop-questions.pdf</a> (shared: 8 Aug 2026)</li>
     </ul>
   {% endset %}
 
@@ -66,12 +66,16 @@
 
 {% set summaryRows = [
   {
-    key: { text: "Location", classes: "govuk-!-width-one-third" },
-    value: { text: "East Borough Civic Centre" }
+    key: { text: "Format", classes: "govuk-!-width-one-third" },
+    value: { text: "In-person" }
   },
   {
-    key: { text: "Date and time", classes: "govuk-!-width-one-third" },
-    value: { text: "19 May 2026 at 10am" }
+    key: { text: "Venue", classes: "govuk-!-width-one-third" },
+    value: { html: "East Borough Civic Centre<br>14 Market Street<br>East Borough<br>EB1 4QT" }
+  },
+  {
+    key: { text: "Start time", classes: "govuk-!-width-one-third" },
+    value: { text: "10am, 12 May 2026" }
   },
   {
     key: { text: "Documents", classes: "govuk-!-width-one-third" },
