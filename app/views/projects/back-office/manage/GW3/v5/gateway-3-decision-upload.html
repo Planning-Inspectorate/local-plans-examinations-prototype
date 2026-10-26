@@ -26,7 +26,7 @@
         </div>
       {% endif %}
 
-      <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}{% if hasMultipleSubmissions %} - {{ submissionLabel | capitalize }}{% endif %}</span>
+      <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }} - Gateway 3, submission {{ submissionNumber or '1' }}</span>
       <h1 class="govuk-heading-l">Upload report<!--{% if hasMultipleSubmissions %} for {{ submissionLabel }}{% endif %}--></h1>
 <h2 class="govuk-heading-m">Upload files</h2>
       <p>

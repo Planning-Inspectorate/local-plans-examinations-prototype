@@ -1,27 +1,39 @@
-{% set previousSubmissionHtml %}
-  <a class="govuk-link" href="/projects/back-office/manage/GW3/v5/gateway-3-submission-1-documents">Submission 1</a>{% if previousSubmissionDate and previousSubmissionDate != '-' %} (submitted {{ previousSubmissionDate }}){% endif %}
-{% endset %}
-
-{% set previousReportHtml %}
-  {% if previousSubmissionDecision and previousSubmissionDecision.reportStoredFilename %}
-    <a class="govuk-link" href="{{ previousSubmissionDecision.reportHref }}">{{ previousSubmissionDecision.reportFilename }}</a> (issued {{ previousSubmissionDecision.date }})
-  {% else %}
-    Not provided
-  {% endif %}
-{% endset %}
-
-{% set decisionMetadataRows = [
-  {
-    key: { text: "Submission 1 report", classes: "govuk-!-width-one-quarter" },
-    value: { html: previousReportHtml }
-  },
-  {
-    key: { text: "Previous submissions", classes: "govuk-!-width-one-quarter" },
-    value: { html: previousSubmissionHtml }
-  }
-] %}
+{% if submissionNumber == '3' %}
+  {% set submission1MetadataHtml %}
+    {% if previousSubmission1Decision and previousSubmission1Decision.reportStoredFilename %}
+      <p class="govuk-body"><a class="govuk-link" href="{{ previousSubmission1Decision.reportHref }}">View report</a>{% if previousSubmission1Decision.date %} (issued {{ previousSubmission1Decision.date }}){% endif %}</p>
+    {% else %}
+      <p class="govuk-body">Not provided</p>
+    {% endif %}
+    <p class="govuk-body"><a class="govuk-link" href="/projects/back-office/manage/GW3/v5/gateway-3-submission-1-documents">View documents</a>{% if previousSubmission1Date and previousSubmission1Date != '-' %} (submitted {{ previousSubmission1Date }}){% endif %}</p>
+  {% endset %}
+  {% set submission2MetadataHtml %}
+    {% if previousSubmission2Decision and previousSubmission2Decision.reportStoredFilename %}
+      <p class="govuk-body"><a class="govuk-link" href="{{ previousSubmission2Decision.reportHref }}">View report</a>{% if previousSubmission2Decision.date %} (issued {{ previousSubmission2Decision.date }}){% endif %}</p>
+    {% else %}
+      <p class="govuk-body">Not provided</p>
+    {% endif %}
+    <p class="govuk-body"><a class="govuk-link" href="/projects/back-office/manage/GW3/v5/gateway-3-submission-2-documents">View documents</a>{% if previousSubmission2Date and previousSubmission2Date != '-' %} (submitted {{ previousSubmission2Date }}){% endif %}</p>
+  {% endset %}
+  {% set decisionMetadataRows = [
+    { key: { text: "Submission 1", classes: "govuk-!-width-one-quarter" }, value: { html: submission1MetadataHtml } },
+    { key: { text: "Submission 2", classes: "govuk-!-width-one-quarter" }, value: { html: submission2MetadataHtml } }
+  ] %}
+{% else %}
+  {% set submission1MetadataHtml %}
+    {% if previousSubmissionDecision and previousSubmissionDecision.reportStoredFilename %}
+      <p class="govuk-body"><a class="govuk-link" href="{{ previousSubmissionDecision.reportHref }}">View report</a>{% if previousSubmissionDecision.date %} (issued {{ previousSubmissionDecision.date }}){% endif %}</p>
+    {% else %}
+      <p class="govuk-body">Not provided</p>
+    {% endif %}
+    <p class="govuk-body"><a class="govuk-link" href="/projects/back-office/manage/GW3/v5/gateway-3-submission-1-documents">View documents</a>{% if previousSubmissionDate and previousSubmissionDate != '-' %} (submitted {{ previousSubmissionDate }}){% endif %}</p>
+  {% endset %}
+  {% set decisionMetadataRows = [
+    { key: { text: "Submission 1", classes: "govuk-!-width-one-quarter" }, value: { html: submission1MetadataHtml } }
+  ] %}
+{% endif %}
 
 {{ govukSummaryList({
-  classes: "app-details govuk-summary-list--no-border",
+  classes: "app-details govuk-!-margin-bottom-4 govuk-summary-list--no-border",
   rows: decisionMetadataRows
 }) }}

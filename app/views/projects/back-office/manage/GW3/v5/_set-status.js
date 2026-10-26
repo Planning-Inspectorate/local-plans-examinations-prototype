@@ -14,7 +14,7 @@ router.get('/set-status', (req, res) => {
   delete req.session.notificationMessage;
   delete req.session.gateway3CompletionDate;
   delete req.session.data.gateway3CompletionDate;
-  ['1', '2'].forEach((version) => {
+  ['1', '2', '3'].forEach((version) => {
     ['Outcome', 'Date', 'ReportFilename', 'ReportStoredFilename', 'ReportUploadedDate'].forEach((field) => {
       delete req.session[`gw3v4Submission${version}Decision${field}`];
     });
@@ -57,6 +57,8 @@ router.get('/set-status', (req, res) => {
     delete req.session.gw3v4Submission1DecisionDate;
     delete req.session.gw3v4Submission2DecisionOutcome;
     delete req.session.gw3v4Submission2DecisionDate;
+    delete req.session.gw3v4Submission3DecisionOutcome;
+    delete req.session.gw3v4Submission3DecisionDate;
     delete req.session.gateway3CompletionDate;
     delete req.session.gw3v5AssessorContacts;
   }

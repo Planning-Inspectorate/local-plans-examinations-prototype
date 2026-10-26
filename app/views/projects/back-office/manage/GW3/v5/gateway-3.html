@@ -132,7 +132,7 @@ Gateway 3 overview {{ serviceName }}
       {% if submission1DecisionIssued %}
       <div class="govuk-summary-list__row">
         <div class="govuk-summary-list__key">Report</div>
-        <div class="govuk-summary-list__value">{% if submission1ReportStoredFilename %}<a class="govuk-link" href="{{ submission1ReportHref }}">{{ submission1Report }}</a>{% else %}Not provided{% endif %}</div>
+        <div class="govuk-summary-list__value">{% if submission1ReportStoredFilename %}<a class="govuk-link" href="{{ submission1ReportHref }}">View report</a>{% else %}Not provided{% endif %}</div>
         <div class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/GW3/v5/gateway-3-report/manage?submissionVersion=1">Manage<span class="govuk-visually-hidden"> submission 1 report</span></a></div>
       </div>
       <div class="govuk-summary-list__row">
@@ -173,12 +173,41 @@ Gateway 3 overview {{ serviceName }}
       {% if submission2DecisionIssued %}
       <div class="govuk-summary-list__row">
         <div class="govuk-summary-list__key">Report</div>
-        <div class="govuk-summary-list__value">{% if submission2ReportStoredFilename %}<a class="govuk-link" href="{{ submission2ReportHref }}">{{ submission2Report }}</a>{% else %}Not provided{% endif %}</div>
+        <div class="govuk-summary-list__value">{% if submission2ReportStoredFilename %}<a class="govuk-link" href="{{ submission2ReportHref }}">View report</a>{% else %}Not provided{% endif %}</div>
         <div class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/GW3/v5/gateway-3-report/manage?submissionVersion=2">Manage<span class="govuk-visually-hidden"> submission 2 report</span></a></div>
       </div>
       <div class="govuk-summary-list__row">
         <div class="govuk-summary-list__key">{{ 'Issued on' if (submission2Decision | lower) == 'ready' else 'Issued on' }}</div>
         <div class="govuk-summary-list__value">{{ submission2DecisionDate }}</div>
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    {% if isSubmission3Required %}
+    <h2 class="govuk-heading-l">Submission 3</h2>
+    <div class="govuk-summary-list govuk-summary-list-timetable">
+      <div class="govuk-summary-list__row">
+        <div class="govuk-summary-list__key">Documents</div>
+        <div class="govuk-summary-list__value">{{ submission3DocumentsCount }} documents</div>
+        <div class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/GW3/v5/gateway-3-submission-3-documents">{{ 'View' if submission3DecisionIssued else 'Review' }}</a></div>
+      </div>
+      <div class="govuk-summary-list__row">
+        <div class="govuk-summary-list__key">Outcome</div>
+        <div class="govuk-summary-list__value">{{ submission3DecisionDisplay if submission3DecisionIssued else 'Not provided' }}</div>
+        {% if not submission3DecisionIssued %}
+        <div class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/GW3/v5/gateway-3-decision.html?submissionVersion=3&returnUrl=/projects/back-office/manage/GW3/v5/gateway-3">Add<span class="govuk-visually-hidden"> submission 3 decision</span></a></div>
+        {% endif %}
+      </div>
+      {% if submission3DecisionIssued %}
+      <div class="govuk-summary-list__row">
+        <div class="govuk-summary-list__key">Report</div>
+        <div class="govuk-summary-list__value">{% if submission3ReportStoredFilename %}<a class="govuk-link" href="{{ submission3ReportHref }}">View report</a>{% else %}Not provided{% endif %}</div>
+        <div class="govuk-summary-list__actions"><a class="govuk-link" href="/projects/back-office/manage/GW3/v5/gateway-3-report/manage?submissionVersion=3">Manage<span class="govuk-visually-hidden"> submission 3 report</span></a></div>
+      </div>
+      <div class="govuk-summary-list__row">
+        <div class="govuk-summary-list__key">Issued on</div>
+        <div class="govuk-summary-list__value">{{ submission3DecisionDate }}</div>
       </div>
       {% endif %}
     </div>

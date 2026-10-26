@@ -17,12 +17,12 @@
       <form class="form" method="post" action="/projects/back-office/manage/GW3/v5/gateway-3-decision">
         <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
         <input type="hidden" name="submissionVersion" value="{{ submissionVersion }}">
-        <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}{% if hasMultipleSubmissions %} - {{ submissionLabel | capitalize }}{% endif %}</span>
+        <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }} - Gateway 3, submission {{ submissionNumber or '1' }}</span>
         {{ govukRadios({
           name: "gateway-3-decision-outcome",
           fieldset: {
             legend: {
-              text: "What is the Gateway 3 assessment outcome?",
+              text: "What is the assessment outcome?",
               isPageHeading: true,
               classes: "govuk-fieldset__legend--l"
             }

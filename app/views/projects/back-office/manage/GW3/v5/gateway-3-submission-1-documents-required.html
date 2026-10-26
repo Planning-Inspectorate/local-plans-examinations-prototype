@@ -2,7 +2,7 @@
 
 {% block documentSections %}
   {% for section in sections %}
-    <h1 class="govuk-heading-xl">{{ section.title }}</h1>
+    <h2 class="govuk-heading-m">{{ section.title }}</h2>
     <dl class="govuk-summary-list govuk-summary-list-timetable">
       {% for document in section.required.concat(section.optional) %}
         <div class="govuk-summary-list__row">

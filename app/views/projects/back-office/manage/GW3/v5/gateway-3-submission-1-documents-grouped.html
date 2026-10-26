@@ -77,8 +77,8 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full app-gw3-submission-docs">
-      <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }} - Submission {{ submissionNumber or '1' }} - {{ submissionDateSubmitted or '21 June 2026' }}</span>
-      <h1 class="govuk-heading-xl">Gateway 3 documents</h1>
+      <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
+      <h1 class="govuk-heading-xl">Gateway 3, submission {{ submissionNumber or '1' }}</h1>
 
       {% block documentSections %}
       {% for section in sections %}
