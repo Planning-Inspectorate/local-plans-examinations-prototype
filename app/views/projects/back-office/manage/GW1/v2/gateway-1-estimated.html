@@ -1,4 +1,5 @@
 {% extends "layouts/back-office.html" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% block pageTitle %}
  GW1 submission expected – {{ serviceName }}
@@ -15,30 +16,34 @@
     
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
+            {% if dateValidationError %}
+                {{ govukErrorSummary({ titleText: "There is a problem", errorList: [{ text: dateValidationError, href: "#notice-of-intention-date-day" }] }) }}
+            {% endif %}
             {% include "includes/back-office/plan-reference-caption.njk" %}
             <h1 class="govuk-heading-l">GW1 submission expected</h1>
             <form class="form" method="post" action="/projects/back-office/manage/GW1/v2/gateway-1-estimated">
                 <input type="hidden" name="isEdit" value="{{ isEdit }}">
                 <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
                 {% set noticeOfIntentionParts = noticeOfIntentionDate.split('/') if noticeOfIntentionDate else ['', '', ''] %}
-                <fieldset class="govuk-fieldset govuk-!-margin-bottom-2" role="group" aria-describedby="passport-issued-hint">
+                <fieldset class="govuk-fieldset govuk-!-margin-bottom-2{% if dateValidationError %} govuk-form-group--error{% endif %}" role="group" aria-describedby="{% if dateValidationError %}date-input-error{% else %}passport-issued-hint{% endif %}">
+                    {% if dateValidationError %}<p class="govuk-error-message" id="date-input-error"><span class="govuk-visually-hidden">Error:</span> {{ dateValidationError }}</p>{% endif %}
                     <div class="govuk-date-input" id="notice-of-intention-date">
                         <div class="govuk-date-input__item">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-date-input__label" for="notice-of-intention-date-day">Day</label>
-                                <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="notice-of-intention-date-day" name="notice-of-intention-date-day" type="text" inputmode="numeric" value="{{ noticeOfIntentionParts[0] }}">
+                                <input class="govuk-input govuk-date-input__input govuk-input--width-2{% if dateValidationError %} govuk-input--error{% endif %}" id="notice-of-intention-date-day" name="notice-of-intention-date-day" type="text" inputmode="numeric" value="{{ noticeOfIntentionParts[0] }}"{% if dateValidationError %} aria-describedby="date-input-error"{% endif %}>
                             </div>
                         </div>
                         <div class="govuk-date-input__item">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-date-input__label" for="notice-of-intention-date-month">Month</label>
-                                <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="notice-of-intention-date-month" name="notice-of-intention-date-month" type="text" inputmode="numeric" value="{{ noticeOfIntentionParts[1] }}">
+                                <input class="govuk-input govuk-date-input__input govuk-input--width-2{% if dateValidationError %} govuk-input--error{% endif %}" id="notice-of-intention-date-month" name="notice-of-intention-date-month" type="text" inputmode="numeric" value="{{ noticeOfIntentionParts[1] }}"{% if dateValidationError %} aria-describedby="date-input-error"{% endif %}>
                             </div>
                         </div>
                         <div class="govuk-date-input__item">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-date-input__label" for="notice-of-intention-date-year">Year</label>
-                                <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="notice-of-intention-date-year" name="notice-of-intention-date-year" type="text" inputmode="numeric" value="{{ noticeOfIntentionParts[2] }}">
+                                <input class="govuk-input govuk-date-input__input govuk-input--width-4{% if dateValidationError %} govuk-input--error{% endif %}" id="notice-of-intention-date-year" name="notice-of-intention-date-year" type="text" inputmode="numeric" value="{{ noticeOfIntentionParts[2] }}"{% if dateValidationError %} aria-describedby="date-input-error"{% endif %}>
                             </div>
                         </div>
                     </div>

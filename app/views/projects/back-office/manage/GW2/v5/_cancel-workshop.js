@@ -35,7 +35,6 @@ function syncLatestHearingFields(session) {
 
 router.get('/cancel-workshop', function (req, res) {
     const sessionData = req.session.data || {};
-    const baseViewPath = (req.baseUrl || '').replace(/^\//, '');
     const workshopIndex = Number.parseInt(req.query.index, 10);
     if (Number.isInteger(workshopIndex) && workshopIndex >= 0) {
       req.session.cancelWorkshopIndex = String(workshopIndex);
@@ -44,9 +43,9 @@ router.get('/cancel-workshop', function (req, res) {
       delete req.session.cancelWorkshopIndex;
       delete req.session.data.cancelWorkshopIndex;
     }
-    res.render(`${baseViewPath}/cancel-workshop/index`, {
-      caseRef: sessionData.currentCaseRef || '',
-      planTitle: sessionData.planTitle || '',
+    res.render('projects/back-office/manage/GW2/v5/cancel-workshop/index', {
+      caseRef: sessionData.currentCaseRef || req.session.currentCaseRef || '',
+      planTitle: sessionData.planTitle || req.session.planTitle || '',
       workshopIndex: Number.isInteger(workshopIndex) && workshopIndex >= 0 ? workshopIndex : ''
     })
   })
@@ -74,13 +73,13 @@ router.get('/cancel-workshop', function (req, res) {
       delete req.session.data.cancelWorkshopIndex;
       req.session.notificationMessage = 'Unable to cancel workshop';
       return req.session.save(() => {
-        res.redirect(`${req.baseUrl}/gateway-2`)
+        res.redirect('/projects/back-office/manage/GW2/v5/gateway-2')
       })
     }
 
     req.session.notificationMessage = 'Workshop cancelled'
     req.session.save(() => {
-      res.redirect(`${req.baseUrl}/gateway-2`)
+      res.redirect('/projects/back-office/manage/GW2/v5/gateway-2')
     })
   })
 

@@ -7,6 +7,144 @@ function getAddWorkshopView(req, page) {
   return `${baseViewPath}/add-workshop/${page}`;
 }
 
+function getWorkshopCaseRef(req) {
+  return req.session?.data?.currentCaseRef || req.session?.currentCaseRef || '';
+}
+
+function getWorkshopDateError(day, month, year, label) {
+  const values = [day, month, year].map((value) => String(value || '').trim());
+  if (values.every((value) => !value)) return `Enter a ${label}`;
+  if (values.some((value) => !value)) return `Enter a complete ${label}`;
+  if (!/^\d{1,2}$/.test(values[0]) || !/^\d{1,2}$/.test(values[1]) || !/^\d{4}$/.test(values[2])) {
+    return `Enter a valid ${label}`;
+  }
+
+  const date = DateTime.fromObject({ day: Number(values[0]), month: Number(values[1]), year: Number(values[2]) });
+  return date.isValid && date.day === Number(values[0]) && date.month === Number(values[1]) && date.year === Number(values[2])
+    ? ''
+    : `Enter a valid ${label}`;
+}
+
+function getWorkshopTimeError(hour, minute, label, optional = false) {
+  const hourValue = String(hour || '').trim();
+  const minuteValue = String(minute || '').trim();
+  if (optional && !hourValue && !minuteValue) return '';
+  if (!hourValue && !minuteValue) return `Enter a ${label}`;
+  if (!hourValue || !minuteValue) return `Enter a complete ${label}`;
+  if (!/^\d{1,2}$/.test(hourValue) || !/^\d{1,2}$/.test(minuteValue)) return `Enter a valid ${label}`;
+
+  const hourNumber = Number(hourValue);
+  const minuteNumber = Number(minuteValue);
+  return hourNumber <= 23 && minuteNumber <= 59 ? '' : `Enter a valid ${label}`;
+}
+
+function getWorkshopChoiceError(value, label, choices) {
+  return choices.includes(String(value || '').trim()) ? '' : `Select ${label}`;
+}
+
+function getWorkshopPositiveNumberError(value, label) {
+  const number = Number(String(value || '').trim());
+  return Number.isFinite(number) && number > 0 ? '' : `Enter a ${label} greater than 0`;
+}
+
+function getWorkshopUrlError(value) {
+  const urlValue = String(value || '').trim();
+  if (!urlValue) return 'Enter a remote meeting link';
+
+  try {
+    const url = new URL(urlValue);
+    return ['http:', 'https:'].includes(url.protocol) && url.hostname.includes('.')
+      ? ''
+      : 'Enter a valid remote meeting link';
+  } catch (error) {
+    return 'Enter a valid remote meeting link';
+  }
+}
+
+function renderWorkshopStepWithErrors(req, res, page, fieldErrors) {
+  const errorTargets = {
+    date: 'hearing-date-day',
+    time: 'hearing-time-hour',
+    endTime: 'hearing-end-time-hour',
+    hasEstimates: 'hasEstimates',
+    estimatedDays: 'hearing-estimation-days',
+    isVirtual: 'hearing-virtual-no',
+    hasVirtualMeetingLink: 'hearing-virtual-meeting-link-yes',
+    virtualMeetingLink: 'virtual-meeting-link',
+    hasAddress: 'hearing-address-yes',
+    venue: 'hearing-venue',
+    addressLine1: 'hearing-address-line1',
+    addressTown: 'hearing-address-town',
+    addressPostcode: 'hearing-address-postcode'
+  };
+  const errorList = Object.entries(fieldErrors)
+    .filter(([, message]) => message)
+    .map(([field, text]) => ({ text, href: `#${errorTargets[field] || field}` }));
+
+  return res.status(400).render(getAddWorkshopView(req, page), {
+    caseRef: getWorkshopCaseRef(req),
+    planTitle: req.session.data?.planTitle || req.session.planTitle || '',
+    addWorkshop: req.session.data?.addWorkshop || {},
+    isEditing: getEditingWorkshopIndex(req) !== null,
+    fieldErrors,
+    errorList
+  });
+}
+
+function getWorkshopSubmissionError(addWorkshop = {}) {
+  const date = addWorkshop.date || {};
+  const time = addWorkshop.time || {};
+  const endTime = addWorkshop.endTime || {};
+  let fieldErrors = {
+    date: getWorkshopDateError(date.day, date.month, date.year, 'workshop date'),
+    time: getWorkshopTimeError(time.hour, time.minute, 'start time'),
+    endTime: getWorkshopTimeError(endTime.hour, endTime.minute, 'end time', true)
+  };
+  if (Object.values(fieldErrors).some(Boolean)) return { page: 'index', fieldErrors };
+
+  fieldErrors = {
+    hasEstimates: getWorkshopChoiceError(addWorkshop.hasEstimates, 'an answer', ['Yes', 'No']),
+    estimatedDays: addWorkshop.hasEstimates === 'Yes'
+      ? getWorkshopPositiveNumberError(addWorkshop.estimatedDays, 'number of days')
+      : ''
+  };
+  if (Object.values(fieldErrors).some(Boolean)) return { page: 'has-estimates', fieldErrors };
+
+  fieldErrors = {
+    isVirtual: getWorkshopChoiceError(addWorkshop.isVirtual, 'a workshop format', ['In-person', 'Hybrid', 'Virtual'])
+  };
+  if (Object.values(fieldErrors).some(Boolean)) return { page: 'is-virtual', fieldErrors };
+
+  if (addWorkshop.isVirtual === 'Virtual' || addWorkshop.isVirtual === 'Hybrid') {
+    fieldErrors = {
+      hasVirtualMeetingLink: getWorkshopChoiceError(addWorkshop.hasVirtualMeetingLink, 'an answer', ['Yes', 'No'])
+    };
+    if (Object.values(fieldErrors).some(Boolean)) return { page: 'has-virtual-meeting-link', fieldErrors };
+    if (addWorkshop.hasVirtualMeetingLink === 'Yes') {
+      fieldErrors = { virtualMeetingLink: getWorkshopUrlError(addWorkshop.virtualMeetingLink) };
+      if (Object.values(fieldErrors).some(Boolean)) return { page: 'virtual-meeting', fieldErrors };
+    }
+  }
+
+  if (addWorkshop.isVirtual === 'In-person' || addWorkshop.isVirtual === 'Hybrid') {
+    fieldErrors = {
+      hasAddress: getWorkshopChoiceError(addWorkshop.hasAddress, 'an answer', ['Yes', 'No'])
+    };
+    if (Object.values(fieldErrors).some(Boolean)) return { page: 'has-address', fieldErrors };
+    if (addWorkshop.hasAddress === 'Yes') {
+      fieldErrors = {
+        venue: addWorkshop.venue ? '' : 'Enter the venue name',
+        addressLine1: addWorkshop.address?.line1 ? '' : 'Enter address line 1',
+        addressTown: addWorkshop.address?.town ? '' : 'Enter a town or city',
+        addressPostcode: addWorkshop.address?.postcode ? '' : 'Enter a postcode'
+      };
+      if (Object.values(fieldErrors).some(Boolean)) return { page: 'address', fieldErrors };
+    }
+  }
+
+  return null;
+}
+
 function getEditingWorkshopIndex(req) {
   const rawIndex = req.session?.data?.editWorkshopIndex;
   const hearingIndex = Number.parseInt(rawIndex, 10);
@@ -220,7 +358,7 @@ router.get('/add-workshop/index', function (req, res) {
   console.log('hearingData being passed to template:', JSON.stringify(hearingData, null, 2));
   
   res.render(getAddWorkshopView(req, 'index'), {
-    caseRef: req.session.data.currentCaseRef || '',
+    caseRef: getWorkshopCaseRef(req),
     planTitle: req.session.data.planTitle || '',
     addWorkshop: hearingData,
     isEditing: editingHearingIndex !== null
@@ -238,7 +376,7 @@ router.get('/add-workshop/actual-duration', function (req, res) {
   const hearingData = req.session.data.addWorkshop || {};
 
   res.render(getAddWorkshopView(req, 'actual-duration'), {
-    caseRef: req.session.data.currentCaseRef || '',
+    caseRef: getWorkshopCaseRef(req),
     planTitle: req.session.data.planTitle || '',
     addWorkshop: hearingData,
     isEditing: editingHearingIndex !== null
@@ -278,7 +416,7 @@ router.get('/add-workshop/end-date', function (req, res) {
   const hearingData = req.session.data.addWorkshop || {};
 
   res.render(getAddWorkshopView(req, 'end-date'), {
-    caseRef: req.session.data.currentCaseRef || '',
+    caseRef: getWorkshopCaseRef(req),
     planTitle: req.session.data.planTitle || '',
     addWorkshop: hearingData,
     isEditing: editingHearingIndex !== null
@@ -346,6 +484,29 @@ router.post('/add-workshop/index', function (req, res) {
     hour: req.session.data['hearing-end-time-hour'],
     minute: req.session.data['hearing-end-time-minute']
   }
+
+  const fieldErrors = {
+    date: getWorkshopDateError(
+      req.session.data['hearing-date-day'],
+      req.session.data['hearing-date-month'],
+      req.session.data['hearing-date-year'],
+      'workshop date'
+    ),
+    time: getWorkshopTimeError(
+      req.session.data['hearing-time-hour'],
+      req.session.data['hearing-time-minute'],
+      'start time'
+    ),
+    endTime: getWorkshopTimeError(
+      req.session.data['hearing-end-time-hour'],
+      req.session.data['hearing-end-time-minute'],
+      'end time',
+      true
+    )
+  };
+  if (Object.values(fieldErrors).some(Boolean)) {
+    return renderWorkshopStepWithErrors(req, res, 'index', fieldErrors);
+  }
   
   console.log('addWorkshop object updated:', req.session.data.addWorkshop);
   
@@ -400,7 +561,7 @@ router.get('/add-workshop/has-estimates', function (req, res) {
   console.log('Final hearingData being passed to template:', JSON.stringify(hearingData, null, 2));
   
   res.render(getAddWorkshopView(req, 'has-estimates'), {
-    caseRef: req.session.data.currentCaseRef || '',
+    caseRef: getWorkshopCaseRef(req),
     planTitle: req.session.data.planTitle || '',
     addWorkshop: hearingData,
     isEditing: getEditingWorkshopIndex(req) !== null
@@ -412,8 +573,18 @@ router.post('/add-workshop/has-estimates', function (req, res) {
   console.log('POST /has-estimates - addWorkshop before:', JSON.stringify(req.session.data.addWorkshop, null, 2));
   
   if (!req.session.data.addWorkshop) req.session.data.addWorkshop = {}
-  req.session.data.addWorkshop.hasEstimates = req.session.data.hasEstimates
-  req.session.data.addWorkshop.estimatedDays = req.session.data.hearingEstimationDays
+  const hasEstimates = String(req.session.data.hasEstimates || '').trim();
+  const estimatedDays = String(req.session.data.hearingEstimationDays || '').trim();
+  req.session.data.addWorkshop.hasEstimates = hasEstimates;
+  req.session.data.addWorkshop.estimatedDays = estimatedDays;
+
+  const fieldErrors = {
+    hasEstimates: getWorkshopChoiceError(hasEstimates, 'an answer', ['Yes', 'No']),
+    estimatedDays: hasEstimates === 'Yes' ? getWorkshopPositiveNumberError(estimatedDays, 'number of days') : ''
+  };
+  if (Object.values(fieldErrors).some(Boolean)) {
+    return renderWorkshopStepWithErrors(req, res, 'has-estimates', fieldErrors);
+  }
   
   console.log('POST /has-estimates - addWorkshop after:', JSON.stringify(req.session.data.addWorkshop, null, 2));
   
@@ -429,7 +600,7 @@ router.get('/add-workshop/is-virtual', function (req, res) {
   const hearingData = req.session.data.addWorkshop || {}
   
   res.render(getAddWorkshopView(req, 'is-virtual'), {
-    caseRef: req.session.data.currentCaseRef || '',
+    caseRef: getWorkshopCaseRef(req),
     planTitle: req.session.data.planTitle || '',
     addWorkshop: hearingData,
     isEditing: getEditingWorkshopIndex(req) !== null
@@ -440,7 +611,15 @@ router.post('/add-workshop/is-virtual', function (req, res) {
   console.log('POST /is-virtual - form data:', req.session.data);
   
   if (!req.session.data.addWorkshop) req.session.data.addWorkshop = {}
-  req.session.data.addWorkshop.isVirtual = req.session.data.isVirtual || req.session.data.addWorkshop.isVirtual || ''
+  const isVirtual = String(req.session.data.isVirtual || '').trim();
+  req.session.data.addWorkshop.isVirtual = isVirtual;
+
+  const fieldErrors = {
+    isVirtual: getWorkshopChoiceError(isVirtual, 'a workshop format', ['In-person', 'Hybrid', 'Virtual'])
+  };
+  if (Object.values(fieldErrors).some(Boolean)) {
+    return renderWorkshopStepWithErrors(req, res, 'is-virtual', fieldErrors);
+  }
   
   req.session.save(() => {
     if (req.session.data.addWorkshop.isVirtual === 'In-person') {
@@ -460,7 +639,7 @@ router.get('/add-workshop/has-virtual-meeting-link', function (req, res) {
   const hearingData = req.session.data.addWorkshop || {}
   
   res.render(getAddWorkshopView(req, 'has-virtual-meeting-link'), {
-    caseRef: req.session.data.currentCaseRef || '',
+    caseRef: getWorkshopCaseRef(req),
     planTitle: req.session.data.planTitle || '',
     addWorkshop: hearingData,
     isEditing: getEditingWorkshopIndex(req) !== null
@@ -472,8 +651,16 @@ router.post('/add-workshop/has-virtual-meeting-link', function (req, res) {
   
   if (!req.session.data.addWorkshop) req.session.data.addWorkshop = {}
   req.session.data.addWorkshop.isVirtual = req.session.data.addWorkshop.isVirtual || req.session.data.isVirtual || ''
-  req.session.data.addWorkshop.hasVirtualMeetingLink = req.session.data.hasVirtualMeetingLink
-  req.session.data.addWorkshop.virtualMeetingLink = req.session.data.virtualMeetingLink || ''
+  const hasVirtualMeetingLink = String(req.session.data.hasVirtualMeetingLink || '').trim();
+  req.session.data.addWorkshop.hasVirtualMeetingLink = hasVirtualMeetingLink;
+  req.session.data.addWorkshop.virtualMeetingLink = String(req.session.data.virtualMeetingLink || '').trim();
+
+  const fieldErrors = {
+    hasVirtualMeetingLink: getWorkshopChoiceError(hasVirtualMeetingLink, 'an answer', ['Yes', 'No'])
+  };
+  if (Object.values(fieldErrors).some(Boolean)) {
+    return renderWorkshopStepWithErrors(req, res, 'has-virtual-meeting-link', fieldErrors);
+  }
   
   req.session.save(() => {
     if (req.session.data.addWorkshop.hasVirtualMeetingLink === 'Yes') {
@@ -491,7 +678,7 @@ router.get('/add-workshop/virtual-meeting', function (req, res) {
   const hearingData = req.session.data.addWorkshop || {}
   
   res.render(getAddWorkshopView(req, 'virtual-meeting'), {
-    caseRef: req.session.data.currentCaseRef || '',
+    caseRef: getWorkshopCaseRef(req),
     planTitle: req.session.data.planTitle || '',
     addWorkshop: hearingData,
     isEditing: getEditingWorkshopIndex(req) !== null
@@ -502,7 +689,12 @@ router.post('/add-workshop/virtual-meeting', function (req, res) {
   console.log('POST /virtual-meeting - form data:', req.session.data);
   
   if (!req.session.data.addWorkshop) req.session.data.addWorkshop = {}
-  req.session.data.addWorkshop.virtualMeetingLink = req.session.data.virtualMeetingLink || ''
+  const virtualMeetingLink = String(req.session.data.virtualMeetingLink || '').trim();
+  req.session.data.addWorkshop.virtualMeetingLink = virtualMeetingLink;
+  const fieldErrors = { virtualMeetingLink: getWorkshopUrlError(virtualMeetingLink) };
+  if (Object.values(fieldErrors).some(Boolean)) {
+    return renderWorkshopStepWithErrors(req, res, 'virtual-meeting', fieldErrors);
+  }
   
   req.session.save(() => {
     res.redirect(`${req.baseUrl}/add-workshop/check`)
@@ -549,7 +741,7 @@ router.get('/add-workshop/has-address', function (req, res) {
   const hearingData = req.session.data.addWorkshop || {}
   
   res.render(getAddWorkshopView(req, 'has-address'), {
-    caseRef: req.session.data.currentCaseRef || '',
+    caseRef: getWorkshopCaseRef(req),
     planTitle: req.session.data.planTitle || '',
     addWorkshop: hearingData,
     isEditing: getEditingWorkshopIndex(req) !== null
@@ -562,7 +754,15 @@ router.post('/add-workshop/has-address', function (req, res) {
   
   if (!req.session.data.addWorkshop) req.session.data.addWorkshop = {}
   req.session.data.addWorkshop.isVirtual = req.session.data.addWorkshop.isVirtual || req.session.data.isVirtual || ''
-  req.session.data.addWorkshop.hasAddress = req.session.data.hasAddress
+  const hasAddress = String(req.session.data.hasAddress || '').trim();
+  req.session.data.addWorkshop.hasAddress = hasAddress;
+
+  const fieldErrors = {
+    hasAddress: getWorkshopChoiceError(hasAddress, 'an answer', ['Yes', 'No'])
+  };
+  if (Object.values(fieldErrors).some(Boolean)) {
+    return renderWorkshopStepWithErrors(req, res, 'has-address', fieldErrors);
+  }
   
   console.log('POST /has-address - addWorkshop after:', JSON.stringify(req.session.data.addWorkshop, null, 2));
   
@@ -617,7 +817,7 @@ router.get('/add-workshop/address', function (req, res) {
   const hearingData = req.session.data.addWorkshop || {}
   
   res.render(getAddWorkshopView(req, 'address'), {
-    caseRef: req.session.data.currentCaseRef || '',
+    caseRef: getWorkshopCaseRef(req),
     planTitle: req.session.data.planTitle || '',
     addWorkshop: hearingData,
     isEditing: getEditingWorkshopIndex(req) !== null
@@ -629,12 +829,26 @@ router.post('/add-workshop/address', function (req, res) {
   console.log('POST /address - addWorkshop before:', JSON.stringify(req.session.data.addWorkshop, null, 2));
   
   if (!req.session.data.addWorkshop) req.session.data.addWorkshop = {}
-  req.session.data.addWorkshop.venue = req.session.data['hearing-venue']
+  const venue = String(req.session.data['hearing-venue'] || '').trim();
+  const addressLine1 = String(req.session.data['hearing-address-line1'] || '').trim();
+  const addressTown = String(req.session.data['hearing-address-town'] || '').trim();
+  const addressPostcode = String(req.session.data['hearing-address-postcode'] || '').trim();
+  req.session.data.addWorkshop.venue = venue;
   req.session.data.addWorkshop.address = {
-    line1: req.session.data['hearing-address-line1'],
-    line2: req.session.data['hearing-address-line2'],
-    town: req.session.data['hearing-address-town'],
-    postcode: req.session.data['hearing-address-postcode']
+    line1: addressLine1,
+    line2: String(req.session.data['hearing-address-line2'] || '').trim(),
+    town: addressTown,
+    postcode: addressPostcode
+  }
+
+  const fieldErrors = {
+    venue: venue ? '' : 'Enter the venue name',
+    addressLine1: addressLine1 ? '' : 'Enter address line 1',
+    addressTown: addressTown ? '' : 'Enter a town or city',
+    addressPostcode: addressPostcode ? '' : 'Enter a postcode'
+  };
+  if (Object.values(fieldErrors).some(Boolean)) {
+    return renderWorkshopStepWithErrors(req, res, 'address', fieldErrors);
   }
   
   console.log('POST /address - addWorkshop after:', JSON.stringify(req.session.data.addWorkshop, null, 2));
@@ -686,7 +900,7 @@ router.get('/add-workshop/check', function (req, res) {
   }
   
   res.render(getAddWorkshopView(req, 'check'), {
-    caseRef: req.session.data.currentCaseRef || '',
+    caseRef: getWorkshopCaseRef(req),
     planTitle: req.session.data.planTitle || '',
     addWorkshop: req.session.data.addWorkshop || {},
     isEditing: getEditingWorkshopIndex(req) !== null
@@ -695,10 +909,10 @@ router.get('/add-workshop/check', function (req, res) {
 
 router.post('/add-workshop/check', function (req, res) {
   console.log('POST check page - addWorkshop data:', JSON.stringify(req.session.data.addWorkshop, null, 2));
-  
-  if (!req.session.data.addWorkshop || !req.session.data.addWorkshop.date) {
-    console.log('Missing addWorkshop or date object');
-    return res.redirect(`${req.baseUrl}/add-workshop/index`)
+
+  const submissionError = getWorkshopSubmissionError(req.session.data.addWorkshop);
+  if (submissionError) {
+    return renderWorkshopStepWithErrors(req, res, submissionError.page, submissionError.fieldErrors);
   }
   
   const { date, time, venue } = req.session.data.addWorkshop

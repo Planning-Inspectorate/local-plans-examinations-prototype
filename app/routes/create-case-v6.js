@@ -421,6 +421,9 @@ router.get('/projects/back-office/create-case/v6/3-select-LPA', (req, res) => {
   }
   const isEdit = req.query.edit === 'true';
   const index = req.query.index ? parseInt(req.query.index, 10) : 0;
+  const returnUrl = req.query.returnUrl || (isEdit
+    ? '/projects/back-office/create-case/v6/check-answers'
+    : '/projects/back-office/create-case/v6/check-lpa');
   let selectedLPA = undefined;
   if (req.session.lpas && req.session.lpas.length > index) {
     selectedLPA = req.session.lpas[index];
@@ -429,7 +432,8 @@ router.get('/projects/back-office/create-case/v6/3-select-LPA', (req, res) => {
     lpaList,
     selectedLPA,
     isEdit,
-    index
+    index,
+    returnUrl
   });
 });
 
@@ -472,11 +476,10 @@ router.post('/projects/back-office/create-case/v6/3-select-LPA', (req, res) => {
   if (!req.session.lpaRegions) req.session.lpaRegions = {};
   req.session.lpaRegions[req.body.lpa] = lpaToRegion[req.body.lpa] || '';
 
-  // If editing, return to check-answers, else continue as normal
-  if (req.body.isEdit === 'true') {
-    return res.redirect('/projects/back-office/create-case/v6/check-answers');
-  }
-  res.redirect('/projects/back-office/create-case/v6/check-lpa');
+  const returnUrl = req.body.returnUrl || (req.body.isEdit === 'true'
+    ? '/projects/back-office/create-case/v6/check-answers'
+    : '/projects/back-office/create-case/v6/check-lpa');
+  req.session.save(() => res.redirect(returnUrl));
 });
 
 // Check LPA list and add another when needed
@@ -484,6 +487,32 @@ router.get('/projects/back-office/create-case/v6/check-lpa', (req, res) => {
   res.render('projects/back-office/create-case/v6/check-lpa', {
     lpas: req.session.lpas || []
   });
+});
+
+router.get('/projects/back-office/create-case/v6/remove-LPA', (req, res) => {
+  const index = Number.parseInt(req.query.index, 10);
+  const lpas = Array.isArray(req.session.lpas) ? req.session.lpas : [];
+  if (!Number.isInteger(index) || index < 0 || index >= lpas.length || lpas.length < 2) {
+    return res.redirect('/projects/back-office/create-case/v6/check-lpa');
+  }
+
+  res.render('projects/back-office/create-case/v6/remove-LPA-confirm', {
+    lpa: lpas[index],
+    index
+  });
+});
+
+router.post('/projects/back-office/create-case/v6/remove-LPA', (req, res) => {
+  const index = Number.parseInt(req.body.index, 10);
+  const lpas = Array.isArray(req.session.lpas) ? req.session.lpas : [];
+  if (!Number.isInteger(index) || index < 0 || index >= lpas.length || lpas.length < 2) {
+    return res.redirect('/projects/back-office/create-case/v6/check-lpa');
+  }
+
+  const [removedLpa] = lpas.splice(index, 1);
+  req.session.lpas = lpas;
+  if (req.session.lpaRegions) delete req.session.lpaRegions[removedLpa];
+  req.session.save(() => res.redirect('/projects/back-office/create-case/v6/check-lpa'));
 });
 
 router.post('/projects/back-office/create-case/v6/check-lpa', (req, res) => {
@@ -534,7 +563,7 @@ router.post('/projects/back-office/create-case/v6/additional-LPA', (req, res) =>
 
   if (!req.session.lpas) req.session.lpas = [];
   req.session.lpas.push(req.body.lpa);
-  res.redirect('/projects/back-office/create-case/v6/check-lpa');
+  req.session.save(() => res.redirect('/projects/back-office/create-case/v6/check-lpa'));
 });
 
 // Main contact page (single GET route, uses mainContact)

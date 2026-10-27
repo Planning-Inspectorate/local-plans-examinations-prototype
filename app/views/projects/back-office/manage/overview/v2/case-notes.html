@@ -6,7 +6,7 @@
 
 {% block beforeContent %}
   {{ govukBackLink({
-    text: "Back to case details",
+    text: "Back",
     href: "javascript:window.history.back()"
   }) }}
 {% endblock %}
@@ -14,10 +14,6 @@
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    
-    <span class="govuk-caption-m" data-cy="page-caption">
-        {{ currentCase.reference }}
-    </span>
     {% include "includes/back-office/plan-reference-caption.njk" %}
     <h1 class="govuk-heading-l" data-cy="page-heading">
         Case notes
@@ -27,7 +23,7 @@
       <caption class="govuk-visually-hidden">Case notes</caption>
       <thead class="govuk-table__head">
         <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Date</th>
+          <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Timestamp</th>
           <th scope="col" class="govuk-table__header">Details</th>
           <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">User</th>
         </tr>
@@ -39,7 +35,13 @@
           <tr class="govuk-table__row">
             
             <td class="govuk-table__cell">
-              {{ note.tableDate | default("23 March 2026") }}
+              {% if note.timestamp %}
+                <time datetime="{{ note.timestamp }}">{{ note.tableDate or note.timestamp }}{% if note.tableTime %}, {{ note.tableTime }}{% endif %}</time>
+              {% elif note.tableDate or note.tableTime %}
+                <time>{% if note.tableDate %}{{ note.tableDate }}{% endif %}{% if note.tableDate and note.tableTime %}, {% endif %}{% if note.tableTime %}{{ note.tableTime }}{% endif %}</time>
+              {% else %}
+                {{ note.meta or 'Not provided' }}
+              {% endif %}
             </td>
             
             <td class="govuk-table__cell govuk-!-text-break-word">

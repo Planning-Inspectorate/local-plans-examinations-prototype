@@ -12,11 +12,30 @@ const GW2_V3_RECEIVED_DATE_KEY = 'gw2v5UploadV3ReceivedDate';
 const GW2_V3_REPLACE_DOCUMENT_ID_KEY = 'gw2v5UploadV3ReplaceDocumentId';
 const GW2_CONSULTATION_NOT_PROVIDED_KEY = 'gw2v5ConsultationNotProvided';
 const ISSUE_REPORT_SUCCESS_MESSAGE = 'Gateway 2 report sent';
+const GW2_DATE_FIELDS = {
+  estimated: {
+    sessionKey: 'gateway2EstimatedDate',
+    title: 'When is the Gateway 2 submission expected?',
+    label: 'expected Gateway 2 date'
+  },
+  actual: {
+    sessionKey: 'gateway2ActualDate',
+    title: 'When was the Gateway 2 submission received?',
+    label: 'Gateway 2 submission received date'
+  },
+  'report-published': {
+    sessionKey: 'gateway2ReportPublishedDate',
+    title: 'When was the Gateway 2 report published?',
+    label: 'Gateway 2 report published date'
+  }
+};
 
 const RETURN_TO_FALLBACK = 'gateway-2';
 const RETURN_TO_MAP = {
   'gateway-2': '/projects/back-office/manage/GW2/v5/gateway-2',
   'gateway-2-alt': '/projects/back-office/manage/GW2/v5/gateway-2-alt',
+  'workshop-documents': '/projects/back-office/manage/GW2/v5/workshop-documents',
+  'gateway-2-report': '/projects/back-office/manage/GW2/v5/gateway-2-report',
   'check-answers-v1': '/projects/back-office/manage/GW2/v5/upload/v1/check-answers',
   'upload-bo-v1': '/projects/back-office/manage/GW2/v5/upload/v1/upload-bo',
   'check-answers-v2': '/projects/back-office/manage/GW2/v5/upload/v2/check-answers',
@@ -53,6 +72,46 @@ function formatDateForDisplay(dateString) {
   }
 
   return dateString;
+}
+
+function getGateway2DateInputValues(dateString) {
+  const value = String(dateString || '').trim();
+  let date = DateTime.fromFormat(value, 'd/M/yyyy', { locale: 'en-GB' });
+  if (!date.isValid) date = DateTime.fromFormat(value, 'd MMMM yyyy', { locale: 'en-GB' });
+  return date.isValid
+    ? { day: String(date.day), month: String(date.month), year: String(date.year) }
+    : { day: '', month: '', year: '' };
+}
+
+function getGateway2DateValidationError(day, month, year, fieldLabel) {
+  if (!day && !month && !year) return `Enter a ${fieldLabel}`;
+  if (!day || !month || !year) return `Enter a complete ${fieldLabel}`;
+
+  const date = DateTime.fromFormat(`${day}/${month}/${year}`, 'd/M/yyyy', { locale: 'en-GB' });
+  if (!date.isValid || date.day !== Number(day) || date.month !== Number(month) || date.year !== Number(year)) {
+    return `Enter a valid ${fieldLabel}`;
+  }
+
+  return '';
+}
+
+function normalizeExaminationWebsite(value) {
+  const trimmedValue = String(value || '').trim();
+  if (!trimmedValue) return '';
+
+  const urlValue = /^https?:\/\//i.test(trimmedValue) ? trimmedValue : `https://${trimmedValue}`;
+  try {
+    const url = new URL(urlValue);
+    const hostname = url.hostname.replace(/\.$/, '');
+    const hostnameParts = hostname.split('.');
+    const validDomain = hostnameParts.length >= 2
+      && hostnameParts[hostnameParts.length - 1].length >= 2
+      && hostnameParts.every((part) => part.length > 0 && part.length <= 63 && /^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i.test(part));
+    const validIpv4Address = hostnameParts.length === 4 && hostnameParts.every((part) => /^\d{1,3}$/.test(part));
+    return ['http:', 'https:'].includes(url.protocol) && (validDomain || validIpv4Address) ? url.toString() : null;
+  } catch (error) {
+    return null;
+  }
 }
 
 function formatAssessorDateForDisplay(dateString) {
@@ -1104,6 +1163,69 @@ router.use((req, res, next) => {
   next();
 });
 
+router.get('/gateway-2-date/:dateField', (req, res) => {
+  const field = GW2_DATE_FIELDS[req.params.dateField];
+  if (!field) return res.sendStatus(404);
+
+  res.render('projects/back-office/manage/GW2/v5/gateway-2-date', {
+    dateField: req.params.dateField,
+    dateTitle: field.title,
+    dateLabel: field.label,
+    dateParts: getGateway2DateInputValues(req.session[field.sessionKey]),
+    returnUrl: req.query.returnUrl || '/projects/back-office/manage/GW2/v5/gateway-2'
+  });
+});
+
+router.post('/gateway-2-date/:dateField', (req, res) => {
+  const field = GW2_DATE_FIELDS[req.params.dateField];
+  if (!field) return res.sendStatus(404);
+
+  const day = String(req.body['date-day'] || '').trim();
+  const month = String(req.body['date-month'] || '').trim();
+  const year = String(req.body['date-year'] || '').trim();
+  const returnUrl = req.body.returnUrl || '/projects/back-office/manage/GW2/v5/gateway-2';
+  const error = getGateway2DateValidationError(day, month, year, field.label);
+  if (error) {
+    return res.status(400).render('projects/back-office/manage/GW2/v5/gateway-2-date', {
+      dateField: req.params.dateField,
+      dateTitle: field.title,
+      dateLabel: field.label,
+      dateParts: { day, month, year },
+      returnUrl,
+      error
+    });
+  }
+
+  const date = DateTime.fromFormat(`${day}/${month}/${year}`, 'd/M/yyyy', { locale: 'en-GB' });
+  req.session[field.sessionKey] = date.toFormat('d/M/yyyy');
+  if (req.params.dateField === 'report-published') {
+    req.session.notificationMessage = 'Gateway 2 report publication date updated';
+  }
+  req.session.save(() => res.redirect(returnUrl));
+});
+
+router.get('/gateway-2-assessor-name', (req, res) => {
+  res.render('projects/back-office/manage/GW2/v5/gateway-2-assessor-name', {
+    gateway2AssessorName: req.session.gateway2AssessorName || '',
+    returnUrl: req.query.returnUrl || '/projects/back-office/manage/GW2/v5/gateway-2'
+  });
+});
+
+router.post('/gateway-2-assessor-name', (req, res) => {
+  const gateway2AssessorName = String(req.body['gateway-2-assessor-name'] || '').trim();
+  const returnUrl = req.body.returnUrl || '/projects/back-office/manage/GW2/v5/gateway-2';
+  if (!gateway2AssessorName) {
+    return res.status(400).render('projects/back-office/manage/GW2/v5/gateway-2-assessor-name', {
+      gateway2AssessorName,
+      returnUrl,
+      error: 'Enter a Gateway 2 assessor name'
+    });
+  }
+
+  req.session.gateway2AssessorName = gateway2AssessorName;
+  req.session.save(() => res.redirect(returnUrl));
+});
+
 router.get('/additional-contact', (req, res) => {
   const editIndex = req.query.edit;
   const from = req.query.from;
@@ -1182,13 +1304,16 @@ router.get('/date-appointed', (req, res) => {
 });
 
 router.post('/date-appointed', (req, res) => {
-  const { day, month, year, editIndex, from } = req.body;
+  const day = String(req.body.day || '').trim();
+  const month = String(req.body.month || '').trim();
+  const year = String(req.body.year || '').trim();
+  const { editIndex, from } = req.body;
   const date = DateTime.fromObject({ day: Number(day), month: Number(month), year: Number(year) });
-  const validDate = day && month && year && date.isValid && date.day === Number(day) && date.month === Number(month) && date.year === Number(year);
+  const error = getGateway2DateValidationError(day, month, year, 'date appointed');
   const cancelUrl = (editIndex !== undefined && editIndex !== '')
     ? '/projects/back-office/manage/GW2/v5/gateway-2'
     : '/projects/back-office/manage/GW2/v5/assessor-notification';
-  if (!validDate) {
+  if (error) {
     return res.render('projects/back-office/manage/GW2/v5/date-appointed', {
       editIndex: editIndex || '',
       from: from || '',
@@ -1197,7 +1322,7 @@ router.post('/date-appointed', (req, res) => {
       day: day || '',
       month: month || '',
       year: year || '',
-      error: 'Enter a valid date appointed'
+      error
     });
   }
 
@@ -1269,11 +1394,33 @@ router.get('/gateway-2', (req, res) => {
   res.render('projects/back-office/manage/GW2/v5/gateway-2', buildGateway2ViewModel(req, notificationMessage));
 });
 
-router.get('/examination-website.html', (req, res) => {
-  res.render('projects/back-office/manage/examination/v1/examination-website', {
+router.get(['/examination-website', '/examination-website.html'], (req, res) => {
+  res.render('projects/back-office/manage/GW2/v5/examination-website', {
     examinationWebsite: (req.session.examinationWebsite && req.session.examinationWebsite !== '-') ? req.session.examinationWebsite : '',
     returnUrl: req.query.returnUrl || '/projects/back-office/manage/GW2/v5/gateway-2'
   });
+});
+
+router.post('/examination-website', (req, res) => {
+  const enteredWebsite = String(req.body['examination-website'] || '').trim();
+  const examinationWebsite = normalizeExaminationWebsite(enteredWebsite);
+  const returnUrl = req.body.returnUrl || '/projects/back-office/manage/GW2/v5/gateway-2';
+  const error = !enteredWebsite
+    ? 'Enter an examination website address'
+    : !examinationWebsite
+      ? 'Enter a valid website address'
+      : '';
+
+  if (error) {
+    return res.status(400).render('projects/back-office/manage/GW2/v5/examination-website', {
+      examinationWebsite: enteredWebsite,
+      returnUrl,
+      error
+    });
+  }
+
+  req.session.examinationWebsite = examinationWebsite || '-';
+  req.session.save(() => res.redirect(returnUrl));
 });
 
 router.get('/gateway-2-documents', (req, res) => {
@@ -1398,6 +1545,50 @@ router.get('/document-type/:documentType/add', (req, res) => {
 
 router.get('/gateway-2-documents.html', (req, res) => {
   res.redirect('/projects/back-office/manage/GW2/v5/gateway-2-documents');
+});
+
+router.get('/workshop-documents', (req, res) => {
+  const managedDocuments = getUploadedDocuments(req).map((document) => ({
+    ...document,
+    source: 'backOffice',
+    sourceLabel: getDocumentSourceLabel('backOffice'),
+    receivedDate: formatTimestampForDisplay(document.uploadedAt),
+    fileHref: `/projects/back-office/manage/documents/download/${encodeURIComponent(document.filename)}`,
+    removeHref: `/projects/back-office/manage/GW2/v5/upload/v1/remove-confirm?filename=${encodeURIComponent(document.filename)}&returnTo=workshop-documents`
+  }));
+
+  res.render('projects/back-office/manage/GW2/v5/document-management', {
+    caseRef: req.session.currentCaseRef || '',
+    serviceName: 'Manage a local plan',
+    document: { title: 'workshop', isWorkshop: true },
+    managedDocuments,
+    addUrl: '/projects/back-office/manage/GW2/v5/upload/v1/upload-bo?returnTo=workshop-documents',
+    backUrl: '/projects/back-office/manage/GW2/v5/gateway-2'
+  });
+});
+
+router.get('/gateway-2-report', (req, res) => {
+  const managedDocuments = getIssueReportDocuments(req).map((document) => ({
+    ...document,
+    source: 'backOffice',
+    sourceLabel: getDocumentSourceLabel('backOffice'),
+    receivedDate: formatTimestampForDisplay(document.uploadedAt),
+    fileHref: `/projects/back-office/manage/documents/download/${encodeURIComponent(document.filename)}`,
+    removeHref: `/projects/back-office/manage/GW2/v5/upload/v2/remove-confirm?filename=${encodeURIComponent(document.filename)}&returnTo=gateway-2-report`
+  }));
+  let notificationMessage = req.session.gateway2DocumentsNotificationMessage || '';
+  if (req.query.issueReportSubmitted === '1') notificationMessage = ISSUE_REPORT_SUCCESS_MESSAGE;
+  delete req.session.gateway2DocumentsNotificationMessage;
+
+  res.render('projects/back-office/manage/GW2/v5/document-management', {
+    caseRef: req.session.data?.currentCaseRef || req.session.currentCaseRef || '',
+    serviceName: 'Manage a local plan',
+    document: { title: 'Gateway 2 report', isWorkshop: true },
+    managedDocuments,
+    addUrl: '/projects/back-office/manage/GW2/v5/upload/v2/upload-bo?returnTo=gateway-2-report',
+    backUrl: '/projects/back-office/manage/GW2/v5/gateway-2',
+    notificationMessage
+  });
 });
 
 router.get('/document/:documentId', (req, res) => {
@@ -1785,6 +1976,7 @@ router.get('/upload/v1/remove-confirm', (req, res) => {
     serviceName: 'Manage a local plan',
     filename,
     returnTo,
+    cancelUrl: getReturnPath(returnTo),
     documentName: document.originalname
   });
 });
@@ -1825,9 +2017,8 @@ router.post('/upload/v1/check-answers', (req, res) => {
   const returnTo = getReturnTo(req);
   req.session.gw2v5UploadReturnTo = returnTo;
   if (!req.session.data) req.session.data = {};
-  const currentBatch = getUploadedDocumentsFromFileData(req);
-  const uploadedCount = currentBatch.length;
-  mergeWorkshopDocuments(req);
+  const uploadedDocuments = mergeWorkshopDocuments(req);
+  const uploadedCount = uploadedDocuments.length;
 
   const safeCount = uploadedCount > 0 ? uploadedCount : 0;
   req.session.notificationMessage = `${safeCount} workshop document${safeCount === 1 ? '' : 's'} uploaded`;
@@ -1911,6 +2102,7 @@ router.get('/upload/v2/remove-confirm', (req, res) => {
     serviceName: 'Manage a development plan',
     filename,
     returnTo,
+    cancelUrl: getReturnPath(returnTo),
     documentName: document.originalname
   });
 });
@@ -1923,6 +2115,7 @@ router.post('/upload/v2/remove-confirm', (req, res) => {
 
   if (action === 'remove') {
     removeIssueReportDocumentByFilename(req, filename);
+    req.session.gateway2DocumentsNotificationMessage = 'Document removed';
   }
 
   req.session.save(() => {

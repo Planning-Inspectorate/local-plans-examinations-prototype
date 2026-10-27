@@ -1,4 +1,5 @@
 {% extends "layouts/back-office.html" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% block pageTitle %}
   What is the plan type? – {{ serviceName }}
@@ -14,12 +15,16 @@
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    {% if error %}
+      {{ govukErrorSummary({ titleText: "There is a problem", errorList: [{ text: error, href: "#plan-type" }] }) }}
+    {% endif %}
     {% include "includes/back-office/plan-reference-caption.njk" %}
-    <form class="form" action="/projects/back-office/manage/overview/v1/plan-type" method="post">
+    <form class="form" action="/projects/back-office/manage/overview/v2/plan-type" method="post">
       <input type="hidden" name="isEdit" value="{{ isEdit }}">
       <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
       {{ govukRadios({
   name: "plan-type",
+  errorMessage: { text: error } if error else null,
   fieldset: {
     legend: {
       text: "What is the plan type?",

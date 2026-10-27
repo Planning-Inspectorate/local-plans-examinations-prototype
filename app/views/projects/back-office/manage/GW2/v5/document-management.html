@@ -7,7 +7,7 @@ Manage {{ document.title }} - {{ serviceName }}
 {% block beforeContent %}
   {{ govukBackLink({
     text: "Back",
-    href: "/projects/back-office/manage/GW2/v5/gateway-2-documents"
+    href: backUrl or "/projects/back-office/manage/GW2/v5/gateway-2-documents"
   }) }}
 {% endblock %}
 
@@ -50,14 +50,14 @@ Manage {{ document.title }} - {{ serviceName }}
         <colgroup>
           <col class="app-document-name-column">
           <col class="app-document-date-column">
-          <col class="app-document-source-column">
+          {% if not document.isWorkshop %}<col class="app-document-source-column">{% endif %}
           <col class="app-document-actions-column">
         </colgroup>
         <thead class="govuk-table__head">
           <tr class="govuk-table__row">
             <th scope="col" class="govuk-table__header">Document</th>
-            <th scope="col" class="govuk-table__header">Received</th>
-            <th scope="col" class="govuk-table__header">Uploaded by</th>
+            <th scope="col" class="govuk-table__header">{% if document.isWorkshop %}Date{% else %}Received{% endif %}</th>
+            {% if not document.isWorkshop %}<th scope="col" class="govuk-table__header">Uploaded by</th>{% endif %}
             <th scope="col" class="govuk-table__header app-document-actions">Actions</th>
           </tr>
         </thead>
@@ -66,12 +66,12 @@ Manage {{ document.title }} - {{ serviceName }}
           <tr class="govuk-table__row">
             <td class="govuk-table__cell"><a class="govuk-link" href="{{ managedDocument.fileHref }}">{{ managedDocument.originalname }}</a></td>
             <td class="govuk-table__cell">{{ managedDocument.receivedDate or 'Not provided' }}</td>
-            <td class="govuk-table__cell">{{ managedDocument.sourceLabel }}</td>
+            {% if not document.isWorkshop %}<td class="govuk-table__cell">{{ managedDocument.sourceLabel }}</td>{% endif %}
             <td class="govuk-table__cell app-document-actions">
               {% if managedDocument.source == 'backOffice' and managedDocument.removeHref %}
-                <a class="govuk-link" href="{{ managedDocument.removeHref }}">Remove</a> |
+                <a class="govuk-link" href="{{ managedDocument.removeHref }}">Remove</a>
               {% endif %}
-              <a class="govuk-link" href="{{ managedDocument.fileHref }}">View</a>
+              
             </td>
           </tr>
           {% endfor %}

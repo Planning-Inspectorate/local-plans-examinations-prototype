@@ -1,5 +1,6 @@
 const govukPrototypeKit = require('govuk-prototype-kit');
 const router = govukPrototypeKit.requests.setupRouter();
+const { DateTime } = require('luxon');
 const { applyStatusEvent } = require('../../../../../../routes/projects/back-office/status-flow');
 
 router.use((req, res, next) => {
@@ -121,6 +122,18 @@ function getDateFromValues(day, month, year) {
 	if (Number.isNaN(parsedDay) || Number.isNaN(parsedMonth)) return '';
 
 	return `${String(parsedDay).padStart(2, '0')}/${String(parsedMonth).padStart(2, '0')}/${year}`;
+}
+
+function getDateValidationError(day, month, year, fieldLabel) {
+	if (!day && !month && !year) return `Enter a ${fieldLabel}`;
+	if (!day || !month || !year) return `Enter a complete ${fieldLabel}`;
+
+	const parsed = DateTime.fromFormat(`${day}/${month}/${year}`, 'd/M/yyyy', { locale: 'en-GB' });
+	if (!parsed.isValid || parsed.day !== Number(day) || parsed.month !== Number(month) || parsed.year !== Number(year)) {
+		return `Enter a valid ${fieldLabel}`;
+	}
+
+	return '';
 }
 
 function getInputDateFromStoredValue(storedValue) {
@@ -302,14 +315,53 @@ router.get('/gateway-1-estimated.html', (req, res) => {
 
 router.post('/gateway-1-estimated', (req, res) => {
 	const returnUrl = req.body.returnUrl || '/projects/back-office/manage/GW1/v2/gateway-1';
-	const dateValue = getDateFromValues(
-		(req.body['notice-of-intention-date-day'] || '').trim(),
-		(req.body['notice-of-intention-date-month'] || '').trim(),
-		(req.body['notice-of-intention-date-year'] || '').trim()
-	);
+	const day = (req.body['notice-of-intention-date-day'] || '').trim();
+	const month = (req.body['notice-of-intention-date-month'] || '').trim();
+	const year = (req.body['notice-of-intention-date-year'] || '').trim();
+	const error = getDateValidationError(day, month, year, 'Gateway 1 expected date');
+	if (error) {
+		return res.status(400).render('projects/back-office/manage/GW1/v2/gateway-1-estimated', {
+			caseRef: req.session.currentCaseRef || '',
+			footerLinks: buildFooterLinks(),
+			returnUrl,
+			noticeOfIntentionDate: [day, month, year].join('/'),
+			dateValidationError: error,
+			dateErrorFieldId: 'notice-of-intention-date-day'
+		});
+	}
+	const dateValue = getDateFromValues(day, month, year);
 
-	req.session.gateway1EstimatedDate = dateValue || '-';
-	res.redirect(returnUrl);
+	req.session.gateway1EstimatedDate = dateValue;
+	req.session.save(() => res.redirect(returnUrl));
+});
+
+router.get(['/gateway-1-actual', '/gateway-1-actual.html'], (req, res) => {
+	res.render('projects/back-office/manage/GW1/v2/gateway-1-actual', {
+		caseRef: req.session.currentCaseRef || '',
+		footerLinks: buildFooterLinks(),
+		returnUrl: req.query.returnUrl || '/projects/back-office/manage/GW1/v2/gateway-1',
+		noticeOfIntentionDate: getInputDateFromStoredValue(req.session.gateway1ActualDate)
+	});
+});
+
+router.post('/gateway-1-actual', (req, res) => {
+	const returnUrl = req.body.returnUrl || '/projects/back-office/manage/GW1/v2/gateway-1';
+	const day = (req.body['notice-of-intention-date-day'] || '').trim();
+	const month = (req.body['notice-of-intention-date-month'] || '').trim();
+	const year = (req.body['notice-of-intention-date-year'] || '').trim();
+	const error = getDateValidationError(day, month, year, 'Gateway 1 received date');
+	if (error) {
+		return res.status(400).render('projects/back-office/manage/GW1/v2/gateway-1-actual', {
+			caseRef: req.session.currentCaseRef || '',
+			footerLinks: buildFooterLinks(),
+			returnUrl,
+			noticeOfIntentionDate: [day, month, year].join('/'),
+			dateValidationError: error,
+			dateErrorFieldId: 'notice-of-intention-date-day'
+		});
+	}
+	req.session.gateway1ActualDate = getDateFromValues(day, month, year);
+	req.session.save(() => res.redirect(returnUrl));
 });
 
 router.get('/gateway-1-sla-sent', (req, res) => {
@@ -328,14 +380,53 @@ router.get('/gateway-1-sla-sent.html', (req, res) => {
 
 router.post('/gateway-1-sla-sent', (req, res) => {
 	const returnUrl = req.body.returnUrl || '/projects/back-office/manage/GW1/v2/gateway-1';
-	const dateValue = getDateFromValues(
-		(req.body['notice-of-intention-date-day'] || '').trim(),
-		(req.body['notice-of-intention-date-month'] || '').trim(),
-		(req.body['notice-of-intention-date-year'] || '').trim()
-	);
+	const day = (req.body['notice-of-intention-date-day'] || '').trim();
+	const month = (req.body['notice-of-intention-date-month'] || '').trim();
+	const year = (req.body['notice-of-intention-date-year'] || '').trim();
+	const error = getDateValidationError(day, month, year, 'SLA sent date');
+	if (error) {
+		return res.status(400).render('projects/back-office/manage/GW1/v2/gateway-1-sla-sent', {
+			caseRef: req.session.currentCaseRef || '',
+			footerLinks: buildFooterLinks(),
+			returnUrl,
+			noticeOfIntentionDate: [day, month, year].join('/'),
+			dateValidationError: error,
+			dateErrorFieldId: 'notice-of-intention-date-day'
+		});
+	}
+	const dateValue = getDateFromValues(day, month, year);
 
-	req.session.gateway1SlaSentDate = dateValue || '-';
-	res.redirect(returnUrl);
+	req.session.gateway1SlaSentDate = dateValue;
+	req.session.save(() => res.redirect(returnUrl));
+});
+
+router.get(['/gateway-1-sla-received', '/gateway-1-sla-received.html'], (req, res) => {
+	res.render('projects/back-office/manage/GW1/v2/gateway-1-sla-received', {
+		caseRef: req.session.currentCaseRef || '',
+		footerLinks: buildFooterLinks(),
+		returnUrl: req.query.returnUrl || '/projects/back-office/manage/GW1/v2/gateway-1',
+		noticeOfIntentionDate: getInputDateFromStoredValue(req.session.gateway1SlaReceivedDate)
+	});
+});
+
+router.post('/gateway-1-sla-received', (req, res) => {
+	const returnUrl = req.body.returnUrl || '/projects/back-office/manage/GW1/v2/gateway-1';
+	const day = (req.body['notice-of-intention-date-day'] || '').trim();
+	const month = (req.body['notice-of-intention-date-month'] || '').trim();
+	const year = (req.body['notice-of-intention-date-year'] || '').trim();
+	const error = getDateValidationError(day, month, year, 'SLA received date');
+	if (error) {
+		return res.status(400).render('projects/back-office/manage/GW1/v2/gateway-1-sla-received', {
+			caseRef: req.session.currentCaseRef || '',
+			footerLinks: buildFooterLinks(),
+			returnUrl,
+			noticeOfIntentionDate: [day, month, year].join('/'),
+			dateValidationError: error,
+			dateErrorFieldId: 'notice-of-intention-date-day'
+		});
+	}
+	req.session.gateway1SlaReceivedDate = getDateFromValues(day, month, year);
+	req.session.save(() => res.redirect(returnUrl));
 });
 
 router.get('/gateway-1-dsa-check', (req, res) => {
@@ -354,8 +445,19 @@ router.get('/gateway-1-dsa-check.html', (req, res) => {
 
 router.post('/gateway-1-dsa-check', (req, res) => {
 	const returnUrl = req.body.returnUrl || '/projects/back-office/manage/GW1/v2/gateway-1';
-	req.session.gateway1DsaCheck = req.body['dsa-check'] || '-';
-	res.redirect(returnUrl);
+	const gateway1DsaCheck = String(req.body['dsa-check'] || '').trim();
+	if (!['Yes', 'No'].includes(gateway1DsaCheck)) {
+		return res.status(400).render('projects/back-office/manage/GW1/v2/gateway-1-dsa-check', {
+			caseRef: req.session.currentCaseRef || '',
+			footerLinks: buildFooterLinks(),
+			returnUrl,
+			gateway1DsaCheck,
+			error: 'Select whether the planning authority has a Data Sharing Agreement (DSA)'
+		});
+	}
+
+	req.session.gateway1DsaCheck = gateway1DsaCheck;
+	req.session.save(() => res.redirect(returnUrl));
 });
 
 router.get('/gateway-1-signed-sla-upload', (req, res) => {
@@ -470,15 +572,20 @@ router.post('/gateway-1-sla-received-date', (req, res) => {
 	const day = (req.body['sla-received-day'] || '').trim();
 	const month = (req.body['sla-received-month'] || '').trim();
 	const year = (req.body['sla-received-year'] || '').trim();
-	const overrideDate = getDateFromValues(day, month, year);
-
-	if (overrideDate) {
-		req.session.gw1v2PendingSlaReceivedDate = overrideDate;
-	} else {
-		delete req.session.gw1v2PendingSlaReceivedDate;
+	const error = getDateValidationError(day, month, year, 'SLA received date');
+	if (error) {
+		return res.status(400).render('projects/back-office/manage/GW1/v2/gateway-1-sla-received-date', {
+			caseRef: req.session.currentCaseRef || '',
+			footerLinks: buildFooterLinks(),
+			returnUrl,
+			slaReceivedDateValues: { day, month, year },
+			dateValidationError: error
+		});
 	}
 
-	res.redirect(returnUrl);
+	const overrideDate = getDateFromValues(day, month, year);
+	req.session.gw1v2PendingSlaReceivedDate = overrideDate;
+	req.session.save(() => res.redirect(returnUrl));
 });
 
 router.get('/gateway-1-signed-sla-check.html', (req, res) => {

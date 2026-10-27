@@ -1,4 +1,5 @@
 {% extends "layouts/back-office.html" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% block pageTitle %}
 Do you know the expected number of days – {{ serviceName }}
@@ -14,15 +15,19 @@ Do you know the expected number of days – {{ serviceName }}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <form method="post">
+       {% if errorList and errorList.length %}
+         {{ govukErrorSummary({ titleText: "There is a problem", errorList: errorList }) }}
+       {% endif %}
        <!-- <span class="govuk-caption-l">{{ caseRef }} - Set up hearing</span>-->
         {% include "includes/back-office/plan-reference-caption.njk" %}
         <h1 class="govuk-heading-l">Do you know the expected number of days to carry out the workshop?</h1>
 
         {% set estimatedDaysHtml %}
-        <div class="govuk-form-group">
+        <div class="govuk-form-group{% if fieldErrors.estimatedDays %} govuk-form-group--error{% endif %}">
           <label class="govuk-label govuk-label--s" for="hearing-estimation-days">Number of days</label>
+          {% if fieldErrors.estimatedDays %}<p class="govuk-error-message" id="estimated-days-error"><span class="govuk-visually-hidden">Error:</span> {{ fieldErrors.estimatedDays }}</p>{% endif %}
           <div class="govuk-input__wrapper">
-            <input class="govuk-input govuk-input--width-3" id="hearing-estimation-days" name="hearingEstimationDays" type="text" value="{{ addWorkshop.estimatedDays or '' }}">
+            <input class="govuk-input govuk-input--width-3{% if fieldErrors.estimatedDays %} govuk-input--error{% endif %}" id="hearing-estimation-days" name="hearingEstimationDays" type="text" value="{{ addWorkshop.estimatedDays or '' }}"{% if fieldErrors.estimatedDays %} aria-describedby="estimated-days-error"{% endif %}>
             <div class="govuk-input__suffix" aria-hidden="true">Days</div>
           </div>
         </div>
@@ -31,6 +36,7 @@ Do you know the expected number of days – {{ serviceName }}
         {{ govukRadios({
           id: "hasEstimates",
           name: "hasEstimates",
+          errorMessage: { text: fieldErrors.hasEstimates } if fieldErrors.hasEstimates else undefined,
           fieldset: {
             legend: {
               text: "Do you know the expected number of days to carry out the workshop?",

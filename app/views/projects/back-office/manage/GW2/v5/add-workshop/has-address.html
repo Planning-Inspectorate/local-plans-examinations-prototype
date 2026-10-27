@@ -1,4 +1,5 @@
 {% extends "layouts/back-office.html" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% block pageTitle %}
 Do you know the address of where the workshop will take place? – {{ serviceName }}
@@ -14,24 +15,28 @@ Do you know the address of where the workshop will take place? – {{ serviceNam
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    {% if errorList and errorList.length %}
+      {{ govukErrorSummary({ titleText: "There is a problem", errorList: errorList }) }}
+    {% endif %}
     {% include "includes/back-office/plan-reference-caption.njk" %}
     <h1 class="govuk-heading-l">Do you know the address of where the workshop will take place?</h1>
     <form method="post" action="{{ basePath }}/add-workshop/has-address">
-      <div class="govuk-form-group">
-        <fieldset class="govuk-fieldset" aria-describedby="hearing-address-hint">
+      <div class="govuk-form-group{% if fieldErrors.hasAddress %} govuk-form-group--error{% endif %}">
+        <fieldset class="govuk-fieldset"{% if fieldErrors.hasAddress %} aria-describedby="hearing-address-error"{% endif %}>
           <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
             <h1 class="govuk-fieldset__heading">
             </h1>
           </legend>
+          {% if fieldErrors.hasAddress %}<p class="govuk-error-message" id="hearing-address-error"><span class="govuk-visually-hidden">Error:</span> {{ fieldErrors.hasAddress }}</p>{% endif %}
           <div class="govuk-radios" data-module="govuk-radios">
             <div class="govuk-radios__item">
-              <input class="govuk-radios__input" id="hearing-address-yes" name="hasAddress" type="radio" value="Yes" {{ 'checked' if addWorkshop.hasAddress == 'Yes' else '' }}>
+              <input class="govuk-radios__input" id="hearing-address-yes" name="hasAddress" type="radio" value="Yes" {{ 'checked' if addWorkshop.hasAddress == 'Yes' else '' }}{% if fieldErrors.hasAddress %} aria-describedby="hearing-address-error"{% endif %}>
               <label class="govuk-label govuk-radios__label" for="hearing-address-yes">
                 Yes
               </label>
             </div>
             <div class="govuk-radios__item">
-              <input class="govuk-radios__input" id="hearing-address-no" name="hasAddress" type="radio" value="No" {{ 'checked' if addWorkshop.hasAddress == 'No' else '' }}>
+              <input class="govuk-radios__input" id="hearing-address-no" name="hasAddress" type="radio" value="No" {{ 'checked' if addWorkshop.hasAddress == 'No' else '' }}{% if fieldErrors.hasAddress %} aria-describedby="hearing-address-error"{% endif %}>
               <label class="govuk-label govuk-radios__label" for="hearing-address-no">
                 No
               </label>

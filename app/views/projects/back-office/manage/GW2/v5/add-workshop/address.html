@@ -1,4 +1,5 @@
 {% extends "layouts/back-office.html" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% block pageTitle %}
 Workshop venue address – {{ serviceName }}
@@ -14,21 +15,26 @@ Workshop venue address – {{ serviceName }}
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    {% if errorList and errorList.length %}
+      {{ govukErrorSummary({ titleText: "There is a problem", errorList: errorList }) }}
+    {% endif %}
     {% include "includes/back-office/plan-reference-caption.njk" %}
     <h1 class="govuk-heading-l">Workshop venue address</h1>
     <form method="post" action="{{ basePath }}/add-workshop/address">
-      <div class="govuk-form-group">
+      <div class="govuk-form-group{% if fieldErrors.venue %} govuk-form-group--error{% endif %}">
         <label class="govuk-label" for="hearing-venue">
           Venue name
         </label>
-        <input class="govuk-input" id="hearing-venue" name="hearing-venue" type="text" value="{{ addWorkshop.venue or '' }}">
+        {% if fieldErrors.venue %}<p class="govuk-error-message" id="hearing-venue-error"><span class="govuk-visually-hidden">Error:</span> {{ fieldErrors.venue }}</p>{% endif %}
+        <input class="govuk-input{% if fieldErrors.venue %} govuk-input--error{% endif %}" id="hearing-venue" name="hearing-venue" type="text" value="{{ addWorkshop.venue or '' }}"{% if fieldErrors.venue %} aria-describedby="hearing-venue-error"{% endif %}>
       </div>
 
-      <div class="govuk-form-group">
+      <div class="govuk-form-group{% if fieldErrors.addressLine1 %} govuk-form-group--error{% endif %}">
         <label class="govuk-label" for="hearing-address-line1">
           Address line 1
         </label>
-        <input class="govuk-input" id="hearing-address-line1" name="hearing-address-line1" type="text" value="{{ addWorkshop.address.line1 or '' }}">
+        {% if fieldErrors.addressLine1 %}<p class="govuk-error-message" id="hearing-address-line1-error"><span class="govuk-visually-hidden">Error:</span> {{ fieldErrors.addressLine1 }}</p>{% endif %}
+        <input class="govuk-input{% if fieldErrors.addressLine1 %} govuk-input--error{% endif %}" id="hearing-address-line1" name="hearing-address-line1" type="text" value="{{ addWorkshop.address.line1 or '' }}"{% if fieldErrors.addressLine1 %} aria-describedby="hearing-address-line1-error"{% endif %}>
       </div>
 
       <div class="govuk-form-group">
@@ -38,18 +44,20 @@ Workshop venue address – {{ serviceName }}
         <input class="govuk-input" id="hearing-address-line2" name="hearing-address-line2" type="text" value="{{ addWorkshop.address.line2 or '' }}">
       </div>
 
-      <div class="govuk-form-group">
+      <div class="govuk-form-group{% if fieldErrors.addressTown %} govuk-form-group--error{% endif %}">
         <label class="govuk-label" for="hearing-address-town">
           Town or city
         </label>
-        <input class="govuk-input" id="hearing-address-town" name="hearing-address-town" type="text" value="{{ addWorkshop.address.town or '' }}">
+        {% if fieldErrors.addressTown %}<p class="govuk-error-message" id="hearing-address-town-error"><span class="govuk-visually-hidden">Error:</span> {{ fieldErrors.addressTown }}</p>{% endif %}
+        <input class="govuk-input{% if fieldErrors.addressTown %} govuk-input--error{% endif %}" id="hearing-address-town" name="hearing-address-town" type="text" value="{{ addWorkshop.address.town or '' }}"{% if fieldErrors.addressTown %} aria-describedby="hearing-address-town-error"{% endif %}>
       </div>
 
-      <div class="govuk-form-group">
+      <div class="govuk-form-group{% if fieldErrors.addressPostcode %} govuk-form-group--error{% endif %}">
         <label class="govuk-label" for="hearing-address-postcode">
           Postcode
         </label>
-        <input class="govuk-input govuk-input--width-10" id="hearing-address-postcode" name="hearing-address-postcode" type="text" value="{{ addWorkshop.address.postcode or '' }}">
+        {% if fieldErrors.addressPostcode %}<p class="govuk-error-message" id="hearing-address-postcode-error"><span class="govuk-visually-hidden">Error:</span> {{ fieldErrors.addressPostcode }}</p>{% endif %}
+        <input class="govuk-input govuk-input--width-10{% if fieldErrors.addressPostcode %} govuk-input--error{% endif %}" id="hearing-address-postcode" name="hearing-address-postcode" type="text" value="{{ addWorkshop.address.postcode or '' }}"{% if fieldErrors.addressPostcode %} aria-describedby="hearing-address-postcode-error"{% endif %}>
       </div>
 
       <div class="govuk-button-group">

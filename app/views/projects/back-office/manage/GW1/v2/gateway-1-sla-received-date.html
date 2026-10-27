@@ -1,5 +1,6 @@
 {% extends "layouts/back-office.html" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% block pageTitle %}
   SLA received date - {{ serviceName }}
@@ -15,32 +16,36 @@
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+      {% if dateValidationError %}
+        {{ govukErrorSummary({ titleText: "There is a problem", errorList: [{ text: dateValidationError, href: "#sla-received-day" }] }) }}
+      {% endif %}
       <span class="govuk-caption-l">{{ caseRef or 'PLAN/000001' }}</span>
       <h1 class="govuk-heading-l">When was the SLA received?</h1>
 
       <form method="post" action="/projects/back-office/manage/GW1/v2/gateway-1-sla-received-date">
         <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
 
-        <div class="govuk-form-group">
-          <fieldset class="govuk-fieldset" role="group" aria-describedby="sla-received-date-hint">
+        <div class="govuk-form-group{% if dateValidationError %} govuk-form-group--error{% endif %}">
+          <fieldset class="govuk-fieldset" role="group" aria-describedby="{% if dateValidationError %}sla-received-date-error{% else %}sla-received-date-hint{% endif %}">
+            {% if dateValidationError %}<p class="govuk-error-message" id="sla-received-date-error"><span class="govuk-visually-hidden">Error:</span> {{ dateValidationError }}</p>{% endif %}
             <div id="sla-received-date-hint" class="govuk-visually-hidden">For example, 05 8 2026</div>
             <div class="govuk-date-input" id="sla-received-date">
               <div class="govuk-date-input__item">
                 <div class="govuk-form-group">
                   <label class="govuk-label govuk-date-input__label" for="sla-received-day">Day</label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="sla-received-day" name="sla-received-day" type="text" inputmode="numeric" value="{{ slaReceivedDateValues.day }}">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2{% if dateValidationError %} govuk-input--error{% endif %}" id="sla-received-day" name="sla-received-day" type="text" inputmode="numeric" value="{{ slaReceivedDateValues.day }}"{% if dateValidationError %} aria-describedby="sla-received-date-error"{% endif %}>
                 </div>
               </div>
               <div class="govuk-date-input__item">
                 <div class="govuk-form-group">
                   <label class="govuk-label govuk-date-input__label" for="sla-received-month">Month</label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="sla-received-month" name="sla-received-month" type="text" inputmode="numeric" value="{{ slaReceivedDateValues.month }}">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2{% if dateValidationError %} govuk-input--error{% endif %}" id="sla-received-month" name="sla-received-month" type="text" inputmode="numeric" value="{{ slaReceivedDateValues.month }}"{% if dateValidationError %} aria-describedby="sla-received-date-error"{% endif %}>
                 </div>
               </div>
               <div class="govuk-date-input__item">
                 <div class="govuk-form-group">
                   <label class="govuk-label govuk-date-input__label" for="sla-received-year">Year</label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="sla-received-year" name="sla-received-year" type="text" inputmode="numeric" value="{{ slaReceivedDateValues.year }}">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4{% if dateValidationError %} govuk-input--error{% endif %}" id="sla-received-year" name="sla-received-year" type="text" inputmode="numeric" value="{{ slaReceivedDateValues.year }}"{% if dateValidationError %} aria-describedby="sla-received-date-error"{% endif %}>
                 </div>
               </div>
             </div>

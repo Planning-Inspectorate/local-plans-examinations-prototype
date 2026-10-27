@@ -1,0 +1,32 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+  Remove planning authority – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/projects/back-office/create-case/v6/check-lpa"
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">Remove planning authority?</h1>
+      <p class="govuk-body">This will remove {{ lpa }} from this case.</p>
+      <form method="post" action="/projects/back-office/create-case/v6/remove-LPA">
+        <input type="hidden" name="index" value="{{ index }}">
+        <div class="govuk-button-group">
+          <button class="govuk-button govuk-button--warning" type="submit">Remove planning authority</button>
+          <a class="govuk-link" href="/projects/back-office/create-case/v6/check-lpa">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}
+
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

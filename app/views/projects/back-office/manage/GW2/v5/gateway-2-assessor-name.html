@@ -1,5 +1,6 @@
 
 {% extends "layouts/back-office.html" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% block pageTitle %}
 	Who is the Gateway 2 assessor? – {{ serviceName }}
@@ -15,17 +16,21 @@
 {% block content %}
 	<div class="govuk-grid-row">
 		<div class="govuk-grid-column-two-thirds">
+			{% if error %}
+				{{ govukErrorSummary({ titleText: "There is a problem", errorList: [{ text: error, href: "#gateway-2-assessor-name" }] }) }}
+			{% endif %}
 			{% include "includes/back-office/plan-reference-caption.njk" %}
 			<h1 class="govuk-heading-l">Who is the Gateway 2 assessor?</h1>
-		<form class="form" method="post" action="/projects/back-office/manage/GW2/v1/gateway-2-assessor-name">
+		<form class="form" method="post" action="/projects/back-office/manage/GW2/v5/gateway-2-assessor-name">
 				<input type="hidden" name="isEdit" value="{{ isEdit }}">
 				<input type="hidden" name="returnUrl" value="{{ returnUrl }}">
-				<div class="govuk-form-group">
-					<input class="govuk-input govuk-!-width-two-thirds" id="gateway-2-assessor-name" name="gateway-2-assessor-name" type="text" value="{{ gateway2AssessorName }}">
+				<div class="govuk-form-group{% if error %} govuk-form-group--error{% endif %}">
+					{% if error %}<p class="govuk-error-message" id="gateway-2-assessor-name-error"><span class="govuk-visually-hidden">Error:</span> {{ error }}</p>{% endif %}
+					<input class="govuk-input{% if error %} govuk-input--error{% endif %} govuk-!-width-two-thirds" id="gateway-2-assessor-name" name="gateway-2-assessor-name" type="text" value="{{ gateway2AssessorName }}"{% if error %} aria-describedby="gateway-2-assessor-name-error"{% endif %}>
 				</div>
 			<div class="govuk-button-group">
 				<button class="govuk-button" data-module="govuk-button" type="submit">Save and continue</button>
-				<a href="{{ returnUrl or '/projects/back-office/manage/GW2/v1/gateway-2.html' }}" class="govuk-link">Cancel</a>
+				<a href="{{ returnUrl or '/projects/back-office/manage/GW2/v5/gateway-2' }}" class="govuk-link">Cancel</a>
 			</div>
 			</form>
 		</div>

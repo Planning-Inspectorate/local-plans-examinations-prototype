@@ -28,29 +28,30 @@
       <form method="post">
         <input type="hidden" name="editIndex" value="{{ editIndex }}">
         <input type="hidden" name="from" value="{{ from }}">
-        <fieldset class="govuk-fieldset" role="group" aria-describedby="assessor-date-appointed-hint">
+        <fieldset class="govuk-fieldset{% if error %} govuk-form-group--error{% endif %}" role="group" aria-describedby="{% if error %}assessor-date-appointed-error{% else %}assessor-date-appointed-hint{% endif %}">
           <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
             {% include "includes/back-office/plan-reference-caption.njk" %}
             <h1 class="govuk-fieldset__heading">When was the assessor appointed?</h1>
           </legend>
-          <div id="assessor-date-appointed-hint" class="govuk-hint">For example, 14 9 2026</div>
+          {% if error %}<p class="govuk-error-message" id="assessor-date-appointed-error"><span class="govuk-visually-hidden">Error:</span> {{ error }}</p>{% endif %}
+         
           <div class="govuk-date-input">
             <div class="govuk-date-input__item">
               <div class="govuk-form-group">
                 <label class="govuk-label govuk-date-input__label" for="assessor-date-appointed-day">Day</label>
-                <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="assessor-date-appointed-day" name="day" type="text" inputmode="numeric" value="{{ day }}">
+                <input class="govuk-input govuk-date-input__input govuk-input--width-2{% if error %} govuk-input--error{% endif %}" id="assessor-date-appointed-day" name="day" type="text" inputmode="numeric" value="{{ day }}"{% if error %} aria-describedby="assessor-date-appointed-error"{% endif %}>
               </div>
             </div>
             <div class="govuk-date-input__item">
               <div class="govuk-form-group">
                 <label class="govuk-label govuk-date-input__label" for="assessor-date-appointed-month">Month</label>
-                <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="assessor-date-appointed-month" name="month" type="text" inputmode="numeric" value="{{ month }}">
+                <input class="govuk-input govuk-date-input__input govuk-input--width-2{% if error %} govuk-input--error{% endif %}" id="assessor-date-appointed-month" name="month" type="text" inputmode="numeric" value="{{ month }}"{% if error %} aria-describedby="assessor-date-appointed-error"{% endif %}>
               </div>
             </div>
             <div class="govuk-date-input__item">
               <div class="govuk-form-group">
                 <label class="govuk-label govuk-date-input__label" for="assessor-date-appointed-year">Year</label>
-                <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="assessor-date-appointed-year" name="year" type="text" inputmode="numeric" value="{{ year }}">
+                <input class="govuk-input govuk-date-input__input govuk-input--width-4{% if error %} govuk-input--error{% endif %}" id="assessor-date-appointed-year" name="year" type="text" inputmode="numeric" value="{{ year }}"{% if error %} aria-describedby="assessor-date-appointed-error"{% endif %}>
               </div>
             </div>
           </div>

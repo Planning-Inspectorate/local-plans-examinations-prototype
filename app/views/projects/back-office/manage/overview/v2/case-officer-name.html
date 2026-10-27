@@ -1,4 +1,5 @@
 {% extends "layouts/back-office.html" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% block pageTitle %}
   Who is the case officer? – {{ serviceName }}
@@ -14,13 +15,17 @@
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    {% if error %}
+      {{ govukErrorSummary({ titleText: "There is a problem", errorList: [{ text: error, href: "#case-officer-name" }] }) }}
+    {% endif %}
     {% include "includes/back-office/plan-reference-caption.njk" %}
-    <form class="form" action="/projects/back-office/manage/overview/v1/case-officer-name" method="post">
+    <form class="form" action="/projects/back-office/manage/overview/v2/case-officer-name" method="post">
       <input type="hidden" name="isEdit" value="{{ isEdit }}">
       <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
-      <div class="govuk-form-group">
+      <div class="govuk-form-group{% if error %} govuk-form-group--error{% endif %}">
         <label class="govuk-label govuk-label--l" for="case-officer-name">{{ "Who is the case officer?" if not isEdit else "Who is the case officer?" }}</label>
-        <select class="govuk-select govuk-!-width-two-thirds" id="case-officer-name" name="case-officer-name">
+        {% if error %}<p class="govuk-error-message" id="case-officer-name-error"><span class="govuk-visually-hidden">Error:</span> {{ error }}</p>{% endif %}
+        <select class="govuk-select{% if error %} govuk-select--error{% endif %} govuk-!-width-two-thirds" id="case-officer-name" name="case-officer-name"{% if error %} aria-describedby="case-officer-name-error"{% endif %}>
           <option value="" disabled {% if not caseOfficer %}selected{% endif %}>Select a case officer</option>
           {% for officer in caseOfficers %}
             <option value="{{ officer }}" {% if caseOfficer == officer %}selected{% endif %}>{{ officer }}</option>

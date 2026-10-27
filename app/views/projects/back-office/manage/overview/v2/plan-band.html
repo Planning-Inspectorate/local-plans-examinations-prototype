@@ -1,5 +1,6 @@
 
 {% extends "layouts/back-office.html" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% block pageTitle %}
 	What is the plan band? – {{ serviceName }}
@@ -15,12 +16,23 @@
 {% block content %}
 	<div class="govuk-grid-row">
 		<div class="govuk-grid-column-two-thirds">
+			{% if error %}
+				{{ govukErrorSummary({ titleText: "There is a problem", errorList: [{ text: error, href: "#plan-band" }] }) }}
+			{% endif %}
 			{% include "includes/back-office/plan-reference-caption.njk" %}
-			<h1 class="govuk-heading-l">What is the plan band?</h1>
-			<form class="form" method="post" action="/projects/back-office/manage/overview/v1/plan-band">
+			<form class="form" method="post" action="/projects/back-office/manage/overview/v2/plan-band">
 				<input type="hidden" name="isEdit" value="{{ isEdit }}">
 				<input type="hidden" name="returnUrl" value="{{ returnUrl }}">
 				{{ govukRadios({
+					errorMessage: { text: error } if error else null,
+					fieldset: {
+						legend: {
+							text: "What is the plan band?",
+							isPageHeading: true,
+							classes: "govuk-fieldset__legend--l"
+						}
+					},
+					name: "plan-band",
 					items: [
 						{
 							value: "1",
@@ -37,8 +49,7 @@
 							text: "3",
 							checked: planBand == "3"
 						}
-					],
-					name: "plan-band"
+					]
 				}) }}
 			<div class="govuk-button-group">
 				<button class="govuk-button" data-module="govuk-button" type="submit">Save and continue</button>

@@ -7,6 +7,7 @@ const caseOfficers = require('../../../../../../data/case-officers.json');
 const { getOverviewProgrammeOfficer } = require('../../../../../../routes/projects/back-office/programme-officers');
 
 const overviewIndexUrl = '/projects/back-office/manage/overview/v2/index';
+const overviewPlanningAuthoritiesUrl = '/projects/back-office/manage/overview/v2/check-lpa';
 
 router.use((req, res, next) => {
   res.locals.caseRef = req.session.data?.currentCaseRef || req.session.currentCaseRef || '';
@@ -38,6 +39,22 @@ function getProtocolDateFromRequest(req, prefix) {
 
   const parsed = DateTime.fromFormat(`${day}/${month}/${year}`, 'd/M/yyyy', { locale: 'en-GB' });
   return parsed.isValid ? parsed.toFormat('d/M/yyyy') : '';
+}
+
+function getDateValidationError(req, prefix, fieldLabel) {
+  const day = (req.body[`${prefix}-day`] || '').trim();
+  const month = (req.body[`${prefix}-month`] || '').trim();
+  const year = (req.body[`${prefix}-year`] || '').trim();
+
+  if (!day && !month && !year) return `Enter the ${fieldLabel}`;
+  if (!day || !month || !year) return `Enter a complete ${fieldLabel}`;
+
+  const parsed = DateTime.fromFormat(`${day}/${month}/${year}`, 'd/M/yyyy', { locale: 'en-GB' });
+  if (!parsed.isValid || parsed.day !== Number(day) || parsed.month !== Number(month) || parsed.year !== Number(year)) {
+    return `Enter a valid ${fieldLabel}`;
+  }
+
+  return '';
 }
 
 function getProtocolDateInputValues(value) {
@@ -124,6 +141,7 @@ function buildCaseNote(now, text, userName) {
   return {
     text,
     meta: `${tableDate} at ${tableTime} by ${userName}`,
+    timestamp: now.toISOString(),
     tableDate,
     tableTime,
     tableUser: userName
@@ -465,6 +483,22 @@ router.get(['/plan-title', '/plan-title.html'], (req, res) => {
   });
 });
 
+router.post('/plan-title', (req, res) => {
+  const planTitle = (req.body['plan-title'] || '').trim();
+  const returnUrl = req.body.returnUrl || overviewIndexUrl;
+  if (!planTitle) {
+    return res.status(400).render('projects/back-office/manage/overview/v2/plan-title', {
+      planTitle,
+      returnUrl,
+      isEdit: true,
+      error: 'Enter a plan title'
+    });
+  }
+
+  req.session.planTitle = planTitle;
+  req.session.save(() => res.redirect(returnUrl));
+});
+
 router.get(['/plan-type', '/plan-type.html'], (req, res) => {
   res.render('projects/back-office/manage/overview/v2/plan-type', {
     planType: req.session.planType || '',
@@ -474,12 +508,126 @@ router.get(['/plan-type', '/plan-type.html'], (req, res) => {
   });
 });
 
+router.post('/plan-type', (req, res) => {
+  const planType = (req.body['plan-type'] || '').trim();
+  const returnUrl = req.body.returnUrl || overviewIndexUrl;
+  if (!['local-plan', 'other'].includes(planType)) {
+    return res.status(400).render('projects/back-office/manage/overview/v2/plan-type', {
+      planType,
+      returnUrl,
+      isEdit: true,
+      textHtml: '',
+      error: 'Select a plan type'
+    });
+  }
+
+  req.session.planType = planType;
+  req.session.save(() => res.redirect(returnUrl));
+});
+
 router.get(['/plan-band', '/plan-band.html'], (req, res) => {
   res.render('projects/back-office/manage/overview/v2/plan-band', {
     planBand: req.session.planBand || '',
     returnUrl: req.query.returnUrl || overviewIndexUrl,
     isEdit: true
   });
+});
+
+router.post('/plan-band', (req, res) => {
+  const planBand = String(req.body['plan-band'] || '').trim();
+  const returnUrl = req.body.returnUrl || overviewIndexUrl;
+  if (!['1', '2', '3'].includes(planBand)) {
+    return res.status(400).render('projects/back-office/manage/overview/v2/plan-band', {
+      planBand,
+      returnUrl,
+      isEdit: true,
+      error: 'Select a plan band'
+    });
+  }
+
+  req.session.planBand = planBand;
+  req.session.save(() => res.redirect(returnUrl));
+});
+
+router.get(['/check-lpa', '/check-lpa.html'], (req, res) => {
+  res.render('projects/back-office/manage/overview/v2/check-lpa', {
+    caseRef: req.session.currentCaseRef || '',
+    lpas: Array.isArray(req.session.lpas) ? req.session.lpas : [],
+    lpaRegions: req.session.lpaRegions || {},
+    returnUrl: overviewIndexUrl
+  });
+});
+
+router.get('/remove-LPA', (req, res) => {
+  const index = Number.parseInt(req.query.index, 10);
+  const lpas = Array.isArray(req.session.lpas) ? req.session.lpas : [];
+  if (!Number.isInteger(index) || index < 0 || index >= lpas.length || lpas.length < 2) {
+    return res.redirect(overviewPlanningAuthoritiesUrl);
+  }
+
+  res.render('projects/back-office/manage/overview/v2/lpa-remove-confirm', {
+    lpa: lpas[index],
+    index,
+    returnUrl: overviewPlanningAuthoritiesUrl
+  });
+});
+
+router.post('/remove-LPA', (req, res) => {
+  const index = Number.parseInt(req.body.index, 10);
+  const lpas = Array.isArray(req.session.lpas) ? req.session.lpas : [];
+  if (!Number.isInteger(index) || index < 0 || index >= lpas.length || lpas.length < 2) {
+    return res.redirect(overviewPlanningAuthoritiesUrl);
+  }
+
+  const [removedLpa] = lpas.splice(index, 1);
+  req.session.lpas = lpas;
+  req.session.lpaName = lpas[0] || '';
+  if (req.session.lpaRegions) delete req.session.lpaRegions[removedLpa];
+  if (req.session.mainContact?.organisation === removedLpa) req.session.mainContact.organisation = '';
+  if (Array.isArray(req.session.contacts)) {
+    req.session.contacts.forEach((contact) => {
+      if (contact.organisation === removedLpa) contact.organisation = '';
+    });
+  }
+
+  req.session.save(() => res.redirect(overviewPlanningAuthoritiesUrl));
+});
+
+router.get(['/additional-LPA', '/additional-LPA.html'], (req, res) => {
+  const lpas = Array.isArray(req.session.lpas) ? req.session.lpas : [];
+  res.render('projects/back-office/manage/overview/v2/select-LPA', {
+    selectedLPA: '',
+    lpaList,
+    index: lpas.length,
+    returnUrl: req.query.returnUrl || overviewPlanningAuthoritiesUrl,
+    formAction: '/projects/back-office/manage/overview/v2/additional-LPA',
+    isEdit: true,
+    isAdditional: true
+  });
+});
+
+router.post('/additional-LPA', (req, res) => {
+  const lpa = (req.body.lpa || '').trim();
+  const lpas = Array.isArray(req.session.lpas) ? req.session.lpas : [];
+  const returnUrl = req.body.returnUrl || overviewPlanningAuthoritiesUrl;
+  if (!lpaList.includes(lpa)) {
+    return res.status(400).render('projects/back-office/manage/overview/v2/select-LPA', {
+      selectedLPA: lpa,
+      lpaList,
+      index: lpas.length,
+      returnUrl,
+      formAction: '/projects/back-office/manage/overview/v2/additional-LPA',
+      isEdit: true,
+      isAdditional: true,
+      error: 'Select an additional Local Planning Authority'
+    });
+  }
+
+  lpas.push(lpa);
+  req.session.lpas = lpas;
+  const region = lpaToRegionSimple[lpa];
+  if (region) req.session.lpaRegions = { ...(req.session.lpaRegions || {}), [lpa]: region };
+  req.session.save(() => res.redirect(returnUrl));
 });
 
 router.get(['/select-LPA', '/select-LPA.html'], (req, res) => {
@@ -492,8 +640,37 @@ router.get(['/select-LPA', '/select-LPA.html'], (req, res) => {
     lpaList,
     index,
     returnUrl: req.query.returnUrl || overviewIndexUrl,
+    formAction: '/projects/back-office/manage/overview/v2/select-LPA',
     isEdit: true
   });
+});
+
+router.post('/select-LPA', (req, res) => {
+  const requestedIndex = Number.parseInt(req.body.index, 10);
+  const index = Number.isInteger(requestedIndex) && requestedIndex >= 0 ? requestedIndex : 0;
+  const lpa = (req.body.lpa || '').trim();
+  const returnUrl = req.body.returnUrl || overviewIndexUrl;
+  if (!lpaList.includes(lpa)) {
+    return res.status(400).render('projects/back-office/manage/overview/v2/select-LPA', {
+      selectedLPA: lpa,
+      lpaList,
+      index,
+      returnUrl,
+      formAction: '/projects/back-office/manage/overview/v2/select-LPA',
+      isEdit: true,
+      error: 'Select a Local Planning Authority'
+    });
+  }
+
+  if (!Array.isArray(req.session.lpas)) req.session.lpas = [];
+  while (req.session.lpas.length <= index) req.session.lpas.push('');
+  req.session.lpas[index] = lpa;
+  if (index === 0) req.session.lpaName = lpa;
+  const region = lpaToRegionSimple[lpa];
+  if (region) {
+    req.session.lpaRegions = { ...(req.session.lpaRegions || {}), [lpa]: region };
+  }
+  req.session.save(() => res.redirect(returnUrl));
 });
 
 router.get(['/case-officer-name', '/case-officer-name.html'], (req, res) => {
@@ -503,6 +680,66 @@ router.get(['/case-officer-name', '/case-officer-name.html'], (req, res) => {
     returnUrl: req.query.returnUrl || overviewIndexUrl,
     isEdit: true
   });
+});
+
+router.post('/case-officer-name', (req, res) => {
+  const caseOfficer = (req.body['case-officer-name'] || '').trim();
+  const returnUrl = req.body.returnUrl || overviewIndexUrl;
+  if (!caseOfficers.includes(caseOfficer)) {
+    return res.status(400).render('projects/back-office/manage/overview/v2/case-officer-name', {
+      caseOfficer,
+      caseOfficers,
+      returnUrl,
+      isEdit: true,
+      error: 'Select a case officer'
+    });
+  }
+
+  req.session.caseOfficer = caseOfficer;
+  req.session.save(() => res.redirect(returnUrl));
+});
+
+router.post('/main-contact', (req, res) => {
+  const mainContact = {
+    firstName: (req.body['main-contact-first-name'] || '').trim(),
+    lastName: (req.body['main-contact-last-name'] || '').trim(),
+    email: (req.body['main-contact-email'] || '').trim(),
+    phone: (req.body['main-contact-phone'] || '').trim(),
+    organisation: (req.body.contactOrganisation || '').trim()
+  };
+  const lpas = Array.isArray(req.session.lpas) ? req.session.lpas : [];
+  const returnUrl = req.body.returnUrl || overviewIndexUrl;
+  let error = '';
+  let errorField = '';
+
+  if (!mainContact.firstName) {
+    error = 'Enter the contact first name';
+    errorField = 'main-contact-first-name';
+  } else if (!mainContact.lastName) {
+    error = 'Enter the contact last name';
+    errorField = 'main-contact-last-name';
+  } else if (!mainContact.email) {
+    error = 'Enter the contact email address';
+    errorField = 'main-contact-email';
+  } else if (lpas.length > 1 && !mainContact.organisation) {
+    error = 'Select an organisation for this contact';
+    errorField = 'contact-organisation';
+  }
+
+  if (error) {
+    return res.status(400).render('projects/back-office/manage/overview/v2/main-contact', {
+      mainContact,
+      lpas,
+      returnUrl,
+      isEdit: true,
+      error,
+      errorField
+    });
+  }
+
+  req.session.mainContact = mainContact;
+  if (lpas.length === 1) req.session.mainContact.organisation = lpas[0];
+  req.session.save(() => res.redirect(returnUrl));
 });
 
 router.get(['/main-contact', '/main-contact.html'], (req, res) => {
@@ -529,6 +766,81 @@ router.get(['/additional-contact', '/additional-contact.html'], (req, res) => {
     returnUrl: req.query.returnUrl || overviewIndexUrl,
     isEdit: true
   });
+});
+
+router.post('/additional-contact', (req, res) => {
+  const requestedIndex = Number.parseInt(req.body.contactIndex || req.body.editIndex, 10);
+  const index = Number.isInteger(requestedIndex) && requestedIndex >= 0 ? requestedIndex : 0;
+  const contact = {
+    firstName: (req.body.firstName || '').trim(),
+    lastName: (req.body.lastName || '').trim(),
+    email: (req.body.email || '').trim(),
+    phone: (req.body.phone || '').trim()
+  };
+  const returnUrl = req.body.returnUrl || overviewIndexUrl;
+  let error = '';
+  let errorField = '';
+
+  if (!contact.firstName) {
+    error = 'Enter the contact first name';
+    errorField = 'additional-contact-first-name';
+  } else if (!contact.lastName) {
+    error = 'Enter the contact last name';
+    errorField = 'additional-contact-last-name';
+  } else if (!contact.email) {
+    error = 'Enter the contact email address';
+    errorField = 'additional-contact-email';
+  }
+
+  if (error) {
+    return res.status(400).render('projects/back-office/manage/overview/v2/additional-contact', {
+      contact,
+      contactIndex: index,
+      editIndex: index,
+      fromCheckAnswers: req.body.fromCheckAnswers === 'true',
+      returnUrl,
+      isEdit: true,
+      error,
+      errorField
+    });
+  }
+
+  if (!Array.isArray(req.session.contacts)) req.session.contacts = [];
+  while (req.session.contacts.length <= index) req.session.contacts.push({});
+  const organisation = req.session.contacts[index]?.organisation || (req.session.lpas?.length === 1 ? req.session.lpas[0] : '');
+  req.session.contacts[index] = { ...contact, organisation };
+  req.session.save(() => res.redirect(returnUrl));
+});
+
+router.get(['/change-notice-date', '/change-notice-date.html'], (req, res) => {
+  const parsed = parseProtocolDate(req.session.noticeOfIntentionDate);
+  const noticeOfIntentionDate = parsed ? parsed.toFormat('d/M/yyyy') : '';
+  res.render('projects/back-office/manage/overview/v2/change-notice-date', {
+    noticeOfIntentionDate,
+    returnUrl: req.query.returnUrl || overviewIndexUrl,
+    isEdit: true
+  });
+});
+
+router.post('/change-notice-date', (req, res) => {
+  const prefix = 'notice-of-intention-date';
+  const error = getDateValidationError(req, prefix, 'Notice of Intention date');
+  const day = (req.body[`${prefix}-day`] || '').trim();
+  const month = (req.body[`${prefix}-month`] || '').trim();
+  const year = (req.body[`${prefix}-year`] || '').trim();
+  const returnUrl = req.body.returnUrl || overviewIndexUrl;
+
+  if (error) {
+    return res.status(400).render('projects/back-office/manage/overview/v2/change-notice-date', {
+      noticeOfIntentionDate: [day, month, year].every(Boolean) ? `${day}/${month}/${year}` : '',
+      returnUrl,
+      isEdit: true,
+      error
+    });
+  }
+
+  req.session.noticeOfIntentionDate = DateTime.fromFormat(`${day}/${month}/${year}`, 'd/M/yyyy', { locale: 'en-GB' }).toFormat('d MMMM yyyy');
+  req.session.save(() => res.redirect(returnUrl));
 });
 
 router.get(['/protocol', '/protocol.html'], (req, res) => {

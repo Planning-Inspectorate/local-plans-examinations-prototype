@@ -25,13 +25,14 @@
       <input type="hidden" name="filename" value="{{ filename }}">
       <input type="hidden" name="returnTo" value="{{ returnTo }}">
 
-      {{ govukButton({
-        text: "Remove",
-        classes: "govuk-button--warning",
-        attributes: { name: "action", value: "remove" }
-      }) }}
-
-      <button class="govuk-button govuk-button--secondary" name="action" value="cancel" type="submit">Cancel</button>
+      <div class="govuk-button-group">
+        {{ govukButton({
+          text: "Remove",
+          classes: "govuk-button--warning",
+          attributes: { name: "action", value: "remove" }
+        }) }}
+        <a class="govuk-link" href="{{ cancelUrl }}">Cancel</a>
+      </div>
     </form>
   </div>
 </div>

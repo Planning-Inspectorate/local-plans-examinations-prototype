@@ -1,0 +1,56 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+  Planning authorities - {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: returnUrl or '/projects/back-office/manage/overview/v2/index'
+  }) }}
+{% endblock %}
+
+{% block content %}
+<style>
+  .app-lpa-actions {
+    white-space: nowrap;
+  }
+</style>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    {% include "includes/back-office/plan-reference-caption.njk" %}
+    <h1 class="govuk-heading-l">Planning authorities</h1>
+
+    {% if lpas and lpas.length %}
+      <dl class="govuk-summary-list">
+        {% for lpa in lpas %}
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Planning authority{% if lpas.length > 1 %} {{ loop.index }}{% endif %}</dt>
+          <dd class="govuk-summary-list__value">{{ lpa }}</dd>
+          <dd class="govuk-summary-list__actions app-lpa-actions">
+            {% if lpas.length > 1 %}
+              <a class="govuk-link" href="/projects/back-office/manage/overview/v2/remove-LPA?index={{ loop.index0 }}">Remove<span class="govuk-visually-hidden"> planning authority {{ loop.index }}</span></a>
+              <span aria-hidden="true"> | </span>
+            {% endif %}
+            <a class="govuk-link" href="/projects/back-office/manage/overview/v2/select-LPA?index={{ loop.index0 }}&amp;returnUrl=/projects/back-office/manage/overview/v2/check-lpa">Change<span class="govuk-visually-hidden"> planning authority {{ loop.index }}</span></a>
+          </dd>
+        </div>
+        {% endfor %}
+      </dl>
+    {% else %}
+      <p class="govuk-body">No planning authorities have been added.</p>
+    {% endif %}
+
+    <p class="govuk-body">
+      <a class="govuk-link" href="/projects/back-office/manage/overview/v2/additional-LPA?returnUrl=/projects/back-office/manage/overview/v2/check-lpa">Add a planning authority</a>
+    </p>
+
+    <a class="govuk-button" href="{{ returnUrl or '/projects/back-office/manage/overview/v2/index' }}">Save and continue</a>
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+  {% include "includes/footer.njk" %}
+{% endblock %}

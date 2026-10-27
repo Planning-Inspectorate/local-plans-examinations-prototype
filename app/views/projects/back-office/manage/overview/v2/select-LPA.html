@@ -1,4 +1,5 @@
 {% extends "layouts/back-office.html" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% block pageTitle %}
  Select a planning authority – {{ serviceName }}
@@ -14,15 +15,19 @@
 
       <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <form method="post" action="/projects/back-office/manage/overview/v1/select-LPA">
-        <div class="govuk-form-group">
+      {% if error %}
+        {{ govukErrorSummary({ titleText: "There is a problem", errorList: [{ text: error, href: "#lpa" }] }) }}
+      {% endif %}
+      <form method="post" action="{{ formAction or '/projects/back-office/manage/overview/v2/select-LPA' }}">
+        <div class="govuk-form-group{% if error %} govuk-form-group--error{% endif %}">
           {% include "includes/back-office/plan-reference-caption.njk" %}
           <h1 class="govuk-label-wrapper">
             <label class="govuk-label govuk-label--l" for="lpa">
-              Select a planning authority
+              {{ 'Add a planning authority' if isAdditional else 'Select a planning authority' }}
             </label>
           </h1>
           <div class="autocomplete__wrapper">
+            {% if error %}<p class="govuk-error-message" id="lpa-error"><span class="govuk-visually-hidden">Error:</span> {{ error }}</p>{% endif %}
             <div class="autocomplete__status"
               style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; margin-bottom: -1px; margin-right: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;">
               <div id="lpaId__status--A" role="status" aria-atomic="true" aria-live="polite"></div>
@@ -35,7 +40,7 @@
               gestures.</span>
             <input type="hidden" name="index" value="{{ index }}">
             <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
-            <select class="govuk-select" id="lpa" name="lpa" data-module="autocomplete" title="Local Planning Authority" data-autoselect=""
+            <select class="govuk-select{% if error %} govuk-select--error{% endif %}" id="lpa" name="lpa"{% if error %} aria-describedby="lpa-error"{% endif %} data-module="autocomplete" title="Local Planning Authority" data-autoselect=""
               data-display-menu="" data-min-length="" data-show-all-values="" data-show-no-options-found="">
               <option value="" disabled {% if not selectedLPA %}selected{% endif %}>Select an option</option>
               {% for lpa in lpaList %}
