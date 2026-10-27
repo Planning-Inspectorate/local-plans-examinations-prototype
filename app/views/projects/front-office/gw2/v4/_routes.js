@@ -1,7 +1,7 @@
 const govukPrototypeKit = require('govuk-prototype-kit')
 const router = govukPrototypeKit.requests.setupRouter()
 
-router.get('*', function(req, res, next){
+router.get('/{*splat}', function(req, res, next){
   // Add return to task list
   res.locals['return'] = true
 
@@ -11,7 +11,7 @@ router.get('*', function(req, res, next){
 // Any document upload on the Gateway 2 task list moves the plan status
 // shown on plan-details to "in progress", unless it has already moved
 // further on (e.g. submitted, under review, action needed).
-router.post('*', function (req, res, next) {
+router.post('/{*splat}', function (req, res, next) {
   if (!req.session.data['status'] || req.session.data['status'] === 'ready') {
     req.session.data['status'] = 'in-progress'
   }

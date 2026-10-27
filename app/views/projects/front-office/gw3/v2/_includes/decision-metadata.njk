@@ -21,30 +21,32 @@
 
     {% if submission == '1' %}
       {% set reportLabel = "Submission 1 report" %}
-      {% set reportHtml = "<a class='govuk-link' href='#'>gateway-3-report.pdf</a> (issued 27 Jun 2026)" %}
+      {% set reportHtml = "<a class='govuk-link' href='#'>View report</a> (issued 27 Jun 2026)" %}
     {% else %}
       {% set reportLabel = "Submission 2 report" %}
-      {% set reportHtml = "<a class='govuk-link' href='#'>gateway-3-report.pdf</a> (issued 13 Jul 2026)" %}
+      {% set reportHtml = "<a class='govuk-link' href='#'>View report</a> (issued 13 Jul 2026)" %}
     {% endif %}
 
     {% if showSubmissionHistory %}
+      {% set reportRow = {
+        key: { text: reportLabel, classes: "govuk-!-width-one-third" },
+        value: { html: reportHtml }
+      } %}
+      {% set submission1Row = {
+        key: { text: "Submission 1", classes: "govuk-!-width-one-third" },
+        value: { html: "<a class='govuk-link' href='application-details-decision?newDocuments=" + ("true" if submission == '2' else "false") + "&viewOnly=true&submission=1'>View all documents</a> (submitted 20 Jun 2026)" }
+      } %}
+      {% set submission2Row = {
+        key: { text: "Submission 2", classes: "govuk-!-width-one-third" },
+        value: { html: "<a class='govuk-link' href='application-details-decision?newDocuments=true&viewOnly=true&submission=2'>View all documents</a> (submitted 1 Jul 2026)" }
+      } %}
       {% if submission == '2' %}
-        {% set previousSubmissionsHtml = "<ul class='govuk-list'><li><a class='govuk-link' href='application-details-decision?newDocuments=true&viewOnly=true&submission=1'>Submission 1</a> (submitted 20 Jun 2026)</li></ul>" %}
+        {% set decisionMetadataRows = [reportRow, submission1Row] %}
       {% elif submission == '1' %}
-        {% set previousSubmissionsHtml = "<ul class='govuk-list'><li><a class='govuk-link' href='application-details-decision?newDocuments=true&viewOnly=true&submission=2'>Submission 2</a> (submitted 1 Jul 2026)</li></ul>" %}
+        {% set decisionMetadataRows = [reportRow, submission2Row] %}
       {% else %}
-        {% set previousSubmissionsHtml = "<ul class='govuk-list'><li><a class='govuk-link' href='application-details-decision?newDocuments=false&viewOnly=true&submission=1'>Submission 1</a> (submitted 20 Jun 2026)</li><li><a class='govuk-link' href='application-details-decision?newDocuments=true&viewOnly=true&submission=2'>Submission 2</a> (submitted 1 Jul 2026)</li></ul>" %}
+        {% set decisionMetadataRows = [reportRow, submission2Row, submission1Row] %}
       {% endif %}
-      {% set decisionMetadataRows = [
-        {
-          key: { text: reportLabel, classes: "govuk-!-width-one-third" },
-          value: { html: reportHtml }
-        },
-        {
-          key: { text: "Previous submissions", classes: "govuk-!-width-one-third" },
-          value: { html: previousSubmissionsHtml }
-        }
-      ] %}
     {% else %}
       {% set decisionMetadataRows = [
         {

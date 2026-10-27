@@ -1,7 +1,7 @@
 const govukPrototypeKit = require('govuk-prototype-kit')
 const router = govukPrototypeKit.requests.setupRouter()
 
-router.get('*', function (req, res, next) {
+router.get('/{*splat}', function (req, res, next) {
   // Add return to task list
   res.locals['return'] = true
 

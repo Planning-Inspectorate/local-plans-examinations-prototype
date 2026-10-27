@@ -84,12 +84,6 @@ href: "/projects/front-office/plan-details/v3/plan-details?status=in-progress&st
       }
     </style>
 
-    {% if errorStatus == 'true' %}
-    <p class="govuk-error-message" id="task-list">
-      <span class="govuk-visually-hidden">Error:</span> Add all required documents before submitting
-    </p>
-    {% endif %}
-
     <ol class="app-task-list">
       {% include "./task-list__procedural.html" %}
       {% include "./task-list__consultation.html" %}
