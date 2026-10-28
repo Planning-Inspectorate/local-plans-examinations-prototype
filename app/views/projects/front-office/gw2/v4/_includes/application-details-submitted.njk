@@ -51,7 +51,7 @@
         {
           key: { text: "Scoping consultation documents" },
           value: {
-            html: '<ul class="govuk-list govuk-list--bullet"><li><a class="govuk-link" href="#">scoping-document-01.pdf</a></li><li><a class="govuk-link" href="#">scoping-document-02.pdf</a></li><li><a class="govuk-link" href="#">scoping-document-03.pdf</a></li></ul>'
+            html: '<ul class="govuk-list govuk-list--bullet"><li><a class="govuk-link" href="#">scoping-document-01.pdf</a></li><li><a class="govuk-link" href="#">scoping-document-02.pdf</a></li><li><a class="govuk-link" href="#">scoping-document-03.pdf</a></li><li><a class="govuk-link" href="#">scoping-document-04.pdf</a></li><li><a class="govuk-link" href="#">scoping-document-05.pdf</a></li><li><a class="govuk-link" href="#">scoping-document-06.pdf</a></li><li><a class="govuk-link" href="#">scoping-document-07.pdf</a></li><li><a class="govuk-link" href="#">scoping-document-08.pdf</a></li><li><a class="govuk-link" href="#">scoping-document-09.pdf</a></li><li><a class="govuk-link" href="#">scoping-document-10.pdf</a></li><li><a class="govuk-link" href="#">scoping-document-11.pdf</a></li><li><a class="govuk-link" href="#">scoping-document-12.pdf</a></li><li><a class="govuk-link" href="#">scoping-document-13.pdf</a></li><li><a class="govuk-link" href="#">scoping-document-14.pdf</a></li><li><a class="govuk-link" href="#">scoping-document-15.pdf</a></li></ul>'
           }
         },
         {
@@ -87,95 +87,33 @@
       ]
     }) }}
 
-    <h2 class="govuk-heading-m govuk-!-margin-top-6">Plan content</h2>
+    <h2 class="govuk-heading-m govuk-!-margin-top-6">Plan content, evidence and background</h2>
 
     {{ govukSummaryList({
       classes: "app-summary-list--narrow-key",
       rows: [
         {
-          key: { text: "Vision, aims, objectives, up to 10 outcomes" },
+          key: { text: "Plan content" },
           value: {
-            html: '<ul class="govuk-list"><li><a class="govuk-link" href="#">vision-aims-objectives.pdf</a></li></ul>'
+            html: '<ul class="govuk-list govuk-list--bullet"><li><a class="govuk-link" href="#">vision-aims-objectives.pdf</a></li><li><a class="govuk-link" href="#">spatial-strategy.pdf</a></li><li><a class="govuk-link" href="#">other-plan-content.pdf</a></li></ul>'
           }
         },
         {
-          key: { text: "Spatial strategy options or spatial strategy" },
+          key: { text: "Digital supporting material" },
           value: {
-            html: '<ul class="govuk-list"><li><a class="govuk-link" href="#">spatial-strategy.pdf</a></li></ul>'
+            html: '<ul class="govuk-list"><li><a class="govuk-link" href="#">' + (data['supporting-material-link'] or 'https://www.eastborough.gov.uk/local-plan/interactive-map') + '</a></li></ul>'
           }
         },
         {
-          key: { text: "Other plan content" },
+          key: { text: "Evidence and progress" },
           value: {
-            html: '<ul class="govuk-list"><li><a class="govuk-link" href="#">other-plan-content.pdf</a></li></ul>'
+            html: '<ul class="govuk-list govuk-list--bullet"><li><a class="govuk-link" href="#">evidence-documents-list.pdf</a></li><li><a class="govuk-link" href="#">housing-requirement-evidence.pdf</a></li><li><a class="govuk-link" href="#">habitats-environmental-assessment.pdf</a></li></ul>'
           }
-        }
-      ]
-    }) }}
-
-    <h2 class="govuk-heading-m govuk-!-margin-top-6">Plan evidence and progress</h2>
-
-    {{ govukSummaryList({
-      classes: "app-summary-list--narrow-key",
-      rows: [
+        },
         {
           key: { text: "Latest policies map" },
           value: {
             html: '<ul class="govuk-list"><li><a class="govuk-link" href="#">policies-map.pdf</a></li></ul>'
-          }
-        },
-        {
-          key: { text: "List of evidence documents with completion dates" },
-          value: {
-            html: '<ul class="govuk-list"><li><a class="govuk-link" href="#">evidence-documents-list.pdf</a></li></ul>'
-          }
-        },
-        {
-          key: { text: "Progress towards setting a housing requirement and evidence such as a housing needs assessment and strategic housing market assessment" },
-          value: {
-            html: '<ul class="govuk-list"><li><a class="govuk-link" href="#">housing-requirement.pdf</a></li></ul>'
-          }
-        },
-        {
-          key: { text: "Progress and evidence towards identifying needs for Traveller accommodation such as an accommodation assessment" },
-          value: {
-            html: '<ul class="govuk-list"><li><a class="govuk-link" href="#">traveller-accommodation.pdf</a></li></ul>'
-          }
-        },
-        {
-          key: { text: "Progress and evidence towards setting other development needs and supply (like employment or retail)" },
-          value: {
-            html: '<ul class="govuk-list"><li>Not provided</li></ul>'
-          }
-        },
-        {
-          key: { text: "Progress on assessments required by the Habitats Regulations and the Environmental Assessment Regulations" },
-          value: {
-            html: '<ul class="govuk-list"><li><a class="govuk-link" href="#">habitats-environmental-assessment.pdf</a></li></ul>'
-          }
-        },
-        {
-          key: { text: "Topic papers (up to 5 issues, max 2,000 words each)" },
-          value: {
-            html: '<ul class="govuk-list"><li><a class="govuk-link" href="#">topic-papers.pdf</a></li></ul>'
-          }
-        },
-        {
-          key: { text: "Site selection approach and evidence" },
-          value: {
-            html: '<ul class="govuk-list"><li><a class="govuk-link" href="#">site-selection.pdf</a></li></ul>'
-          }
-        },
-        {
-          key: { text: "Green belt review" },
-          value: {
-            html: '<ul class="govuk-list"><li><a class="govuk-link" href="#">green-belt-review.pdf</a></li></ul>'
-          }
-        },
-        {
-          key: { text: "Evidence related to the matters of soundness to be discussed" },
-          value: {
-            html: '<ul class="govuk-list"><li><a class="govuk-link" href="#">soundness-evidence.pdf</a></li></ul>'
           }
         }
       ]
