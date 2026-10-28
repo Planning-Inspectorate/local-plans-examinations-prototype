@@ -1,7 +1,8 @@
 {% extends "layouts/back-office.html" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% block pageTitle %}
-	When is the examination paused from? – {{ serviceName }}
+	{% if error %}Error: {% endif %}When is the examination paused from? – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -14,6 +15,7 @@
 {% block content %}
 	<div class="govuk-grid-row">
 		<div class="govuk-grid-column-two-thirds">
+			{% if error %}{{ govukErrorSummary({ titleText: "There is a problem", errorList: [{ text: error, href: "#plan-pause-date-day" }] }) }}{% endif %}
 			{% include "includes/back-office/examination-reference-caption.njk" %}
 			<h1 class="govuk-heading-l">When is the examination paused from?</h1>
 			<form class="form" method="post" action="{{ basePath }}/plan-pause">
@@ -22,27 +24,28 @@
 				<input type="hidden" name="newPause" value="{{ 'true' if newPause else 'false' }}">
 				<input type="hidden" name="returnUrl" value="{{ returnUrl }}">
 				{% set dateParts = planPauseDate.split('/') if planPauseDate else ['', '', ''] %}
-				<fieldset class="govuk-fieldset govuk-!-margin-bottom-2" role="group" aria-describedby="plan-pause-date-hint">
+				<fieldset class="govuk-fieldset govuk-!-margin-bottom-2{% if error %} govuk-form-group--error{% endif %}" role="group"{% if error %} aria-describedby="plan-pause-date-error"{% endif %}>
 					<legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
 						<span class="govuk-visually-hidden">Examination pause start date</span>
 					</legend>
+					{% if error %}<p class="govuk-error-message" id="plan-pause-date-error"><span class="govuk-visually-hidden">Error:</span> {{ error }}</p>{% endif %}
 					<div class="govuk-date-input" id="plan-pause-date">
 						<div class="govuk-date-input__item">
 							<div class="govuk-form-group">
 								<label class="govuk-label govuk-date-input__label" for="plan-pause-date-day">Day</label>
-								<input class="govuk-input govuk-date-input__input govuk-input--width-2" id="plan-pause-date-day" name="plan-pause-date-day" type="text" inputmode="numeric" value="{{ dateParts[0] }}">
+								<input class="govuk-input govuk-date-input__input govuk-input--width-2{% if error %} govuk-input--error{% endif %}" id="plan-pause-date-day" name="plan-pause-date-day" type="text" inputmode="numeric" value="{{ dateParts[0] }}"{% if error %} aria-describedby="plan-pause-date-error"{% endif %}>
 							</div>
 						</div>
 						<div class="govuk-date-input__item">
 							<div class="govuk-form-group">
 								<label class="govuk-label govuk-date-input__label" for="plan-pause-date-month">Month</label>
-								<input class="govuk-input govuk-date-input__input govuk-input--width-2" id="plan-pause-date-month" name="plan-pause-date-month" type="text" inputmode="numeric" value="{{ dateParts[1] }}">
+								<input class="govuk-input govuk-date-input__input govuk-input--width-2{% if error %} govuk-input--error{% endif %}" id="plan-pause-date-month" name="plan-pause-date-month" type="text" inputmode="numeric" value="{{ dateParts[1] }}"{% if error %} aria-describedby="plan-pause-date-error"{% endif %}>
 							</div>
 						</div>
 						<div class="govuk-date-input__item">
 							<div class="govuk-form-group">
 								<label class="govuk-label govuk-date-input__label" for="plan-pause-date-year">Year</label>
-								<input class="govuk-input govuk-date-input__input govuk-input--width-4" id="plan-pause-date-year" name="plan-pause-date-year" type="text" inputmode="numeric" value="{{ dateParts[2] }}">
+								<input class="govuk-input govuk-date-input__input govuk-input--width-4{% if error %} govuk-input--error{% endif %}" id="plan-pause-date-year" name="plan-pause-date-year" type="text" inputmode="numeric" value="{{ dateParts[2] }}"{% if error %} aria-describedby="plan-pause-date-error"{% endif %}>
 							</div>
 						</div>
 					</div>

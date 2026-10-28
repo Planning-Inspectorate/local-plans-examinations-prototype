@@ -1,4 +1,5 @@
 {% extends "layouts/back-office.html" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% block pageTitle %}
 Add hearing estimates – {{ serviceName }}
@@ -14,28 +15,34 @@ Add hearing estimates – {{ serviceName }}
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    {% if errorList and errorList.length %}
+      {{ govukErrorSummary({ titleText: "There is a problem", errorList: errorList }) }}
+    {% endif %}
     {% include "includes/back-office/examination-reference-caption.njk" %}
     <h1 class="govuk-heading-l">Add hearing estimates</h1>
     <form method="post" action="{{ basePath }}/add-hearing-estimates/index">
-      <div class="govuk-form-group">
+      <div class="govuk-form-group{% if errors.estimatedPreparationTime %} govuk-form-group--error{% endif %}">
         <label class="govuk-label" for="estimated-prep-time">
           Estimated preparation time (hours)
         </label>
-        <input class="govuk-input govuk-input--width-10" id="estimated-prep-time" name="estimatedPreparationTime" type="number" value="{{ addHearingEstimates.estimatedPreparationTime or '' }}">
+        {% if errors.estimatedPreparationTime %}<p class="govuk-error-message" id="estimated-prep-time-error"><span class="govuk-visually-hidden">Error:</span> {{ errors.estimatedPreparationTime }}</p>{% endif %}
+        <input class="govuk-input govuk-input--width-10{% if errors.estimatedPreparationTime %} govuk-input--error{% endif %}" id="estimated-prep-time" name="estimatedPreparationTime" type="text" inputmode="decimal" value="{{ addHearingEstimates.estimatedPreparationTime or '' }}"{% if errors.estimatedPreparationTime %} aria-describedby="estimated-prep-time-error"{% endif %}>
       </div>
 
-      <div class="govuk-form-group">
+      <div class="govuk-form-group{% if errors.estimatedHearingTime %} govuk-form-group--error{% endif %}">
         <label class="govuk-label" for="estimated-hearing-time">
           Estimated hearing time (hours)
         </label>
-        <input class="govuk-input govuk-input--width-10" id="estimated-hearing-time" name="estimatedHearingTime" type="number" value="{{ addHearingEstimates.estimatedHearingTime or '' }}">
+        {% if errors.estimatedHearingTime %}<p class="govuk-error-message" id="estimated-hearing-time-error"><span class="govuk-visually-hidden">Error:</span> {{ errors.estimatedHearingTime }}</p>{% endif %}
+        <input class="govuk-input govuk-input--width-10{% if errors.estimatedHearingTime %} govuk-input--error{% endif %}" id="estimated-hearing-time" name="estimatedHearingTime" type="text" inputmode="decimal" value="{{ addHearingEstimates.estimatedHearingTime or '' }}"{% if errors.estimatedHearingTime %} aria-describedby="estimated-hearing-time-error"{% endif %}>
       </div>
 
-      <div class="govuk-form-group">
+      <div class="govuk-form-group{% if errors.estimatedReportingTime %} govuk-form-group--error{% endif %}">
         <label class="govuk-label" for="estimated-reporting-time">
           Estimated reporting time (hours)
         </label>
-        <input class="govuk-input govuk-input--width-10" id="estimated-reporting-time" name="estimatedReportingTime" type="number" value="{{ addHearingEstimates.estimatedReportingTime or '' }}">
+        {% if errors.estimatedReportingTime %}<p class="govuk-error-message" id="estimated-reporting-time-error"><span class="govuk-visually-hidden">Error:</span> {{ errors.estimatedReportingTime }}</p>{% endif %}
+        <input class="govuk-input govuk-input--width-10{% if errors.estimatedReportingTime %} govuk-input--error{% endif %}" id="estimated-reporting-time" name="estimatedReportingTime" type="text" inputmode="decimal" value="{{ addHearingEstimates.estimatedReportingTime or '' }}"{% if errors.estimatedReportingTime %} aria-describedby="estimated-reporting-time-error"{% endif %}>
       </div>
 
       <div class="govuk-button-group">

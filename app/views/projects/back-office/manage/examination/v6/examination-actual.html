@@ -1,7 +1,8 @@
 {% extends "layouts/back-office.html" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% block pageTitle %}
-	When was the examination submitted? – {{ serviceName }}
+	When was the examination received? – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -14,33 +15,30 @@
 {% block content %}
 	<div class="govuk-grid-row">
 		<div class="govuk-grid-column-two-thirds">
+			{% if error %}{{ govukErrorSummary({ titleText: "There is a problem", errorList: [{ text: error, href: "#" ~ dateErrorId }] }) }}{% endif %}
 			{% include "includes/back-office/examination-reference-caption.njk" %}
-			<h1 class="govuk-heading-l">When was the examination submitted?</h1>
+			<h1 class="govuk-heading-l">When was the examination received?</h1>
 			<form class="form" method="post" action="{{ basePath }}/examination-actual">
-				<input type="hidden" name="isEdit" value="{{ isEdit }}">
-				<input type="hidden" name="returnUrl" value="{{ returnUrl }}">
 				{% set dateParts = examinationActualDate.split('/') if examinationActualDate else ['', '', ''] %}
-				<fieldset class="govuk-fieldset govuk-!-margin-bottom-2" role="group" aria-describedby="examination-actual-date-hint">
-					<legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-						<span class="govuk-visually-hidden">Examination actual date</span>
-					</legend>
+				<fieldset class="govuk-fieldset govuk-!-margin-bottom-2{% if error %} govuk-form-group--error{% endif %}" role="group" aria-describedby="{% if error %}date-error{% else %}examination-actual-date-hint{% endif %}">
+					{% if error %}<p class="govuk-error-message" id="date-error"><span class="govuk-visually-hidden">Error:</span> {{ error }}</p>{% endif %}
 					<div class="govuk-date-input" id="examination-actual-date">
 						<div class="govuk-date-input__item">
 							<div class="govuk-form-group">
 								<label class="govuk-label govuk-date-input__label" for="examination-actual-date-day">Day</label>
-								<input class="govuk-input govuk-date-input__input govuk-input--width-2" id="examination-actual-date-day" name="examination-actual-date-day" type="text" inputmode="numeric" value="{{ dateParts[0] }}">
+								<input class="govuk-input govuk-date-input__input govuk-input--width-2{% if error %} govuk-input--error{% endif %}" id="examination-actual-date-day" name="examination-actual-date-day" type="text" inputmode="numeric" value="{{ dateParts[0] }}"{% if error %} aria-describedby="date-error"{% endif %}>
 							</div>
 						</div>
 						<div class="govuk-date-input__item">
 							<div class="govuk-form-group">
 								<label class="govuk-label govuk-date-input__label" for="examination-actual-date-month">Month</label>
-								<input class="govuk-input govuk-date-input__input govuk-input--width-2" id="examination-actual-date-month" name="examination-actual-date-month" type="text" inputmode="numeric" value="{{ dateParts[1] }}">
+								<input class="govuk-input govuk-date-input__input govuk-input--width-2{% if error %} govuk-input--error{% endif %}" id="examination-actual-date-month" name="examination-actual-date-month" type="text" inputmode="numeric" value="{{ dateParts[1] }}"{% if error %} aria-describedby="date-error"{% endif %}>
 							</div>
 						</div>
 						<div class="govuk-date-input__item">
 							<div class="govuk-form-group">
 								<label class="govuk-label govuk-date-input__label" for="examination-actual-date-year">Year</label>
-								<input class="govuk-input govuk-date-input__input govuk-input--width-4" id="examination-actual-date-year" name="examination-actual-date-year" type="text" inputmode="numeric" value="{{ dateParts[2] }}">
+								<input class="govuk-input govuk-date-input__input govuk-input--width-4{% if error %} govuk-input--error{% endif %}" id="examination-actual-date-year" name="examination-actual-date-year" type="text" inputmode="numeric" value="{{ dateParts[2] }}"{% if error %} aria-describedby="date-error"{% endif %}>
 							</div>
 						</div>
 					</div>

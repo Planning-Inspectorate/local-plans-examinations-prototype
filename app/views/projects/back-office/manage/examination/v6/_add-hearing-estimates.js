@@ -6,19 +6,43 @@ function getAddHearingEstimatesView(req, page) {
   return `${baseViewPath}/add-hearing-estimates/${page}`;
 }
 
+function getHearingEstimatesCaseRef(req) {
+  return req.session?.data?.currentCaseRef || req.session?.currentCaseRef || '';
+}
+
 router.get('/add-hearing-estimates', function (req, res) {
     res.render(getAddHearingEstimatesView(req, 'index'), {
-      caseRef: req.session.data.currentCaseRef || '',
+      caseRef: getHearingEstimatesCaseRef(req),
       planTitle: req.session.data.planTitle || '',
       addHearingEstimates: req.session.data.addHearingEstimates || {}
     })
   })
 
   router.post('/add-hearing-estimates/index', function (req, res) {
-    req.session.data.addHearingEstimates = {
-      estimatedPreparationTime: req.session.data.estimatedPreparationTime,
-      estimatedHearingTime: req.session.data.estimatedHearingTime,
-      estimatedReportingTime: req.session.data.estimatedReportingTime
+    const addHearingEstimates = {
+      estimatedPreparationTime: String(req.session.data.estimatedPreparationTime || '').trim(),
+      estimatedHearingTime: String(req.session.data.estimatedHearingTime || '').trim(),
+      estimatedReportingTime: String(req.session.data.estimatedReportingTime || '').trim()
+    };
+    const errors = {};
+    Object.entries(addHearingEstimates).forEach(([field, value]) => {
+      if (!value) errors[field] = 'Enter a number of hours';
+      else if (!Number.isFinite(Number(value)) || Number(value) <= 0) errors[field] = 'Enter a number greater than 0';
+    });
+    req.session.data.addHearingEstimates = addHearingEstimates;
+    if (Object.keys(errors).length) {
+      const errorTargets = {
+        estimatedPreparationTime: 'estimated-prep-time',
+        estimatedHearingTime: 'estimated-hearing-time',
+        estimatedReportingTime: 'estimated-reporting-time'
+      };
+      return res.status(400).render(getAddHearingEstimatesView(req, 'index'), {
+        caseRef: getHearingEstimatesCaseRef(req),
+        planTitle: req.session.data.planTitle || '',
+        addHearingEstimates,
+        errors,
+        errorList: Object.entries(errors).map(([field, text]) => ({ text, href: `#${errorTargets[field]}` }))
+      });
     }
     req.session.save(() => {
       res.redirect(`${req.baseUrl}/add-hearing-estimates/check`)
@@ -27,7 +51,7 @@ router.get('/add-hearing-estimates', function (req, res) {
 
   router.get('/add-hearing-estimates/check', function (req, res) {
     res.render(getAddHearingEstimatesView(req, 'check'), {
-      caseRef: req.session.data.currentCaseRef || '',
+      caseRef: getHearingEstimatesCaseRef(req),
       planTitle: req.session.data.planTitle || '',
       addHearingEstimates: req.session.data.addHearingEstimates || {}
     })

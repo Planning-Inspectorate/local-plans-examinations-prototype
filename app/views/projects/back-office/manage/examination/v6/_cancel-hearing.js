@@ -45,7 +45,7 @@ router.get('/cancel-hearing', function (req, res) {
       delete req.session.data.cancelHearingIndex;
     }
     res.render(`${baseViewPath}/cancel-hearing/index`, {
-      caseRef: sessionData.currentCaseRef || '',
+      caseRef: sessionData.currentCaseRef || req.session.currentCaseRef || '',
       planTitle: sessionData.planTitle || '',
       hearingIndex: Number.isInteger(hearingIndex) && hearingIndex >= 0 ? hearingIndex : ''
     })

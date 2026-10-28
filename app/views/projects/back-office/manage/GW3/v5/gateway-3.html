@@ -41,14 +41,14 @@ Gateway 3 overview {{ serviceName }}
         <dt class="govuk-summary-list__key">Submission expected</dt>
         <dd class="govuk-summary-list__value">{{ gateway3EstimatedDate }}</dd>
         <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/projects/back-office/manage/GW3/v1/gateway-3-estimated.html?returnUrl=/projects/back-office/manage/GW3/v5/gateway-3">Change<span class="govuk-visually-hidden">Gateway 3 expected date</span></a>
+          <a class="govuk-link" href="/projects/back-office/manage/GW3/v5/gateway-3-date/estimated?returnUrl=/projects/back-office/manage/GW3/v5/gateway-3">Change<span class="govuk-visually-hidden">Gateway 3 expected date</span></a>
         </dd>
       </div>
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">Submission received</dt>
         <dd class="govuk-summary-list__value">{{ gateway3ActualDate }}</dd>
         <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/projects/back-office/manage/GW3/v1/gateway-3-actual.html?returnUrl=/projects/back-office/manage/GW3/v5/gateway-3">Change<span class="govuk-visually-hidden"> Gateway 3 actual date</span></a>
+          <a class="govuk-link" href="/projects/back-office/manage/GW3/v5/gateway-3-date/actual?returnUrl=/projects/back-office/manage/GW3/v5/gateway-3">Change<span class="govuk-visually-hidden"> Gateway 3 actual date</span></a>
         </dd>
       </div>
        <div class="govuk-summary-list__row">
@@ -63,7 +63,7 @@ Gateway 3 overview {{ serviceName }}
           {% endif %}
         </dd>
         <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/projects/back-office/manage/GW3/v1/gateway-3-po-details.html?returnUrl=/projects/back-office/manage/GW3/v5/gateway-3">{{ 'Change' if gateway3PoContact.firstName or gateway3PoContact.lastName else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if gateway3PoContact.firstName or gateway3PoContact.lastName else 'Add' }} Gateway 3 programme officer details</span></a>
+          <a class="govuk-link" href="/projects/back-office/manage/GW3/v5/gateway-3-po-details?returnUrl=/projects/back-office/manage/GW3/v5/gateway-3">{{ 'Change' if gateway3PoContact.firstName or gateway3PoContact.lastName else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if gateway3PoContact.firstName or gateway3PoContact.lastName else 'Add' }} Gateway 3 programme officer details</span></a>
         </dd>
       </div>
       <div class="govuk-summary-list__row">
@@ -76,7 +76,7 @@ Gateway 3 overview {{ serviceName }}
           {% endif %}
         </dd>
         <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/projects/back-office/manage/examination/v1/examination-website.html?returnUrl=/projects/back-office/manage/GW3/v5/gateway-3">{{ 'Change' if examinationWebsite and examinationWebsite != 'Not provided' else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if examinationWebsite and examinationWebsite != 'Not provided' else 'Add' }} examination website</span></a>
+          <a class="govuk-link" href="/projects/back-office/manage/GW3/v5/examination-website?returnUrl=/projects/back-office/manage/GW3/v5/gateway-3">{{ 'Change' if examinationWebsite and examinationWebsite != 'Not provided' else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if examinationWebsite and examinationWebsite != 'Not provided' else 'Add' }} examination website</span></a>
         </dd>
       </div>
 </dl>

@@ -1,4 +1,5 @@
 {% extends "layouts/back-office.html" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% block pageTitle %}
 When is the Fact Check expected to be sent to the LPA? – {{ serviceName }}
@@ -14,33 +15,35 @@ When is the Fact Check expected to be sent to the LPA? – {{ serviceName }}
 {% block content %}
 	<div class="govuk-grid-row">
 		<div class="govuk-grid-column-two-thirds">
+			{% if error %}{{ govukErrorSummary({ titleText: "There is a problem", errorList: [{ text: error, href: "#" ~ dateErrorId }] }) }}{% endif %}
 			{% include "includes/back-office/examination-reference-caption.njk" %}
 			<h1 class="govuk-heading-l">When is the Fact Check expected to be sent to the LPA?</h1>
 			<form class="form" method="post" action="{{ basePath }}/fact-check-due-date">
 				<input type="hidden" name="isEdit" value="{{ isEdit }}">
 				<input type="hidden" name="returnUrl" value="{{ returnUrl }}">
 				{% set dateParts = factCheckDueDate.split('/') if factCheckDueDate else ['', '', ''] %}
-				<fieldset class="govuk-fieldset govuk-!-margin-bottom-2" role="group" aria-describedby="fact-check-due-date-hint">
+				<fieldset class="govuk-fieldset govuk-!-margin-bottom-2{% if error %} govuk-form-group--error{% endif %}" role="group" aria-describedby="{% if error %}date-error{% else %}fact-check-due-date-hint{% endif %}">
 					<legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
 						<span class="govuk-visually-hidden">When is the Fact Check expected to be sent to the LPA?</span>
 					</legend>
+					{% if error %}<p class="govuk-error-message" id="date-error"><span class="govuk-visually-hidden">Error:</span> {{ error }}</p>{% endif %}
 					<div class="govuk-date-input" id="fact-check-due-date">
 						<div class="govuk-date-input__item">
 							<div class="govuk-form-group">
 								<label class="govuk-label govuk-date-input__label" for="fact-check-due-date-day">Day</label>
-								<input class="govuk-input govuk-date-input__input govuk-input--width-2" id="fact-check-due-date-day" name="fact-check-due-date-day" type="text" inputmode="numeric" value="{{ dateParts[0] }}">
+								<input class="govuk-input govuk-date-input__input govuk-input--width-2{% if error %} govuk-input--error{% endif %}" id="fact-check-due-date-day" name="fact-check-due-date-day" type="text" inputmode="numeric" value="{{ dateParts[0] }}"{% if error %} aria-describedby="date-error"{% endif %}>
 							</div>
 						</div>
 						<div class="govuk-date-input__item">
 							<div class="govuk-form-group">
 								<label class="govuk-label govuk-date-input__label" for="fact-check-due-date-month">Month</label>
-								<input class="govuk-input govuk-date-input__input govuk-input--width-2" id="fact-check-due-date-month" name="fact-check-due-date-month" type="text" inputmode="numeric" value="{{ dateParts[1] }}">
+								<input class="govuk-input govuk-date-input__input govuk-input--width-2{% if error %} govuk-input--error{% endif %}" id="fact-check-due-date-month" name="fact-check-due-date-month" type="text" inputmode="numeric" value="{{ dateParts[1] }}"{% if error %} aria-describedby="date-error"{% endif %}>
 							</div>
 						</div>
 						<div class="govuk-date-input__item">
 							<div class="govuk-form-group">
 								<label class="govuk-label govuk-date-input__label" for="fact-check-due-date-year">Year</label>
-								<input class="govuk-input govuk-date-input__input govuk-input--width-4" id="fact-check-due-date-year" name="fact-check-due-date-year" type="text" inputmode="numeric" value="{{ dateParts[2] }}">
+								<input class="govuk-input govuk-date-input__input govuk-input--width-4{% if error %} govuk-input--error{% endif %}" id="fact-check-due-date-year" name="fact-check-due-date-year" type="text" inputmode="numeric" value="{{ dateParts[2] }}"{% if error %} aria-describedby="date-error"{% endif %}>
 							</div>
 						</div>
 					</div>

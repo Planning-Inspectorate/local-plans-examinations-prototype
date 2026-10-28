@@ -1,4 +1,5 @@
 {% extends "layouts/back-office.html" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% block pageTitle %}
 Is the hearing virtual or in-person? – {{ serviceName }}
@@ -14,28 +15,32 @@ Is the hearing virtual or in-person? – {{ serviceName }}
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    {% if errorList and errorList.length %}
+      {{ govukErrorSummary({ titleText: "There is a problem", errorList: errorList }) }}
+    {% endif %}
     {% include "includes/back-office/examination-reference-caption.njk" %}
     <h1 class="govuk-heading-l">Is the hearing in-person, remote or hybrid?</h1>
     <form method="post">
-      <div class="govuk-form-group">
-        <fieldset class="govuk-fieldset" aria-describedby="hearing-virtual-hint">
+      <div class="govuk-form-group{% if errors.isVirtual %} govuk-form-group--error{% endif %}">
+        <fieldset class="govuk-fieldset"{% if errors.isVirtual %} aria-describedby="hearing-virtual-error"{% endif %}>
           <div class="govuk-radios" data-module="govuk-radios">
+            {% if errors.isVirtual %}<p class="govuk-error-message" id="hearing-virtual-error"><span class="govuk-visually-hidden">Error:</span> {{ errors.isVirtual }}</p>{% endif %}
             
             <div class="govuk-radios__item">
-              <input class="govuk-radios__input" id="hearing-virtual-no" name="isVirtual" type="radio" value="In-person" {{ 'checked' if addHearing.isVirtual == 'In-person' else '' }}>
+              <input class="govuk-radios__input" id="hearing-virtual-no" name="isVirtual" type="radio" value="In-person" {{ 'checked' if addHearing.isVirtual == 'In-person' else '' }}{% if errors.isVirtual %} aria-describedby="hearing-virtual-error"{% endif %}>
               <label class="govuk-label govuk-radios__label" for="hearing-virtual-no">
                 In-person
               </label>
             </div>
               <div class="govuk-radios__item">
-              <input class="govuk-radios__input" id="hearing-virtual-hybrid" name="isVirtual" type="radio" value="Hybrid" {{ 'checked' if addHearing.isVirtual == 'Hybrid' else '' }}>
+              <input class="govuk-radios__input" id="hearing-virtual-hybrid" name="isVirtual" type="radio" value="Hybrid" {{ 'checked' if addHearing.isVirtual == 'Hybrid' else '' }}{% if errors.isVirtual %} aria-describedby="hearing-virtual-error"{% endif %}>
               <label class="govuk-label govuk-radios__label" for="hearing-virtual-hybrid">
                 Hybrid
               </label>
               </div>
 
               <div class="govuk-radios__item">
-              <input class="govuk-radios__input" id="hearing-virtual-yes" name="isVirtual" type="radio" value="Remote" {{ 'checked' if addHearing.isVirtual == 'Remote' else '' }}>
+              <input class="govuk-radios__input" id="hearing-virtual-yes" name="isVirtual" type="radio" value="Remote" {{ 'checked' if addHearing.isVirtual == 'Remote' else '' }}{% if errors.isVirtual %} aria-describedby="hearing-virtual-error"{% endif %}>
               <label class="govuk-label govuk-radios__label" for="hearing-virtual-yes">
                 Remote
               </label>

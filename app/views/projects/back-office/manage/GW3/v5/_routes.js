@@ -11,6 +11,20 @@ router.use((req, res, next) => {
 
 const DOCUMENTS_SESSION_KEY = 'gw3v4Documents';
 const REVIEW_DRAFT_SESSION_KEY = 'gw3v4DocumentReviewDraft';
+const GW3_EDIT_DATE_FIELDS = {
+  estimated: {
+    sessionKey: 'gateway3EstimatedDate',
+    title: 'When is the Gateway 3 submission expected?',
+    label: 'estimated Gateway 3 date',
+    blankDateArticle: 'an'
+  },
+  actual: {
+    sessionKey: 'gateway3ActualDate',
+    title: 'When was the Gateway 3 submission received?',
+    label: 'submission received date',
+    blankDateArticle: 'a'
+  }
+};
 
 function formatDateForDisplay(dateValue) {
   if (!dateValue || dateValue === '-') return '-';
@@ -25,6 +39,48 @@ function formatDateForDisplay(dateValue) {
   if (isoDate.isValid) return isoDate.toFormat('d MMMM yyyy');
 
   return dateValue;
+}
+
+function getGateway3DateInputValues(dateValue) {
+  const value = String(dateValue || '').trim();
+  const parsedDate = [
+    DateTime.fromFormat(value, 'd/M/yyyy', { locale: 'en-GB' }),
+    DateTime.fromFormat(value, 'd MMMM yyyy', { locale: 'en-GB' }),
+    DateTime.fromISO(value)
+  ].find((date) => date.isValid);
+
+  return parsedDate
+    ? { day: String(parsedDate.day), month: String(parsedDate.month), year: String(parsedDate.year) }
+    : { day: '', month: '', year: '' };
+}
+
+function getGateway3DateError(day, month, year, label, blankDateArticle = 'the') {
+  const values = [day, month, year].map((value) => String(value || '').trim());
+  if (values.every((value) => !value)) return `Enter ${blankDateArticle} ${label}`;
+  if (values.some((value) => !value)) return `Enter a complete ${label}`;
+  if (!/^\d{1,2}$/.test(values[0]) || !/^\d{1,2}$/.test(values[1]) || !/^\d{4}$/.test(values[2])) {
+    return `Enter a valid ${label}`;
+  }
+
+  const date = DateTime.fromObject({ day: Number(values[0]), month: Number(values[1]), year: Number(values[2]) });
+  return date.isValid && date.day === Number(values[0]) && date.month === Number(values[1]) && date.year === Number(values[2])
+    ? ''
+    : `Enter a valid ${label}`;
+}
+
+function normalizeGateway3Website(value) {
+  const trimmedValue = String(value || '').trim();
+  if (!trimmedValue) return '';
+
+  const urlValue = /^https?:\/\//i.test(trimmedValue) ? trimmedValue : `https://${trimmedValue}`;
+  try {
+    const url = new URL(urlValue);
+    return ['http:', 'https:'].includes(url.protocol) && url.hostname.includes('.')
+      ? url.toString()
+      : null;
+  } catch (error) {
+    return null;
+  }
 }
 
 function getSubmission1Date(req) {
@@ -450,6 +506,123 @@ router.get('/gateway-3.html', (req, res) => {
   renderGateway3Overview(req, res);
 });
 
+router.get('/gateway-3-date/:dateField', (req, res) => {
+  const field = GW3_EDIT_DATE_FIELDS[req.params.dateField];
+  if (!field) return res.sendStatus(404);
+
+  const storedDate = req.session[field.sessionKey]
+    || (req.params.dateField === 'estimated' ? '2 June 2026' : '');
+  res.render('projects/back-office/manage/GW3/v5/gateway-3-date', {
+    dateField: req.params.dateField,
+    dateTitle: field.title,
+    dateLabel: field.label,
+    dateParts: getGateway3DateInputValues(storedDate),
+    returnUrl: req.query.returnUrl || '/projects/back-office/manage/GW3/v5/gateway-3'
+  });
+});
+
+router.post('/gateway-3-date/:dateField', (req, res) => {
+  const field = GW3_EDIT_DATE_FIELDS[req.params.dateField];
+  if (!field) return res.sendStatus(404);
+
+  const day = String(req.body['date-day'] || '').trim();
+  const month = String(req.body['date-month'] || '').trim();
+  const year = String(req.body['date-year'] || '').trim();
+  const returnUrl = req.body.returnUrl || '/projects/back-office/manage/GW3/v5/gateway-3';
+  const error = getGateway3DateError(day, month, year, field.label, field.blankDateArticle);
+  if (error) {
+    return res.status(400).render('projects/back-office/manage/GW3/v5/gateway-3-date', {
+      dateField: req.params.dateField,
+      dateTitle: field.title,
+      dateLabel: field.label,
+      dateParts: { day, month, year },
+      returnUrl,
+      error
+    });
+  }
+
+  const savedDate = DateTime.fromFormat(`${day}/${month}/${year}`, 'd/M/yyyy', { locale: 'en-GB' }).toFormat('d/M/yyyy');
+  req.session[field.sessionKey] = savedDate;
+  if (req.params.dateField === 'estimated') req.session.examinationEstimatedDate = savedDate;
+  req.session.notificationMessage = `${req.params.dateField === 'estimated' ? 'Gateway 3 estimated date' : 'Gateway 3 actual date'} updated`;
+  req.session.save(() => res.redirect(returnUrl));
+});
+
+router.get('/gateway-3-po-details', (req, res) => {
+  res.render('projects/back-office/manage/GW3/v5/gateway-3-po-details', {
+    contact: req.session.gateway3PoContact || {},
+    returnUrl: req.query.returnUrl || '/projects/back-office/manage/GW3/v5/gateway-3'
+  });
+});
+
+router.post('/gateway-3-po-details', (req, res) => {
+  const contact = {
+    firstName: String(req.body.firstName || '').trim(),
+    lastName: String(req.body.lastName || '').trim(),
+    email: String(req.body.email || '').trim(),
+    phone: String(req.body.phone || '').trim()
+  };
+  const returnUrl = req.body.returnUrl || '/projects/back-office/manage/GW3/v5/gateway-3';
+  const errors = {};
+  if (!contact.firstName) errors.firstName = 'Enter a first name';
+  if (!contact.lastName) errors.lastName = 'Enter a last name';
+  if (!contact.email) {
+    errors.email = 'Enter an email address';
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email)) {
+    errors.email = 'Enter an email address in the correct format';
+  }
+  const errorList = [
+    errors.firstName && { text: errors.firstName, href: '#po-firstName' },
+    errors.lastName && { text: errors.lastName, href: '#po-lastName' },
+    errors.email && { text: errors.email, href: '#po-email' }
+  ].filter(Boolean);
+
+  if (errorList.length) {
+    return res.status(400).render('projects/back-office/manage/GW3/v5/gateway-3-po-details', {
+      contact,
+      returnUrl,
+      errors,
+      errorList
+    });
+  }
+
+  req.session.gateway3PoContact = contact;
+  req.session.notificationMessage = 'Programme officer details updated';
+  req.session.save(() => res.redirect(returnUrl));
+});
+
+router.get('/examination-website', (req, res) => {
+  res.render('projects/back-office/manage/GW3/v5/examination-website', {
+    examinationWebsite: req.session.examinationWebsite && req.session.examinationWebsite !== '-'
+      ? req.session.examinationWebsite
+      : '',
+    returnUrl: req.query.returnUrl || '/projects/back-office/manage/GW3/v5/gateway-3'
+  });
+});
+
+router.post('/examination-website', (req, res) => {
+  const enteredWebsite = String(req.body['examination-website'] || '').trim();
+  const examinationWebsite = normalizeGateway3Website(enteredWebsite);
+  const returnUrl = req.body.returnUrl || '/projects/back-office/manage/GW3/v5/gateway-3';
+  const error = !enteredWebsite
+    ? 'Enter an examination website address'
+    : !examinationWebsite
+      ? 'Enter a valid website address'
+      : '';
+
+  if (error) {
+    return res.status(400).render('projects/back-office/manage/GW3/v5/examination-website', {
+      examinationWebsite: enteredWebsite,
+      returnUrl,
+      error
+    });
+  }
+
+  req.session.examinationWebsite = examinationWebsite;
+  req.session.notificationMessage = 'Examination website updated';
+  req.session.save(() => res.redirect(returnUrl));
+});
+
 const assessorOverview = '/projects/back-office/manage/GW3/v5/gateway-3';
 const assessorNotification = '/projects/back-office/manage/GW3/v5/assessor-notification';
 
@@ -748,7 +921,21 @@ router.post('/gateway-3-decision', (req, res) => {
   const returnUrl = req.body.returnUrl || GW3_V4_OVERVIEW_URL;
   const decisionOutcome = String(req.body['gateway-3-decision-outcome'] || '').trim();
 
-  req.session[getDecisionOutcomeKey(submissionVersion)] = decisionOutcome || 'Not provided';
+  if (!['Ready', 'Not ready'].includes(decisionOutcome)) {
+    return res.status(400).render('projects/back-office/manage/GW3/v5/gateway-3-decision', {
+      caseRef: req.session.currentCaseRef || '',
+      serviceName: 'Local Plans Examinations',
+      submissionVersion,
+      submissionNumber: submissionVersion,
+      submissionLabel: getSubmissionLabel(submissionVersion),
+      hasMultipleSubmissions: submissionVersion === '2',
+      returnUrl,
+      gateway3DecisionOutcome: decisionOutcome,
+      error: 'Select an outcome'
+    });
+  }
+
+  req.session[getDecisionOutcomeKey(submissionVersion)] = decisionOutcome;
 
   req.session.save(() => {
     res.redirect(`/projects/back-office/manage/GW3/v5/gateway-3-decision-upload?submissionVersion=${submissionVersion}&returnUrl=${encodeURIComponent(returnUrl)}`);

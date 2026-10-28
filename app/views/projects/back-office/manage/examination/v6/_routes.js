@@ -1,6 +1,7 @@
 const govukPrototypeKit = require('govuk-prototype-kit');
 const router = govukPrototypeKit.requests.setupRouter();
 const { DateTime } = require('luxon');
+const { getExaminationDateError } = require('./_date-validation');
 const uploadMiqsRouter = require('./_upload-miqs');
 const uploadMainModsRouter = require('./_upload-main-mods');
 const uploadExaminationReportRouter = require('./_upload-examination-report');
@@ -90,6 +91,19 @@ function normalizePlanOutcome(value) {
 		unsound: 'Unsound'
 	};
 	return outcomes[String(value || '').trim().toLowerCase()] || '';
+}
+
+function normalizeExaminationWebsite(value) {
+	const trimmedValue = String(value || '').trim();
+	if (!trimmedValue) return '';
+
+	const urlValue = /^https?:\/\//i.test(trimmedValue) ? trimmedValue : `https://${trimmedValue}`;
+	try {
+		const url = new URL(urlValue);
+		return ['http:', 'https:'].includes(url.protocol) && url.hostname.includes('.') ? url.toString() : null;
+	} catch (error) {
+		return null;
+	}
 }
 
 function formatTimestampForDisplay(timestamp) {
@@ -296,22 +310,40 @@ router.get('/examination.html', (req, res) => {
 });
 
 router.get(['/programme-officer', '/programme-officer.html'], (req, res) => {
-	res.render('projects/back-office/manage/GW3/v1/gateway-3-po-details', {
+	res.render('projects/back-office/manage/examination/v6/programme-officer', {
 		contact: getExaminationProgrammeOfficer(req.session),
-		formAction: `${req.baseUrl}/programme-officer`,
-		removeAction: `${req.baseUrl}/programme-officer/remove`,
 		returnUrl: req.query.returnUrl || `${req.baseUrl}/examination`
 	});
 });
 
 router.post('/programme-officer', (req, res) => {
 	const contact = getExaminationProgrammeOfficer(req.session);
-	req.session.examinationPoContact = {
+	const updatedContact = {
 		firstName: (req.body.firstName || '').trim(),
 		lastName: (req.body.lastName || '').trim(),
 		email: (req.body.email || '').trim(),
 		phone: req.body.phone === undefined ? contact.phone || '' : (req.body.phone || '').trim()
 	};
+	const returnUrl = req.body.returnUrl || `${req.baseUrl}/examination`;
+	const errors = {};
+	if (!updatedContact.firstName) errors.firstName = 'Enter a first name';
+	if (!updatedContact.lastName) errors.lastName = 'Enter a last name';
+	if (!updatedContact.email) errors.email = 'Enter an email address';
+	else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(updatedContact.email)) errors.email = 'Enter an email address in the correct format';
+	const errorList = [
+		errors.firstName && { text: errors.firstName, href: '#programme-officer-first-name' },
+		errors.lastName && { text: errors.lastName, href: '#programme-officer-last-name' },
+		errors.email && { text: errors.email, href: '#programme-officer-email' }
+	].filter(Boolean);
+	if (errorList.length) {
+		return res.status(400).render('projects/back-office/manage/examination/v6/programme-officer', {
+			contact: updatedContact,
+			returnUrl,
+			errors,
+			errorList
+		});
+	}
+	req.session.examinationPoContact = updatedContact;
 	req.session.save(() => res.redirect(req.body.returnUrl || `${req.baseUrl}/examination`));
 });
 
@@ -332,12 +364,22 @@ router.get(['/adoption-date', '/adoption-date.html'], (req, res) => {
 
 router.post(['/adoption-date', '/adoption-date.html'], (req, res) => {
 	const { 'adoption-date-day': day, 'adoption-date-month': month, 'adoption-date-year': year, returnUrl } = req.body;
-	const date = DateTime.fromObject({ day: Number(day), month: Number(month), year: Number(year) });
-	if (date.isValid) {
-		req.session.adoptionDate = date.toFormat('d/M/yyyy');
-		req.session.examinationV3StatusState = 'plan-adopted';
+	const dayValue = String(day || '').trim();
+	const monthValue = String(month || '').trim();
+	const yearValue = String(year || '').trim();
+	const error = getExaminationDateError(dayValue, monthValue, yearValue, 'plan adoption date');
+	const destination = returnUrl || `${req.baseUrl}/examination`;
+	if (error) {
+		return res.status(400).render('projects/back-office/manage/examination/v6/adoption-date', {
+			noticeOfIntentionDate: [dayValue, monthValue, yearValue].some(Boolean) ? `${dayValue}/${monthValue}/${yearValue}` : '',
+			returnUrl: destination,
+			error
+		});
 	}
-	res.redirect(returnUrl || `${req.baseUrl}/examination`);
+	const date = DateTime.fromObject({ day: Number(dayValue), month: Number(monthValue), year: Number(yearValue) });
+	req.session.adoptionDate = date.toFormat('d/M/yyyy');
+	req.session.examinationV3StatusState = 'plan-adopted';
+	res.redirect(destination);
 });
 
 function getQaInspectors(req) {
@@ -351,27 +393,28 @@ function getQaInspectors(req) {
 }
 
 const examinationDateFields = [
-	{ path: 'qa-date', template: 'QA-date', sessionKey: 'qaDate', input: 'qa-date', value: 'qaDate' },
-	{ path: 'qa-sent-to-panel-date', template: 'QA-sent-to-panel-date', sessionKey: 'qaReportSentDate', input: 'inspector-report-sent-to-qa-panel-date', value: 'inspectorReportSentToQAPanelDate' },
-	{ path: 'qa-panel-response-sent-date', template: 'QA-panel-response-sent-date', sessionKey: 'qaPanelResponseDate', input: 'qa-panel-response-sent-date', value: 'qaPanelResponseSentDate' },
-	{ path: 'examination-estimated', sessionKey: 'examinationEstimatedDate', input: 'examination-estimated-date', value: 'examinationEstimatedDate' },
-	{ path: 'examination-actual', sessionKey: 'examinationActualDate', input: 'examination-actual-date', value: 'examinationActualDate' },
-	{ path: 'fact-check-received-from-inspector', sessionKey: 'factCheckReceivedDate', input: 'fact-check-received-back-from-inspector-date', value: 'factCheckReceivedFromInspectorDate' },
-	{ path: 'fact-check-due-date', sessionKey: 'factCheckDueDate', input: 'fact-check-due-date', value: 'factCheckDueDate' },
-	{ path: 'fact-check-actual-date', sessionKey: 'factCheckActualDate', input: 'fact-check-actual-date', value: 'factCheckActualDate' },
-	{ path: 'fact-check-received-back-from-lpa', sessionKey: 'factCheckReceivedFromLpaDate', input: 'fact-check-received-back-from-lpa-date', value: 'factCheckReceivedBackFromLpaDate' },
-	{ path: 'sound-unsound-date', sessionKey: 'soundUnsoundDate', input: 'sound-unsound-date', value: 'noticeOfIntentionDate' },
-	{ path: 'approved-for-CIL-date', sessionKey: 'approvedForCilDate', input: 'approved-for-cil-date', value: 'noticeOfIntentionDate' },
-	{ path: 'final-report-issue-date', sessionKey: 'finalReportIssueDate', input: 'final-report-issue-date', value: 'finalReportIssueDate' }
+	{ path: 'qa-date', template: 'QA-date', sessionKey: 'qaDate', input: 'qa-date', value: 'qaDate', label: 'QA date' },
+	{ path: 'qa-sent-to-panel-date', template: 'QA-sent-to-panel-date', sessionKey: 'qaReportSentDate', input: 'inspector-report-sent-to-qa-panel-date', value: 'inspectorReportSentToQAPanelDate', label: 'date the report was sent to the QA panel' },
+	{ path: 'qa-panel-response-sent-date', template: 'QA-panel-response-sent-date', sessionKey: 'qaPanelResponseDate', input: 'qa-panel-response-sent-date', value: 'qaPanelResponseSentDate', label: 'QA panel response date' },
+	{ path: 'examination-estimated', sessionKey: 'examinationEstimatedDate', input: 'examination-estimated-date', value: 'examinationEstimatedDate', label: 'estimated examination date' },
+	{ path: 'examination-actual', sessionKey: 'examinationActualDate', input: 'examination-actual-date', value: 'examinationActualDate', label: 'date the examination was received' },
+	{ path: 'fact-check-received-from-inspector', sessionKey: 'factCheckReceivedDate', input: 'fact-check-received-back-from-inspector-date', value: 'factCheckReceivedFromInspectorDate', label: 'date the fact check was received from the inspector', errorId: 'fact-check-received-from-inspector-date-day' },
+	{ path: 'fact-check-due-date', sessionKey: 'factCheckDueDate', input: 'fact-check-due-date', value: 'factCheckDueDate', label: 'fact check due date' },
+	{ path: 'fact-check-actual-date', sessionKey: 'factCheckActualDate', input: 'fact-check-actual-date', value: 'factCheckActualDate', label: 'fact check completion date' },
+	{ path: 'fact-check-received-back-from-lpa', sessionKey: 'factCheckReceivedFromLpaDate', input: 'fact-check-received-back-from-lpa-date', value: 'factCheckReceivedBackFromLpaDate', label: 'date the fact check was received from the LPA' },
+	{ path: 'sound-unsound-date', sessionKey: 'soundUnsoundDate', input: 'sound-unsound-date', value: 'noticeOfIntentionDate', label: 'soundness decision date' },
+	{ path: 'approved-for-CIL-date', sessionKey: 'approvedForCilDate', input: 'approved-for-cil-date', value: 'noticeOfIntentionDate', label: 'CIL approval date' },
+	{ path: 'final-report-issue-date', sessionKey: 'finalReportIssueDate', input: 'final-report-issue-date', value: 'finalReportIssueDate', label: 'final report issue date' }
 ];
 
-examinationDateFields.forEach(({ path, template = path, sessionKey, input, value }) => {
+examinationDateFields.forEach(({ path, template = path, sessionKey, input, value, label, errorId }) => {
 	router.get([`/${path}`, `/${path}.html`, `/${template}`, `/${template}.html`], (req, res) => {
 		const savedDate = req.session[sessionKey] || '';
 		const numericDate = DateTime.fromFormat(savedDate, 'd/M/yyyy');
 		const longDate = DateTime.fromFormat(savedDate, 'd MMMM yyyy');
 		const date = numericDate.isValid ? numericDate : longDate;
 		res.render(`projects/back-office/manage/examination/v6/${template}`, {
+			caseRef: req.session.data?.currentCaseRef || req.session.currentCaseRef || '',
 			[value]: date.isValid ? date.toFormat('d/M/yyyy') : '',
 			returnUrl: req.query.returnUrl || `${req.baseUrl}/examination`
 		});
@@ -383,6 +426,20 @@ examinationDateFields.forEach(({ path, template = path, sessionKey, input, value
 			month: Number(req.body[`${input}-month`]),
 			year: Number(req.body[`${input}-year`])
 		});
+		const day = String(req.body[`${input}-day`] || '').trim();
+		const month = String(req.body[`${input}-month`] || '').trim();
+		const year = String(req.body[`${input}-year`] || '').trim();
+		const error = getExaminationDateError(day, month, year, label);
+		const returnUrl = req.body.returnUrl || `${req.baseUrl}/examination`;
+		if (error) {
+			return res.status(400).render(`projects/back-office/manage/examination/v6/${template}`, {
+				caseRef: req.session.data?.currentCaseRef || req.session.currentCaseRef || '',
+				[value]: [day, month, year].some(Boolean) ? `${day}/${month}/${year}` : '',
+				returnUrl,
+				error,
+				dateErrorId: errorId || `${input}-day`
+			});
+		}
 		if (date.isValid) {
 			req.session[sessionKey] = date.toFormat('d/M/yyyy');
 			if (sessionKey === 'examinationActualDate') {
@@ -393,7 +450,7 @@ examinationDateFields.forEach(({ path, template = path, sessionKey, input, value
 				if (req.session.data) req.session.data.examinationV3StatusState = 'qa';
 			}
 		}
-		req.session.save(() => res.redirect(req.body.returnUrl || `${req.baseUrl}/examination`));
+		req.session.save(() => res.redirect(returnUrl));
 	});
 });
 
@@ -405,7 +462,22 @@ router.get(['/examination-website', '/examination-website.html'], (req, res) => 
 });
 
 router.post('/examination-website', (req, res) => {
-	req.session.examinationWebsite = (req.body['examination-website'] || '').trim();
+	const enteredWebsite = String(req.body['examination-website'] || '').trim();
+	const examinationWebsite = normalizeExaminationWebsite(enteredWebsite);
+	const returnUrl = req.body.returnUrl || `${req.baseUrl}/examination`;
+	const error = !enteredWebsite
+		? 'Enter an examination website address'
+		: !examinationWebsite
+			? 'Enter a valid website address'
+			: '';
+	if (error) {
+		return res.status(400).render('projects/back-office/manage/examination/v6/examination-website', {
+			examinationWebsite: enteredWebsite,
+			returnUrl,
+			error
+		});
+	}
+	req.session.examinationWebsite = examinationWebsite;
 	req.session.save(() => res.redirect(req.body.returnUrl || `${req.baseUrl}/examination`));
 });
 
@@ -474,7 +546,15 @@ router.post('/qa-inspector', (req, res) => {
 	const name = (req.body.name || '').trim();
 	const inspectors = getQaInspectors(req);
 	const editIndex = req.body.editIndex;
-	if (!name) return res.redirect(`${req.baseUrl}/qa-inspector?edit=${editIndex || ''}`);
+	const returnUrl = req.body.returnUrl || `${req.baseUrl}/examination`;
+	if (!name) {
+		return res.status(400).render('projects/back-office/manage/examination/v6/qa-inspector', {
+			inspector: { name },
+			editIndex: editIndex || '',
+			returnUrl,
+			error: 'Enter a QA inspector name'
+		});
+	}
 	if (editIndex !== undefined && editIndex !== '') inspectors[Number(editIndex)] = { ...inspectors[Number(editIndex)], name };
 	else inspectors.push({ name, dateAppointed: DateTime.now().toFormat('d MMMM yyyy') });
 	req.session.qaInspectors = inspectors;
@@ -503,6 +583,7 @@ router.get('/qa-inspector/:index/appointed-date', (req, res) => {
 	const inspector = getQaInspectors(req)[Number(req.params.index)] || {};
 	const date = DateTime.fromFormat(inspector.dateAppointed || '', 'd MMMM yyyy');
 	res.render('projects/back-office/manage/examination/v6/qa-inspector-appointed-date', {
+		caseRef: req.session.data?.currentCaseRef || req.session.currentCaseRef || '',
 		index: req.params.index,
 		dateParts: date.isValid ? date.toFormat('d M yyyy').split(' ') : ['', '', ''],
 		returnUrl: req.query.returnUrl || `${req.baseUrl}/qa-inspectors/check-answers`
@@ -511,14 +592,49 @@ router.get('/qa-inspector/:index/appointed-date', (req, res) => {
 
 router.post('/qa-inspector/:index/appointed-date', (req, res) => {
 	const inspector = getQaInspectors(req)[Number(req.params.index)];
-	const date = DateTime.fromObject({ day: Number(req.body.day), month: Number(req.body.month), year: Number(req.body.year) });
-	if (inspector && date.isValid) inspector.dateAppointed = date.toFormat('d MMMM yyyy');
-	res.redirect(req.body.returnUrl || `${req.baseUrl}/qa-inspectors/check-answers`);
+	const day = String(req.body.day || '').trim();
+	const month = String(req.body.month || '').trim();
+	const year = String(req.body.year || '').trim();
+	const error = getExaminationDateError(day, month, year, 'QA inspector appointment date');
+	const returnUrl = req.body.returnUrl || `${req.baseUrl}/qa-inspectors/check-answers`;
+	if (error) {
+		return res.status(400).render('projects/back-office/manage/examination/v6/qa-inspector-appointed-date', {
+			caseRef: req.session.data?.currentCaseRef || req.session.currentCaseRef || '',
+			index: req.params.index,
+			dateParts: [day, month, year],
+			returnUrl,
+			error
+		});
+	}
+	const date = DateTime.fromObject({ day: Number(day), month: Number(month), year: Number(year) });
+	if (inspector) inspector.dateAppointed = date.toFormat('d MMMM yyyy');
+	res.redirect(returnUrl);
 });
 
 router.get('/qa-inspector/:index/remove', (req, res) => {
-	if (Array.isArray(req.session.qaInspectors)) req.session.qaInspectors.splice(Number(req.params.index), 1);
-	res.redirect(req.query.returnUrl || `${req.baseUrl}/examination`);
+	const index = Number(req.params.index);
+	const inspector = getQaInspectors(req)[index];
+	const returnUrl = req.query.returnUrl || `${req.baseUrl}/examination`;
+	if (!inspector) return res.redirect(returnUrl);
+
+	res.render('projects/back-office/manage/examination/v6/inspector-remove-confirm', {
+		caseRef: req.session.data?.currentCaseRef || req.session.currentCaseRef || '',
+		inspectorName: inspector.name,
+		inspectorType: 'QA inspector',
+		formAction: `${req.baseUrl}/qa-inspector/${index}/remove`,
+		returnUrl
+	});
+});
+
+router.post('/qa-inspector/:index/remove', (req, res) => {
+	const inspectors = getQaInspectors(req);
+	const index = Number(req.params.index);
+	const returnUrl = req.body.returnUrl || `${req.baseUrl}/examination`;
+	if (!Number.isInteger(index) || index < 0 || index >= inspectors.length) return res.redirect(returnUrl);
+
+	inspectors.splice(index, 1);
+	req.session.qaInspectors = inspectors;
+	req.session.save(() => res.redirect(returnUrl));
 });
 
 function getExaminingInspectors(req) {
@@ -561,7 +677,15 @@ router.post('/inspector', (req, res) => {
 	const name = (req.body.name || '').trim();
 	const inspectors = getExaminingInspectors(req);
 	const editIndex = req.body.editIndex;
-	if (!name) return res.redirect(`${req.baseUrl}/inspector?edit=${editIndex || ''}`);
+	const returnUrl = req.body.returnUrl || `${req.baseUrl}/examination`;
+	if (!name) {
+		return res.status(400).render('projects/back-office/manage/examination/v6/inspector', {
+			inspector: { name },
+			editIndex: editIndex || '',
+			returnUrl,
+			error: 'Enter an inspector name'
+		});
+	}
 	if (editIndex !== '') inspectors[Number(editIndex)] = { ...inspectors[Number(editIndex)], name };
 	else inspectors.push({ name, dateAppointed: DateTime.now().toFormat('d MMMM yyyy') });
 	req.session.examinationInspectors = inspectors;
@@ -577,6 +701,7 @@ router.get('/inspector/:index/appointed-date', (req, res) => {
 	const inspector = getExaminingInspectors(req)[Number(req.params.index)] || {};
 	const date = DateTime.fromFormat(inspector.dateAppointed || '', 'd MMMM yyyy');
 	res.render('projects/back-office/manage/examination/v6/inspector-appointed-date', {
+		caseRef: req.session.data?.currentCaseRef || req.session.currentCaseRef || '',
 		index: req.params.index,
 		dateParts: date.isValid ? date.toFormat('d M yyyy').split(' ') : ['', '', ''],
 		returnUrl: req.query.returnUrl || `${req.baseUrl}/inspectors/check-answers`
@@ -585,9 +710,23 @@ router.get('/inspector/:index/appointed-date', (req, res) => {
 
 router.post('/inspector/:index/appointed-date', (req, res) => {
 	const inspector = getExaminingInspectors(req)[Number(req.params.index)];
-	const date = DateTime.fromObject({ day: Number(req.body.day), month: Number(req.body.month), year: Number(req.body.year) });
-	if (inspector && date.isValid) inspector.dateAppointed = date.toFormat('d MMMM yyyy');
-	req.session.save(() => res.redirect(req.body.returnUrl || `${req.baseUrl}/inspectors/check-answers`));
+	const day = String(req.body.day || '').trim();
+	const month = String(req.body.month || '').trim();
+	const year = String(req.body.year || '').trim();
+	const error = getExaminationDateError(day, month, year, 'inspector appointment date');
+	const returnUrl = req.body.returnUrl || `${req.baseUrl}/inspectors/check-answers`;
+	if (error) {
+		return res.status(400).render('projects/back-office/manage/examination/v6/inspector-appointed-date', {
+			caseRef: req.session.data?.currentCaseRef || req.session.currentCaseRef || '',
+			index: req.params.index,
+			dateParts: [day, month, year],
+			returnUrl,
+			error
+		});
+	}
+	const date = DateTime.fromObject({ day: Number(day), month: Number(month), year: Number(year) });
+	if (inspector) inspector.dateAppointed = date.toFormat('d MMMM yyyy');
+	req.session.save(() => res.redirect(returnUrl));
 });
 
 router.post('/inspector/remove', (req, res) => {
@@ -600,8 +739,28 @@ router.post('/inspector/remove', (req, res) => {
 router.get('/inspector/:index/remove', (req, res) => {
 	const inspectors = getExaminingInspectors(req);
 	const index = Number(req.params.index);
-	if (Number.isInteger(index) && index >= 0 && index < inspectors.length) inspectors.splice(index, 1);
-	req.session.save(() => res.redirect(req.query.returnUrl || `${req.baseUrl}/examination`));
+	const returnUrl = req.query.returnUrl || `${req.baseUrl}/examination`;
+	const inspector = inspectors[index];
+	if (!Number.isInteger(index) || index < 0 || !inspector) return res.redirect(returnUrl);
+
+	res.render('projects/back-office/manage/examination/v6/inspector-remove-confirm', {
+		caseRef: req.session.data?.currentCaseRef || req.session.currentCaseRef || '',
+		inspectorName: inspector.name,
+		inspectorType: 'examining inspector',
+		formAction: `${req.baseUrl}/inspector/${index}/remove`,
+		returnUrl
+	});
+});
+
+router.post('/inspector/:index/remove', (req, res) => {
+	const inspectors = getExaminingInspectors(req);
+	const index = Number(req.params.index);
+	const returnUrl = req.body.returnUrl || `${req.baseUrl}/examination`;
+	if (!Number.isInteger(index) || index < 0 || index >= inspectors.length) return res.redirect(returnUrl);
+
+	inspectors.splice(index, 1);
+	req.session.examinationInspectors = inspectors;
+	req.session.save(() => res.redirect(returnUrl));
 });
 
 router.get(['/sound-unsound', '/sound-unsound.html'], (req, res) => {
@@ -614,11 +773,18 @@ router.get(['/sound-unsound', '/sound-unsound.html'], (req, res) => {
 
 router.post('/sound-unsound', (req, res) => {
 	const planOutcome = normalizePlanOutcome(req.body['plan-soundness']);
-	if (planOutcome) {
-		req.session.planSoundness = planOutcome;
-		req.session.soundUnsoundDate = req.session.soundUnsoundDate || DateTime.now().toFormat('d/M/yyyy');
+	const returnUrl = req.body.returnUrl || `${req.baseUrl}/examination`;
+	if (!planOutcome) {
+		return res.status(400).render('projects/back-office/manage/examination/v6/sound-unsound', {
+			caseRef: req.session.data?.currentCaseRef || req.session.currentCaseRef || '',
+			planType: '',
+			returnUrl,
+			error: 'Select a plan outcome'
+		});
 	}
-	req.session.save(() => res.redirect(req.body.returnUrl || `${req.baseUrl}/examination`));
+	req.session.planSoundness = planOutcome;
+	req.session.soundUnsoundDate = req.session.soundUnsoundDate || DateTime.now().toFormat('d/M/yyyy');
+	req.session.save(() => res.redirect(returnUrl));
 });
 
 router.get('/final-report/sound-unsound', (req, res) => {
@@ -634,15 +800,22 @@ router.post('/final-report/sound-unsound', (req, res) => {
 	const planOutcome = normalizePlanOutcome(req.body['plan-soundness']);
 	const returnUrl = req.body.returnUrl || `${req.baseUrl}/examination`;
 
-	if (planOutcome) {
-		req.session.planSoundness = planOutcome;
-		req.session.soundUnsoundDate = req.session.soundUnsoundDate || new Date().toLocaleDateString('en-GB', {
-			day: 'numeric',
-			month: 'long',
-			year: 'numeric'
+	if (!planOutcome) {
+		return res.status(400).render('projects/back-office/manage/examination/v6/sound-unsound', {
+			caseRef: req.session.data?.currentCaseRef || req.session.currentCaseRef || '',
+			planType: '',
+			finalReport: true,
+			returnUrl,
+			error: 'Select a plan outcome'
 		});
-		req.session.examinationV3StatusState = 'report-issued';
 	}
+	req.session.planSoundness = planOutcome;
+	req.session.soundUnsoundDate = req.session.soundUnsoundDate || new Date().toLocaleDateString('en-GB', {
+		day: 'numeric',
+		month: 'long',
+		year: 'numeric'
+	});
+	req.session.examinationV3StatusState = 'report-issued';
 
 	req.session.save(() => {
 		res.redirect(`${req.baseUrl}/upload/final-report/upload-bo?returnUrl=${encodeURIComponent(returnUrl)}`);

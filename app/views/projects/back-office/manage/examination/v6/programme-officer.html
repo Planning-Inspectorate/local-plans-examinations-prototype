@@ -1,0 +1,48 @@
+{% extends "layouts/back-office.html" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
+{% block pageTitle %}
+  Programme officer details – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back", href: returnUrl or "/projects/back-office/manage/examination/v6/examination" }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if errorList and errorList.length %}
+        {{ govukErrorSummary({ titleText: "There is a problem", errorList: errorList }) }}
+      {% endif %}
+      {% include "includes/back-office/examination-reference-caption.njk" %}
+      <h1 class="govuk-heading-l">Programme officer details</h1>
+      <form method="post" action="{{ basePath }}/programme-officer">
+        <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
+        <div class="govuk-form-group{% if errors.firstName %} govuk-form-group--error{% endif %}">
+          <label class="govuk-label" for="programme-officer-first-name">First name</label>
+          {% if errors.firstName %}<p class="govuk-error-message" id="programme-officer-first-name-error"><span class="govuk-visually-hidden">Error:</span> {{ errors.firstName }}</p>{% endif %}
+          <input class="govuk-input govuk-input--width-20{% if errors.firstName %} govuk-input--error{% endif %}" id="programme-officer-first-name" name="firstName" type="text" autocomplete="given-name" value="{{ contact.firstName or '' }}"{% if errors.firstName %} aria-describedby="programme-officer-first-name-error"{% endif %}>
+        </div>
+        <div class="govuk-form-group{% if errors.lastName %} govuk-form-group--error{% endif %}">
+          <label class="govuk-label" for="programme-officer-last-name">Last name</label>
+          {% if errors.lastName %}<p class="govuk-error-message" id="programme-officer-last-name-error"><span class="govuk-visually-hidden">Error:</span> {{ errors.lastName }}</p>{% endif %}
+          <input class="govuk-input govuk-input--width-20{% if errors.lastName %} govuk-input--error{% endif %}" id="programme-officer-last-name" name="lastName" type="text" autocomplete="family-name" value="{{ contact.lastName or '' }}"{% if errors.lastName %} aria-describedby="programme-officer-last-name-error"{% endif %}>
+        </div>
+        <div class="govuk-form-group{% if errors.email %} govuk-form-group--error{% endif %}">
+          <label class="govuk-label" for="programme-officer-email">Email address</label>
+          {% if errors.email %}<p class="govuk-error-message" id="programme-officer-email-error"><span class="govuk-visually-hidden">Error:</span> {{ errors.email }}</p>{% endif %}
+          <input class="govuk-input govuk-input--width-30{% if errors.email %} govuk-input--error{% endif %}" id="programme-officer-email" name="email" type="text" inputmode="email" autocomplete="email" value="{{ contact.email or '' }}"{% if errors.email %} aria-describedby="programme-officer-email-error"{% endif %}>
+        </div>
+        <div class="govuk-form-group">
+          <label class="govuk-label" for="programme-officer-phone">Phone number (optional)</label>
+          <input class="govuk-input govuk-input--width-20" id="programme-officer-phone" name="phone" type="tel" autocomplete="tel" value="{{ contact.phone or '' }}">
+        </div>
+        <div class="govuk-button-group">
+          <button type="submit" class="govuk-button">Save and continue</button>
+          <a class="govuk-link" href="{{ returnUrl or '/projects/back-office/manage/examination/v6/examination' }}">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

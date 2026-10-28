@@ -1,4 +1,5 @@
 {% extends "layouts/back-office.html" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% block pageTitle %}
 End date – {{ serviceName }}
@@ -14,40 +15,38 @@ End date – {{ serviceName }}
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    {% if errorList and errorList.length %}
+      {{ govukErrorSummary({ titleText: "There is a problem", errorList: errorList }) }}
+    {% endif %}
     {% include "includes/back-office/examination-reference-caption.njk" %}
     <h1 class="govuk-heading-l">What is the hearing end date?</h1>
     <form method="post">
-      <fieldset class="govuk-fieldset">
-        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-          End date
-        </legend>
-        <div id="hearing-end-date-hint" class="govuk-hint">
-          For example, 27 3 2024
-        </div>
+      <fieldset class="govuk-fieldset{% if errors.endDate %} govuk-form-group--error{% endif %}" aria-describedby="{% if errors.endDate %}hearing-end-date-error{% else %}hearing-end-date-hint{% endif %}">
+        {% if errors.endDate %}<p class="govuk-error-message" id="hearing-end-date-error"><span class="govuk-visually-hidden">Error:</span> {{ errors.endDate }}</p>{% endif %}
         <div class="govuk-date-input" id="hearing-end-date">
           <div class="govuk-date-input__item">
             <div class="govuk-form-group">
               <label class="govuk-label govuk-date-input__label" for="hearing-end-date-day">Day</label>
-              <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="hearing-end-date-day" name="hearing-end-date-day" type="text" inputmode="numeric" value="{{ addHearing.endDate.day or '' }}">
+              <input class="govuk-input govuk-date-input__input govuk-input--width-2{% if errors.endDate %} govuk-input--error{% endif %}" id="hearing-end-date-day" name="hearing-end-date-day" type="text" inputmode="numeric" value="{{ addHearing.endDate.day or '' }}"{% if errors.endDate %} aria-describedby="hearing-end-date-error"{% endif %}>
             </div>
           </div>
           <div class="govuk-date-input__item">
             <div class="govuk-form-group">
               <label class="govuk-label govuk-date-input__label" for="hearing-end-date-month">Month</label>
-              <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="hearing-end-date-month" name="hearing-end-date-month" type="text" inputmode="numeric" value="{{ addHearing.endDate.month or '' }}">
+              <input class="govuk-input govuk-date-input__input govuk-input--width-2{% if errors.endDate %} govuk-input--error{% endif %}" id="hearing-end-date-month" name="hearing-end-date-month" type="text" inputmode="numeric" value="{{ addHearing.endDate.month or '' }}"{% if errors.endDate %} aria-describedby="hearing-end-date-error"{% endif %}>
             </div>
           </div>
           <div class="govuk-date-input__item">
             <div class="govuk-form-group">
               <label class="govuk-label govuk-date-input__label" for="hearing-end-date-year">Year</label>
-              <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="hearing-end-date-year" name="hearing-end-date-year" type="text" inputmode="numeric" value="{{ addHearing.endDate.year or '' }}">
+              <input class="govuk-input govuk-date-input__input govuk-input--width-4{% if errors.endDate %} govuk-input--error{% endif %}" id="hearing-end-date-year" name="hearing-end-date-year" type="text" inputmode="numeric" value="{{ addHearing.endDate.year or '' }}"{% if errors.endDate %} aria-describedby="hearing-end-date-error"{% endif %}>
             </div>
           </div>
         </div>
       </fieldset>
 
       <div class="govuk-button-group">
-        <button type="submit" class="govuk-button">Continue</button>
+        <button type="submit" class="govuk-button">Save and continue</button>
         {% if isEditing %}
           <a href="cancel" class="govuk-link">Cancel</a>
         {% endif %}
