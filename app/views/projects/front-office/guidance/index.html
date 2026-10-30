@@ -2,7 +2,7 @@
 
 {% set title = "Guidance" %}
 {% set activeNav = 'front-office' %}
-{% set version = "1" %}
+{% set version = "2" %}
 
 {% block header %}
   {% include "includes/PINS-header--internal.html" %}
@@ -26,21 +26,48 @@
     <h1 class="govuk-heading-l">{{ title }}</h1>
 
     <h2 class="govuk-heading-m">
-      Version {{ version }} - July 2026
+      Version {{ version }} - October 2026
       {{ govukTag({
-        classes: 'govuk-tag--yellow govuk-!-margin-left-2',
-        text: 'Ready for research'
+        classes: 'govuk-tag--blue govuk-!-margin-left-2',
+        text: 'Awaiting content'
       }) }}
     </h2>
 
     <p class="govuk-body">
-      New tab added to front-office header after user research feedback. This prototype explores the design of a guidance page for LPAs, with links to relevant guidance and resources.
+      Removed in-service guidance content, as research found users rely on MHCLG guidance instead. This also means guidance can be updated without changing the service. Reuses the Crown, NSIP Applications and s62a pattern, without the green hero. Kept 'Guidance' as the tab name. Content is placeholder for now.
     </p>
 
     {{ govukButton({
       text: "View prototype",
       href: "/projects/front-office/guidance/v" ~ version ~ "/guidance-page",
       isStartButton: true
+    }) }}
+
+    {% set v1HTML %}
+    <p class="govuk-body">
+      New tab added to front-office header after user research feedback. This prototype explores the design of a guidance page for LPAs, with links to relevant guidance and resources.
+    </p>
+
+    {{ govukButton({
+      text: "View prototype",
+      href: "/projects/front-office/guidance/v1/guidance-page",
+      isStartButton: true
+    }) }}
+    {% endset %}
+
+    {{ govukAccordion({
+      id: 'previous',
+      classes: 'govuk-!-margin-top-9',
+      items: [
+        {
+          heading: {
+            html: 'Version 1 - July 2026<strong class="govuk-tag govuk-tag--green govuk-!-margin-left-2">Research complete</strong>'
+          },
+          content: {
+            html: v1HTML
+          }
+        }
+      ]
     }) }}
 
   </div>

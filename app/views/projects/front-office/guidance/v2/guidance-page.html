@@ -1,0 +1,127 @@
+{% extends "layouts/front-office-v2.html" %}
+
+{% set title = "Guidance" %}
+{% set activeNav = "guidance" %}
+
+
+   {% block beforeContent %}
+  <style>
+    /* Mobile-first grid */
+    .cd-cards-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    /* Desktop grid: 2 columns */
+    @media (min-width: 40.0625em) {
+      .cd-cards-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .cd-card-divider {
+      border: 0;
+      border-top: 1px solid #b1b4b6;
+      margin: 0 0 16px 0;
+    }
+
+    .cd-card-heading {
+      position: relative;
+      display: flex;
+      align-items: center;
+      margin-bottom: 4px;
+      padding-right:5px;
+    }
+
+    .pins-chevron-card__link::after {
+      content: "";
+      position: absolute;
+      border-style: solid;
+      border-width: .2rem .2rem 0 0;
+      height: .45rem;
+      width: .45rem;
+      top: 50%;
+      right: 0; 
+      transform: translateY(-50%) rotate(45deg);
+      color: #1d70b8;
+    }
+  </style>
+
+{% endblock %}
+
+{% block content %}
+
+<h1 class="govuk-heading-xl">Get help with development plans</h1>
+
+<p class="govuk-body">Find guidance and support from other organisations.</p>
+
+<div class="cd-cards-grid" style="padding-top: 40px">
+  
+  <div>
+    <hr class="cd-card-divider">
+    <div class="pins-chevron-card">
+      <div class="pins-chevron-card__wrapper">
+        <h3 class="pins-chevron-card__heading govuk-heading-s cd-card-heading">
+          <a class="govuk-link pins-chevron-card__link" href="https://www.gov.uk/guidance/procedural-guide-for-examinations-and-gateways-under-the-town-and-country-planning-local-planning-england-regulations-2026">Procedural guidance</a>
+        </h3>
+        <p class="govuk-body pins-chevron-card__description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <hr class="cd-card-divider">
+    <div class="pins-chevron-card">
+      <div class="pins-chevron-card__wrapper">
+        <h3 class="pins-chevron-card__heading govuk-heading-s cd-card-heading">
+          <a class="govuk-link pins-chevron-card__link" href="https://www.gov.uk/government/collections/create-or-update-a-local-plan-using-the-new-system">Create or update a local plan using the new system</a>
+        </h3>
+        <p class="govuk-body pins-chevron-card__description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <hr class="cd-card-divider">
+    <div class="pins-chevron-card">
+      <div class="pins-chevron-card__wrapper">
+        <h3 class="pins-chevron-card__heading govuk-heading-s cd-card-heading">
+          <a class="govuk-link pins-chevron-card__link" href="https://www.gov.uk/guidance/gateway-2-assessment-for-local-plans-what-you-need-to-do">Gateway 2 assessment for local plans: what you need to do</a>
+        </h3>
+        <p class="govuk-body pins-chevron-card__description">Gateway 2 assessment for local plans: what you need to do</p>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <hr class="cd-card-divider">
+    <div class="pins-chevron-card">
+      <div class="pins-chevron-card__wrapper">
+        <h3 class="pins-chevron-card__heading govuk-heading-s cd-card-heading">
+          <a class="govuk-link pins-chevron-card__link" href="https://www.gov.uk/guidance/gateway-3-for-local-plans-what-you-need-to-do">Gateway 3 for local plans: what you need to do</a>
+        </h3>
+        <p class="govuk-body pins-chevron-card__description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      </div>
+    </div>
+  </div>
+
+    <div>
+    <hr class="cd-card-divider">
+    <div class="pins-chevron-card">
+      <div class="pins-chevron-card__wrapper">
+        <h3 class="pins-chevron-card__heading govuk-heading-s cd-card-heading">
+          <a class="govuk-link pins-chevron-card__link" href="https://www.legislation.gov.uk/uksi/2026/186/contents/made">The Town and Country Planning (Local Planning) (England) Regulations 2026</a>
+        </h3>
+        <p class="govuk-body pins-chevron-card__description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  {% endblock %}
