@@ -1,0 +1,52 @@
+{% extends "layouts/back-office.html" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
+{% block pageTitle %}
+  {{ dateTitle }} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({ text: "Back", href: returnUrl or "/projects/back-office/manage/GW3/v5/gateway-3" }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if error %}
+        {{ govukErrorSummary({ titleText: "There is a problem", errorList: [{ text: error, href: "#date-day" }] }) }}
+      {% endif %}
+      {% include "includes/back-office/plan-reference-caption.njk" %}
+      <form method="post" action="/projects/back-office/manage/GW3/v5/gateway-3-date/{{ dateField }}">
+        <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
+        <fieldset class="govuk-fieldset{% if error %} govuk-form-group--error{% endif %}" role="group" aria-describedby="{% if error %}date-error{% else %}date-hint{% endif %}">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">{{ dateTitle }}</legend>
+          {% if error %}<p class="govuk-error-message" id="date-error"><span class="govuk-visually-hidden">Error:</span> {{ error }}</p>{% endif %}
+          <div class="govuk-date-input">
+            <div class="govuk-date-input__item">
+              <div class="govuk-form-group">
+                <label class="govuk-label govuk-date-input__label" for="date-day">Day</label>
+                <input class="govuk-input govuk-date-input__input govuk-input--width-2{% if error %} govuk-input--error{% endif %}" id="date-day" name="date-day" type="text" inputmode="numeric" value="{{ dateParts.day }}"{% if error %} aria-describedby="date-error"{% endif %}>
+              </div>
+            </div>
+            <div class="govuk-date-input__item">
+              <div class="govuk-form-group">
+                <label class="govuk-label govuk-date-input__label" for="date-month">Month</label>
+                <input class="govuk-input govuk-date-input__input govuk-input--width-2{% if error %} govuk-input--error{% endif %}" id="date-month" name="date-month" type="text" inputmode="numeric" value="{{ dateParts.month }}"{% if error %} aria-describedby="date-error"{% endif %}>
+              </div>
+            </div>
+            <div class="govuk-date-input__item">
+              <div class="govuk-form-group">
+                <label class="govuk-label govuk-date-input__label" for="date-year">Year</label>
+                <input class="govuk-input govuk-date-input__input govuk-input--width-4{% if error %} govuk-input--error{% endif %}" id="date-year" name="date-year" type="text" inputmode="numeric" value="{{ dateParts.year }}"{% if error %} aria-describedby="date-error"{% endif %}>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <div class="govuk-button-group">
+          <button type="submit" class="govuk-button">Save and continue</button>
+          <a class="govuk-link" href="{{ returnUrl or '/projects/back-office/manage/GW3/v5/gateway-3' }}">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

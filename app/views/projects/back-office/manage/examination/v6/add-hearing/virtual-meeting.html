@@ -1,4 +1,5 @@
 {% extends "layouts/back-office.html" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% block pageTitle %}
 What is the virtual meeting link? – {{ serviceName }}
@@ -14,11 +15,16 @@ What is the virtual meeting link? – {{ serviceName }}
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    {% if errorList and errorList.length %}
+      {{ govukErrorSummary({ titleText: "There is a problem", errorList: errorList }) }}
+    {% endif %}
     {% include "includes/back-office/examination-reference-caption.njk" %}
     <h1 class="govuk-heading-l">What is the remote meeting link?</h1>
       <form method="post">
-      <div class="govuk-form-group">
-            <input class="govuk-input" id="virtual-meeting-link" name="virtualMeetingLink" type="text" value="{{ addHearing.virtualMeetingLink or '' }}">
+      <div class="govuk-form-group{% if errors.virtualMeetingLink %} govuk-form-group--error{% endif %}">
+
+        {% if errors.virtualMeetingLink %}<p class="govuk-error-message" id="virtual-meeting-link-error"><span class="govuk-visually-hidden">Error:</span> {{ errors.virtualMeetingLink }}</p>{% endif %}
+        <input class="govuk-input{% if errors.virtualMeetingLink %} govuk-input--error{% endif %}" id="virtual-meeting-link" name="virtualMeetingLink" type="text" inputmode="url" value="{{ addHearing.virtualMeetingLink or '' }}"{% if errors.virtualMeetingLink %} aria-describedby="virtual-meeting-link-error"{% endif %}>
       </div>
 
       <div class="govuk-button-group">

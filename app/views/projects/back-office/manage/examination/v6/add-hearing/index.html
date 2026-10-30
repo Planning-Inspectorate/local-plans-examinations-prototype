@@ -1,4 +1,5 @@
 {% extends "layouts/back-office.html" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% block pageTitle %}
 Add hearing – {{ serviceName }}
@@ -14,56 +15,61 @@ Add hearing – {{ serviceName }}
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    {% if errorList and errorList.length %}
+      {{ govukErrorSummary({ titleText: "There is a problem", errorList: errorList }) }}
+    {% endif %}
     {% include "includes/back-office/examination-reference-caption.njk" %}
     <h1 class="govuk-heading-l">Hearing date and time</h1>
     <form method="post">
-      <fieldset class="govuk-fieldset">
+      <fieldset class="govuk-fieldset{% if errors.date %} govuk-form-group--error{% endif %}" aria-describedby="{% if errors.date %}hearing-date-error{% else %}hearing-date-hint{% endif %}">
         <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
           Date
         </legend>
         <div id="hearing-date-hint" class="govuk-hint">
           For example, 27 3 2024
         </div>
+        {% if errors.date %}<p class="govuk-error-message" id="hearing-date-error"><span class="govuk-visually-hidden">Error:</span> {{ errors.date }}</p>{% endif %}
         <div class="govuk-date-input" id="hearing-date">
           <div class="govuk-date-input__item">
             <div class="govuk-form-group">
               <label class="govuk-label govuk-date-input__label" for="hearing-date-day">Day</label>
-              <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="hearing-date-day" name="hearing-date-day" type="text" inputmode="numeric" value="{{ addHearing.date.day or '' }}">
+              <input class="govuk-input govuk-date-input__input govuk-input--width-2{% if errors.date %} govuk-input--error{% endif %}" id="hearing-date-day" name="hearing-date-day" type="text" inputmode="numeric" value="{{ addHearing.date.day or '' }}"{% if errors.date %} aria-describedby="hearing-date-error"{% endif %}>
             </div>
           </div>
           <div class="govuk-date-input__item">
             <div class="govuk-form-group">
               <label class="govuk-label govuk-date-input__label" for="hearing-date-month">Month</label>
-              <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="hearing-date-month" name="hearing-date-month" type="text" inputmode="numeric" value="{{ addHearing.date.month or '' }}">
+              <input class="govuk-input govuk-date-input__input govuk-input--width-2{% if errors.date %} govuk-input--error{% endif %}" id="hearing-date-month" name="hearing-date-month" type="text" inputmode="numeric" value="{{ addHearing.date.month or '' }}"{% if errors.date %} aria-describedby="hearing-date-error"{% endif %}>
             </div>
           </div>
           <div class="govuk-date-input__item">
             <div class="govuk-form-group">
               <label class="govuk-label govuk-date-input__label" for="hearing-date-year">Year</label>
-              <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="hearing-date-year" name="hearing-date-year" type="text" inputmode="numeric" value="{{ addHearing.date.year or '' }}">
+              <input class="govuk-input govuk-date-input__input govuk-input--width-4{% if errors.date %} govuk-input--error{% endif %}" id="hearing-date-year" name="hearing-date-year" type="text" inputmode="numeric" value="{{ addHearing.date.year or '' }}"{% if errors.date %} aria-describedby="hearing-date-error"{% endif %}>
             </div>
           </div>
         </div>
       </fieldset>
 
-      <fieldset class="govuk-fieldset">
+      <fieldset class="govuk-fieldset{% if errors.time %} govuk-form-group--error{% endif %}" aria-describedby="{% if errors.time %}hearing-time-error{% else %}hearing-time-hint{% endif %}">
         <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
           Time
         </legend>
         <div id="hearing-time-hint" class="govuk-hint">
           For example, 14 30
         </div>
+        {% if errors.time %}<p class="govuk-error-message" id="hearing-time-error"><span class="govuk-visually-hidden">Error:</span> {{ errors.time }}</p>{% endif %}
         <div class="govuk-date-input" id="hearing-time">
           <div class="govuk-date-input__item">
             <div class="govuk-form-group">
               <label class="govuk-label govuk-date-input__label" for="hearing-time-hour">Hour</label>
-              <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="hearing-time-hour" name="hearing-time-hour" type="text" inputmode="numeric" value="{{ addHearing.time.hour or '' }}">
+              <input class="govuk-input govuk-date-input__input govuk-input--width-2{% if errors.time %} govuk-input--error{% endif %}" id="hearing-time-hour" name="hearing-time-hour" type="text" inputmode="numeric" value="{{ addHearing.time.hour or '' }}"{% if errors.time %} aria-describedby="hearing-time-error"{% endif %}>
             </div>
           </div>
           <div class="govuk-date-input__item">
             <div class="govuk-form-group">
               <label class="govuk-label govuk-date-input__label" for="hearing-time-minute">Minute</label>
-              <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="hearing-time-minute" name="hearing-time-minute" type="text" inputmode="numeric" value="{{ addHearing.time.minute or '' }}">
+              <input class="govuk-input govuk-date-input__input govuk-input--width-2{% if errors.time %} govuk-input--error{% endif %}" id="hearing-time-minute" name="hearing-time-minute" type="text" inputmode="numeric" value="{{ addHearing.time.minute or '' }}"{% if errors.time %} aria-describedby="hearing-time-error"{% endif %}>
             </div>
           </div>
         </div>

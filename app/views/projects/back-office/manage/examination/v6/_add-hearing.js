@@ -7,6 +7,142 @@ function getAddHearingView(req, page) {
   return `${baseViewPath}/add-hearing/${page}`;
 }
 
+function getHearingCaseRef(req) {
+  return req.session?.data?.currentCaseRef || req.session?.currentCaseRef || '';
+}
+
+function getHearingDateError(day, month, year, label = 'hearing date') {
+  const values = [day, month, year].map((value) => String(value || '').trim());
+  if (values.every((value) => !value)) return `Enter a ${label}`;
+  if (values.some((value) => !value)) return `Enter a complete ${label}`;
+  if (!/^\d{1,2}$/.test(values[0]) || !/^\d{1,2}$/.test(values[1]) || !/^\d{4}$/.test(values[2])) {
+    return `Enter a valid ${label}`;
+  }
+
+  const date = DateTime.fromObject({ day: Number(values[0]), month: Number(values[1]), year: Number(values[2]) });
+  return date.isValid && date.day === Number(values[0]) && date.month === Number(values[1]) && date.year === Number(values[2])
+    ? ''
+    : `Enter a valid ${label}`;
+}
+
+function getHearingTimeError(hour, minute) {
+  const hourValue = String(hour || '').trim();
+  const minuteValue = String(minute || '').trim();
+  if (!hourValue && !minuteValue) return 'Enter a hearing time';
+  if (!hourValue || !minuteValue) return 'Enter a complete hearing time';
+  if (!/^\d{1,2}$/.test(hourValue) || !/^\d{1,2}$/.test(minuteValue)) return 'Enter a valid hearing time';
+  return Number(hourValue) <= 23 && Number(minuteValue) <= 59 ? '' : 'Enter a valid hearing time';
+}
+
+function getHearingChoiceError(value, label, options) {
+  return options.includes(String(value || '').trim()) ? '' : `Select ${label}`;
+}
+
+function getHearingPositiveDaysError(value) {
+  const days = Number(String(value || '').trim());
+  return Number.isFinite(days) && days > 0 ? '' : 'Enter a number of days greater than 0';
+}
+
+function getHearingUrlError(value) {
+  const enteredUrl = String(value || '').trim();
+  if (!enteredUrl) return 'Enter a remote meeting link';
+
+  const urlValue = /^https?:\/\//i.test(enteredUrl) ? enteredUrl : `https://${enteredUrl}`;
+  try {
+    const url = new URL(urlValue);
+    return ['http:', 'https:'].includes(url.protocol) && url.hostname.includes('.')
+      ? ''
+      : 'Enter a valid remote meeting link';
+  } catch (error) {
+    return 'Enter a valid remote meeting link';
+  }
+}
+
+function renderHearingErrors(req, res, page, errors) {
+  const errorTargets = {
+    date: 'hearing-date-day',
+    time: 'hearing-time-hour',
+    actualDuration: 'actual-duration',
+    endDate: 'hearing-end-date-day',
+    hasEstimates: 'hasEstimates',
+    estimatedDays: 'hearing-estimation-days',
+    isVirtual: 'hearing-virtual-no',
+    hasVirtualMeetingLink: 'hearing-virtual-meeting-link-yes',
+    virtualMeetingLink: 'virtual-meeting-link',
+    hasAddress: 'hearing-address-yes',
+    venue: 'hearing-venue',
+    addressLine1: 'hearing-address-line1',
+    addressTown: 'hearing-address-town',
+    addressPostcode: 'hearing-address-postcode',
+    hasEstimates: 'hasEstimates',
+    estimatedDays: 'hearing-estimation-days',
+    isVirtual: 'hearing-virtual-no',
+    hasVirtualMeetingLink: 'hearing-virtual-meeting-link-yes',
+    virtualMeetingLink: 'virtual-meeting-link',
+    hasAddress: 'hearing-address-yes',
+    venue: 'hearing-venue',
+    addressLine1: 'hearing-address-line1',
+    addressTown: 'hearing-address-town',
+    addressPostcode: 'hearing-address-postcode'
+  };
+  const errorList = Object.entries(errors)
+    .filter(([, message]) => message)
+    .map(([field, text]) => ({ text, href: `#${errorTargets[field] || field}` }));
+
+  return res.status(400).render(getAddHearingView(req, page), {
+    caseRef: getHearingCaseRef(req),
+    planTitle: req.session.data?.planTitle || req.session.planTitle || '',
+    addHearing: req.session.data?.addHearing || {},
+    isEditing: getEditingHearingIndex(req) !== null,
+    errors,
+    errorList
+  });
+}
+
+function getHearingSubmissionError(hearing = {}) {
+  const date = hearing.date || {};
+  const time = hearing.time || {};
+  let errors = {
+    date: getHearingDateError(date.day, date.month, date.year),
+    time: getHearingTimeError(time.hour, time.minute)
+  };
+  if (Object.values(errors).some(Boolean)) return { page: 'index', errors };
+
+  errors = {
+    hasEstimates: getHearingChoiceError(hearing.hasEstimates, 'an answer', ['Yes', 'No']),
+    estimatedDays: hearing.hasEstimates === 'Yes' ? getHearingPositiveDaysError(hearing.estimatedDays) : ''
+  };
+  if (Object.values(errors).some(Boolean)) return { page: 'has-estimates', errors };
+
+  errors = { isVirtual: getHearingChoiceError(hearing.isVirtual, 'a hearing format', ['In-person', 'Hybrid', 'Remote']) };
+  if (Object.values(errors).some(Boolean)) return { page: 'is-virtual', errors };
+
+  if (hearing.isVirtual === 'Remote' || hearing.isVirtual === 'Hybrid') {
+    errors = { hasVirtualMeetingLink: getHearingChoiceError(hearing.hasVirtualMeetingLink, 'an answer', ['Yes', 'No']) };
+    if (Object.values(errors).some(Boolean)) return { page: 'has-virtual-meeting-link', errors };
+    if (hearing.hasVirtualMeetingLink === 'Yes') {
+      errors = { virtualMeetingLink: getHearingUrlError(hearing.virtualMeetingLink) };
+      if (Object.values(errors).some(Boolean)) return { page: 'virtual-meeting', errors };
+    }
+  }
+
+  if (hearing.isVirtual === 'In-person' || hearing.isVirtual === 'Hybrid') {
+    errors = { hasAddress: getHearingChoiceError(hearing.hasAddress, 'an answer', ['Yes', 'No']) };
+    if (Object.values(errors).some(Boolean)) return { page: 'has-address', errors };
+    if (hearing.hasAddress === 'Yes') {
+      errors = {
+        venue: hearing.venue ? '' : 'Enter the venue name',
+        addressLine1: hearing.address?.line1 ? '' : 'Enter address line 1',
+        addressTown: hearing.address?.town ? '' : 'Enter a town or city',
+        addressPostcode: hearing.address?.postcode ? '' : 'Enter a postcode'
+      };
+      if (Object.values(errors).some(Boolean)) return { page: 'address', errors };
+    }
+  }
+
+  return null;
+}
+
 function getEditingHearingIndex(req) {
   const rawIndex = req.session?.data?.editHearingIndex;
   const hearingIndex = Number.parseInt(rawIndex, 10);
@@ -211,7 +347,7 @@ router.get('/add-hearing/index', function (req, res) {
   }
   
   res.render(getAddHearingView(req, 'index'), {
-    caseRef: req.session.data.currentCaseRef || '',
+    caseRef: getHearingCaseRef(req),
     planTitle: req.session.data.planTitle || '',
     addHearing: hearingData,
     isEditing: editingHearingIndex !== null
@@ -232,7 +368,7 @@ router.get('/add-hearing/actual-duration', function (req, res) {
   const hearingData = req.session.data.addHearing || {};
 
   res.render(getAddHearingView(req, 'actual-duration'), {
-    caseRef: req.session.data.currentCaseRef || '',
+    caseRef: getHearingCaseRef(req),
     planTitle: req.session.data.planTitle || '',
     addHearing: hearingData,
     isEditing: editingHearingIndex !== null
@@ -250,7 +386,15 @@ router.post('/add-hearing/actual-duration', function (req, res) {
     return res.redirect(`${req.baseUrl}/examination`);
   }
 
-  req.session.hearings[editingHearingIndex].actualDuration = req.session.data.actualDuration || '';
+  const actualDuration = String(req.session.data.actualDuration || '').trim();
+  const errors = { actualDuration: getHearingPositiveDaysError(actualDuration) };
+  if (errors.actualDuration) {
+    if (!req.session.data.addHearing) req.session.data.addHearing = {};
+    req.session.data.addHearing.actualDuration = actualDuration;
+    return renderHearingErrors(req, res, 'actual-duration', errors);
+  }
+
+  req.session.hearings[editingHearingIndex].actualDuration = actualDuration;
   syncLatestHearingFields(req.session);
   clearWorkingHearingData(req.session.data);
   delete req.session.data.editHearingIndex;
@@ -275,7 +419,7 @@ router.get('/add-hearing/end-date', function (req, res) {
   const hearingData = req.session.data.addHearing || {};
 
   res.render(getAddHearingView(req, 'end-date'), {
-    caseRef: req.session.data.currentCaseRef || '',
+    caseRef: getHearingCaseRef(req),
     planTitle: req.session.data.planTitle || '',
     addHearing: hearingData,
     isEditing: editingHearingIndex !== null
@@ -293,9 +437,15 @@ router.post('/add-hearing/end-date', function (req, res) {
     return res.redirect(`${req.baseUrl}/examination`);
   }
 
-  const day = req.session.data['hearing-end-date-day'];
-  const month = req.session.data['hearing-end-date-month'];
-  const year = req.session.data['hearing-end-date-year'];
+  const day = String(req.session.data['hearing-end-date-day'] || '').trim();
+  const month = String(req.session.data['hearing-end-date-month'] || '').trim();
+  const year = String(req.session.data['hearing-end-date-year'] || '').trim();
+  const error = getHearingDateError(day, month, year, 'hearing end date');
+  if (error) {
+    if (!req.session.data.addHearing) req.session.data.addHearing = {};
+    req.session.data.addHearing.endDate = { day, month, year };
+    return renderHearingErrors(req, res, 'end-date', { endDate: error });
+  }
   let endDateValue = '';
 
   if (day && month && year) {
@@ -330,15 +480,19 @@ router.post('/add-hearing/index', function (req, res) {
     req.session.data.addHearing = {}
   }
   
-  req.session.data.addHearing.date = {
-    day: req.session.data['hearing-date-day'],
-    month: req.session.data['hearing-date-month'],
-    year: req.session.data['hearing-date-year']
-  }
-  req.session.data.addHearing.time = {
-    hour: req.session.data['hearing-time-hour'],
-    minute: req.session.data['hearing-time-minute']
-  }
+  const day = String(req.session.data['hearing-date-day'] || '').trim();
+  const month = String(req.session.data['hearing-date-month'] || '').trim();
+  const year = String(req.session.data['hearing-date-year'] || '').trim();
+  const hour = String(req.session.data['hearing-time-hour'] || '').trim();
+  const minute = String(req.session.data['hearing-time-minute'] || '').trim();
+  req.session.data.addHearing.date = { day, month, year };
+  req.session.data.addHearing.time = { hour, minute };
+
+  const errors = {
+    date: getHearingDateError(day, month, year),
+    time: getHearingTimeError(hour, minute)
+  };
+  if (Object.values(errors).some(Boolean)) return renderHearingErrors(req, res, 'index', errors);
   
   console.log('addHearing object updated:', req.session.data.addHearing);
   
@@ -414,7 +568,7 @@ router.get('/add-hearing/has-estimates', function (req, res) {
   console.log('Final hearingData being passed to template:', JSON.stringify(hearingData, null, 2));
   
   res.render(getAddHearingView(req, 'has-estimates'), {
-    caseRef: req.session.data.currentCaseRef || '',
+    caseRef: getHearingCaseRef(req),
     planTitle: req.session.data.planTitle || '',
     addHearing: hearingData,
     isEditing: getEditingHearingIndex(req) !== null
@@ -426,8 +580,16 @@ router.post('/add-hearing/has-estimates', function (req, res) {
   console.log('POST /has-estimates - addHearing before:', JSON.stringify(req.session.data.addHearing, null, 2));
   
   if (!req.session.data.addHearing) req.session.data.addHearing = {}
-  req.session.data.addHearing.hasEstimates = req.session.data.hasEstimates
-  req.session.data.addHearing.estimatedDays = req.session.data.hearingEstimationDays
+  const hasEstimates = String(req.session.data.hasEstimates || '').trim();
+  const estimatedDays = String(req.session.data.hearingEstimationDays || '').trim();
+  req.session.data.addHearing.hasEstimates = hasEstimates;
+  req.session.data.addHearing.estimatedDays = estimatedDays;
+
+  const errors = {
+    hasEstimates: getHearingChoiceError(hasEstimates, 'an answer', ['Yes', 'No']),
+    estimatedDays: hasEstimates === 'Yes' ? getHearingPositiveDaysError(estimatedDays) : ''
+  };
+  if (Object.values(errors).some(Boolean)) return renderHearingErrors(req, res, 'has-estimates', errors);
   
   console.log('POST /has-estimates - addHearing after:', JSON.stringify(req.session.data.addHearing, null, 2));
   
@@ -442,7 +604,7 @@ router.get('/add-hearing/is-virtual', function (req, res) {
   const hearingData = req.session.data.addHearing || {}
   
   res.render(getAddHearingView(req, 'is-virtual'), {
-    caseRef: req.session.data.currentCaseRef || '',
+    caseRef: getHearingCaseRef(req),
     planTitle: req.session.data.planTitle || '',
     addHearing: hearingData,
     isEditing: getEditingHearingIndex(req) !== null
@@ -453,7 +615,12 @@ router.post('/add-hearing/is-virtual', function (req, res) {
   console.log('POST /is-virtual - form data:', req.session.data);
   
   if (!req.session.data.addHearing) req.session.data.addHearing = {}
-  req.session.data.addHearing.isVirtual = req.session.data.isVirtual || req.session.data.addHearing.isVirtual || ''
+  const isVirtual = String(req.session.data.isVirtual || '').trim();
+  req.session.data.addHearing.isVirtual = isVirtual;
+  const errors = {
+    isVirtual: getHearingChoiceError(isVirtual, 'a hearing format', ['In-person', 'Hybrid', 'Remote'])
+  };
+  if (Object.values(errors).some(Boolean)) return renderHearingErrors(req, res, 'is-virtual', errors);
   
   req.session.save(() => {
     if (req.session.data.addHearing.isVirtual === 'In-person') {
@@ -472,7 +639,7 @@ router.get('/add-hearing/has-virtual-meeting-link', function (req, res) {
   const hearingData = req.session.data.addHearing || {}
   
   res.render(getAddHearingView(req, 'has-virtual-meeting-link'), {
-    caseRef: req.session.data.currentCaseRef || '',
+    caseRef: getHearingCaseRef(req),
     planTitle: req.session.data.planTitle || '',
     addHearing: hearingData,
     isEditing: getEditingHearingIndex(req) !== null
@@ -484,8 +651,13 @@ router.post('/add-hearing/has-virtual-meeting-link', function (req, res) {
   
   if (!req.session.data.addHearing) req.session.data.addHearing = {}
   req.session.data.addHearing.isVirtual = req.session.data.addHearing.isVirtual || req.session.data.isVirtual || ''
-  req.session.data.addHearing.hasVirtualMeetingLink = req.session.data.hasVirtualMeetingLink
-  req.session.data.addHearing.virtualMeetingLink = req.session.data.virtualMeetingLink || ''
+  const hasVirtualMeetingLink = String(req.session.data.hasVirtualMeetingLink || '').trim();
+  req.session.data.addHearing.hasVirtualMeetingLink = hasVirtualMeetingLink;
+  req.session.data.addHearing.virtualMeetingLink = String(req.session.data.virtualMeetingLink || '').trim();
+  const errors = {
+    hasVirtualMeetingLink: getHearingChoiceError(hasVirtualMeetingLink, 'an answer', ['Yes', 'No'])
+  };
+  if (Object.values(errors).some(Boolean)) return renderHearingErrors(req, res, 'has-virtual-meeting-link', errors);
   
   req.session.save(() => {
     if (req.session.data.addHearing.hasVirtualMeetingLink === 'Yes') {
@@ -502,7 +674,7 @@ router.get('/add-hearing/virtual-meeting', function (req, res) {
   const hearingData = req.session.data.addHearing || {}
   
   res.render(getAddHearingView(req, 'virtual-meeting'), {
-    caseRef: req.session.data.currentCaseRef || '',
+    caseRef: getHearingCaseRef(req),
     planTitle: req.session.data.planTitle || '',
     addHearing: hearingData,
     isEditing: getEditingHearingIndex(req) !== null
@@ -513,7 +685,10 @@ router.post('/add-hearing/virtual-meeting', function (req, res) {
   console.log('POST /virtual-meeting - form data:', req.session.data);
   
   if (!req.session.data.addHearing) req.session.data.addHearing = {}
-  req.session.data.addHearing.virtualMeetingLink = req.session.data.virtualMeetingLink || ''
+  const virtualMeetingLink = String(req.session.data.virtualMeetingLink || '').trim();
+  req.session.data.addHearing.virtualMeetingLink = virtualMeetingLink;
+  const errors = { virtualMeetingLink: getHearingUrlError(virtualMeetingLink) };
+  if (Object.values(errors).some(Boolean)) return renderHearingErrors(req, res, 'virtual-meeting', errors);
   
   req.session.save(() => {
     res.redirect(`${req.baseUrl}/add-hearing/check`)
@@ -578,7 +753,7 @@ router.get('/add-hearing/has-address', function (req, res) {
   const hearingData = req.session.data.addHearing || {}
   
   res.render(getAddHearingView(req, 'has-address'), {
-    caseRef: req.session.data.currentCaseRef || '',
+    caseRef: getHearingCaseRef(req),
     planTitle: req.session.data.planTitle || '',
     addHearing: hearingData,
     isEditing: getEditingHearingIndex(req) !== null
@@ -591,7 +766,10 @@ router.post('/add-hearing/has-address', function (req, res) {
   
   if (!req.session.data.addHearing) req.session.data.addHearing = {}
   req.session.data.addHearing.isVirtual = req.session.data.addHearing.isVirtual || req.session.data.isVirtual || ''
-  req.session.data.addHearing.hasAddress = req.session.data.hasAddress
+  const hasAddress = String(req.session.data.hasAddress || '').trim();
+  req.session.data.addHearing.hasAddress = hasAddress;
+  const errors = { hasAddress: getHearingChoiceError(hasAddress, 'an answer', ['Yes', 'No']) };
+  if (Object.values(errors).some(Boolean)) return renderHearingErrors(req, res, 'has-address', errors);
   
   console.log('POST /has-address - addHearing after:', JSON.stringify(req.session.data.addHearing, null, 2));
   
@@ -664,7 +842,7 @@ router.get('/add-hearing/address', function (req, res) {
   const hearingData = req.session.data.addHearing || {}
   
   res.render(getAddHearingView(req, 'address'), {
-    caseRef: req.session.data.currentCaseRef || '',
+    caseRef: getHearingCaseRef(req),
     planTitle: req.session.data.planTitle || '',
     addHearing: hearingData,
     isEditing: getEditingHearingIndex(req) !== null
@@ -676,13 +854,24 @@ router.post('/add-hearing/address', function (req, res) {
   console.log('POST /address - addHearing before:', JSON.stringify(req.session.data.addHearing, null, 2));
   
   if (!req.session.data.addHearing) req.session.data.addHearing = {}
-  req.session.data.addHearing.venue = req.session.data['hearing-venue']
+  const venue = String(req.session.data['hearing-venue'] || '').trim();
+  const line1 = String(req.session.data['hearing-address-line1'] || '').trim();
+  const town = String(req.session.data['hearing-address-town'] || '').trim();
+  const postcode = String(req.session.data['hearing-address-postcode'] || '').trim();
+  req.session.data.addHearing.venue = venue;
   req.session.data.addHearing.address = {
-    line1: req.session.data['hearing-address-line1'],
-    line2: req.session.data['hearing-address-line2'],
-    town: req.session.data['hearing-address-town'],
-    postcode: req.session.data['hearing-address-postcode']
+    line1,
+    line2: String(req.session.data['hearing-address-line2'] || '').trim(),
+    town,
+    postcode
   }
+  const errors = {
+    venue: venue ? '' : 'Enter the venue name',
+    addressLine1: line1 ? '' : 'Enter address line 1',
+    addressTown: town ? '' : 'Enter a town or city',
+    addressPostcode: postcode ? '' : 'Enter a postcode'
+  };
+  if (Object.values(errors).some(Boolean)) return renderHearingErrors(req, res, 'address', errors);
   
   console.log('POST /address - addHearing after:', JSON.stringify(req.session.data.addHearing, null, 2));
   
@@ -753,7 +942,7 @@ router.get('/add-hearing/check', function (req, res) {
   }
   
   res.render(getAddHearingView(req, 'check'), {
-    caseRef: req.session.data.currentCaseRef || '',
+    caseRef: getHearingCaseRef(req),
     planTitle: req.session.data.planTitle || '',
     addHearing: req.session.data.addHearing || {},
     isEditing: getEditingHearingIndex(req) !== null
@@ -762,31 +951,18 @@ router.get('/add-hearing/check', function (req, res) {
 
 router.post('/add-hearing/check', function (req, res) {
   console.log('POST check page - addHearing data:', JSON.stringify(req.session.data.addHearing, null, 2));
-  
-  if (!req.session.data.addHearing || !req.session.data.addHearing.date) {
-    console.log('Missing addHearing or date object');
-    return res.redirect(`${req.baseUrl}/add-hearing/index`)
-  }
+
+  const submissionError = getHearingSubmissionError(req.session.data.addHearing);
+  if (submissionError) return renderHearingErrors(req, res, submissionError.page, submissionError.errors);
   
   const { date, time, venue } = req.session.data.addHearing
   console.log('Extracted - date:', date, 'time:', time, 'venue:', venue);
-
-  // Validate that all fields have values
-  if (!date.day || !date.month || !date.year || !time.hour || !time.minute) {
-    console.log('Validation failed - day:', date.day, 'month:', date.month, 'year:', date.year, 'hour:', time.hour, 'minute:', time.minute);
-    return res.redirect(`${req.baseUrl}/add-hearing/index`)
-  }
 
   const day = parseInt(date.day);
   const month = parseInt(date.month);
   const year = parseInt(date.year);
   const hour = parseInt(time.hour);
   const minute = parseInt(time.minute);
-
-  // Check if all values are valid numbers
-  if (isNaN(day) || isNaN(month) || isNaN(year) || isNaN(hour) || isNaN(minute)) {
-    return res.redirect(`${req.baseUrl}/add-hearing/index`)
-  }
 
   const hearingDate = DateTime.fromObject({
     day: day,

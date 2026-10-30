@@ -110,7 +110,11 @@ Examination overview– {{ serviceName }}
               Not provided
             {% endif %}
           </dd>
-          <dd class="govuk-summary-list__actions"><a class="govuk-link" href="{{ basePath }}/manage-examination-documents">Review<span class="govuk-visually-hidden"> examination documents</span></a></dd>
+          <dd class="govuk-summary-list__actions">
+            {% if examinationDocumentCount %}
+              <a class="govuk-link" href="{{ basePath }}/manage-examination-documents">Review<span class="govuk-visually-hidden"> examination documents</span></a>
+            {% endif %}
+          </dd>
         </div>
       </dl>
 
@@ -228,7 +232,7 @@ Examination overview– {{ serviceName }}
 
             <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__key">Duration</dt>
-              <dd class="govuk-summary-list__value">{{ hearing.actualDuration if hearing.actualDuration and hearing.actualDuration != '-' else 'Not provided' }}</dd>
+              <dd class="govuk-summary-list__value">{% if hearing.actualDuration and hearing.actualDuration != '-' %}{{ hearing.actualDuration }} days{% else %}Not provided{% endif %}</dd>
               <dd class="govuk-summary-list__actions">
                 <a class="govuk-link" href="add-hearing/actual-duration?edit={{ loop.index0 }}">Change<span class="govuk-visually-hidden"> hearing {{ loop.index }} actual duration</span></a>
               </dd>

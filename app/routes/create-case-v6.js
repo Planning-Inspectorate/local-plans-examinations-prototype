@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { saveExaminationCaseState, restoreExaminationCaseState } = require('./projects/back-office/examination-case-state');
 
 // ...existing code...
 
@@ -251,6 +252,8 @@ router.get('/projects/back-office/create-case/v6/load-case', (req, res) => {
     return res.redirect('/projects/back-office/create-case/v6/index');
   }
   
+  saveExaminationCaseState(req.session);
+
   // Clear all manage-specific fields first
   // This ensures data from previous cases doesn't contaminate the new case
   delete req.session.gateway2AssessorName;
@@ -320,6 +323,7 @@ router.get('/projects/back-office/create-case/v6/load-case', (req, res) => {
   // Populate examination estimated date from gateway3 - stored in D MMMM YYYY format (GOV.UK standard)
   const gateway3Date = caseToLoad.gateway3Date || '';
   req.session.examinationEstimatedDate = (gateway3Date && gateway3Date !== '') ? gateway3Date : '';
+  restoreExaminationCaseState(req.session, caseToLoad);
   
   // Redirect to the active manage overview route
   res.redirect('/projects/back-office/manage/overview/v2/index');

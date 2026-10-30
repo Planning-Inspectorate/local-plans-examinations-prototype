@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { saveExaminationCaseState, restoreExaminationCaseState } = require('./projects/back-office/examination-case-state');
 const {
   PLAN_STATUS_CLASS_MAP,
   getPlanStatusClasses
@@ -331,6 +332,8 @@ router.get('/projects/back-office/create-case/v3/load-case', (req, res) => {
     return res.redirect('/projects/back-office/create-case/v3/index');
   }
   
+  saveExaminationCaseState(req.session);
+
   // Clear all manage-specific fields first
   // This ensures data from previous cases doesn't contaminate the new case
   delete req.session.gateway2AssessorName;
@@ -405,6 +408,7 @@ router.get('/projects/back-office/create-case/v3/load-case', (req, res) => {
   // Populate examination estimated date from gateway3 - stored in D MMMM YYYY format (GOV.UK standard)
   const gateway3Date = caseToLoad.gateway3Date || '';
   req.session.examinationEstimatedDate = (gateway3Date && gateway3Date !== '') ? gateway3Date : '';
+  restoreExaminationCaseState(req.session, caseToLoad);
 
   if (destination === 'overview-side') {
     const selectedOverviewVersion = req.session?.workflowNavVersionOverrides?.overview;

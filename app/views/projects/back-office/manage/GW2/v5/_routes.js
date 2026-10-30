@@ -16,17 +16,20 @@ const GW2_DATE_FIELDS = {
   estimated: {
     sessionKey: 'gateway2EstimatedDate',
     title: 'When is the Gateway 2 submission expected?',
-    label: 'expected Gateway 2 date'
+    label: 'expected Gateway 2 submission date',
+    blankDateArticle: 'an'
   },
   actual: {
     sessionKey: 'gateway2ActualDate',
     title: 'When was the Gateway 2 submission received?',
-    label: 'Gateway 2 submission received date'
+    label: 'Gateway 2 submission received date',
+    blankDateArticle: 'the'
   },
   'report-published': {
     sessionKey: 'gateway2ReportPublishedDate',
     title: 'When was the Gateway 2 report published?',
-    label: 'Gateway 2 report published date'
+    label: 'Gateway 2 report published date',
+    blankDateArticle: 'the'
   }
 };
 
@@ -83,8 +86,8 @@ function getGateway2DateInputValues(dateString) {
     : { day: '', month: '', year: '' };
 }
 
-function getGateway2DateValidationError(day, month, year, fieldLabel) {
-  if (!day && !month && !year) return `Enter a ${fieldLabel}`;
+function getGateway2DateValidationError(day, month, year, fieldLabel, blankDateArticle = 'a') {
+  if (!day && !month && !year) return `Enter ${blankDateArticle} ${fieldLabel}`;
   if (!day || !month || !year) return `Enter a complete ${fieldLabel}`;
 
   const date = DateTime.fromFormat(`${day}/${month}/${year}`, 'd/M/yyyy', { locale: 'en-GB' });
@@ -1184,7 +1187,7 @@ router.post('/gateway-2-date/:dateField', (req, res) => {
   const month = String(req.body['date-month'] || '').trim();
   const year = String(req.body['date-year'] || '').trim();
   const returnUrl = req.body.returnUrl || '/projects/back-office/manage/GW2/v5/gateway-2';
-  const error = getGateway2DateValidationError(day, month, year, field.label);
+  const error = getGateway2DateValidationError(day, month, year, field.label, field.blankDateArticle);
   if (error) {
     return res.status(400).render('projects/back-office/manage/GW2/v5/gateway-2-date', {
       dateField: req.params.dateField,

@@ -1,21 +1,23 @@
 {% extends "layouts/back-office.html" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% block pageTitle %}When was the QA inspector appointed? – {{ serviceName }}{% endblock %}
 {% block beforeContent %}{{ govukBackLink({ text: "Back", href: returnUrl or (basePath + '/qa-inspectors/check-answers') }) }}{% endblock %}
 {% block content %}
 <div class="govuk-grid-row"><div class="govuk-grid-column-two-thirds">
+  {% if error %}{{ govukErrorSummary({ titleText: "There is a problem", errorList: [{ text: error, href: "#day" }] }) }}{% endif %}
   {% include "includes/back-office/examination-reference-caption.njk" %}
-  <h1 class="govuk-heading-l">When was the QA inspector appointed?</h1>
   <form method="post" action="{{ basePath }}/qa-inspector/{{ index }}/appointed-date">
     <input type="hidden" name="returnUrl" value="{{ returnUrl }}">
-    <fieldset class="govuk-fieldset" role="group"><legend class="govuk-fieldset__legend govuk-fieldset__legend--m"><span class="govuk-visually-hidden">QA inspector appointment date</span></legend>
+    <fieldset class="govuk-fieldset{% if error %} govuk-form-group--error{% endif %}" role="group"{% if error %} aria-describedby="date-error"{% endif %}><legend class="govuk-fieldset__legend govuk-fieldset__legend--l"><h1 class="govuk-fieldset__heading">When was the QA inspector appointed?</h1></legend>
+      {% if error %}<p class="govuk-error-message" id="date-error"><span class="govuk-visually-hidden">Error:</span> {{ error }}</p>{% endif %}
       <div class="govuk-date-input" id="qa-inspector-appointed-date">
-        <div class="govuk-date-input__item"><label class="govuk-label govuk-date-input__label" for="day">Day</label><input class="govuk-input govuk-date-input__input govuk-input--width-2" id="day" name="day" type="text" inputmode="numeric" value="{{ dateParts[0] }}"></div>
-        <div class="govuk-date-input__item"><label class="govuk-label govuk-date-input__label" for="month">Month</label><input class="govuk-input govuk-date-input__input govuk-input--width-2" id="month" name="month" type="text" inputmode="numeric" value="{{ dateParts[1] }}"></div>
-        <div class="govuk-date-input__item"><label class="govuk-label govuk-date-input__label" for="year">Year</label><input class="govuk-input govuk-date-input__input govuk-input--width-4" id="year" name="year" type="text" inputmode="numeric" value="{{ dateParts[2] }}"></div>
+        <div class="govuk-date-input__item"><div class="govuk-form-group"><label class="govuk-label govuk-date-input__label" for="day">Day</label><input class="govuk-input govuk-date-input__input govuk-input--width-2{% if error %} govuk-input--error{% endif %}" id="day" name="day" type="text" inputmode="numeric" value="{{ dateParts[0] }}"{% if error %} aria-describedby="date-error"{% endif %}></div></div>
+        <div class="govuk-date-input__item"><div class="govuk-form-group"><label class="govuk-label govuk-date-input__label" for="month">Month</label><input class="govuk-input govuk-date-input__input govuk-input--width-2{% if error %} govuk-input--error{% endif %}" id="month" name="month" type="text" inputmode="numeric" value="{{ dateParts[1] }}"{% if error %} aria-describedby="date-error"{% endif %}></div></div>
+        <div class="govuk-date-input__item"><div class="govuk-form-group"><label class="govuk-label govuk-date-input__label" for="year">Year</label><input class="govuk-input govuk-date-input__input govuk-input--width-4{% if error %} govuk-input--error{% endif %}" id="year" name="year" type="text" inputmode="numeric" value="{{ dateParts[2] }}"{% if error %} aria-describedby="date-error"{% endif %}></div></div>
       </div>
     </fieldset>
-    <button class="govuk-button" type="submit">Save and continue</button>
+    <div class="govuk-button-group"><button class="govuk-button" type="submit">Save and continue</button></div>
   </form>
 </div></div>
 {% endblock %}

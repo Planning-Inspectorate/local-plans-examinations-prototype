@@ -1,6 +1,16 @@
 const govukPrototypeKit = require('govuk-prototype-kit');
 const { DateTime } = require('luxon');
+const { getExaminationDateError } = require('./_date-validation');
 const router = govukPrototypeKit.requests.setupRouter();
+
+function getPauseCaseRef(req) {
+	return req.session.data?.currentCaseRef || req.session.currentCaseRef || '';
+}
+
+router.use((req, res, next) => {
+	res.locals.caseRef = getPauseCaseRef(req);
+	next();
+});
 
 const DEFAULT_RETURN_PATH = '/examination';
 const DATE_FORMAT = 'd/M/yyyy';
@@ -27,6 +37,31 @@ const historicalPauseFields = [
 	{ path: 'plan-pause-decision-reason', field: 'decisionReason', value: 'planPauseDecisionReason', input: 'plan-pause-decision-reason' }
 ];
 
+historicalPauseFields.filter(({ field }) => field === 'date' || field === 'actualEndDate').forEach(({ path, value, input, field }) => {
+	router.post([`/${path}`, `/${path}.html`], (req, res, next) => {
+		const day = String(req.body[`${input}-day`] || '').trim();
+		const month = String(req.body[`${input}-month`] || '').trim();
+		const year = String(req.body[`${input}-year`] || '').trim();
+		const label = field === 'date' ? 'examination pause start date' : 'examination restart date';
+		const error = getExaminationDateError(day, month, year, label);
+		if (error) {
+			return res.status(400).render(`projects/back-office/manage/examination/v6/${path}`, {
+				caseRef: getPauseCaseRef(req),
+				[value]: `${day}/${month}/${year}`,
+				pauseIndex: req.body.pauseIndex,
+				newPause: req.body.newPause === 'true',
+				isEdit: req.body.isEdit,
+				returnUrl: resolveReturnUrl(req, req.body.returnUrl),
+				error
+			});
+		}
+		req.body[`${input}-day`] = day;
+		req.body[`${input}-month`] = month;
+		req.body[`${input}-year`] = year;
+		next();
+	});
+});
+
 historicalPauseFields.forEach(({ path, field, value, input }) => {
 	router.get([`/${path}`, `/${path}.html`], (req, res, next) => {
 		if (req.query.pauseIndex === undefined) return next();
@@ -35,6 +70,7 @@ historicalPauseFields.forEach(({ path, field, value, input }) => {
 			? req.session.examinationV6PauseHistory?.[pauseIndex] : null;
 		if (!pause) return res.status(404).send('Pause not found');
 		res.render(`projects/back-office/manage/examination/v6/${path}`, {
+			caseRef: getPauseCaseRef(req),
 			planPauseDecision: pause.decision || '',
 			pauseResolved: pause.decision === 'Resolved' && !!pause.actualEndDate,
 			[value]: pause[field] || '',
@@ -65,6 +101,7 @@ historicalPauseFields.forEach(({ path, field, value, input }) => {
 router.get(['/plan-pause', '/plan-pause.html'], (req, res) => {
 	const newPause = req.query.newPause === 'true';
 	res.render('projects/back-office/manage/examination/v6/plan-pause', {
+		caseRef: getPauseCaseRef(req),
 		planPauseDate: newPause ? req.session.examinationV6PauseDraft?.date || '' : (req.session.planPauseDate && req.session.planPauseDate !== '-' ? req.session.planPauseDate : ''),
 		newPause,
 		returnUrl: resolveReturnUrl(req, req.query.returnUrl)
@@ -73,6 +110,7 @@ router.get(['/plan-pause', '/plan-pause.html'], (req, res) => {
 
 router.get(['/withdrawn-date', '/withdrawn-date.html'], (req, res) => {
 	res.render('projects/back-office/manage/examination/v6/withdrawn-date', {
+		caseRef: getPauseCaseRef(req),
 		withdrawnDate: req.session.withdrawnDate || '',
 		returnUrl: resolveReturnUrl(req, req.query.returnUrl)
 	});
@@ -92,7 +130,7 @@ router.post(['/withdrawn-date', '/withdrawn-date.html'], (req, res) => {
 	});
 });
 
-router.post('/plan-pause', (req, res) => {
+router.post(['/plan-pause', '/plan-pause.html'], (req, res) => {
 	const {
 		'plan-pause-date-day': day,
 		'plan-pause-date-month': month,
@@ -115,6 +153,7 @@ router.post('/plan-pause', (req, res) => {
 
 router.get(['/plan-pause-reason', '/plan-pause-reason.html'], (req, res) => {
 	res.render('projects/back-office/manage/examination/v6/plan-pause-reason', {
+		caseRef: getPauseCaseRef(req),
 		planPauseReason: req.query.newPause === 'true' ? '' : req.session.planPauseReason || '',
 		newPause: req.query.newPause === 'true',
 		returnUrl: resolveReturnUrl(req, req.query.returnUrl)
@@ -162,6 +201,7 @@ router.post('/plan-pause-reason', (req, res) => {
 
 router.get(['/plan-pause-actual-end', '/plan-pause-actual-end.html'], (req, res) => {
 	res.render('projects/back-office/manage/examination/v6/plan-pause-actual-end', {
+		caseRef: getPauseCaseRef(req),
 		planPauseActualEndDate: req.session.planPauseActualEndDate || '',
 		returnUrl: resolveReturnUrl(req, req.query.returnUrl)
 	});
@@ -184,6 +224,7 @@ router.post(['/plan-pause-actual-end', '/plan-pause-actual-end.html'], (req, res
 
 router.get(['/plan-pause-decision', '/plan-pause-decision.html'], (req, res) => {
 	res.render('projects/back-office/manage/examination/v6/plan-pause-decision', {
+		caseRef: getPauseCaseRef(req),
 		planPauseDecision: req.session.planPauseDecision || '',
 		returnUrl: resolveReturnUrl(req, req.query.returnUrl)
 	});
@@ -204,6 +245,7 @@ router.post('/plan-pause-decision', (req, res) => {
 
 router.get('/withdrawal-reason', (req, res) => {
 	res.render('projects/back-office/manage/examination/v6/withdrawal-reason', {
+		caseRef: getPauseCaseRef(req),
 		withdrawalReason: req.session.planPauseDecisionReason || '',
 		returnUrl: resolveReturnUrl(req, req.query.returnUrl),
 		fromPause: req.query.fromPause === 'true'
@@ -220,7 +262,7 @@ router.post('/withdrawal-reason', (req, res) => {
 
 router.get('/withdrawal-evidence', (req, res) => {
 	res.render('projects/back-office/manage/examination/v6/withdrawal-evidence', {
-		caseRef: req.session.currentCaseRef || '',
+		caseRef: getPauseCaseRef(req),
 		uploadedDocuments: req.session[WITHDRAWAL_EVIDENCE_KEY] || [],
 		returnUrl: resolveReturnUrl(req, req.query.returnUrl)
 	});
@@ -241,6 +283,7 @@ router.post('/withdrawal-evidence', (req, res) => {
 router.get('/withdrawal-check-answers', (req, res) => {
 	const withdrawnDate = DateTime.fromFormat(req.session.withdrawnDate || '', DATE_FORMAT);
 	res.render('projects/back-office/manage/examination/v6/withdrawal-check-answers', {
+		caseRef: getPauseCaseRef(req),
 		withdrawnDate: withdrawnDate.isValid ? withdrawnDate.toFormat('d MMMM yyyy') : (req.session.withdrawnDate || ''),
 		withdrawalReason: req.session.planPauseDecisionReason || '',
 		uploadedDocuments: req.session[WITHDRAWAL_EVIDENCE_KEY] || [],
@@ -261,6 +304,7 @@ router.post('/withdrawal-check-answers', (req, res) => {
 
 router.get(['/plan-pause-decision-reason', '/plan-pause-decision-reason.html'], (req, res) => {
 	res.render('projects/back-office/manage/examination/v6/plan-pause-decision-reason', {
+		caseRef: getPauseCaseRef(req),
 		planPauseDecision: req.session.planPauseDecision || '',
 		planPauseDecisionReason: req.session.planPauseDecisionReason || '',
 		pauseResolved: req.session.planPauseDecision === 'Resolved' && !!req.session.planPauseActualEndDate,

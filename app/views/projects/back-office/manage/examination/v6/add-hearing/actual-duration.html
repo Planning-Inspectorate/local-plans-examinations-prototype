@@ -1,4 +1,5 @@
 {% extends "layouts/back-office.html" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% block pageTitle %}
 Actual duration – {{ serviceName }}
@@ -14,19 +15,23 @@ Actual duration – {{ serviceName }}
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    {% if errorList and errorList.length %}
+      {{ govukErrorSummary({ titleText: "There is a problem", errorList: errorList }) }}
+    {% endif %}
     {% include "includes/back-office/examination-reference-caption.njk" %}
     <h1 class="govuk-heading-l">How many days did the hearing actually take?</h1>
     <form method="post">
-      <div class="govuk-form-group">
+      <div class="govuk-form-group{% if errors.actualDuration %} govuk-form-group--error{% endif %}">
         <label class="govuk-label govuk-label--m govuk-visually-hidden" for="actual-duration">Actual duration</label>
+        {% if errors.actualDuration %}<p class="govuk-error-message" id="actual-duration-error"><span class="govuk-visually-hidden">Error:</span> {{ errors.actualDuration }}</p>{% endif %}
         <div class="govuk-input__wrapper">
-          <input class="govuk-input govuk-input--width-3" id="actual-duration" name="actualDuration" type="text" inputmode="numeric" value="{{ addHearing.actualDuration or '' }}">
+          <input class="govuk-input govuk-input--width-3{% if errors.actualDuration %} govuk-input--error{% endif %}" id="actual-duration" name="actualDuration" type="text" inputmode="numeric" value="{{ addHearing.actualDuration or '' }}"{% if errors.actualDuration %} aria-describedby="actual-duration-error"{% endif %}>
           <div class="govuk-input__suffix" aria-hidden="true">days</div>
         </div>
       </div>
 
       <div class="govuk-button-group">
-        <button type="submit" class="govuk-button">Continue</button>
+        <button type="submit" class="govuk-button">Save and continue</button>
         {% if isEditing %}
           <a href="cancel" class="govuk-link">Cancel</a>
         {% endif %}
