@@ -69,6 +69,7 @@ text: 'Proceed to examination outcome'
 
     <p class="govuk-body">Gateway 3, submission {{ submission }}: 20 June 2026 by Laura Thornton</p>
 
+    {% set showNewDocumentsOnly = (submission == '2' or submission == '3') %}
     {% include "./_includes/submitted-documents.njk" %}
 
   </div>

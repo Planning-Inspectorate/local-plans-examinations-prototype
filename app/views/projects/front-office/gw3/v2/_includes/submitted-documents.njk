@@ -1,4 +1,5 @@
-{% if data['newDocuments'] != 'true' or not data['submission'] or data['submission'] == '1' %}
+{# Submissions 2 and 3 only show the new or updated documents. Set showNewDocumentsOnly before including. #}
+{% if not showNewDocumentsOnly %}
 
 <h2 class="govuk-heading-m govuk-!-margin-top-6">Procedural documents</h2>
 

@@ -73,6 +73,7 @@ href: "/projects/front-office/plan-details/v3/plan-details?status=with-pins"
       {% endif %}
     </p>
 
+    {% set showNewDocumentsOnly = (data['resubmitted'] == 'true') %}
     {% include "./_includes/submitted-documents.njk" %}
 
     <!--<h2 class="govuk-heading-m govuk-!-margin-top-6">Version history</h2>
