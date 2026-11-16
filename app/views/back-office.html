@@ -11,28 +11,34 @@
 {% block content %}
 <div class="govuk-width-container">
   <h1 class="govuk-heading-l">{{ pageName }}</h1>
-  
 
-<h2 class="govuk-heading-m">Common journeys and patterns</h2>
-      <ul class="govuk-list govuk-list--bullet">
+  {{ govukButton({
+  text: "Start MVP prototype",
+  href: "projects/back-office/create-case/v4/index.html",
+  isStartButton: true
+}) }}
+
+
+  <h2 class="govuk-heading-m">Manage a case</h2>
+        <ul class="govuk-list govuk-list--bullet">
         <li>
-          <a href="/projects/back-office/create-case/index.html">Create a case</a>
-        </li>
-        <li>
-          <a href="/projects/back-office/create-case/index2.html">All cases (back office homepage)</a>
+          <a href="/projects/back-office/create-case/index2.html">All cases</a>
         </li>
         <li>
           <a href="/projects/back-office/create-case/index-assigned.html">Assigned to me</a>
         </li>
-        </ul>
-         <h2 class="govuk-heading-m">Manage a case</h2>
-        <ul class="govuk-list govuk-list--bullet">
+       
         <li>
-          <a href="/projects/back-office/manage/overview/index.html">Case overview</a>
+          <a href="/projects/back-office/create-case/index.html">Create a case</a>
         </li>
         <li>
           <a href="/projects/back-office/manage/delete-case/index.html">Delete a case</a>
-        </li>
+        </li> 
+        </ul>
+        <ul class="govuk-list govuk-list--bullet">
+        <li>
+          <a href="/projects/back-office/manage/overview/index.html">Case overview</a>
+        </li> 
         <li>
           <a href="/projects/back-office/manage/timetable/index.html">Timetable</a>
         </li>
