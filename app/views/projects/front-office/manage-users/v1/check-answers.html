@@ -1,0 +1,83 @@
+{% extends "layouts/front-office-v2.html" %}
+{% set activeNav = "manage" %}
+{% set formAction = base ~ "/check-answers" %}
+{% set heading = "Change " ~ draft.name ~ "'s details" if editing else "Check the user's details" %}
+
+{% block pageTitle %}
+{{ heading }} – {{ serviceName }}
+{% endblock %}
+
+{% block questions %}
+
+  <span class="govuk-caption-l">{{ "Manage users" if editing else "Add a user" }}</span>
+  <h1 class="govuk-heading-l">{{ heading }}</h1>
+
+  {% set rq = "" if editing else "?returnTo=check" %}
+
+  {{ govukSummaryList({
+    card: { title: { text: "Personal details" } },
+    rows: [
+      {
+        key: { text: "First name" },
+        value: { text: draft.firstName },
+        actions: { items: [{ href: base ~ "/user-name" ~ rq, text: "Change", visuallyHiddenText: "first name" }] }
+      },
+      {
+        key: { text: "Last name" },
+        value: { text: draft.lastName },
+        actions: { items: [{ href: base ~ "/user-name" ~ rq, text: "Change", visuallyHiddenText: "last name" }] }
+      },
+      {
+        key: { text: "Email address" },
+        value: { text: draft.email },
+        actions: { items: [{ href: base ~ "/user-email" ~ rq, text: "Change", visuallyHiddenText: "email address" }] }
+      }
+    ]
+  }) }}
+
+  {% set accessRows = [] %}
+  {% set savedPlanIds = [] %}
+  {% for p in savedUser.planAccess if savedUser %}
+    {% set savedPlanIds = (savedPlanIds.push(p.id), savedPlanIds) %}
+  {% endfor %}
+
+  {% for plan in draft.planAccess %}
+    {% set rowActions = [{ href: base ~ "/user-access" ~ ("?returnTo=check" if not editing else ""), text: "Change", visuallyHiddenText: "access level for " ~ plan.title }] %}
+
+    {# Remove access to a single plan – only for saved plans, and not the current user's last plan #}
+    {% if editing and plan.id in savedPlanIds and not (savedUser.isCurrentUser and savedPlanIds | length == 1) %}
+      {% set rowActions = (rowActions.push({
+        href: base ~ "/remove-access?id=" ~ savedUser.id ~ "&plan=" ~ plan.id,
+        text: "Remove access",
+        visuallyHiddenText: "to " ~ plan.title
+      }), rowActions) %}
+    {% endif %}
+
+    {% set accessRows = (accessRows.push({
+      key: { html: plan.title | escape ~ '<br><span class="govuk-hint govuk-!-font-size-16 govuk-!-margin-bottom-0">' ~ plan.ref ~ '</span>' },
+      value: { text: plan.levelText },
+      actions: { items: rowActions }
+    }), accessRows) %}
+  {% endfor %}
+
+  {{ govukSummaryList({
+    card: {
+      title: { text: "Plan access" },
+      actions: { items: [{ href: base ~ "/user-plans" ~ rq, text: "Change plans", visuallyHiddenText: "" }] }
+    },
+    rows: accessRows
+  }) }}
+
+  {% if not editing %}
+    <h2 class="govuk-heading-m">Now add the user</h2>
+    <p class="govuk-body">We will send {{ draft.name }} an email at {{ draft.email }} with instructions on how to sign in.</p>
+  {% endif %}
+
+{% endblock %}
+
+{% block buttons %}
+  <div class="govuk-button-group">
+    {{ govukButton({ text: "Save changes" if editing else "Add user" }) }}
+    <a class="govuk-link" href="{{ base }}/cancel">Cancel</a>
+  </div>
+{% endblock %}

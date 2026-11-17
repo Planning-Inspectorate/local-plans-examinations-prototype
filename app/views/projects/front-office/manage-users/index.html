@@ -1,0 +1,56 @@
+{% extends "layouts/main.html" %}
+
+{% set title = "Manage users" %}
+{% set activeNav = 'front-office' %}
+{% set version = "1" %}
+
+{% block header %}
+  {% include "includes/PINS-header--internal.html" %}
+  {% include "includes/service-navigation.html" %}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back to all prototypes",
+    href: "/front-office"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <span class="govuk-caption-l">Service-wide pages</span>
+
+    <h1 class="govuk-heading-l">{{ title }}</h1>
+
+    <h2 class="govuk-heading-m">
+      Version {{ version }} - November 2026
+      {{ govukTag({
+        classes: 'govuk-tag--grey govuk-!-margin-left-2',
+        text: 'In design'
+      }) }}
+    </h2>
+
+    <p class="govuk-body">
+      Lets an admin user see everyone who has access to their plans, and the access level they have on each plan (admin or basic). Admins can add a user (name, email, plans and access level per plan), change a user's details and access, and remove a user. Admins cannot remove themselves.
+    </p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Add: name → email → plans → access per plan → check answers → success banner</li>
+      <li>Change: user list → check answers page with change links → save → success banner</li>
+      <li>Remove access to one plan: user list → Change → Remove access (on a plan row) → confirmation → success banner. If it's their only plan, this goes to remove user instead.</li>
+      <li>Remove: user list → confirmation → success banner</li>
+    </ul>
+
+    {{ govukButton({
+      text: "View prototype",
+      href: "/projects/front-office/manage-users/v" ~ version ~ "/reset",
+      isStartButton: true
+    }) }}
+
+  </div>
+</div>
+
+{% endblock %}
