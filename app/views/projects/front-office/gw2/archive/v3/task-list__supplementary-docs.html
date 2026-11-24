@@ -14,15 +14,11 @@
     {% endif %}
   </h2>
 
-  {# ------------------------------------ #}
-  {# BUILD ROWS                          #}
-  {# ------------------------------------ #}
+  {# BUILD ROWS #}
 
   {% set rows = [] %}
 
-  {# ------------------------------------ #}
-  {# ONLY SHOW Q ROW IF NOT YES          #}
-  {# ------------------------------------ #}
+  {# ONLY SHOW Q ROW IF NOT YES #}
 
   {% if data['supplementary-needed'] != 'Yes' %}
 
@@ -57,9 +53,7 @@
 
   {% endif %}
 
-  {# ------------------------------------ #}
-  {# ADD DOCUMENTS ROW ONLY IF YES       #}
-  {# ------------------------------------ #}
+  {# ADD DOCUMENTS ROW ONLY IF YES #}
 
   {% if data['supplementary-needed'] == 'Yes'
     and data['supplementary-upload-complete'] %}

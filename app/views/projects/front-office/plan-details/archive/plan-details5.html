@@ -29,12 +29,12 @@
 
 <div class="govuk-grid-row">
 
-  {# ── Left column: plan journey ── #}
+  {# Left column: plan journey #}
   <div class="govuk-grid-column-two-thirds">
 
     <h2 class="govuk-heading-m govuk-!-margin-top-2">Plan journey</h2>
 
-    {# Gateway 1 — completed #}
+    {# Gateway 1: completed #}
     <h3 class="govuk-heading-s govuk-!-margin-bottom-1">Gateway 1</h3>
     {{ govukTag({ text: "Completed", classes: "govuk-tag--green govuk-!-margin-bottom-2" }) }}
     <p class="govuk-body">Self-assessed by LPA. No PINS decision required.</p>
@@ -43,7 +43,7 @@
       <a class="govuk-link" href="#">View Gateway 1 documents</a>
     </p>
 
-    {# Gateway 2 — active #}
+    {# Gateway 2: active #}
     <h3 class="govuk-heading-s govuk-!-margin-bottom-1">Gateway 2</h3>
     {{ govukTag({ text: "In progress", classes: "govuk-tag--blue govuk-!-margin-bottom-2" }) }}
     <p class="govuk-body">PINS checks your submission is complete and helps identify and resolve potential issues early, including legal and procedural compliance.</p>
@@ -80,7 +80,7 @@
       "
     }) }}
 
-    {# Gateway 3 — locked #}
+    {# Gateway 3: locked #}
     <h3 class="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-margin-top-2">Gateway 3</h3>
     {{ govukTag({ text: "Cannot start yet", classes: "govuk-tag--grey govuk-!-margin-bottom-2" }) }}
     <p class="govuk-body">Available once Gateway 2 is passed. PINS confirms whether the plan is ready to proceed to examination.</p>
@@ -102,7 +102,7 @@
       "
     }) }}
 
-    {# Examination — locked #}
+    {# Examination: locked #}
     <h3 class="govuk-heading-s govuk-!-margin-bottom-1 govuk-!-margin-top-2">Examination</h3>
     {{ govukTag({ text: "Cannot start yet", classes: "govuk-tag--grey govuk-!-margin-bottom-2" }) }}
     <p class="govuk-body">Available once Gateway 3 is passed. Your plan is examined by an independent inspector to assess whether it is sound and complies with the National Planning Policy Framework before it can be adopted.</p>
@@ -110,7 +110,7 @@
 
   </div>
 
-  {# ── Right column: timetable and contact ── #}
+  {# Right column: timetable and contact #}
   <div class="govuk-grid-column-one-third">
 
     <div class="app-aside-card">
