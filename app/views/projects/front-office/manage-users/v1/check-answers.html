@@ -36,22 +36,9 @@
   }) }}
 
   {% set accessRows = [] %}
-  {% set savedPlanIds = [] %}
-  {% for p in savedUser.planAccess if savedUser %}
-    {% set savedPlanIds = (savedPlanIds.push(p.id), savedPlanIds) %}
-  {% endfor %}
 
   {% for plan in draft.planAccess %}
     {% set rowActions = [{ href: base ~ "/user-access" ~ ("?returnTo=check" if not editing else ""), text: "Change", visuallyHiddenText: "access level for " ~ plan.title }] %}
-
-    {# Remove access to a single plan – only for saved plans, and not the current user's last plan #}
-    {% if editing and plan.id in savedPlanIds and not (savedUser.isCurrentUser and savedPlanIds | length == 1) %}
-      {% set rowActions = (rowActions.push({
-        href: base ~ "/remove-access?id=" ~ savedUser.id ~ "&plan=" ~ plan.id,
-        text: "Remove access",
-        visuallyHiddenText: "to " ~ plan.title
-      }), rowActions) %}
-    {% endif %}
 
     {% set accessRows = (accessRows.push({
       key: { html: plan.title | escape ~ '<br><span class="govuk-hint govuk-!-font-size-16 govuk-!-margin-bottom-0">' ~ plan.ref ~ '</span>' },
