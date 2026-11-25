@@ -1,0 +1,22 @@
+{% extends "layouts/front-office-v2.html" %}    
+
+{% block pageTitle %}Contact us – {{serviceName}}{% endblock %}
+
+{% block beforeContent %}{% endblock %}
+
+{% set mainClasses = "govuk-main-wrapper--l" %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">Contact us</h1>
+      <p class="govuk-body">
+       Phone: 0303 444 5000
+      </p>
+      <p class="govuk-body">
+       Monday to Friday, 9am to 4pm (except public holidays)
+      </p>
+     <p class="govuk-body"><a href="https://www.gov.uk/call-charges" class="govuk-link">Find out about call charges</a></p>
+    </div>
+  </div>
+{% endblock %}
