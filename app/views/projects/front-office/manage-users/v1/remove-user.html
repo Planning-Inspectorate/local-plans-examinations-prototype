@@ -1,0 +1,39 @@
+{% extends "layouts/front-office-v2.html" %}
+{% set back = false %}
+
+{% block pageTitle %}
+Home – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "#"
+}) }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <h1 class="govuk-heading-l">Are you sure you want to remove Jane Smith?</h1>
+
+        <p class="govuk-body">Jane Smith (jane.smith@camden.gov.uk) will no longer have access to Camden Local Plan (PLAN-12345).</p>
+
+        <p class="govuk-body">Any documents they have uploaded will stay on the plan.</p>
+
+        <div class="govuk-button-group">
+            {{ govukButton({
+                text: "Remove user",
+                href: "#",
+                classes: "govuk-button--warning"
+            }) }}
+            <a class="govuk-link" href="#">Cancel</a>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

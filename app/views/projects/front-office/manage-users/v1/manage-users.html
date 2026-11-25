@@ -1,0 +1,80 @@
+{% extends "layouts/front-office-v2.html" %}
+{% set back = false %}
+
+{% block pageTitle %}
+Home – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "#"
+}) }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <h1 class="govuk-heading-l">Manage users of this plan</h1>
+
+        <p class="govuk-body">Admins can add and remove users, and change their access level. You can have up to 3
+            admins.</p>
+        <p class="govuk-body">Basic users can view, edit and submit the plan.</p>
+
+        <p class="govuk-body"><a class="govuk-link" href="#">Add a new user</a></p>
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break">
+
+    </div>
+</div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+        {% set users = [
+            { name: "John Smith", email: "john.smith@camden.gov.uk", access: "Admin", canEdit: false },
+            { name: "Jane Doe", email: "jane.doe@camden.gov.uk", access: "Admin", canEdit: true },
+            { name: "Ben Johnson", email: "ben.johnson@camden.gov.uk", access: "Basic", canEdit: true }
+        ] %}
+
+        {% set userRows = [] %}
+        {% for user in users %}
+        {% set actionsHtml %}
+        {% if user.canEdit !== false %}
+        <ul class="govuk-summary-list__actions-list">
+            <li class="govuk-summary-list__actions-list-item">
+                <a class="govuk-link" href="#">Change<span class="govuk-visually-hidden"> access level for {{ user.name
+                        }}</span></a>
+            </li>
+            <li class="govuk-summary-list__actions-list-item">
+                <a class="govuk-link" href="remove-user">Remove<span class="govuk-visually-hidden"> {{ user.name }}</span></a>
+            </li>
+            {% endif %}
+        </ul>
+        {% endset %}
+        {% set userRows = (userRows.push([
+            { text: user.name },
+            { text: user.email },
+            { text: user.access },
+            { html: actionsHtml }
+            ]), userRows) %}
+        {% endfor %}
+
+        {{ govukTable({
+        caption: "Current users (" ~ users | length ~ ")",
+        captionClasses: "govuk-heading-m",
+        head: [
+            { text: "Name" },
+            { text: "Email" },
+            { text: "Access level" },
+            { text: "Actions" }
+            ],
+            rows: userRows
+        }) }}
+    </div>
+</div>
+
+{% endblock %}
