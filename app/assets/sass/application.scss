@@ -64,6 +64,87 @@
 // Add extra styles here
 @import 'summary-list-widths';
 
+#v1-lpa-options [hidden],
+#v2-lpa-options [hidden],
+#v3-lpa-options [hidden] {
+  display: none;
+}
+
+.app-search__active-filters {
+  margin-bottom: 25px;
+}
+
+.app-search__active-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 15px;
+}
+
+.app-search__results-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  column-gap: 20px;
+}
+
+.app-search__page-sizes {
+  white-space: nowrap;
+}
+
+.ui-tag-link {
+  display: inline-block;
+  padding: 8px;
+  color: #0b0c0c;
+  background-color: #f3f2f1;
+  font-size: 0;
+  white-space: nowrap;
+  text-decoration: none;
+  border: 1px solid #505a5f;
+  border-radius: 5px;
+}
+
+.ui-tag-link__text {
+  font-size: 1rem;
+}
+
+.govuk-link.ui-tag-link:link,
+.govuk-link.ui-tag-link:visited {
+  color: #0b0c0c;
+}
+
+.govuk-link.ui-tag-link:hover {
+  color: #fff;
+  background: #0b0c0c;
+}
+
+.govuk-link.ui-tag-link:focus {
+  color: #0b0c0c;
+}
+
+.app-search-v1__selected-filter .moj-filter__tag::after {
+  background-image: url('/plugin-assets/%40ministryofjustice%2Ffrontend/moj/assets/images/icon-tag-remove-cross.svg');
+}
+
+.app-search-v1__selected-filter .moj-filter__tag:hover::after {
+  background-image: url('/plugin-assets/%40ministryofjustice%2Ffrontend/moj/assets/images/icon-tag-remove-cross-white.svg');
+}
+
+.app-search-v1__filter-heading {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.app-search-v1__filter-heading .govuk-heading-m,
+.app-search-v1__filter-heading .moj-filter-tags {
+  margin-bottom: 0;
+}
+
 .app-contact-actions .govuk-summary-list__actions-list {
   display: flex;
   flex-wrap: nowrap;

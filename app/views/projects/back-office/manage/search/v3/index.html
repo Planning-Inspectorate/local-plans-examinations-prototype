@@ -1,0 +1,288 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+All cases with side filters – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/projects/back-office/manage/search/v2"
+  }) }}
+{% endblock %}
+
+{% block content %}
+<style>
+  .app-search-v3__form {
+    max-width: 760px;
+  }
+
+  .app-search-v3__filter-groups {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .app-search-v3__filter-group {
+    min-width: 0;
+  }
+
+  .app-search-v3__action-bar .moj-action-bar__filter::after {
+    display: none;
+  }
+
+  .app-search-v3__filter .moj-filter__tag::after {
+    background-image: url('/plugin-assets/%40ministryofjustice%2Ffrontend/moj/assets/images/icon-tag-remove-cross.svg');
+  }
+
+  .app-search-v3__filter .moj-filter__tag:hover::after {
+    background-image: url('/plugin-assets/%40ministryofjustice%2Ffrontend/moj/assets/images/icon-tag-remove-cross-white.svg');
+  }
+
+  .app-search-v3__filter .moj-filter__close::before {
+    background-image: url('/plugin-assets/%40ministryofjustice%2Ffrontend/moj/assets/images/icon-close-cross-black.svg');
+  }
+
+  .app-search-v3__table {
+    width: 100%;
+    min-width: 960px;
+    table-layout: fixed;
+  }
+
+  .app-search-v3__column-reference { width: 12%; }
+  .app-search-v3__column-title { width: 22%; }
+  .app-search-v3__column-type { width: 10%; }
+  .app-search-v3__column-authority { width: 20%; }
+  .app-search-v3__column-officer { width: 15%; }
+  .app-search-v3__column-status { width: 21%; }
+
+  .app-search-v3__table .govuk-table__header,
+  .app-search-v3__table .govuk-table__cell {
+    font-size: 1rem;
+  }
+
+  .app-search-v3__table .govuk-tag {
+    font-size: inherit;
+    line-height: inherit;
+  }
+
+  @media (max-width: 40.0525em) {
+  }
+</style>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-l">All cases</h1>
+<!--
+    <form class="app-search-v3__form" method="get" action="/projects/back-office/manage/search/v3">
+      <div class="govuk-form-group">
+        <label class="govuk-label" for="search-query-v3">Search by reference, plan title, status, case officer or planning authority</label>
+        <input class="govuk-input govuk-!-width-two-thirds" id="search-query-v3" name="q" type="search" value="{{ query }}">
+      </div>
+      <button class="govuk-button" type="submit">Search</button>
+      {% if query %}
+        <a class="govuk-link govuk-!-margin-left-3" href="/projects/back-office/manage/search/v3">Clear search</a>
+      {% endif %}
+    </form>-->
+
+    <div class="moj-filter-layout">
+      <div class="moj-filter-layout__filter">
+        <div class="moj-filter app-search-v3__filter" data-module="moj-filter">
+          <div class="moj-filter__header">
+            <div class="moj-filter__header-title">
+              <h2 class="govuk-heading-m">Filter plans</h2>
+            </div>
+            <div class="moj-filter__header-action"></div>
+          </div>
+          <div class="moj-filter__content">
+            {% if selectedFilterGroups.length %}
+              <div class="moj-filter__selected">
+                <div class="moj-filter__selected-heading">
+                  <div class="moj-filter__heading-title">
+                    <h2 class="govuk-heading-m">Selected filters</h2>
+                  </div>
+                  <div class="moj-filter__heading-action">
+                    <p><a class="govuk-link govuk-link--no-visited-state" href="{{ clearFiltersHref }}">Clear filters</a></p>
+                  </div>
+                </div>
+                {% for group in selectedFilterGroups %}
+                  <h3 class="govuk-heading-s govuk-!-margin-bottom-0">{{ group.heading }}</h3>
+                  <ul class="moj-filter-tags">
+                    {% for item in group.items %}
+                      <li><a class="moj-filter__tag" href="{{ item.href }}"><span class="govuk-visually-hidden">Remove {{ group.heading | lower }} filter</span> {{ item.text }}</a></li>
+                    {% endfor %}
+                  </ul>
+                {% endfor %}
+              </div>
+            {% endif %}
+            <form method="get" action="/projects/back-office/manage/search/v3">
+              {% if query %}<input type="hidden" name="q" value="{{ query }}">{% endif %}
+              {% if showDeletedCases %}<input type="hidden" name="showDeletedCases" value="true">{% endif %}
+              {% if pagination.pageSize != 25 %}<input type="hidden" name="pageSize" value="{{ pagination.pageSize }}">{% endif %}
+              <div class="moj-filter__options">
+                <div class="app-search-v3__filter-groups">
+                  <fieldset class="govuk-fieldset app-search-v3__filter-group">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Status</legend>
+                    <div class="govuk-checkboxes govuk-checkboxes--small">
+                      {% for status in statuses %}
+                        <div class="govuk-checkboxes__item">
+                          <input class="govuk-checkboxes__input" id="v3-status-{{ loop.index }}" name="status" type="checkbox" value="{{ status }}"{% if status in selectedStatuses %} checked{% endif %}>
+                          <label class="govuk-label govuk-checkboxes__label" for="v3-status-{{ loop.index }}">{{ status }}</label>
+                        </div>
+                      {% endfor %}
+                    </div>
+                  </fieldset>
+                  <fieldset class="govuk-fieldset app-search-v3__filter-group">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Planning authority</legend>
+                    <div class="govuk-form-group">
+                      <!--<label class="govuk-label" for="v3-lpa-search">Search planning authorities</label>-->
+                      <input class="govuk-input" id="v3-lpa-search" type="search" data-lpa-filter-search aria-controls="v3-lpa-options">
+                      <!--<p class="govuk-hint" id="v3-lpa-options-count" aria-hidden="true">Enter an authority name to see matches</p>-->
+                    </div>
+                    <div class="govuk-checkboxes govuk-checkboxes--small" id="v3-lpa-options">
+                      {% for lpa in lpas %}
+                        <div class="govuk-checkboxes__item" data-lpa-filter-option>
+                          <input class="govuk-checkboxes__input" id="v3-lpa-{{ loop.index }}" name="lpa" type="checkbox" value="{{ lpa }}"{% if lpa in selectedLpas %} checked{% endif %}>
+                          <label class="govuk-label govuk-checkboxes__label" for="v3-lpa-{{ loop.index }}">{{ lpa }}</label>
+                        </div>
+                      {% endfor %}
+                    </div>
+                  </fieldset>
+                  <fieldset class="govuk-fieldset app-search-v3__filter-group">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Case officer</legend>
+                    <div class="govuk-checkboxes govuk-checkboxes--small">
+                      {% for caseOfficer in caseOfficers %}
+                        <div class="govuk-checkboxes__item">
+                          <input class="govuk-checkboxes__input" id="v3-case-officer-{{ loop.index }}" name="caseOfficer" type="checkbox" value="{{ caseOfficer }}"{% if caseOfficer in selectedCaseOfficers %} checked{% endif %}>
+                          <label class="govuk-label govuk-checkboxes__label" for="v3-case-officer-{{ loop.index }}">{{ caseOfficer }}</label>
+                        </div>
+                      {% endfor %}
+                    </div>
+                  </fieldset>
+                  <!--<fieldset class="govuk-fieldset app-search-v3__filter-group">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Deleted cases</legend>
+                    <div class="govuk-checkboxes govuk-checkboxes--small">
+                      <div class="govuk-checkboxes__item">
+                        <input class="govuk-checkboxes__input" id="v3-show-deleted-cases" name="showDeletedCases" type="checkbox" value="true"{% if showDeletedCases %} checked{% endif %}>
+                        <label class="govuk-label govuk-checkboxes__label" for="v3-show-deleted-cases">Show deleted cases</label>
+                      </div>
+                    </div>
+                  </fieldset>-->
+                </div>
+                <button class="govuk-button govuk-!-margin-top-4" type="submit">Apply filters</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="moj-filter-layout__content">
+        <div class="moj-action-bar app-search-v3__action-bar">
+          <div class="moj-action-bar__filter"></div>
+        </div>
+        {% include "projects/back-office/manage/search/_active-filters-and-results.njk" %}
+        <div class="moj-scrollable-pane" tabindex="0" role="region" aria-label="Plan search results">
+          <table class="govuk-table app-search-v3__table">
+            <caption class="govuk-visually-hidden">Plan search results</caption>
+            <colgroup>
+              <col class="app-search-v3__column-reference">
+              <col class="app-search-v3__column-title">
+              <col class="app-search-v3__column-type">
+              <col class="app-search-v3__column-authority">
+              <col class="app-search-v3__column-officer">
+              <col class="app-search-v3__column-status">
+            </colgroup>
+            <thead class="govuk-table__head">
+              <tr class="govuk-table__row">
+                <th class="govuk-table__header" scope="col">Reference</th>
+                <th class="govuk-table__header" scope="col">Title</th>
+                <th class="govuk-table__header" scope="col">Type</th>
+                <th class="govuk-table__header" scope="col">Planning authority</th>
+                <th class="govuk-table__header" scope="col">Case officer</th>
+                <th class="govuk-table__header" scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+              {% for plan in plans %}
+                <tr class="govuk-table__row">
+                  <td class="govuk-table__cell">
+                    <a class="govuk-link--no-visited-state" href="/projects/back-office/create-case/v2/load-case?caseRef={{ plan.caseRef }}">{{ plan.caseRef }}</a>
+                  </td>
+                  <td class="govuk-table__cell">
+                    {{ plan.planTitle or 'Not provided' }}
+                  </td>
+                  <td class="govuk-table__cell">{{ plan.planType or 'Not provided' }}</td>
+                  <td class="govuk-table__cell">{{ plan.lpas | join(', ') if plan.lpas and plan.lpas.length else 'Not provided' }}</td>
+                  <td class="govuk-table__cell">{{ plan.caseOfficer or 'Not assigned' }}</td>
+                  <td class="govuk-table__cell">
+                    {{ govukTag({
+                      text: plan.status or 'Status not set',
+                      classes: planStatusClassMap[plan.status] or 'govuk-tag--turquoise'
+                    }) }}
+                  </td>
+                </tr>
+              {% else %}
+                <tr class="govuk-table__row">
+                  <td class="govuk-table__cell" colspan="6">No plans match your search or filters.</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% if pagination.totalPages > 1 %}
+          <nav class="govuk-pagination" aria-label="Pagination">
+            {% if pagination.previousHref %}
+              <div class="govuk-pagination__prev"><a class="govuk-link govuk-pagination__link" href="{{ pagination.previousHref }}" rel="prev"><span class="govuk-pagination__link-title">Previous<span class="govuk-visually-hidden"> page</span></span></a></div>
+            {% endif %}
+            <ul class="govuk-pagination__list">
+              {% for page in pagination.pages %}
+                <li class="govuk-pagination__item{% if page.current %} govuk-pagination__item--current{% endif %}"><a class="govuk-link govuk-pagination__link" href="{{ page.href }}" aria-label="Page {{ page.number }}"{% if page.current %} aria-current="page"{% endif %}>{{ page.number }}</a></li>
+              {% endfor %}
+            </ul>
+            {% if pagination.nextHref %}
+              <div class="govuk-pagination__next"><a class="govuk-link govuk-pagination__link" href="{{ pagination.nextHref }}" rel="next"><span class="govuk-pagination__link-title">Next<span class="govuk-visually-hidden"> page</span></span></a></div>
+            {% endif %}
+          </nav>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+  {% set footerLinks = [
+    { text: 'Search version 1 - Full cards', href: '/projects/back-office/manage/search/v1' },
+    { text: 'Search version 2 - Top down filters', href: '/projects/back-office/manage/search/v2' },
+    { text: 'Search version 3', href: '/projects/back-office/manage/search/v3' },
+    { text: 'Search version 4 - MOJ filter', href: '/projects/back-office/manage/search/v4' },
+    { text: 'Search version 5 - Streamlined card', href: '/projects/back-office/manage/search/v5' }
+  ] %}
+  {% include "includes/footer.njk" %}
+{% endblock %}
+
+{% block pageScripts %}
+  {{ super() }}
+  <script src="/public/javascripts/search-lpa-filter.js"></script>
+  <script>
+    (function () {
+      const initializePlanFilters = function () {
+        const filter = document.querySelector('.moj-filter[data-module="moj-filter"]');
+        const FilterToggleButton = window.MOJFrontend && window.MOJFrontend.FilterToggleButton;
+
+        if (!filter || !FilterToggleButton || filter.dataset.mojFilterInitialized) {
+          return;
+        }
+
+        new FilterToggleButton(filter, { startHidden: false });
+        filter.dataset.mojFilterInitialized = 'true';
+      };
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializePlanFilters, { once: true });
+      } else {
+        initializePlanFilters();
+      }
+    })();
+  </script>
+{% endblock %}

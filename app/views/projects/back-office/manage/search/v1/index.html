@@ -1,0 +1,777 @@
+{% extends "layouts/back-office.html" %}
+
+{% block pageTitle %}
+Search filter card layout – {{ serviceName }} 
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back",
+  href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+<style>
+  .layout-slots__divider{
+    color: #ffffff
+  }
+  a {
+    color: #1d70b8;
+  }
+  .grey-box {
+    display: none;
+  }
+
+  
+
+  .govuk-header, .govuk-header__container {
+    background-color: rgb(7, 71, 69);
+    border-bottom: none;
+    padding-top: 22px;
+    padding-bottom: 22px;
+  }
+
+  .govuk-header {
+    border-bottom: 10px solid #13a19b;
+  }
+
+  .greybg {
+    box-shadow: #f3f2f1 800px 0px, #f3f2f1 -800px 0px;
+  }
+
+  .side-nav {
+        padding-right: 20px;
+      }
+
+      .side-nav ul {
+        list-style: none;
+        padding-left: 0;
+        margin: 0;
+      }
+
+      .side-nav li {
+        margin-bottom: 5px;
+      }
+
+      .side-nav a {
+        display: block;
+        padding: 12px 8px;
+        font-size: 16px;
+        text-decoration: none;
+        color: #1d70b8;
+        border-left: 5px solid transparent;
+      }
+
+      .side-nav a:hover {
+        background-color: #f3f2f1;
+      }
+
+      .side-nav a.selected {
+        background-color: #f3f2f1;
+        font-weight: bold;
+        border-left: 6px solid #00847f;
+        color: #0b0c0c;
+      }
+
+  @media (min-width: 40.0625em) {
+    .app-search-v1__layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+      align-items: start;
+      gap: 30px;
+    }
+  }
+
+  .app-search-v1__layout > * {
+    min-width: 0;
+  }
+
+  .app-search-v1__filter,
+  .app-search-v1__filter .moj-filter__header,
+  .app-search-v1__filter .moj-filter__selected,
+  .app-search-v1__filter .moj-filter__options {
+    background: #f3f2f1;
+    border: 0;
+    box-shadow: none;
+  }
+
+  .app-search-v1__filter .moj-filter__selected-heading {
+    display: block;
+  }
+
+  .app-search-v1__filter .moj-filter__heading-title {
+    display: block;
+  }
+
+  .app-search-v1__filter [data-lpa-filter-option][hidden] {
+    display: none;
+  }
+
+  .app-search-v1__search {
+    background: #f3f2f1;
+    padding: 20px;
+    margin-bottom: 30px;
+  }
+
+  .app-search-v1__search-controls {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .app-search-v1__search-controls .govuk-input {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .app-search-v1__search-controls .govuk-button {
+    margin-bottom: 0;
+  }
+
+  .app-search-v1__results {
+    border-top: 0;
+  }
+
+  .app-search-card__heading {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .app-search-card__heading .govuk-tag {
+    flex-shrink: 0;
+  }
+
+  .app-search-v1__filter .moj-filter__tag::after {
+    background-image: url('/plugin-assets/%40ministryofjustice%2Ffrontend/moj/assets/images/icon-tag-remove-cross.svg');
+  }
+
+  .app-search-v1__filter .moj-filter__tag:hover::after {
+    background-image: url('/plugin-assets/%40ministryofjustice%2Ffrontend/moj/assets/images/icon-tag-remove-cross-white.svg');
+  }
+
+  .app-search-card__title {
+    flex: 1;
+    min-width: 0;
+    margin-bottom: 4px;
+    overflow-wrap: anywhere;
+  }
+
+  .app-search-card__details .govuk-tag {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+
+  .app-search-card__reference {
+    margin-bottom: 4px;
+    font-size: 16px;
+  }
+
+  .app-search-v1__results .app-search-card__details {
+    display: grid;
+    gap: 2px;
+    margin: 8px 0 0;
+  }
+
+  .app-search-card__details .govuk-summary-list__row {
+    display: grid;
+    grid-template-columns: minmax(150px, 220px) minmax(0, 1fr);
+    border: 0;
+    margin: 0;
+  }
+
+  .app-search-v1__results .app-search-card__details .govuk-summary-list__key,
+  .app-search-v1__results .app-search-card__details .govuk-summary-list__value {
+    display: block;
+    width: auto;
+    margin: 0;
+    padding: 2px 10px 2px 0;
+    font-size: 16px;
+    line-height: 1.25;
+  }
+
+  .app-search-card__details .govuk-summary-list__key {
+    font-weight: 700;
+  }
+
+  @media (max-width: 40.0525em) {
+    .app-search-card__details .govuk-summary-list__row {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+.govuk-summary-list {
+  font-family: "GDS Transport", arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.25;
+  color: #0b0c0c;
+  margin: 0;
+  margin-bottom: 20px;
+}
+
+@media print {
+  .govuk-summary-list {
+    font-family: sans-serif;
+  }
+}
+@media (min-width: 40.0625em) {
+  .govuk-summary-list {
+    font-size: 1.1875rem;
+    line-height: 1.3157894737;
+  }
+}
+@media print {
+  .govuk-summary-list {
+    font-size: 14pt;
+    line-height: 1.15;
+  }
+}
+@media print {
+  .govuk-summary-list {
+    color: #000000;
+  }
+}
+@media (min-width: 40.0625em) {
+  .govuk-summary-list {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+  }
+}
+@media (min-width: 40.0625em) {
+  .govuk-summary-list {
+    margin-bottom: 30px;
+  }
+}
+.govuk-summary-list__row {
+  border-bottom: 1px solid #b1b4b6;
+}
+
+@media (max-width: 40.0525em) {
+  .govuk-summary-list__row {
+    margin-bottom: 15px;
+  }
+}
+@media (min-width: 40.0625em) {
+  .govuk-summary-list__row {
+    display: table-row;
+  }
+}
+.govuk-summary-list__row:not(.govuk-summary-list__row--no-actions) > :last-child {
+  padding-right: 0;
+}
+
+@media (min-width: 40.0625em) {
+  .govuk-summary-list__row--no-actions::after {
+    content: "";
+    display: table-cell;
+    width: 20%;
+  }
+}
+.govuk-summary-list__key,
+.govuk-summary-list__value,
+.govuk-summary-list__actions {
+  margin: 0;
+}
+
+@media (min-width: 40.0625em) {
+  .govuk-summary-list__key,
+  .govuk-summary-list__value,
+  .govuk-summary-list__actions {
+    display: table-cell;
+    padding-top: 10px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+  }
+}
+.govuk-summary-list__actions {
+  margin-bottom: 15px;
+}
+
+@media (min-width: 40.0625em) {
+  .govuk-summary-list__actions {
+    width: 20%;
+    text-align: right;
+  }
+}
+.govuk-summary-list__key,
+.govuk-summary-list__value {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.govuk-summary-list__key {
+  margin-bottom: 5px;
+  font-weight: 700;
+}
+
+@media (min-width: 40.0625em) {
+  .govuk-summary-list__key {
+    width: 35%; /* Increase from default 30% to 35% */
+  }
+  .govuk-summary-list__value {
+    width: 55%; /* Adjust as needed for balance */
+  }
+}
+@media (max-width: 40.0525em) {
+  .govuk-summary-list__value {
+    margin-bottom: 15px;
+  }
+}
+.govuk-summary-list__value > p {
+  margin-bottom: 10px;
+}
+
+.govuk-summary-list__value > :last-child {
+  margin-bottom: 0;
+}
+
+.govuk-summary-list__actions-list {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.govuk-summary-list__actions-list-item,
+.govuk-summary-card__action {
+  display: inline-block;
+}
+
+@media (max-width: 40.0525em) {
+  .govuk-summary-list__actions-list-item,
+  .govuk-summary-card__action {
+    margin-right: 10px;
+    padding-right: 10px;
+    border-right: 1px solid #b1b4b6;
+  }
+  .govuk-summary-list__actions-list-item:last-child,
+  .govuk-summary-card__action:last-child {
+    margin-right: 0;
+    padding-right: 0;
+    border: 0;
+  }
+}
+@media (min-width: 40.0625em) {
+  .govuk-summary-list__actions-list-item,
+  .govuk-summary-card__action {
+    margin-left: 10px;
+    padding-left: 10px;
+  }
+  .govuk-summary-list__actions-list-item:not(:first-child),
+  .govuk-summary-card__action:not(:first-child) {
+    border-left: 1px solid #b1b4b6;
+  }
+  .govuk-summary-list__actions-list-item:first-child,
+  .govuk-summary-card__action:first-child {
+    margin-left: 0;
+    padding-left: 0;
+    border: 0;
+  }
+}
+.govuk-summary-list__actions-list-item .govuk-link:focus, .govuk-summary-list__actions-list-item .app-task-list__task-name > a:focus {
+  isolation: isolate;
+}
+
+.govuk-summary-list--no-border .govuk-summary-list__row {
+  border: 0;
+}
+
+@media (min-width: 40.0625em) {
+  .govuk-summary-list--no-border .govuk-summary-list__key,
+  .govuk-summary-list--no-border .govuk-summary-list__value,
+  .govuk-summary-list--no-border .govuk-summary-list__actions {
+    padding-bottom: 11px;
+  }
+}
+.govuk-summary-list__row--no-border {
+  border: 0;
+}
+
+@media (min-width: 40.0625em) {
+  .govuk-summary-list__row--no-border .govuk-summary-list__key,
+  .govuk-summary-list__row--no-border .govuk-summary-list__value,
+  .govuk-summary-list__row--no-border .govuk-summary-list__actions {
+    padding-bottom: 11px;
+  }
+}
+.govuk-summary-card {
+  margin-bottom: 20px;
+  border: 1px solid #b1b4b6;
+}
+
+@media (min-width: 40.0625em) {
+  .govuk-summary-card {
+    margin-bottom: 30px;
+  }
+}
+.govuk-summary-card__title-wrapper {
+  padding: 15px;
+  border-bottom: 1px solid transparent;
+  background-color: #f3f2f1;
+}
+
+@media (min-width: 40.0625em) {
+  .govuk-summary-card__title-wrapper {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    padding: 15px 20px;
+  }
+}
+.govuk-summary-card__title {
+  font-family: "GDS Transport", arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.25;
+  color: #0b0c0c;
+  margin: 5px 20px 10px 0;
+}
+
+@media print {
+  .govuk-summary-card__title {
+    font-family: sans-serif;
+  }
+}
+@media (min-width: 40.0625em) {
+  .govuk-summary-card__title {
+    font-size: 1.1875rem;
+    line-height: 1.3157894737;
+  }
+}
+@media print {
+  .govuk-summary-card__title {
+    font-size: 14pt;
+    line-height: 1.15;
+  }
+}
+@media print {
+  .govuk-summary-card__title {
+    color: #000000;
+  }
+}
+@media (min-width: 40.0625em) {
+  .govuk-summary-card__title {
+    margin-bottom: 5px;
+  }
+}
+.govuk-summary-card__actions {
+  font-size: 1rem;
+  line-height: 1.25;
+  font-weight: 700;
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 10px;
+  margin: 5px 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 40.0625em) {
+  .govuk-summary-card__actions {
+    font-size: 1.1875rem;
+    line-height: 1.3157894737;
+  }
+}
+@media print {
+  .govuk-summary-card__actions {
+    font-size: 14pt;
+    line-height: 1.15;
+  }
+}
+@media (min-width: 40.0625em) {
+  .govuk-summary-card__actions {
+    justify-content: right;
+    text-align: right;
+  }
+}
+.govuk-summary-card__action {
+  display: inline;
+}
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  .govuk-summary-card__action {
+    margin-bottom: 5px;
+  }
+}
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  .govuk-summary-card__action:last-child {
+    margin-bottom: 0;
+  }
+}
+.govuk-summary-card__content {
+  padding: 15px 15px 0;
+}
+
+@media (min-width: 40.0625em) {
+  .govuk-summary-card__content {
+    padding: 15px 20px;
+  }
+}
+.govuk-summary-card__content .govuk-summary-list {
+  margin-bottom: 0;
+}
+
+.govuk-summary-card__content .govuk-summary-list__row:last-of-type {
+  margin-bottom: 0;
+  border-bottom: none;
+}
+
+.govuk-template {
+  background-color: #f3f2f1;
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+</style>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+<h1 class="govuk-heading-l">All cases ({{ pagination.totalResults }})</h1>
+  
+<div class="app-search-v1__layout">
+  <div>
+    <div class="moj-filter app-search-v1__filter">
+      <div class="moj-filter__header">
+        <div class="moj-filter__header-title">
+          <h2 class="govuk-heading-m">Filter</h2>
+        </div>
+        <div class="moj-filter__header-action"></div>
+      </div>
+      <div class="moj-filter__content">
+        {% if selectedFilterGroups.length %}
+          <div class="moj-filter__selected">
+            <div class="moj-filter__selected-heading">
+              <div class="moj-filter__heading-title">
+                <h2 class="govuk-heading-m govuk-!-margin-bottom-1">Selected filters</h2>
+                <p class="govuk-body"><a class="govuk-link govuk-link--no-visited-state" href="{{ clearFiltersHref }}">Clear filters</a></p>
+              </div>
+            </div>
+            {% for group in selectedFilterGroups %}
+              <h3 class="govuk-heading-s govuk-!-margin-bottom-0">{{ group.heading }}</h3>
+              <ul class="moj-filter-tags">
+                {% for item in group.items %}
+                  <li><a class="moj-filter__tag" href="{{ item.href }}"><span class="govuk-visually-hidden">Remove {{ group.heading | lower }} filter</span> {{ item.text }}</a></li>
+                {% endfor %}
+              </ul>
+            {% endfor %}
+          </div>
+        {% endif %}
+        <form method="get" action="/projects/back-office/manage/search/v1">
+          {% if query %}<input type="hidden" name="q" value="{{ query }}">{% endif %}
+          {% if showDeletedCases %}<input type="hidden" name="showDeletedCases" value="true">{% endif %}
+          <div class="moj-filter__options">
+            <button class="govuk-button" type="submit">Apply filters</button>
+            <div>
+              <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Status{% if selectedStatuses.length %} ({{ selectedStatuses.length }} selected){% endif %}</legend>
+                <div class="app-list-filter__container app-list-filter__container--max">
+                <div class="govuk-checkboxes govuk-checkboxes--small app-list-filter__container-inner">
+                  {% for status in statuses %}
+                    <div class="govuk-checkboxes__item">
+                      <input class="govuk-checkboxes__input" id="v1-status-{{ loop.index }}" name="status" type="checkbox" value="{{ status }}"{% if status in selectedStatuses %} checked{% endif %}>
+                      <label class="govuk-label govuk-checkboxes__label" for="v1-status-{{ loop.index }}">{{ status }}</label>
+                    </div>
+                  {% else %}
+                    <p class="govuk-body-s">No plan statuses available.</p>
+                  {% endfor %}
+                </div>
+                </div>
+                </fieldset>
+              </div>
+              <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Planning authority{% if selectedLpas.length %} ({{ selectedLpas.length }} selected){% endif %}</legend>
+                <div class="govuk-form-group govuk-!-margin-bottom-0">
+                  <label class="govuk-label" for="v1-lpa-search">Find planning authority</label>
+                  <input class="govuk-input app-list-filter__filter-input govuk-!-margin-bottom-0" id="v1-lpa-search" type="search" data-lpa-filter-search data-show-all="true" aria-controls="v1-lpa-options" aria-describedby="v1-lpa-options-count" autocomplete="off" spellcheck="false">
+                  <p class="govuk-visually-hidden" id="v1-lpa-options-count" aria-live="polite">Enter an authority name to see matches</p>
+                </div>
+                <div class="app-list-filter__container app-list-filter__container--max">
+                <div class="govuk-checkboxes govuk-checkboxes--small app-list-filter__container-inner" id="v1-lpa-options">
+                  {% for lpa in lpas %}
+                    <div class="govuk-checkboxes__item" data-lpa-filter-option>
+                      <input class="govuk-checkboxes__input" id="v1-lpa-{{ loop.index }}" name="lpa" type="checkbox" value="{{ lpa }}"{% if lpa in selectedLpas %} checked{% endif %}>
+                      <label class="govuk-label govuk-checkboxes__label" for="v1-lpa-{{ loop.index }}">{{ lpa }}</label>
+                    </div>
+                  {% endfor %}
+                </div>
+                </div>
+                </fieldset>
+              </div>
+              <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Case officer{% if selectedCaseOfficers.length %} ({{ selectedCaseOfficers.length }} selected){% endif %}</legend>
+                <div class="app-list-filter__container app-list-filter__container--max">
+                <div class="govuk-checkboxes govuk-checkboxes--small app-list-filter__container-inner">
+                  {% for caseOfficer in caseOfficers %}
+                    <div class="govuk-checkboxes__item">
+                      <input class="govuk-checkboxes__input" id="v1-case-officer-{{ loop.index }}" name="caseOfficer" type="checkbox" value="{{ caseOfficer }}"{% if caseOfficer in selectedCaseOfficers %} checked{% endif %}>
+                      <label class="govuk-label govuk-checkboxes__label" for="v1-case-officer-{{ loop.index }}">{{ caseOfficer }}</label>
+                    </div>
+                  {% endfor %}
+                </div>
+                </div>
+                </fieldset>
+              </div>
+              {% for role in [
+                { key: 'assessor', heading: 'Assessor', options: assessors, selected: selectedAssessors },
+                { key: 'inspector', heading: 'Inspector', options: inspectors, selected: selectedInspectors }
+              ] %}
+              <div class="govuk-form-group">
+                  <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">{{ role.heading }}{% if role.selected.length %} ({{ role.selected.length }} selected){% endif %}</legend>
+                    <div class="govuk-form-group govuk-!-margin-bottom-0">
+                      <label class="govuk-label" for="v1-{{ role.key }}-search">Find {{ role.heading | lower }}</label>
+                      <input class="govuk-input app-list-filter__filter-input govuk-!-margin-bottom-0" id="v1-{{ role.key }}-search" type="search" data-lpa-filter-search data-show-all="true" data-filter-label="{{ role.heading | lower }}s" data-filter-prompt="Enter a name to see matches" aria-controls="v1-{{ role.key }}-options" aria-describedby="v1-{{ role.key }}-options-count" autocomplete="off" spellcheck="false">
+                      <p class="govuk-visually-hidden" id="v1-{{ role.key }}-options-count" aria-live="polite">Enter a name to see matches</p>
+                    </div>
+                    <div class="app-list-filter__container app-list-filter__container--max">
+                    <div class="govuk-checkboxes govuk-checkboxes--small app-list-filter__container-inner" id="v1-{{ role.key }}-options">
+                      {% for name in role.options %}
+                        <div class="govuk-checkboxes__item" data-lpa-filter-option>
+                          <input class="govuk-checkboxes__input" id="v1-{{ role.key }}-{{ loop.index }}" name="{{ role.key }}" type="checkbox" value="{{ name }}"{% if name in role.selected %} checked{% endif %}>
+                          <label class="govuk-label govuk-checkboxes__label" for="v1-{{ role.key }}-{{ loop.index }}">{{ name }}</label>
+                        </div>
+                      {% endfor %}
+                    </div>
+                    </div>
+                  </fieldset>
+              </div>
+              {% endfor %}
+              <!--<fieldset class="govuk-fieldset app-search-v1__filter-group">
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Deleted cases</legend>
+                <div class="govuk-checkboxes govuk-checkboxes--small">
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input" id="v1-show-deleted-cases" name="showDeletedCases" type="checkbox" value="true"{% if showDeletedCases %} checked{% endif %}>
+                    <label class="govuk-label govuk-checkboxes__label" for="v1-show-deleted-cases">Show deleted cases</label>
+                  </div>
+                </div>
+              </fieldset>-->
+            </div>
+            <button class="govuk-button govuk-!-margin-top-4" type="submit">Apply filters</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div>
+<!--<form class="app-search-v1__search" method="get" action="/projects/back-office/manage/search/v1" role="search">
+  <label class="govuk-label govuk-label--s" for="v1-search-input">Search plans</label>
+  <div class="govuk-hint" id="v1-search-hint">Search by reference number, plan title, status, case officer or planning authority.</div>
+  {% for status in selectedStatuses %}<input type="hidden" name="status" value="{{ status }}">{% endfor %}
+  {% for lpa in selectedLpas %}<input type="hidden" name="lpa" value="{{ lpa }}">{% endfor %}
+  {% for caseOfficer in selectedCaseOfficers %}<input type="hidden" name="caseOfficer" value="{{ caseOfficer }}">{% endfor %}
+  {% for assessor in selectedAssessors %}<input type="hidden" name="assessor" value="{{ assessor }}">{% endfor %}
+  {% for inspector in selectedInspectors %}<input type="hidden" name="inspector" value="{{ inspector }}">{% endfor %}
+  {% if showDeletedCases %}<input type="hidden" name="showDeletedCases" value="true">{% endif %}
+  <div class="app-search-v1__search-controls">
+    <input class="govuk-input" id="v1-search-input" name="q" type="search" value="{{ query }}" aria-describedby="v1-search-hint">
+    <button class="govuk-button" type="submit">Search</button>
+  </div>
+</form>-->
+<!--<p class="govuk-body">Showing <strong>{{ pagination.firstResult }}</strong> to <strong>{{ pagination.lastResult }}</strong> of <strong>{{ pagination.totalResults }}</strong> matching plans.</p>-->
+      
+<div class="app-list app-search-v1__results">
+  {% for plan in filteredCases %}
+  <div class="app-list__item">
+    <div class="app-search-card__heading">
+      <h2 class="govuk-heading-m app-search-card__title">
+        <a class="govuk-link govuk-link--no-visited-state" href="/projects/back-office/create-case/v2/load-case?caseRef={{ plan.caseRef }}">{{ plan.planTitle or 'Not provided' }}</a>
+      </h2>
+      {{ govukTag({
+        text: plan.status or 'Status not set',
+        classes: planStatusClassMap[plan.status] or 'govuk-tag--turquoise'
+      }) }}
+    </div>
+<dl class="govuk-summary-list govuk-summary-list--no-border app-summary-list--compact app-summary-list--small-text app-search-card__details">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Reference number</dt>
+    <dd class="govuk-summary-list__value">{{ plan.caseRef }}</dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Planning authority</dt>
+    <dd class="govuk-summary-list__value">{{ plan.lpas | join(', ') if plan.lpas and plan.lpas.length else 'Not provided' }}</dd>
+  </div>
+  {% if plan.caseOfficer %}
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Case officer
+    </dt>
+    <dd class="govuk-summary-list__value">
+      {{ plan.caseOfficer }}
+    </dd>
+  </div>
+  {% endif %}
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">GW2 assessor</dt>
+    <dd class="govuk-summary-list__value">{{ plan.gateway2Assessors | join(', ') if plan.gateway2Assessors.length else 'Unassigned' }}</dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">GW3 assessor</dt>
+    <dd class="govuk-summary-list__value">{{ plan.gateway3Assessors | join(', ') if plan.gateway3Assessors.length else 'Unassigned' }}</dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Examination inspector</dt>
+    <dd class="govuk-summary-list__value">{{ plan.examiningInspectors | join(', ') if plan.examiningInspectors.length else 'Unassigned' }}</dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">QA inspector</dt>
+    <dd class="govuk-summary-list__value">{{ plan.qaInspectors | join(', ') if plan.qaInspectors.length else 'Unassigned' }}</dd>
+  </div>
+</dl>
+</div>          
+  {% else %}
+    <p class="govuk-body">No plans match your filters.</p>
+  {% endfor %}
+</div>
+    {% if pagination.totalPages > 1 %}
+    <nav class="govuk-pagination" aria-label="Pagination">
+      {% if pagination.previousHref %}
+      <div class="govuk-pagination__prev">
+        <a class="govuk-link govuk-pagination__link" href="{{ pagination.previousHref }}" rel="prev">
+          <span class="govuk-pagination__link-title"><span class="govuk-visually-hidden">Previous page</span></span>
+        </a>
+      </div>
+      {% endif %}
+      <ul class="govuk-pagination__list">
+        {% for page in pagination.pages %}
+          <li class="govuk-pagination__item{% if page.current %} govuk-pagination__item--current{% endif %}">
+            <a class="govuk-link govuk-pagination__link" href="{{ page.href }}" aria-label="Page {{ page.number }}"{% if page.current %} aria-current="page"{% endif %}>{{ page.number }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+      {% if pagination.nextHref %}
+      <div class="govuk-pagination__next">
+        <a class="govuk-link govuk-pagination__link" href="{{ pagination.nextHref }}" rel="next"><span class="govuk-pagination__link-title">Next<span class="govuk-visually-hidden"> page</span></span></a>
+      </div>
+      {% endif %}
+    </nav>
+    {% endif %}
+  </div>
+</div>
+  </div>
+</div>
+    
+{% endblock %}
+{% block footer %}
+  {% set footerLinks = [
+    { text: 'Search version 1 - Full cards', href: '/projects/back-office/manage/search/v1' },
+    { text: 'Search version 2 - Top down filters', href: '/projects/back-office/manage/search/v2' },
+    { text: 'Search version 3', href: '/projects/back-office/manage/search/v3' },
+    { text: 'Search version 4 - MOJ filter', href: '/projects/back-office/manage/search/v4' },
+    { text: 'Search version 5 - Streamlined card', href: '/projects/back-office/manage/search/v5' }
+  ] %}
+  {% include "includes/footer.njk" %}
+{% endblock %}
+{% block pageScripts %}
+  {{ super() }}
+  <script src="/public/javascripts/search-lpa-filter.js"></script>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% if selectedFilterGroups.length %}
+  <section class="app-search__active-filters" aria-labelledby="active-filters-heading">
+    <h2 class="govuk-heading-s" id="active-filters-heading">Active filters</h2>
+    <ul class="app-search__active-list">
+      {% for group in selectedFilterGroups %}
+        {% for item in group.items %}
+          <li><a class="govuk-link govuk-link--no-visited-state ui-tag-link" href="{{ item.href }}"><span class="govuk-visually-hidden">Remove filter </span><span class="ui-tag-link__text">{{ group.heading }}: {{ item.text }} <span aria-hidden="true">&times;</span></span></a></li>
+        {% endfor %}
+      {% endfor %}
+    </ul>
+    <a class="govuk-link govuk-link--no-visited-state" href="{{ clearFiltersHref }}">Clear all filters</a>
+  </section>
+{% endif %}
+
+<div class="app-search__results-bar">
+  <p class="govuk-body-s">Showing <strong>{{ pagination.firstResult }}</strong> to <strong>{{ pagination.lastResult }}</strong> of <strong>{{ pagination.totalResults }}</strong> results</p>
+  <p class="govuk-body-s app-search__page-sizes">
+    <strong class="govuk-!-margin-right-2">Results per page</strong>
+    {% for option in pagination.pageSizes %}
+      {% if not loop.first %}<span class="govuk-!-margin-left-1" aria-hidden="true">|</span>{% endif %}
+      {% if option.current %}
+        <span class="govuk-!-margin-left-1">{{ option.size }}<span class="govuk-visually-hidden"> results per page, current selection</span></span>
+      {% else %}
+        <a class="govuk-link govuk-!-margin-left-1" href="{{ option.href }}"><span class="govuk-visually-hidden">View </span>{{ option.size }}<span class="govuk-visually-hidden"> results per page</span></a>
+      {% endif %}
+    {% endfor %}
+  </p>
+</div>

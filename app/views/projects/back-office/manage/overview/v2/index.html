@@ -243,19 +243,26 @@ Plan overview – {{ serviceName }}
         {% endif %}
         </dl>
           <dl class="govuk-summary-list govuk-summary-list-timetable">
+        {% set poFirstName = (programmeOfficerContact.firstName or '') | trim %}
+        {% set poLastName = (programmeOfficerContact.lastName or '') | trim %}
+        {% set poEmail = (programmeOfficerContact.email or '') | trim %}
+        {% set poPhone = (programmeOfficerContact.phone or '') | trim %}
+        {% set hasProgrammeOfficer = (poFirstName and poFirstName != '-') or (poLastName and poLastName != '-') or (poEmail and poEmail != '-') or (poPhone and poPhone != '-') %}
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Programme officer</dt>
           <dd class="govuk-summary-list__value">
-          {% if programmeOfficerContact and (programmeOfficerContact.firstName or programmeOfficerContact.lastName or programmeOfficerContact.email or programmeOfficerContact.phone) %}
-            {{ programmeOfficerContact.firstName }} {{ programmeOfficerContact.lastName }}<br>
-            {% if programmeOfficerContact.email %}{{ programmeOfficerContact.email }}<br>{% endif %}
-            {% if programmeOfficerContact.phone %}{{ programmeOfficerContact.phone }}{% endif %}
+          {% if hasProgrammeOfficer %}
+            {% if (poFirstName and poFirstName != '-') or (poLastName and poLastName != '-') %}{{ poFirstName if poFirstName != '-' }} {{ poLastName if poLastName != '-' }}<br>{% endif %}
+            {% if poEmail and poEmail != '-' %}{{ poEmail }}<br>{% endif %}
+            {% if poPhone and poPhone != '-' %}{{ poPhone }}{% endif %}
+          {% else %}
+            Not provided
           {% endif %}
           </dd>
           <dd class="govuk-summary-list__actions">
             <ul class="govuk-summary-list__actions-list">
               <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="{{ programmeOfficerEditUrl }}?returnUrl=/projects/back-office/manage/overview/v2/index">{{ 'Change' if programmeOfficerContact and (programmeOfficerContact.firstName or programmeOfficerContact.lastName or programmeOfficerContact.email or programmeOfficerContact.phone) else 'Add' }}<span class="govuk-visually-hidden"> programme officer</span></a>
+                <a class="govuk-link" href="{{ programmeOfficerEditUrl }}?returnUrl=/projects/back-office/manage/overview/v2/index">{{ 'Change' if hasProgrammeOfficer else 'Add' }}<span class="govuk-visually-hidden"> programme officer</span></a>
               </li>
             </ul>
           </dd>
@@ -265,12 +272,14 @@ Plan overview – {{ serviceName }}
           <dd class="govuk-summary-list__value">
           {% if examinationWebsite and examinationWebsite != '-' %}
             {{ examinationWebsite }}
+          {% else %}
+            Not provided
           {% endif %}
           </dd>
           <dd class="govuk-summary-list__actions">
             <ul class="govuk-summary-list__actions-list">
               <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="#">{{ 'Change' if examinationWebsite and examinationWebsite != '-' else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if examinationWebsite and examinationWebsite != '-' else 'Add' }} examination website</span></a>
+                <a class="govuk-link" href="#">{{ 'Change' if examinationWebsite and examinationWebsite != '-' and examinationWebsite != 'Not provided' else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if examinationWebsite and examinationWebsite != '-' and examinationWebsite != 'Not provided' else 'Add' }} examination website</span></a>
               </li>
             </ul>
           </dd>
@@ -279,25 +288,21 @@ Plan overview – {{ serviceName }}
         <dl class="govuk-summary-list govuk-summary-list-timetable">
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">GW2 assessor</dt>
-          {% if gateway2AssessorName and gateway2AssessorName != '-' %}
-          <dd class="govuk-summary-list__value">{{ gateway2AssessorName }}</dd>
-          {% endif %}
+          <dd class="govuk-summary-list__value">{{ gateway2AssessorName if gateway2AssessorName and gateway2AssessorName != '-' else 'Not provided' }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">{{ 'Change' if gateway2AssessorName and gateway2AssessorName != '-' else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if gateway2AssessorName and gateway2AssessorName != '-' else 'Add' }} Gateway 2 assessor name</span></a>
+            <a class="govuk-link" href="#">{{ 'Change' if gateway2AssessorName and gateway2AssessorName != '-' and gateway2AssessorName != 'Not provided' else 'Add' }}<span class="govuk-visually-hidden"> {{ 'Change' if gateway2AssessorName and gateway2AssessorName != '-' and gateway2AssessorName != 'Not provided' else 'Add' }} Gateway 2 assessor name</span></a>
           </dd>
       
         </div>
        <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">GW3 assessor</dt>
-          {% if gateway3AssessorName and gateway3AssessorName != '-' %}
           <dd class="govuk-summary-list__value">
-            {{ gateway3AssessorName }}
+            {{ gateway3AssessorName if gateway3AssessorName and gateway3AssessorName != '-' else 'Not provided' }}
           </dd>
-          {% endif %}
           <dd class="govuk-summary-list__actions">
             <ul class="govuk-summary-list__actions-list">
               <li class="govuk-summary-list__actions-list-item">
-                <a class="govuk-link" href="#">{{ 'Manage' if gateway3AssessorName and gateway3AssessorName != '-' else 'Add' }}<span class="govuk-visually-hidden"> Gateway 3 assessor</span></a>
+                <a class="govuk-link" href="#">{{ 'Manage' if gateway3AssessorName and gateway3AssessorName != '-' and gateway3AssessorName != 'Not provided' else 'Add' }}<span class="govuk-visually-hidden"> Gateway 3 assessor</span></a>
               </li>
             </ul>
           </dd>
@@ -306,24 +311,20 @@ Plan overview – {{ serviceName }}
 
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Examination inspector</dt>
-          {% if examiningInspector1Name and examiningInspector1Name != '-' %}
           <dd class="govuk-summary-list__value">
-            {{ examiningInspector1Name }}
+            {{ examiningInspector1Name if examiningInspector1Name and examiningInspector1Name != '-' else 'Not provided' }}
           </dd>
-          {% endif %}
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">{{ 'Manage' if examiningInspector1Name and examiningInspector1Name != '-' else 'Manage' }}<span class="govuk-visually-hidden"> {{ 'Change' if examiningInspector1Name and examiningInspector1Name != '-' else 'Add' }} Examining Inspector</span></a>
+            <a class="govuk-link" href="#">Manage<span class="govuk-visually-hidden"> {{ 'Change' if examiningInspector1Name and examiningInspector1Name != '-' and examiningInspector1Name != 'Not provided' else 'Add' }} Examining Inspector</span></a>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">QA inspector</dt>
-          {% if qaInspector1Name and qaInspector1Name != '-' %}
           <dd class="govuk-summary-list__value">
-            {{ qaInspector1Name }}
+            {{ qaInspector1Name if qaInspector1Name and qaInspector1Name != '-' else 'Not provided' }}
           </dd>
-          {% endif %}
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">{{ 'Manage' if qaInspector1Name and qaInspector1Name != '-' else 'Manage' }}<span class="govuk-visually-hidden"> {{ 'Change' if qaInspector1Name and qaInspector1Name != '-' else 'Add' }} QA inspector</span></a>
+            <a class="govuk-link" href="#">Manage<span class="govuk-visually-hidden"> {{ 'Change' if qaInspector1Name and qaInspector1Name != '-' and qaInspector1Name != 'Not provided' else 'Add' }} QA inspector</span></a>
           </dd>
         </div>
       </dl>
